@@ -42,7 +42,10 @@ import { RemarkComponent } from './manualIndexCalulator/remark/remark/remark.com
 import { CreateRemarkComponent } from './manualIndexCalulator/remark/create-remark/create-remark.component';
 import { EquiUsedByCqra, UsedEquipmentComponent } from './manualIndexCalulator/equiUsedByCqra/used-equipment/used-equipment.component';
 import { AddUsedEquipmentComponent } from './manualIndexCalulator/equiUsedByCqra/add-used-equipment/add-used-equipment.component';
-
+import { EquipUsedByClientComponent } from './manualIndexCalulator/equipUsedByClient/equip-used-by-client/equip-used-by-client.component';
+import { CreatEquipUsedByClientComponent } from './manualIndexCalulator/equipUsedByClient/creat-equip-used-by-client/creat-equip-used-by-client.component';
+import { EquipUsedByContractorComponent } from './manualIndexCalulator/equipUsedByContractor/equip-used-by-contractor/equip-used-by-contractor.component';
+import { CreateEquipUsedByContractorComponent } from './manualIndexCalulator/equipUsedByContractor/create-equip-used-by-contractor/create-equip-used-by-contractor.component';
 
 //Reports
 import {QualityUpdateReportComponent} from './quality-update-report/quality-update-report.component';
@@ -134,8 +137,8 @@ const routes: Routes = [
   {path:'createContractor/:id', component:CreateContractorComponent},
   {path:'contractorSupervisor', component:ContractorSupervisorComponent},
   {path:'createContractorSupervisor/:id', component:CreateContractorSupervisorComponent},
-  {path:'userEquipment', component:UserEquipmentComponent},
-  {path:'createUserEquipment/:id', component:CreateUserEquipmentComponent},
+  {path:'userEquipment/:id', component:UserEquipmentComponent},
+  {path:'createUserEquipment/:id/:id2', component:CreateUserEquipmentComponent},
 
   {path:'create/:id', component:CreateUserEquipmentComponent},
   
@@ -181,6 +184,10 @@ const routes: Routes = [
   {path: 'createRemark/:id/:id2', component:CreateRemarkComponent},
   {path: 'equiUsedByCqra', component:UsedEquipmentComponent},
   {path: 'addEquiUsedByCqra/:id', component:AddUsedEquipmentComponent},
+  {path: 'equipUsedByClient/:id', component:EquipUsedByClientComponent},
+  {path: 'creatEquipUsedByClient/:id/:id2', component:CreatEquipUsedByClientComponent},
+  {path: 'equipUsedByContractor/:id', component:EquipUsedByContractorComponent},
+  {path: 'creatEquipUsedByContractor/:id/:id2', component:CreateEquipUsedByContractorComponent},
 
 
 

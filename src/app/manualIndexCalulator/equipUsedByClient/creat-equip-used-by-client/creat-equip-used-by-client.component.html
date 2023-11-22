@@ -8,24 +8,24 @@
               <li class="breadcrumb-item">
                 <a href="#">Home </a>
               </li>
-              <li class="breadcrumb-item active">Create User Equipment</li>
+              <li class="breadcrumb-item active">Create Client Equipment</li>
             </ol>
          </div> 
           <div class="right-side-create-view">
                <div class="create-content-operations">
-                 <button type="button"> <a routerLink="/userEquipment">Manage User Equipment</a></button>
+                 <button type="button"> <a [routerLink]="'/equipUsedByClient/'+snapAuditId">Manage Client Equipment</a></button>
                </div>
             </div>
           </div>
          <div class="main-header_createview">
             <div class="left-side-header">
                 <div class="create-content-header">
-                  <h1>Create User Equipment</h1>
+                  <h1>Create Client Equipment</h1>
                 </div>
             </div>
          </div>
          <div class="create-viewform">
-          <form [formGroup]="equipmentFrom" (ngSubmit)="onSubmit()">
+          <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
               <label>Description</label>
               <textarea formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" ></textarea>

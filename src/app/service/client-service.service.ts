@@ -23,6 +23,7 @@ import { AssessorName } from '../manualIndexCalulator/accessor-name/accessor-nam
 import { AssessorNameData } from '../manualIndexCalulator/create-accessor-name/create-accessor-name.component';
 import { StageOfWork, StageOfWorkData } from '../manualIndexCalulator/stage-of-work/stage-of-work.component';
 import { Remarks, RemarkData } from '../manualIndexCalulator/remark/remark/remark.component';
+import { EquipmentList, EquipmentData } from '../user-equipment/user-equipment.component';
 
 @Injectable({
   providedIn: 'root'
@@ -289,5 +290,57 @@ deleteRemark(id)
     return this.httpClient.delete(`${this.REST_API_SERVER}/lastNote/${id}`)
   }
 //REMARKS (LAST NOTES)
+
+// EQUIPMENT USED BY CQRA
+getEquipUsedByCqra(id)
+{
+  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByCqrabysnapauditid/${id}`)
+}
+
+retriveEquipment(id)
+{
+  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/EquipmentUsedByCqra/${id}`)
+}
+
+updateWquipment(equipmentData: EquipmentData, id)
+{
+  return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByCqra/${id}`, equipmentData)
+}
+// EQUIPMENT USED BY CQRA
+
+
+// EQUIPMENT USED BY CLIENT
+getEquipUsedByClient(id)
+{
+  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByClientbysnapauditid/${id}`)
+}
+retriveEquipmentUsedByClinet(id)
+{
+  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByClient/${id}`)
+}
+updateWquipmentUsedByClient(equipmentData: EquipmentData, id)
+{
+  return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByClient/${id}`, equipmentData)
+}
+// EQUIPMENT USED BY CLIENT
+
+
+
+// EQUIPMENT USED BY CONTRACTOR
+getEquipUsedByContractor(id)
+{
+  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByContractorbysnapauditid/${id}`)
+}
+retriveEquipmentUsedByContractor(id)
+{
+  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByContractor/${id}`)
+}
+updateWquipmentUsedByContractor(equipmentData: EquipmentData, id)
+{
+  return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByContractor/${id}`, equipmentData)
+}
+// EQUIPMENT USED BY CONTRACTOR
+
+
 
 }

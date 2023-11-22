@@ -115,4 +115,18 @@ alert("SA =="+id);
       this.router.navigate(['remarks', id])
     }
 
+    getEquipUsedByCqra(id)
+    {
+      this.router.navigate(['userEquipment', id])
+    }
+    getEquipUsedByClient(id)
+    {
+      this.router.navigate(['equipUsedByClient', id])
+    }
+    getEquipUsedByContractor(id)
+    {
+      this.router.navigate(['equipUsedByContractor', id])
+
+    }
+
   }
