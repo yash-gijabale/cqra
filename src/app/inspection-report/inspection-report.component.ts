@@ -105,4 +105,14 @@ alert("SA =="+id);
 
     }
 
+    stageOfWork(id)
+    {
+      this.router.navigate(['stageOfWork', id])
+    }
+
+    getRemark(id)
+    {
+      this.router.navigate(['remarks', id])
+    }
+
   }

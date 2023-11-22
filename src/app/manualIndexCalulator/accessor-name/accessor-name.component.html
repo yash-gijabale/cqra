@@ -13,7 +13,7 @@
 
           <div class="right-side-create-view ">
             <div class="create-content-operations">
-              <a routerLink="/createAssessorName/-1">
+              <a [routerLink]="'/createAssessorName/'+snapAduditId+'/-1'">
                 <button type="button"> Create Assessor Name</button>
               </a>
             </div>
@@ -34,18 +34,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>edit-tessst</td>
+              <tr *ngFor="let assessor of assessorNameList">
+                <td>{{assessor.assessordName}}</td>
                 <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
                 <td>
                   <div class="action-commonview">
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter">
+                      data-target="#exampleModalCenter" (click)="editAssessorName(assessor.assessorsId)">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" class="Delete-modal">
+                    <button type="text" class="Delete-modal" (click)="deActivate(assessor.assessorsId)">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>

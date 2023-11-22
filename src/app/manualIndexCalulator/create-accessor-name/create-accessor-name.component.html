@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/assessorName">Manage Assessor Name </a> </button>
+            <button type="button"> <a [routerLink]="'/assessorName/'+snapAuditId">Manage Assessor Name </a> </button>
           </div>
         </div>
       </div>
@@ -25,10 +25,10 @@
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="foremanForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="assessorForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Assessor Name</label>
-            <input type="text" formControlName="foremanName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="text" formControlName="assessordName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
               <div *ngIf="f.clientName.errors.required">Client Name is required</div>
             </div>

@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/createActivityNotAvailableDuringInspection/-1">Create Activity</a> </button>
+            <button type="button"> <a [routerLink]="'/createActivityNotAvailableDuringInspection/'+snapAuditId+'/-1'">Create Activity</a> </button>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
                 <td>
                   <div class="action-commonview">
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter">
+                      data-target="#exampleModalCenter" (click)="editInspaectionActivity(activity.activiteId)">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>

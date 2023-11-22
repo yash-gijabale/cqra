@@ -16,9 +16,13 @@ import { offerdAreaData } from '../manualIndexCalulator/create-offred-area/creat
 import { SampledArea } from '../manualIndexCalulator/sampled-area/sampled-area.component';
 import { SampledAreaData } from '../manualIndexCalulator/create-sampled-area/create-sampled-area.component';
 import { InspectionActivity } from '../manualIndexCalulator/activityNotAvailableDuringInspection/inspection-activity/inspection-activity.component';
+import { InspectionActivityData } from '../manualIndexCalulator/activityNotAvailableDuringInspection/create-inspection-activity/create-inspection-activity.component';
 import { RefereneceReport } from '../manualIndexCalulator/referenceReport/reference-report/reference-report.component';
 import { referenceReportData } from '../manualIndexCalulator/referenceReport/create-reference-report/create-reference-report.component';
-
+import { AssessorName } from '../manualIndexCalulator/accessor-name/accessor-name.component';
+import { AssessorNameData } from '../manualIndexCalulator/create-accessor-name/create-accessor-name.component';
+import { StageOfWork, StageOfWorkData } from '../manualIndexCalulator/stage-of-work/stage-of-work.component';
+import { Remarks, RemarkData } from '../manualIndexCalulator/remark/remark/remark.component';
 
 @Injectable({
   providedIn: 'root'
@@ -189,6 +193,16 @@ export class ClientServiceService {
     return this.httpClient.get<InspectionActivity[]>(this.REST_API_SERVER+'/getactivitiesNotAvailableDuringInspections')
   }
 
+  retriveInspectionActivity(id)
+  {
+    return this.httpClient.get<InspectionActivity[]>(`${this.REST_API_SERVER}/activitiesNotAvailableDuringInspection/${id}`)
+  }
+
+  updateInspectionActivity(fromData:InspectionActivityData, id)
+  {
+    return this.httpClient.put(`${this.REST_API_SERVER}/activitiesNotAvailableDuringInspection/${id}`, fromData)
+  }
+
   getAllReferenceReport()
   {
     return this.httpClient.get<RefereneceReport[]>(this.REST_API_SERVER+'/getReferenceReports')
@@ -205,5 +219,75 @@ export class ClientServiceService {
   deleteReferenceReport(id){
     return this.httpClient.delete(`${this.REST_API_SERVER}/referenceReports/${id}`)
   }
+
+
+// ASSESSOR NAME SERVICES
+  getAllAssessorName(id)
+  {
+    return this.httpClient.get<AssessorName[]>(this.REST_API_SERVER+'/assessorsNamebysnapauditid/'+id)
+  }
+
+  retirveAssessor(id)
+  {
+    return this.httpClient.get<AssessorName[]>(this.REST_API_SERVER+'/assessorsName/'+id)
+  }
+
+  updateAssessorName(assessorData:AssessorNameData, id)
+  {
+    return this.httpClient.put(`${this.REST_API_SERVER}/assessorsName/${id}`, assessorData)
+  }
+
+  deleteAssessorName(id)
+  {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/assessorsName/${id}`)
+  }
+// ASSESSOR NAME SERVICES
+
+
+//STAGE OF WORK
+getAllStageOfWork(id)
+{
+  return this.httpClient.get<StageOfWork[]>(`${this.REST_API_SERVER}/qualityRecommandationbysnapauditid/${id}`)
+}
+
+retirveStageOfWork(id)
+{
+  return this.httpClient.get<StageOfWork[]>(`${this.REST_API_SERVER}/qualityRecommandation/${id}`)
+
+}
+
+updateStageOfWork(formData: StageOfWorkData, id)
+{
+  return this.httpClient.put(`${this.REST_API_SERVER}/qualityRecommandation/${id}`, formData)
+
+}
+
+deleteStageOfWork(id)
+  {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/qualityRecommandation/${id}`)
+  }
+//STAGE OF WORK
+
+
+//REMARKS (LAST NOTES)
+getRemarks(id)
+{
+  return this.httpClient.get<Remarks[]>(`${this.REST_API_SERVER}/lastNotebysnapauditid/${id}`)
+}
+
+retirveRemark(id)
+{
+  return this.httpClient.get<Remarks[]>(`${this.REST_API_SERVER}/lastNote/${id}`)
+}
+
+updateRemark(remarkData: RemarkData, id)
+{
+  return this.httpClient.put(`${this.REST_API_SERVER}/lastNote/${id}`, remarkData)
+}
+deleteRemark(id)
+  {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/lastNote/${id}`)
+  }
+//REMARKS (LAST NOTES)
 
 }

@@ -25,10 +25,10 @@
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="foremanForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="remarkFrom" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Remark</label>
-            <input type="text" formControlName="foremanName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="text" formControlName="lastMoteText" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
               <div *ngIf="f.clientName.errors.required">Client Name is required</div>
             </div>

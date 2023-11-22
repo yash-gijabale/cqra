@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { ClientServiceService } from 'src/app/service/client-service.service';
 
 export class InspectionActivity{
@@ -29,10 +29,14 @@ export class InspectionActivityComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private clientService: ClientServiceService
   ) { }
 
   ngOnInit() {
+
+    this.snapAuditId = this.route.snapshot.params['id']
+
     this.dtOptions = {
       pagingType: "full_numbers",
       pageLength: 10,
@@ -54,6 +58,11 @@ export class InspectionActivityComponent implements OnInit {
     (err)=>{
       console.log(err)
     })
+  }
+
+  editInspaectionActivity(id)
+  {
+    this.router.navigate(['createActivityNotAvailableDuringInspection', this.snapAuditId, id])
   }
 
 }

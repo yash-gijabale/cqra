@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/createRemark/-1">Create Remark</a> </button>
+            <button type="button"> <a [routerLink]="'/createRemark/'+snapAuditId+'/-1'">Create Remark</a> </button>
           </div>
         </div>
       </div>
@@ -31,24 +31,23 @@
             style="width:100%">
             <thead>
               <tr>
-
                 <th>Remark</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>edit-tessst</td>
+              <tr  *ngFor="let remark of remarksList">
+                <td>{{remark.lastMoteText}}</td>
                 <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
                 <td>
                   <div class="action-commonview">
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter">
+                      data-target="#exampleModalCenter" (click)="editRemark(remark.lastNoteId)">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" class="Delete-modal">
+                    <button type="text" class="Delete-modal" (click)="deActivate(remark.lastNoteId)">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>

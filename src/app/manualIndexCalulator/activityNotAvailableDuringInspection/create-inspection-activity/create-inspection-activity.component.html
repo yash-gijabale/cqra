@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/activityNotAvailableDuringInspection">Manage Activity </a> </button>
+            <button type="button"> <a [routerLink]="'/activityNotAvailableDuringInspection/'+snapAuditId">Manage Activity </a> </button>
           </div>
         </div>
       </div>
@@ -25,10 +25,10 @@
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="foremanForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="inspectionActivityFrom" (ngSubmit)="onSubmit()">
           <div class="form-group">
-            <label>Activity Name</label>
-            <input type="text" formControlName="foremanName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <label>Description</label>
+            <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
               <div *ngIf="f.clientName.errors.required">Client Name is required</div>
             </div>

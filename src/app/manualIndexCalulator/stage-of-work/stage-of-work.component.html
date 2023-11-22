@@ -28,24 +28,22 @@
             style="width:100%">
             <thead>
               <tr>
-
                 <th>Stage Of work</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>edit-tessst</td>
+              <tr *ngFor="let stage of stageOfWorksList">
+                <td>{{stage.qualityRecommandationText}}</td>
                 <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
                 <td>
                   <div class="action-commonview">
-                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter">
+                    <button type="button" (click)="editStageOfWork(stage.qualityRecommand)">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" class="Delete-modal">
+                    <button type="text" class="Delete-modal" (click)="deActivate(stage.qualityRecommand)">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>
