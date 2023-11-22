@@ -1,0 +1,107 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Create Client Staff</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/client">Manage Client </a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Create Client </h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="clientStaffForm" (ngSubmit)="onSubmit()">
+          <div class="form-group row">
+            <div class="col-sm-8 common-ul-li-drop">
+              <div class="form-group px-0">
+                <label for="fname" class="col-sm-3 col-form-label">Client</label>
+                <select class="form-control" formControlName="clientId" #clientId
+                  (change)="getProjects()">
+                  <option [value]="0">Please Select</option>
+                  <option [value]="o.clientId" *ngFor="let o of clients">
+                    {{o.clientName}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-8 common-ul-li-drop">
+              <div class="form-group px-0">
+                <label for="fname" class="col-sm-3 col-form-label">Project</label>
+                <select class="form-control" formControlName="projectId">
+                  <option [value]="0">Please Select</option>
+                  <option [value]="o.projectId" *ngFor="let o of projects">
+                    {{o.projectName}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Client Person</label>
+            <input type="text" formControlName="clientName" class="form-control" />
+            <div *ngIf="submitted && f.clientAddress.errors" class="invalid-feedback">
+              <div *ngIf="f.clientAddress.errors.required">Address is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Degignation</label>
+            <input type="text" formControlName="designation" class="form-control" />
+            <div *ngIf="submitted && f.clientContactPerson.errors" class="invalid-feedback">
+              <div *ngIf="f.clientContactPerson.errors.required">Contact Person is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" formControlName="email" class="form-control"/>
+            <div *ngIf="submitted && f.clientEmail.errors" class="invalid-feedback">
+              <div *ngIf="f.clientEmail.errors.required">Email is required</div>
+              <div *ngIf="f.clientEmail.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="text" formControlName="phone" class="form-control" />
+            <div *ngIf="submitted && f.clientEmail.errors" class="invalid-feedback">
+              <div *ngIf="f.clientEmail.errors.required">Email is required</div>
+              <div *ngIf="f.clientEmail.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-8 common-ul-li-drop">
+              <div class="form-group px-0">
+                <label for="fname" class="col-sm-3 col-form-label">Level</label>
+                <select class="form-control" formControlName="level">
+                  <option [value]="0" selected>Please Select Level</option>
+                  <option [value]="1">Level 0</option>
+                  <option [value]="2">Level 1</option>
+                  <option [value]="3">Level 2</option>
+                  <option [value]="4">Level 3</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

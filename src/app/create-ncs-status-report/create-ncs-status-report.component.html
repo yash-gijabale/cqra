@@ -1,0 +1,111 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Quality Index Report</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/trade">Manage Quality Index Report</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Quality Index Report</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Project</label>
+            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
+                <option  [value]="0">Please Select</option>
+                <option  [value]="1">Both</option>
+                <option  [value]="2">Device</option>
+                <option  [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Structure</label>
+            <select  [(ngModel)]="SelStructure" formControlName="selStructure" class="form-control" > 
+                <option  [value]="0">Please Select</option>
+                <option  [value]="1">Both</option>
+                <option  [value]="2">Device</option>
+                <option  [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
+                <div *ngIf="f.selStructure.errors.required">Structure is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Trade</label>
+            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
+                <option  [value]="0">Please Select</option>
+                <option  [value]="1">Both</option>
+                <option  [value]="2">Device</option>
+                <option  [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Type of Status</label>
+            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
+                <option  [value]="0">Please Select</option>
+                <option  [value]="1">Open NCs</option>
+                <option  [value]="2">Close Ncs</option>
+                <option  [value]="3">Force Close</option>
+                <option  [value]="4">All</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Date From</label>
+            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+          </div>
+          <div class="form-group">
+            <label>Date TO</label>
+            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+          </div>
+          <div class="form-group">
+            <label>NC Address To</label>
+            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
+              <option  [value]="0">Please Select</option>
+              <option  [value]="1">Both</option>
+              <option  [value]="2">Device</option>
+              <option  [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">NC Address To is required</div>
+            </div>
+          </div>
+          
+          <br>
+          <div class="form-group">
+            <button class="btn btn-primary">View PDF Report</button>&nbsp;
+            <button class="btn btn-primary">Chronological View PDF Report</button>&nbsp;
+            <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp;
+            <button class="btn btn-primary">Reset</button>&nbsp;
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<app-footer></app-footer>

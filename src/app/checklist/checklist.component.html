@@ -1,0 +1,66 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="">
+      <div class="add-container-viewcommon">
+        <div class=" card p-0 h-100 main-header_createview">
+          <div class="card-header">
+            <div class="left-side-header">
+              <div class="create-content-header">
+                <h1> Manage Checklist </h1>
+              </div>
+            </div>
+
+            <div class="right-side-create-view ">
+              <div class="create-content-operations">
+                <a routerLink="/createChecklist/-1">
+                  <button type="button" class="btn btn-primary bg-primary"> Create Checklist </button>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="table table-striped   row-border hover"
+              style="width:100%">
+              <thead>
+                <tr>
+
+                  <th>Trade</th>
+                  <th>Checklist</th>
+                  <th>Actions </th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let client of checklists">
+                  <td>{{ client.tradeName }}</td>
+                  <td>{{ client.checklistName }}</td>
+
+                  <td>
+                    <div class="action-commonview">
+                      <button type="text" (click)="editClient(client.checklistId)" class="edit-modal add-modal"
+                        data-toggle="modal" data-target="#exampleModalCenter">
+                        <span class="edit-tessst">
+                          <i class="las la-pencil-alt"></i>
+                        </span>
+                      </button>
+                      <button type="text" (click)="deActivateClient(client.checklistId)" class="Delete-modal">
+                        <span class="edit-tessst">
+                          <i class="lar la-trash-alt"></i>
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+  <app-footer></app-footer>

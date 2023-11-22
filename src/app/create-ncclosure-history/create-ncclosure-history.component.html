@@ -1,0 +1,62 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">NC Closure History Report</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/trade">Manage NC Closure History Report</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>NC Closure History Report</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Trade</label>
+            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
+                <option  [value]="0">Please Select</option>
+                <option  [value]="1">Both</option>
+                <option  [value]="2">Device</option>
+                <option  [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Sub Group</label>
+            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
+                <option  [value]="0">Please Select</option>
+                <option  [value]="1">Open NCs</option>
+                <option  [value]="2">Close Ncs</option>
+                <option  [value]="3">Force Close</option>
+                <option  [value]="4">All</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <button class="btn btn-primary">Submit</button>&nbsp;
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<app-footer></app-footer>

@@ -1,0 +1,21 @@
+select{
+    width: 70%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    display: inline-block;
+    
+  }
+
+  oneLine {
+    display: block;
+}
+
+selectchk{
+    border: 0.5px solid #999999;
+      min-height: 100px;
+      width: 300px;
+      overflow-y: auto;
+      padding: 5px 10px;
+      border-radius: 2px;
+  }

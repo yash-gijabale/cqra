@@ -1,0 +1,195 @@
+
+<app-header></app-header>
+
+<div class="content-wrapper">
+    <div class="container-fluid ">
+      <div class="add-bg-here">
+         <div class="add-breadcrames">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="#">Home</a>
+              </li> 
+              <li class="breadcrumb-item active">Create Inspection Report</li>
+            </ol>
+         </div>
+        
+                <label for="fname" style="margin-right:15px;">Client</label>
+                
+                      <select  [(ngModel)]="SelClientId" #clientId (change)="getProjects();" style="width:320px;margin-top:10px"> 
+                        <option  [value]="0">Please Select</option>
+                        <option [value]="o.clientId" *ngFor="let o of clients">
+                           {{o.clientName}}
+                        </option>
+                    </select>
+                 
+           
+                <label for="fname" style="margin-right:15px;margin-left:15px;">Project</label>
+                 
+                      <select  [(ngModel)]="SelProjectId" #projectId (change)="getStructures();" style="width:320px;margin-top:10px"> 
+                        <option [value]="0">Please Select</option>
+                        <option [value]="o.projectId" *ngFor="let o of projects">
+                          {{o.projectName}}
+                        </option>
+                      </select>
+                
+                      <div class="create-viewform">
+                        <div class="row m-0">
+                          <div class="col-sm-3">
+                            <div class="project-view-list">
+                               <div class="st-structure-common">
+                                 <h2> Structure</h2>
+                               </div>
+                               <div class="col-sm-8 common-ul-li-drop">
+                                <div class="form-group px-0">
+                                  <select  [(ngModel)]="SelstructureId" (change)="getTrade();" multiple style="width:230px;height:100px;"> 
+                                    <option [value]="o.structureId" *ngFor="let o of structures">
+                                       {{o.structureName}}
+                                    </option>
+                                </select>
+                                </div>
+                              </div>
+                              
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="project-view-list">
+                               <div class="st-structure-common">
+                                 <h2> Trade</h2>
+                               </div>
+                               <div class="col-sm-8 common-ul-li-drop">
+                                <div class="form-group px-0">
+                                  <select  [(ngModel)]="SelTradeId" multiple style="width:230px;height:100px;"> 
+                                    <option [value]="o.tradeId" *ngFor="let o of trades">
+                                       {{o.tradeName}}
+                                    </option>
+                                </select>
+                                </div>
+                              </div>
+                              
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="project-view-list">
+                               <div class="st-structure-common">
+                                 <h2> Contractor </h2>
+                               </div>
+                               <div class="col-sm-8 common-ul-li-drop">
+                                <div class="form-group px-0">
+                                  <select  [(ngModel)]="SelContractorId" multiple style="width:230px;height:100px;"> 
+                                    <option [value]="o.contractorId" *ngFor="let o of contractors">
+                                       {{o.contractorName}}
+                                    </option>
+                                </select>
+                                </div>
+                              </div> 
+                            </div>
+                          </div>
+                        </div>
+                     </div> 
+                    <br/>
+              <label for="fname" style="margin-right:15px;">Assessment Date</label>
+              <input type="text"  [(ngModel)]="SelAssessmentDate"  />
+    
+               <label for="fname" style="margin-right:15px;margin-left:15px;">NABC Report</label>
+                
+                     <select  [(ngModel)]="Selnabcreport" #projectId (change)="getStructures();" style="width:100px;margin-top:10px"> 
+                       <option [value]="0">Please Select</option>
+                       <option [value]="o.projectId" *ngFor="let o of structures">
+                         {{o.projectName}}
+                       </option>
+                     </select>
+
+                <label for="fname" style="margin-right:15px;margin-left:15px;">NABC Note</label>
+                
+                     <select  [(ngModel)]="Selnabcnote" #projectId (change)="getStructures();" style="width:110px;margin-top:10px"> 
+                       <option [value]="0">Please Select</option>
+                       <option [value]="o.projectId" *ngFor="let o of structures">
+                         {{o.projectName}}
+                       </option>
+                     </select>
+<br/>
+<br/>
+
+              <label for="fname" style="margin-right:15px;">From Date</label>
+              <input type="date"  [(ngModel)]="SelFromDate"  />
+                
+          
+               <label for="fname" style="margin-right:15px;margin-left:15px;">To Date</label>
+               <input type="date"  [(ngModel)]="SelToDate"  />
+
+               <label for="fname" style="margin-right:15px;margin-left:15px;">Cycle of Inspection</label>
+                 
+               <select  [(ngModel)]="Selnabcreport" #projectId (change)="getStructures();" style="width:100px;margin-top:10px"> 
+                 <option [value]="0">Please Select</option>
+                 <option [value]="o.projectId" *ngFor="let o of structures">
+                   {{o.projectName}}
+                 </option>
+               </select>
+               <br/>
+               <br/>
+     
+                <label for="fname" style="margin-right:15px;margin-left:3px;">Approver</label>
+                 
+                      <select  [(ngModel)]="Selnabcreport" #projectId (change)="getStructures();" style="width:300px;margin-left:10px;margin-top:10px"> 
+                        <option [value]="0">Please Select</option>
+                        <option [value]="o.projectId" *ngFor="let o of structures">
+                          {{o.projectName}}
+                        </option>
+                      </select>
+
+                      <label for="fname" style="margin-right:15px;margin-left:5px;">Approver Designation</label>
+               <input type="text"  [(ngModel)]="SelAssessmentDate" style="width:250px" />
+               <br/>
+               <br/>
+               <label for="fname" style="margin-right:15px;margin-left:3px;">Reviewer</label>
+                 
+                      <select  [(ngModel)]="Selnabcreport" #projectId (change)="getStructures();" style="width:300px;margin-left:10px;margin-top:10px"> 
+                        <option [value]="0">Please Select</option>
+                        <option [value]="o.projectId" *ngFor="let o of structures">
+                          {{o.projectName}}
+                        </option>
+                      </select>
+
+                      <label for="fname" style="margin-right:15px;margin-left:5px;">Reviewer Designation</label>
+               <input type="text"  [(ngModel)]="SelAssessmentDate" style="width:250px" />
+
+               <br/>
+               <br/>
+               <label for="fname" style="margin-right:15px;margin-left:3px;">Creater </label>
+                 
+                      <select  [(ngModel)]="Selnabcreport" #projectId (change)="getStructures();" style="width:300px;margin-left:10px;margin-top:10px"> 
+                        <option [value]="0">Please Select</option>
+                        <option [value]="o.projectId" *ngFor="let o of structures">
+                          {{o.projectName}}
+                        </option>
+                      </select>
+
+                      <label for="fname" style="margin-right:15px;margin-left:5px;">Creater Designation</label>
+               <input type="text"  [(ngModel)]="SelAssessmentDate" style="width:250px" />
+
+               <br/>
+               <br/>
+               <label for="fname" style="margin-right:15px;">Report Header</label>
+               <input type="text"  [(ngModel)]="SelAssessmentDate"  />
+
+               <label for="fname" style="margin-right:15px;">Type of Project</label>
+               <input type="text"  [(ngModel)]="SelAssessmentDate"  />
+               <br/>
+               <br/>
+               <label for="fname" style="margin-right:15px;">Image1</label>
+               <input type="file"  [(ngModel)]="SelAssessmentDate"  />
+
+               <label for="fname" style="margin-right:15px;">Image2</label>
+               <input type="file"  [(ngModel)]="SelAssessmentDate"  />
+
+
+               <br/>
+               <br/>
+               <div class="form-group">
+                <button class="btn btn-primary">Save</button>
+            </div>
+
+      <!-- add Popup design -->
+      <app-footer></app-footer>
+  
+  

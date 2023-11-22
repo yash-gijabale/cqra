@@ -1,0 +1,98 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+       <div class="add-container-viewcommon">
+         <div class="main-header_createview">
+          <div class="left-side-header">
+              <div class="create-content-header">
+                <h1> Inspection Signoff Document </h1>
+                
+              </div>
+          </div>
+       
+         <div class="right-side-create-view ">
+             <div class="create-content-operations">
+              <a routerLink="/createsnagging/"> 
+                <button type="button"> Create Inspection Document </button>
+               </a>
+             </div>
+          </div>
+        </div>
+      </div>
+
+       
+
+    
+    <div class="row m-0">
+      <div class="col-xl-12 col-sm-12 mb-3">
+           <!-- Example DataTables Card-->
+   
+     
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"  style="width:100%">
+  <thead>
+    <tr>
+      <th>Client Name</th>
+      <th>Project Name</th>
+      <th>Report No</th>
+      <th>Additional Observation</th>
+      <th>View Report(NC PDF)</th>
+      <th>View Compliance Report(HTML)</th>
+      <th>View NC Report(HTML)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let client of reports">
+      <td>{{ client.clientName }}</td>
+      <td>{{ client.projectName }}</td>
+      <td>{{ client.reportName }}</td>
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+
+</div>
+<!-- Example DataTables Card-->
+
+</div>
+</div>
+  <app-footer></app-footer>
+  

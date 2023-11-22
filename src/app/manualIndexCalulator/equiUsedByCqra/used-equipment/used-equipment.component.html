@@ -1,0 +1,79 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Manage Equipment used by CQRA</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/createReferenceNote/-1">Create Equipment used by CQRA</a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Mamage Equipment used by CQRA</h1>
+          </div>
+        </div>
+      </div>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+
+                <th>Equipment Name</th>
+                <th>Remark</th>
+                <th>Image 1</th>
+                <th>Image 2</th>
+                <th>User</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>edit-tessst</td>
+                <td>test remark</td>
+                <td>path</td>
+                <td>path</td>
+                <td>jhon due</td>
+                <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
+                    </button>
+                    <button type="text" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="lar la-trash-alt"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+      </div>
+      <!-- Example DataTables Card-->
+
+    </div>
+  </div>
+  <app-footer></app-footer>

@@ -1,0 +1,68 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> Manage Name of Assessor </h1>
+
+            </div>
+          </div>
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <a routerLink="/createAssessorName/-1">
+                <button type="button"> Create Assessor Name</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+
+                <th>Assessor Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>edit-tessst</td>
+                <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
+                    </button>
+                    <button type="text" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="lar la-trash-alt"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+      </div>
+      <!-- Example DataTables Card-->
+
+    </div>
+  </div>
+  <app-footer></app-footer>

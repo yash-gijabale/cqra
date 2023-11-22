@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">	
+	<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+
+</head>
+	<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark  fixed-top myclassnav" id="mainNav">
+    <a class="navbar-brand" href="index.php"> 
+      <div class="header-view-logo">
+        <img src="assets/images/cqra-logo-s-1.png">
+      </div> 
+    </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+       <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" routerLink="/dashboard">
+           <span class="all-font-icons">  <i class="lab la-microsoft"></i> </span> 
+            <span class="nav-link-text">Dashboard</span>
+          </a>
+        </li> -->
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" routerLink="/users" >
+            <span class="all-font-icons"> 
+              <i class="las la-table"></i> </span>
+            <span class="nav-link-text">User Management</span>
+          </a>
+        </li> -->
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="dropdown-item" routerLink="/wbs">
+            <span class="all-font-icons"> 
+              <i class="las la-sitemap"></i> 
+            </span>
+            <span class="nav-link-text"> Dashboard </span>
+          </a>
+        </li> 
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="dropdown-item" routerLink="/wbs">
+            <span class="all-font-icons"> 
+              <i class="las la-sitemap"></i> 
+            </span>
+            <span class="nav-link-text"> User Management </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/users">User</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/userAccess">Manage User Access</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/userAllocation">User Allocation</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/contractor">Contractor</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/contractorSupervisor">Contractor Supervisor</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/contractorForman">Contractor Forman</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/clientStaff">Client Staff</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/assign-constructor-supervisor">Assign Constructor's Supervisor</a></li>
+          </ul>
+        </li> 
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="dropdown-item" routerLink="/wbs">
+            <span class="all-font-icons"> 
+              <i class="las la-sitemap"></i> 
+            </span>
+            <span class="nav-link-text"> Master Maintance </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/client">Client</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/project">Project </a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/wbs">WBS </a></li>
+          </ul>
+        </li> 
+       
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="dropdown-item" routerLink="/wbs">
+            <span class="all-font-icons"> 
+              <i class="las la-sitemap"></i> 
+            </span>
+            <span class="nav-link-text"> Trade Maintance </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/tradegroup">Trade Group</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/trade">Trade </a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/subgroup">Subgroup</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/questiongroup">Question Group</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/questionheading">Question Heading</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/questiontitle">Question Title</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/question">Question </a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/checklist">Checklist </a></li>
+          </ul>
+        </li> 
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="dropdown-item" routerLink="/wbs">
+            <span class="all-font-icons"> 
+              <i class="las la-sitemap"></i> 
+            </span>
+            <span class="nav-link-text">Snap Audit Reports </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/userLog">User Log</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/editNC">Edit NC & Conformity </a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/ncCountReport">NC count</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/snaggingDocument">Singing documents</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/inspectionReport">Inspection report</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/snaggingReport">Sngging report</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/ncClosureSa">NC closure (SA)</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/ncReviewerSa">NC Reviwer (SA)</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/ncApproverSa">NC Approver (SA)</a></li>
+
+          </ul>
+        </li> 
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="dropdown-item" routerLink="/wbs">
+            <span class="all-font-icons"> 
+              <i class="las la-sitemap"></i> 
+            </span>
+            <span class="nav-link-text">Reports </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item"><a tabindex="-1" href="/qualityUpdateReport">Quality Update Report </a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/qualityReviewReport">Quality Review Report </a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/misReport">MIS Report</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createKickoff/-1">Kickoff Report</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createTraining/-1">Training Conducted Report</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createNcObservationCount/-1">NC and observation Count</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createQualityIndexReport/-1">Quality Index Report</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createNcsStatusReport/-1">NCs Status Report</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createNCClosureHistoryReport/-1">NC Closure History</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createNcLogReport/-1">NC Log Report</a></li>
+          </ul>
+        </li> 
+        <!-- <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="dropdown-item" routerLink="/wbs">
+            <span class="all-font-icons"> 
+              <i class="las la-sitemap"></i> 
+            </span>
+            <span class="nav-link-text"> Report </span>
+          </a>
+               
+                <ul class="dropdown-menu">
+                  <li class="dropdown-item"><a tabindex="-1" href="#">QUR</a></li>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#">Audit Report</a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#">Snap Audit</a></li>
+                          <li class="dropdown-submenu"><a class="dropdown-item" href="#">Quality Update Report</a>
+                          <ul class="dropdown-menu">
+                              <li class="dropdown-item"><a href="#">Quality Review Report</a></li>
+                              <li class="dropdown-item"><a href="#">Quality Index</a></li>
+                          </ul>
+                        </li>
+                          <li class="dropdown-item"><a href="#">Snagging Report</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown-item"><a href="#">MIS</a></li>
+                  <li class="dropdown-item"><a href="#">HomeInspect Report</a></li>
+                </ul>
+              </li> -->
+
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+    <div class="common-headerview navbar-nav w-100">
+      <div class="navbar-nav mr-auto">
+        <div class="cqra-heading_text">
+            <div class="cqra-text-st"> Think <span class="cqra-auality"> Quality</span>, think <span class="cqra-cqra">CQRA</span>!</div> <div class="cqra-home-back"> <a routerLink="/home"> Home </a> </div>
+        </div>
+        
+      </div>
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="user-profile-sign"> 
+               <span> {{username}} </span>
+            </div>
+          </a>
+          <div class="dropdown-menu add-custom-view" aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">
+              <a class="nav-link" href="profile.php"> <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+              <a class="nav-link"> <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+            </h6>
+          </div>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+  </nav>
+  

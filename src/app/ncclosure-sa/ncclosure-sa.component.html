@@ -1,0 +1,130 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+       <div class="add-container-viewcommon">
+         <div class="main-header_createview">
+          <div class="left-side-header">
+              <div class="create-content-header">
+                <h1>  NC Closure </h1>
+              </div>
+            </div>
+        </div>
+      </div>
+
+       
+        <label for="fname" class="col-sm-3 col-form-label" style="padding-left:120px;">Project</label>
+      
+          <select  [(ngModel)]="SelProjectId" #projectId (change)="getProjectTrades()" style="width:200px;margin-top:10px"> 
+            <option [value]="0">Please Select</option>
+            <option [value]="o.projectId" *ngFor="let o of projects">
+              {{o.projectName}}
+            </option>
+          </select>
+       
+        <label for="fname" class="col-sm-3 col-form-label" style="padding-left:120px;">Cycle of Inspection</label>
+      
+          <select  [(ngModel)]="SelCycleId" #cycleId style="width:200px;margin-top:10px"> 
+            <option [value]="o.cycleId" *ngFor="let o of cycles">
+              {{o.cycleName}}
+            </option>
+          </select>
+        
+
+      
+        <label for="fname" class="col-sm-3 col-form-label" style="padding-left:120px;">Trade</label>
+       
+          <select  [(ngModel)]="SelTradeId" #projectId style="width:200px;margin-top:10px"> 
+            <option [value]="">Please Select</option>
+            <option [value]="o.tradeId" *ngFor="let o of trades">
+              {{o.tradeName}}
+            </option>
+          </select>
+      
+     
+
+      
+        <label for="fname" class="col-sm-3 col-form-label" style="padding-left:120px;">Status</label>
+        
+          <select  [(ngModel)]="SelStatusId" #projectId style="width:200px;margin-top:10px"> 
+            <option [value]="0">Please Select</option>
+            <option [value]="o.statusId" *ngFor="let o of projects">
+              {{o.statusName}}
+            </option>
+          </select>
+       
+      
+      <div class="form-group">
+        <button class="btn btn-primary" (click) = "getNCs()" >Save</button>
+    </div>
+
+    
+    <div class="row m-0">
+      <div class="col-xl-12 col-sm-12 mb-3">
+           <!-- Example DataTables Card-->
+   
+     
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"  style="width:100%">
+  <thead>
+    <tr>
+      <th>Report No.</th>
+      <th>Nc Number</th>
+      <th>Project Name</th>
+      <th> Trade Name</th>
+      <th> NC Description </th>
+      <th> Status</th>
+      <th>Remark/Location </th>
+      <th>View Report</th>
+      <th>NC Closure </th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let client of reports">
+      <td>{{ client.reportName }}</td>
+      <td>{{ client.ncNumber }}</td>
+      <td>{{ client.projectName }}</td>
+      <td>{{ client.tradeName }}</td>
+      <td>{{ client.ncDescription }}</td>
+      <td>{{ client.status }}</td>
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+
+</div>
+<!-- Example DataTables Card-->
+
+</div>
+</div>
+  <app-footer></app-footer>
+  

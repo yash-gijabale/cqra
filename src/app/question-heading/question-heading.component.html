@@ -1,0 +1,77 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+       <div class="add-container-viewcommon">
+         <div class="main-header_createview">
+          <div class="left-side-header">
+              <div class="create-content-header">
+                <h1> Manage Question Heading </h1>
+                
+              </div>
+          </div>
+       
+         <div class="right-side-create-view ">
+             <div class="create-content-operations">
+               <a routerLink="/createQuestionheading/-1"> 
+                <button type="button"> Create Question Heading </button>
+               </a>
+             </div>
+          </div>
+        </div>
+      </div>
+
+       
+
+    
+    <div class="row m-0">
+      <div class="col-xl-12 col-sm-12 mb-3">
+           <!-- Example DataTables Card-->
+   
+     
+<table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" id="customers" class="row-border hover" style="width:100%">
+  <thead>
+    <tr>
+      <th>Question Group</th>
+      <th>Subgroup</th>
+      <th>Trade</th>
+     
+      <th>Question Heading</th>
+      <th>Actions</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let client of questionHeaadingsView">
+      <td>{{ client.questionGroupText }}</td>
+      <td>{{ client.subgroupName }}</td>
+      <td>{{ client.tardeName }}</td>
+      <td>{{ client.questionHeadingText }}</td>
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editClient(client.subgroupId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+          <button type="text" (click) = "deActivateClient(client.subgroupId)" class="Delete-modal"> 
+            <span class="edit-tessst"> 
+              <i class="lar la-trash-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+
+</div>
+<!-- Example DataTables Card-->
+
+</div>
+</div>
+  <app-footer></app-footer>
+  

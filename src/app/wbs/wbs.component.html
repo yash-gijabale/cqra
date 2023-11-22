@@ -1,0 +1,232 @@
+
+<app-header></app-header>
+
+<div class="content-wrapper">
+    <div class="container-fluid ">
+      <div class="add-bg-here">
+         <div class="add-breadcrames">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="#">Home</a>
+              </li>
+              <li class="breadcrumb-item active">Create WBS</li>
+            </ol>
+         </div>
+         <div class="main-header_createview">
+            <div class="col-sm-9 px-0">
+             <div class="form-group row">
+                <label for="fname" class="col-sm-3 col-form-label">Client</label>
+                  <div class="col-sm-8 common-ul-li-drop">
+                    <div class="form-group px-0">
+                      <select  [(ngModel)]="SelClientId" #clientId (change)="getProjects();"> 
+                        <option  [value]="0">Please Select</option>
+                        <option [value]="o.clientId" *ngFor="let o of clients">
+                           {{o.clientName}}
+                        </option>
+                    </select>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <label for="fname" class="col-sm-3 col-form-label">Project</label>
+                  <div class="col-sm-8 common-ul-li-drop">
+                    <div class="form-group px-0">
+                      <select  [(ngModel)]="SelProjectId" #projectId (change)="getStructures();"> 
+                        <option [value]="0">Please Select</option>
+                        <option [value]="o.projectId" *ngFor="let o of projects">
+                          {{o.projectName}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+            </div>
+         </div>
+         <div class="create-viewform">
+            <div class="row m-0">
+              <div class="col-sm-3">
+                <div class="project-view-list">
+                   <div class="st-structure-common">
+                     <h2> Structure</h2>
+                   </div>
+                   <div class="structure-createview new">
+                       <div class="oneLine" *ngFor="let name of structures">
+                          <label >
+                            <input type="checkbox" [name]="name.structureId" (change)="isChangeLimitAccessToggle($event,name.structureId)"  [disabled]="isChecked && (isCheckedName!=name.structureId)">
+                            {{name.structureName}}
+                          </label>
+                        </div>
+                   </div>
+                   <div class="common-view-edit-delete my-1">
+                     <button class="common-bnts add-view" [disabled]="isChecked" data-toggle="modal" data-target="#add-view"> 
+                        <i class="fa fa-plus" aria-hidden="true"></i> 
+                      </button>
+                      <button class="common-bnts edit-view" [disabled]="!isChecked" data-toggle="modal" data-target="#edit-view">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </button>
+                      <button class="common-bnts delete-view" [disabled]="!isChecked"> 
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                      </button>
+                   </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="project-view-list">
+                   <div class="st-structure-common">
+                     <h2> Stage</h2>
+                   </div>
+                   <div class="structure-createview new">
+                    <div class="oneLine" *ngFor="let o of stages">
+                      <label >
+                        <input type="checkbox" id=st{{o.stageId}} name={{o.stageId}} (change)="isstageSelectionchange($event,o.stageId)" >
+                        {{o.stageName}}
+                      </label>
+                    </div>
+                  </div>
+                   <div class="common-view-edit-delete my-1">
+                      <span class="common-bnts add-view"  data-toggle="modal" data-target="#add-view"> 
+                        <i class="fa fa-plus" aria-hidden="true"></i> 
+                      </span>
+                      <span class="common-bnts edit-view" data-toggle="modal" data-target="#edit-view">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </span>
+                      <span class="common-bnts delete-view"> 
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                      </span>
+                   </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="project-view-list">
+                   <div class="st-structure-common">
+                     <h2> Unit</h2>
+                   </div>
+                    <div class="structure-createview new">
+                      <div class="oneLine" *ngFor="let o of units">
+                        <label >
+                          <input type="checkbox" id=st{{o.unitId}} name={{o.unitId}} (change)="isUnitSelectionchange($event,o.unitId)" >
+                          {{o.unitName}}
+                        </label>
+                      </div>
+                    </div>  
+                   <div class="common-view-edit-delete my-1">
+                     <span class="common-bnts add-view"  data-toggle="modal" data-target="#add-view"> 
+                        <i class="fa fa-plus" aria-hidden="true"></i> 
+                      </span>
+                      <span class="common-bnts edit-view" data-toggle="modal" data-target="#edit-view">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </span>
+                      <span class="common-bnts delete-view"> 
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                      </span>
+                   </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="project-view-list">
+                   <div class="st-structure-common">
+                     <h2> Sub-Unit</h2>
+                   </div>
+                    <div class="structure-createview new">
+                      <div class="oneLine" *ngFor="let o of subunits">
+                        <label >
+                          <input type="checkbox" id=st{{o.subunitId}} name={{o.subunitId}} >
+                          {{o.subunitName}}
+                        </label>
+                      </div>
+                    </div> 
+                   <div class="common-view-edit-delete my-1">
+                      <span class="common-bnts add-view"  data-toggle="modal" data-target="#add-view"> 
+                        <i class="fa fa-plus" aria-hidden="true"></i> 
+                      </span>
+                      <span class="common-bnts edit-view" data-toggle="modal" data-target="#edit-view">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </span>
+                      <span class="common-bnts delete-view"> 
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                      </span>
+                   </div>
+                </div>
+              </div>
+            </div>
+         </div>
+      </div>
+    </div>
+</div>
+<!-- Modal -->
+        <div class="modal fade" id="add-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"> Add</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                   <div class="add-grid-from">
+                         <div class="row">
+                           <div class="col-sm-12">
+                              <div class="form-group">
+                                <label for="email">Structure Name:</label>
+                                <input type="text"  #structureName placeholder="Structure Name" id="user">
+                              </div>
+                           </div>
+                           <div class="col-sm-12">
+                            <div class="form-group">
+                              <label for="email">Structure Code:</label>
+                              <input type="text"  #structureCode placeholder="Structure Code" id="user">
+                            </div>
+                         </div>
+                         </div>
+                         <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" (click) = "onSubmit(structureCode.value,structureName.value,clientId.value,projectId.value)">Submit</button>
+                        </div>
+                   </div>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+      <!-- add Popup design -->
+      <!-- Modal -->
+        <div class="modal fade" id="edit-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"> Add</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                   <div class="add-grid-from">
+                      <form action="/action_page.php">
+                         <div class="row">
+                           <div class="col-sm-12">
+                              <div class="form-group">
+                                <label for="email">Name:</label>
+                                <input type="text"  placeholder="Enter Name" id="user">
+                              </div>
+                           </div>
+
+                           <div class="col-sm-12">
+                            <div class="form-group">
+                              <label for="email">Structure Code:</label>
+                              <input type="text"   placeholder="Structure Code" id="user">
+                            </div>
+                         </div>
+                         </div>
+                      </form>
+                   </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- add Popup design -->
+      <app-footer></app-footer>
+  
+  

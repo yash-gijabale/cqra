@@ -1,0 +1,69 @@
+<app-header></app-header>
+<div class="content-wrapper">
+    <div class="container-fluid ">
+      <div class="add-bg-here">
+        <div class="add-container-viewcommon">
+         <div class="add-breadcrames">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="#">Home </a>
+              </li>
+              <li class="breadcrumb-item active">Create Trade</li>
+            </ol>
+         </div>
+          <div class="right-side-create-view">
+               <div class="create-content-operations">
+                 <button type="button"> <a routerLink="/trade">Manage Trade</a></button>
+               </div>
+            </div>
+          </div>
+         <div class="main-header_createview">
+            <div class="left-side-header">
+                <div class="create-content-header">
+                  <h1>Create Trade</h1>
+                </div>
+            </div>
+         </div>
+         <div class="create-viewform">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label>Trade Name</label>
+                <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                    <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+              <label>Trade Description</label>
+              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientName.errors.required">Trade Description is required</div>
+              </div>
+            </div>
+          <div class="form-group">
+            <label>Key Result Areas</label>
+            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                <div *ngIf="f.clientName.errors.required">Key Result Areas is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+              <label>Trade Group</label>
+              <select  [(ngModel)]="SelTradeGp" formControlName="selTradeGp" class="form-control" > 
+                  <option  [value]="0">Please Select</option>
+                  <option [value]="o.selTradeGp" *ngFor="let o of clients">
+                    {{o.clientName}}
+                  </option>
+              </select>
+              <div *ngIf="submitted && f.selTradeGp.errors" class="invalid-feedback">
+                  <div *ngIf="f.selTradeGp.errors.required">Trade Group is required</div>
+              </div>
+          </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </form>
+         </div>
+      </div>
+    </div>
+<app-footer></app-footer>

@@ -1,0 +1,96 @@
+<app-header></app-header>
+<div class="content-wrapper">
+    <div class="container-fluid ">
+      <div class="add-bg-here">
+        <div class="add-container-viewcommon">
+         <div class="add-breadcrames">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="#">Home </a>
+              </li> 
+              <li class="breadcrumb-item active">Create MIS</li>
+            </ol>
+         </div>
+          <div class="right-side-create-view">
+               <div class="create-content-operations">
+                 <button type="button"> <a routerLink="/misReport">Manage MIS</a></button>
+               </div>
+            </div>
+          </div>
+         <div class="main-header_createview">
+            <div class="left-side-header">
+                <div class="create-content-header">
+                  <h1>Create MIS</h1>
+                </div>
+            </div>
+         </div>
+         <div class="create-viewform">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label>Client Name</label>
+              <select  [(ngModel)]="SelClientId" class="form-control" formControlName="clientId"  > 
+                <option  [value]="0">Please Select</option>
+                <option [value]="o.clientId" *ngFor="let o of clients">
+                   {{o.clientName}}
+                </option>
+            </select>
+              <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientId.errors.required">Client Name is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Project Name</label>
+              <select  [(ngModel)]="SelProject" class="form-control" formControlName="selProject"  > 
+                <option  [value]="0">Please Select</option>
+                <option [value]="o.selProject" *ngFor="let o of clients">
+                   {{o.clientName}}
+                </option>
+            </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                  <div *ngIf="f.selProject.errors.required">Client Name is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+                <label>Month</label>
+                <input type="date" formControlName="projectCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectCode.errors }" />
+                <div *ngIf="submitted && f.projectCode.errors" class="invalid-feedback">
+                    <div *ngIf="f.projectCode.errors.required">Project Code is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Index(Out of 10) </label>
+                <input type="text" formControlName="projectAddress" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectAddress.errors }" />
+                <div *ngIf="submitted && f.projectAddress.errors" class="invalid-feedback">
+                    <div *ngIf="f.projectAddress.errors.required">Address is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+              <label>Review of Work</label>
+              <input type="text" formControlName="projectCity" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectCity.errors }" />
+              <div *ngIf="submitted && f.projectCity.errors" class="invalid-feedback">
+                  <div *ngIf="f.projectCity.errors.required">Project City is required</div>
+              </div>
+          </div>
+            <div class="form-group">
+                <label>Project Image1</label>
+                <input type="file" formControlName="projectKValue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectKValue.errors }" />
+                <div *ngIf="submitted && f.projectKValue.errors" class="invalid-feedback">
+                    <div *ngIf="f.projectKValue.errors.required">K value is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+              <label>Project Image2</label>
+              <input type="file" formControlName="projectRegionalManagerId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectRegionalManagerId.errors }" />
+              <div *ngIf="submitted && f.projectRegionalManagerId.errors" class="invalid-feedback">
+                  <div *ngIf="f.projectRegionalManagerId.errors.required">Regional Manager is required</div>
+              </div>
+          </div>
+          
+          <div class="form-group">
+              <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+         </div>
+      </div>
+    </div>
+<app-footer></app-footer>

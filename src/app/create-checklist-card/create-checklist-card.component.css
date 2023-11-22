@@ -1,0 +1,15 @@
+.question-list-success{
+    list-style: none;
+    padding: 0.5rem;
+    border-top: 2px solid #67c262;
+}
+.question-list-primary{
+    list-style: none;
+    padding: 0.5rem;
+    border-top: 2px solid #3d7fca;
+}
+.kamban-card-body{
+    height: 300px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}

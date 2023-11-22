@@ -1,0 +1,69 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+       <div class="add-container-viewcommon">
+         <div class="main-header_createview">
+          <div class="left-side-header">
+              <div class="create-content-header">
+                <h1> Manage User  </h1>
+                
+              </div>
+          </div>
+       
+         <div class="right-side-create-view ">
+             <div class="create-content-operations">
+              <a routerLink="/createUser/-1"> 
+                <button type="button"> Create User </button>
+               </a>
+             </div>
+          </div>
+        </div>
+      </div>
+
+       
+
+    
+    <div class="row m-0">
+      <div class="col-xl-12 col-sm-12 mb-3">
+           <!-- Example DataTables Card-->
+   
+     
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover" style="width:100%">
+  <thead>
+    <tr>
+      <th>Login Name</th>
+      <th>User Type</th>
+      <th>Role</th>
+      <th>Actions</th>
+      <th>Assign Project</th>
+      <th>Add Equipments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Demo1</td>
+      <td>Demo2</td>
+      <td>Admin</td>
+      <td>-</td>
+      <td> <a routerLink="/assignProject"> 
+        <button type="button" class="btn btn-warning">  <i class="las la-pencil-alt"></i> </button>
+       </a>
+      </td>
+      <td> <a routerLink="/userEquipment"> 
+        <button type="button" class="btn btn-warning">  <i class="las la-pencil-alt"></i> </button>
+       </a></td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+
+</div>
+<!-- Example DataTables Card-->
+
+</div>
+</div>
+  <app-footer></app-footer>
+  

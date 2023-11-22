@@ -1,0 +1,43 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Create Remarks</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/remarks">Manage Remarks </a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Create Remarks</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="foremanForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Remark</label>
+            <input type="text" formControlName="foremanName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+              <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

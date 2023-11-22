@@ -1,0 +1,185 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> Inspection Report </h1>
+
+            </div>
+          </div>
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <a routerLink="/createinspection/">
+                <button type="button"> Create Inspection Report </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+
+
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" style="width:100%">
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Project Name</th>
+                <th>Report No</th>
+                <th>Assessment Date </th>
+                <th>Update </th>
+                <th>Name of Assessor </th>
+                <th>Stage of work</th>
+                <th>Offered Area</th>
+                <th>Sampled Area</th>
+                <th>Activity not avai. in inspection</th>
+                <th>First Note</th>
+                <th>Reference report</th>
+                <th>Remark</th>
+                <th>Equip. used by CQRA</th>
+                <th>Equip. used by client</th>
+                <th>Equip. used by contractor</th>
+                <th>Send To Client</th>
+                <th>NC Open</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of reports">
+                <td>{{ client.clientName }}</td>
+                <td>{{ client.projectName }}</td>
+                <td>{{ client.reportName }}</td>
+                <td>{{ client.assessmentDate }}</td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" (click)="editReport(client.id)" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="assessorNote(client.id)">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <a routerLink="/stageOfWork"><button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button></a>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="getOfferdAerea(client.id)">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="getSampledArea(client.id)">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="activityNotAvailable(client.id)">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="addFirstNote(client.id)">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="getReferenceReport(client.id)">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <a routerLink="/remarks"><button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button></a>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <a routerLink="/userEquipment"><button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button></a>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <a routerLink="/firstNote"><button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button></a>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <a routerLink="/firstNote"><button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button></a>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <a routerLink="/firstNote"><button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button></a>
+                  </div>
+                </td>
+                <td>
+                  <div class="action-commonview">
+                    <a routerLink="/firstNote"><button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+
+      </div>
+      <!-- Example DataTables Card-->
+
+    </div>
+  </div>
+  <app-footer></app-footer>

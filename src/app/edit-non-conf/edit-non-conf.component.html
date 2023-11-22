@@ -1,0 +1,152 @@
+<app-header></app-header>
+ 
+<div class="content-wrapper">
+    <div class="container-fluid ">
+      <div class="add-bg-here">
+        <div class="add-container-viewcommon">
+         <div class="add-breadcrames">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="#">Home </a>
+              </li>
+              <li class="breadcrumb-item active">Edit NC </li>
+            </ol>
+         </div>
+         <div class="main-header_createview">
+            <div class="left-side-header">
+                <div class="create-content-header">
+                  <h1> Edit NC </h1>
+                </div>
+            </div>
+         </div>
+         <div class="create-viewform">
+          <div class="form-group row">
+            <label for="fname" class="col-sm-3 col-form-label">Client</label>
+              <div class="col-sm-8 common-ul-li-drop">
+                <div class="form-group px-0">
+                  <select  [(ngModel)]="SelClientId" #clientId (change)="getProjects();"> 
+                    <option  [value]="0">Please Select</option>
+                    <option [value]="o.clientId" *ngFor="let o of clients">
+                       {{o.clientName}}
+                    </option>
+                </select>
+                </div>
+              </div>
+          </div>
+          <div class="form-group row">
+            <label for="fname" class="col-sm-3 col-form-label">Project</label>
+              <div class="col-sm-8 common-ul-li-drop">
+                <div class="form-group px-0">
+                  <select  [(ngModel)]="SelProjectId" #projectId (change)="getStructures();"> 
+                    <option [value]="0">Please Select</option>
+                    <option [value]="o.projectId" *ngFor="let o of projects">
+                      {{o.projectName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="fname" class="col-sm-3 col-form-label">Structure</label>
+              <div class="col-sm-8 common-ul-li-drop">
+                <div class="form-group px-0">
+                  <select  [(ngModel)]="SelStructureId" #structureId (change)="getStages();"> 
+                    <option [value]="0">Please Select</option>
+                    <option [value]="o.structureId" *ngFor="let o of structures">
+                      {{o.structureName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="fname" class="col-sm-3 col-form-label">Stage</label>
+              <div class="col-sm-8 common-ul-li-drop">
+                <div class="form-group px-0">
+                  <select  [(ngModel)]="SelStageId" #stageId (change)="getStages();"> 
+                    <option [value]="0">Please Select</option>
+                    <option [value]="o.stageId" *ngFor="let o of stages">
+                      {{o.stageName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="fname" class="col-sm-3 col-form-label">Trade</label>
+              <div class="col-sm-8 common-ul-li-drop">
+                <div class="form-group px-0">
+                  <select  [(ngModel)]="SelTradeId" #tradeId (change)="getTrades();"> 
+                    <option [value]="0">Please Select</option>
+                    <option [value]="o.tradeId" *ngFor="let o of trades">
+                      {{o.tradeName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="fname" class="col-sm-3 col-form-label">Checklist</label>
+              <div class="col-sm-8 common-ul-li-drop">
+                <div class="form-group px-0">
+                  <select  [(ngModel)]="SelChecklistId" #checklistId (change)="getChecklist();"> 
+                    <option [value]="0">Please Select</option>
+                    <option [value]="o.checklistId" *ngFor="let o of checklists">
+                      {{o.checklistName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="fname" class="col-sm-3 col-form-label">Question Group</label>
+              <div class="col-sm-8 common-ul-li-drop">
+                <div class="form-group px-0">
+                  <select  [(ngModel)]="SelQuestionGroupId" #questionGroupId (change)="getQuestionGroup();"> 
+                    <option [value]="0">Please Select</option>
+                    <option [value]="o.questionGroupId" *ngFor="let o of questiongroups">
+                      {{o.questionGroupName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="fname" class="col-sm-3 col-form-label">Question</label>
+              <div class="col-sm-8 common-ul-li-drop">
+                <div class="form-group px-0">
+                  <select  [(ngModel)]="SelQuestionId" #questionId (change)="getQuestions();"> 
+                    <option [value]="0">Please Select</option>
+                    <option [value]="o.questionId" *ngFor="let o of questions">
+                      {{o.questionName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label style="margin-left:20px;">From Date</label>
+            <input style="margin-left:180px;width:410px;" type="date" [(ngModel)]="fromDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectStartDate.errors }" />
+          </div>
+
+        <div class="form-group row">
+            <label style="margin-left:20px;">To Date</label>
+            <input style="margin-left:200px;width:410px;" type="date" [(ngModel)]="toDdate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectEndDate.errors }" />
+      </div>
+                                                 
+      
+          <div class="form-group">
+              <button class="btn btn-primary"  (click) = "onSubmit()">Submit</button>
+          </div>
+        
+         </div>
+      </div>
+    </div>
+<app-footer></app-footer>

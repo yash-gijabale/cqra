@@ -1,0 +1,68 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Create First Note</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a [routerLink]="'/firstNote/' + snapAuditId">Manage First Note </a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Create First Note</h1>
+          </div>
+        </div>
+      </div>
+
+
+      <div *ngIf="isLoad;then content else other_content"></div>
+      <ng-template #content>
+        <div class="loader">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <!-- <div class="custom-loader"></div> -->
+        </div>
+      </ng-template>
+      <ng-template #other_content>
+
+        <div class="create-viewform">
+          <form [formGroup]="firstNoteForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label>First Note</label>
+              <input type="text" formControlName="firstNoteText" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+              </div>
+
+            </div>
+            <div class="form-group">
+              <div *ngIf="buttonLoad;then buttonLoding else buttonDone"></div>
+              <ng-template #buttonLoding>
+                <button class="btn btn-primary" type="button" disabled>
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Saving...
+                </button>
+              </ng-template>
+              <ng-template #buttonDone>
+                <button class="btn btn-primary">Save</button>
+              </ng-template>
+            </div>
+          </form>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <app-footer></app-footer>

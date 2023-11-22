@@ -1,0 +1,116 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Create User Allocation</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/users">Manage User Allocation</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Create User Allocation</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="userAllocationForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>User</label>
+            <select formControlName="userId" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="1">Both</option>
+              <option [value]="2">Device</option>
+              <option [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selUser.errors" class="invalid-feedback">
+              <div *ngIf="f.selUser.errors.required">User is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fname" class="col-form-label">Client</label>
+            <select class="form-control" formControlName="clientId" [(ngModel)]="SelClientId" #clientId
+              (change)="getProjects()">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.clientId" *ngFor="let o of clients">
+                {{o.clientName}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Project Name</label>
+            <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()">
+              <option [value]="project.projectId" *ngFor="let project of projects">
+                {{project.projectName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+              <div *ngIf="f.selProject.errors.required">Project is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Structure Name</label>
+            <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control" (change)="getStages()">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.structureId" *ngFor="let o of structures">
+                {{o.structureName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
+              <div *ngIf="f.selStructure.errors.required">Structure is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Stages </label>
+            <select formControlName="stageId" class="form-control" multiple>
+              <option [value]="o.stageId" *ngFor="let o of stages">
+                {{o.stageName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selStage.errors" class="invalid-feedback">
+              <div *ngIf="f.selStage.errors.required">Stage is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Trade Name</label>
+            <select formControlName="tradeId" class="form-control">
+              <option [value]="o.tradeId" *ngFor="let o of trades">
+                {{o.tradeName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+              <div *ngIf="f.clientId.errors.required">Trade Group is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Checklist Name </label>
+            <select formControlName="checklistId" class="form-control" multiple>
+              <option [value]="0">Please Select</option>
+              <option [value]="1">Both</option>
+              <option [value]="2">Device</option>
+              <option [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selChecklist.errors" class="invalid-feedback">
+              <div *ngIf="f.selChecklist.errors.required">Checklist is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

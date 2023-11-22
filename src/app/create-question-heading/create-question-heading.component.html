@@ -1,0 +1,80 @@
+<app-header></app-header>
+<div class="content-wrapper">
+    <div class="container-fluid ">
+      <div class="add-bg-here">
+        <div class="add-container-viewcommon">
+         <div class="add-breadcrames">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="#">Home </a>
+              </li>
+              <li class="breadcrumb-item active">Create Question Head</li>
+            </ol>
+         </div>
+          <div class="right-side-create-view">
+               <div class="create-content-operations">
+                 <button type="button"> <a routerLink="/questionheading">Manage Question Head</a></button>
+               </div>
+            </div>
+          </div>
+         <div class="main-header_createview">
+            <div class="left-side-header">
+                <div class="create-content-header">
+                  <h1>Create Question Head</h1>
+                </div>
+            </div>
+         </div>
+         <div class="create-viewform">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label>Select Trade</label>
+                <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
+                    <option  [value]="0">Please Select</option>
+                    <option [value]="o.selTrade" *ngFor="let o of trades">
+                      {{o.clientName}}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                    <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+              <label>Select Sub Trade</label>
+              <select  [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" > 
+                  <option  [value]="0">Please Select</option>
+                  <option [value]="o.clientId" *ngFor="let o of clients">
+                    {{o.clientName}}
+                  </option>
+              </select>
+              <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientId.errors.required">Sub Trade is required</div>
+              </div>
+          </div> -->
+          <!-- <div class="form-group">
+            <label>Select Question Group</label>
+            <select  [(ngModel)]="SelQuestionGp" formControlName="selQuestionGp" class="form-control" > 
+                <option  [value]="0">Please Select</option>
+                <option [value]="o.questionGpId" *ngFor="let o of questionGps">
+                  {{o.questionGpName}}
+                </option>
+            </select>
+            <div *ngIf="submitted && f.selQuestionGp.errors" class="invalid-feedback">
+                <div *ngIf="f.selQuestionGp.errors.required">Sub Trade is required</div>
+            </div>
+        </div>
+             -->
+            <div class="form-group">
+              <label>Question Heading</label>
+              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </form>
+         </div>
+      </div>
+    </div>
+<app-footer></app-footer>

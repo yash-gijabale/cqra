@@ -1,0 +1,93 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Assign Constructor's Supervison</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/client">Manage Client </a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Create Client </h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Project Name</label>
+            <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()">
+              <option [value]="0">Please Select</option>
+              <option [value]="project.projectId" *ngFor="let project of projects">
+                {{project.projectName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+              <div *ngIf="f.selProject.errors.required">Project is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Structure Name</label>
+            <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.structureId" *ngFor="let o of structures">
+                {{o.structureName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
+              <div *ngIf="f.selStructure.errors.required">Structure is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Contractor</label>
+            <select [(ngModel)]="SelProject" formControlName="contractorId" class="form-control">
+              <option [value]="project.projectId" *ngFor="let project of projects">
+                {{project.projectName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+              <div *ngIf="f.selProject.errors.required">Project is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Supervison</label>
+            <select [(ngModel)]="SelProject" formControlName="supervisorId" class="form-control">
+              <option [value]="project.projectId" *ngFor="let project of projects">
+                {{project.projectName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+              <div *ngIf="f.selProject.errors.required">Project is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Trade</label>
+            <select [(ngModel)]="SelProject" formControlName="tradeId" class="form-control" (change)="getStructure()">
+              <option [value]="project.projectId" *ngFor="let project of projects">
+                {{project.projectName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+              <div *ngIf="f.selProject.errors.required">Project is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

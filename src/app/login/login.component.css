@@ -1,0 +1,196 @@
+body {
+    font-family: 'Roboto', sans-serif!important;
+    padding: 0px;
+    margin: 0px;
+}
+.card2 {
+    margin: 0px 40px
+}
+.add-heightview,.global-container{
+    height: 100vh;
+}
+
+.logo {
+    width: 200px;
+    margin: 0px auto;
+}
+
+.image {
+     max-width: 100%;
+    max-height: auto;
+    max-height: 100%;
+    min-width: auto;
+    min-height: auto;
+    padding: 0px;
+    margin: 0px;
+}
+
+.border-line {
+    border-right: 1px solid #EEEEEE
+}
+
+.facebook {
+    background-color: #3b5998;
+    color: #fff;
+    font-size: 18px;
+    padding-top: 5px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer
+}
+
+.twitter {
+    background-color: #1DA1F2;
+    color: #fff;
+    font-size: 18px;
+    padding-top: 5px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer
+}
+
+.linkedin {
+    background-color: #2867B2;
+    color: #fff;
+    font-size: 18px;
+    padding-top: 5px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer
+}
+
+.line {
+    height: 1px;
+    width: 45%;
+    background-color: #E0E0E0;
+    margin-top: 10px
+}
+
+.or {
+    width: 10%;
+    font-weight: bold
+}
+
+.text-sm {
+    color: #464646;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+}
+.text-sm-text{
+    color: #000;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+}
+
+::placeholder {
+    color: #464646;
+    opacity: 1;
+    font-size: 14px;
+    font-weight: 400
+}
+
+:-ms-input-placeholder {
+     color: #464646;
+      font-size: 14px;
+    font-weight: 400
+}
+
+::-ms-input-placeholder {
+    color: #464646;
+     font-size: 14px;
+    font-weight: 400
+}
+
+input,
+textarea {
+    padding: 10px 12px 10px 12px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    margin-bottom: 5px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 14px;
+    letter-spacing: 1px
+}
+
+input:focus,
+textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #304FFE;
+    outline-width: 0
+}
+
+button:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline-width: 0
+}
+
+a {
+    color: inherit;
+    cursor: pointer
+}
+
+.btn-blue {
+    background-color: #0B549C;
+    width: 150px;
+    color: #fff;
+    border-radius: 4px
+}
+
+.btn-blue:hover {
+    background-color: #000;
+    cursor: pointer
+}
+.cqra-heading-text h1{
+      color: #464646;
+      font-size: 28px;
+      font-weight: 500;
+      margin: 0px;
+}
+.welcome-tocqra .welcome-t{
+    font-weight: 400;
+    color: #242424;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+  
+}
+.welcome-tocqra .welcome-to-cq{
+    font-size: 22px;
+    font-weight: 500;
+    color: #005aa2;
+    letter-spacing: 0.2px;
+    margin-bottom: 15px;
+}
+.welcome-tocqra .welcome-to-cq .q-text-12{
+  color: #4fb151;
+}
+
+
+
+
+@media screen and (max-width: 991px) {
+    .logo {
+        margin-left: 0px
+    }
+
+
+    .border-line {
+        border-right: none
+    }
+
+    .card2 {
+        border-top: 1px solid #EEEEEE !important;
+        margin: 0px 15px
+    }
+}

@@ -1,0 +1,70 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+       <div class="add-container-viewcommon">
+         <div class="main-header_createview">
+          <div class="left-side-header">
+              <div class="create-content-header">
+                <h1> Manage Contractor Forman </h1>
+                 
+              </div>
+          </div>
+       
+         <div class="right-side-create-view ">
+             <div class="create-content-operations">
+               <a routerLink="/createForman/-1"> 
+                <button type="button"> Create Contractor Forman</button>
+               </a>
+             </div>
+          </div>
+        </div>
+      </div>
+    
+    <div class="row m-0">
+      <div class="col-xl-12 col-sm-12 mb-3">
+           <!-- Example DataTables Card-->
+   
+     
+<table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" id="customers"  class="row-border hover" style="width:100%">
+  <thead>
+    <tr>
+      
+      <th>Foreman Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let client of forman">
+      
+      <td>{{ client.foremanName }}</td>
+      <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
+      <td> 
+        <div class="action-commonview"> 
+          <button type="text" (click) = "editClient(client.foremanId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+            <span class="edit-tessst"> 
+             <i class="las la-pencil-alt"></i>
+            </span> 
+          </button>
+          <button type="text" (click) = "deActivateClient(client.foremanId)" class="Delete-modal"> 
+            <span class="edit-tessst"> 
+              <i class="lar la-trash-alt"></i>
+            </span> 
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
+
+</div>
+
+
+</div>
+<!-- Example DataTables Card-->
+
+</div>
+</div>
+  <app-footer></app-footer>
+  
