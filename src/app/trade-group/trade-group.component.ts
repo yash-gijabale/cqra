@@ -51,4 +51,19 @@ export class TradeGroupComponent implements OnInit {
     
   }
 
+  editTrade(id)
+  {
+    console.log(id)
+    this.router.navigate(['createTradegroup', id])
+  }
+  deActivate(id)
+  {
+    let isDelete = confirm('Are you sure want to delete?')
+    if(isDelete)
+    {
+      this.tradeMaintanceService.deleteTradeGroup(id)
+      .subscribe(data => location.reload())
+    }
+  }
+
 }

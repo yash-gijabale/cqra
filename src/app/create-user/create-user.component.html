@@ -35,35 +35,35 @@
             </div>
             <div class="form-group">
               <label>Login Name</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="loginName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Password</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="password" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Description</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="discription" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Trade Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Designation</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="designation" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Contact No.</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="contactNumber" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
               </div>
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group">
               <label>User Type</label>
-              <select  [(ngModel)]="SelUserType" formControlName="userType" class="form-control" > 
+              <select  formControlName="userType" class="form-control" > 
                   <option [value]="0">Please Select</option>
                   <option [value]="1">Both</option>
                   <option [value]="2">Device</option>
@@ -89,7 +89,7 @@
           </div>
           <div class="form-group">
             <label>Role</label>
-            <select  [(ngModel)]="SelRole" formControlName="selRole" class="form-control" > 
+            <select  formControlName="userRole" class="form-control" > 
                 <option  [value]="0">Please Select</option>
                 <option  [value]="1">Admin </option>
                 <option  [value]="2">Supervisor or Engg</option>
@@ -102,16 +102,17 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>Approver
-                <input type="checkbox" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></label>
+                <input type="checkbox" formControlName="approver" [value]="0" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></label>
                 <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                     <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
                 </div>
               </div>
             </div>
+            <!-- [(ngModel)] = "SelRole" [ngModelOptions]="{standalone: true}" [value]="0" -->
             <div class="col-md-4">
               <div class="form-group">
                 <label>Reviewer
-                <input type="checkbox" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></label>
+                <input type="checkbox" formControlName="reviewer" [value]="1" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></label>
                 <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                     <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
                 </div>
@@ -119,8 +120,8 @@
             </div>
             <div class="col-md-4">
               <div class="form-group">
-                <label>createUser
-                <input type="checkbox" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></label>
+                <label>Site Admin
+                <input type="checkbox" formControlName="siteAdmin" [value]="2" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></label>
                 <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                     <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
                 </div>
@@ -130,7 +131,7 @@
 
           <div class="form-group">
             <label>Image1</label>
-            <input type="file" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="file" formControlName="userImage" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
             </div>

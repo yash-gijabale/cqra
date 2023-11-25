@@ -61,5 +61,21 @@ subgroupsView : SubgroupView[];
     })
   }
 
+  editSubgroup(id)
+  {
+    this.router.navigate(['createSubgroup', id])
+  }
 
+  deActive(id)
+  {
+    let isDelete = confirm('Are you sure want to delete ?')
+    if(isDelete)
+    {
+      this.tradeMaintanceService.deleteSubgroup(id)
+      .subscribe(data => {
+        console.log('deleted')
+        location.reload()
+      })
+    }
+  }
 }

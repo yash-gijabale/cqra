@@ -28,10 +28,10 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <label>Select Trade</label>
-                <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
+                <select  formControlName="tardeId" class="form-control" > 
                     <option  [value]="0">Please Select</option>
-                    <option [value]="o.selTrade" *ngFor="let o of trades">
-                      {{o.clientName}}
+                    <option [value]="o.tardeId" *ngFor="let o of trades">
+                      {{o.tradeName}}
                     </option>
                 </select>
                 <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
@@ -40,18 +40,18 @@
             </div>
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <input type="text" formControlName="subgroupName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
                 <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                     <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
                 </div>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label>Description</label>
               <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Trade Description is required</div>
               </div>
-            </div>
+            </div> -->
             <div class="form-group">
                 <button class="btn btn-primary">Save</button>
             </div>

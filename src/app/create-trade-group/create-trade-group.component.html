@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div class="content-wrapper">
     <div class="container-fluid ">
-      <div class="add-bg-here">
+      <div class="add-bg-here disabled">
         <div class="add-container-viewcommon">
          <div class="add-breadcrames">
             <ol class="breadcrumb">
@@ -28,7 +28,7 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label>Trade Group Name</label>
-                <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <input type="text" formControlName="tradeGroupName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
                 <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                     <div *ngIf="f.clientName.errors.required">Client Name is required</div>
                 </div>

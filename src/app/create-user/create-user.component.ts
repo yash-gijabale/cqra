@@ -32,11 +32,20 @@ export class CreateUserComponent implements OnInit {
     }
 
     this.registerForm = this.formBuilder.group({
-      clientName: ['', Validators.required],
-      clientCode: ['', Validators.required],
-      clientEmail: ['', [Validators.required, Validators.email]],
-      clientAddress: ['', [Validators.required, Validators.minLength(6)]],
-      clientContactPerson: ['', [Validators.required]]
+      userName: ['', Validators.required],
+      loginName: ['', Validators.required],
+      password: ['', Validators.required],
+      discription: ['', Validators.required],
+      designation: ['', Validators.required],
+      contactNumber: ['', Validators.required],
+      emailId: ['', Validators.required],
+      userType: ['', Validators.required],
+      userRole: ['', Validators.required],
+      userImage: ['', Validators.required],
+      userRoleId: ['', Validators.required],
+      approver: ['', Validators.required],
+      reviewer: ['', Validators.required],
+      siteAdmin: ['', Validators.required]
 
   });
   }
@@ -45,6 +54,8 @@ export class CreateUserComponent implements OnInit {
   onSubmit() {
       this.submitted = true;
       // stop here if form is invalid
+      // console.log('role->>>', this.SelRole)
+      console.log(this.registerForm.value)
       if (this.registerForm.invalid) {
           return;
       }

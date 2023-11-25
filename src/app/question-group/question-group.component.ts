@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { TradeMaintanceService } from '../trade-maintance.service';
+import { animationFrame } from 'rxjs/internal/scheduler/animationFrame';
 
 
 export class QuestionGroup{
@@ -61,6 +62,27 @@ export class QuestionGroupComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     })
+  }
+
+  editQuestionGroup(id)
+  {
+    this.router.navigate(['createQuestiongroup', id])
+  }
+
+  deActivate(id)
+  {
+    let isDelete = confirm('Are you sure want to delete ?')
+    if(isDelete)
+    {
+      this.tradeMaintanceService.deleteQuetionGroup(id)
+      .subscribe(
+        (data) => {
+          console.log('deleted')
+          location.reload()
+        },
+        (err) => console.log(err)
+      )
+    }
   }
 
 }

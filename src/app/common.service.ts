@@ -9,8 +9,8 @@ import { ContractorData } from './contractor-forman/contractor-forman.component'
 import { UserView } from './users/users.component';
 import { StageData, StructureData } from './wbs/wbs.component';
 import { FirstNote } from './manualIndexCalulator/firstNote/first-note/first-note.component';
-import { Observable } from 'rxjs';
-
+import { RegionList, CycleOfInspection } from './ncclosure-sa/ncclosure-sa.component';
+import { ReturnStatement } from '@angular/compiler';
 @Injectable({
   providedIn: 'root'
 })
@@ -120,6 +120,21 @@ export class CommonService {
     return this.httpClient.get<FirstNote[]>(this.REST_API_SERVER+'/getfirstNotes')
   }
 
+  getAllRegions()
+  {
+    return this.httpClient.get<RegionList[]>(`${this.REST_API_SERVER}/getRegions`)
+  }
+
+  getAllCycleOfInspection()
+  {
+    return this.httpClient.get<CycleOfInspection[]>(`${this.REST_API_SERVER}/getCycleOfInspections`)
+  }
+
+  getNcClosedSAReport(region, project, cycle, trade, status)
+  {
+    return this.httpClient.get<CycleOfInspection[]>(`${this.REST_API_SERVER}/getCycleOfInspections`)
+
+  }
  
 
 }

@@ -23,23 +23,23 @@
           <table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" id="customers"  class="row-border hover" style="width:100%">
             <thead>
               <tr>
-                <th>Trade Name</th>
                 <th>Subgroup Name</th>
+                <th>Trade Name</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let client of subgroupsView">
-                <td>{{ client.tardeName }}</td>
                 <td>{{ client.subgroupName }}</td>
+                <td>{{ client.tardeName }}</td>
                 <td> 
                   <div class="action-commonview"> 
-                    <button type="text" (click) = "editClient(client.subgroupId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+                    <button type="text" (click) = "editSubgroup(client.subgroupId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
                       <span class="edit-tessst"> 
                       <i class="las la-pencil-alt"></i>
                       </span> 
                     </button>
-                    <button type="text" (click) = "deActivateClient(client.subgroupId)" class="Delete-modal"> 
+                    <button type="text" (click) = "deActive(client.subgroupId)" class="Delete-modal"> 
                       <span class="edit-tessst"> 
                         <i class="lar la-trash-alt"></i>
                       </span> 

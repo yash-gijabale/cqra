@@ -28,31 +28,31 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label>Trade Name</label>
-                <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <input type="text" formControlName="tradeName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
                 <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                     <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
                 </div>
             </div>
             <div class="form-group">
               <label>Trade Description</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="discription" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Trade Description is required</div>
               </div>
             </div>
           <div class="form-group">
             <label>Key Result Areas</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="text" formControlName="keyResultArea" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Key Result Areas is required</div>
             </div>
           </div>
           <div class="form-group">
               <label>Trade Group</label>
-              <select  [(ngModel)]="SelTradeGp" formControlName="selTradeGp" class="form-control" > 
+              <select  formControlName="tradegroupId" class="form-control" > 
                   <option  [value]="0">Please Select</option>
-                  <option [value]="o.selTradeGp" *ngFor="let o of clients">
-                    {{o.clientName}}
+                  <option [value]="o.tradegroupId" *ngFor="let o of tradeGroups">
+                    {{o.tradeGroupName}}
                   </option>
               </select>
               <div *ngIf="submitted && f.selTradeGp.errors" class="invalid-feedback">

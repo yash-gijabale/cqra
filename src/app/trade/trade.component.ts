@@ -51,5 +51,23 @@ export class TradeComponent implements OnInit {
     console.log('-----> err', err);
   })
   }
+
+  editTrade(id)
+  {
+    this.router.navigate(['createTrade', id])
+  }
+
+  deActivate(id)
+  {
+    let isDelete = confirm('Are you sure want to delete')
+    if(isDelete)
+    {
+      this.tradeMaintanceService.deleteTrade(id)
+      .subscribe(data => {
+        console.log('deleted')
+        location.reload()
+      }, (err) => console.log(err))
+    }
+  }
  
 }

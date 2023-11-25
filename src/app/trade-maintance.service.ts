@@ -4,14 +4,16 @@ import { Observable } from 'rxjs';
 import { Checklist } from './checklist/checklist.component';
 import { InspectionView } from './inspection-report/inspection-report.component';
 import { NcBeanSAView } from './ncclosure-sa/ncclosure-sa.component';
-import { QuestionGroupView } from './question-group/question-group.component';
+import { QuestionGroupView, QuestionGroup } from './question-group/question-group.component';
 import { QuestionHeadingView } from './question-heading/question-heading.component';
 import { Question } from './question/question.component';
 import { InspectionDocView } from './snagging-document/snagging-document.component';
 import { SnggingView } from './snagging-report/snagging-report.component';
-import { SubgroupView } from './subgroup/subgroup.component';
+import { Subgroup, SubgroupView } from './subgroup/subgroup.component';
 import { TradeGroup } from './trade-group/trade-group.component';
 import { Trade } from './trade/trade.component';
+import { SubgroupData } from './create-subgroup/create-subgroup.component';
+import { QuestionGroupData } from './create-question-group/create-question-group.component';
 
 @Injectable({
   providedIn: 'root'
@@ -73,8 +75,83 @@ export class TradeMaintanceService {
   }
 
   createTradeGroup(tradeGp: TradeGroup): Observable<TradeMaintanceService> {
-    return this.httpClient.post<TradeMaintanceService>("http://18.217.108.137:8080/tradeGroup/addTradeGroup", tradeGp);
+    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/tradeGroup/addTradeGroup`, tradeGp);
   }
+
+  retriveTradeGroup(id)
+  {
+    return this.httpClient.get<TradeGroup[]>(this.REST_API_SERVER+'/tradeGroup/tradeGroup/'+id);
+  }
+
+  updateTradeGroup(data: TradeGroup, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/tradeGroup/tradeGroup/${id}`, data)
+  }
+
+  deleteTradeGroup(id)
+  {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/tradeGroup/trade/${id}`)
+  }
+
+  // TRADE
+  createTrade(tradeDAta: TradeGroup): Observable<TradeMaintanceService>{
+    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/trade/addTrade`, tradeDAta);
+  }
+
+  retriveTrade(id)
+  {
+    return this.httpClient.get<TradeGroup>(`${this.REST_API_SERVER}/trade/trade/${id}`)
+  }
+
+  updateTrade(tradeData:TradeGroup, id)
+  {
+    return this.httpClient.put(`${this.REST_API_SERVER}/trade/trade/${id}`, tradeData)
+  }
+  deleteTrade(id)
+  {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/trade/trade/${id}`)
+  }
+  // TRADE
+
+  // SUBGROUP
+  createSubgroup(subgroupData: Subgroup): Observable<TradeMaintanceService>{
+    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/SubGroup/addSubGroup`, subgroupData);
+  }
+  retirveSubgroup(id)
+  {
+    return this.httpClient.get<Subgroup>(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`)
+  }
+  updateSubgroup(data:SubgroupData, id)
+  {
+    return this.httpClient.put(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`, data)
+  }
+
+  deleteSubgroup(id)
+  {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`)
+  }
+  // SUBGROUP
+
+
+  //QUESTION GROUP
+  createQuestionGroup(data: QuestionGroup): Observable<TradeMaintanceService>{
+    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/questionGroup/addQuestionGroup`, data);
+  }
+
+  retriveQuestionGroup(id)
+  {
+    return this.httpClient.get<QuestionGroup>(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`)
+  }
+
+  updateQuestionGroup(data: QuestionGroupData, id)
+  {
+    return this.httpClient.put(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`, data)
+  }
+
+  deleteQuetionGroup(id)
+  {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`)
+  }
+  //QUESTION GROUP
   
   
 }
