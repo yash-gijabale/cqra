@@ -12,54 +12,62 @@
         </div>
       </div>
 
-      <div class=" row">
-        <label for="fname" class="col-sm-3 col-form-label" style="padding-left:120px;">Project</label>
-        <div class="form-group px-0">
-          <select  [(ngModel)]="SelProjectId" #projectId (change)="getProjectTrades()" style="width:360px;margin-top:10px"> 
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="fname" class="col-form-label">Region</label>
+          <select class="form-control col-md-12" [(ngModel)]="selRegion">
+            <option [value]="0">Please Select</option>
+            <option [value]="o.regionName" *ngFor="let o of regions">
+              {{o.regionName}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="fname" class="col-form-label">Project</label>
+          <select class="form-control col-md-12" [(ngModel)]="SelProjectId" #projectId (change)="getProjectTrades()">
             <option [value]="0">Please Select</option>
             <option [value]="o.projectId" *ngFor="let o of projects">
               {{o.projectName}}
             </option>
           </select>
         </div>
-      </div>
 
-      <div class="row">
-        <label for="fname" class="col-sm-3 col-form-label" style="padding-left:120px;">Cycle of Inspection</label>
-        <div class="form-group px-0">
-          <select  [(ngModel)]="SelCycleId" #cycleId style="width:360px;margin-top:10px"> 
-           
-            <option [value]="o.cycleId" *ngFor="let o of cycles">
-              {{o.cycleName}}
+        <div class="form-group col-md-4">
+          <label for="fname" class=" col-form-label">Cycle of Inspection</label>
+          <select class="form-control col-md-12" [(ngModel)]="SelCycleId" #cycleId>
+            <option [value]="o.cycle_id" *ngFor="let o of cycleOfInspection">
+              {{o.cycle_name}}
             </option>
           </select>
         </div>
-      </div>
 
-      <div class="row">
-        <label for="fname" class="col-sm-3 col-form-label" style="padding-left:120px;">Trade</label>
-        <div class="form-group px-0">
-          <select  [(ngModel)]="SelProjectId" #projectId style="width:360px;margin-top:10px"> 
+
+
+        <div class="form-group col-md-4">
+          <label for="fname" class=" col-form-label">Trade</label>
+          <select class="form-control col-md-12" [(ngModel)]="SelTradeId" #projectId>
             <option [value]="">Please Select</option>
-            <option [value]="o.tradeId" *ngFor="let o of trades">
+            <option [value]="o.tardeId" *ngFor="let o of trades">
               {{o.tradeName}}
             </option>
           </select>
         </div>
-      </div>
 
-      <div class="row">
-        <label for="fname" class="col-sm-3 col-form-label" style="padding-left:120px;">Status</label>
-        <div class="form-group px-0">
-          <select  [(ngModel)]="SelProjectId" #projectId style="width:360px;margin-top:10px"> 
-            <option [value]="0">Please Select</option>
-            <option [value]="o.statusId" *ngFor="let o of projects">
+
+        <div class="form-group col-md-4">
+          <label for="fname" class="col-form-label">Status</label>
+          <select class="form-control col-md-12" [(ngModel)]="SelStatusId" #projectId>
+            <option [value]="0" selected >Please Select</option>
+            <option [value]="o.statusId" *ngFor="let o of status">
               {{o.statusName}}
             </option>
           </select>
         </div>
+        <div class="form-group mt-4 pt-3">
+          <button class="btn btn-primary" (click)="getNCs()">Get Report</button>
+        </div>
       </div>
-       
 
     
     <div class="row m-0">

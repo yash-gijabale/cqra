@@ -89,44 +89,33 @@
                 <th>Remark/Location </th>
                 <th>View Report</th>
                 <th>NC Closure </th>
+                <th>Action</th>
 
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of reports">
-                <td>{{ client.reportName }}</td>
-                <td>{{ client.ncNumber }}</td>
-                <td>{{ client.projectName }}</td>
-                <td>{{ client.tradeName }}</td>
-                <td>{{ client.ncDescription }}</td>
-                <td>{{ client.status }}</td>
+              <tr *ngFor="let client of ncsReports">
+                <td>{{ client.idNcBeanSa }}</td>
+                <td>{{ client.nc_number_nc_bean_sa }}</td>
+                <td>{{ client.projectNameProjects }}</td>
+                <td>{{ client.tradeNameTrade }}</td>
+                <td>{{ client.nc_closure_comment_nc_bean_sa }}</td>
+                <td>{{ client.statusNcBeanSa }}</td>
+                <td>{{ client.locationNcBeanSa}}</td>
+                <td>View</td>
+                <td>{{ client.ncClosureDateNcBeanSa }}</td>
+
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
-                      data-toggle="modal" data-target="#exampleModalCenter">
-                      <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
-                      </span>
+                    <button type="text" (click) = "editReport(client.idNcBeanSa)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+                      <span class="edit-tessst"> 
+                       <i class="las la-pencil-alt"></i>
+                      </span> 
                     </button>
-                  </div>
-                </td>
-                <td>
-                  <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
-                      data-toggle="modal" data-target="#exampleModalCenter">
-                      <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
-                      </span>
-                    </button>
-                  </div>
-                </td>
-                <td>
-                  <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
-                      data-toggle="modal" data-target="#exampleModalCenter">
-                      <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
-                      </span>
+                    <button type="text" (click) = "deActivateProject(client.projectId)" class="Delete-modal"> 
+                      <span class="edit-tessst"> 
+                        <i class="lar la-trash-alt"></i>
+                      </span> 
                     </button>
                   </div>
                 </td>

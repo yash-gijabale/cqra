@@ -49,12 +49,12 @@
       <td>{{ client.questionHeadingText }}</td>
       <td> 
         <div class="action-commonview"> 
-          <button type="text" (click) = "editClient(client.subgroupId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+          <button type="text" (click) = "editQuestionHeading(client.questionHeadingId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
             <span class="edit-tessst"> 
              <i class="las la-pencil-alt"></i>
             </span> 
           </button>
-          <button type="text" (click) = "deActivateClient(client.subgroupId)" class="Delete-modal"> 
+          <button type="text" (click) = "deActive(client.questionHeadingId)" class="Delete-modal"> 
             <span class="edit-tessst"> 
               <i class="lar la-trash-alt"></i>
             </span> 

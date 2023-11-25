@@ -8,6 +8,8 @@ import { TradeMaintanceService } from "../trade-maintance.service";
 import { Trade } from "../trade/trade.component";
 import { data } from "jquery";
 
+
+
 export class NcBeanSAView {
   constructor(
     public ncNumber: number,
@@ -17,6 +19,23 @@ export class NcBeanSAView {
     public ncDescription: string,
     public status: string
   ) {}
+}
+
+export class NcBeanData{
+  constructor(
+      public  id_nc_bean_sa:  number,
+      public  projectIdNcBeanSa: number,
+      public  tradeIdNcBeanSa: number,
+      public  statusNcBeanSa: string,
+      public  cycleINcBeanSa: number,
+      public  locationNcBeanSa: string,
+      public  nc_number_nc_bean_sa: string,
+      public  projectNameProjects: string,
+      public  tradeNameTrade:String,
+      public  remarkNcBeanSa: string,
+      public  ncClosureDateNcBeanSa: string,
+      public  nc_closure_comment_nc_bean_sa: string
+  ){}
 }
 
 export class RegionList{
@@ -58,7 +77,8 @@ export class NCClosureSAComponent implements OnInit {
   SelProjectId: string = "0";
   SelTradeId: string = "0";
   SelstatusId: string = "0";
-
+  ncsReports: NcBeanData[];
+  
   regions:RegionList[]
   cycleOfInspection: CycleOfInspection[]
   constructor(
@@ -142,12 +162,24 @@ export class NCClosureSAComponent implements OnInit {
   getNCs() {
     // alert("called=="+this.SelProjectId+"Cycle Id=="+this.SelCycleId);
     let formData = {
-      region:this.selRegion,
-      projectId: this.SelProjectId,
-      cycleId: this.SelCycleId,
-      SelCycleId: this.SelCycleId,
-      SelTradeId: this.SelTradeId,
+      locationNcBeanSa:this.selRegion,
+      projectIdNcBeanSa: this.SelProjectId,
+      cycleINcBeanSa: this.SelCycleId,
+      tradeIdNcBeanSa: this.SelTradeId,
+      statusNcBeanSa: this.SelStatusId
     };
+
+    this.tradeMaintanceService.getNcsByReportId(this.SelProjectId, this.SelTradeId, this.SelStatusId , this.SelCycleId, 'mumbai')
+    .subscribe(data => {
+      console.log(data)
+      this.ncsReports = data
+    })
     console.log(formData);
+  }
+  editReport(id)
+  {
+    console.log(id)
+    this.router.navigate(['editNcCloserReport',id])
+    
   }
 }

@@ -46,7 +46,7 @@ import { EquipUsedByClientComponent } from './manualIndexCalulator/equipUsedByCl
 import { CreatEquipUsedByClientComponent } from './manualIndexCalulator/equipUsedByClient/creat-equip-used-by-client/creat-equip-used-by-client.component';
 import { EquipUsedByContractorComponent } from './manualIndexCalulator/equipUsedByContractor/equip-used-by-contractor/equip-used-by-contractor.component';
 import { CreateEquipUsedByContractorComponent } from './manualIndexCalulator/equipUsedByContractor/create-equip-used-by-contractor/create-equip-used-by-contractor.component';
-
+import { NcCloserViewReportComponent } from './nc-closer-view-report/nc-closer-view-report.component';
 //Reports
 import {QualityUpdateReportComponent} from './quality-update-report/quality-update-report.component';
 import {QualityReviewReportComponent} from './quality-review-report/quality-review-report.component';
@@ -188,6 +188,7 @@ const routes: Routes = [
   {path: 'creatEquipUsedByClient/:id/:id2', component:CreatEquipUsedByClientComponent},
   {path: 'equipUsedByContractor/:id', component:EquipUsedByContractorComponent},
   {path: 'creatEquipUsedByContractor/:id/:id2', component:CreateEquipUsedByContractorComponent},
+  {path: 'editNcCloserReport/:id', component:NcCloserViewReportComponent},
 
 
 

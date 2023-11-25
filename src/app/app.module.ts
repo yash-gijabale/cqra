@@ -103,6 +103,7 @@ import { EquipUsedByClientComponent } from './manualIndexCalulator/equipUsedByCl
 import { CreatEquipUsedByClientComponent } from './manualIndexCalulator/equipUsedByClient/creat-equip-used-by-client/creat-equip-used-by-client.component';
 import { EquipUsedByContractorComponent } from './manualIndexCalulator/equipUsedByContractor/equip-used-by-contractor/equip-used-by-contractor.component';
 import { CreateEquipUsedByContractorComponent } from './manualIndexCalulator/equipUsedByContractor/create-equip-used-by-contractor/create-equip-used-by-contractor.component';
+import { NcCloserViewReportComponent } from './nc-closer-view-report/nc-closer-view-report.component';
 
 @NgModule({
   declarations: [
@@ -199,7 +200,8 @@ import { CreateEquipUsedByContractorComponent } from './manualIndexCalulator/equ
     EquipUsedByClientComponent,
     CreatEquipUsedByClientComponent,
     EquipUsedByContractorComponent,
-    CreateEquipUsedByContractorComponent
+    CreateEquipUsedByContractorComponent,
+    NcCloserViewReportComponent
   ],
   imports: [
     BrowserModule,

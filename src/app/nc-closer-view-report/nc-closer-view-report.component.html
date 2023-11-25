@@ -1,0 +1,291 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Nc Closer</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/trade">Manage Nc Closer</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Edit Report</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup] = "ncReportForm" (ngSubmit) = "onSubmit()">
+          <div class="form-group">
+            <label>Nc Open Date</label>
+            <input type="text" class="form-control" formControlName="ncOpenDate">
+            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Nc number</label>
+            <input type="text" class="form-control" formControlName="ncNumber">
+            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Trade</label>
+            <select  class="form-control" formControlName="tradeId" > 
+                <option  [value]="trade.tardeId" *ngFor="let trade of trades">{{trade.tradeName}}</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Nc Description</label>
+            <input type="text" class="form-control" formControlName="ncClosureComment">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Implication</label>
+            <input type="text" class="form-control" formControlName="severity">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label>Frequency</label>
+            <input type="text" class="form-control" formControlName="frq">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          
+          <div class="form-group">
+            <label>Image 1</label>
+            <input type="file" class="form-control">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Image 2</label>
+            <input type="file" class="form-control">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Rectificatrion Plan</label>
+            <input type="text" class="form-control" formControlName="rectification">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Rectification Status</label>
+            <select formControlName="rectStatus" class="form-control" > 
+              <option  [value]="'Done'">Done</option>
+              <option  [value]="'NotDone'">Not Done</option>
+              <option  [value]="'ForceClose'">Force Close</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">NC Address To is required</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Rectificatrion Image 1</label>
+            <input type="file" class="form-control">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Rectificatrion Image 2</label>
+            <input type="file" class="form-control">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Rectificatrion Image 3</label>
+            <input type="file" class="form-control">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Rectificatrion imahe 4</label>
+            <input type="file" class="form-control">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Primary Reason</label>
+            <select formControlName="priReason" class="form-control" > 
+              <option  [value]="0">Please Select</option>
+              <option  [value]="1">Both</option>
+              <option  [value]="2">Device</option>
+              <option  [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">NC Address To is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>First Level Analysis</label>
+            <input type="text" class="form-control" formControlName="firstLevelAnalysis">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Second level Analysis</label>
+            <input type="text" class="form-control" formControlName="secondLevelAnalysis">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Third Level Analysis</label>
+            <input type="text" class="form-control" formControlName="thirdLevelAnalysis">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Seconddary Reason</label>
+            <select formControlName="secReason" class="form-control" > 
+              <option  [value]="0">Please Select</option>
+              <option  [value]="1">Both</option>
+              <option  [value]="2">Device</option>
+              <option  [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">NC Address To is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>First level Analysis</label>
+            <input type="text" class="form-control" formControlName="fourthLevelAnalysis">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Second Plan</label>
+            <input type="text" class="form-control" formControlName="fifthLevelAnalysis">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Third level Analysis</label>
+            <input type="text" class="form-control" formControlName="sixthLevel">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Technical Solution/Management Solution</label>
+            <input type="text" class="form-control" formControlName="technicalSolution">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Resource Required</label>
+            <input type="text" class="form-control" formControlName="resourceRequired">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Responsible Person</label>
+            <input type="text" class="form-control" formControlName="responsiblePerson">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Corrective Action for NonRecurrence</label>
+            <input type="text" class="form-control" formControlName="correctiveAction">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Cost Impact</label>
+            <input type="text" class="form-control" formControlName="costImpact">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Enterd By</label>
+            <input type="text" class="form-control" formControlName="enteredBy">
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Date From Nc closer</label>
+            <input type="date" class="form-control" formControlName="ncClosureDate"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+          </div>
+          
+          <div class="form-group">
+            <label>Reviwer</label>
+            <select formControlName="reviewerId" class="form-control" > 
+              <option  [value]="0">Please Select</option>
+              <option  [value]="1">Both</option>
+              <option  [value]="2">Device</option>
+              <option  [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">NC Address To is required</div>
+            </div>
+          </div>
+
+          <input type="hidden" formControlName="ncId" [value]="ncReportId">
+          
+          <br>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>&nbsp;
+            <button class="btn btn-primary">Chronological View PDF Report</button>&nbsp;
+            <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp;
+            <button class="btn btn-primary">Reset</button>&nbsp;
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<app-footer></app-footer>

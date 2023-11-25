@@ -28,7 +28,7 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <label>Select Trade</label>
-                <select  [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" > 
+                <select  formControlName="tardeId" class="form-control" > 
                     <option  [value]="0">Please Select</option>
                     <option [value]="o.clientId" *ngFor="let o of clients">
                       {{o.clientName}}
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
               <label>Select Sub Group</label>
-              <select  [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" > 
+              <select  formControlName="subgroupId" class="form-control" > 
                   <option  [value]="0">Please Select</option>
                   <option [value]="o.clientId" *ngFor="let o of clients">
                     {{o.clientName}}
@@ -52,7 +52,7 @@
           </div>
           <div class="form-group">
             <label>Select Question Group</label>
-            <select  [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" > 
+            <select  [(ngModel)]="SelClientId" formControlName="questionGroupId" class="form-control" > 
                 <option  [value]="0">Please Select</option>
                 <option [value]="o.clientId" *ngFor="let o of clients">
                   {{o.clientName}}
@@ -64,7 +64,7 @@
         </div>
         <div class="form-group">
           <label>Select Question Type</label>
-          <select  [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" > 
+          <select class="form-control" > 
               <option  [value]="0">Please Select</option>
               <option [value]="o.clientId" *ngFor="let o of clients">
                 {{o.clientName}}
@@ -76,7 +76,7 @@
       </div>
       <div class="form-group">
           <label>Select Question Heading</label>
-          <select  [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" > 
+          <select  [(ngModel)]="SelClientId" formControlName="questionHeadingId" class="form-control" > 
               <option  [value]="0">Please Select</option>
               <option [value]="o.clientId" *ngFor="let o of clients">
                 {{o.clientName}}
@@ -89,14 +89,14 @@
             
             <div class="form-group">
               <label>Quality Requirement </label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="questionText" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>NC Description</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="ncDescription" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>

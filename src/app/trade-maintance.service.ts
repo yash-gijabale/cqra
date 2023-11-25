@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Checklist } from './checklist/checklist.component';
 import { InspectionView } from './inspection-report/inspection-report.component';
-import { NcBeanSAView } from './ncclosure-sa/ncclosure-sa.component';
+import { NcBeanData, NcBeanSAView } from './ncclosure-sa/ncclosure-sa.component';
 import { QuestionGroupView, QuestionGroup } from './question-group/question-group.component';
-import { QuestionHeadingView } from './question-heading/question-heading.component';
+import { QuestionHeading, QuestionHeadingView } from './question-heading/question-heading.component';
 import { Question } from './question/question.component';
 import { InspectionDocView } from './snagging-document/snagging-document.component';
 import { SnggingView } from './snagging-report/snagging-report.component';
@@ -14,6 +14,8 @@ import { TradeGroup } from './trade-group/trade-group.component';
 import { Trade } from './trade/trade.component';
 import { SubgroupData } from './create-subgroup/create-subgroup.component';
 import { QuestionGroupData } from './create-question-group/create-question-group.component';
+import { QuesHeadingData } from './create-question-heading/create-question-heading.component';
+import { NcReportDetails } from './nc-closer-view-report/nc-closer-view-report.component';
 
 @Injectable({
   providedIn: 'root'
@@ -152,6 +154,43 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`)
   }
   //QUESTION GROUP
+
+  //QUESTION HEADING 
+  createQuestionHeading(data: QuestionHeading) :Observable<TradeMaintanceService>{
+    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/questionHeading/addQuestionHeading`, data)
+  }
+ 
+  retriveQuestionHeading(id)
+  {
+    return this.httpClient.get<QuestionHeadingView>(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`)
+  }
+
+  updateQuestionHeading(data: QuesHeadingData, id)
+  {
+    return this.httpClient.put(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`, data)
+  }
+
+  deleteQuestionHeading(id)
+  {
+    return  this.httpClient.delete(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`)
+  }
+  //QUESTION HEADING
+
+  //NC REPORT
+  getNcsByReportId(project, trade, status, cycle, location){
+    return this.httpClient.get<NcBeanData[]>(`${this.REST_API_SERVER}/findbyidss/${project}/${trade}/${status}/${cycle}/${location}`)
+
+  }
   
-  
+  getNcReportById(id)
+  {
+    return this.httpClient.get<NcReportDetails[]>(`${this.REST_API_SERVER}/findbyidsss/${id}`)
+  }
+
+  updateNcReport(data: NcReportDetails, id)
+  {
+    return this.httpClient.put(`${this.REST_API_SERVER}/updatebyidss/${id}`, data)
+
+  }
+
 }
