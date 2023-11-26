@@ -21,6 +21,7 @@ export class CreateSampledAreaComponent implements OnInit {
   snapAuditId: number;
   sampledAreaId: number
   sampledAreaForm: FormGroup
+  submitted:boolean = true;
   constructor(
     private route:ActivatedRoute,
     private formBuilder: FormBuilder,

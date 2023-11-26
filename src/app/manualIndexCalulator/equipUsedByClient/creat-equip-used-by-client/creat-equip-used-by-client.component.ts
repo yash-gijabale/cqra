@@ -14,6 +14,7 @@ export class CreatEquipUsedByClientComponent implements OnInit {
   equipmentId: number;
   equipmentList: EquipmentList[];
   equipmentForm: FormGroup;
+  submitted:boolean = true;
   constructor(
     private route: ActivatedRoute,
     private router: Router,

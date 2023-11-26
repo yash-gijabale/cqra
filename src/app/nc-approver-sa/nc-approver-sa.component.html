@@ -2,13 +2,13 @@
 <div class="content-wrapper">
   <div class="container-fluid">
     <div class="add-bg-here">
-       <div class="add-container-viewcommon">
-         <div class="main-header_createview">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
           <div class="left-side-header">
-              <div class="create-content-header">
-                <h1>  NC Approver </h1>
-              </div>
+            <div class="create-content-header">
+              <h1> NC Approver </h1>
             </div>
+          </div>
         </div>
       </div>
 
@@ -58,7 +58,7 @@
         <div class="form-group col-md-4">
           <label for="fname" class="col-form-label">Status</label>
           <select class="form-control col-md-12" [(ngModel)]="SelStatusId" #projectId>
-            <option [value]="0" selected >Please Select</option>
+            <option [value]="0" selected>Please Select</option>
             <option [value]="o.statusId" *ngFor="let o of status">
               {{o.statusName}}
             </option>
@@ -69,73 +69,65 @@
         </div>
       </div>
 
-    
-    <div class="row m-0">
-      <div class="col-xl-12 col-sm-12 mb-3">
-           <!-- Example DataTables Card-->
-   
-     
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"  style="width:100%">
-  <thead>
-    <tr>
-      <th>Report No.</th>
-      <th>Nc Number</th>
-      <th>Project Name</th>
-      <th> Trade Name</th>
-      <th> NC Description </th>
-      <th> Status</th>
-      <th>Remark/Location </th>
-      <th>View Report</th>
-      <th>NC Closure </th>
-     
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let client of reports">
-      <td>{{ client.reportName }}</td>
-      <td>{{ client.ncNumber }}</td>
-      <td>{{ client.projectName }}</td>
-      <td>{{ client.tradeName }}</td>
-      <td>{{ client.ncDescription }}</td>
-      <td>{{ client.status }}</td>
-      <td> 
-        <div class="action-commonview"> 
-          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
-            <span class="edit-tessst"> 
-             <i class="las la-pencil-alt"></i>
-            </span> 
-          </button>
+
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+
+
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" style="width:100%">
+            <thead>
+              <tr>
+                <th>Report No.</th>
+                <th>Nc Number</th>
+                <th>Project Name</th>
+                <th> Trade Name</th>
+                <th> NC Description </th>
+                <th> Status</th>
+                <th>Remark/Location </th>
+                <th>View Report</th>
+                <th>NC Closure </th>
+                <th>Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of ncsReports">
+                <td>{{ client.idNcBeanSa }}</td>
+                <td>{{ client.nc_number_nc_bean_sa }}</td>
+                <td>{{ client.projectNameProjects }}</td>
+                <td>{{ client.tradeNameTrade }}</td>
+                <td>{{ client.nc_closure_comment_nc_bean_sa }}</td>
+                <td>{{ client.statusNcBeanSa }}</td>
+                <td>{{ client.locationNcBeanSa}}</td>
+                <td>View</td>
+                <td>{{ client.ncClosureDateNcBeanSa }}</td>
+
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" (click)="editReport(client.idNcBeanSa)" class="edit-modal add-modal"
+                      data-toggle="modal" data-target="#exampleModalCenter">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
+                    </button>
+                    <button type="text" (click)="deActivateProject(client.projectId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="lar la-trash-alt"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
         </div>
-      </td>
-      <td> 
-        <div class="action-commonview"> 
-          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
-            <span class="edit-tessst"> 
-             <i class="las la-pencil-alt"></i>
-            </span> 
-          </button>
-        </div>
-      </td>
-      <td> 
-        <div class="action-commonview"> 
-          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
-            <span class="edit-tessst"> 
-             <i class="las la-pencil-alt"></i>
-            </span> 
-          </button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-</div>
 
 
-</div>
-<!-- Example DataTables Card-->
+      </div>
+      <!-- Example DataTables Card-->
 
-</div>
-</div>
+    </div>
+  </div>
   <app-footer></app-footer>
-  

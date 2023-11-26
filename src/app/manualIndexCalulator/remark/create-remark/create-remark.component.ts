@@ -14,6 +14,7 @@ export class CreateRemarkComponent implements OnInit {
   snapAuditId: number
   remarkId: number
   remarkFrom: FormGroup
+  submitted:boolean = true;
   constructor(
     private route: ActivatedRoute,
     private clinetService: ClientServiceService,

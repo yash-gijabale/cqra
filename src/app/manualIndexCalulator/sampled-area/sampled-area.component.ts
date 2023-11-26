@@ -25,6 +25,7 @@ export class SampledAreaComponent implements OnInit {
 
   snapAuditId: number;
   sampledAreaData: SampledArea[];
+  submitted:boolean = true;
 
   constructor(
     private route: ActivatedRoute,

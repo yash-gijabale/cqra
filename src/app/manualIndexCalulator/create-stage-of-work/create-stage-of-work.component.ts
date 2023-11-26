@@ -15,6 +15,7 @@ export class CreateStageOfWorkComponent implements OnInit {
   snapAuditId: number
   stageWorkID: number
   stageOfWorkFrom: FormGroup
+  submitted:boolean = true;
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,

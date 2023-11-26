@@ -22,7 +22,7 @@ export class CreateReferenceReportComponent implements OnInit {
   reportForm: FormGroup;
   isLoad:boolean
   buttonLoad: boolean = false;
-
+  submitted:boolean = true;
 
   constructor(
     private route: ActivatedRoute,

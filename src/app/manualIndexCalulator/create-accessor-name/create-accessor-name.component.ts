@@ -22,6 +22,7 @@ export class CreateAccessorNameComponent implements OnInit {
   snapAuditId: number
   assessorId:number
   assessorForm: FormGroup
+  submitted:boolean = true;
 
   constructor(
     private route: ActivatedRoute,

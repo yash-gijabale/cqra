@@ -15,6 +15,8 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   SelProject:any;
   SelStructure:any;
   projects : ProjectData[];
+  submitted:boolean
+  structures:any
 
   constructor(
     private commonServices:CommonService,
@@ -22,6 +24,8 @@ export class AssignConstructorSupervisorComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+
+    this.submitted = true;
     this.commonServices.getAllProject()
     .subscribe(data => {
       console.log('projects--->', data)
@@ -39,6 +43,11 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   getStructure(){
     console.log(this.SelProject)
     
+  }
+
+  onSubmit()
+  {
+    console.log('sibmited')
   }
 
 }

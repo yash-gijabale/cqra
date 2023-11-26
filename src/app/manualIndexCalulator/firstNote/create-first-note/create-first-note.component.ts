@@ -20,6 +20,7 @@ export class CreateFirstNoteComponent implements OnInit {
   isLoad: boolean;
   loader: string;
   buttonLoad: boolean = false;
+  submitted:boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,

@@ -21,6 +21,7 @@ export class CreateInspectionActivityComponent implements OnInit {
   snapAuditId: number
   inspectionActivityID: number
   inspectionActivityFrom : FormGroup
+  submitted
 
   constructor(
     private route: ActivatedRoute,

@@ -93,6 +93,7 @@ export class NcCloserViewReportComponent implements OnInit {
   ncReportId: number;
   ncReportForm: FormGroup;
   trades: Trade[];
+  submitted:boolean
 
   nscReport: NcReportDetails[];
   constructor(
@@ -150,6 +151,9 @@ export class NcCloserViewReportComponent implements OnInit {
     });
   }
 
+  get f() {
+    return this.ncReportForm.controls;
+  }
   onSubmit() {
     console.log(this.ncReportId);
     let id = this.ncReportId;

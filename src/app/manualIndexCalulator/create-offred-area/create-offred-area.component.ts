@@ -21,6 +21,7 @@ export class CreateOffredAreaComponent implements OnInit {
   snapAuditId:number
   offredId:number
   offerdForm:FormGroup
+  submitted:boolean = true;
   constructor(
     private clientService:ClientServiceService,
     private route: ActivatedRoute,

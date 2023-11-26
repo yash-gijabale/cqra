@@ -6,6 +6,7 @@ import { CommonService } from '../common.service';
 import { NcBeanSAView } from '../ncclosure-sa/ncclosure-sa.component';
 import { ProjectData } from '../project/project.component';
 import { TradeMaintanceService } from '../trade-maintance.service';
+import { RegionList, CycleOfInspection, NcBeanData } from '../ncclosure-sa/ncclosure-sa.component';
 
 @Component({
   selector: 'app-nc-approver-sa',
@@ -20,10 +21,18 @@ export class NcApproverSaComponent implements OnInit {
   dtTrigger: Subject<NcBeanSAView> = new Subject();
   projects: ProjectData[];
   cycles;
-  SelCycleId;
+  status;
+  SelCycleId:any;
   trades:any;
   reports:NcBeanSAView[];
   SelProjectId:string="0";
+  selRegion:any
+  SelTradeId:any
+  SelStatusId:any
+
+  regions:RegionList[]
+  cycleOfInspection: CycleOfInspection[]
+  ncsReports: NcBeanData[];
   constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService,private commonService :CommonService) { }
 
 
@@ -32,6 +41,15 @@ export class NcApproverSaComponent implements OnInit {
     this.cycles=[{"cycleId":"0","cycleName":"Please select"},{"cycleId":"1","cycleName":"Monthly"},
     {"cycleId":"2","cycleName":"Quartly"},
     {"cycleId":"3","cycleName":"Annually"},
+  ];
+
+  this.status = [
+    {statusId:'o', statusName:'Open'},
+    {statusId:'IR', statusName:'Send For Review'},
+    {statusId:'RS', statusName:'Sent Back by Reviewer'},
+    {statusId:'AS', statusName:'Sent Back by Approver'},
+    {statusId:'RA', statusName:'Sent for Approval'},
+    {statusId:'c', statusName:'Closed'},
   ];
 
     this.dtOptions = {
@@ -61,6 +79,18 @@ export class NcApproverSaComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     })
+
+    this.commonService.getAllRegions()
+    .subscribe(data => {
+      console.log('region--->', data)
+      this.regions = data;
+    })
+
+    this.commonService.getAllCycleOfInspection()
+    .subscribe(data =>{
+      console.log('cycle of inspection',data)
+      this.cycleOfInspection = data
+    })
   }
 
   getProjectTrades(){
@@ -73,6 +103,16 @@ export class NcApproverSaComponent implements OnInit {
     
     }, (err) => {
       console.log('-----> err', err);
+    })
+  }
+
+  getNCs() 
+  {
+    this.tradeMaintanceService.getNcsByReportId(this.SelProjectId, this.SelTradeId, this.SelStatusId , this.SelCycleId, 'mumbai')
+    .subscribe(data => {
+      console.log(data)
+      this.ncsReports = data
+      this.dtTrigger.next()
     })
   }
 
