@@ -10,7 +10,10 @@ import { UserView } from './users/users.component';
 import { StageData, StructureData } from './wbs/wbs.component';
 import { FirstNote } from './manualIndexCalulator/firstNote/first-note/first-note.component';
 import { RegionList, CycleOfInspection } from './ncclosure-sa/ncclosure-sa.component';
-import { ReturnStatement } from '@angular/compiler';
+import { UserLogDataView } from './user-log/user-log.component';
+import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -39,10 +42,10 @@ export class CommonService {
     return this.httpClient.get<StageData[]>(this.REST_API_SERVER+`/common/getSelectedSubUnits/${clientId}/${projectId}/${structureId}/${stageId}/${unitId}`);
   }
   getRegionalManagers(){
-    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/user/getAllRegionalManager/`);
+    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/user/getAllRegionalManager`);
   }
   getUsers(){
-    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/user/getAllusers/`);
+    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/user/getAllusers`);
   }
 
   getProjects(userId){
@@ -134,6 +137,37 @@ export class CommonService {
   {
     return this.httpClient.get<CycleOfInspection[]>(`${this.REST_API_SERVER}/getCycleOfInspections`)
 
+  }
+
+
+  //USer log
+  getUserLogData(id){
+    return this.httpClient.get<UserLogDataView[]>(`${this.REST_API_SERVER}/getCountViews/${id}`)
+
+  }
+
+  getUserLogAnswers(data): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/getarrayy`, data);
+    
+  }
+
+  addCheckList(data): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/checklist/adddatalist`, data);
+    
+  }
+
+  
+
+  // createStructure(clientData): Observable<ClientServiceService> {
+  //   return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/structure/addStructure`, clientData);
+  // }
+
+  private oldMessage = sessionStorage.getItem('pkId')
+  private message = new BehaviorSubject(this.oldMessage)
+  getMessage = this.message.asObservable();
+
+  setMessage(message:string){
+    this.message.next(message)
   }
  
 

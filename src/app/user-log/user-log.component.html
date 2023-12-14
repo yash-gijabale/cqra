@@ -1,83 +1,123 @@
 <app-header></app-header>
- 
+
 <div class="content-wrapper">
-    <div class="container-fluid ">
-      <div class="add-bg-here">
-        <div class="add-container-viewcommon">
-         <div class="add-breadcrames">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a href="#">Home </a>
-              </li>
-              <li class="breadcrumb-item active">User Log</li>
-            </ol>
-         </div>
-         <div class="main-header_createview">
-            <div class="left-side-header">
-                <div class="create-content-header">
-                  <h1> Create Project </h1>
-                </div>
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">User Log</li>
+          </ol>
+        </div>
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> User Log</h1>
             </div>
-         </div>
-         <div class="create-viewform">
-         
-            <div class="form-group row" style="margin-top:-20px">
-              <label for="fname" class="col-sm-3 col-form-label" style="margin-left:12px;">Regional Manager</label>
-                <div class="col-sm-8 common-ul-li-drop">
-                  <div class="form-group px-0">
-                    <select  [(ngModel)]="SelClientId" #clientId (change)="getProjects();" > 
-                      <option  [value]="0">Please Select</option>
-                      <option [value]="o.userId" *ngFor="let o of users">
-                         {{o.userFullName}}
-                      </option>
-                  </select>
-                  </div>
-                </div>
-            </div>
-
-           <div class="form-group" style="margin-top:-20px">
-                <label >From Date</label>
-                <input style="margin-left:70px;width:410px;" type="date" [(ngModel)]="fromDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectStartDate.errors }" />
-            </div>
-
-            <div class="form-group" style="margin-top:-20px">
-                <label>To Date</label>
-                <input style="margin-left:70px;width:410px;" type="date" [(ngModel)]="toDdate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectEndDate.errors }" />
           </div>
+        </div>
+        <div class="create-viewform">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="fname" class="col-md-12">Regional Manager</label>
+              <select [(ngModel)]="SelClientId" #clientId (change)="getProjects();" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.userId" *ngFor="let o of reginalmanagerUsers">
+                  {{o.userFullName}}
+                </option>
+              </select>
+            </div>
 
-      
-      <div class="form-group row" style="margin-top:-20px">
-        <label for="fname" class="col-sm-3 col-form-label" style="margin-left:12px;">Project</label>
-          <div class="col-sm-8 common-ul-li-drop">
-            <div class="form-group px-0">
-              <select  [(ngModel)]="SelProjectId" multiple > 
+            <div class="form-group col-md-4">
+              <label>From Date</label>
+              <input type="date" [(ngModel)]="fromDate" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectStartDate.errors }" />
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>To Date</label>
+              <input type="date" [(ngModel)]="toDdate" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectEndDate.errors }" />
+            </div>
+
+
+            <div class="form-group col-md-4">
+              <label for="fname" class="col-form-label">Project</label>
+              <select [(ngModel)]="SelProjectId" multiple class="form-control">
                 <option [value]="o.projectId" *ngFor="let o of rProjects">
-                   {{o.projectName}}
+                  {{o.projectName}}
                 </option>
-            </select>
+              </select>
             </div>
-          </div>
-      </div>
 
-      <div class="form-group row" style="margin-top:-20px">
-        <label for="fname" class="col-sm-3 col-form-label" style="margin-left:12px;">Users</label>
-          <div class="col-sm-8 common-ul-li-drop">
-            <div class="form-group px-0">
-              <select  [(ngModel)]="SelRuserId" multiple > 
-                <option [value]="o.userId" *ngFor="let o of rUsers">
-                   {{o.userFullName}}
+            <div class="form-group col-md-4">
+              <label for="fname" class="col-form-label">Users</label>
+              <select [(ngModel)]="SelRuserId" multiple class="form-control">
+                <option [value]="o.userId" *ngFor="let o of users">
+                  {{o.userFullName}}
                 </option>
-            </select>
+              </select>
             </div>
+
+
+            <div class="form-group mt-5">
+              <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+            </div>
+
           </div>
-      </div>
-                                                    
-      
-            <div class="form-group">
-                <button class="btn btn-primary"  (click) = "onSubmit()">Submit</button>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col-xl-12 col-sm-12 mb-3">
+            <div class="main-header_createview">
+              <div class="left-side-header">
+                <div class="create-content-header">
+                  <h1> User Log Details</h1>
+                </div>
+              </div>
             </div>
-        
-         </div>
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+              style="width:100%">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Project Name</th>
+                  <th>Structure Name</th>
+                  <th>Trade Name</th>
+                  <th>Count of Observation</th>
+                  <th>View</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let userLog of userLogDetails">
+                  <td>{{userLog.usernameU}}</td>
+                  <td>{{userLog.projectNameU}}</td>
+                  <td>{{userLog.structureNameU}}</td>
+                  <td>{{userLog.tradeNameU}}</td>
+                  <td>{{userLog.c}}</td>
+                  <td>
+                    <div class="action-commonview">
+                      <button type="text" (click)="getList(userLog.pkAnswerIdU)"
+                        class="edit-modal add-modal" data-toggle="modal" data-target="#exampleModalCenter">
+                        <span class="edit-tessst">
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+
+        </div>
+
       </div>
     </div>
-<app-footer></app-footer>
+    <app-footer></app-footer>

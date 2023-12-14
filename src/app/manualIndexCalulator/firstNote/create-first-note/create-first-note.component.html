@@ -41,24 +41,11 @@
           <form [formGroup]="firstNoteForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
               <label>First Note</label>
-              <input type="text" formControlName="firstNoteText" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Client Name is required</div>
-              </div>
-
+              <input type="text" formControlName="firstNoteText" class="form-control"/>
             </div>
             <div class="form-group">
-              <div *ngIf="buttonLoad;then buttonLoding else buttonDone"></div>
-              <ng-template #buttonLoding>
-                <button class="btn btn-primary" type="button" disabled>
-                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  Saving...
-                </button>
-              </ng-template>
-              <ng-template #buttonDone>
-                <button class="btn btn-primary">Save</button>
-              </ng-template>
+              <button class="btn btn-primary">Save</button>
+              
             </div>
           </form>
         </div>

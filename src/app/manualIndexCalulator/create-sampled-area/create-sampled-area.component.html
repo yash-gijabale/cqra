@@ -28,9 +28,9 @@
         <form [formGroup]="sampledAreaForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Sampled Area</label>
-            <input type="text" formControlName="sampledAreaName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-              <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+            <input type="text" formControlName="sampledAreaName" class="form-control" />
+            <div class="invalid-feedback">
+              <div >Client Name is required</div>
             </div>
           </div>
           <div class="form-group">

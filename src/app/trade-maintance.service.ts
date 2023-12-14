@@ -16,6 +16,8 @@ import { SubgroupData } from './create-subgroup/create-subgroup.component';
 import { QuestionGroupData } from './create-question-group/create-question-group.component';
 import { QuesHeadingData } from './create-question-heading/create-question-heading.component';
 import { NcReportDetails } from './nc-closer-view-report/nc-closer-view-report.component';
+import { CheckListView, EditNcsListView } from './edit-non-conf/edit-non-conf.component';
+import { UserLogDataView } from './user-log/user-log.component';
 
 @Injectable({
   providedIn: 'root'
@@ -192,5 +194,30 @@ export class TradeMaintanceService {
     return this.httpClient.put(`${this.REST_API_SERVER}/updatebyidss/${id}`, data)
 
   }
+
+  //get checklist by trade id
+  getChecklistByTrade(id)
+  {
+    return this.httpClient.get<CheckListView[]>(`${this.REST_API_SERVER}/findbytradeid/${id}`)
+  }
+
+  getQuestiongroupById(id)
+  {
+    return this.httpClient.get<QuestionGroupView[]>(`${this.REST_API_SERVER}/findbyquestongroupid/${id}`)
+  }
+
+  getQuestionById(id)
+  {
+    return this.httpClient.get<Question[]>(`${this.REST_API_SERVER}/findquestonbyid/${id}`)
+  }
+
+  getEditNcsReportList(stageId, date)
+  {
+    return this.httpClient.get<EditNcsListView[]>(`${this.REST_API_SERVER}/getAnswerView/${stageId}/${date}`)
+
+  }
+
+  //USER LOG
+ 
 
 }

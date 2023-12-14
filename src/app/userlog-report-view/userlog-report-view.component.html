@@ -1,0 +1,79 @@
+<app-header></app-header>
+
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">User Log</li>
+          </ol>
+        </div>
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> User Log Report</h1>
+            </div>
+          </div>
+        </div>
+        <div class="create-viewform">
+          <div class="row">
+            <h5 class="col-md-12">User Name:</h5>
+            <h5 class="col-md-12">Project Name:</h5>
+            <h5 class="col-md-12">Structure Name:</h5>
+            <h5 class="col-md-12">Trade Name:</h5>
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col-xl-12 col-sm-12 mb-3">
+            <div class="main-header_createview">
+              <div class="left-side-header">
+                <div class="create-content-header">
+                  <h1> User Log Details</h1>
+                </div>
+              </div>
+            </div>
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+              style="width:100%">
+              <thead>
+                <tr>
+                  <th>Stage </th>
+                  <th>Location</th>
+                  <th>Sub group</th>
+                  <th>Question Group</th>
+                  <th>Question Heading</th>
+                  <th>Question</th>
+                  <th>Remark</th>
+                  <th>Mark Answer</th>
+                  <th>Type of NC</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ans of pkAnswerData">
+                  <td>{{ans.stageNameU}}</td>
+                  <td>{{ans.locationU}}</td>
+                  <td>{{ans.subgroupNameU}}</td>
+                  <td>{{ans.questionGroupTextU}}</td>
+                  <td>{{ans.locationU}}</td>
+                  <td>{{ans.questionTextU}}</td>
+                  <td>{{ans.remarkU}}</td>
+                  <td>{{ans.answerU}}</td>
+                  <td>--</td>
+                  <td>{{ans.ans_date_u}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+    <app-footer></app-footer>

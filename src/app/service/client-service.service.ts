@@ -24,6 +24,8 @@ import { AssessorNameData } from '../manualIndexCalulator/create-accessor-name/c
 import { StageOfWork, StageOfWorkData } from '../manualIndexCalulator/stage-of-work/stage-of-work.component';
 import { Remarks, RemarkData } from '../manualIndexCalulator/remark/remark/remark.component';
 import { EquipmentList, EquipmentData } from '../user-equipment/user-equipment.component';
+import { UserView } from '../user-log/user-log.component';
+import { SamplingData, SamplingView } from '../create-sampling/create-sampling.component';
 
 @Injectable({
   providedIn: 'root'
@@ -341,6 +343,32 @@ updateWquipmentUsedByContractor(equipmentData: EquipmentData, id)
 }
 // EQUIPMENT USED BY CONTRACTOR
 
+
+getRegionalManagers(){
+  return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/user/getAllRegionalManager`);
+}
+
+
+//CRUD FOR SAMPLING 
+createSampling(samplingData: SamplingData): Observable<ClientServiceService> {
+  return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER+'/addSampling', samplingData);
+}
+
+retriveSampling(id)
+{
+  return this.httpClient.get<SamplingData[]>(`${this.REST_API_SERVER}/Sampling/${id}`)
+}
+
+updateSampling(samplingData: SamplingData, id)
+{
+  return this.httpClient.put(`${this.REST_API_SERVER}/Sampling/${id}`, samplingData)
+}
+
+getAllSamplingView()
+{
+  return this.httpClient.get<SamplingView[]>(`${this.REST_API_SERVER}/getSamplingViews`);
+
+}
 
 
 }

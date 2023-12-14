@@ -27,7 +27,7 @@
       </div>
       <div class="create-viewform">
 
-        <form [formGroup]="registerForm" (ngSubmit)="onGetListSubmit()">
+        <form [formGroup]="registerForm">
           <div class="row m-2">
             <div class="form-group col-md-6">
               <label>Select Trade</label>
@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="form-group mx-3">
-            <button class="btn btn-primary">Get List</button>
+            <button class="btn btn-primary" (click)="onGetListSubmit()">Get List</button>
           </div>
 
 

@@ -22,18 +22,18 @@ export class checklistFormTemp {
     public clientName: string,
     public clientId: number,
     public groupId: number
-  ) {}
+  ) { }
 }
 export class Qlist {
-  constructor(public questionId: number, public questionText: string) {}
+  constructor(public questionId: number, public questionText: string) { }
 }
 
 export class QuestionGroup {
-  constructor(public subgroupId: Number, public questions: Qlist[]) {}
+  constructor(public subgroupId: Number, public questions: Qlist[]) { }
 }
 
 export class FinalCheckList {
-  constructor(public formData: checklistFormTemp[], public checkList: Question[]) {}
+  constructor(public formData: checklistFormTemp[], public checkList: Question[]) { }
 }
 
 
@@ -159,10 +159,10 @@ export class CreateChecklistComponent implements OnInit {
     );
 
     this.tradeMaintanceService.getAllSubgroups()
-    .subscribe(data => {
-      console.log(data);
-      this.subgroups = data;
-    })
+      .subscribe(data => {
+        console.log(data);
+        this.subgroups = data;
+      })
 
     this.registerForm = this.formBuilder.group({
       selTrade: ["", Validators.required],
@@ -173,7 +173,7 @@ export class CreateChecklistComponent implements OnInit {
 
     // console.log(this.formData);
 
-    
+
   }
 
   get f() {
@@ -238,13 +238,17 @@ export class CreateChecklistComponent implements OnInit {
     );
   }
   sendCheckList() {
-    console.log(this.formData);
     // this.finalQuestion.length ? console.log(this.finalQuestion) : "";
     let finalCheckList = [{
-      formData : this.getListFormData,
+      formData: this.getListFormData,
       checkList: this.finalQuestion,
     }]
-    console.log( JSON.stringify(finalCheckList));
+    // console.log(JSON.stringify(finalCheckList));
+    this.commonService.addCheckList(finalCheckList)
+      .subscribe(
+        data => console.log(data),
+        err => console.log(err)
+      )
 
   }
 }

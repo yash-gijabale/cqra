@@ -104,6 +104,10 @@ import { CreatEquipUsedByClientComponent } from './manualIndexCalulator/equipUse
 import { EquipUsedByContractorComponent } from './manualIndexCalulator/equipUsedByContractor/equip-used-by-contractor/equip-used-by-contractor.component';
 import { CreateEquipUsedByContractorComponent } from './manualIndexCalulator/equipUsedByContractor/create-equip-used-by-contractor/create-equip-used-by-contractor.component';
 import { NcCloserViewReportComponent } from './nc-closer-view-report/nc-closer-view-report.component';
+import { EditNcTableFormComponent } from './edit-nc-table-form/edit-nc-table-form.component';
+import { UserlogReportViewComponent } from './userlog-report-view/userlog-report-view.component';
+import { SamplingComponent } from './sampling/sampling.component';
+import { CreateSamplingComponent } from './create-sampling/create-sampling.component';
 
 @NgModule({
   declarations: [
@@ -201,7 +205,11 @@ import { NcCloserViewReportComponent } from './nc-closer-view-report/nc-closer-v
     CreatEquipUsedByClientComponent,
     EquipUsedByContractorComponent,
     CreateEquipUsedByContractorComponent,
-    NcCloserViewReportComponent
+    NcCloserViewReportComponent,
+    EditNcTableFormComponent,
+    UserlogReportViewComponent,
+    SamplingComponent,
+    CreateSamplingComponent
   ],
   imports: [
     BrowserModule,
