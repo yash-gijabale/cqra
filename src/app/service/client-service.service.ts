@@ -5,10 +5,10 @@ import { map } from 'rxjs/operators';
 import { ClientData } from '../client/client.component';
 import { FormanData } from '../contractor-forman/contractor-forman.component';
 import { ProjectData } from '../project/project.component';
-import { StructureData } from '../wbs/wbs.component';
-import {ProjectView} from '../project/project.component';
+import { StructureData, StructureFrom } from '../wbs/wbs.component';
+import { ProjectView } from '../project/project.component';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
-import {ContractorData} from '../contractor/contractor.component'
+import { ContractorData } from '../contractor/contractor.component'
 import { clientStaffData } from '../create-client-staff/create-client-staff.component';
 import { FirstNoteData } from '../manualIndexCalulator/firstNote/create-first-note/create-first-note.component';
 import { OffredArea } from '../manualIndexCalulator/offred-area/offred-area.component';
@@ -35,340 +35,353 @@ export class ClientServiceService {
   private REST_API_SERVER = "http://localhost:9090";
   //private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
   constructor(private httpClient: HttpClient) { }
-  getAllClients(){
-    return this.httpClient.get<ClientData[]>(this.REST_API_SERVER+'/getClients');
+  getAllClients() {
+    return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getClients');
   }
   createClient(clientData: ClientData): Observable<ClientServiceService> {
-    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER+'/addClient', clientData);
+    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addClient', clientData);
   }
 
-  retrieveClient(id){
+  retrieveClient(id) {
     return this.httpClient.get<ClientData>(`${this.REST_API_SERVER}/client/${id}`);
   }
 
-  updateClient( clientData:ProjectData, id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/client/${id}` , clientData);
+  updateClient(clientData: ProjectData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/client/${id}`, clientData);
   }
 
-  getAllProject(){
-    return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER+'/project/getAllProjects');
+  deleteClient(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/client/${id}`)
   }
 
-  retrieveProject(id){
+  // PROJECT API CALL
+  getAllProject() {
+    return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER + '/project/getAllProjects');
+  }
+
+  retrieveProject(id) {
     return this.httpClient.get<ProjectData[]>(`${this.REST_API_SERVER}/project/project/${id}`);
   }
 
-  createProject(clientData:ProjectData): Observable<ClientServiceService> {
-    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/project/addProject`, clientData);
+  createProject(project: ProjectData): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/project/addProject/`, project);
   }
- 
-  updateProject( clientData:ProjectData, id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/project/project/${id}` , clientData);
+
+  updateProject(clientData: ProjectData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/project/project/${id}`, clientData);
+  }
+
+  deleteProject(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/project/project/${id}`)
   }
 
 
-  retrieveStructure(id){
+  // PROJECT API CALL
+
+  retrieveStructure(id) {
     return this.httpClient.get<StructureData[]>(`${this.REST_API_SERVER}/structure/structure/${id}`);
   }
 
   createStructure(clientData): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/structure/addStructure`, clientData);
   }
- 
-  updateStructure( clientData:StructureData, id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/structure/structure/${id}` , clientData);
+
+  updateStructure(clientData: StructureFrom, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/structure/structure/${id}`, clientData);
   }
 
-  getAllForemans(){
-    return this.httpClient.get<FormanData[]>(this.REST_API_SERVER+'/getForemans');
+
+  //FOREMAN API CALL
+  getAllForemans() {
+    return this.httpClient.get<FormanData[]>(this.REST_API_SERVER + '/getForemanVs');
   }
 
   createFormeman(clientData: FormanData): Observable<ClientServiceService> {
-    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER+'/addforeman', clientData);
+    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addforeman', clientData);
   }
 
-  retrieveForeman(id){
+  retrieveForeman(id) {
     return this.httpClient.get<FormanData>(`${this.REST_API_SERVER}/foreman/${id}`);
   }
 
-  updateForeman( clientData:FormanData, id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/foreman/${id}` , clientData);
+  updateForeman(clientData: FormanData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/foreman/${id}`, clientData);
   }
-
-  getAllSupervisor(){
-    return this.httpClient.get<SupervisorData[]>(this.REST_API_SERVER+'/getSupervisors');
+  deleteForeman(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/foreman/${id}`)
   }
+  //FOREMAN API CALL
 
+
+
+
+  //CONTRACTOR API CALL
   createContractor(contractorData: ContractorData): Observable<ClientServiceService> {
-    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER+'/addcontractor', contractorData);
+    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addcontractor', contractorData);
   }
 
-  createSupervisor(supervisorData: SupervisorData): Observable<ClientServiceService>{
-    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER+'/addsupervisor', supervisorData);
+  retrieveContractor(id) {
+    return this.httpClient.get<ContractorData[]>(`${this.REST_API_SERVER}/contractor/${id}`)
   }
 
-  retrieveSupervisor(id){
+  updateContractor(contactorDAta: ContractorData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/contractor/${id}`, contactorDAta)
+  }
+
+  deleteContractor(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/contractor/${id}`)
+  }
+
+  //CONTRACTOR API CALL
+
+
+  //SUPERVISOR API CALL
+  getAllSupervisor() {
+    return this.httpClient.get<SupervisorData[]>(this.REST_API_SERVER + '/getSupervisorVss');
+  }
+
+  createSupervisor(supervisorData: SupervisorData): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addsupervisor', supervisorData);
+  }
+
+  retrieveSupervisor(id) {
     return this.httpClient.get<SupervisorData>(`${this.REST_API_SERVER}/supervisor/${id}`);
   }
 
-  updateSupervisor(supervisorData:SupervisorData, id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/supervisor/${id}` , supervisorData);
+  updateSupervisor(supervisorData: SupervisorData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/supervisor/${id}`, supervisorData);
   }
-
-  deleteForeman(id){
-    return this.httpClient.delete(`${this.REST_API_SERVER}/foreman/${id}`)
-  }
-
-  deleteSupervisor(id){
+  deleteSupervisor(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/supervisor/${id}`)
   }
+  //SUPERVISOR API CALL
 
+
+
+  //CLIENT STAFF API CALL
   createClientStaff(clientStaffData: clientStaffData): Observable<ClientServiceService> {
-    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER+'/addclientStaff', clientStaffData);
+    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addclientStaff', clientStaffData);
   }
 
-  getAllClientStaff(){
-    return this.httpClient.get<clientStaffData[]>(this.REST_API_SERVER+'/getClientStaffs');
+  getAllClientStaff() {
+    return this.httpClient.get<clientStaffData[]>(this.REST_API_SERVER + '/getClientStaffs');
   }
 
-  retrieveClientStaff(id){
+  retrieveClientStaff(id) {
     return this.httpClient.get<clientStaffData>(`${this.REST_API_SERVER}/clientStaff/${id}`);
   }
 
-  updateClientStaff(clientStaffData:clientStaffData, id){
+  updateClientStaff(clientStaffData: clientStaffData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/clientStaff/${id}`, clientStaffData)
   }
 
-  addFirstNote(firstNoteData: FirstNoteData): Observable<ClientServiceService> {
-    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER+'/addclientStaff', firstNoteData);
+  deleteClientStaff(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/clientStaff/${id}`)
   }
 
-  retrieveFirstNote(id)
-  {
+  //CLIENT STAFF API CALL
+
+
+  addFirstNote(firstNoteData: FirstNoteData): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addclientStaff', firstNoteData);
+  }
+
+  retrieveFirstNote(id) {
     return this.httpClient.get<FirstNoteData>(`${this.REST_API_SERVER}/firstNote/${id}`);
   }
-  updateFirstNote(firstNote:FirstNoteData, id){
+  updateFirstNote(firstNote: FirstNoteData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/firstNote/${id}`, firstNote)
   }
-  deleteFirstNote(id){
+  deleteFirstNote(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/firstNote/${id}`)
   }
 
-  getAllOfferedArea(){
-    return this.httpClient.get<OffredArea[]>(this.REST_API_SERVER+'/getofferdAreas');
+  getAllOfferedArea() {
+    return this.httpClient.get<OffredArea[]>(this.REST_API_SERVER + '/getofferdAreas');
   }
-  
-  retriveOfferedArea(id)
-  {
+
+  retriveOfferedArea(id) {
     return this.httpClient.get<OffredArea>(`${this.REST_API_SERVER}/offerdArea/${id}`);
   }
 
-  updateOfferedArea(offerdAreaData:offerdAreaData, id)
-  {
+  updateOfferedArea(offerdAreaData: offerdAreaData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/offerdArea/${id}`, offerdAreaData)
 
   }
-  deleteOfferedArea(id){
+  deleteOfferedArea(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/offerdArea/${id}`)
   }
-  getAllSampledArea()
-  {
-    return this.httpClient.get<SampledArea[]>(this.REST_API_SERVER+'/getSampledAreas')
+  getAllSampledArea() {
+    return this.httpClient.get<SampledArea[]>(this.REST_API_SERVER + '/getSampledAreas')
   }
-  
-  retriveSampledArea(id)
-  {
+
+  retriveSampledArea(id) {
     return this.httpClient.get<SampledArea>(`${this.REST_API_SERVER}/sampledArea/${id}`);
   }
 
-  updateSampledArea(sampledAreaData:SampledAreaData, id)
-  {
+  updateSampledArea(sampledAreaData: SampledAreaData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/sampledArea/${id}`, sampledAreaData)
   }
 
-  deleteSampledArea(id)
-  {
+  deleteSampledArea(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/sampledArea/${id}`)
   }
 
-  getAllInspectionActivity()
-  {
-    return this.httpClient.get<InspectionActivity[]>(this.REST_API_SERVER+'/getactivitiesNotAvailableDuringInspections')
+  getAllInspectionActivity() {
+    return this.httpClient.get<InspectionActivity[]>(this.REST_API_SERVER + '/getactivitiesNotAvailableDuringInspections')
   }
 
-  retriveInspectionActivity(id)
-  {
+  retriveInspectionActivity(id) {
     return this.httpClient.get<InspectionActivity[]>(`${this.REST_API_SERVER}/activitiesNotAvailableDuringInspection/${id}`)
   }
 
-  updateInspectionActivity(fromData:InspectionActivityData, id)
-  {
+  updateInspectionActivity(fromData: InspectionActivityData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/activitiesNotAvailableDuringInspection/${id}`, fromData)
   }
 
-  getAllReferenceReport()
-  {
-    return this.httpClient.get<RefereneceReport[]>(this.REST_API_SERVER+'/getReferenceReports')
+  getAllReferenceReport() {
+    return this.httpClient.get<RefereneceReport[]>(this.REST_API_SERVER + '/getReferenceReports')
   }
-  retirveReferenceReport(id)
-  {
+  retirveReferenceReport(id) {
     return this.httpClient.get<RefereneceReport[]>(`${this.REST_API_SERVER}/referenceReports/${id}`)
   }
 
-  updateReferenceNote(report:referenceReportData, id){
+  updateReferenceNote(report: referenceReportData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/referenceReports/${id}`, report)
   }
 
-  deleteReferenceReport(id){
+  deleteReferenceReport(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/referenceReports/${id}`)
   }
 
 
-// ASSESSOR NAME SERVICES
-  getAllAssessorName(id)
-  {
-    return this.httpClient.get<AssessorName[]>(this.REST_API_SERVER+'/assessorsNamebysnapauditid/'+id)
+  // ASSESSOR NAME SERVICES
+  getAllAssessorName(id) {
+    return this.httpClient.get<AssessorName[]>(this.REST_API_SERVER + '/assessorsNamebysnapauditid/' + id)
   }
 
-  retirveAssessor(id)
-  {
-    return this.httpClient.get<AssessorName[]>(this.REST_API_SERVER+'/assessorsName/'+id)
+  retirveAssessor(id) {
+    return this.httpClient.get<AssessorName[]>(this.REST_API_SERVER + '/assessorsName/' + id)
   }
 
-  updateAssessorName(assessorData:AssessorNameData, id)
-  {
+  updateAssessorName(assessorData: AssessorNameData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/assessorsName/${id}`, assessorData)
   }
 
-  deleteAssessorName(id)
-  {
+  deleteAssessorName(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/assessorsName/${id}`)
   }
-// ASSESSOR NAME SERVICES
+  // ASSESSOR NAME SERVICES
 
 
-//STAGE OF WORK
-getAllStageOfWork(id)
-{
-  return this.httpClient.get<StageOfWork[]>(`${this.REST_API_SERVER}/qualityRecommandationbysnapauditid/${id}`)
-}
+  //STAGE OF WORK
+  getAllStageOfWork(id) {
+    return this.httpClient.get<StageOfWork[]>(`${this.REST_API_SERVER}/qualityRecommandationbysnapauditid/${id}`)
+  }
 
-retirveStageOfWork(id)
-{
-  return this.httpClient.get<StageOfWork[]>(`${this.REST_API_SERVER}/qualityRecommandation/${id}`)
+  retirveStageOfWork(id) {
+    return this.httpClient.get<StageOfWork[]>(`${this.REST_API_SERVER}/qualityRecommandation/${id}`)
 
-}
+  }
 
-updateStageOfWork(formData: StageOfWorkData, id)
-{
-  return this.httpClient.put(`${this.REST_API_SERVER}/qualityRecommandation/${id}`, formData)
+  updateStageOfWork(formData: StageOfWorkData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/qualityRecommandation/${id}`, formData)
 
-}
+  }
 
-deleteStageOfWork(id)
-  {
+  deleteStageOfWork(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/qualityRecommandation/${id}`)
   }
-//STAGE OF WORK
+  //STAGE OF WORK
 
 
-//REMARKS (LAST NOTES)
-getRemarks(id)
-{
-  return this.httpClient.get<Remarks[]>(`${this.REST_API_SERVER}/lastNotebysnapauditid/${id}`)
-}
+  //REMARKS (LAST NOTES)
+  getRemarks(id) {
+    return this.httpClient.get<Remarks[]>(`${this.REST_API_SERVER}/lastNotebysnapauditid/${id}`)
+  }
 
-retirveRemark(id)
-{
-  return this.httpClient.get<Remarks[]>(`${this.REST_API_SERVER}/lastNote/${id}`)
-}
+  retirveRemark(id) {
+    return this.httpClient.get<Remarks[]>(`${this.REST_API_SERVER}/lastNote/${id}`)
+  }
 
-updateRemark(remarkData: RemarkData, id)
-{
-  return this.httpClient.put(`${this.REST_API_SERVER}/lastNote/${id}`, remarkData)
-}
-deleteRemark(id)
-  {
+  updateRemark(remarkData: RemarkData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/lastNote/${id}`, remarkData)
+  }
+  deleteRemark(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/lastNote/${id}`)
   }
-//REMARKS (LAST NOTES)
+  //REMARKS (LAST NOTES)
 
-// EQUIPMENT USED BY CQRA
-getEquipUsedByCqra(id)
-{
-  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByCqrabysnapauditid/${id}`)
-}
+  // EQUIPMENT USED BY CQRA
+  getEquipUsedByCqra(id) {
+    return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByCqrabysnapauditid/${id}`)
+  }
 
-retriveEquipment(id)
-{
-  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/EquipmentUsedByCqra/${id}`)
-}
+  retriveEquipment(id) {
+    return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/EquipmentUsedByCqra/${id}`)
+  }
 
-updateWquipment(equipmentData: EquipmentData, id)
-{
-  return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByCqra/${id}`, equipmentData)
-}
-// EQUIPMENT USED BY CQRA
+  updateWquipment(equipmentData: EquipmentData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByCqra/${id}`, equipmentData)
+  }
+  // EQUIPMENT USED BY CQRA
 
 
-// EQUIPMENT USED BY CLIENT
-getEquipUsedByClient(id)
-{
-  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByClientbysnapauditid/${id}`)
-}
-retriveEquipmentUsedByClinet(id)
-{
-  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByClient/${id}`)
-}
-updateWquipmentUsedByClient(equipmentData: EquipmentData, id)
-{
-  return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByClient/${id}`, equipmentData)
-}
-// EQUIPMENT USED BY CLIENT
+  // EQUIPMENT USED BY CLIENT
+  getEquipUsedByClient(id) {
+    return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByClientbysnapauditid/${id}`)
+  }
+  retriveEquipmentUsedByClinet(id) {
+    return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByClient/${id}`)
+  }
+  updateWquipmentUsedByClient(equipmentData: EquipmentData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByClient/${id}`, equipmentData)
+  }
+  // EQUIPMENT USED BY CLIENT
 
 
 
-// EQUIPMENT USED BY CONTRACTOR
-getEquipUsedByContractor(id)
-{
-  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByContractorbysnapauditid/${id}`)
-}
-retriveEquipmentUsedByContractor(id)
-{
-  return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByContractor/${id}`)
-}
-updateWquipmentUsedByContractor(equipmentData: EquipmentData, id)
-{
-  return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByContractor/${id}`, equipmentData)
-}
-// EQUIPMENT USED BY CONTRACTOR
+  // EQUIPMENT USED BY CONTRACTOR
+  getEquipUsedByContractor(id) {
+    return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByContractorbysnapauditid/${id}`)
+  }
+  retriveEquipmentUsedByContractor(id) {
+    return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByContractor/${id}`)
+  }
+  updateWquipmentUsedByContractor(equipmentData: EquipmentData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByContractor/${id}`, equipmentData)
+  }
+  // EQUIPMENT USED BY CONTRACTOR
 
 
-getRegionalManagers(){
-  return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/user/getAllRegionalManager`);
-}
+  getRegionalManagers() {
+    return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/user/getAllRegionalManager`);
+  }
 
 
-//CRUD FOR SAMPLING 
-createSampling(samplingData: SamplingData): Observable<ClientServiceService> {
-  return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER+'/addSampling', samplingData);
-}
+  //SAMPLING API CALL 
+  createSampling(samplingData: SamplingData): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addSampling', samplingData);
+  }
 
-retriveSampling(id)
-{
-  return this.httpClient.get<SamplingData[]>(`${this.REST_API_SERVER}/Sampling/${id}`)
-}
+  retriveSampling(id) {
+    return this.httpClient.get<SamplingData[]>(`${this.REST_API_SERVER}/Sampling/${id}`)
+  }
 
-updateSampling(samplingData: SamplingData, id)
-{
-  return this.httpClient.put(`${this.REST_API_SERVER}/Sampling/${id}`, samplingData)
-}
+  updateSampling(samplingData: SamplingData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Sampling/${id}`, samplingData)
+  }
 
-getAllSamplingView()
-{
-  return this.httpClient.get<SamplingView[]>(`${this.REST_API_SERVER}/getSamplingViews`);
+  getAllSamplingView() {
+    return this.httpClient.get<SamplingView[]>(`${this.REST_API_SERVER}/getSamplingViews`);
 
-}
+  }
+
+  deleteSampling(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/Sampling/${id}`)
+  }
+  //SAMPLING API CALL 
+
 
 
 }

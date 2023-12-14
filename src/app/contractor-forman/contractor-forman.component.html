@@ -30,6 +30,7 @@
   <thead>
     <tr>
       
+      <th>Contractor Name</th>
       <th>Foreman Name</th>
       <th>Actions</th>
     </tr>
@@ -37,8 +38,8 @@
   <tbody>
     <tr *ngFor="let client of forman">
       
+      <td>{{ client.contractorName }}</td>
       <td>{{ client.foremanName }}</td>
-      <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
       <td> 
         <div class="action-commonview"> 
           <button type="text" (click) = "editClient(client.foremanId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 

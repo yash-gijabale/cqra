@@ -13,7 +13,7 @@ export class ContractorSupervisor {
     public contractorId: number,
     public supervisorName: string,
     public isActive: boolean
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -34,7 +34,7 @@ export class CreateContractorSupervisorComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private commanService: CommonService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params["id"];
@@ -67,6 +67,15 @@ export class CreateContractorSupervisorComponent implements OnInit {
   }
 
   onSubmit() {
+
+    this.submitted = true
+
+    if(this.supervisorForm.invalid)
+    {
+      // console.log(this.f.contractorId.errors.required);
+      return;
+    }
+
     console.log("Id==");
     console.log(this.supervisorForm.value);
     if (this.id == -1) {

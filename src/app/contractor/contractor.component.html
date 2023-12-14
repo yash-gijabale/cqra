@@ -46,12 +46,12 @@
       <td>{{ client.contarctorPhone }}</td>
       <td> 
         <div class="action-commonview"> 
-          <button type="text" (click) = "editClient(client.clientId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+          <button type="text" (click) = "editContractor(client.contractorId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
             <span class="edit-tessst"> 
              <i class="las la-pencil-alt"></i>
             </span> 
           </button>
-          <button type="text" (click) = "deActivateClient(client.clientId)" class="Delete-modal"> 
+          <button type="text" (click) = "deleteContractor(client.contractorId)" class="Delete-modal"> 
             <span class="edit-tessst"> 
               <i class="lar la-trash-alt"></i>
             </span> 

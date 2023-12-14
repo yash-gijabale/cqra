@@ -63,23 +63,26 @@ export class CreateContractorFormanComponent implements OnInit {
   }
   onSubmit() {
     this.submitted = true;
+
+    if(this.foremanForm.invalid)
+    {
+      return;
+    }
     console.log("Id==");
-    // let data = {
-    //   clientId: this.clientId,
-    //   name : this.foremanName
-    // }
     console.log(this.foremanForm.value)
     if(this.id == -1){
     this.clientServiceService.createFormeman(this.foremanForm.value)
       .subscribe( data => {
-        this.router.navigate(['contractorForman']);
+        // this.router.navigate(['contractorForman']);
+        console.log('foreman created!')
       });
     }else {
       this.clientServiceService.updateForeman(  this.foremanForm.value,this.id)
       .subscribe (
         data => {
           console.log(data)
-          this.router.navigate(['contractorForman'])
+          console.log('updated!')
+
         }
       )
     }

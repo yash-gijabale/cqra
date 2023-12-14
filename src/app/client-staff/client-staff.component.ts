@@ -21,24 +21,38 @@ export class ClientStaffComponent implements OnInit {
 
   constructor(
     private clientServices: ClientServiceService,
-    private route : ActivatedRoute,
+    private route: ActivatedRoute,
     private router: Router
-    ) {}
+  ) { }
 
   ngOnInit() {
-    // this.dtOptions = {
-    //   pagingType: "full_numbers",
-    //   pageLength: 10,
-    //   lengthMenu: [10, 25, 50],
-    // };
+    this.dtOptions = {
+      pagingType: "full_numbers",
+      pageLength: 10,
+      lengthMenu: [10, 25, 50],
+    };
 
     this.clientServices.getAllClientStaff().subscribe((data) => {
       console.log("ALL Staff==", data);
       this.staffData = data;
+      this.dtTrigger.next()
     });
   }
 
   editClientStaff(id) {
-    this.router.navigate(['createclientStaff',id])
+    this.router.navigate(['createclientStaff', id])
+  }
+  deActivateClient(id) {
+    const isDelete = confirm('Are you sure want to delete ?')
+    if (isDelete) {
+      this.clientServices.deleteClientStaff(id)
+      .subscribe(
+        data => {
+          console.log('deleted !')
+          location.reload();
+        },
+        err => console.log(err)
+      )
+    }
   }
 }

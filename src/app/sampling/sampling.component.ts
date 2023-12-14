@@ -3,6 +3,7 @@ import { ClientServiceService } from '../service/client-service.service';
 import { SamplingView } from '../create-sampling/create-sampling.component';
 import { DataTableDirective } from "angular-datatables";
 import { Subject } from "rxjs";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sampling',
   templateUrl: './sampling.component.html',
@@ -11,14 +12,15 @@ import { Subject } from "rxjs";
 export class SamplingComponent implements OnInit {
 
 
-  allSampling : SamplingView[]
+  allSampling: SamplingView[]
   title = "datatables";
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<SamplingView> = new Subject();
   constructor(
-    private clientService: ClientServiceService
+    private clientService: ClientServiceService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -30,12 +32,30 @@ export class SamplingComponent implements OnInit {
     };
 
     this.clientService.getAllSamplingView()
-    .subscribe(data => {
-      console.log(data)
-      this.allSampling = data
-      this.dtTrigger.next()
-    },
-    err => console.log(err))
+      .subscribe(data => {
+        console.log(data)
+        this.allSampling = data
+        this.dtTrigger.next()
+      },
+        err => console.log(err))
+  }
+
+  editSamplping(id) {
+    this.router.navigate(['createSampling', id])
+  }
+
+  deleteSampling(id) {
+    const isDelete = confirm('Are you sure want to delete?')
+    if (isDelete) {
+      this.clientService.deleteSampling(id)
+        .subscribe(
+          data => {
+            console.log('deleted !')
+            location.reload()
+          },
+          err => console.log(err)
+        )
+    }
   }
 
 }

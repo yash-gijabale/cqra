@@ -4,8 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { CommonService } from '../common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ClientServiceService } from '../service/client-service.service';
 
-export class ContractorData{
+export class ContractorData {
   constructor(
     public contractorId: number,
     public contractorName: string,
@@ -13,7 +14,7 @@ export class ContractorData{
     public contarctorEmail: string,
     public contarctorPhone: string,
     public isActive: boolean
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -28,9 +29,15 @@ export class ContractorComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<ContractorData> = new Subject();
-  
-  contractors:ContractorData[]
-  constructor( private route: ActivatedRoute,private router: Router,private commonService:CommonService,private formBuilder: FormBuilder,) { }
+  // submitted = false;
+  contractors: ContractorData[]
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private commonService: CommonService,
+    private formBuilder: FormBuilder,
+    private clientService: ClientServiceService
+    ) { }
 
 
   ngOnInit() {
@@ -38,18 +45,44 @@ export class ContractorComponent implements OnInit {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      lengthMenu : [ 10, 25, 50]
+      lengthMenu: [10, 25, 50]
     };
 
     this.commonService.getAllContractors().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.contractors= data;
-    
+      this.contractors = data;
+      this.dtTrigger.next();
+
     }, (err) => {
       console.log('-----> err', err);
     })
 
   }
+
+  editContractor(id) {
+
+    this.router.navigate(['createContractor', id])
+
+  }
+
+  deleteContractor(id)
+  {
+    const isdelete = confirm('Are sure want to delete ?')
+    if(isdelete)
+    {
+      this.clientService.deleteContractor(id)
+      .subscribe(
+        data => {
+          console.log('deleted !')
+          location.reload()
+        },
+        err => console.log(err)
+      )
+    }
+
+  }
+
+
 
 
 

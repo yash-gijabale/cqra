@@ -28,21 +28,21 @@
         <form [formGroup]="foremanForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Contractor Name</label>
-            <select formControlName="contractorId" (value)="contractorId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }">
+            <select formControlName="contractorId" (value)="contractorId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contractorId.errors }">
               <option [value]="0">Please Select</option>
               <option [value]="o.contractorId" *ngFor="let o of clients">
                 {{o.contractorName}}
               </option>
             </select>
-            <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-              <div *ngIf="f.clientId.errors.required">Client Name is required</div>
+            <div *ngIf="submitted && f.contractorId.errors" class="invalid-feedback">
+              <div *ngIf="f.contractorId.errors.required">ContractorName is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" formControlName="foremanName" (value)="foremanName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-              <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+            <input type="text" formControlName="foremanName" (value)="foremanName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.foremanName.errors }" />
+            <div *ngIf="submitted && f.foremanName.errors" class="invalid-feedback">
+              <div *ngIf="f.foremanName.errors.required">Foreman Name is required</div>
             </div>
           </div>
          

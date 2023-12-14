@@ -76,7 +76,12 @@
             </div>
             <div class="form-group">
               <label>Project Regional Manager</label>
-              <input type="text" formControlName="projectRegionalManagerId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectRegionalManagerId.errors }" />
+              <select formControlName="projectRegionalManagerId"  > 
+                <option  [value]="0">Please Select</option>
+                <option [value]="o.userId" *ngFor="let o of regionalManagers">
+                   {{o.userFullName}}
+                </option>
+            </select>
               <div *ngIf="submitted && f.projectRegionalManagerId.errors" class="invalid-feedback">
                   <div *ngIf="f.projectRegionalManagerId.errors.required">Regional Manager is required</div>
               </div>
@@ -145,6 +150,7 @@
   <input type="text" formControlName="projectCCmails" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectCCmails.errors }" />
   <div *ngIf="submitted && f.projectCCmails.errors" class="invalid-feedback">
       <div *ngIf="f.projectCCmails.errors.required">Project CC list is required</div>
+      <div *ngIf="f.projectCCmails.errors.email">Must be email required</div>
   </div>
 </div>
 

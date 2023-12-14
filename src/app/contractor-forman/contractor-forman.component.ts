@@ -79,18 +79,6 @@ export class ContractorFormanComponent implements OnInit {
     );
   }
 
-  getContractorName(id) {
-    // this.commanService.getContractorsById('107').subscribe(
-    //   (data) => {
-    //     // console.log("----> office service : get all data", data);
-    //     this.contractor = data;
-    //     return this.contractor.contractorName
-    //   },
-    //   (err) => {
-    //     console.log("-----> err", err);
-    //   }
-    // );
-  }
 
   editClient(id) {
     console.log(`update ${id}`)
@@ -104,7 +92,8 @@ export class ContractorFormanComponent implements OnInit {
       console.log(id)
       this.clientService.deleteForeman(id)
       .subscribe(data=>{
-        this.router.navigate(['contractorForman']);
+        // this.router.navigate(['contractorForman']);
+        location.reload()
 
       },
       (err)=>{

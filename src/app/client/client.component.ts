@@ -60,8 +60,18 @@ export class ClientComponent implements OnInit {
     this.router.navigate(['createClient',id])
   };
 
-  deActivateClient(){
-    alert("delete");
+  deActivateClient(id){
+    const isDelete = confirm('Are you sure want to delete !');
+    if(isDelete){
+      this.clientService.deleteClient(id)
+      .subscribe(
+        data => {
+          console.log('deleted !')
+          location.reload();
+        },
+        err => console.log(err)
+      )
+    }
   }
 
 }

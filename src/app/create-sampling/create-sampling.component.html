@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a [routerLink]="'/firstNote/' + snapAuditId">Manage First Note </a> </button>
+            <button type="button"> <a [routerLink]="'/sampling'">Manage Sampling </a> </button>
           </div>
         </div>
       </div>
@@ -42,66 +42,77 @@
 
             <div class="form-group">
               <label>Trade Group</label>
-              <select formControlName="tradeGroupId" class="form-control">
+              <select formControlName="tradeGroupId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tradeGroupId.errors }">
                 <option [value]="tradegroup.tradegroupId" *ngFor="let tradegroup of tradeGroups">
                   {{tradegroup.tradeGroupName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              <div *ngIf="submitted && f.tradeGroupId.errors" class="invalid-feedback">
+                <div *ngIf="f.tradeGroupId.errors.required">Trade group is required</div>
               </div>
             </div>
 
             <div class="form-group">
               <label>Trade</label>
-              <select formControlName="tradeId" class="form-control">
+              <select formControlName="tradeId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tradeId.errors }">
                 <option [value]="trade.tardeId" *ngFor="let trade of trades">
                   {{trade.tradeName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              <div *ngIf="submitted && f.tradeId.errors" class="invalid-feedback">
+                <div *ngIf="f.tradeId.errors.required">Trade is required</div>
               </div>
             </div>
 
             <div class="form-group">
               <label for="fname" class="col-form-label">Client</label>
               <select class="form-control" formControlName="clientId" [(ngModel)]="SelClientId" #clientId
-                (change)="getProjects()">
+                (change)="getProjects()" [ngClass]="{ 'is-invalid': submitted && f.clientId.errors }">
                 <option [value]="0">Please Select</option>
                 <option [value]="o.clientId" *ngFor="let o of clients">
                   {{o.clientName}}
                 </option>
               </select>
+              <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+                <div *ngIf="f.clientId.errors.required">Client is required</div>
+              </div>
             </div>
 
             <div class="form-group">
               <label>Project Name</label>
-              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()">
+              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control"
+                (change)="getStructure()" [ngClass]="{ 'is-invalid': submitted && f.projectId.errors }">
                 <option [value]="project.projectId" *ngFor="let project of projects">
                   {{project.projectName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              <div *ngIf="submitted && f.projectId.errors" class="invalid-feedback">
+                <div *ngIf="f.projectId.errors.required">Project is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Structure Name</label>
-              <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control">
+              <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.structureId.errors }">
                 <option [value]="0">Please Select</option>
                 <option [value]="o.structureId" *ngFor="let o of structures">
                   {{o.structureName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
-                <div *ngIf="f.selStructure.errors.required">Structure is required</div>
+              <div *ngIf="submitted && f.structureId.errors" class="invalid-feedback">
+                <div *ngIf="f.structureId.errors.required">Structure is required</div>
               </div>
             </div>
 
             <div class="form-group">
               <label>Persentage %</label>
-              <input type="text" formControlName="completePercentage" class="form-control">
+              <input type="text" formControlName="completePercentage" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.completePercentage.errors }">
+              <div *ngIf="submitted && f.completePercentage.errors" class="invalid-feedback">
+                <div *ngIf="f.completePercentage.errors.required">Persantage % is required</div>
+              </div>
             </div>
 
             <div class="form-group">

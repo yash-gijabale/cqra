@@ -1,16 +1,16 @@
-import { Component,ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { ClientServiceService } from '../service/client-service.service';
 
-export class ProjectData{
+export class ProjectData {
   constructor(
-    public clientId:number,
+    public clientId: number,
     public projectName: string,
     public projectCode: string,
     public projectAddress: string,
-    public projectCity:string,
+    public projectCity: string,
     public projectKValue: string,
     public projectRegionalManagerId: string,
     public projectStartDate: string,
@@ -21,19 +21,19 @@ export class ProjectData{
     public projectCCmails: string,
     public projectAutoNCOpen: string,
     public projectAutoNCOpenWithEmail: string
-  ){
+  ) {
 
   }
 }
 
-export class ProjectView{
+export class ProjectView {
   constructor(
-    public projectId:string,
+    public projectId: string,
     public projectName: string,
     public clientName: string,
-    public projectCity:string,
-    
-  ){
+    public projectCity: string,
+
+  ) {
 
   }
 }
@@ -51,39 +51,51 @@ export class ProjectComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<ProjectView> = new Subject();
 
-  projects:ProjectData[];
-  ProjectViews:ProjectView[];
+  projects: ProjectData[];
+  ProjectViews: ProjectView[];
 
-  constructor(private clientService:ClientServiceService,private router: Router) { }
+  constructor(private clientService: ClientServiceService, private router: Router) { }
 
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      lengthMenu : [ 10, 25,50]
+      lengthMenu: [10, 25, 50]
     };
 
-  
+
     this.clientService.getAllProject().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.ProjectViews= data;
-    
+      this.ProjectViews = data;
+
       // ADD THIS
       this.dtTrigger.next();
-    
+
     }, (err) => {
       console.log('-----> err', err);
     });
-    
+
   }
 
   editProject(id) {
     console.log(`update ${id}`)
-    this.router.navigate(['createProject',id])
+    this.router.navigate(['createProject', id])
   };
 
-  deActivateClient(){
+  deActivateProject(id) {
     alert("delete");
+    const isDelete = confirm('Are you sure want to delete !')
+    if (isDelete) {
+      this.clientService.deleteProject(id)
+        .subscribe(
+          data => {
+            console.log('deleted !')
+            location.reload();
+          },
+          err => console.log(err)
+        )
+    }
   }
-
 }
+
+

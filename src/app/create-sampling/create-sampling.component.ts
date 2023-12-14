@@ -20,7 +20,7 @@ export class SamplingData {
   ) { }
 }
 
-export class SamplingView{
+export class SamplingView {
   constructor(
     public idU: number,
     public tradeGroupTextU: string,
@@ -28,8 +28,7 @@ export class SamplingView{
     public structureNameU: string,
     public projectNameU: String,
     public tradeNameU: string
-  )
-  {}
+  ) { }
 }
 
 @Component({
@@ -48,6 +47,7 @@ export class CreateSamplingComponent implements OnInit {
   structures: any
   SelClientId: any
   SelProject: any
+  submitted = false
 
   constructor(
     private commanService: CommonService,
@@ -135,6 +135,13 @@ export class CreateSamplingComponent implements OnInit {
   }
 
   onSubmit() {
+
+    this.submitted = true;
+
+    if (this.samplingForm.invalid) {
+      return;
+    }
+
     let formData = {
       projectId: this.samplingForm.value.projectId,
       tradeGroupId: this.samplingForm.value.tradeGroupId,

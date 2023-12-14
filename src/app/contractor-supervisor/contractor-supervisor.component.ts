@@ -56,6 +56,7 @@ export class ContractorSupervisorComponent implements OnInit {
     this.clientServiceService.getAllSupervisor().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.clients= data;
+      this.dtTrigger.next()
     }, (err) => {
       console.log('-----> err', err);
     })
@@ -73,8 +74,8 @@ export class ContractorSupervisorComponent implements OnInit {
       console.log(id)
       this.clientServiceService.deleteSupervisor(id)
       .subscribe(data=>{
-        this.router.navigate(['contractorForman']);
-
+        this.router.navigate(['contractorSupervisor']);
+        location.reload()
       },
       (err)=>{
         console.log(err)

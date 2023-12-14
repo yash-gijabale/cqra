@@ -40,32 +40,33 @@
           </div>
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" formControlName="contractorName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                    <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+                <input type="text" formControlName="contractorName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.contractorName.errors }" />
+                <div *ngIf="submitted && f.contractorName.errors" class="invalid-feedback">
+                    <div *ngIf="f.contractorName.errors.required">Contractor Name is required</div>
                 </div>
             </div>
             <div class="form-group">
               <label>Address</label>
-              <textarea formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" ></textarea>
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientName.errors.required">Address is required</div>
+              <textarea formControlName="contarctorAddress" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contarctorAddress.errors }" ></textarea>
+              <div *ngIf="submitted && f.contarctorAddress.errors" class="invalid-feedback">
+                  <div *ngIf="f.contarctorAddress.errors.required">Address is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="email" formControlName="contractorEmail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientEmail.errors }" />
-              <div *ngIf="submitted && f.clientEmail.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientEmail.errors.required">Email is required</div>
-                  <div *ngIf="f.clientEmail.errors.email">Email must be a valid email address</div>
+              <input type="email" formControlName="contarctorEmail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contarctorEmail.errors }" />
+              <div *ngIf="submitted && f.contarctorEmail.errors" class="invalid-feedback">
+                  <div *ngIf="f.contarctorEmail.errors.required">Email is required</div>
+                  <div *ngIf="f.contarctorEmail.errors.email">Email must be a valid email address</div>
               </div>
           </div>
           <div class="form-group">
             <label>Phone No</label>
-            <input type="text" formControlName="contractorPhone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientEmail.errors }" />
-            <div *ngIf="submitted && f.clientEmail.errors" class="invalid-feedback">
-                <div *ngIf="f.clientEmail.errors.required">Email is required</div>
-                <div *ngIf="f.clientEmail.errors.email">Email must be a valid email address</div>
+            <input type="text" formControlName="contarctorPhone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contarctorPhone.errors }" />
+            <div *ngIf="submitted && f.contarctorPhone.errors" class="invalid-feedback">
+                <div *ngIf="f.contarctorPhone.errors.required">Phone number is required</div>
+                <div *ngIf="f.contarctorPhone.errors">Must be 10 char</div>
+
             </div>
           </div>
           <div class="form-group">

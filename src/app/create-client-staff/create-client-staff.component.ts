@@ -29,10 +29,10 @@ export class clientStaffData {
 export class CreateClientStaffComponent implements OnInit {
   clients: ClientData[];
   clientStaffForm: FormGroup;
-  SelClientId: string = "0";
+  SelClientId: string;
   projects: ProjectData[];
   id: number;
-  submitted:boolean
+  submitted=false
 
   constructor(
     private clientServiceService: ClientServiceService,
@@ -65,8 +65,8 @@ export class CreateClientStaffComponent implements OnInit {
       projectId: ["", Validators.required],
       clientName: ["", Validators.required],
       designation: ["", Validators.required],
-      email: ["", Validators.required],
-      phone: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]],
+      phone: ["", [Validators.required, Validators.minLength(10)]],
       level: ["", Validators.required],
     });
   }
@@ -77,6 +77,10 @@ export class CreateClientStaffComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    if(this.clientStaffForm.invalid)
+    {
+      return;
+    }
     console.log(this.clientStaffForm.value);
     if(this.id == -1){
       this.clientServiceService.createClientStaff(this.clientStaffForm.value)
