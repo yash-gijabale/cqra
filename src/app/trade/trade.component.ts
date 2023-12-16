@@ -3,16 +3,16 @@ import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { TradeMaintanceService } from '../trade-maintance.service';
- 
 
-export class Trade{
+
+export class Trade {
   constructor(
-    public tardeId:number,
+    public tardeId: number,
     public tradegroupId: number,
-    public tradeName:string,
+    public tradeName: string,
     public status: boolean
-    
-  ){
+
+  ) {
 
   }
 }
@@ -29,45 +29,42 @@ export class TradeComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<Trade> = new Subject();
 
-  trades:Trade[];
+  trades: Trade[];
 
-  constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
+  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.dtOptions = {
-    pagingType: 'full_numbers',
-    pageLength: 5,
-    lengthMenu : [5, 10, 25]
-  };
+      pagingType: 'full_numbers',
+      pageLength: 5,
+      lengthMenu: [5, 10, 25]
+    };
 
-  this.tradeMaintanceService.getAllTrades().subscribe((data) => {
-    console.log('----> office service : get all data', data);
-    this.trades= data;
-  
-    // ADD THIS
-    this.dtTrigger.next();
-  
-  }, (err) => {
-    console.log('-----> err', err);
-  })
+    this.tradeMaintanceService.getAllTrades().subscribe((data) => {
+      console.log('----> office service : get all data', data);
+      this.trades = data;
+
+      // ADD THIS
+      this.dtTrigger.next();
+
+    }, (err) => {
+      console.log('-----> err', err);
+    })
   }
 
-  editTrade(id)
-  {
+  editTrade(id) {
     this.router.navigate(['createTrade', id])
   }
 
-  deActivate(id)
-  {
+  deActivate(id) {
     let isDelete = confirm('Are you sure want to delete')
-    if(isDelete)
-    {
+    if (isDelete) {
       this.tradeMaintanceService.deleteTrade(id)
-      .subscribe(data => {
-        console.log('deleted')
-        location.reload()
-      }, (err) => console.log(err))
+        .subscribe(data => {
+          console.log('deleted')
+          location.reload()
+        }, (err) => console.log(err))
     }
   }
- 
+
 }

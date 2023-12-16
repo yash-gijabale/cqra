@@ -12,7 +12,7 @@ export class QuestionGroupData {
     public tardeId: number,
     public subgroupId: number,
     public questionGroupText: number
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -33,7 +33,7 @@ export class CreateQuestionGroupComponent implements OnInit {
     private router: Router,
     private tradeMaintanceService: TradeMaintanceService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.questionGroupId = this.route.snapshot.params["id"];
@@ -78,6 +78,10 @@ export class CreateQuestionGroupComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true
+    if (this.registerForm.invalid) {
+      return
+    }
     console.log("Id==");
     console.log(this.registerForm.value);
 
@@ -90,9 +94,9 @@ export class CreateQuestionGroupComponent implements OnInit {
       };
 
       this.tradeMaintanceService.updateQuestionGroup(formData, this.questionGroupId)
-      .subscribe(data =>{
-        console.log('updated-->', data)
-      }, err => console.log(err))
+        .subscribe(data => {
+          console.log('updated-->', data)
+        }, err => console.log(err))
 
     } else {
       this.tradeMaintanceService

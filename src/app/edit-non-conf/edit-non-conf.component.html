@@ -71,9 +71,7 @@
             <select class="form-control col-md-12" [(ngModel)]="SelTradeId" (change)="getChecklist()">
               <option [value]="trade.tardeId" *ngFor="let trade of allTrades">{{trade.tradeName}}</option>
             </select>
-            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
-              <div *ngIf="f.selTrade.errors.required">Trade is required</div>
-            </div>
+           
           </div>
 
           <div class="form-group col-md-4">
@@ -114,14 +112,12 @@
 
           <div class="form-group col-md-4">
             <label>From Date</label>
-            <input  type="date" [(ngModel)]="fromDate" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectStartDate.errors }" />
+            <input  type="date" [(ngModel)]="fromDate" class="form-control"/>
           </div>
 
           <div class="form-group col-md-4">
             <label>To Date</label>
-            <input  type="date" [(ngModel)]="toDdate" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectEndDate.errors }" />
+            <input  type="date" [(ngModel)]="toDdate" class="form-control" />
           </div>
 
 

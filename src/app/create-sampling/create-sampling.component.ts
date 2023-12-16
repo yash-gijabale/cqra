@@ -45,6 +45,7 @@ export class CreateSamplingComponent implements OnInit {
   trades: Trade[]
   samplingForm: FormGroup;
   structures: any
+  SelStructure:any
   SelClientId: any
   SelProject: any
   submitted = false

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { ClientData } from '../client/client.component';
 import { FormanData } from '../contractor-forman/contractor-forman.component';
 import { ProjectData } from '../project/project.component';
-import { StructureData, StructureFrom } from '../wbs/wbs.component';
+import { StageData, StructureData, StructureFrom, UnitData, SubunitData } from '../wbs/wbs.component';
 import { ProjectView } from '../project/project.component';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
 import { ContractorData } from '../contractor/contractor.component'
@@ -74,10 +74,10 @@ export class ClientServiceService {
   deleteProject(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/project/project/${id}`)
   }
-
-
   // PROJECT API CALL
 
+
+  //STRUCTURE API CALL
   retrieveStructure(id) {
     return this.httpClient.get<StructureData[]>(`${this.REST_API_SERVER}/structure/structure/${id}`);
   }
@@ -89,6 +89,69 @@ export class ClientServiceService {
   updateStructure(clientData: StructureFrom, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/structure/structure/${id}`, clientData);
   }
+
+  deleteStructure(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/structure/structure/${id}`)
+  }
+  //STRUCTURE API CALL
+
+
+  //SATGE API CALL
+  createStage(clientData): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/stage/addStage`, clientData);
+  }
+
+  retrieveStage(id) {
+    return this.httpClient.get<StageData>(`${this.REST_API_SERVER}/stage/stage/${id}`)
+  }
+
+  updateStage(data: StageData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/stage/stage/${id}`, data)
+  }
+
+  deleteStage(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/stage/stage/${id}`)
+  }
+  //SATGE API CALL
+
+
+  //UNIT API CALL
+  createUnit(unitData): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/unit/addUnit`, unitData);
+  }
+
+  retrieveUnit(id) {
+    return this.httpClient.get<UnitData>(`${this.REST_API_SERVER}/unit/unit/${id}`)
+  }
+
+  updateUnits(data: UnitData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/unit/unit/${id}`, data)
+  }
+
+  deleteUnit(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/unit/unit/${id}`)
+  }
+  //UNIT API CALL
+
+
+  //SUBUNIT API CALL
+  createSubunit(subunitData): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/subunit/addSubunit`, subunitData)
+  }
+
+  retrieveSubunit(id) {
+    return this.httpClient.get<SubunitData>(`${this.REST_API_SERVER}/subunit/subunit/${id}`)
+  }
+
+  updateSubunit(data: SubunitData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/subunit/subunit/${id}`, data)
+  }
+
+  deleteSubunit(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/subunit/subunit/${id}`)
+  }
+  //SUBUNIT API CALL
+
 
 
   //FOREMAN API CALL

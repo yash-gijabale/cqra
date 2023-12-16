@@ -28,22 +28,22 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Select Trade</label>
-            <select formControlName="tardeId" class="form-control">
+            <select formControlName="tardeId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }">
               <option [value]="0">Please Select</option>
               <option [value]="o.tardeId" *ngFor="let o of trades">
                 {{o.tradeName}}
               </option>
             </select>
-            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
-              <div *ngIf="f.selTrade.errors.required">Trade Group is required</div>
+            <div *ngIf="submitted && f.tardeId.errors" class="invalid-feedback">
+              <div *ngIf="f.tardeId.errors.required">Trade is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Name</label>
             <input type="text" formControlName="subgroupName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-              <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+              [ngClass]="{ 'is-invalid': submitted && f.subgroupName.errors }" />
+            <div *ngIf="submitted && f.subgroupName.errors" class="invalid-feedback">
+              <div *ngIf="f.subgroupName.errors.required">subgroup name is required</div>
             </div>
           </div>
           <!-- <div class="form-group">

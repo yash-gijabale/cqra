@@ -28,23 +28,23 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label>Trade Name</label>
-                <input type="text" formControlName="tradeName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                    <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+                <input type="text" formControlName="tradeName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+                <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
+                    <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
                 </div>
             </div>
             <div class="form-group">
               <label>Trade Description</label>
-              <input type="text" formControlName="discription" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientName.errors.required">Trade Description is required</div>
+              <input type="text" formControlName="discription" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.discription.errors }" />
+              <div *ngIf="submitted && f.discription.errors" class="invalid-feedback">
+                  <div *ngIf="f.discription.errors.required">Trade Description is required</div>
               </div>
             </div>
           <div class="form-group">
             <label>Key Result Areas</label>
-            <input type="text" formControlName="keyResultArea" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Key Result Areas is required</div>
+            <input type="text" formControlName="keyResultArea" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.keyResultArea.errors }" />
+            <div *ngIf="submitted && f.keyResultArea.errors" class="invalid-feedback">
+                <div *ngIf="f.keyResultArea.errors.required">Key Result Areas is required</div>
             </div>
           </div>
           <div class="form-group">
@@ -55,8 +55,8 @@
                     {{o.tradeGroupName}}
                   </option>
               </select>
-              <div *ngIf="submitted && f.selTradeGp.errors" class="invalid-feedback">
-                  <div *ngIf="f.selTradeGp.errors.required">Trade Group is required</div>
+              <div *ngIf="submitted && f.tradegroupId.errors" class="invalid-feedback">
+                  <div *ngIf="f.tradegroupId.errors.required">Trade Group is required</div>
               </div>
           </div>
             <div class="form-group">

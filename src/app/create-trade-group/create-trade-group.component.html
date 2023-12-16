@@ -28,9 +28,9 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label>Trade Group Name</label>
-                <input type="text" formControlName="tradeGroupName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                    <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+                <input type="text" formControlName="tradeGroupName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.tradeGroupName.errors }" />
+                <div *ngIf="submitted && f.tradeGroupName.errors" class="invalid-feedback">
+                    <div *ngIf="f.tradeGroupName.errors.required">TradeGroup Name is required</div>
                 </div>
             </div>
             <div class="form-group">

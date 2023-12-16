@@ -6,6 +6,7 @@ import { CommonService } from '../common.service';
 import { ProjectData } from '../project/project.component';
 import { ClientServiceService } from '../service/client-service.service';
 import { first } from 'rxjs/operators';
+import { data, event } from 'jquery';
 
 export class StructureData {
   constructor(
@@ -33,12 +34,33 @@ export class StageData {
   constructor(
     public clientId: number,
     public projectId: number,
-    public structureId: number,
-    public stageId: number,
+    public structureId: string,
+    public stageId: string,
     public stageName: string
-  ) {
+  ) { }
+}
 
-  }
+export class UnitData {
+  constructor(
+    public clientId: number,
+    public projectId: number,
+    public structureId: string,
+    public stageId: string,
+    public unitId: string,
+    public unitName: string
+  ) { }
+}
+
+export class SubunitData {
+  constructor(
+    public clientId: number,
+    public projectId: number,
+    public structureId: string,
+    public stageId: string,
+    public unitId: string,
+    public subunitId: string,
+    public subunitName: string
+  ) { }
 }
 
 @Component({
@@ -54,6 +76,9 @@ export class WbsComponent implements OnInit {
   registerForm: FormGroup;
 
   strctureForm: FormGroup
+  stageForm: FormGroup
+  unitForm: FormGroup
+  subunitForm: FormGroup
 
   structures: any;
   stages: any;
@@ -62,6 +87,7 @@ export class WbsComponent implements OnInit {
   structureSel: string;
   stageSel: string;
   unitSel: string;
+  subunitSel: string;
   subunits: any;
   isUpdate = false;
   // structure Edit
@@ -93,9 +119,24 @@ export class WbsComponent implements OnInit {
       structureName: ['', Validators.required],
       structureCode: ['', Validators.required],
     })
+
+    this.stageForm = this.formBuilder.group({
+      stageName: ['', Validators.required]
+    })
+
+    this.unitForm = this.formBuilder.group({
+      unitName: ['', Validators.required]
+    })
+
+    this.subunitForm = this.formBuilder.group({
+      subunitName: ['', Validators.required]
+    })
   }
   get f() { return this.registerForm.controls; }
   get s() { return this.strctureForm.controls; }
+  get stage() { return this.stageForm.controls; }
+  get unit() { return this.unitForm.controls; }
+  get subunit() { return this.subunitForm.controls; }
 
   changeStatus(id) {
     if (id === 1) {
@@ -166,6 +207,13 @@ export class WbsComponent implements OnInit {
           }, (err) => {
             console.log('-----> err', err);
           })
+
+      this.clientServiceService.retrieveStage(this.stageSel)
+        .pipe(first())
+        .subscribe(
+          data => this.stageForm.patchValue(data),
+          err => console.log(err)
+        )
     }
   }
 
@@ -182,7 +230,23 @@ export class WbsComponent implements OnInit {
           }, (err) => {
             console.log('-----> err', err);
           })
+
+      this.clientServiceService.retrieveUnit(this.unitSel)
+        .subscribe(
+          data => this.unitForm.patchValue(data),
+          err => console.log(err)
+        )
     }
+  }
+
+  isSubunitSelectionchange(event, id: string) {
+    console.log("Subunit Id" + id)
+    this.subunitSel = id;
+    this.clientServiceService.retrieveSubunit(id)
+      .subscribe(
+        data => this.subunitForm.patchValue(data),
+        err => console.log(err)
+      )
   }
 
   onSubmit(structureCode: string, structureName: string, clientId: string, projectId: string) {
@@ -214,7 +278,7 @@ export class WbsComponent implements OnInit {
     }
     // console.log(formData)
     if (this.isUpdate) {
-      let updateForm = {...formData, structureId:this.structureSel}
+      let updateForm = { ...formData, structureId: this.structureSel }
       console.log(updateForm);
       this.clientServiceService.updateStructure(updateForm, this.structureSel)
         .subscribe(
@@ -229,9 +293,243 @@ export class WbsComponent implements OnInit {
         .subscribe(
           data => {
             console.log('created structure', data)
+            this.getStructures()
+
           },
           err => console.log(err)
         )
     }
   }
+
+  deleteStructure() {
+    const isDelete = confirm('Are you sure want to delete ?')
+    if (isDelete) {
+      console.log('delete structure--->', this.structureSel)
+      this.clientServiceService.deleteStructure(this.structureSel)
+        .subscribe(
+          data => {
+            console.log('deleted')
+            this.getStructures()
+            this.isChecked = false
+          },
+          err => console.log(err)
+        )
+    }
+
+  }
+
+  onStageSubmit() {
+    const formData = {
+      projectId: this.SelProjectId,
+      clientId: this.SelClientId,
+      structureId: this.structureSel,
+      stageName: this.stageForm.value.stageName
+    }
+    console.log(formData);
+    if (this.isUpdate) {
+      let updateFomData = { ...formData, stageId: this.stageSel }
+      this.clientServiceService.updateStage(updateFomData, this.stageSel)
+        .subscribe(
+          data => {
+            console.log('updated')
+            this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel)
+              .subscribe(
+                (data) => {
+                  this.stages = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
+          },
+          err => console.log(err)
+        )
+
+    } else {
+      this.clientServiceService.createStage(formData)
+        .subscribe(
+          data => {
+            console.log('added', data)
+            this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel)
+              .subscribe(
+                (data) => {
+                  this.stages = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
+          },
+          err => console.log(err)
+        )
+    }
+  }
+
+  deleteStage() {
+    const isDelete = confirm('Are you sure want to delete ?')
+    if (isDelete) {
+      this.clientServiceService.deleteStage(this.stageSel)
+        .subscribe(
+          data => {
+            console.log('deleted stage')
+            this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel)
+              .subscribe(
+                (data) => {
+                  this.stages = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
+          },
+          err => console.log(err)
+        )
+    }
+
+  }
+
+
+  onUnitSubmit() {
+    const formData = {
+      projectId: this.SelProjectId,
+      clientId: this.SelClientId,
+      structureId: this.structureSel,
+      stageId: this.stageSel,
+      unitName: this.unitForm.value.unitName
+    }
+    if (this.isUpdate) {
+
+      let updateFomData = { ...formData, unitId: this.unitSel }
+      this.clientServiceService.updateUnits(updateFomData, this.unitSel)
+        .subscribe(
+          data => {
+            console.log('updated', data)
+            this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel)
+              .subscribe(
+                (data) => {
+                  // console.log('client Data==', data)
+                  this.units = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
+          },
+          err => console.log(err)
+        )
+
+    } else {
+
+      this.clientServiceService.createUnit(formData)
+        .subscribe(
+          data => {
+            console.log('added unit---->', data)
+            this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel)
+              .subscribe(
+                (data) => {
+                  // console.log('client Data==', data)
+                  this.units = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
+          }
+
+        )
+    }
+    console.log(formData)
+  }
+
+  deleteUnit() {
+    const isDelete = confirm('Are You sure eant to delete ?')
+    if (isDelete) {
+      this.clientServiceService.deleteUnit(this.unitSel)
+        .subscribe(
+          data => {
+            console.log('deleted')
+            this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel)
+              .subscribe(
+                (data) => {
+                  // console.log('client Data==', data)
+                  this.units = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
+          },
+          err => console.log(err)
+        )
+    }
+  }
+
+
+  onSubunitSubmit() {
+    const formData = {
+      projectId: this.SelProjectId,
+      clientId: this.SelClientId,
+      structureId: this.structureSel,
+      stageId: this.stageSel,
+      unitId: this.unitSel,
+      subunitName: this.subunitForm.value.subunitName
+    }
+
+    console.log(formData)
+    if (this.isUpdate) {
+      let updateFomData = { ...formData, subunitId: this.subunitSel }
+      this.clientServiceService.updateSubunit(updateFomData, this.subunitSel)
+        .subscribe(
+          data => {
+            console.log('uopdted subunit', data)
+            this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel)
+            .subscribe(
+              (data) => {
+                console.log('client Data==', data)
+                this.subunits = data;
+    
+              }, (err) => {
+                console.log('-----> err', err);
+              })
+          },
+          err => {
+            console.log(err)
+          }
+        )
+    } else {
+      this.clientServiceService.createSubunit(formData)
+        .subscribe(
+          data => {
+            console.log('added subunit')
+            this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel)
+            .subscribe(
+              (data) => {
+                console.log('client Data==', data)
+                this.subunits = data;
+    
+              }, (err) => {
+                console.log('-----> err', err);
+              })
+          },
+          err => console.log(err)
+        )
+    }
+
+  }
+
+  deleteSubunit() {
+    if (this.subunitSel) {
+      this.clientServiceService.deleteSubunit(this.subunitSel)
+        .subscribe(
+          data => {
+            console.log('deleted subunit')
+            this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel)
+              .subscribe(
+                (data) => {
+                  console.log('client Data==', data)
+                  this.subunits = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
+          },
+          err => console.log(err)
+        )
+    }
+  }
+
 }

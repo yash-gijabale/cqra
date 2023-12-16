@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TradeMaintanceService } from '../trade-maintance.service';
 import { ActivatedRoute } from '@angular/router';
-import {first} from 'rxjs/operators'
+import { first } from 'rxjs/operators'
 
 @Component({
   selector: 'app-create-trade-group',
@@ -13,7 +13,7 @@ export class CreateTradeGroupComponent implements OnInit {
 
   registerForm: FormGroup;
   submitted = false;
-  tradeGroupId:number
+  tradeGroupId: number
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,13 +24,12 @@ export class CreateTradeGroupComponent implements OnInit {
   ngOnInit() {
     this.tradeGroupId = this.route.snapshot.params['id']
     console.log(this.tradeGroupId)
-    if(this.tradeGroupId != -1)
-    {
+    if (this.tradeGroupId != -1) {
       this.tradeService.retriveTradeGroup(this.tradeGroupId)
-      .pipe(first())
-      .subscribe(data => {
-        this.registerForm.patchValue(data)
-      })
+        .pipe(first())
+        .subscribe(data => {
+          this.registerForm.patchValue(data)
+        })
     }
 
     this.registerForm = this.formBuilder.group({
@@ -41,23 +40,29 @@ export class CreateTradeGroupComponent implements OnInit {
   get f() { return this.registerForm.controls; }
 
   onSubmit() {
-      console.log("Id==");
-      console.log(this.registerForm.value)
+    this.submitted = true
+    console.log("Id==");
+    console.log(this.registerForm.value)
+    if(this.registerForm.invalid){
+      return;
+    }
+    let formData = {...this.registerForm.value, tradegroupId: this.tradeGroupId}
 
-      if(this.tradeGroupId === -1)
-      {
-        this.tradeService.createTradeGroup(this.registerForm.value)
-        .subscribe(data => {
-          console.log(data)
-        })
-      }else{
-        this.tradeService.updateTradeGroup(this.registerForm.value, this.tradeGroupId)
+    if (this.tradeGroupId != -1) {
+      this.tradeService.updateTradeGroup(formData, this.tradeGroupId)
         .subscribe(data => {
           console.log('updates')
 
         })
-      }
-     
+
+    } else {
+
+      this.tradeService.createTradeGroup(this.registerForm.value)
+        .subscribe(data => {
+          console.log(data)
+        })
     }
+
+  }
 
 }

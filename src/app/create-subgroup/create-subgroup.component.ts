@@ -10,7 +10,7 @@ export class SubgroupData {
     public subgroupId: number,
     public tardeId: number,
     public subgroupName: number
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -30,7 +30,7 @@ export class CreateSubgroupComponent implements OnInit {
     private router: Router,
     private tradeMaintanceService: TradeMaintanceService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.subgroupId = this.route.snapshot.params["id"];
@@ -65,6 +65,10 @@ export class CreateSubgroupComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true
+    if (this.registerForm.invalid) { 
+      return;
+    }
     console.log("Id==");
     console.log(this.registerForm.value);
 

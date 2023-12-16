@@ -25,7 +25,7 @@
             </div>
          </div>
          <div class="create-viewform">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="questionFrom" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <label>Select Trade</label>
                 <select  formControlName="tardeId" class="form-control" > 
@@ -64,11 +64,12 @@
         </div>
         <div class="form-group">
           <label>Select Question Type</label>
-          <select class="form-control" > 
-              <option  [value]="0">Please Select</option>
-              <option [value]="o.clientId" *ngFor="let o of clients">
-                {{o.clientName}}
-              </option>
+          <select class="form-control" formControlName="questionType"> 
+              <option  [value]="1">1</option>
+              <option  [value]="2">2</option>
+              <option  [value]="3">3</option>
+              <option  [value]="4">4</option>
+              <option  [value]="5">5</option>
           </select>
           <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
               <div *ngIf="f.clientId.errors.required">Sub Trade is required</div>
@@ -89,7 +90,7 @@
             
             <div class="form-group">
               <label>Quality Requirement </label>
-              <input type="text" formControlName="questionText" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="qualityRequiement" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
@@ -103,14 +104,14 @@
             </div>
             <div class="form-group">
               <label>Reference/Standard Practice</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="reference" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Type of Check</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="typeOfCheck" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
@@ -118,7 +119,7 @@
 
             <div class="form-group">
               <label>Work Instruction</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="workInstruction" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
@@ -126,7 +127,7 @@
 
             <div class="form-group">
               <label>Sample Size</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="sampleSize" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
@@ -134,7 +135,7 @@
 
             <div class="form-group">
               <label>Tolerance</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="tolerance" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
@@ -142,112 +143,112 @@
 
             <div class="form-group">
               <label>Minimum Observations</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="minimumObservation" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Impact of NC</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="impactOfNc" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>NC Rectification</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="ncRectification" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Sub-Section</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="subSection" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Category</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="category" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Good Image 1</label>
-              <input type="file" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="file" formControlName="image1" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Good Image 2</label>
-              <input type="file" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="file" formControlName="image2" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Bad Image 1</label>
-              <input type="file" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="file" formControlName="image3" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Bad Image 2</label>
-              <input type="file" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="file" formControlName="image4" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Data to be Captured</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="captured" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Option1</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="option1" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Option2</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="option2" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Option3</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="option3" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Option4</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="option4" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Option5</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="option5" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>
             </div>
             <div class="form-group">
               <label>Option6</label>
-              <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="option6" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                   <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
               </div>

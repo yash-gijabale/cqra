@@ -66,7 +66,7 @@
                   data-target="#edit-view"  (click)="changeStatus(0)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
-                <button class="common-bnts delete-view" [disabled]="!isChecked">
+                <button class="common-bnts delete-view" [disabled]="!isChecked" (click)="deleteStructure()">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </div>
@@ -87,13 +87,13 @@
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
-                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-view">
+                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-stage" (click)="changeStatus(1)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts edit-view" data-toggle="modal" data-target="#edit-view">
+                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-stage" (click)="changeStatus(0)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts delete-view">
+                <span class="common-bnts delete-view" (click)="deleteStage()"> 
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </span>
               </div>
@@ -114,13 +114,13 @@
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
-                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-view">
+                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-unit"  (click)="changeStatus(1)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-view">
+                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-unit"  (click)="changeStatus(0)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts delete-view">
+                <span class="common-bnts delete-view" (click)="deleteUnit()">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </span>
               </div>
@@ -134,19 +134,20 @@
               <div class="structure-createview new">
                 <div class="oneLine" *ngFor="let o of subunits">
                   <label>
-                    <input type="checkbox" id=st{{o.subunitId}} name={{o.subunitId}}>
+                    <input type="checkbox" id=st{{o.subunitId}} name={{o.subunitId}}
+                    (change)="isSubunitSelectionchange($event,o.subunitId)">
                     {{o.subunitName}}
                   </label>
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
-                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-view">
+                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-subunit" (click)="changeStatus(1)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts edit-view" data-toggle="modal" data-target="#edit-view">
+                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-subunit" (click)="changeStatus(0)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts delete-view">
+                <span class="common-bnts delete-view" (click)="deleteSubunit()">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </span>
               </div>
@@ -238,4 +239,111 @@
   </div>
 </div>
 <!-- add Popup design -->
+
+
+
+
+<!-- STAGE ADD/EDIT MODAL -->
+<div class="modal fade" id="add-edit-stage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"> Add Stage</h5>
+        <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="stageForm" (ngSubmit)="onStageSubmit()">
+          <div class="add-grid-from">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="email">Stage Name:</label>
+                  <input type="text" formControlName="stageName" placeholder="Stage Name" id="user">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- STAGE ADD/EDIT MODAL -->
+
+
+<!-- UNIT ADD/EDIT MODAL -->
+<div class="modal fade" id="add-edit-unit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"> Add Unit</h5>
+        <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="unitForm" (ngSubmit)="onUnitSubmit()">
+          <div class="add-grid-from">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="email">Unit Name:</label>
+                  <input type="text" formControlName="unitName" placeholder="Unit Name" id="user">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- UNIT ADD/EDIT MODAL -->
+
+
+<!-- SUBUNIT ADD/EDIT MODAL -->
+<div class="modal fade" id="add-edit-subunit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"> Add SubUnit</h5>
+        <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="subunitForm" (ngSubmit)="onSubunitSubmit()">
+          <div class="add-grid-from">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="email">subunit Name:</label>
+                  <input type="text" formControlName="subunitName" placeholder="Subunit Name" id="user">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- SUBUNIT ADD/EDIT MODAL -->
 <app-footer></app-footer>

@@ -15,7 +15,7 @@ export class QuesHeadingData {
     public questionGroupId: number,
     public subgroupId: number,
     public tardeId: number
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -38,7 +38,7 @@ export class CreateQuestionHeadingComponent implements OnInit {
     private route: ActivatedRoute,
     private tradeMaintanceService: TradeMaintanceService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.questionHeadingId = this.route.snapshot.params["id"];
@@ -50,7 +50,8 @@ export class CreateQuestionHeadingComponent implements OnInit {
         .subscribe(
           (data) => {
             console.log(data)
-            this.registerForm.patchValue(data)},
+            this.registerForm.patchValue(data)
+          },
           (err) => console.log(err)
         );
     }
@@ -88,6 +89,11 @@ export class CreateQuestionHeadingComponent implements OnInit {
   }
 
   onSubmit() {
+
+    this.submitted = true
+    if (this.registerForm.invalid) {
+      return
+    }
     console.log("Id==");
 
     console.log(this.registerForm.value);
@@ -103,10 +109,10 @@ export class CreateQuestionHeadingComponent implements OnInit {
       };
 
       this.tradeMaintanceService.updateQuestionHeading(formData, this.questionHeadingId)
-      .subscribe(
-        data => console.log('updated', data),
-        err => console.log(err)
-      )
+        .subscribe(
+          data => console.log('updated', data),
+          err => console.log(err)
+        )
 
     } else {
       this.tradeMaintanceService

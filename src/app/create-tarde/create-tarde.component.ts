@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ClientServiceService } from "../service/client-service.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TradeMaintanceService } from "../trade-maintance.service";
-import { TradeGroup } from "../trade-group/trade-group.component"; 
-import {first} from 'rxjs/operators'
+import { TradeGroup } from "../trade-group/trade-group.component";
+import { first } from 'rxjs/operators'
 
 @Component({
   selector: "app-create-tarde",
@@ -16,7 +16,7 @@ export class CreateTardeComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   tradeGroups: TradeGroup[]
-  tradeId:number
+  tradeId: number
 
   constructor(
     private route: ActivatedRoute,
@@ -24,7 +24,7 @@ export class CreateTardeComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private formBuilder: FormBuilder,
     private tradeService: TradeMaintanceService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.tradeId = this.route.snapshot.params['id'];
@@ -39,13 +39,12 @@ export class CreateTardeComponent implements OnInit {
       }
     );
 
-    if(this.tradeId != -1)
-    {
+    if (this.tradeId != -1) {
       this.tradeService.retriveTrade(this.tradeId)
-      .pipe(first())
-      .subscribe(data => {
-        this.registerForm.patchValue(data)
-      })
+        .pipe(first())
+        .subscribe(data => {
+          this.registerForm.patchValue(data)
+        })
     }
 
     this.registerForm = this.formBuilder.group({
@@ -61,7 +60,12 @@ export class CreateTardeComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true;
     console.log("Id==");
+    if(this.registerForm.invalid)
+    {
+      return
+    }
     let fromData = {
       tradeName: this.registerForm.value.tradeName,
       status: true,
@@ -75,18 +79,17 @@ export class CreateTardeComponent implements OnInit {
       tradegroupId: this.registerForm.value.tradegroupId,
     }
     console.log(fromData);
-    if(this.tradeId != -1)
-    {
+    if (this.tradeId != -1) {
       this.tradeService.updateTrade(UpdatefromData, this.tradeId)
-      .subscribe(data => {
-        console.log('data updated')
-      },(err) => console.log(err))
+        .subscribe(data => {
+          console.log('data updated')
+        }, (err) => console.log(err))
 
-    }else{
+    } else {
       this.tradeService.createTrade(fromData)
-      .subscribe(data => {
-        console.log(data)
-      })
+        .subscribe(data => {
+          console.log(data)
+        })
     }
 
   }
