@@ -31,6 +31,9 @@ export class ContractorComponent implements OnInit {
   dtTrigger: Subject<ContractorData> = new Subject();
   // submitted = false;
   contractors: ContractorData[]
+
+  isLoading = true;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -52,6 +55,7 @@ export class ContractorComponent implements OnInit {
       console.log('----> office service : get all data', data);
       this.contractors = data;
       this.dtTrigger.next();
+      this.isLoading = false
 
     }, (err) => {
       console.log('-----> err', err);

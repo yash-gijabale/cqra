@@ -6,12 +6,12 @@ import { ClientServiceService } from 'src/app/service/client-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
-export class OffredArea{
+export class OffredArea {
   constructor(
     public offeredAreaId: number,
     public snapAuditId: number,
     public offeredAreaName: string
-  ){}
+  ) { }
 }
 
 @Component({
@@ -21,23 +21,26 @@ export class OffredArea{
 })
 export class OffredAreaComponent implements OnInit {
 
-  title:"datatables";
+  title: "datatables";
   @ViewChild(DataTableDirective)
-  dtElement:DataTableDirective;
+  dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<OffredArea> = new Subject();
 
-  offredArea:OffredArea[];
-  snapAuditId:number
-  offredId:number
+  offredArea: OffredArea[];
+  snapAuditId: number
+  offredId: number
+  isLoading: boolean
 
   constructor(
-    private clientService:ClientServiceService,
+    private clientService: ClientServiceService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit() {
+
+    this.isLoading = true;
 
     this.snapAuditId = this.route.snapshot.params['id']
     this.offredId = this.route.snapshot.params['id2']
@@ -46,38 +49,37 @@ export class OffredAreaComponent implements OnInit {
       pagingType: "full_numbers",
       pageLength: 10,
       lengthMenu: [10, 25, 50],
-      responsive:true,
-      scrollX:true
+      responsive: true,
+      scrollX: true
 
     };
+    this.dtTrigger.next();
 
     this.clientService.getAllOfferedArea()
-    .subscribe(data => {
-      console.log(data)
-      this.offredArea = data;
-      setTimeout(
-        function () {
-          this.dtTrigger.next();
-        }.bind(this)
-      );
-    })
+      .subscribe(data => {
+        this.isLoading = false
+        console.log(data)
+        this.offredArea = data;
+        setTimeout(
+          function () {
+            this.dtTrigger.next();
+          }.bind(this)
+        );
+      })
   }
 
-  editOffredArea(id)
-  {
+  editOffredArea(id) {
     this.router.navigate(['createOffredArea', this.snapAuditId, id])
 
   }
 
-  deActivate(id)
-  {
+  deActivate(id) {
     let isDelete = confirm('Are you sure want to delete ?')
-    if(isDelete)
-    {
+    if (isDelete) {
       this.clientService.deleteOfferedArea(id)
-      .subscribe(data => {
-        console.log('deleted')
-      })
+        .subscribe(data => {
+          console.log('deleted')
+        })
     }
   }
 

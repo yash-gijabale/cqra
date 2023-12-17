@@ -108,6 +108,7 @@ import { EditNcTableFormComponent } from './edit-nc-table-form/edit-nc-table-for
 import { UserlogReportViewComponent } from './userlog-report-view/userlog-report-view.component';
 import { SamplingComponent } from './sampling/sampling.component';
 import { CreateSamplingComponent } from './create-sampling/create-sampling.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -209,7 +210,8 @@ import { CreateSamplingComponent } from './create-sampling/create-sampling.compo
     EditNcTableFormComponent,
     UserlogReportViewComponent,
     SamplingComponent,
-    CreateSamplingComponent
+    CreateSamplingComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

@@ -26,6 +26,7 @@ export class SampledAreaComponent implements OnInit {
   snapAuditId: number;
   sampledAreaData: SampledArea[];
   submitted:boolean = true;
+  isLoading: boolean
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class SampledAreaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.dtOptions = {
       pagingType: "full_numbers",
       pageLength: 10,
@@ -47,11 +49,8 @@ export class SampledAreaComponent implements OnInit {
       (data) => {
         console.log(data);
         this.sampledAreaData = data;
-        setTimeout(
-          function () {
-            this.dtTrigger.next();
-          }.bind(this)
-        );
+        this.dtTrigger.next();
+        this.isLoading = false
       },
       (err) => {
         console.log(err);

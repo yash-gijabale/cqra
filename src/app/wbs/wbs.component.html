@@ -11,6 +11,10 @@
           <li class="breadcrumb-item active">Create WBS</li>
         </ol>
       </div>
+      <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
       <div class="main-header_createview">
         <div class="col-sm-9 px-0">
           <div class="form-group row">
@@ -59,11 +63,12 @@
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
-                <button class="common-bnts add-view" [disabled]="isChecked" data-toggle="modal" data-target="#add-view"  (click)="changeStatus(1)">
+                <button class="common-bnts add-view" [disabled]="isChecked" data-toggle="modal" data-target="#add-view"
+                  (click)="changeStatus(1)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
                 <button class="common-bnts edit-view" [disabled]="!isChecked" data-toggle="modal"
-                  data-target="#edit-view"  (click)="changeStatus(0)">
+                  data-target="#edit-view" (click)="changeStatus(0)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
                 <button class="common-bnts delete-view" [disabled]="!isChecked" (click)="deleteStructure()">
@@ -87,13 +92,15 @@
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
-                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-stage" (click)="changeStatus(1)">
+                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-stage"
+                  (click)="changeStatus(1)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-stage" (click)="changeStatus(0)">
+                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-stage"
+                  (click)="changeStatus(0)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts delete-view" (click)="deleteStage()"> 
+                <span class="common-bnts delete-view" (click)="deleteStage()">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </span>
               </div>
@@ -114,10 +121,12 @@
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
-                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-unit"  (click)="changeStatus(1)">
+                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-unit"
+                  (click)="changeStatus(1)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-unit"  (click)="changeStatus(0)">
+                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-unit"
+                  (click)="changeStatus(0)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
                 <span class="common-bnts delete-view" (click)="deleteUnit()">
@@ -135,16 +144,18 @@
                 <div class="oneLine" *ngFor="let o of subunits">
                   <label>
                     <input type="checkbox" id=st{{o.subunitId}} name={{o.subunitId}}
-                    (change)="isSubunitSelectionchange($event,o.subunitId)">
+                      (change)="isSubunitSelectionchange($event,o.subunitId)">
                     {{o.subunitName}}
                   </label>
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
-                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-subunit" (click)="changeStatus(1)">
+                <span class="common-bnts add-view" data-toggle="modal" data-target="#add-edit-subunit"
+                  (click)="changeStatus(1)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </span>
-                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-subunit" (click)="changeStatus(0)">
+                <span class="common-bnts edit-view" data-toggle="modal" data-target="#add-edit-subunit"
+                  (click)="changeStatus(0)">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
                 <span class="common-bnts delete-view" (click)="deleteSubunit()">

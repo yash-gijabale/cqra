@@ -37,10 +37,9 @@ export class QuestionHeadingComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<QuestionHeadingView> = new Subject();
-
   questionHeaadings: QuestionHeading[];
-
   questionHeaadingsView: QuestionHeadingView[];
+  isLoading: boolean
 
   constructor(
     private router: Router,
@@ -48,13 +47,13 @@ export class QuestionHeadingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isLoading = true
     this.tradeMaintanceService.getAllQuestionHeadings().subscribe(
       (data) => {
         console.log("----> office service : get all data", data);
         this.questionHeaadingsView = data;
-
-        // ADD THIS
         this.dtTrigger.next();
+        this.isLoading = false
       },
       (err) => {
         console.log("-----> err", err);

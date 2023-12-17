@@ -5,27 +5,27 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { TradeMaintanceService } from '../trade-maintance.service';
 
-export class Subgroup{
+export class Subgroup {
   constructor(
-    public tardeId:number,
+    public tardeId: number,
     public tradegroupId: number,
-    public subgroupId:number,
-    public subgroupName:string,
+    public subgroupId: number,
+    public subgroupName: string,
     public status: boolean
-    
-  ){
+
+  ) {
 
   }
 }
 
-export class SubgroupView{
+export class SubgroupView {
   constructor(
-    public subgroupId:string,
+    public subgroupId: string,
     public subgroupName: string,
     public tradeName: string,
-    
-    
-  ){
+
+
+  ) {
 
   }
 }
@@ -42,40 +42,37 @@ export class SubgroupComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<SubgroupView> = new Subject();
-subgroups : Subgroup[];
-
-subgroupsView : SubgroupView[];
-  constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
+  subgroups: Subgroup[];
+  subgroupsView: SubgroupView[];
+  isLoading: boolean
+  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
   ngOnInit() {
-   
+
+    this.isLoading = true
     this.tradeMaintanceService.getAllSubgroups().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.subgroupsView= data;
-    
-      // ADD THIS
+      this.subgroupsView = data;
       this.dtTrigger.next();
-    
+      this.isLoading = false
+
     }, (err) => {
       console.log('-----> err', err);
     })
   }
 
-  editSubgroup(id)
-  {
+  editSubgroup(id) {
     this.router.navigate(['createSubgroup', id])
   }
 
-  deActive(id)
-  {
+  deActive(id) {
     let isDelete = confirm('Are you sure want to delete ?')
-    if(isDelete)
-    {
+    if (isDelete) {
       this.tradeMaintanceService.deleteSubgroup(id)
-      .subscribe(data => {
-        console.log('deleted')
-        location.reload()
-      })
+        .subscribe(data => {
+          console.log('deleted')
+          location.reload()
+        })
     }
   }
 }

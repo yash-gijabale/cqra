@@ -28,9 +28,9 @@
         <form [formGroup]="assessorForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Assessor Name</label>
-            <input type="text" formControlName="assessordName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-              <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+            <input type="text" formControlName="assessordName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.assessordName.errors }" />
+            <div *ngIf="submitted && f.assessordName.errors" class="invalid-feedback">
+              <div *ngIf="f.assessordName.errors.required">Client Name is required</div>
             </div>
           </div>
           <div class="form-group">

@@ -1,68 +1,74 @@
 <app-header></app-header>
-<div class="content-wrapper">
-  <div class="container-fluid">
-    <div class="add-bg-here">
-      <div class="add-container-viewcommon">
-        <div class="main-header_createview">
-          <div class="left-side-header">
-            <div class="create-content-header">
-              <h1> Manage Offred Area </h1>
+<div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock><app-loader></app-loader></ng-template>
+<ng-template #elseBlock>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="add-bg-here">
+        <div class="add-container-viewcommon">
+          <div class="main-header_createview">
+            <div class="left-side-header">
+              <div class="create-content-header">
+                <h1> Manage Offred Area </h1>
 
+              </div>
             </div>
-          </div>
 
-          <div class="right-side-create-view ">
-            <div class="create-content-operations">
-              <a [routerLink]="'/createOffredArea/'+snapAuditId+'/-1'">
-                <button type="button"> Create Offred Area</button>
-              </a>
+            <div class="right-side-create-view ">
+              <div class="create-content-operations">
+                <a [routerLink]="'/createOffredArea/'+snapAuditId+'/-1'">
+                  <button type="button"> Create Offred Area</button>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row m-0">
-        <div class="col-xl-12 col-sm-12 mb-3">
-          <!-- Example DataTables Card-->
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-            style="width:100%">
-            <thead>
-              <tr>
+        <div class="row m-0">
+          <div class="col-xl-12 col-sm-12 mb-3">
+            <!-- Example DataTables Card-->
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+              style="width:100%">
+              <thead>
+                <tr>
 
-                <th style="width:60%">Offred Area</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr  *ngFor="let area of offredArea"  style="width:60%">
-                <td>{{area.offeredAreaName}}</td>
-                <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
-                <td>
-                  <div class="action-commonview">
-                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter" (click)="editOffredArea(area.offeredAreaId)">
-                      <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
-                      </span>
-                    </button>
-                    <button type="text" class="Delete-modal" (click)="deActivate(area.offeredAreaId)">
-                      <span class="edit-tessst">
-                        <i class="lar la-trash-alt"></i>
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
+                  <th style="width:60%">Offred Area</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let area of offredArea" style="width:60%">
+                  <td>{{area.offeredAreaName}}</td>
+                  <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
+                  <td>
+                    <div class="action-commonview">
+                      <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                        data-target="#exampleModalCenter" (click)="editOffredArea(area.offeredAreaId)">
+                        <span class="edit-tessst">
+                          <i class="las la-pencil-alt"></i>
+                        </span>
+                      </button>
+                      <button type="text" class="Delete-modal" (click)="deActivate(area.offeredAreaId)">
+                        <span class="edit-tessst">
+                          <i class="lar la-trash-alt"></i>
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
 
-          </table>
+            </table>
+
+          </div>
+
 
         </div>
-
+        <!-- Example DataTables Card-->
 
       </div>
-      <!-- Example DataTables Card-->
-
     </div>
   </div>
-  <app-footer></app-footer>
+</ng-template>
+
+<app-footer></app-footer>

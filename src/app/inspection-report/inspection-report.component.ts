@@ -31,12 +31,13 @@ export class InspectionReportComponent implements OnInit {
 
   snapAuditDetails:InspectionView;
   reports:InspectionView[];
-
   snapAuditId:number;
+  isLoading: boolean
   constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
 
   ngOnInit() {
 
+    this.isLoading = true
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
@@ -48,9 +49,8 @@ export class InspectionReportComponent implements OnInit {
     this.tradeMaintanceService.getAllInspectionReports().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.reports= data;
-    
-      // ADD THIS
       this.dtTrigger.next();
+      this.isLoading = false
     
     }, (err) => {
       console.log('-----> err', err);

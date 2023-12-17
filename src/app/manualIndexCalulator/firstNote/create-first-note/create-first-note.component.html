@@ -24,32 +24,20 @@
           </div>
         </div>
       </div>
-
-
-      <div *ngIf="isLoad;then content else other_content"></div>
-      <ng-template #content>
-        <div class="loader">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
+      <div class="create-viewform">
+        <form [formGroup]="firstNoteForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>First Note</label>
+            <input type="text" formControlName="firstNoteText" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstNoteText.errors }" />
+            <div *ngIf="submitted && f.firstNoteText.errors" class="invalid-feedback">
+              <div *ngIf="f.firstNoteText.errors.required">Note is required</div>
+            </div>
           </div>
-          <!-- <div class="custom-loader"></div> -->
-        </div>
-      </ng-template>
-      <ng-template #other_content>
-
-        <div class="create-viewform">
-          <form [formGroup]="firstNoteForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <label>First Note</label>
-              <input type="text" formControlName="firstNoteText" class="form-control"/>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary">Save</button>
-              
-            </div>
-          </form>
-        </div>
-      </ng-template>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary mt-1">Save</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
   <app-footer></app-footer>

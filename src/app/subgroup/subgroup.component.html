@@ -11,16 +11,23 @@
           </div>
           <div class="right-side-create-view ">
             <div class="create-content-operations">
-              <a routerLink="/createSubgroup/-1"> 
+              <a routerLink="/createSubgroup/-1">
                 <button type="button"> Create Subgroup </button>
               </a>
             </div>
           </div>
         </div>
       </div>
+      
+      <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
-          <table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" id="customers"  class="row-border hover" style="width:100%">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
             <thead>
               <tr>
                 <th>Subgroup Name</th>
@@ -32,17 +39,18 @@
               <tr *ngFor="let client of subgroupsView">
                 <td>{{ client.subgroupName }}</td>
                 <td>{{ client.tardeName }}</td>
-                <td> 
-                  <div class="action-commonview"> 
-                    <button type="text" (click) = "editSubgroup(client.subgroupId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
-                      <span class="edit-tessst"> 
-                      <i class="las la-pencil-alt"></i>
-                      </span> 
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" (click)="editSubgroup(client.subgroupId)" class="edit-modal add-modal"
+                      data-toggle="modal" data-target="#exampleModalCenter">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
                     </button>
-                    <button type="text" (click) = "deActive(client.subgroupId)" class="Delete-modal"> 
-                      <span class="edit-tessst"> 
+                    <button type="text" (click)="deActive(client.subgroupId)" class="Delete-modal">
+                      <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
-                      </span> 
+                      </span>
                     </button>
                   </div>
                 </td>

@@ -4,11 +4,12 @@ import { ClientServiceService } from 'src/app/service/client-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators'
 import { from } from 'rxjs';
-export class InspectionActivityData{
+import { error } from 'console';
+export class InspectionActivityData {
   constructor(
     public snapAuditId: number,
     public description: string
-  ){}
+  ) { }
 }
 
 @Component({
@@ -20,8 +21,8 @@ export class CreateInspectionActivityComponent implements OnInit {
 
   snapAuditId: number
   inspectionActivityID: number
-  inspectionActivityFrom : FormGroup
-  submitted
+  inspectionActivityFrom: FormGroup
+  submitted = false
 
   constructor(
     private route: ActivatedRoute,
@@ -33,13 +34,12 @@ export class CreateInspectionActivityComponent implements OnInit {
     this.snapAuditId = this.route.snapshot.params['id']
     this.inspectionActivityID = this.route.snapshot.params['id2']
 
-    if(this.inspectionActivityID != -1)
-    {
+    if (this.inspectionActivityID != -1) {
       this.clientService.retriveInspectionActivity(this.inspectionActivityID)
-      .pipe(first())
-      .subscribe(data => {
-        this.inspectionActivityFrom.patchValue(data)
-      })
+        .pipe(first())
+        .subscribe(data => {
+          this.inspectionActivityFrom.patchValue(data)
+        })
     }
 
     this.inspectionActivityFrom = this.formBuilder.group({
@@ -50,20 +50,34 @@ export class CreateInspectionActivityComponent implements OnInit {
   get f() {
     return this.inspectionActivityFrom.controls;
   }
-  
-  onSubmit()
-  {
+
+  onSubmit() {
+    this.submitted = true
+    if (this.inspectionActivityFrom.invalid) {
+      return
+    }
     let formData = {
-      snapAuditId : this.snapAuditId,
+      snapAuditId: this.snapAuditId,
       description: this.inspectionActivityFrom.value.description
     }
     console.log(formData)
-    this.clientService.updateInspectionActivity(formData, this.inspectionActivityID)
-    .subscribe(data => {
-      console.log('updated')
-    }, (err) => {
-      console.log(err)
-    })
+
+    if (this.inspectionActivityID != -1) {
+
+      this.clientService.updateInspectionActivity(formData, this.inspectionActivityID)
+        .subscribe(data => {
+          console.log('updated')
+        }, (err) => {
+          console.log(err)
+        })
+    }else{
+      this.clientService.createInspectionActivity(formData)
+      .subscribe(
+        data => console.log('created-->', data),
+        err =>  console.log(err)
+      )
+    }
+
   }
 
 }

@@ -69,18 +69,18 @@ export class QuestionComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<Question> = new Subject();
-
   questions:Question[];
+  isLoading: boolean
 
   constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
 
   ngOnInit() {
+    this.isLoading = true
     this.tradeMaintanceService.getAllQuestions().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.questions= data;
-    
-      // ADD THIS
       this.dtTrigger.next();
+      this.isLoading = false
     
     }, (err) => {
       console.log('-----> err', err);

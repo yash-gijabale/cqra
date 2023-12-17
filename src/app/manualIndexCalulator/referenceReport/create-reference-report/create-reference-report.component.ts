@@ -4,11 +4,11 @@ import { ClientServiceService } from "src/app/service/client-service.service";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { first } from "rxjs/operators";
 
-export class referenceReportData{
+export class referenceReportData {
   constructor(
-    public snapAuditId: number, 
+    public snapAuditId: number,
     public referenceReportName: string
-  ){}
+  ) { }
 }
 
 @Component({
@@ -20,15 +20,15 @@ export class CreateReferenceReportComponent implements OnInit {
   snapAduditId: number;
   referenceReportId: number;
   reportForm: FormGroup;
-  isLoad:boolean
+  isLoad: boolean
   buttonLoad: boolean = false;
-  submitted:boolean = true;
+  submitted: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private clientService: ClientServiceService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.snapAduditId = this.route.snapshot.params["id"];
@@ -53,21 +53,30 @@ export class CreateReferenceReportComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true
+    if (this.reportForm.invalid) {
+      return
+    }
     let fromData = {
       snapAuditId: this.snapAduditId,
       referenceReportName: this.reportForm.value.referenceReportName,
     };
     console.log(fromData);
-    if(this.referenceReportId != -1)
-    {
+    if (this.referenceReportId != -1) {
       this.buttonLoad = true;
       this.clientService.updateReferenceNote(fromData, this.referenceReportId)
-      .subscribe(data => {
-        console.log('updated')
-        this.buttonLoad = false
-      })
+        .subscribe(data => {
+          console.log('updated')
+          this.buttonLoad = false
+        })
+    }else{
+      this.clientService.createReferenceReport(fromData)
+      .subscribe(
+        data => console.log('created-->', data),
+        err => console.log(err)
+      )
     }
   }
 
- 
+
 }

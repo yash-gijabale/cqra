@@ -9,7 +9,7 @@ export class AssessorNameData {
   constructor(
     public snapAuditId: number,
     public assessordName: string
-  ){}
+  ) { }
 }
 
 @Component({
@@ -20,9 +20,9 @@ export class AssessorNameData {
 export class CreateAccessorNameComponent implements OnInit {
 
   snapAuditId: number
-  assessorId:number
+  assessorId: number
   assessorForm: FormGroup
-  submitted:boolean = true;
+  submitted: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,11 +35,13 @@ export class CreateAccessorNameComponent implements OnInit {
     this.snapAuditId = this.route.snapshot.params['id']
     this.assessorId = this.route.snapshot.params['id2']
 
-    this.cleintService.retirveAssessor(this.assessorId)
-    .pipe(first())
-    .subscribe(data => {
-      this.assessorForm.patchValue(data)
-    })
+    if (this.assessorId != -1) {
+      this.cleintService.retirveAssessor(this.assessorId)
+        .pipe(first())
+        .subscribe(data => {
+          this.assessorForm.patchValue(data)
+        })
+    }
 
     this.assessorForm = this.formBuilder.group({
       assessordName: ['', Validators.required]
@@ -51,17 +53,29 @@ export class CreateAccessorNameComponent implements OnInit {
     return this.assessorForm.controls;
   }
 
-  onSubmit()
-  {
+  onSubmit() {
+    this.submitted = true
+    if (this.assessorForm.invalid) {
+      return
+    }
     let formData = {
       snapAuditId: this.snapAuditId,
       assessordName: this.assessorForm.value.assessordName
     }
     console.log(formData)
 
-    this.cleintService.updateAssessorName(formData, this.assessorId)
-    .subscribe(data => {
-      console.log('updates')
-    })
+    if(this.assessorId != -1)
+    {
+      this.cleintService.updateAssessorName(formData, this.assessorId)
+      .subscribe(data => {
+        console.log('updates')
+      })
+    }else{
+      this.cleintService.createAssessor(formData)
+      .subscribe(
+        data => console.log('creared--->', data),
+        err => console.log(err)
+      )
+    }
   }
 }

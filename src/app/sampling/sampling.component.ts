@@ -18,12 +18,16 @@ export class SamplingComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<SamplingView> = new Subject();
+
+  isLoading: boolean;
   constructor(
     private clientService: ClientServiceService,
     private router: Router
   ) { }
 
   ngOnInit() {
+
+    this.isLoading = true;
 
     this.dtOptions = {
       pagingType: "full_numbers",
@@ -36,6 +40,7 @@ export class SamplingComponent implements OnInit {
         console.log(data)
         this.allSampling = data
         this.dtTrigger.next()
+        this.isLoading = false
       },
         err => console.log(err))
   }

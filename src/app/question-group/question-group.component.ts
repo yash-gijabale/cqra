@@ -3,32 +3,31 @@ import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { TradeMaintanceService } from '../trade-maintance.service';
-import { animationFrame } from 'rxjs/internal/scheduler/animationFrame';
 
 
-export class QuestionGroup{
+export class QuestionGroup {
   constructor(
-    public tardeId:number,
+    public tardeId: number,
     public tradegroupId: number,
-    public subgroupId:number,
-    public questionGroupId:number,
-    public questionGroupText:string,
+    public subgroupId: number,
+    public questionGroupId: number,
+    public questionGroupText: string,
     public status: boolean
-    
-  ){
+
+  ) {
 
   }
 }
 
-export class QuestionGroupView{
+export class QuestionGroupView {
   constructor(
-    
-    public questionGroupId:number,
-    public questionGroupText:string,
-    public tradeName:string,
-    public subgroupName:string,
-    
-  ){
+
+    public questionGroupId: number,
+    public questionGroupText: string,
+    public tradeName: string,
+    public subgroupName: string,
+
+  ) {
 
   }
 }
@@ -45,43 +44,40 @@ export class QuestionGroupComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<QuestionGroup> = new Subject();
-  questionGroups:QuestionGroup[];
+  questionGroups: QuestionGroup[];
+  questionGroupsView: QuestionGroupView[];
 
-  questionGroupsView:QuestionGroupView[];
-  constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
+  isLoading: boolean
+  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
   ngOnInit() {
-    
+
+    this.isLoading = true
     this.tradeMaintanceService.getAllQuestionGroups().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.questionGroupsView= data;
-    
-      // ADD THIS
+      this.questionGroupsView = data;
       this.dtTrigger.next();
-    
+      this.isLoading = false
     }, (err) => {
       console.log('-----> err', err);
     })
   }
 
-  editQuestionGroup(id)
-  {
+  editQuestionGroup(id) {
     this.router.navigate(['createQuestiongroup', id])
   }
 
-  deActivate(id)
-  {
+  deActivate(id) {
     let isDelete = confirm('Are you sure want to delete ?')
-    if(isDelete)
-    {
+    if (isDelete) {
       this.tradeMaintanceService.deleteQuetionGroup(id)
-      .subscribe(
-        (data) => {
-          console.log('deleted')
-          location.reload()
-        },
-        (err) => console.log(err)
-      )
+        .subscribe(
+          (data) => {
+            console.log('deleted')
+            location.reload()
+          },
+          (err) => console.log(err)
+        )
     }
   }
 

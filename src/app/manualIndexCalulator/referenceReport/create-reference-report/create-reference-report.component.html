@@ -25,39 +25,20 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isLoad;then content else other_content"></div>
-      <ng-template #content>
-        <div class="loader">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-          <!-- <div class="custom-loader"></div> -->
-        </div>
-      </ng-template>
-      <ng-template #other_content>
-        <div class="create-viewform">
-          <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <label>Reference Report</label>
-              <input type="text" formControlName="referenceReportName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Client Name is required</div>
-              </div>
+
+      <div class="create-viewform">
+        <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Reference Report</label>
+            <input type="text" formControlName="referenceReportName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.referenceReportName.errors }" />
+            <div *ngIf="submitted && f.referenceReportName.errors" class="invalid-feedback">
+              <div *ngIf="f.referenceReportName.errors.required">Reference is required</div>
             </div>
-            <div *ngIf="buttonLoad;then buttonLoding else buttonDone"></div>
-              <ng-template #buttonLoding>
-                <button class="btn btn-primary" type="button" disabled>
-                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  Saving...
-                </button>
-              </ng-template>
-              <ng-template #buttonDone>
-                <button class="btn btn-primary">Save</button>
-              </ng-template>
-          </form>
-        </div>
-      </ng-template>
+          </div>
+          <button class="btn btn-primary">Save</button>
+        </form>
+      </div>
     </div>
   </div>
   <app-footer></app-footer>

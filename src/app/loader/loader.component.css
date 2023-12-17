@@ -1,0 +1,31 @@
+
+.loader-container {
+    background-color: #ffffffb7;
+    width: 80%;
+    min-height: 75vh;
+    /* height: 100%; */
+    position: absolute;
+    z-index: 10;
+    margin: auto;
+    top: 23%;
+    left: 18%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .loader {
+    width: 8vmax;
+    height: 8vmax;
+    /* background-color: red; */
+    border-radius: 100%;
+    border-bottom: 5px solid rgb(104, 101, 101);
+    /* background-color: red; */
+    animation: loader 800ms infinite linear;
+  }
+  
+  @keyframes loader {
+    to {
+      transform: rotateZ(-360deg);
+    }
+  }

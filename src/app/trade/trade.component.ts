@@ -31,9 +31,14 @@ export class TradeComponent implements OnInit {
 
   trades: Trade[];
 
+  isLoading:boolean
+
   constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
   ngOnInit() {
+
+    this.isLoading = true
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
@@ -43,9 +48,8 @@ export class TradeComponent implements OnInit {
     this.tradeMaintanceService.getAllTrades().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.trades = data;
-
-      // ADD THIS
       this.dtTrigger.next();
+      this.isLoading = false
 
     }, (err) => {
       console.log('-----> err', err);

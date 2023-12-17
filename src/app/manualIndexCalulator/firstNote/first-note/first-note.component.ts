@@ -30,6 +30,7 @@ export class FirstNoteComponent implements OnInit {
   snapAuditId:number;
   // firstNoteForm: FormGroup;
   firstNotes: FirstNote[];
+  isLoading: boolean
 
   constructor(
     private route:ActivatedRoute,
@@ -40,6 +41,7 @@ export class FirstNoteComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.isLoading = true
     this.dtOptions = {
       pagingType: "full_numbers",
       pageLength: 10,
@@ -57,11 +59,12 @@ export class FirstNoteComponent implements OnInit {
     .subscribe(data => {
       console.log('note data------>', data)
       this.firstNotes = data;
-      setTimeout(
-        function () {
-          this.dtTrigger.next();
-        }.bind(this)
-      );
+      this.dtTrigger.next();
+      this.isLoading = false
+      // setTimeout(
+      //   function () {
+      //   }.bind(this)
+      // );
   
     })
   }

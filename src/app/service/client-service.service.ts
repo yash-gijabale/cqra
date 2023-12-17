@@ -249,6 +249,10 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addclientStaff', firstNoteData);
   }
 
+  //FIRST NOTE API CALL
+  createFirstNote(data) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addfirstNote`, data)
+  }
   retrieveFirstNote(id) {
     return this.httpClient.get<FirstNoteData>(`${this.REST_API_SERVER}/firstNote/${id}`);
   }
@@ -257,6 +261,13 @@ export class ClientServiceService {
   }
   deleteFirstNote(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/firstNote/${id}`)
+  }
+  //FIRST NOTE API CALL
+
+
+  //OFFRED AREA API CALL
+  createOffredArea(data) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addofferdArea`, data)
   }
 
   getAllOfferedArea() {
@@ -274,6 +285,13 @@ export class ClientServiceService {
   deleteOfferedArea(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/offerdArea/${id}`)
   }
+  //OFFRED AREA API CALL
+
+
+//SAMPLED AREA API CALL
+createSampledArea(data): Observable<ClientServiceService>{
+  return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addsampledArea`, data)
+}
   getAllSampledArea() {
     return this.httpClient.get<SampledArea[]>(this.REST_API_SERVER + '/getSampledAreas')
   }
@@ -289,7 +307,12 @@ export class ClientServiceService {
   deleteSampledArea(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/sampledArea/${id}`)
   }
+//SAMPLED AREA API CALL
 
+//INSPECTION ACTIVITY NOT AVAILABALE API
+createInspectionActivity(data): Observable<ClientServiceService>{
+  return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addactivitiesNotAvailableDuringInspection`, data)
+}
   getAllInspectionActivity() {
     return this.httpClient.get<InspectionActivity[]>(this.REST_API_SERVER + '/getactivitiesNotAvailableDuringInspections')
   }
@@ -302,6 +325,13 @@ export class ClientServiceService {
     return this.httpClient.put(`${this.REST_API_SERVER}/activitiesNotAvailableDuringInspection/${id}`, fromData)
   }
 
+//INSPECTION ACTIVITY NOT AVAILABALE API
+
+
+//REFERENCE REPORT API CALL
+createReferenceReport(data): Observable<ClientServiceService>{
+  return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addReferenceReports`, data)
+}
   getAllReferenceReport() {
     return this.httpClient.get<RefereneceReport[]>(this.REST_API_SERVER + '/getReferenceReports')
   }
@@ -316,9 +346,13 @@ export class ClientServiceService {
   deleteReferenceReport(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/referenceReports/${id}`)
   }
+//REFERENCE REPORT API CALL
 
 
   // ASSESSOR NAME SERVICES
+  createAssessor(assessorData): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addassessorsName', assessorData);
+  }
   getAllAssessorName(id) {
     return this.httpClient.get<AssessorName[]>(this.REST_API_SERVER + '/assessorsNamebysnapauditid/' + id)
   }
@@ -338,6 +372,9 @@ export class ClientServiceService {
 
 
   //STAGE OF WORK
+  createStageOfWork(data): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addqualityRecommandation`, data)
+  }
   getAllStageOfWork(id) {
     return this.httpClient.get<StageOfWork[]>(`${this.REST_API_SERVER}/qualityRecommandationbysnapauditid/${id}`)
   }

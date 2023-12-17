@@ -95,6 +95,8 @@ export class WbsComponent implements OnInit {
   structureCode: string;
   isChecked;
   isCheckedName;
+
+  isLoading:boolean
   @ViewChild('closebutton') closebutton;
 
   constructor(private clientServiceService: ClientServiceService, private commonService: CommonService, private formBuilder: FormBuilder, private router: Router) { }
@@ -105,10 +107,11 @@ export class WbsComponent implements OnInit {
     { sid: '4', structureName: 'Structure-4' }
   ];
   ngOnInit() {
-
+    this.isLoading = true
     this.clientServiceService.getAllClients().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.clients = data;
+      this.isLoading = false
 
     }, (err) => {
       console.log('-----> err', err);

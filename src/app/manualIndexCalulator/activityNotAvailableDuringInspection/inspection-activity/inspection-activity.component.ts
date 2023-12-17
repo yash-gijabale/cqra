@@ -27,6 +27,8 @@ export class InspectionActivityComponent implements OnInit {
   snapAuditId:number
   activityData:InspectionActivity[];
 
+  isLoading: boolean
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -35,6 +37,7 @@ export class InspectionActivityComponent implements OnInit {
 
   ngOnInit() {
 
+    this.isLoading = true
     this.snapAuditId = this.route.snapshot.params['id']
 
     this.dtOptions = {
@@ -49,11 +52,12 @@ export class InspectionActivityComponent implements OnInit {
     .subscribe(data =>{
       console.log(data)
       this.activityData = data
-      setTimeout(
-        function () {
-          this.dtTrigger.next();
-        }.bind(this)
-      );
+      this.dtTrigger.next();
+      this.isLoading = false
+      // setTimeout(
+      //   function () {
+      //   }.bind(this)
+      // );
     }, 
     (err)=>{
       console.log(err)

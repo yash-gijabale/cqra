@@ -15,7 +15,7 @@ export class CreateStageOfWorkComponent implements OnInit {
   snapAuditId: number
   stageWorkID: number
   stageOfWorkFrom: FormGroup
-  submitted:boolean = true;
+  submitted: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -30,33 +30,43 @@ export class CreateStageOfWorkComponent implements OnInit {
       qualityRecommandationText: ['', Validators.required]
     })
 
-    this.clientService.retirveStageOfWork(this.stageWorkID)
-    .pipe(first())
-    .subscribe(data => {
-      console.log(data)
-      this.stageOfWorkFrom.patchValue(data)
-    })
+    if(this.stageWorkID != -1)
+    {
+
+      this.clientService.retirveStageOfWork(this.stageWorkID)
+        .pipe(first())
+        .subscribe(data => {
+          console.log(data)
+          this.stageOfWorkFrom.patchValue(data)
+        })
+    }
 
   }
 
-  get f()
-  {
+  get f() {
     return this.stageOfWorkFrom.controls
   }
 
-  onSubmit()
-  {
-    if(this.stageWorkID != -1)
-    {
-      let fromData = {
-        snapAuditId: this.snapAuditId,
-        qualityRecommandationText: this.stageOfWorkFrom.value.qualityRecommandationText
-      }
-
-      this.clientService.updateStageOfWork(fromData ,this.stageWorkID)
-      .subscribe(data => {
-        console.log('updated')
-      })
+  onSubmit() {
+    this.submitted = true
+    if (this.stageOfWorkFrom.invalid) {
+      return
+    }
+    let fromData = {
+      snapAuditId: this.snapAuditId,
+      qualityRecommandationText: this.stageOfWorkFrom.value.qualityRecommandationText
+    }
+    if (this.stageWorkID != -1) {
+      this.clientService.updateStageOfWork(fromData, this.stageWorkID)
+        .subscribe(data => {
+          console.log('updated')
+        })
+    } else {
+      this.clientService.createStageOfWork(fromData)
+        .subscribe(
+          data => console.log(data),
+          err => console.log(err)
+        )
     }
   }
 

@@ -17,7 +17,7 @@ export class CreateContractorComponent implements OnInit {
   submitted = false;
   clients: ClientData[]
   contractorId: number;
-
+  isLoading=false;
   constructor(private route: ActivatedRoute, private router: Router, private clientServiceService: ClientServiceService, private formBuilder: FormBuilder,) { }
 
 
@@ -55,10 +55,11 @@ export class CreateContractorComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
+    
     if (this.registerForm.invalid) {
       return
     }
+    this.isLoading = true;
     console.log("Id==");
     console.log(this.registerForm.value)
 
@@ -78,6 +79,7 @@ export class CreateContractorComponent implements OnInit {
       this.clientServiceService.createContractor(this.registerForm.value)
         .subscribe(data => {
           console.log('data adedd')
+          this.isLoading = false
         })
     }
 

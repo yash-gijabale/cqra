@@ -4,13 +4,13 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { TradeMaintanceService } from '../trade-maintance.service';
 
-export class TradeGroup{
+export class TradeGroup {
   constructor(
-    public tradegroupId:number,
+    public tradegroupId: number,
     public tradeName: string,
     public status: boolean
-    
-  ){
+
+  ) {
 
   }
 }
@@ -27,42 +27,44 @@ export class TradeGroupComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<TradeGroup> = new Subject();
 
-  tradeGroups:TradeGroup[];
-  constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
+  tradeGroups: TradeGroup[];
+
+  isLoading:boolean
+
+  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
   ngOnInit() {
+
+    this.isLoading = true
+
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 5,
-      lengthMenu : [5, 10, 25]
+      pageLength: 10,
+      lengthMenu: [5, 10, 25]
     };
 
     this.tradeMaintanceService.getAllTradeGroups().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.tradeGroups= data;
-    
-      // ADD THIS
+      this.tradeGroups = data;
       this.dtTrigger.next();
-    
+      this.isLoading = false
+
     }, (err) => {
       console.log('-----> err', err);
     })
-  
-    
+
+
   }
 
-  editTrade(id)
-  {
+  editTrade(id) {
     console.log(id)
     this.router.navigate(['createTradegroup', id])
   }
-  deActivate(id)
-  {
+  deActivate(id) {
     let isDelete = confirm('Are you sure want to delete?')
-    if(isDelete)
-    {
+    if (isDelete) {
       this.tradeMaintanceService.deleteTradeGroup(id)
-      .subscribe(data => location.reload())
+        .subscribe(data => location.reload())
     }
   }
 

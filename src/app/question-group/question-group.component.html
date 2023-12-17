@@ -2,73 +2,74 @@
 <div class="content-wrapper">
   <div class="container-fluid">
     <div class="add-bg-here">
-       <div class="add-container-viewcommon">
-         <div class="main-header_createview">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
           <div class="left-side-header">
-              <div class="create-content-header">
-                <h1> Manage Question Group </h1>
-              </div>
+            <div class="create-content-header">
+              <h1> Manage Question Group </h1>
+            </div>
           </div>
-       
-         <div class="right-side-create-view ">
-             <div class="create-content-operations">
-                <a routerLink="/createQuestiongroup/-1"> 
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <a routerLink="/createQuestiongroup/-1">
                 <button type="button"> Create Question Group </button>
-               </a>
-             </div>
+              </a>
+            </div>
           </div>
-        </div> 
+        </div>
       </div>
 
-       
 
-    
-    <div class="row m-0">
-      <div class="col-xl-12 col-sm-12 mb-3">
-           <!-- Example DataTables Card-->
-   
-     
-<table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" id="customers" class="row-border hover" style="width:100%">
-  <thead>
-    <tr>
-      <th>Subgroup</th>
-      <th>Trade</th>
-      <th>Question Group</th>
-      <th>Actions</th>
+      <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
 
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let client of questionGroupsView">
-      
-      <td>{{ client.subgroupName }}</td>
-      <td>{{ client.tardeName }}</td>
-      <td>{{ client.questionGroupText }}</td>
-      <td> 
-        <div class="action-commonview"> 
-          <button type="text" (click) = "editQuestionGroup(client.questionGroupId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
-            <span class="edit-tessst"> 
-             <i class="las la-pencil-alt"></i>
-            </span> 
-          </button>
-          <button type="text" (click) = "deActivate(client.questionGroupId)" class="Delete-modal"> 
-            <span class="edit-tessst"> 
-              <i class="lar la-trash-alt"></i>
-            </span> 
-          </button>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+                <th>Subgroup</th>
+                <th>Trade</th>
+                <th>Question Group</th>
+                <th>Actions</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of questionGroupsView">
+
+                <td>{{ client.subgroupName }}</td>
+                <td>{{ client.tardeName }}</td>
+                <td>{{ client.questionGroupText }}</td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" (click)="editQuestionGroup(client.questionGroupId)" class="edit-modal add-modal"
+                      data-toggle="modal" data-target="#exampleModalCenter">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
+                    </button>
+                    <button type="text" (click)="deActivate(client.questionGroupId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="lar la-trash-alt"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
         </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-</div>
 
 
-</div>
-<!-- Example DataTables Card-->
+      </div>
+      <!-- Example DataTables Card-->
 
-</div>
-</div>
+    </div>
+  </div>
   <app-footer></app-footer>
-  

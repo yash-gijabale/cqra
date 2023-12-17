@@ -12,7 +12,7 @@ export class FormanData {
     public contractorId: number,
     public foremanName: string,
     public isActive: boolean
-  ) {}
+  ) { }
 }
 
 export class ContractorData {
@@ -23,7 +23,7 @@ export class ContractorData {
     public contarctorEmail: string,
     public contarctorPhone: string,
     public isActive: boolean
-  ) {}
+  ) { }
 }
 @Component({
   selector: "app-contractor-forman",
@@ -37,7 +37,8 @@ export class ContractorFormanComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<FormanData> = new Subject();
   forman: FormanData[];
-  
+
+  isLoading: boolean
 
   constructor(
     private clientService: ClientServiceService,
@@ -48,30 +49,21 @@ export class ContractorFormanComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.isLoading = true
+
     this.dtOptions = {
       pagingType: "full_numbers",
       pageLength: 10,
       lengthMenu: [10, 25, 50],
     };
 
-    // this.commanService.getContractorsById('107').subscribe(
-    //   (data) => {
-    //     // console.log("----> office service : get all data", data);
-    //     this.contractor = data;
-    //     console.log(this.contractor.contractorName)
-    //   },
-    //   (err) => {
-    //     console.log("-----> err", err);
-    //   }
-    // );
-
     this.clientService.getAllForemans().subscribe(
       (data) => {
         console.log("----> office service : get all data", data);
         this.forman = data;
-
-        // ADD THIS
         this.dtTrigger.next();
+        this.isLoading = false;
       },
       (err) => {
         console.log("-----> err", err);
@@ -82,23 +74,22 @@ export class ContractorFormanComponent implements OnInit {
 
   editClient(id) {
     console.log(`update ${id}`)
-    this.router.navigate(['createForman',id])
+    this.router.navigate(['createForman', id])
   };
 
-  deActivateClient(id)
-  {
+  deActivateClient(id) {
     let isDelete = confirm('Are you sure want to delete this ?')
-    if(isDelete){
+    if (isDelete) {
       console.log(id)
       this.clientService.deleteForeman(id)
-      .subscribe(data=>{
-        // this.router.navigate(['contractorForman']);
-        location.reload()
+        .subscribe(data => {
+          // this.router.navigate(['contractorForman']);
+          location.reload()
 
-      },
-      (err)=>{
-        console.log(err)
-      })
+        },
+          (err) => {
+            console.log(err)
+          })
     }
   }
 }

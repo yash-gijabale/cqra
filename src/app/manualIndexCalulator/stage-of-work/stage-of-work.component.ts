@@ -33,6 +33,7 @@ export class StageOfWorkComponent implements OnInit {
 
   snapAuditId: number
   stageOfWorksList:StageOfWork[]
+  isLoading: boolean
   constructor(
     private route: ActivatedRoute,
     private clientService: ClientServiceService,
@@ -40,6 +41,7 @@ export class StageOfWorkComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isLoading = true
     this.snapAuditId = this.route.snapshot.params['id']
 
     this.dtOptions = {
@@ -54,11 +56,8 @@ export class StageOfWorkComponent implements OnInit {
     .subscribe(data => {
       console.log(data)
       this.stageOfWorksList = data;
-      setTimeout(
-        function () {
-          this.dtTrigger.next();
-        }.bind(this)
-      );
+      this.dtTrigger.next();
+      this.isLoading = false
     })
   }
 

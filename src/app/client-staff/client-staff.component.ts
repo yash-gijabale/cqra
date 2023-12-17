@@ -19,6 +19,8 @@ export class ClientStaffComponent implements OnInit {
 
   staffData: clientStaffData[];
 
+  isLoading:boolean
+
   constructor(
     private clientServices: ClientServiceService,
     private route: ActivatedRoute,
@@ -26,6 +28,9 @@ export class ClientStaffComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.isLoading = true
+
     this.dtOptions = {
       pagingType: "full_numbers",
       pageLength: 10,
@@ -36,6 +41,7 @@ export class ClientStaffComponent implements OnInit {
       console.log("ALL Staff==", data);
       this.staffData = data;
       this.dtTrigger.next()
+      this.isLoading = false
     });
   }
 

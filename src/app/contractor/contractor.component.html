@@ -2,74 +2,78 @@
 <div class="content-wrapper">
   <div class="container-fluid">
     <div class="add-bg-here">
-       <div class="add-container-viewcommon">
-         <div class="main-header_createview">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
           <div class="left-side-header">
-              <div class="create-content-header">
-                <h1> Manage Contractor </h1>
-                 
-              </div>
+            <div class="create-content-header">
+              <h1> Manage Contractor </h1>
+
+            </div>
           </div>
-       
-         <div class="right-side-create-view ">
-             <div class="create-content-operations">
-               <a routerLink="/createContractor/-1"> 
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <a routerLink="/createContractor/-1">
                 <button type="button"> Create Contractor </button>
-               </a>
-             </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    
-    <div class="row m-0">
-      <div class="col-xl-12 col-sm-12 mb-3">
-           <!-- Example DataTables Card-->
-   
-     
-<table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" id="customers"  class="row-border hover" style="width:100%">
-  <thead>
-    <tr>
-      
-      <th>Contractor Name</th>
-      <th>Address</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let client of contractors">
-      
-      <td>{{ client.contractorName }}</td>
-      <td>{{ client.contarctorAddress }}</td>
-      <td>{{ client.contarctorEmail }}</td>
-      <td>{{ client.contarctorPhone }}</td>
-      <td> 
-        <div class="action-commonview"> 
-          <button type="text" (click) = "editContractor(client.contractorId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
-            <span class="edit-tessst"> 
-             <i class="las la-pencil-alt"></i>
-            </span> 
-          </button>
-          <button type="text" (click) = "deleteContractor(client.contractorId)" class="Delete-modal"> 
-            <span class="edit-tessst"> 
-              <i class="lar la-trash-alt"></i>
-            </span> 
-          </button>
+
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+
+                <th>Contractor Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of contractors">
+
+                <td>{{ client.contractorName }}</td>
+                <td>{{ client.contarctorAddress }}</td>
+                <td>{{ client.contarctorEmail }}</td>
+                <td>{{ client.contarctorPhone }}</td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" (click)="editContractor(client.contractorId)" class="edit-modal add-modal"
+                      data-toggle="modal" data-target="#exampleModalCenter">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
+                    </button>
+                    <button type="text" (click)="deleteContractor(client.contractorId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="lar la-trash-alt"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
         </div>
-      </td>
-    </tr>
-  </tbody>
-
-</table>
-
-</div>
 
 
-</div>
-<!-- Example DataTables Card-->
+      </div>
 
-</div>
-</div>
+      <!-- Example DataTables Card-->
+
+    </div>
+  </div>
   <app-footer></app-footer>
-  

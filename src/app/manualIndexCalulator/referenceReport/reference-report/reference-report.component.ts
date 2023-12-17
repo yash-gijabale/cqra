@@ -9,7 +9,7 @@ export class RefereneceReport {
     public referenceReportId: number,
     public snapAuditId: number,
     public referenceReportName: string
-  ) {}
+  ) { }
 }
 @Component({
   selector: "app-reference-report",
@@ -25,14 +25,16 @@ export class ReferenceReportComponent implements OnInit {
 
   snapAuiditId: number;
   referenceReport: RefereneceReport[];
+  isLoading: boolean
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientService: ClientServiceService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.isLoading = true
     this.dtOptions = {
       pagingType: "full_numbers",
       pageLength: 10,
@@ -45,27 +47,28 @@ export class ReferenceReportComponent implements OnInit {
     this.clientService.getAllReferenceReport().subscribe((data) => {
       console.log(data);
       this.referenceReport = data;
-      setTimeout(
-        function () {
-          this.dtTrigger.next();
-        }.bind(this)
-      );
+      this.dtTrigger.next();
+      this.isLoading = false
+
+      // setTimeout(
+      //   function () {
+      //     this.dtTrigger.next();
+      //   }.bind(this)
+      // );
     });
   }
 
-  editReport(id)
-  {
+  editReport(id) {
     this.router.navigate(['createReferenceNote', this.snapAuiditId, id])
   }
-  deActive(id)
-  {
+  deActive(id) {
     let isDelete = confirm('Are you sure want to delete ?')
-    if(isDelete){
+    if (isDelete) {
       this.clientService.deleteReferenceReport(id)
-      .subscribe(data => {
-        console.log('deleted')
-        location.reload()
-      })
+        .subscribe(data => {
+          console.log('deleted')
+          location.reload()
+        })
     }
   }
 }

@@ -54,9 +54,14 @@ export class ProjectComponent implements OnInit {
   projects: ProjectData[];
   ProjectViews: ProjectView[];
 
+  isLoading:boolean
+
   constructor(private clientService: ClientServiceService, private router: Router) { }
 
   ngOnInit() {
+
+    this.isLoading = true
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
@@ -67,9 +72,8 @@ export class ProjectComponent implements OnInit {
     this.clientService.getAllProject().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.ProjectViews = data;
-
-      // ADD THIS
       this.dtTrigger.next();
+      this.isLoading = false
 
     }, (err) => {
       console.log('-----> err', err);

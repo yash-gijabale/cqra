@@ -1,22 +1,22 @@
-import { Component,ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { ClientServiceService } from '../service/client-service.service';
 
-export class ClientData{
+export class ClientData {
   constructor(
-    public clientId:number,
+    public clientId: number,
     public clientName: string,
     public clientCode: string,
     public clientContactPerson: string,
     public clientAddress: string,
     public clientEmail: string
-  ){
+  ) {
 
   }
 }
- 
+
 @Component({
   selector: 'app-client',
   templateUrl: './client.component.html',
@@ -29,48 +29,49 @@ export class ClientComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<ClientData> = new Subject();
 
-  clients:ClientData[]
+  clients: ClientData[]
+  isLoading: boolean
 
-  constructor(private clientService:ClientServiceService,private router: Router) { }
+  constructor(private clientService: ClientServiceService, private router: Router) { }
 
   ngOnInit() {
+    this.isLoading = true
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      lengthMenu : [ 10, 25, 50]
+      lengthMenu: [10, 25, 50]
     };
 
     this.clientService.getAllClients().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.clients= data;
-    
-      // ADD THIS
+      this.clients = data;
       this.dtTrigger.next();
-    
+      this.isLoading = false
+
     }, (err) => {
       console.log('-----> err', err);
     })
-  
-    
+
+
   }
 
-  
+
   editClient(id) {
     console.log(`update ${id}`)
-    this.router.navigate(['createClient',id])
+    this.router.navigate(['createClient', id])
   };
 
-  deActivateClient(id){
+  deActivateClient(id) {
     const isDelete = confirm('Are you sure want to delete !');
-    if(isDelete){
+    if (isDelete) {
       this.clientService.deleteClient(id)
-      .subscribe(
-        data => {
-          console.log('deleted !')
-          location.reload();
-        },
-        err => console.log(err)
-      )
+        .subscribe(
+          data => {
+            console.log('deleted !')
+            location.reload();
+          },
+          err => console.log(err)
+        )
     }
   }
 
