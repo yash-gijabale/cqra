@@ -23,7 +23,7 @@
 
 
 
-      <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+      <div *ngIf="isLoading; then thenBlock"></div>
       <ng-template #thenBlock>
         <app-loader></app-loader>
       </ng-template>

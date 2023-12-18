@@ -32,7 +32,8 @@ import { SamplingData, SamplingView } from '../create-sampling/create-sampling.c
 })
 export class ClientServiceService {
   //private REST_API_SERVER = "http://18.217.108.137:8080";
-  private REST_API_SERVER = "http://localhost:9090";
+  // private REST_API_SERVER = "http://18.217.108.137:9090"; //working IP Adderess
+  private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
   //private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
   constructor(private httpClient: HttpClient) { }
   getAllClients() {
@@ -395,7 +396,10 @@ createReferenceReport(data): Observable<ClientServiceService>{
   //STAGE OF WORK
 
 
-  //REMARKS (LAST NOTES)
+  //REMARKS  API CALL (LAST NOTES)
+  createRemakr(data) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addlastNote`, data)
+  }
   getRemarks(id) {
     return this.httpClient.get<Remarks[]>(`${this.REST_API_SERVER}/lastNotebysnapauditid/${id}`)
   }

@@ -29,13 +29,12 @@
           <div class="form-group">
             <label>User</label>
             <select formControlName="userId" class="form-control">
-              <option [value]="0">Please Select</option>
-              <option [value]="1">Both</option>
-              <option [value]="2">Device</option>
-              <option [value]="3">Web</option>
+              <option [value]="o.userId" *ngFor="let o of users">
+                {{o.userFullName}}
+              </option>
             </select>
-            <div *ngIf="submitted && f.selUser.errors" class="invalid-feedback">
-              <div *ngIf="f.selUser.errors.required">User is required</div>
+            <div *ngIf="submitted && f.userId.errors" class="invalid-feedback">
+              <div *ngIf="f.userId.errors.required">User is required</div>
             </div>
           </div>
           <div class="form-group">
@@ -84,8 +83,8 @@
           </div>
           <div class="form-group">
             <label>Trade Name</label>
-            <select formControlName="tradeId" class="form-control">
-              <option [value]="o.tradeId" *ngFor="let o of trades">
+            <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()">
+              <option [value]="o.tardeId" *ngFor="let o of trades">
                 {{o.tradeName}}
               </option>
             </select>
@@ -95,11 +94,10 @@
           </div>
           <div class="form-group">
             <label>Checklist Name </label>
-            <select formControlName="checklistId" class="form-control" multiple>
-              <option [value]="0">Please Select</option>
-              <option [value]="1">Both</option>
-              <option [value]="2">Device</option>
-              <option [value]="3">Web</option>
+            <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()">
+              <option [value]="o.checkistIdChecklist" *ngFor="let o of checklists">
+                {{o.checklistNameChecklist}}
+              </option>
             </select>
             <div *ngIf="submitted && f.selChecklist.errors" class="invalid-feedback">
               <div *ngIf="f.selChecklist.errors.required">Checklist is required</div>

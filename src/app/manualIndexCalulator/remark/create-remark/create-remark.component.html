@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/remarks">Manage Remarks </a> </button>
+            <button type="button"> <a [routerLink]="'/remarks/'+snapAuditId">Manage Remarks </a> </button>
           </div>
         </div>
       </div>
@@ -28,9 +28,9 @@
         <form [formGroup]="remarkFrom" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Remark</label>
-            <input type="text" formControlName="lastMoteText" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-              <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+            <input type="text" formControlName="lastMoteText" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastMoteText.errors }" />
+            <div *ngIf="submitted && f.lastMoteText.errors" class="invalid-feedback">
+              <div *ngIf="f.lastMoteText.errors.required">Remark is required</div>
             </div>
           </div>
           <div class="form-group">

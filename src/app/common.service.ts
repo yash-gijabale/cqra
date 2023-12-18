@@ -18,7 +18,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class CommonService {
-  private REST_API_SERVER = "http://localhost:9090";
+  // private REST_API_SERVER = "http://18.217.108.137:9090";//working IP Address
+  private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
   //private REST_API_SERVER = "http://18.217.108.137:8080";
   constructor(private httpClient: HttpClient) { }
 
@@ -58,6 +59,9 @@ export class CommonService {
 
   getChecklists(userId,tradeId){
     return this.httpClient.get<Checklist[]>(this.REST_API_SERVER+`/common/getAllChecklists/${userId}`);
+  }
+  getChecklistsByTrade(tradeId){
+    return this.httpClient.get<Checklist[]>(this.REST_API_SERVER+`/findbytradeid/${tradeId}`);
   }
 
   getQuestionGroup(userId){

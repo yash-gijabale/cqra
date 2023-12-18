@@ -8,7 +8,8 @@ import { ClientData } from "../client/client.component";
 import { data } from "jquery";
 import { Trade } from "../trade/trade.component";
 import { TradeMaintanceService } from "../trade-maintance.service";
-
+import { UserView } from "../user-log/user-log.component";
+import { CheckListView } from "../edit-non-conf/edit-non-conf.component";
 @Component({
   selector: "app-create-user-allocation",
   templateUrl: "./create-user-allocation.component.html",
@@ -23,13 +24,15 @@ export class CreateUserAllocationComponent implements OnInit {
   SelChecklist: string = "0";
   SelClientId: string = "0";
   SelStage: string = "0";
-  structures:any;
-  stages:any;
+  structures: any;
+  stages: any;
+  SelTrade:string = "0";
 
-  clients :ClientData[]
+  clients: ClientData[]
   trades: Trade[]
-
-  projects:ProjectData[];
+  users: UserView[]
+  projects: ProjectData[];
+  checklists: any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,30 +41,33 @@ export class CreateUserAllocationComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private commanService: CommonService,
     private tradeMaintance: TradeMaintanceService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.commanService.getAllUsers()
-    .subscribe(data=> {
-      console.log('USERS ==>',data)
-    })
+      .subscribe(data => {
+        console.log('USERS ==>', data)
+        this.users = data
+      })
 
     this.clientServiceService.getAllClients()
-    .subscribe(data => {
-      this.clients = data;
-    })
+      .subscribe(data => {
+        this.clients = data;
+      })
 
     this.tradeMaintance.getAllTrades()
-    .subscribe(data => {
-      this.trades = data;
-    })
+      .subscribe(data => {
+        this.trades = data;
+        console.log('trade--->', data)
+      })
+
 
     this.userAllocationForm = this.formBuilder.group({
       clientId: ['', Validators.required],
-      userId:['', Validators.required],
-      projectId:['', Validators.required],
-      structureId : ['', Validators.required],
-      stageId : ['', Validators.required],
+      userId: ['', Validators.required],
+      projectId: ['', Validators.required],
+      structureId: ['', Validators.required],
+      stageId: ['', Validators.required],
       tradeId: ['', Validators.required],
       checklistId: ['', Validators.required]
     })
@@ -76,43 +82,53 @@ export class CreateUserAllocationComponent implements OnInit {
     console.log(this.userAllocationForm.value)
   }
 
-  getProjects(){
+  getProjects() {
     console.log(this.SelClientId)
     this.commanService.getClientProject(this.SelClientId)
-    .subscribe(
-      (data) => {
-      console.log('Project Data==',data)
-      this.projects= data;
-    
-    }, (err) => {
-      console.log('-----> err', err);
-    })
+      .subscribe(
+        (data) => {
+          console.log('Project Data==', data)
+          this.projects = data;
+
+        }, (err) => {
+          console.log('-----> err', err);
+        })
   }
 
-  getStructure(){
+  getStructure() {
     console.log(this.SelProject)
-    this.commanService.getStructures(this.SelClientId,this.SelProject)
-    .subscribe(
-      (data) => {
-      console.log('Structure Data==',data)
-      this.structures= data;
-    
-    }, (err) => {
-      console.log('-----> err', err);
-    })
+    this.commanService.getStructures(this.SelClientId, this.SelProject)
+      .subscribe(
+        (data) => {
+          console.log('Structure Data==', data)
+          this.structures = data;
+
+        }, (err) => {
+          console.log('-----> err', err);
+        })
   }
 
-  getStages()
-  {
-    console.log(this.SelStructure)
-    this.commanService.getStages(this.SelClientId,this.SelProject, this.SelStructure)
+  getStages() {
+    console.log(this.userAllocationForm.value.tradeId)
+    this.commanService.getStages(this.SelClientId, this.SelProject, this.SelStructure)
+      .subscribe(
+        (data) => {
+          console.log('stage Data==', data)
+          this.stages = data;
+
+        }, (err) => {
+          console.log('-----> err', err);
+        })
+  }
+
+  getChecklist() {
+    console.log(this.SelTrade)
+    this.commanService.getChecklistsByTrade(this.SelTrade)
     .subscribe(
-      (data) => {
-      console.log('stage Data==',data)
-      this.stages= data;
-    
-    }, (err) => {
-      console.log('-----> err', err);
-    })
+      data => {
+        console.log('checklist-->', data)
+        this.checklists = data
+      }
+    )
   }
 }

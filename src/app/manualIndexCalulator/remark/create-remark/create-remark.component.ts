@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientServiceService } from 'src/app/service/client-service.service';
 import { FormBuilder, FormGroup, Validator, Validators } from '@angular/forms';
-import {first} from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-remark',
@@ -14,7 +14,7 @@ export class CreateRemarkComponent implements OnInit {
   snapAuditId: number
   remarkId: number
   remarkFrom: FormGroup
-  submitted:boolean = true;
+  submitted: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private clinetService: ClientServiceService,
@@ -29,35 +29,42 @@ export class CreateRemarkComponent implements OnInit {
       lastMoteText: ['', Validators.required]
     })
 
-
-    this.clinetService.retirveRemark(this.remarkId)
-    .pipe(first())
-    .subscribe(data => {
-      this.remarkFrom.patchValue(data)
-    })
+    if (this.remarkId != -1) {
+      this.clinetService.retirveRemark(this.remarkId)
+        .pipe(first())
+        .subscribe(data => {
+          this.remarkFrom.patchValue(data)
+        })
+    }
 
 
   }
 
-  get f()
-  {
+  get f() {
     return this.remarkFrom.controls
   }
 
-  onSubmit()
-  {
-    if(this.remarkId != -1)
-    {
-      let formData = 
-      {
-        snapAuditId: this.snapAuditId,
-        lastMoteText: this.remarkFrom.value.lastMoteText
-      }
+  onSubmit() {
+    this.submitted = true
+    if (this.remarkFrom.invalid) {
+      return
+    }
+    let formData ={
+      snapAuditId: this.snapAuditId,
+      lastMoteText: this.remarkFrom.value.lastMoteText
+    }
+    if (this.remarkId != -1) {
 
       this.clinetService.updateRemark(formData, this.remarkId)
-      .subscribe(data => {
-        console.log('updated')
-      })
+        .subscribe(data => {
+          console.log('updated')
+        })
+    }else{
+      this.clinetService.createRemakr(formData)
+      .subscribe(
+        data => console.log('created -->', data),
+        err =>  console.log(err)
+      )
     }
   }
 

@@ -35,6 +35,7 @@ export class RemarkComponent implements OnInit {
   snapAuditId:number
   remarkId: number
   remarksList: Remarks[]
+  isLoading: boolean
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +44,8 @@ export class RemarkComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.isLoading = true;
     this.snapAuditId = this.route.snapshot.params['id']
     this.remarkId = this.route.snapshot.params['id2']
 
@@ -59,11 +62,8 @@ export class RemarkComponent implements OnInit {
     .subscribe(data => {
       console.log(data)
       this.remarksList = data
-      setTimeout(
-        function () {
-          this.dtTrigger.next();
-        }.bind(this)
-      );
+      this.dtTrigger.next();
+      this.isLoading = false;
     })
   }
 
