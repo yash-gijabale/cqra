@@ -78,12 +78,13 @@ export class ContractorFormanComponent implements OnInit {
   };
 
   deActivateClient(id) {
-    let isDelete = confirm('Are you sure want to delete this ?')
+    let isDelete = confirm('Are you sure want to deactivate this ?')
     if (isDelete) {
       console.log(id)
-      this.clientService.deleteForeman(id)
+      this.clientService.deactivateForeman(id)
         .subscribe(data => {
           // this.router.navigate(['contractorForman']);
+          console.log('deactivated')
           location.reload()
 
         },

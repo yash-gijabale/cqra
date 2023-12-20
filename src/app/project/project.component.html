@@ -37,6 +37,9 @@
                 <th>Client Name</th>
                 <th>City</th>
                 <th>Actions</th>
+                <th>Configure Checklist</th>
+                <th>Update Trade Details</th>
+                <th>Trade Sequence</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +62,30 @@
                     </button>
                   </div>
                 </td>
+                <td>
+                  <button type="text" (click)="editProject(client.projectId)"  class="btn btn-sm btn-warning"
+                    data-toggle="modal" data-target="#exampleModalCenter">
+                    <span class="edit-tessst">
+                      <i class="las la-pencil-alt"></i>
+                    </span>
+                  </button>
+                </td>
+                <td>
+                  <button type="text" (click)="editProject(client.projectId)" class="btn btn-sm btn-warning">
+                    <span class="edit-tessst">
+                      <i class="las la-pencil-alt"></i>
+                    </span>
+                  </button>
+                </td>
+                <td>
+                  <button type="text" (click)="editProject(client.projectId)"  class="btn btn-sm btn-warning"
+                    data-toggle="modal" data-target="#exampleModalCenter">
+                    <span class="edit-tessst">
+                      <i class="las la-pencil-alt"></i>
+                    </span>
+                  </button>
+                </td>
+
               </tr>
             </tbody>
           </table>

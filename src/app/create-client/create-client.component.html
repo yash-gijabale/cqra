@@ -55,6 +55,13 @@
                 </div>
             </div>
             <div class="form-group">
+              <label>Contact Person Phone</label>
+              <input type="text" formControlName="clientContactNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientContactNumber.errors }" />
+              <div *ngIf="submitted && f.clientContactNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientContactNumber.errors.required">Contact Person is required</div>
+              </div>
+          </div>
+            <div class="form-group">
               <label>Email</label>
               <input type="text" formControlName="clientEmail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientEmail.errors }" />
               <div *ngIf="submitted && f.clientEmail.errors" class="invalid-feedback">

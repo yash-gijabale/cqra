@@ -71,12 +71,12 @@ export class ContractorSupervisorComponent implements OnInit {
   }
 
   deActivateClient(id) {
-    let isDelete = confirm('Are you sure want to delete this ?')
+    let isDelete = confirm('Are you sure want to deactivate this ?')
     if (isDelete) {
       console.log(id)
-      this.clientServiceService.deleteSupervisor(id)
+      this.clientServiceService.deactiveSupervisor(id)
         .subscribe(data => {
-          this.router.navigate(['contractorSupervisor']);
+          console.log('deactivated')
           location.reload()
         },
           (err) => {

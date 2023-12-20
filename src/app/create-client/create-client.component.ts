@@ -31,7 +31,8 @@ export class CreateClientComponent implements OnInit {
       clientCode: ['', Validators.required],
       clientEmail: ['', [Validators.required, Validators.email]],
       clientAddress: ['', [Validators.required, Validators.minLength(6)]],
-      clientContactPerson: ['', [Validators.required]]
+      clientContactPerson: ['', [Validators.required]],
+      clientContactNumber: ['', Validators.required]
 
     });
   }

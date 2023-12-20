@@ -1,69 +1,92 @@
 <app-header></app-header>
 <div class="content-wrapper">
-    <div class="container-fluid ">
-      <div class="add-bg-here">
-        <div class="add-container-viewcommon">
-         <div class="add-breadcrames">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a href="#">Home </a>
-              </li>
-              <li class="breadcrumb-item active">Create Trade</li>
-            </ol>
-         </div>
-          <div class="right-side-create-view">
-               <div class="create-content-operations">
-                 <button type="button"> <a routerLink="/trade">Manage Trade</a></button>
-               </div>
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Create Trade</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/trade">Manage Trade</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Create Trade</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Trade Name</label>
+            <input type="text" formControlName="tradeName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+            <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
+              <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
             </div>
           </div>
-         <div class="main-header_createview">
-            <div class="left-side-header">
-                <div class="create-content-header">
-                  <h1>Create Trade</h1>
-                </div>
-            </div>
-         </div>
-         <div class="create-viewform">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label>Trade Name</label>
-                <input type="text" formControlName="tradeName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
-                <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
-                    <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-              <label>Trade Description</label>
-              <input type="text" formControlName="discription" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.discription.errors }" />
-              <div *ngIf="submitted && f.discription.errors" class="invalid-feedback">
-                  <div *ngIf="f.discription.errors.required">Trade Description is required</div>
-              </div>
-            </div>
           <div class="form-group">
-            <label>Key Result Areas</label>
-            <input type="text" formControlName="keyResultArea" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.keyResultArea.errors }" />
+            <label>Trade Description</label>
+            <input type="text" formControlName="discription" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.discription.errors }" />
+            <div *ngIf="submitted && f.discription.errors" class="invalid-feedback">
+              <div *ngIf="f.discription.errors.required">Trade Description is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row ml-2">
+              <label>Key Result Areas</label>
+              <button class="btn btn-sm btn-secondary m-1 px-1 py-0" type="button" (click)="addKeyResultField()">+</button>
+            </div>
+            <div id="keyResultArea">
+              <input type="text" formControlName="keyResultArea" class="form-control keyResultArea mt-1" />
+            </div>
             <div *ngIf="submitted && f.keyResultArea.errors" class="invalid-feedback">
-                <div *ngIf="f.keyResultArea.errors.required">Key Result Areas is required</div>
+              <div *ngIf="f.keyResultArea.errors.required">Key Result Areas is required</div>
             </div>
           </div>
           <div class="form-group">
-              <label>Trade Group</label>
-              <select  formControlName="tradegroupId" class="form-control" > 
-                  <option  [value]="0">Please Select</option>
-                  <option [value]="o.tradegroupId" *ngFor="let o of tradeGroups">
-                    {{o.tradeGroupName}}
-                  </option>
-              </select>
-              <div *ngIf="submitted && f.tradegroupId.errors" class="invalid-feedback">
-                  <div *ngIf="f.tradegroupId.errors.required">Trade Group is required</div>
-              </div>
-          </div>
-            <div class="form-group">
-                <button class="btn btn-primary">Save</button>
+            <label>Trade Sequence</label>
+            <input type="number" formControlName="tradeSequence" class=" form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+            <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
+              <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
             </div>
+          </div>
+          <div class="form-group">
+            <label>Trade Number</label>
+            <input type="text" formControlName="tradeNumber" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+            <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
+              <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Trade Group</label>
+            <select formControlName="tradegroupId" class="form-control" multiple>
+              <option [value]="0">Please Select</option>
+              <option [value]="o.tradegroupId" *ngFor="let o of tradeGroups">
+                {{o.tradeGroupName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.tradegroupId.errors" class="invalid-feedback">
+              <div *ngIf="f.tradegroupId.errors.required">Trade Group is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
         </form>
-         </div>
       </div>
     </div>
-<app-footer></app-footer>
+  </div>
+  <app-footer></app-footer>

@@ -11,7 +11,7 @@ export class UserView {
     public userName: string,
     public userFullName: string,
     public email: string
-  ) {}
+  ) { }
 }
 
 export class EquipmentList {
@@ -24,7 +24,7 @@ export class EquipmentList {
     public image2: string,
     public source_from: number,
     public user_id: number
-  ) {}
+  ) { }
 }
 
 export class EquipmentData {
@@ -34,7 +34,7 @@ export class EquipmentData {
     public remark: string,
     public image1: string,
     public image2: string,
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -52,14 +52,17 @@ export class UserEquipmentComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<EquipmentList> = new Subject();
 
+  isLoading: boolean
+
   constructor(
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private clientService: ClientServiceService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.isLoading = true
     this.snapAuditId = this.route.snapshot.params["id"];
     this.dtOptions = {
       pagingType: "full_numbers",
@@ -69,19 +72,29 @@ export class UserEquipmentComponent implements OnInit {
     };
 
     this.clientService.getEquipUsedByCqra(this.snapAuditId)
-    .subscribe(data => {
-      console.log(data)
-      this.euipUsedList = data;
-      setTimeout(
-        function () {
-          this.dtTrigger.next();
-        }.bind(this)
-      );
-    })
+      .subscribe(data => {
+        console.log(data)
+        this.euipUsedList = data;
+        this.dtTrigger.next();
+        this.isLoading = false
+      })
   }
 
-  editEquipUSed(id)
-  {
+  editEquipUSed(id) {
     this.router.navigate(['createUserEquipment', this.snapAuditId, id])
+  }
+
+  deActivate(id) {
+    const isDelete = confirm('Are you sure want to delete ?')
+    if (isDelete) {
+      this.clientService.deleteEquipementUsedByCqra(id)
+        .subscribe(
+          data => {
+            console.log('deleted')
+            location.reload()
+          },
+          err => console.log(err)
+        )
+    }
   }
 }

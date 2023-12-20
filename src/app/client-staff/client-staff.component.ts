@@ -49,12 +49,12 @@ export class ClientStaffComponent implements OnInit {
     this.router.navigate(['createclientStaff', id])
   }
   deActivateClient(id) {
-    const isDelete = confirm('Are you sure want to delete ?')
+    const isDelete = confirm('Are you sure want to Deactivate ?')
     if (isDelete) {
-      this.clientServices.deleteClientStaff(id)
+      this.clientServices.deactivateClientStaff(id)
       .subscribe(
         data => {
-          console.log('deleted !')
+          console.log('Deactivate !')
           location.reload();
         },
         err => console.log(err)

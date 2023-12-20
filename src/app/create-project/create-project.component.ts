@@ -6,7 +6,8 @@ import { ClientData } from '../client/client.component';
 import { ClientServiceService } from '../service/client-service.service';
 import { UserView } from '../user-log/user-log.component';
 import { CommonService } from '../common.service';
-
+import { TradeMaintanceService } from '../trade-maintance.service';
+import { TradeGroup } from '../trade-group/trade-group.component';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -18,18 +19,21 @@ export class CreateProjectComponent implements OnInit {
   SelMisId: string = "0";
   SelNCId: string = "0";
   SelRedAlert: string = "0";
+  selTradeGroup: string = "0"
   id: number;
   clients: ClientData[]
   projectForm: FormGroup;
   redAlerts;
   submitted = false;
   regionalManagers: UserView[];
+  tradeGroups: TradeGroup[]
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientServiceService: ClientServiceService,
     private formBuilder: FormBuilder,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private tradeService: TradeMaintanceService
   ) { }
 
   ngOnInit() {
@@ -58,14 +62,22 @@ export class CreateProjectComponent implements OnInit {
       projectAddress: ['', Validators.required],
       projectCity: ['', Validators.required],
       projectKValue: ['', Validators.required],
+      projectArea: ['', Validators.required],
+      areaUnit: ['', Validators.required],
       projectStartDate: ['', Validators.required],
       projectEndDate: ['', Validators.required],
       projectMisNCs: ['', Validators.required],
       projectNCOpen: ['', Validators.required],
       projectRedalert: ['', Validators.required],
       projectCCmails: ['', [Validators.required, Validators.email]],
-      projectAutoNCOpen: ['', Validators.required],
-      projectAutoNCOpenWithEmail: ['', Validators.required],
+      mockUpApproval: ['', Validators.nullValidator],
+      projectAutoNCOpenWithEmail: ['', Validators.nullValidator],
+      serviceType : ['', Validators.required],
+      protocolFinalized: ['', Validators.nullValidator],
+      training: ['', Validators.nullValidator],
+      TradeGroupId: ['', Validators.required],
+      TradeId: ['', Validators.required],
+      structureNumber: ['', Validators.required]
     });
 
     this.clientServiceService.getAllClients().subscribe((data) => {
@@ -75,6 +87,13 @@ export class CreateProjectComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     })
+
+    this.tradeService.getAllTradeGroups()
+    .subscribe(
+      data => {this.tradeGroups = data
+      console.log(this.tradeGroups)},
+      err => console.log(err)
+    )
 
 
   }
@@ -113,6 +132,18 @@ export class CreateProjectComponent implements OnInit {
     if (this.SelNCId == "1") {
       this.redAlerts = [{ value: "2", name: "Moderate and above" }, { value: "3", name: "Severe and above" }, { value: "4", name: "Very severe and above" }, { value: "5", name: "Critical" }]
     }
+  }
+
+  getTrades()
+  {
+    console.log(this.selTradeGroup);
+    this.tradeService.getTradeByTradegroupId(this.selTradeGroup)
+    .subscribe(
+      data => {
+        console.log('trades --->',data)
+      },
+      err =>  console.log(err)
+    )
   }
 
 }

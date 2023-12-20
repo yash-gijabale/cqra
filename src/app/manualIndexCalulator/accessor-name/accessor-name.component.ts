@@ -27,6 +27,7 @@ export class AccessorNameComponent implements OnInit {
 
   snapAduditId:number
   assessorNameList: AssessorName[]
+  isLoading: boolean
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -35,6 +36,7 @@ export class AccessorNameComponent implements OnInit {
 
   ngOnInit() {
 
+    this.isLoading = true
     this.snapAduditId = this.route.snapshot.params['id']
 
     this.dtOptions = {
@@ -49,11 +51,8 @@ export class AccessorNameComponent implements OnInit {
     .subscribe(data => {
       console.log(data)
       this.assessorNameList = data;
-      setTimeout(
-        function () {
-          this.dtTrigger.next();
-        }.bind(this)
-      );
+      this.dtTrigger.next();
+      this.isLoading = false
     })
   }
 

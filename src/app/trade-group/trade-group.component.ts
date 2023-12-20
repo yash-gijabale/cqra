@@ -61,9 +61,9 @@ export class TradeGroupComponent implements OnInit {
     this.router.navigate(['createTradegroup', id])
   }
   deActivate(id) {
-    let isDelete = confirm('Are you sure want to delete?')
+    let isDelete = confirm('Are you sure want to deactive?')
     if (isDelete) {
-      this.tradeMaintanceService.deleteTradeGroup(id)
+      this.tradeMaintanceService.deactivateTradeGroup(id)
         .subscribe(data => location.reload())
     }
   }

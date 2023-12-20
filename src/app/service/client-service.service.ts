@@ -54,6 +54,9 @@ export class ClientServiceService {
   deleteClient(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/client/${id}`)
   }
+  deactivateClient(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Client/${id}/${false}`,'')
+  }
 
   // PROJECT API CALL
   getAllProject() {
@@ -74,6 +77,10 @@ export class ClientServiceService {
 
   deleteProject(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/project/project/${id}`)
+  }
+
+  deactivateProject(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/project/actDea/${id}/${0}`,'')
   }
   // PROJECT API CALL
 
@@ -100,6 +107,10 @@ export class ClientServiceService {
   //SATGE API CALL
   createStage(clientData): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/stage/addStage`, clientData);
+  }
+
+  createBulkStage(data):Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/stage/addMultipleStages`, data)
   }
 
   retrieveStage(id) {
@@ -174,6 +185,10 @@ export class ClientServiceService {
   deleteForeman(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/foreman/${id}`)
   }
+
+  deactivateForeman(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Foreman/${id}/${false}`, '')
+  }
   //FOREMAN API CALL
 
 
@@ -194,6 +209,9 @@ export class ClientServiceService {
 
   deleteContractor(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/contractor/${id}`)
+  }
+  deactiveContractor(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Contractor/${id}/${0}`,'')
   }
 
   //CONTRACTOR API CALL
@@ -218,6 +236,10 @@ export class ClientServiceService {
   deleteSupervisor(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/supervisor/${id}`)
   }
+
+  deactiveSupervisor(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/supervisor/${id}/${false}`,'')
+  }
   //SUPERVISOR API CALL
 
 
@@ -241,6 +263,10 @@ export class ClientServiceService {
 
   deleteClientStaff(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/clientStaff/${id}`)
+  }
+
+  deactivateClientStaff(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Clientstaff/${id}/${0}`,'')
   }
 
   //CLIENT STAFF API CALL
@@ -427,6 +453,14 @@ createReferenceReport(data): Observable<ClientServiceService>{
 
   updateWquipment(equipmentData: EquipmentData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByCqra/${id}`, equipmentData)
+  }
+
+  createEquipementUsedByCQRA(data) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addEquipmentUsedByCqra`, data)
+  }
+
+  deleteEquipementUsedByCqra(id){
+     return this.httpClient.delete(`${this.REST_API_SERVER}/equipmentUsedByCqra/${id}`)
   }
   // EQUIPMENT USED BY CQRA
 

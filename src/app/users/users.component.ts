@@ -66,7 +66,7 @@ export class UsersComponent implements OnInit {
 
     this.userService.getAllUsers().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      //this.users= data;
+      this.users= data;
     
       // ADD THIS
       this.dtTrigger.next();

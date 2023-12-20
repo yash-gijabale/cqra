@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserView } from '../user-log/user-log.component';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class UserService {
 
   getAllUsers(){
     return this.httpClient.get<UserView[]>(this.REST_API_SERVER+'/user/getAllusers/');
+  }
+
+  createUser(data) :Observable<UserService>{
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/user/adduserData`,data)
   }
 
   

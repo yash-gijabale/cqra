@@ -11,4 +11,7 @@
   oneLine {
     display: block;
 }
-
+.d-hidden{
+  /* display: hidden; */
+  display: none !important;
+}

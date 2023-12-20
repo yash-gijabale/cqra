@@ -25,6 +25,7 @@ export class UsedEquipmentComponent implements OnInit {
   dtElement:DataTableDirective;
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<EquiUsedByCqra> = new Subject();
+  isloading: boolean
 
   constructor() { }
 

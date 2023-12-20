@@ -87,13 +87,12 @@ export class ProjectComponent implements OnInit {
   };
 
   deActivateProject(id) {
-    alert("delete");
-    const isDelete = confirm('Are you sure want to delete !')
+    const isDelete = confirm('Are you sure want to Deactivate !')
     if (isDelete) {
-      this.clientService.deleteProject(id)
+      this.clientService.deactivateProject(id)
         .subscribe(
           data => {
-            console.log('deleted !')
+            console.log('deactivated !')
             location.reload();
           },
           err => console.log(err)

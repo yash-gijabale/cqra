@@ -12,8 +12,9 @@ import { ClientServiceService } from "../service/client-service.service";
   styleUrls: ["./create-question.component.css"],
 })
 export class CreateQuestionComponent implements OnInit {
-  SelClientId: string = "0";
   SelTrade: string = "0";
+  SelSubgroup: string = "0";
+  SelQuestionGroup: string = "0";
   questionFrom: FormGroup;
   trades: Trade[];
   clients: ClientData[];
@@ -88,5 +89,13 @@ export class CreateQuestionComponent implements OnInit {
   onSubmit() {
     console.log("Id==");
     console.log(this.questionFrom.value)
+  }
+
+  getSubgroups()
+  {
+    this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
+    .subscribe(
+      data => console.log(data)
+    )
   }
 }

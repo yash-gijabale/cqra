@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
 import { ClientServiceService } from "../service/client-service.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TradeMaintanceService } from "../trade-maintance.service";
@@ -17,6 +17,7 @@ export class CreateTardeComponent implements OnInit {
   submitted = false;
   tradeGroups: TradeGroup[]
   tradeId: number
+  filed:string
 
   constructor(
     private route: ActivatedRoute,
@@ -50,8 +51,10 @@ export class CreateTardeComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       tradeName: ["", Validators.required],
       discription: ["", Validators.required],
-      keyResultArea: ["", Validators.required],
+      keyResultArea: [[], Validators.required],
       tradegroupId: ["", Validators.required],
+      tradeSequence: ['', Validators.required],
+      tradeNumber: ['', Validators.required],
     });
   }
 
@@ -60,10 +63,19 @@ export class CreateTardeComponent implements OnInit {
   }
 
   onSubmit() {
+
+    let keyResultAreaElement = document.querySelectorAll('.keyResultArea')
+    // console.log(document.querySelectorAll('.keyResultArea'))
+    let keyResultArea = []
+    keyResultAreaElement.forEach(item => {
+      keyResultArea.push((<HTMLInputElement>item).value)
+    })
+    this.registerForm.value.keyResultArea = keyResultArea
+    console.log(this.registerForm.value)
+    return
     this.submitted = true;
     console.log("Id==");
-    if(this.registerForm.invalid)
-    {
+    if (this.registerForm.invalid) {
       return
     }
     let fromData = {
@@ -92,5 +104,10 @@ export class CreateTardeComponent implements OnInit {
         })
     }
 
+  }
+  addKeyResultField() {
+    let filed = '<input type="text" formControlName="keyResultArea" class="form-control keyResultArea" />'
+    let areaFiled = <HTMLDivElement>document.querySelector('#keyResultArea')
+    areaFiled.insertAdjacentHTML('beforeend',filed)
   }
 }

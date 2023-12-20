@@ -61,11 +61,11 @@ export class TradeComponent implements OnInit {
   }
 
   deActivate(id) {
-    let isDelete = confirm('Are you sure want to delete')
+    let isDelete = confirm('Are you sure want to deactivate ?')
     if (isDelete) {
-      this.tradeMaintanceService.deleteTrade(id)
+      this.tradeMaintanceService.deactivateTrade(id)
         .subscribe(data => {
-          console.log('deleted')
+          console.log('deactivated')
           location.reload()
         }, (err) => console.log(err))
     }

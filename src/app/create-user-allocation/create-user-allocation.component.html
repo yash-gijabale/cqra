@@ -94,7 +94,7 @@
           </div>
           <div class="form-group">
             <label>Checklist Name </label>
-            <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()">
+            <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()" multiple>
               <option [value]="o.checkistIdChecklist" *ngFor="let o of checklists">
                 {{o.checklistNameChecklist}}
               </option>

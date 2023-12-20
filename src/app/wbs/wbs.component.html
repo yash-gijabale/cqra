@@ -188,14 +188,21 @@
                 <div class="form-group">
                   <label for="email">Structure Name:</label>
                   <input type="text" (ngModel)="structureName" formControlName="structureName" #structureName
-                    placeholder="Structure Name" id="user">
+                    placeholder="Structure Name" class="form-control">
                 </div>
               </div>
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="email">Structure Code:</label>
                   <input type="text" #structureCode formControlName="structureCode" placeholder="Structure Code"
-                    id="user">
+                    class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="email">Structure Area:</label>
+                  <input type="number" #structureCode formControlName="structureArea" placeholder="100000 sq"
+                    class="form-control">
                 </div>
               </div>
             </div>
@@ -236,7 +243,14 @@
                 <div class="form-group">
                   <label for="email">Structure Code:</label>
                   <input type="text" #structureCode formControlName="structureCode" placeholder="Structure Code"
-                    id="user">
+                    id="user" class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="email">Structure Area:</label>
+                  <input type="number" #structureCode formControlName="structureArea" placeholder="100000 sq" id="user"
+                    class="form-control">
                 </div>
               </div>
             </div>
@@ -272,7 +286,28 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="email">Stage Name:</label>
-                  <input type="text" formControlName="stageName" placeholder="Stage Name" id="user">
+                  <input type="text" formControlName="stageName" placeholder="Stage Name" id="user"
+                    class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="email">Stage area:</label>
+                  <input type="number" formControlName="stageArea" placeholder="10000 sqft" class="form-control">
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="chechbox"
+                    (change)="showBulkOption($event)">
+                  <label class="form-check-label" for="flexCheckDefault">Add Bulk</label>
+                </div>
+                <div class="form-group d-flex d-hidden bulkAdd">
+                  <div class="col-md-5">
+                    <label class="form-check-label" for="flexCheckDefault" >From:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="stageFrom" >
+                  </div>
+
+                  <div class="col-md-5">
+                    <label class="form-check-label" for="flexCheckDefault" >To:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="stageTo" >
+                  </div>
                 </div>
               </div>
             </div>
@@ -307,7 +342,28 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="email">Unit Name:</label>
-                  <input type="text" formControlName="unitName" placeholder="Unit Name" id="user">
+                  <input type="text" formControlName="unitName" placeholder="Unit Name" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="email">Unit area:</label>
+                  <input type="number" formControlName="unitArea" placeholder="100000 sqft" class="form-control">
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="chechbox"
+                    (change)="showBulkOption($event)">
+                  <label class="form-check-label" for="flexCheckDefault">Add Bulk</label>
+                </div>
+                <div class="form-group d-flex d-hidden bulkAdd">
+                  <div class="col-md-5">
+                    <label class="form-check-label" for="flexCheckDefault" >From:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="unitFrom" >
+                  </div>
+
+                  <div class="col-md-5">
+                    <label class="form-check-label" for="flexCheckDefault" >To:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="unitTo" >
+                  </div>
                 </div>
               </div>
             </div>
@@ -342,7 +398,27 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="email">subunit Name:</label>
-                  <input type="text" formControlName="subunitName" placeholder="Subunit Name" id="user">
+                  <input type="text" formControlName="subunitName" placeholder="Subunit Name" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="email">subunit Area:</label>
+                  <input type="number" formControlName="subunitArea" placeholder="10000 sqft" class="form-control">
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="chechbox"
+                    (change)="showBulkOption($event)">
+                  <label class="form-check-label" for="flexCheckDefault">Add Bulk</label>
+                </div>
+                <div class="form-group d-flex d-hidden bulkAdd">
+                  <div class="col-md-5">
+                    <label class="form-check-label" for="flexCheckDefault" >From:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="subunitFrom" >
+                  </div>
+
+                  <div class="col-md-5">
+                    <label class="form-check-label" for="flexCheckDefault" >To:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="subunitTo" >
+                  </div>
                 </div>
               </div>
             </div>

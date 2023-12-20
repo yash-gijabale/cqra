@@ -84,10 +84,10 @@ export class WbsComponent implements OnInit {
   stages: any;
   units: any;
   structureObj: any;
-  structureSel: string;
-  stageSel: string;
-  unitSel: string;
-  subunitSel: string;
+  structureSel: string = '0';
+  stageSel: string = '0';
+  unitSel: string = '0';
+  subunitSel: string = '0';
   subunits: any;
   isUpdate = false;
   // structure Edit
@@ -95,8 +95,9 @@ export class WbsComponent implements OnInit {
   structureCode: string;
   isChecked;
   isCheckedName;
+  addBulk: boolean = false
 
-  isLoading:boolean
+  isLoading: boolean
   @ViewChild('closebutton') closebutton;
 
   constructor(private clientServiceService: ClientServiceService, private commonService: CommonService, private formBuilder: FormBuilder, private router: Router) { }
@@ -107,7 +108,7 @@ export class WbsComponent implements OnInit {
     { sid: '4', structureName: 'Structure-4' }
   ];
   ngOnInit() {
-    this.isLoading = true
+    this.isLoading = false
     this.clientServiceService.getAllClients().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.clients = data;
@@ -121,18 +122,30 @@ export class WbsComponent implements OnInit {
     this.strctureForm = this.formBuilder.group({
       structureName: ['', Validators.required],
       structureCode: ['', Validators.required],
+      structureArea: ['', Validators.required]
     })
 
     this.stageForm = this.formBuilder.group({
-      stageName: ['', Validators.required]
+      stageName: ['', Validators.required],
+      stageArea: ['', Validators.required],
+      stageFrom: ['', Validators.nullValidator],
+      stageTo: ['', Validators.nullValidator],
+
     })
 
     this.unitForm = this.formBuilder.group({
-      unitName: ['', Validators.required]
+      unitName: ['', Validators.required],
+      unitArea: ['', Validators.required],
+      unitFrom: ['', Validators.nullValidator],
+      unitTo: ['', Validators.nullValidator],
+
     })
 
     this.subunitForm = this.formBuilder.group({
-      subunitName: ['', Validators.required]
+      subunitName: ['', Validators.required],
+      subunitArea: ['', Validators.required],
+      subunitFrom: ['', Validators.nullValidator],
+      subunitTo: ['', Validators.nullValidator],
     })
   }
   get f() { return this.registerForm.controls; }
@@ -143,6 +156,8 @@ export class WbsComponent implements OnInit {
 
   changeStatus(id) {
     if (id === 1) {
+      //clear privious form values
+      this.strctureForm.reset()
       this.isUpdate = false
     } else {
       this.isUpdate = true
@@ -190,7 +205,7 @@ export class WbsComponent implements OnInit {
             console.log('-----> err', err);
           })
 
-      // this.isUpdate = true;
+      //Patch form with new data
       this.clientServiceService.retrieveStructure(this.structureSel)
         .pipe(first())
         .subscribe(data => this.strctureForm.patchValue(data))
@@ -277,7 +292,8 @@ export class WbsComponent implements OnInit {
       projectId: this.SelProjectId,
       structureName: this.strctureForm.value.structureName,
       clientId: this.SelClientId,
-      structureCode: this.strctureForm.value.structureCode
+      structureCode: this.strctureForm.value.structureCode,
+      structureArea: this.strctureForm.value.structureArea
     }
     // console.log(formData)
     if (this.isUpdate) {
@@ -322,47 +338,71 @@ export class WbsComponent implements OnInit {
   }
 
   onStageSubmit() {
-    const formData = {
+    console.log(this.stageForm.value)
+    let formData = {
       projectId: this.SelProjectId,
       clientId: this.SelClientId,
       structureId: this.structureSel,
-      stageName: this.stageForm.value.stageName
+      stageName: this.stageForm.value.stageName,
+      stageArea: this.stageForm.value.stageArea
     }
-    console.log(formData);
+    console.log('normal-->', formData);
+
+    // return
     if (this.isUpdate) {
       let updateFomData = { ...formData, stageId: this.stageSel }
       this.clientServiceService.updateStage(updateFomData, this.stageSel)
         .subscribe(
           data => {
             console.log('updated')
-            this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel)
-              .subscribe(
-                (data) => {
-                  this.stages = data;
-
-                }, (err) => {
-                  console.log('-----> err', err);
-                })
+            this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
+            this.stageForm.reset()
           },
           err => console.log(err)
         )
 
     } else {
-      this.clientServiceService.createStage(formData)
-        .subscribe(
-          data => {
-            console.log('added', data)
-            this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel)
-              .subscribe(
-                (data) => {
-                  this.stages = data;
+      if (this.addBulk) {
+        let addFrom = this.stageForm.value.stageFrom
+        let addTo = this.stageForm.value.stageTo
+        let bulkStage = [];
+        while (addFrom <= addTo) {
+          let floorName = this.stageForm.value.stageName ? this.stageForm.value.stageName : 'Floor'
+          let stage = {
+            projectId: this.SelProjectId,
+            clientId: this.SelClientId,
+            structureId: Number(this.structureSel),
+            stageName: `${addFrom} ${floorName}`,
+            stageArea: this.stageForm.value.stageArea
+          }
 
-                }, (err) => {
-                  console.log('-----> err', err);
-                })
-          },
-          err => console.log(err)
-        )
+          bulkStage.push(stage)
+          addFrom++
+        }
+        console.log('bulk-->', bulkStage);
+        this.clientServiceService.createBulkStage(bulkStage)
+          .subscribe(
+            data => {
+              console.log('bulk stage added -->', data)
+              this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
+              this.stageForm.reset()
+            },
+            err => console.log(err)
+          )
+
+      } else {
+        this.clientServiceService.createStage(formData)
+          .subscribe(
+            data => {
+              console.log('added', data)
+              this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
+              this.stageForm.reset()
+
+            },
+            err => console.log(err)
+          )
+      }
+
     }
   }
 
@@ -390,13 +430,38 @@ export class WbsComponent implements OnInit {
 
 
   onUnitSubmit() {
-    const formData = {
+    let formData = {
       projectId: this.SelProjectId,
       clientId: this.SelClientId,
       structureId: this.structureSel,
       stageId: this.stageSel,
-      unitName: this.unitForm.value.unitName
+      unitName: this.unitForm.value.unitName,
+      unitArea: this.unitForm.value.unitArea
     }
+    console.log('Normal-->', formData);
+
+    if (this.addBulk) {
+      let addFrom = this.unitForm.value.unitFrom
+      let addTo = this.unitForm.value.unitTo
+      let data = [];
+      while (addFrom <= addTo) {
+        let floorName = this.unitForm.value.unitName ? this.unitForm.value.unitName : 'Unit'
+        let unit = {
+          projectId: this.SelProjectId,
+          clientId: this.SelClientId,
+          structureId: Number(this.structureSel),
+          stageId: Number(this.stageSel),
+          unitName: `${floorName} ${addFrom}`,
+          unitArea: this.unitForm.value.unitArea
+        }
+
+        data.push(unit)
+        addFrom++
+      }
+      console.log('bulk-->', data);
+
+    }
+    return
     if (this.isUpdate) {
 
       let updateFomData = { ...formData, unitId: this.unitSel }
@@ -469,10 +534,34 @@ export class WbsComponent implements OnInit {
       structureId: this.structureSel,
       stageId: this.stageSel,
       unitId: this.unitSel,
-      subunitName: this.subunitForm.value.subunitName
+      subunitName: this.subunitForm.value.subunitName,
+      subunitArea: this.subunitForm.value.subunitArea
     }
 
     console.log(formData)
+    if (this.addBulk) {
+      let addFrom = this.subunitForm.value.subunitFrom
+      let addTo = this.subunitForm.value.subunitTo
+      let subunitBulk = [];
+      while (addFrom <= addTo) {
+        let floorName = this.subunitForm.value.subunitName ? this.subunitForm.value.subunitName : 'Subunit'
+        let subunit = {
+          projectId: this.SelProjectId,
+          clientId: this.SelClientId,
+          structureId: Number(this.structureSel),
+          stageId: Number(this.stageSel),
+          unitId: Number(this.unitSel),
+          subunitName: `${floorName} ${addFrom}`,
+          subunitArea: this.subunitForm.value.subunitArea
+        }
+
+        subunitBulk.push(subunit)
+        addFrom++
+      }
+      console.log('bulk-->', subunitBulk);
+
+    }
+    return
     if (this.isUpdate) {
       let updateFomData = { ...formData, subunitId: this.subunitSel }
       this.clientServiceService.updateSubunit(updateFomData, this.subunitSel)
@@ -480,14 +569,14 @@ export class WbsComponent implements OnInit {
           data => {
             console.log('uopdted subunit', data)
             this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel)
-            .subscribe(
-              (data) => {
-                console.log('client Data==', data)
-                this.subunits = data;
-    
-              }, (err) => {
-                console.log('-----> err', err);
-              })
+              .subscribe(
+                (data) => {
+                  console.log('client Data==', data)
+                  this.subunits = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
           },
           err => {
             console.log(err)
@@ -499,14 +588,14 @@ export class WbsComponent implements OnInit {
           data => {
             console.log('added subunit')
             this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel)
-            .subscribe(
-              (data) => {
-                console.log('client Data==', data)
-                this.subunits = data;
-    
-              }, (err) => {
-                console.log('-----> err', err);
-              })
+              .subscribe(
+                (data) => {
+                  console.log('client Data==', data)
+                  this.subunits = data;
+
+                }, (err) => {
+                  console.log('-----> err', err);
+                })
           },
           err => console.log(err)
         )
@@ -532,6 +621,21 @@ export class WbsComponent implements OnInit {
           },
           err => console.log(err)
         )
+    }
+  }
+
+  showBulkOption(event) {
+    let checkbox = document.querySelectorAll('.bulkAdd')
+    this.addBulk = event.target.checked
+    console.log(this.addBulk)
+    if (this.addBulk) {
+      checkbox.forEach(check => {
+        check.classList.remove('d-hidden')
+      })
+    } else {
+      checkbox.forEach(check => {
+        check.classList.add('d-hidden')
+      })
     }
   }
 

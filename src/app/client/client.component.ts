@@ -62,12 +62,12 @@ export class ClientComponent implements OnInit {
   };
 
   deActivateClient(id) {
-    const isDelete = confirm('Are you sure want to delete !');
+    const isDelete = confirm('Are you sure want to deaactivate !');
     if (isDelete) {
-      this.clientService.deleteClient(id)
+      this.clientService.deactivateClient(id)
         .subscribe(
           data => {
-            console.log('deleted !')
+            console.log('deacticated !')
             location.reload();
           },
           err => console.log(err)

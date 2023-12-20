@@ -23,59 +23,59 @@ import { UserLogDataView } from './user-log/user-log.component';
   providedIn: 'root'
 })
 export class TradeMaintanceService {
- // private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
+  // private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
   //private REST_API_SERVER = "http://18.217.108.137:8080";
   // private REST_API_SERVER = "http://18.217.108.137:9090"; //working IP 
   private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllTradeGroups(){
-    return this.httpClient.get<TradeGroup[]>(this.REST_API_SERVER+'/tradeGroup/getAllTradeGroup');
+  getAllTradeGroups() {
+    return this.httpClient.get<TradeGroup[]>(this.REST_API_SERVER + '/tradeGroup/getAllTradeGroup');
   }
 
-  getAllTrades(){
-    return this.httpClient.get<Trade[]>(this.REST_API_SERVER+'/trade/getAllTrade');
+  getAllTrades() {
+    return this.httpClient.get<Trade[]>(this.REST_API_SERVER + '/getAllTrade');
   }
 
-  getAllSubgroups(){
-    return this.httpClient.get<SubgroupView[]>(this.REST_API_SERVER+'/SubGroup/getAllSubGroup');
+  getAllSubgroups() {
+    return this.httpClient.get<SubgroupView[]>(this.REST_API_SERVER + '/getAllSubGroup');
   }
 
-  getAllQuestionGroups(){
-    return this.httpClient.get<QuestionGroupView[]>(this.REST_API_SERVER+'/questionGroup/getAllQuestionGroup');
+  getAllQuestionGroups() {
+    return this.httpClient.get<QuestionGroupView[]>(this.REST_API_SERVER + '/questionGroup/getAllQuestionGroup');
   }
 
-  getAllQuestionHeadings(){
-    return this.httpClient.get<QuestionHeadingView[]>(this.REST_API_SERVER+'/questionHeading/getAllQuestionHeading');
+  getAllQuestionHeadings() {
+    return this.httpClient.get<QuestionHeadingView[]>(this.REST_API_SERVER + '/questionHeading/getAllQuestionHeading');
   }
 
-  getAllQuestions(){
-    return this.httpClient.get<Question[]>(this.REST_API_SERVER+'/question/getAllQuestion');
+  getAllQuestions() {
+    return this.httpClient.get<Question[]>(this.REST_API_SERVER + '/question/getAllQuestion');
   }
 
-  getAllChecklist(){
-    return this.httpClient.get<Checklist[]>(this.REST_API_SERVER+'/checklist/getAllChecklist');
+  getAllChecklist() {
+    return this.httpClient.get<Checklist[]>(this.REST_API_SERVER + '/checklist/getAllChecklist');
   }
 
-  getAllInspectionDocReports(){
-    return this.httpClient.get<InspectionDocView[]>(this.REST_API_SERVER+'/SAReports/inspectionDoc');
+  getAllInspectionDocReports() {
+    return this.httpClient.get<InspectionDocView[]>(this.REST_API_SERVER + '/SAReports/inspectionDoc');
   }
 
-  getAllSnggingReports(){
-    return this.httpClient.get<SnggingView[]>(this.REST_API_SERVER+'/SAReports/snggingReports');
+  getAllSnggingReports() {
+    return this.httpClient.get<SnggingView[]>(this.REST_API_SERVER + '/SAReports/snggingReports');
   }
 
-  getAllInspectionReports(){
-    return this.httpClient.get<InspectionView[]>(this.REST_API_SERVER+'/SAReports/inspectionReports');
+  getAllInspectionReports() {
+    return this.httpClient.get<InspectionView[]>(this.REST_API_SERVER + '/SAReports/inspectionReports');
   }
 
-  getAllNCsforSA(){
-    return this.httpClient.get<NcBeanSAView[]>(this.REST_API_SERVER+'/SAReports/SANCs');
+  getAllNCsforSA() {
+    return this.httpClient.get<NcBeanSAView[]>(this.REST_API_SERVER + '/SAReports/SANCs');
   }
 
   saveReport(file: any | undefined): Observable<any> {
-    return this.httpClient.post(this.REST_API_SERVER+`/SAReports/saveReport/`,file ,{
+    return this.httpClient.post(this.REST_API_SERVER + `/SAReports/saveReport/`, file, {
       responseType: 'blob'
     });
   }
@@ -84,142 +84,140 @@ export class TradeMaintanceService {
     return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/tradeGroup/addTradeGroup`, tradeGp);
   }
 
-  retriveTradeGroup(id)
-  {
-    return this.httpClient.get<TradeGroup[]>(this.REST_API_SERVER+'/tradeGroup/tradeGroup/'+id);
+  retriveTradeGroup(id) {
+    return this.httpClient.get<TradeGroup[]>(this.REST_API_SERVER + '/tradeGroup/tradeGroup/' + id);
   }
 
-  updateTradeGroup(data: TradeGroup, id){
+  updateTradeGroup(data: TradeGroup, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/tradeGroup/tradeGroup/${id}`, data)
   }
 
-  deleteTradeGroup(id)
-  {
+  deleteTradeGroup(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/tradeGroup/trade/${id}`)
   }
 
+  deactivateTradeGroup(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/tradeGroup/TradeGroup/${id}/${false}`,'')
+  }
+
   // TRADE
-  createTrade(tradeDAta: TradeGroup): Observable<TradeMaintanceService>{
+  createTrade(tradeDAta: TradeGroup): Observable<TradeMaintanceService> {
     return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/trade/addTrade`, tradeDAta);
   }
 
-  retriveTrade(id)
-  {
+  retriveTrade(id) {
     return this.httpClient.get<TradeGroup>(`${this.REST_API_SERVER}/trade/trade/${id}`)
   }
 
-  updateTrade(tradeData:TradeGroup, id)
-  {
+  updateTrade(tradeData: TradeGroup, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/trade/trade/${id}`, tradeData)
   }
-  deleteTrade(id)
-  {
+  deleteTrade(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/trade/trade/${id}`)
+  }
+  deactivateTrade(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/trade/tradestatus/${id}/${false}`,'')
   }
   // TRADE
 
   // SUBGROUP
-  createSubgroup(subgroupData: Subgroup): Observable<TradeMaintanceService>{
+  createSubgroup(subgroupData: Subgroup): Observable<TradeMaintanceService> {
     return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/SubGroup/addSubGroup`, subgroupData);
   }
-  retirveSubgroup(id)
-  {
+  retirveSubgroup(id) {
     return this.httpClient.get<Subgroup>(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`)
   }
-  updateSubgroup(data:SubgroupData, id)
-  {
+  updateSubgroup(data: SubgroupData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`, data)
   }
 
-  deleteSubgroup(id)
-  {
+  deleteSubgroup(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`)
   }
   // SUBGROUP
 
 
   //QUESTION GROUP
-  createQuestionGroup(data: QuestionGroup): Observable<TradeMaintanceService>{
+  createQuestionGroup(data: QuestionGroup): Observable<TradeMaintanceService> {
     return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/questionGroup/addQuestionGroup`, data);
   }
 
-  retriveQuestionGroup(id)
-  {
+  retriveQuestionGroup(id) {
     return this.httpClient.get<QuestionGroup>(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`)
   }
 
-  updateQuestionGroup(data: QuestionGroupData, id)
-  {
+  updateQuestionGroup(data: QuestionGroupData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`, data)
   }
 
-  deleteQuetionGroup(id)
-  {
+  deleteQuetionGroup(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`)
   }
   //QUESTION GROUP
 
   //QUESTION HEADING 
-  createQuestionHeading(data: QuestionHeading) :Observable<TradeMaintanceService>{
+  createQuestionHeading(data: QuestionHeading): Observable<TradeMaintanceService> {
     return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/questionHeading/addQuestionHeading`, data)
   }
- 
-  retriveQuestionHeading(id)
-  {
+
+  retriveQuestionHeading(id) {
     return this.httpClient.get<QuestionHeadingView>(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`)
   }
 
-  updateQuestionHeading(data: QuesHeadingData, id)
-  {
+  updateQuestionHeading(data: QuesHeadingData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`, data)
   }
 
-  deleteQuestionHeading(id)
-  {
-    return  this.httpClient.delete(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`)
+  deleteQuestionHeading(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`)
   }
   //QUESTION HEADING
 
   //NC REPORT
-  getNcsByReportId(project, trade, status, cycle, location){
+  getNcsByReportId(project, trade, status, cycle, location) {
     return this.httpClient.get<NcBeanData[]>(`${this.REST_API_SERVER}/findbyidss/${project}/${trade}/${status}/${cycle}/${location}`)
 
   }
-  
-  getNcReportById(id)
-  {
+
+  getNcReportById(id) {
     return this.httpClient.get<NcReportDetails[]>(`${this.REST_API_SERVER}/findbyidsss/${id}`)
   }
 
-  updateNcReport(data: NcReportDetails, id)
-  {
+  updateNcReport(data: NcReportDetails, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/updatebyidss/${id}`, data)
 
   }
 
   //get checklist by trade id
-  getChecklistByTrade(id)
-  {
+  getChecklistByTrade(id) {
     return this.httpClient.get<CheckListView[]>(`${this.REST_API_SERVER}/findbytradeid/${id}`)
   }
 
-  getQuestiongroupById(id)
-  {
+  getQuestiongroupById(id) {
     return this.httpClient.get<QuestionGroupView[]>(`${this.REST_API_SERVER}/findbyquestongroupid/${id}`)
   }
 
-  getQuestionById(id)
-  {
+  getQuestionById(id) {
     return this.httpClient.get<Question[]>(`${this.REST_API_SERVER}/findquestonbyid/${id}`)
   }
 
-  getEditNcsReportList(stageId, date)
-  {
+  getEditNcsReportList(stageId, date) {
     return this.httpClient.get<EditNcsListView[]>(`${this.REST_API_SERVER}/getAnswerView/${stageId}/${date}`)
 
   }
 
   //USER LOG
- 
+
+
+  //GET SUBGROUPS BY TRADE
+  getSubgroupsByTrades(tradeId) {
+    return this.httpClient.get<SubgroupView>(`${this.REST_API_SERVER}/common/getTradeSubgroup/${tradeId}`)
+  }
+
+
+  //GET TRADES BY TRADEGROYP ID
+  getTradeByTradegroupId(tradegroupId){
+    return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/trade/tradebytradegroupig/${tradegroupId}`)
+  }
 
 }

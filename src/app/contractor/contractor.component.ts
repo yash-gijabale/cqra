@@ -74,10 +74,10 @@ export class ContractorComponent implements OnInit {
     const isdelete = confirm('Are sure want to delete ?')
     if(isdelete)
     {
-      this.clientService.deleteContractor(id)
+      this.clientService.deactiveContractor(id)
       .subscribe(
         data => {
-          console.log('deleted !')
+          console.log('deActivated !')
           location.reload()
         },
         err => console.log(err)

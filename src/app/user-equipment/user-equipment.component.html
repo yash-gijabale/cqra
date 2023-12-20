@@ -2,27 +2,33 @@
 <div class="content-wrapper">
   <div class="container-fluid">
     <div class="add-bg-here">
-       <div class="add-container-viewcommon">
-         <div class="main-header_createview">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
           <div class="left-side-header">
-              <div class="create-content-header">
-                <h1> Manage User Equipment </h1>
-                
-              </div>
+            <div class="create-content-header">
+              <h1> Manage User Equipment </h1>
+
+            </div>
           </div>
-         <div class="right-side-create-view ">
-             <div class="create-content-operations">
-              <a [routerLink]="'/createUserEquipment/'+snapAuditId+'/-1'"> 
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <a [routerLink]="'/createUserEquipment/'+snapAuditId+'/-1'">
                 <button type="button"> Create User Equipment </button>
-               </a>
-             </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    <div class="row m-0">
-      <div class="col-xl-12 col-sm-12 mb-3">
-           <!-- Example DataTables Card-->
-          <table datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" id="customers" class="row-border hover" style="width:100%">
+
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
             <thead>
               <tr>
                 <th>Description</th>
@@ -40,27 +46,28 @@
                 <td>--</td>
                 <td>{{equip.image1}}</td>
                 <td>{{equip.image2}}</td>
-                <td><div class="action-commonview">
-                  <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                    data-target="#exampleModalCenter" (click)="editEquipUSed(equip.equipmentId)">
-                    <span class="edit-tessst">
-                      <i class="las la-pencil-alt"></i>
-                    </span>
-                  </button>
-                  <button type="text" class="Delete-modal"  (click)="deActivate(note.firstNoteId)">
-                    <span class="edit-tessst">
-                      <i class="lar la-trash-alt"></i>
-                    </span>
-                  </button>
-                </div></td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="editEquipUSed(equip.equipmentId)">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
+                    </button>
+                    <button type="text" class="Delete-modal" (click)="deActivate(equip.equipmentId)">
+                      <span class="edit-tessst">
+                        <i class="lar la-trash-alt"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
 
               </tr>
-              
+
             </tbody>
           </table>
+        </div>
       </div>
     </div>
   </div>
-</div>
   <app-footer></app-footer>
-  
