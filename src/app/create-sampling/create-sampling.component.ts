@@ -9,6 +9,8 @@ import { ClientServiceService } from '../service/client-service.service';
 import { ClientData } from '../client/client.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { StageData } from '../wbs/wbs.component';
+import { QuestionGroupView } from '../question-group/question-group.component';
 
 export class SamplingData {
   constructor(
@@ -42,12 +44,16 @@ export class CreateSamplingComponent implements OnInit {
   projects: ProjectData[]
   tradeGroups: TradeGroup[]
   clients: ClientData[]
-  trades: Trade[]
+  trades: any
+  questionGroup: QuestionGroupView
   samplingForm: FormGroup;
+  stages : StageData[]
   structures: any
   SelStructure:any
   SelClientId: any
   SelProject: any
+  SelStage: any
+  selTrade: any
   submitted = false
 
   constructor(
@@ -102,6 +108,7 @@ export class CreateSamplingComponent implements OnInit {
       tradeGroupId: ['', Validators.required],
       tradeId: ['', Validators.required],
       structureId: ['', Validators.required],
+      stageId: ['', Validators.required],
       completePercentage: ['', Validators.required],
     })
   }
@@ -133,8 +140,32 @@ export class CreateSamplingComponent implements OnInit {
         }, (err) => {
           console.log('-----> err', err);
         })
+      
+        this.tradeService.getProjectTrades(this.SelProject)
+        .subscribe(
+          data => { 
+            console.log('trades-->',data)
+            this.trades = data}
+        )
+  }
+  getStages(){
+    this.commanService.getStages(this.SelClientId, this.SelProject, this.SelStructure)
+    .subscribe(
+      data => {
+        this.stages = data
+      }
+    )
   }
 
+  getQuestionGroup(){
+    this.tradeService.getQuestionGroupBytradeId(this.selTrade)
+    .subscribe(
+      data =>  {
+        console.log(data)
+        this.questionGroup = data
+      }
+    )
+  }
   onSubmit() {
 
     this.submitted = true;

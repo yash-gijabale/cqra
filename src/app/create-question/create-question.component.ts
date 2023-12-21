@@ -5,7 +5,10 @@ import { ClientData } from "../client/client.component";
 import { TradeMaintanceService } from "../trade-maintance.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ClientServiceService } from "../service/client-service.service";
-
+import { SubgroupView } from "../subgroup/subgroup.component";
+import { data } from "jquery";
+import { QuestionGroupView } from "../question-group/question-group.component";
+import { QuestionHeadingView } from "../question-heading/question-heading.component";
 @Component({
   selector: "app-create-question",
   templateUrl: "./create-question.component.html",
@@ -17,6 +20,9 @@ export class CreateQuestionComponent implements OnInit {
   SelQuestionGroup: string = "0";
   questionFrom: FormGroup;
   trades: Trade[];
+  subgroups: SubgroupView
+  questionGroups: QuestionGroupView
+  questionHeading: any
   clients: ClientData[];
   submitted = false;
 
@@ -26,7 +32,7 @@ export class CreateQuestionComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private tradeMaintanceService: TradeMaintanceService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.tradeMaintanceService.getAllTrades().subscribe(
@@ -91,11 +97,27 @@ export class CreateQuestionComponent implements OnInit {
     console.log(this.questionFrom.value)
   }
 
-  getSubgroups()
-  {
+  getSubgroups() {
     this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
-    .subscribe(
-      data => console.log(data)
-    )
+      .subscribe(
+        data => {
+          console.log(data)
+          this.subgroups = data
+        }
+
+      )
+  }
+
+  getQuestionGroup() {
+    this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
+      .subscribe(data => this.questionGroups = data)
+  }
+
+  getQuestionHeading() {
+    this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(this.SelQuestionGroup)
+      .subscribe(data => {
+        console.log(data)
+        this.questionHeading = data
+      })
   }
 }

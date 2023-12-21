@@ -35,11 +35,11 @@ export class TradeMaintanceService {
   }
 
   getAllTrades() {
-    return this.httpClient.get<Trade[]>(this.REST_API_SERVER + '/getAllTrade');
+    return this.httpClient.get<Trade[]>(this.REST_API_SERVER + '/trade/getAllTrade');
   }
 
   getAllSubgroups() {
-    return this.httpClient.get<SubgroupView[]>(this.REST_API_SERVER + '/getAllSubGroup');
+    return this.httpClient.get<SubgroupView[]>(this.REST_API_SERVER + '/Subgroup/getAllSubGroup');
   }
 
   getAllQuestionGroups() {
@@ -211,13 +211,33 @@ export class TradeMaintanceService {
 
   //GET SUBGROUPS BY TRADE
   getSubgroupsByTrades(tradeId) {
-    return this.httpClient.get<SubgroupView>(`${this.REST_API_SERVER}/common/getTradeSubgroup/${tradeId}`)
+    return this.httpClient.get<SubgroupView>(`${this.REST_API_SERVER}/Subgroup/subgroupbytradeid/${tradeId}`)
+  }
+
+  //GET QUESTION GROUP BY SUBGROUP
+  getQuestiongroupBySubgroup(subgeoupId){
+    return this.httpClient.get<QuestionGroupView>(`${this.REST_API_SERVER}/questionGroup/questionGroupbysubgroup/${subgeoupId}`)
+  }
+
+  //GET QUESTION HEADING BY QUESTION GROUP
+  getQuestionHeadingByQuestionGroup(groupId){
+    return this.httpClient.get<QuesHeadingData>(`${this.REST_API_SERVER}/common/getquestionheadingbyQuestionGro/${groupId}`)
   }
 
 
   //GET TRADES BY TRADEGROYP ID
   getTradeByTradegroupId(tradegroupId){
     return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/trade/tradebytradegroupig/${tradegroupId}`)
+  }
+
+  //GET TRADES BY PROJECT ID
+  getProjectTrades(id){
+    return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/common/getProjectTrades/${id}`)
+  }
+
+  //GET QUESTION GROUP BY TRADE ID
+  getQuestionGroupBytradeId(id){
+    return this.httpClient.get<QuestionGroupView>(`${this.REST_API_SERVER}/common/getQuestiongroupbytradeid/${id}`)
   }
 
 }

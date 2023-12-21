@@ -1,0 +1,9 @@
+.trade-container{
+    height: 60vh;
+}
+.trade-cart{
+    cursor:move;
+}
+.trade-cart:hover{
+    background-color: rgb(199, 198, 197);
+}

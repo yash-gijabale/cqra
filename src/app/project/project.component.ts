@@ -99,6 +99,18 @@ export class ProjectComponent implements OnInit {
         )
     }
   }
+
+  configureChecklist(id){
+    this.router.navigate(['configureChecklist', id])
+  }
+
+  manageTradeDetails(id){
+    this.router.navigate(['projectTradeDetails', id])
+  }
+
+  manageTradeSequence(id){
+    this.router.navigate(['projectTradeSequence', id])
+  }
 }
 
 

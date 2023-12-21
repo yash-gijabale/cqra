@@ -439,29 +439,6 @@ export class WbsComponent implements OnInit {
       unitArea: this.unitForm.value.unitArea
     }
     console.log('Normal-->', formData);
-
-    if (this.addBulk) {
-      let addFrom = this.unitForm.value.unitFrom
-      let addTo = this.unitForm.value.unitTo
-      let data = [];
-      while (addFrom <= addTo) {
-        let floorName = this.unitForm.value.unitName ? this.unitForm.value.unitName : 'Unit'
-        let unit = {
-          projectId: this.SelProjectId,
-          clientId: this.SelClientId,
-          structureId: Number(this.structureSel),
-          stageId: Number(this.stageSel),
-          unitName: `${floorName} ${addFrom}`,
-          unitArea: this.unitForm.value.unitArea
-        }
-
-        data.push(unit)
-        addFrom++
-      }
-      console.log('bulk-->', data);
-
-    }
-    return
     if (this.isUpdate) {
 
       let updateFomData = { ...formData, unitId: this.unitSel }
@@ -469,37 +446,55 @@ export class WbsComponent implements OnInit {
         .subscribe(
           data => {
             console.log('updated', data)
-            this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel)
-              .subscribe(
-                (data) => {
-                  // console.log('client Data==', data)
-                  this.units = data;
-
-                }, (err) => {
-                  console.log('-----> err', err);
-                })
+            this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel).subscribe(data => this.units = data)
+            this.unitForm.reset()
           },
           err => console.log(err)
         )
 
     } else {
-
-      this.clientServiceService.createUnit(formData)
-        .subscribe(
-          data => {
-            console.log('added unit---->', data)
-            this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel)
-              .subscribe(
-                (data) => {
-                  // console.log('client Data==', data)
-                  this.units = data;
-
-                }, (err) => {
-                  console.log('-----> err', err);
-                })
+      if (this.addBulk) {
+        let addFrom = this.unitForm.value.unitFrom
+        let addTo = this.unitForm.value.unitTo
+        let data = [];
+        while (addFrom <= addTo) {
+          let floorName = this.unitForm.value.unitName ? this.unitForm.value.unitName : 'Unit'
+          let unit = {
+            projectId: this.SelProjectId,
+            clientId: this.SelClientId,
+            structureId: Number(this.structureSel),
+            stageId: Number(this.stageSel),
+            unitName: `${floorName} ${addFrom}`,
+            unitArea: this.unitForm.value.unitArea
           }
 
-        )
+          data.push(unit)
+          addFrom++
+        }
+        console.log('bulk-->', data);
+        this.clientServiceService.createBulkUnits(data)
+          .subscribe(
+            data => {
+              console.log('bulk units created-->', data)
+              this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel).subscribe((data) => this.units = data)
+              this.unitForm.reset()
+            },
+            err => console.log(err)
+          )
+
+      } else {
+        this.clientServiceService.createUnit(formData)
+          .subscribe(
+            data => {
+              console.log('added unit---->', data)
+              this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel).subscribe((data) => this.units = data)
+              this.unitForm.reset()
+            }
+
+          )
+
+      }
+
     }
     console.log(formData)
   }
@@ -538,67 +533,61 @@ export class WbsComponent implements OnInit {
       subunitArea: this.subunitForm.value.subunitArea
     }
 
-    console.log(formData)
-    if (this.addBulk) {
-      let addFrom = this.subunitForm.value.subunitFrom
-      let addTo = this.subunitForm.value.subunitTo
-      let subunitBulk = [];
-      while (addFrom <= addTo) {
-        let floorName = this.subunitForm.value.subunitName ? this.subunitForm.value.subunitName : 'Subunit'
-        let subunit = {
-          projectId: this.SelProjectId,
-          clientId: this.SelClientId,
-          structureId: Number(this.structureSel),
-          stageId: Number(this.stageSel),
-          unitId: Number(this.unitSel),
-          subunitName: `${floorName} ${addFrom}`,
-          subunitArea: this.subunitForm.value.subunitArea
-        }
-
-        subunitBulk.push(subunit)
-        addFrom++
-      }
-      console.log('bulk-->', subunitBulk);
-
-    }
-    return
     if (this.isUpdate) {
       let updateFomData = { ...formData, subunitId: this.subunitSel }
       this.clientServiceService.updateSubunit(updateFomData, this.subunitSel)
         .subscribe(
           data => {
             console.log('uopdted subunit', data)
-            this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel)
-              .subscribe(
-                (data) => {
-                  console.log('client Data==', data)
-                  this.subunits = data;
-
-                }, (err) => {
-                  console.log('-----> err', err);
-                })
+            this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel).subscribe(data => this.subunits = data)
+            this.subunitForm.reset()
           },
           err => {
             console.log(err)
           }
         )
     } else {
-      this.clientServiceService.createSubunit(formData)
+      if (this.addBulk) {
+        let addFrom = this.subunitForm.value.subunitFrom
+        let addTo = this.subunitForm.value.subunitTo
+        let subunitBulk = [];
+        while (addFrom <= addTo) {
+          let floorName = this.subunitForm.value.subunitName ? this.subunitForm.value.subunitName : 'Subunit'
+          let subunit = {
+            projectId: this.SelProjectId,
+            clientId: this.SelClientId,
+            structureId: Number(this.structureSel),
+            stageId: Number(this.stageSel),
+            unitId: Number(this.unitSel),
+            subunitName: `${floorName} ${addFrom}`,
+            subunitArea: this.subunitForm.value.subunitArea
+          }
+
+          subunitBulk.push(subunit)
+          addFrom++
+        }
+        this.clientServiceService.createBulkSubunits(subunitBulk)
         .subscribe(
           data => {
-            console.log('added subunit')
-            this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel)
-              .subscribe(
-                (data) => {
-                  console.log('client Data==', data)
-                  this.subunits = data;
-
-                }, (err) => {
-                  console.log('-----> err', err);
-                })
+            console.log('Bulk subunit created-->', data)
+            this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel).subscribe(data => this.subunits = data)
+              this.subunitForm.reset()
           },
-          err => console.log(err)
+          err =>  console.log(err)
         )
+
+      } else {
+
+        this.clientServiceService.createSubunit(formData)
+          .subscribe(
+            data => {
+              console.log('added subunit')
+              this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel).subscribe(data => this.subunits = data)
+              this.subunitForm.reset()
+            },
+            err => console.log(err)
+          )
+      }
     }
 
   }

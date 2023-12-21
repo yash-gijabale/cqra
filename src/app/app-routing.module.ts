@@ -50,7 +50,9 @@ import { NcCloserViewReportComponent } from './nc-closer-view-report/nc-closer-v
 import { UserlogReportViewComponent } from './userlog-report-view/userlog-report-view.component';
 import { SamplingComponent } from './sampling/sampling.component';
 import { CreateSamplingComponent } from './create-sampling/create-sampling.component';
-
+import { ProjectChecklistAllocationComponent } from './project-checklist-allocation/project-checklist-allocation.component';
+import { ProjectTradeDetailsComponent } from './project-trade-details/project-trade-details.component';
+import { ProjectTradeSequenceComponent } from './project-trade-sequence/project-trade-sequence.component';
 
 //Reports
 import { QualityUpdateReportComponent } from './quality-update-report/quality-update-report.component';
@@ -197,6 +199,9 @@ const routes: Routes = [
   { path: 'userlogReportView', component: UserlogReportViewComponent },
   { path: 'sampling', component: SamplingComponent },
   { path: 'createSampling/:id', component: CreateSamplingComponent },
+  { path: 'configureChecklist/:id', component: ProjectChecklistAllocationComponent },
+  { path: 'projectTradeDetails/:id', component: ProjectTradeDetailsComponent },
+  { path: 'projectTradeSequence/:id', component: ProjectTradeSequenceComponent },
 
 
 

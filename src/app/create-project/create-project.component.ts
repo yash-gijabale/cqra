@@ -8,6 +8,7 @@ import { UserView } from '../user-log/user-log.component';
 import { CommonService } from '../common.service';
 import { TradeMaintanceService } from '../trade-maintance.service';
 import { TradeGroup } from '../trade-group/trade-group.component';
+import { Trade } from '../trade/trade.component';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -27,6 +28,7 @@ export class CreateProjectComponent implements OnInit {
   submitted = false;
   regionalManagers: UserView[];
   tradeGroups: TradeGroup[]
+  trades: Trade
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -71,13 +73,14 @@ export class CreateProjectComponent implements OnInit {
       projectRedalert: ['', Validators.required],
       projectCCmails: ['', [Validators.required, Validators.email]],
       mockUpApproval: ['', Validators.nullValidator],
-      projectAutoNCOpenWithEmail: ['', Validators.nullValidator],
-      serviceType : ['', Validators.required],
+      openNc: ['', Validators.nullValidator],
+      serviceType: ['', Validators.required],
       protocolFinalized: ['', Validators.nullValidator],
       training: ['', Validators.nullValidator],
       TradeGroupId: ['', Validators.required],
       TradeId: ['', Validators.required],
-      structureNumber: ['', Validators.required]
+      noOfStructure: ['', Validators.required],
+      projectType: ['', Validators.required]
     });
 
     this.clientServiceService.getAllClients().subscribe((data) => {
@@ -89,11 +92,13 @@ export class CreateProjectComponent implements OnInit {
     })
 
     this.tradeService.getAllTradeGroups()
-    .subscribe(
-      data => {this.tradeGroups = data
-      console.log(this.tradeGroups)},
-      err => console.log(err)
-    )
+      .subscribe(
+        data => {
+          this.tradeGroups = data
+          console.log(this.tradeGroups)
+        },
+        err => console.log(err)
+      )
 
 
   }
@@ -101,18 +106,66 @@ export class CreateProjectComponent implements OnInit {
   get f() { return this.projectForm.controls; }
 
   onSubmit() {
-    console.log(this.projectForm.value);
     this.submitted = true;
     this.id = this.route.snapshot.params['id'];
     if (this.projectForm.invalid) {
       return;
     }
+
+    //Project form data
+    let projectFormData = {
+      clientId: this.projectForm.value.clientId,
+      projectName: this.projectForm.value.projectName,
+      projectCode: this.projectForm.value.projectCode,
+      projectRegionalManagerId: this.projectForm.value.projectRegionalManagerId,
+      projectAddress: this.projectForm.value.projectAddress,
+      projectCity: this.projectForm.value.projectCity,
+      projectKValue: this.projectForm.value.projectKValue,
+      projectArea: this.projectForm.value.projectArea,
+      areaUnit: this.projectForm.value.areaUnit,
+      projectStartDate: this.projectForm.value.projectStartDate,
+      projectEndDate: this.projectForm.value.projectEndDate,
+      projectMisNCs: this.projectForm.value.projectMisNCs,
+      projectNCOpen: this.projectForm.value.projectNCOpen,
+      projectRedalert: this.projectForm.value.projectRedalert,
+      projectCCmails: this.projectForm.value.projectCCmails,
+      serviceType: this.projectForm.value.serviceType,
+      noOfStructure: this.projectForm.value.noOfStructure,
+      mockUpApproval: this.projectForm.value.mockUpApproval ? 1 : 0,
+      openNc: this.projectForm.value.openNc ? 1 : 0,
+      protocolFinalized: this.projectForm.value.protocolFinalized ? 1 : 0,
+      training: this.projectForm.value.training ? 1 : 0,
+      projectStatus: true,
+      projectType: this.projectForm.value.projectType
+      
+    }
+    console.log(projectFormData)
+
+    //Trade allocation data 
+
+
+    // return
     console.log("Id==" + this.id);
     if (this.id == -1) {
-      this.clientServiceService.createProject(this.projectForm.value)
+      let createdProject;
+      this.clientServiceService.createProject(projectFormData)
         .subscribe(data => {
-          console.log(data)
-          // this.router.navigate(['project']);
+          console.log('project created-->', data)
+          createdProject = data;
+          let tradeAllocationData = []
+          let trades = this.projectForm.value.TradeId
+          trades && trades.forEach(trade => {
+            let tradeAllocate = {
+              fkSchemeId: createdProject && createdProject.projectId,
+              fkTradeId: trade
+            }
+            tradeAllocationData.push(tradeAllocate)
+          })
+
+          this.clientServiceService.createTradeAllocation(tradeAllocationData)
+            .subscribe(
+              data => console.log('trade allocared-->', data),
+              err => console.log(err))
         },
           err => console.log(err)
         );
@@ -134,16 +187,16 @@ export class CreateProjectComponent implements OnInit {
     }
   }
 
-  getTrades()
-  {
+  getTrades() {
     console.log(this.selTradeGroup);
     this.tradeService.getTradeByTradegroupId(this.selTradeGroup)
-    .subscribe(
-      data => {
-        console.log('trades --->',data)
-      },
-      err =>  console.log(err)
-    )
+      .subscribe(
+        data => {
+          console.log('trades --->', data)
+          this.trades = data
+        },
+        err => console.log(err)
+      )
   }
 
 }

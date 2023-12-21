@@ -67,7 +67,7 @@ export class ClientServiceService {
     return this.httpClient.get<ProjectData[]>(`${this.REST_API_SERVER}/project/project/${id}`);
   }
 
-  createProject(project: ProjectData): Observable<ClientServiceService> {
+  createProject(project): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/project/addProject/`, project);
   }
 
@@ -81,6 +81,10 @@ export class ClientServiceService {
 
   deactivateProject(id){
     return this.httpClient.put(`${this.REST_API_SERVER}/project/actDea/${id}/${0}`,'')
+  }
+
+  createTradeAllocation(data):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeTrade`, data)
   }
   // PROJECT API CALL
 
@@ -143,6 +147,10 @@ export class ClientServiceService {
   deleteUnit(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/unit/unit/${id}`)
   }
+
+  createBulkUnits(unitData): Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/unit/addMultipleUnits`, unitData)
+  }
   //UNIT API CALL
 
 
@@ -161,6 +169,10 @@ export class ClientServiceService {
 
   deleteSubunit(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/subunit/subunit/${id}`)
+  }
+
+  createBulkSubunits(subunitData):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/subunit/addMultiplesubUnits`, subunitData)
   }
   //SUBUNIT API CALL
 

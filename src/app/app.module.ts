@@ -109,6 +109,9 @@ import { UserlogReportViewComponent } from './userlog-report-view/userlog-report
 import { SamplingComponent } from './sampling/sampling.component';
 import { CreateSamplingComponent } from './create-sampling/create-sampling.component';
 import { LoaderComponent } from './loader/loader.component';
+import { ProjectChecklistAllocationComponent } from './project-checklist-allocation/project-checklist-allocation.component';
+import { ProjectTradeDetailsComponent } from './project-trade-details/project-trade-details.component';
+import { ProjectTradeSequenceComponent } from './project-trade-sequence/project-trade-sequence.component';
 
 @NgModule({
   declarations: [
@@ -211,7 +214,10 @@ import { LoaderComponent } from './loader/loader.component';
     UserlogReportViewComponent,
     SamplingComponent,
     CreateSamplingComponent,
-    LoaderComponent
+    LoaderComponent,
+    ProjectChecklistAllocationComponent,
+    ProjectTradeDetailsComponent,
+    ProjectTradeSequenceComponent
   ],
   imports: [
     BrowserModule,

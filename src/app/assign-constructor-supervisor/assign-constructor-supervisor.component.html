@@ -49,6 +49,17 @@
             </div>
           </div>
           <div class="form-group">
+            <label>Select Stages</label>
+            <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control" multiple>
+              <option [value]="0">Please Select</option>
+              <option [value]="o.structureId" *ngFor="let o of structures">
+                {{o.structureName}}
+              </option>
+            </select>
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+          <div class="form-group">
             <label>Contractor</label>
             <select [(ngModel)]="SelProject" formControlName="contractorId" class="form-control">
               <option [value]="project.projectId" *ngFor="let project of projects">
