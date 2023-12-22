@@ -8,7 +8,7 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Assign Constructor's Supervison</li>
+            <li class="breadcrumb-item active">Assign Constructor's Foreman</li>
           </ol>
         </div>
         <div class="right-side-create-view">
@@ -20,7 +20,7 @@
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1> Create Client </h1>
+            <h1> Assign Contractor Foreman </h1>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
           </div>
           <div class="form-group">
             <label>Contractor</label>
-            <select [(ngModel)]="SelContractor" formControlName="contractorId" class="form-control" (change)="getSupervisores()">
+            <select [(ngModel)]="SelContractor" formControlName="contractorId" class="form-control" (change)="getForeman()">
               <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
                 {{contractor.contractorName}}
               </option>
@@ -81,10 +81,10 @@
             </div>
           </div>
           <div class="form-group">
-            <label>Supervison</label>
-            <select  formControlName="supervisorId" class="form-control">
-              <option [value]="supervisor.supervisorId" *ngFor="let supervisor of supervisors">
-                {{supervisor.supervisorName}}
+            <label>Foremans</label>
+            <select  formControlName="ForemanId" class="form-control">
+              <option [value]="forman.foremanId" *ngFor="let forman of formans">
+                {{forman.foremanName}}
               </option>
             </select>
             <div  class="invalid-feedback">

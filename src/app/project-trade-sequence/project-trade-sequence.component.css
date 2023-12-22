@@ -1,5 +1,6 @@
 .trade-container{
     height: 60vh;
+    overflow-y: auto;
 }
 .trade-cart{
     cursor:move;

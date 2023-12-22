@@ -112,6 +112,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { ProjectChecklistAllocationComponent } from './project-checklist-allocation/project-checklist-allocation.component';
 import { ProjectTradeDetailsComponent } from './project-trade-details/project-trade-details.component';
 import { ProjectTradeSequenceComponent } from './project-trade-sequence/project-trade-sequence.component';
+import { AssignContractorForemanComponent } from './assign-contractor-foreman/assign-contractor-foreman.component';
 
 @NgModule({
   declarations: [
@@ -217,7 +218,8 @@ import { ProjectTradeSequenceComponent } from './project-trade-sequence/project-
     LoaderComponent,
     ProjectChecklistAllocationComponent,
     ProjectTradeDetailsComponent,
-    ProjectTradeSequenceComponent
+    ProjectTradeSequenceComponent,
+    AssignContractorForemanComponent
   ],
   imports: [
     BrowserModule,

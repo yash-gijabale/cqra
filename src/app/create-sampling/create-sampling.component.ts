@@ -47,9 +47,9 @@ export class CreateSamplingComponent implements OnInit {
   trades: any
   questionGroup: QuestionGroupView
   samplingForm: FormGroup;
-  stages : StageData[]
+  stages: StageData[]
   structures: any
-  SelStructure:any
+  SelStructure: any
   SelClientId: any
   SelProject: any
   SelStage: any
@@ -81,19 +81,19 @@ export class CreateSamplingComponent implements OnInit {
           data => this.samplingForm.patchValue(data),
           err => console.log(err))
     }
-    this.tradeService.getAllTradeGroups()
-      .subscribe(
-        data => {
-          this.tradeGroups = data
-          console.log(data)
-        },
-        err => console.log(err)
-      )
-    this.tradeService.getAllTrades()
-      .subscribe(data => {
-        console.log(data)
-        this.trades = data
-      })
+    // this.tradeService.getAllTradeGroups()
+    //   .subscribe(
+    //     data => {
+    //       this.tradeGroups = data
+    //       console.log(data)
+    //     },
+    //     err => console.log(err)
+    //   )
+    // this.tradeService.getAllTrades()
+    //   .subscribe(data => {
+    //     console.log(data)
+    //     this.trades = data
+    //   })
     this.clientService.getAllClients()
       .subscribe(
         data => {
@@ -140,31 +140,32 @@ export class CreateSamplingComponent implements OnInit {
         }, (err) => {
           console.log('-----> err', err);
         })
-      
-        this.tradeService.getProjectTrades(this.SelProject)
-        .subscribe(
-          data => { 
-            console.log('trades-->',data)
-            this.trades = data}
-        )
+
+    this.tradeService.getProjectTrades(this.SelProject)
+      .subscribe(
+        data => {
+          console.log('trades-->', data)
+          this.trades = data
+        }
+      )
   }
-  getStages(){
+  getStages() {
     this.commanService.getStages(this.SelClientId, this.SelProject, this.SelStructure)
-    .subscribe(
-      data => {
-        this.stages = data
-      }
-    )
+      .subscribe(
+        data => {
+          this.stages = data
+        }
+      )
   }
 
-  getQuestionGroup(){
+  getQuestionGroup() {
     this.tradeService.getQuestionGroupBytradeId(this.selTrade)
-    .subscribe(
-      data =>  {
-        console.log(data)
-        this.questionGroup = data
-      }
-    )
+      .subscribe(
+        data => {
+          console.log(data)
+          this.questionGroup = data
+        }
+      )
   }
   onSubmit() {
 
@@ -181,7 +182,8 @@ export class CreateSamplingComponent implements OnInit {
       structureId: this.samplingForm.value.structureId,
       completePercentage: this.samplingForm.value.completePercentage
     }
-    console.log(formData)
+    console.log(this.samplingForm.value)
+    return
 
     if (this.samplingId != -1) {
       this.clientService.updateSampling(formData, this.samplingId)

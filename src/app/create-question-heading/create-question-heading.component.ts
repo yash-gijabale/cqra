@@ -25,12 +25,12 @@ export class QuesHeadingData {
 })
 export class CreateQuestionHeadingComponent implements OnInit {
   SelTrade: string = "0";
+  SelSubgroup: string = "0";
   SelQuestionGp: string = "0";
   registerForm: FormGroup;
   trades: Trade[];
-  questionGroups: QuestionGroup[];
-  subGroups: SubgroupView[];
-  questionGroup: QuestionGroupView[];
+  subGroups: SubgroupView;
+  questionGroup: QuestionGroupView;
   submitted = false;
   questionHeadingId: number;
 
@@ -66,16 +66,7 @@ export class CreateQuestionHeadingComponent implements OnInit {
       }
     );
 
-    this.tradeMaintanceService.getAllSubgroups().subscribe(
-      (data) => (this.subGroups = data),
-      (err) => console.log(err)
-    );
-
-    this.tradeMaintanceService.getAllQuestionGroups().subscribe(
-      (data) => (this.questionGroup = data),
-      (err) => console.log(err)
-    );
-
+    
     this.registerForm = this.formBuilder.group({
       tardeId: ["", Validators.required],
       subgroupId: ["", Validators.required],
@@ -122,5 +113,13 @@ export class CreateQuestionHeadingComponent implements OnInit {
           (err) => console.log(err)
         );
     }
+  }
+
+  getSubgroups(){
+    this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade).subscribe(data => this.subGroups = data)
+  }
+
+  getQuestionGroups(){
+    this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup).subscribe(data => this.questionGroup = data)
   }
 }

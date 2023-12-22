@@ -28,7 +28,7 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Select Trade</label>
-            <select formControlName="tardeId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }">
+            <select [(ngModel)]="SelTrade" formControlName="tardeId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }" (change)="getSubgroups()">
               <option [value]="0">Please Select</option>
               <option [value]="o.tardeId" *ngFor="let o of trades">
                 {{o.tradeName}}

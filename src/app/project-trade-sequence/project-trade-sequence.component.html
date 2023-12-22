@@ -27,7 +27,7 @@
       <div class="create-viewform">
         <div cdkDropList class="card trade-container" (cdkDropListDropped)="drop($event)">
           <div cdkDrag class="card trade-cart m-2 p-2" *ngFor="let trade of trades">
-            <span>{{trade}}</span>
+            <span>{{trade.tradeName}}</span>
           </div>
 
         </div>

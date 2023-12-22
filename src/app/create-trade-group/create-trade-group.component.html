@@ -33,6 +33,22 @@
                     <div *ngIf="f.tradeGroupName.errors.required">TradeGroup Name is required</div>
                 </div>
             </div>
+
+            <div class="form-group">
+              <label>Trade Group Number</label>
+              <input type="text" formControlName="tradeGroupNumber" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.tradeGroupNumber.errors }" />
+              <div *ngIf="submitted && f.tradeGroupNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.tradeGroupNumber.errors.required">TradeGroup number is required</div>
+              </div>
+          </div>
+
+          <div class="form-group">
+            <label>Trade Sequence</label>
+            <input type="number" formControlName="tradeGroupSequence" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.tradeGroupSequence.errors }" />
+            <div *ngIf="submitted && f.tradeGroupSequence.errors" class="invalid-feedback">
+                <div *ngIf="f.tradeGroupSequence.errors.required">TradeGroup sequence is required</div>
+            </div>
+        </div>
             <div class="form-group">
                 <button class="btn btn-primary">Save</button>
             </div>

@@ -54,8 +54,8 @@ export class ClientServiceService {
   deleteClient(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/client/${id}`)
   }
-  deactivateClient(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/Client/${id}/${false}`,'')
+  deactivateClient(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Client/${id}/${false}`, '')
   }
 
   // PROJECT API CALL
@@ -79,11 +79,11 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/project/project/${id}`)
   }
 
-  deactivateProject(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/project/actDea/${id}/${0}`,'')
+  deactivateProject(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/project/actDea/${id}/${0}`, '')
   }
 
-  createTradeAllocation(data):Observable<ClientServiceService>{
+  createTradeAllocation(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeTrade`, data)
   }
   // PROJECT API CALL
@@ -113,7 +113,7 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/stage/addStage`, clientData);
   }
 
-  createBulkStage(data):Observable<ClientServiceService> {
+  createBulkStage(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/stage/addMultipleStages`, data)
   }
 
@@ -148,7 +148,7 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/unit/unit/${id}`)
   }
 
-  createBulkUnits(unitData): Observable<ClientServiceService>{
+  createBulkUnits(unitData): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/unit/addMultipleUnits`, unitData)
   }
   //UNIT API CALL
@@ -171,7 +171,7 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/subunit/subunit/${id}`)
   }
 
-  createBulkSubunits(subunitData):Observable<ClientServiceService>{
+  createBulkSubunits(subunitData): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/subunit/addMultiplesubUnits`, subunitData)
   }
   //SUBUNIT API CALL
@@ -198,8 +198,13 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/foreman/${id}`)
   }
 
-  deactivateForeman(id){
+  deactivateForeman(id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/Foreman/${id}/${false}`, '')
+  }
+
+  getForemanByContractorId(id){
+    return this.httpClient.get<FormanData>(`${this.REST_API_SERVER}/getforemanbyconid/${id}`)
+
   }
   //FOREMAN API CALL
 
@@ -223,7 +228,7 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/contractor/${id}`)
   }
   deactiveContractor(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/Contractor/${id}/${0}`,'')
+    return this.httpClient.put(`${this.REST_API_SERVER}/Contractor/${id}/${0}`, '')
   }
 
   //CONTRACTOR API CALL
@@ -249,8 +254,12 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/supervisor/${id}`)
   }
 
-  deactiveSupervisor(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/supervisor/${id}/${false}`,'')
+  deactiveSupervisor(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/supervisor/${id}/${false}`, '')
+  }
+
+  getSupervisorByContractorId(id){
+    return this.httpClient.get<SupervisorData>(`${this.REST_API_SERVER}/getSupervisorsbyconid/${id}`)
   }
   //SUPERVISOR API CALL
 
@@ -277,8 +286,8 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/clientStaff/${id}`)
   }
 
-  deactivateClientStaff(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/Clientstaff/${id}/${0}`,'')
+  deactivateClientStaff(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Clientstaff/${id}/${0}`, '')
   }
 
   //CLIENT STAFF API CALL
@@ -289,7 +298,7 @@ export class ClientServiceService {
   }
 
   //FIRST NOTE API CALL
-  createFirstNote(data) :Observable<ClientServiceService>{
+  createFirstNote(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addfirstNote`, data)
   }
   retrieveFirstNote(id) {
@@ -305,7 +314,7 @@ export class ClientServiceService {
 
 
   //OFFRED AREA API CALL
-  createOffredArea(data) :Observable<ClientServiceService>{
+  createOffredArea(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addofferdArea`, data)
   }
 
@@ -327,10 +336,10 @@ export class ClientServiceService {
   //OFFRED AREA API CALL
 
 
-//SAMPLED AREA API CALL
-createSampledArea(data): Observable<ClientServiceService>{
-  return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addsampledArea`, data)
-}
+  //SAMPLED AREA API CALL
+  createSampledArea(data): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addsampledArea`, data)
+  }
   getAllSampledArea() {
     return this.httpClient.get<SampledArea[]>(this.REST_API_SERVER + '/getSampledAreas')
   }
@@ -346,12 +355,16 @@ createSampledArea(data): Observable<ClientServiceService>{
   deleteSampledArea(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/sampledArea/${id}`)
   }
-//SAMPLED AREA API CALL
 
-//INSPECTION ACTIVITY NOT AVAILABALE API
-createInspectionActivity(data): Observable<ClientServiceService>{
-  return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addactivitiesNotAvailableDuringInspection`, data)
-}
+  getSampledAreaBySanapId(id){
+    return this.httpClient.get<SampledArea>(`${this.REST_API_SERVER}/sampledAreabysnapauditid/${id}`)
+  }
+  //SAMPLED AREA API CALL
+
+  //INSPECTION ACTIVITY NOT AVAILABALE API
+  createInspectionActivity(data): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addactivitiesNotAvailableDuringInspection`, data)
+  }
   getAllInspectionActivity() {
     return this.httpClient.get<InspectionActivity[]>(this.REST_API_SERVER + '/getactivitiesNotAvailableDuringInspections')
   }
@@ -364,13 +377,13 @@ createInspectionActivity(data): Observable<ClientServiceService>{
     return this.httpClient.put(`${this.REST_API_SERVER}/activitiesNotAvailableDuringInspection/${id}`, fromData)
   }
 
-//INSPECTION ACTIVITY NOT AVAILABALE API
+  //INSPECTION ACTIVITY NOT AVAILABALE API
 
 
-//REFERENCE REPORT API CALL
-createReferenceReport(data): Observable<ClientServiceService>{
-  return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addReferenceReports`, data)
-}
+  //REFERENCE REPORT API CALL
+  createReferenceReport(data): Observable<ClientServiceService> {
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addReferenceReports`, data)
+  }
   getAllReferenceReport() {
     return this.httpClient.get<RefereneceReport[]>(this.REST_API_SERVER + '/getReferenceReports')
   }
@@ -385,7 +398,7 @@ createReferenceReport(data): Observable<ClientServiceService>{
   deleteReferenceReport(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/referenceReports/${id}`)
   }
-//REFERENCE REPORT API CALL
+  //REFERENCE REPORT API CALL
 
 
   // ASSESSOR NAME SERVICES
@@ -435,7 +448,7 @@ createReferenceReport(data): Observable<ClientServiceService>{
 
 
   //REMARKS  API CALL (LAST NOTES)
-  createRemakr(data) :Observable<ClientServiceService>{
+  createRemakr(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addlastNote`, data)
   }
   getRemarks(id) {
@@ -467,12 +480,12 @@ createReferenceReport(data): Observable<ClientServiceService>{
     return this.httpClient.put(`${this.REST_API_SERVER}/equipmentUsedByCqra/${id}`, equipmentData)
   }
 
-  createEquipementUsedByCQRA(data) :Observable<ClientServiceService>{
+  createEquipementUsedByCQRA(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addEquipmentUsedByCqra`, data)
   }
 
-  deleteEquipementUsedByCqra(id){
-     return this.httpClient.delete(`${this.REST_API_SERVER}/equipmentUsedByCqra/${id}`)
+  deleteEquipementUsedByCqra(id) {
+    return this.httpClient.delete(`${this.REST_API_SERVER}/equipmentUsedByCqra/${id}`)
   }
   // EQUIPMENT USED BY CQRA
 

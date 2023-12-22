@@ -8,14 +8,13 @@ import { StageData, StructureData } from '../wbs/wbs.component';
 import { TradeMaintanceService } from '../trade-maintance.service';
 import { Trade } from '../trade/trade.component';
 import { ContractorData } from '../contractor-forman/contractor-forman.component';
-import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
+import { FormanData } from '../contractor-forman/contractor-forman.component';
 @Component({
-  selector: 'app-assign-constructor-supervisor',
-  templateUrl: './assign-constructor-supervisor.component.html',
-  styleUrls: ['./assign-constructor-supervisor.component.css']
+  selector: 'app-assign-contractor-foreman',
+  templateUrl: './assign-contractor-foreman.component.html',
+  styleUrls: ['./assign-contractor-foreman.component.css']
 })
-export class AssignConstructorSupervisorComponent implements OnInit {
-
+export class AssignContractorForemanComponent implements OnInit {
   registerForm: FormGroup;
   SelProject: any;
   SelStructure: any;
@@ -28,7 +27,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   clients: ClientData[]
   trades: Trade
   contractors: ContractorData[]
-  supervisors: SupervisorData
+  formans: FormanData
 
   constructor(
     private commonServices: CommonService,
@@ -54,7 +53,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       projectId: ['', Validators.required],
       structureId: ['', Validators.required],
       contractorId: ['', Validators.required],
-      supervisorId: ['', Validators.required],
+      ForemanId: ['', Validators.required],
       tradeId: ['', Validators.required],
     })
   }
@@ -85,11 +84,11 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       })
   }
 
-  getSupervisores() {
-   this.clientService.getSupervisorByContractorId(this.SelContractor)
+  getForeman() {
+   this.clientService.getForemanByContractorId(this.SelContractor)
    .subscribe(data => {
     console.log(data)
-    this.supervisors = data
+    this.formans = data
    })
   }
 
@@ -98,3 +97,4 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   }
 
 }
+

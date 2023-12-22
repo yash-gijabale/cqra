@@ -18,6 +18,7 @@ import { QuesHeadingData } from './create-question-heading/create-question-headi
 import { NcReportDetails } from './nc-closer-view-report/nc-closer-view-report.component';
 import { CheckListView, EditNcsListView } from './edit-non-conf/edit-non-conf.component';
 import { UserLogDataView } from './user-log/user-log.component';
+import { data } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -122,17 +123,17 @@ export class TradeMaintanceService {
 
   // SUBGROUP
   createSubgroup(subgroupData: Subgroup): Observable<TradeMaintanceService> {
-    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/SubGroup/addSubGroup`, subgroupData);
+    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/Subgroup/addSubGroup`, subgroupData);
   }
   retirveSubgroup(id) {
-    return this.httpClient.get<Subgroup>(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`)
+    return this.httpClient.get<Subgroup>(`${this.REST_API_SERVER}/Subgroup/questionGroup/${id}`)
   }
   updateSubgroup(data: SubgroupData, id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`, data)
+    return this.httpClient.put(`${this.REST_API_SERVER}/Subgroup/questionGroup/${id}`, data)
   }
 
   deleteSubgroup(id) {
-    return this.httpClient.delete(`${this.REST_API_SERVER}/SubGroup/questionGroup/${id}`)
+    return this.httpClient.delete(`${this.REST_API_SERVER}/Subgroup/questionGroup/${id}`)
   }
   // SUBGROUP
 
@@ -173,6 +174,13 @@ export class TradeMaintanceService {
   }
   //QUESTION HEADING
 
+
+  //QUESTIONS
+  createQuestions(data): Observable<TradeMaintanceService>{
+    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/question/addQuestion`, data)
+  }
+  //QUESTIONS
+  
   //NC REPORT
   getNcsByReportId(project, trade, status, cycle, location) {
     return this.httpClient.get<NcBeanData[]>(`${this.REST_API_SERVER}/findbyidss/${project}/${trade}/${status}/${cycle}/${location}`)
@@ -238,6 +246,11 @@ export class TradeMaintanceService {
   //GET QUESTION GROUP BY TRADE ID
   getQuestionGroupBytradeId(id){
     return this.httpClient.get<QuestionGroupView>(`${this.REST_API_SERVER}/common/getQuestiongroupbytradeid/${id}`)
+  }
+
+  //CHECKLIST BY SUBGROUPS
+  getChecklistBySubgroupId(id){
+    return this.httpClient.get<CheckListView>(`${this.REST_API_SERVER}/common/getQuestionGrobysubgroup/${id}`)
   }
 
 }

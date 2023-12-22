@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Trade } from "../trade/trade.component";
@@ -25,7 +26,7 @@ export class CreateQuestionGroupComponent implements OnInit {
   registerForm: FormGroup;
   trades: Trade[];
   submitted = false;
-  subgroups: SubgroupView[];
+  subgroups: SubgroupView;
   questionGroupId: number;
 
   constructor(
@@ -56,14 +57,6 @@ export class CreateQuestionGroupComponent implements OnInit {
       (err) => {
         console.log("-----> err", err);
       }
-    );
-
-    this.tradeMaintanceService.getAllSubgroups().subscribe(
-      (data) => {
-        console.log(data);
-        this.subgroups = data;
-      },
-      (err) => console.log(err)
     );
 
     this.registerForm = this.formBuilder.group({
@@ -106,5 +99,14 @@ export class CreateQuestionGroupComponent implements OnInit {
           (err) => console.log(err)
         );
     }
+  }
+
+  getSubgroups() {
+    this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
+      .subscribe(data => {
+        this.subgroups = data
+        console.log(data)
+      })
+
   }
 }

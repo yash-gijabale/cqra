@@ -7,7 +7,7 @@ import { ClientServiceService } from "src/app/service/client-service.service";
 export class SampledArea {
   constructor(
     public sampledAreaId: number,
-    public sampledAuditId: number,
+    public snapAuditId: number,
     public sampledAreaName: string
   ) {}
 }
@@ -24,7 +24,7 @@ export class SampledAreaComponent implements OnInit {
   dtTrigger: Subject<SampledArea> = new Subject();
 
   snapAuditId: number;
-  sampledAreaData: SampledArea[];
+  sampledAreaData: SampledArea;
   submitted:boolean = true;
   isLoading: boolean
 
@@ -45,7 +45,7 @@ export class SampledAreaComponent implements OnInit {
     };
 
     this.snapAuditId = this.route.snapshot.params["id"];
-    this.clientService.getAllSampledArea().subscribe(
+    this.clientService.getSampledAreaBySanapId(this.snapAuditId).subscribe(
       (data) => {
         console.log(data);
         this.sampledAreaData = data;

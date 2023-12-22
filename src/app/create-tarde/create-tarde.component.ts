@@ -71,7 +71,7 @@ export class CreateTardeComponent implements OnInit {
       keyResultArea.push((<HTMLInputElement>item).value)
     })
     this.registerForm.value.keyResultArea = keyResultArea
-    console.log(this.registerForm.value)
+    console.log(JSON.stringify(this.registerForm.value))
     return
     this.submitted = true;
     console.log("Id==");

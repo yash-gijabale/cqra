@@ -100,6 +100,7 @@ import { CreateQualityIndexReportComponent } from './create-quality-index-report
 import { CreateNcsStatusReportComponent } from './create-ncs-status-report/create-ncs-status-report.component';
 import { CreateNCClosureHistoryComponent } from './create-ncclosure-history/create-ncclosure-history.component';
 import { CreateNcLogReportComponent } from './create-nc-log-report/create-nc-log-report.component';
+import { AssignContractorForemanComponent } from './assign-contractor-foreman/assign-contractor-foreman.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -173,6 +174,7 @@ const routes: Routes = [
   { path: 'clientStaff', component: ClientStaffComponent },
   { path: 'createclientStaff/:id', component: CreateClientStaffComponent },
   { path: 'assign-constructor-supervisor', component: AssignConstructorSupervisorComponent },
+  { path: 'assign-constructor-foreman', component: AssignContractorForemanComponent },
   { path: 'assessorName/:id', component: AccessorNameComponent },
   { path: 'createAssessorName/:id/:id2', component: CreateAccessorNameComponent },
   { path: 'stageOfWork/:id', component: StageOfWorkComponent },

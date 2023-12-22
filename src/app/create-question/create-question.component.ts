@@ -18,6 +18,7 @@ export class CreateQuestionComponent implements OnInit {
   SelTrade: string = "0";
   SelSubgroup: string = "0";
   SelQuestionGroup: string = "0";
+  selQuestionType :number
   questionFrom: FormGroup;
   trades: Trade[];
   subgroups: SubgroupView
@@ -25,7 +26,7 @@ export class CreateQuestionComponent implements OnInit {
   questionHeading: any
   clients: ClientData[];
   submitted = false;
-
+  isOptionShow = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -57,7 +58,7 @@ export class CreateQuestionComponent implements OnInit {
 
 
     this.questionFrom = this.formBuilder.group({
-      tardeId: ['', Validators.required],
+      tradeId: ['', Validators.required],
       subgroupId: ['', Validators.required],
       questionGroupId: ['', Validators.required],
       questionType: ['', Validators.required],
@@ -68,23 +69,26 @@ export class CreateQuestionComponent implements OnInit {
       typeOfCheck: ['', Validators.required],
       workInstruction: ['', Validators.required],
       sampleSize: ['', Validators.required],
+      sampleUnit: ['', Validators.required],
       tolerance: ['', Validators.required],
-      minimumObservation: ['', Validators.required],
-      impactOfNc: ['', Validators.required],
+      minimumobservation: ['', Validators.required],
+      impactOnQuality: ['', Validators.required],
       ncRectification: ['', Validators.required],
       subSection: ['', Validators.required],
       category: ['', Validators.required],
-      image1: ['', Validators.required],
-      image2: ['', Validators.required],
-      image3: ['', Validators.required],
-      image4: ['', Validators.required],
-      captured: ['', Validators.required],
-      option1: ['', Validators.required],
-      option2: ['', Validators.required],
-      option3: ['', Validators.required],
-      option4: ['', Validators.required],
-      option5: ['', Validators.required],
-      option6: ['', Validators.required]
+      goodImage1: ['', Validators.required],
+      goodImage2: ['', Validators.required],
+      ncImage1: ['', Validators.required],
+      ncImage2: ['', Validators.required],
+      dataToBeCaptured: ['', Validators.required],
+      option1: ['', Validators.nullValidator],
+      option2: ['', Validators.nullValidator],
+      option3: ['', Validators.nullValidator],
+      option4: ['', Validators.nullValidator],
+      option5: ['', Validators.nullValidator],
+      option6: ['', Validators.nullValidator],
+      mandatory: ['', Validators.nullValidator],
+      measureUnit: ['', Validators.nullValidator],
     })
   }
 
@@ -92,10 +96,6 @@ export class CreateQuestionComponent implements OnInit {
     return this.questionFrom.controls;
   }
 
-  onSubmit() {
-    console.log("Id==");
-    console.log(this.questionFrom.value)
-  }
 
   getSubgroups() {
     this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
@@ -119,5 +119,21 @@ export class CreateQuestionComponent implements OnInit {
         console.log(data)
         this.questionHeading = data
       })
+  }
+
+  showOptions(){
+    if(this.selQuestionType == 2){
+      this.isOptionShow = true
+    }else{
+      this.isOptionShow = false
+    }
+  }
+
+  
+  onSubmit() {
+    console.log("Id==");
+    console.log(this.questionFrom.value)
+    this.tradeMaintanceService.createQuestions(this.questionFrom.value)
+    .subscribe(data => console.log(data))
   }
 }

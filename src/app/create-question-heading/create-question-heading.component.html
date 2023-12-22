@@ -28,7 +28,7 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Select Trade</label>
-            <select formControlName="tardeId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }">
+            <select [(ngModel)]="SelTrade" formControlName="tardeId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }" (change)="getSubgroups()">
               <option [value]="0">Please Select</option>
               <option [value]="o.tardeId" *ngFor="let o of trades">
                 {{o.tradeName}}
@@ -40,7 +40,7 @@
           </div>
           <div class="form-group">
               <label>Select Subgroup</label>
-              <select  formControlName="subgroupId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subgroupId.errors }" > 
+              <select [(ngModel)]="SelSubgroup"  formControlName="subgroupId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subgroupId.errors }"  (change)="getQuestionGroups()"> 
                   <option  [value]="0">Please Select</option>
                   <option [value]="o.subgroupId" *ngFor="let o of subGroups">
                     {{o.subgroupName}}
@@ -52,7 +52,7 @@
           </div>
           <div class="form-group">
             <label>Select Question Group</label>
-            <select  formControlName="questionGroupId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.questionGroupId.errors }"> 
+            <select [(ngModel)]="SelQuestionGp"  formControlName="questionGroupId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.questionGroupId.errors }"> 
                 <option  [value]="0">Please Select</option>
                 <option [value]="o.questionGroupId" *ngFor="let o of questionGroup">
                   {{o.questionGroupText}}

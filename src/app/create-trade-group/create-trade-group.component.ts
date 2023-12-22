@@ -33,7 +33,9 @@ export class CreateTradeGroupComponent implements OnInit {
     }
 
     this.registerForm = this.formBuilder.group({
-      tradeGroupName: ['', Validators.required]
+      tradeGroupName: ['', Validators.required],
+      tradeGroupNumber: ['', Validators.required],
+      tradeGroupSequence: ['', Validators.required]
     })
   }
 

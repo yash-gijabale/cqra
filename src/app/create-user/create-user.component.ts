@@ -67,10 +67,11 @@ export class CreateUserComponent implements OnInit {
       reviewer: this.registerForm.value.reviewer ? '1' :'' ,
       siteAdmin: this.registerForm.value.siteAdmin ? '2' :'' 
     }
-    console.log(formData)
-    if (this.registerForm.invalid) {
-      return
-    }
+    console.log(JSON.stringify(this.registerForm.value))
+    // return
+    // if (this.registerForm.invalid) {
+    //   return
+    // }
 
     console.log("Id==" + this.id);
     this.userService.createUser(this.registerForm.value)
