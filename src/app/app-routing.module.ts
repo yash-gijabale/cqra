@@ -170,7 +170,7 @@ const routes: Routes = [
   { path: 'ncClosureSa', component: NCClosureSAComponent },
   { path: 'ncReviewerSa', component: NcReviewerComponent },
   { path: 'ncApproverSa', component: NcApproverSaComponent },
-  { path: 'createinspection', component: CreaateInspectionreportComponent },
+  { path: 'createinspection/:id', component: CreaateInspectionreportComponent },
   { path: 'createsnagging', component: CreateSnaggingDocumentComponent },
   { path: 'createsignoff', component: CreateSignoffDocumentComponent },
   { path: 'contractorForman', component: ContractorFormanComponent },

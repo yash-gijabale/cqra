@@ -33,25 +33,27 @@ export class CreateUserComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
 
     if (this.id != -1) {
-      this.clientServiceService.retrieveClient(this.id)
+      this.userService.retriveUser(this.id)
         .pipe(first())
-        .subscribe(x => this.registerForm.patchValue(x));
+        .subscribe(x => {
+          console.log(x)
+          this.registerForm.patchValue(x)
+        });
     }
 
     this.registerForm = this.formBuilder.group({
       userFullName: ['', Validators.required],
-      userName: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
-      discription: ['', Validators.required],
       designation: ['', Validators.required],
       mobile: ['', [Validators.required, Validators.minLength(10)]],
       email: ['', [Validators.required, Validators.email]],
       userType: ['', Validators.required],
       roleId: ['', Validators.required],
       userImage: ['', Validators.required],
-      approver: ['', Validators.nullValidator],
-      reviwer: ['', Validators.nullValidator],
-      creater: ['', Validators.nullValidator]
+      approverN: ['', Validators.nullValidator],
+      reviewerN: ['', Validators.nullValidator],
+      createrN: ['', Validators.nullValidator]
 
     });
   }
@@ -59,28 +61,41 @@ export class CreateUserComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    // stop here if form is invalid
-    console.log(this.registerForm.value)
+
+    //UPDATING THE FORM FOR MAPPING VALUES IN BACKEND
     let formData = {
       ...this.registerForm.value,
-      userRole: Number(this.registerForm.value.userRole),
-      status:true
+      userRole: Number(this.registerForm.value.roleId),
+      status: true
     }
+    
     console.log(formData)
-    // return
-    // if (this.registerForm.invalid) {
-    //   return
-    // }
 
-    console.log("Id==" + this.id);
-    this.userService.createUser(this.registerForm.value)
-      .subscribe(
-        data => console.log('user created!--->', data),
-        err => console.log(err)
-      )
+    //IF VALDATION IS FALSE THEN RETUN AND SHOW ERRORS
+    if (this.registerForm.invalid) {
+      return
+    }
 
-    //this.clientServiceService.createClient(JSON.stringify(this.registerForm.value);
-    // console.log('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
+
+    //UPDATE USER AND CREATE USER 
+    if (this.id != -1) {
+      this.userService.updateUSer(formData, this.id)
+        .subscribe(
+          data => { console.log('user updated-->', data) },
+          err => console.log(err))
+
+    } else {
+
+      this.userService.createUser(formData)
+        .subscribe(
+          data => {
+            console.log('user created!--->', data),
+            this.registerForm.reset()
+          },
+          err => console.log(err)
+        )
+    }
+
   }
 
 }

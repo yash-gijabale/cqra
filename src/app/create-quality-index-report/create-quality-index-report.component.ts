@@ -11,7 +11,7 @@ import { ClientServiceService } from '../service/client-service.service';
 })
 export class CreateQualityIndexReportComponent implements OnInit {
 
-  registerForm: FormGroup;
+  qualityIndexReportForm: FormGroup;
   submitted = false;
   SelProject:string="0"; 
   SelClient:string="0"; 
@@ -27,8 +27,35 @@ export class CreateQualityIndexReportComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     })
+
+
+    this.qualityIndexReportForm = this.formBuilder.group({
+      clientId: ['', Validators.required],
+      projectId: ['', Validators.required],
+      structureId: ['', Validators.required],
+      tradeId: ['', Validators.required],
+      clientRep: ['', Validators.required],
+      assessmentDate: ['', Validators.required],
+      nabcReport: ['', Validators.required],
+      nabcNote: ['', Validators.required],
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
+      approver: ['', Validators.required],
+      approverDesign: ['', Validators.required],
+      revever: ['', Validators.required],
+      revekverDesign: ['', Validators.required],
+      createrName: ['', Validators.required],
+      createrDesign: ['', Validators.required],
+      reportHeader: ['', Validators.required],
+      image1: ['', Validators.required],
+      image2: ['', Validators.required],
+      cycleOfInspection: ['', Validators.required],
+      typeOfProject: ['', Validators.required],
+      uicNumber: ['', Validators.required],
+      index: ['', Validators.required]
+    })
   }
-  get f() { return this.registerForm.controls; }
+  get f() { return this.qualityIndexReportForm.controls; }
 
   onSubmit() {
       console.log("Id==");

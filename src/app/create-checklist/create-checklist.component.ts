@@ -43,12 +43,12 @@ export class FinalCheckList {
   styleUrls: ["./create-checklist.component.css"],
 })
 export class CreateChecklistComponent implements OnInit {
-  SelTrade: string = "0";
-  SelClientId: string = "0";
+  SelTrade: string = "118";
+  SelClientId: string = "222";
   registerForm: FormGroup;
   trades: Trade[];
   clients: ClientData[];
-  subgroups: SubgroupView[];
+  subgroups: SubgroupView;
   formData: FormGroup;
   form!: FormGroup;
   id: number;
@@ -64,6 +64,7 @@ export class CreateChecklistComponent implements OnInit {
 
   // finalCheckList = FinalCheckList[];
   submitted = false;
+  tradeId: String = "0"
 
   constructor(
     private route: ActivatedRoute,
@@ -148,27 +149,26 @@ export class CreateChecklistComponent implements OnInit {
       }
     );
 
-    this.clientServiceService.getAllClients().subscribe(
-      (data) => {
-        console.log("----> office service : get all data", data);
-        this.clients = data;
-      },
-      (err) => {
-        console.log("-----> err", err);
-      }
-    );
+    // this.clientServiceService.getAllClients().subscribe(
+    //   (data) => {
+    //     console.log("----> office service : get all data", data);
+    //     this.clients = data;
+    //   },
+    //   (err) => {
+    //     console.log("-----> err", err);
+    //   }
+    // );
 
-    this.tradeMaintanceService.getAllSubgroups()
-      .subscribe(data => {
-        console.log('subgroups',data);
-        this.subgroups = data;
-      })
+    // this.tradeMaintanceService.getAllSubgroups()
+    //   .subscribe(data => {
+    //     console.log('subgroups', data);
+    //     this.subgroups = data;
+    //   })
 
     this.registerForm = this.formBuilder.group({
       selTrade: ["", Validators.required],
       checkListName: ["", Validators.required],
       subgroupId: ["", Validators.required],
-      groupId: ["", Validators.required],
     });
 
     // console.log(this.formData);
@@ -180,11 +180,20 @@ export class CreateChecklistComponent implements OnInit {
     return this.registerForm.controls;
   }
 
+  getSubgroups() {
+    this.tradeMaintanceService.getSubgroupsByTrades(this.tradeId)
+      .subscribe(data => {
+        console.log('subgroups --> ', data)
+        this.subgroups = data
+      })
+  }
+
   onGetListSubmit() {
     let getForm = this.registerForm.value;
     this.getListFormData = getForm;
     console.log(getForm)
     this.commonService.getQuestionByTrade(getForm.selTrade, getForm.subgroupId).subscribe(
+    // this.commonService.getQuestionByTrade(118, 222).subscribe(
       (data) => {
         // this.structures= data;
         this.questionList2 = data;
@@ -239,10 +248,11 @@ export class CreateChecklistComponent implements OnInit {
   }
   sendCheckList() {
     // this.finalQuestion.length ? console.log(this.finalQuestion) : "";
-    let finalCheckList = [{
-      formData: this.getListFormData,
-      checkList: this.finalQuestion,
-    }]
+    let finalCheckList = {
+      formDataList: [this.getListFormData],
+      checklistQuestionDataList: this.finalQuestion,
+    }
+    console.log(finalCheckList)
     // console.log(JSON.stringify(finalCheckList));
     this.commonService.addCheckList(finalCheckList)
       .subscribe(

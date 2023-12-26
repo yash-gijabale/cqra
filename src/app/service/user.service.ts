@@ -25,10 +25,17 @@ export class UserService {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/user/adduserData`,data)
   }
 
-  retriveUSer(id){
-    // return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/`)
+  retriveUser(id){
+    return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/UserData/${id}`)
   }
 
+  updateUSer(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/UserData/${id}`,data)
+  }
+
+  deactivateUser(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/UserData/${id}/${false}`,'')
+  }
 
   //USER ALLOCATION API CALL
   createUserAllocation(data):Observable<UserService>{
@@ -40,5 +47,20 @@ export class UserService {
   }
   updateUserAllocation(data,id){
     return this.httpClient.put(`${this.REST_API_SERVER}/userAllocation/${id}`, data)
+  }
+
+
+  //USER LIST FOR INSPECTION REPORT
+
+  getApproverList(){
+    return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/UserDatabyapprover`)
+  }
+
+  getReviewverList(){
+    return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/UserDatabyrevever`)
+  }
+
+  getCreaterList(){
+    return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/UserDatabycreater`)
   }
 }

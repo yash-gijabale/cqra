@@ -122,9 +122,9 @@
 
           <div class="form-group">
             <label>Approver: </label>
-            <select [(ngModel)]="SelContractor" formControlName="approver" class="form-control">
-              <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
-                {{contractor.contractorName}}
+            <select formControlName="approver" class="form-control">
+              <option [value]="user.id" *ngFor="let user of approvers">
+                {{user.userFullName}}
               </option>
             </select>
             <div class="invalid-feedback">
@@ -140,9 +140,9 @@
 
           <div class="form-group">
             <label>Reviewer: </label>
-            <select [(ngModel)]="SelContractor" formControlName="revever" class="form-control">
-              <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
-                {{contractor.contractorName}}
+            <select formControlName="revever" class="form-control">
+              <option [value]="user.id" *ngFor="let user of reviwers">
+                {{user.userFullName}}
               </option>
             </select>
             <div class="invalid-feedback">
@@ -158,9 +158,9 @@
 
           <div class="form-group">
             <label>Creater Name: </label>
-            <select [(ngModel)]="SelContractor" formControlName="createrName" class="form-control">
-              <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
-                {{contractor.contractorName}}
+            <select formControlName="createrName" class="form-control">
+              <option [value]="user.id" *ngFor="let user of creaters">
+                {{user.userFullName}}
               </option>
             </select>
             <div class="invalid-feedback">
@@ -199,9 +199,9 @@
 
           <div class="form-group">
             <label>Cycle of Inpection: </label>
-            <select [(ngModel)]="SelContractor" formControlName="cycleOfInspection" class="form-control">
-              <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
-                {{contractor.contractorName}}
+            <select formControlName="cycleOfInspection" class="form-control">
+              <option [value]="cycle.cycle_id" *ngFor="let cycle of cycleOfInspection">
+                {{cycle.cycle_name}}
               </option>
             </select>
             <div class="invalid-feedback">
@@ -217,14 +217,14 @@
 
           <div class="form-group">
             <label>UIC no: </label>
-            <input type="text" class="form-control" fromControlName="uicNumber">
+            <input type="text" class="form-control" formControlName="uicNumber">
             <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Index: </label>
-            <input type="text" class="form-control" fromControlName="index">
+            <input type="text" class="form-control" formControlName="index">
             <div class="invalid-feedback">
             </div>
           </div>
