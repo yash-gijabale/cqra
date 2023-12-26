@@ -55,7 +55,7 @@ export class FirstNoteComponent implements OnInit {
     //   firstNoteText: ['', Validators.required]
     // })
 
-    this.commonService.getAllFirstNotes()
+    this.clientService.getFirstNoteBySnapAudit(this.snapAuditId)
     .subscribe(data => {
       console.log('note data------>', data)
       this.firstNotes = data;

@@ -19,6 +19,7 @@ import { NcReportDetails } from './nc-closer-view-report/nc-closer-view-report.c
 import { CheckListView, EditNcsListView } from './edit-non-conf/edit-non-conf.component';
 import { UserLogDataView } from './user-log/user-log.component';
 import { data } from 'jquery';
+import { QuestionData } from './create-question/create-question.component';
 
 @Injectable({
   providedIn: 'root'
@@ -179,6 +180,13 @@ export class TradeMaintanceService {
   createQuestions(data): Observable<TradeMaintanceService>{
     return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/question/addQuestion`, data)
   }
+
+  retriveQuestion(id){
+    return this.httpClient.get<QuestionData>(`${this.REST_API_SERVER}/question/question/${id}`)
+  }
+  updateQuestion(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/question/question/${id}`, data)
+  }
   //QUESTIONS
   
   //NC REPORT
@@ -243,6 +251,10 @@ export class TradeMaintanceService {
     return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/common/getProjectTrades/${id}`)
   }
 
+  getProjectTradesScheme(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getAllSchemeTradeView/${id}`)
+  }
+
   //GET QUESTION GROUP BY TRADE ID
   getQuestionGroupBytradeId(id){
     return this.httpClient.get<QuestionGroupView>(`${this.REST_API_SERVER}/common/getQuestiongroupbytradeid/${id}`)
@@ -250,7 +262,7 @@ export class TradeMaintanceService {
 
   //CHECKLIST BY SUBGROUPS
   getChecklistBySubgroupId(id){
-    return this.httpClient.get<CheckListView>(`${this.REST_API_SERVER}/common/getQuestionGrobysubgroup/${id}`)
+    return this.httpClient.get<CheckListView>(`${this.REST_API_SERVER}/checklist/checklistbysub/${id}`)
   }
 
 }

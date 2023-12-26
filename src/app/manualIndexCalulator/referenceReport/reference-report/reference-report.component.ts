@@ -44,7 +44,7 @@ export class ReferenceReportComponent implements OnInit {
     };
 
     this.snapAuiditId = this.route.snapshot.params["id"];
-    this.clientService.getAllReferenceReport().subscribe((data) => {
+    this.clientService.getAllReferenceReport(this.snapAuiditId).subscribe((data) => {
       console.log(data);
       this.referenceReport = data;
       this.dtTrigger.next();

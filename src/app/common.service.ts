@@ -13,6 +13,8 @@ import { RegionList, CycleOfInspection } from './ncclosure-sa/ncclosure-sa.compo
 import { UserLogDataView } from './user-log/user-log.component';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
+import { NcCountReportData } from './nc-count-report/nc-count-report.component';
+import { QualityIndexReport } from './quality-index-report/quality-index-report.component';
 
 @Injectable({
   providedIn: 'root'
@@ -160,7 +162,44 @@ export class CommonService {
     
   }
 
+
+  //REPORT API CALL
+  //NC COUNT API CALL
+  createNcCountReport(data): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/NcCount`, data)
+  }
+
+  retirveNcCountReport(id){
+    return this.httpClient.get<NcCountReportData>(`${this.REST_API_SERVER}/NcCount/${id}`)
+  }
+
+  updateNcCountReport(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/NcCount/${id}`, data)
+  }
+
+  //QUALITY INDEX REPORT
+  createQualityIndexReport(data): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/QualityIndex/addQualityIndex`, data)
+  }
+
+  retriveQualityIndexReport(id){
+    return this.httpClient.get<QualityIndexReport>(`${this.REST_API_SERVER}/QualityIndex/QualityIndexx/${id}`)
+  }
+
+  updateQualityINdexReport(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/QualityIndex/QualityIndex/${id}`, data)
+  }
   
+
+  //NEW API FOR STRUCURES AND STAGE GET
+  getStructureByProjectId(id){
+    return this.httpClient.get<StructureData[]>(`${this.REST_API_SERVER}/structure/getSelectedStructure/${id}`)
+  }
+
+  getStagesByStructureId(id){
+    return this.httpClient.get<StageData[]>(`${this.REST_API_SERVER}/stage/getstagebystructure/${id}`)
+
+  }
 
   // createStructure(clientData): Observable<ClientServiceService> {
   //   return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/structure/addStructure`, clientData);

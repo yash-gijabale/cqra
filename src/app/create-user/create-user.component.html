@@ -28,7 +28,7 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>User Name</label>
-            <input type="text" formControlName="userName" class="form-control"
+            <input type="text" formControlName="userFullName" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.userName.errors }" />
             <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
               <div *ngIf="f.userName.errors.required">User Name is required</div>
@@ -36,7 +36,7 @@
           </div>
           <div class="form-group">
             <label>Login Name</label>
-            <input type="text" formControlName="loginName" class="form-control"
+            <input type="text" formControlName="userName" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.loginName.errors }" />
             <div *ngIf="submitted && f.loginName.errors" class="invalid-feedback">
               <div *ngIf="f.loginName.errors.required">Login Name is required</div>
@@ -68,7 +68,7 @@
           </div>
           <div class="form-group">
             <label>Contact No.</label>
-            <input type="text" formControlName="contactNumber" class="form-control"
+            <input type="text" formControlName="mobile" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.contactNumber.errors }" />
             <div *ngIf="submitted && f.contactNumber.errors" class="invalid-feedback">
               <div *ngIf="f.contactNumber.errors.required">Contact number is required</div>
@@ -76,7 +76,7 @@
           </div>
           <div class="form-group">
             <label>Email ID</label>
-            <input type="text" formControlName="emailId" class="form-control"
+            <input type="text" formControlName="email" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.emailId.errors }" />
             <div *ngIf="submitted && f.emailId.errors" class="invalid-feedback">
               <div *ngIf="f.emailId.errors.required">Email is required</div>
@@ -98,7 +98,7 @@
           </div>
           <div class="form-group">
             <label>Role</label>
-            <select formControlName="userRole" class="form-control"
+            <select formControlName="roleId" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.userRole.errors }">
               <option [value]="0">Please Select</option>
               <option [value]="1">Admin </option>
@@ -119,13 +119,13 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>Reviewer
-                  <input type="checkbox" formControlName="reviewer" [value]="1" class="form-control" /></label>
+                  <input type="checkbox" formControlName="reviwer" [value]="1" class="form-control" /></label>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label>Site Admin
-                  <input type="checkbox" formControlName="siteAdmin" [value]="2" class="form-control" /></label>
+                  <input type="checkbox" formControlName="creater" [value]="2" class="form-control" /></label>
               </div>
             </div>
           </div>

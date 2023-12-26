@@ -101,6 +101,10 @@ import { CreateNcsStatusReportComponent } from './create-ncs-status-report/creat
 import { CreateNCClosureHistoryComponent } from './create-ncclosure-history/create-ncclosure-history.component';
 import { CreateNcLogReportComponent } from './create-nc-log-report/create-nc-log-report.component';
 import { AssignContractorForemanComponent } from './assign-contractor-foreman/assign-contractor-foreman.component';
+import { NcCountReportListComponent } from './nc-count-report-list/nc-count-report-list.component';
+import { QualityIndexReportComponent } from './quality-index-report/quality-index-report.component';
+import { LastNoteComponent } from './manualIndexCalulator/lastNote/last-note/last-note.component';
+import { CreateLastNoteComponent } from './manualIndexCalulator/lastNote/create-last-note/create-last-note.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -161,7 +165,7 @@ const routes: Routes = [
   { path: 'editNC', component: EditNonConfComponent },
   { path: 'snaggingDocument', component: SnaggingDocumentComponent },
   { path: 'snaggingReport', component: SnaggingReportComponent },
-  { path: 'ncCountReport', component: NcCountReportComponent },
+  { path: 'ncCountReport/:id', component: NcCountReportComponent },
   { path: 'inspectionReport', component: InspectionReportComponent },
   { path: 'ncClosureSa', component: NCClosureSAComponent },
   { path: 'ncReviewerSa', component: NcReviewerComponent },
@@ -204,6 +208,10 @@ const routes: Routes = [
   { path: 'configureChecklist/:id', component: ProjectChecklistAllocationComponent },
   { path: 'projectTradeDetails/:id', component: ProjectTradeDetailsComponent },
   { path: 'projectTradeSequence/:id', component: ProjectTradeSequenceComponent },
+  { path: 'ncCountReportList', component: NcCountReportListComponent },
+  { path: 'qualityIndexReport/:id', component: QualityIndexReportComponent },
+  { path: 'lastNotes/:id', component: LastNoteComponent },
+  { path: 'createLastNote/:id/:id2', component: CreateLastNoteComponent },
 
 
 

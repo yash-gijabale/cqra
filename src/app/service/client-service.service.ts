@@ -26,6 +26,8 @@ import { Remarks, RemarkData } from '../manualIndexCalulator/remark/remark/remar
 import { EquipmentList, EquipmentData } from '../user-equipment/user-equipment.component';
 import { UserView } from '../user-log/user-log.component';
 import { SamplingData, SamplingView } from '../create-sampling/create-sampling.component';
+import { FirstNote } from '../manualIndexCalulator/firstNote/first-note/first-note.component';
+import { LastNoteData } from '../manualIndexCalulator/lastNote/last-note/last-note.component';
 
 @Injectable({
   providedIn: 'root'
@@ -310,6 +312,9 @@ export class ClientServiceService {
   deleteFirstNote(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/firstNote/${id}`)
   }
+  getFirstNoteBySnapAudit(id){
+    return this.httpClient.get<FirstNote[]>(`${this.REST_API_SERVER}/firstNotebysnapauditid/${id}`)
+  }
   //FIRST NOTE API CALL
 
 
@@ -365,16 +370,16 @@ export class ClientServiceService {
   createInspectionActivity(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addactivitiesNotAvailableDuringInspection`, data)
   }
-  getAllInspectionActivity() {
-    return this.httpClient.get<InspectionActivity[]>(this.REST_API_SERVER + '/getactivitiesNotAvailableDuringInspections')
+  getAllInspectionActivity(id) {
+    return this.httpClient.get<InspectionActivity[]>(this.REST_API_SERVER + '/activitiesNotAvailableDuringInspectionbysnapauditid/'+id)
   }
 
   retriveInspectionActivity(id) {
     return this.httpClient.get<InspectionActivity[]>(`${this.REST_API_SERVER}/activitiesNotAvailableDuringInspection/${id}`)
   }
 
-  updateInspectionActivity(fromData: InspectionActivityData, id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/activitiesNotAvailableDuringInspection/${id}`, fromData)
+  updateInspectionActivity(fromData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/ActivitiesNotAvailableDuringInspection/${id}`, fromData)
   }
 
   //INSPECTION ACTIVITY NOT AVAILABALE API
@@ -384,8 +389,8 @@ export class ClientServiceService {
   createReferenceReport(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addReferenceReports`, data)
   }
-  getAllReferenceReport() {
-    return this.httpClient.get<RefereneceReport[]>(this.REST_API_SERVER + '/getReferenceReports')
+  getAllReferenceReport(id) {
+    return this.httpClient.get<RefereneceReport[]>(this.REST_API_SERVER + '/referenceReportsbysnapauditid/'+id)
   }
   retirveReferenceReport(id) {
     return this.httpClient.get<RefereneceReport[]>(`${this.REST_API_SERVER}/referenceReports/${id}`)
@@ -420,6 +425,7 @@ export class ClientServiceService {
   deleteAssessorName(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/assessorsName/${id}`)
   }
+
   // ASSESSOR NAME SERVICES
 
 
@@ -544,6 +550,25 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/Sampling/${id}`)
   }
   //SAMPLING API CALL 
+
+
+  //LAST NOTE API CALL
+  getAllLastNoteBySnapAudit(id){
+    return this.httpClient.get<LastNoteData[]>(`${this.REST_API_SERVER}/lastNotebysnapauditid/${id}`)
+  }
+
+  createLastNote(data): Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addlastNote`, data)
+  }
+
+  retriveLastNote(id){
+    return this.httpClient.get<LastNoteData[]>(`${this.REST_API_SERVER}/lastNote/${id}`)
+  }
+
+  updateLastNote(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/lastNote/${id}`, data)
+  }
+  //LAST NOTE API CALL
 
 
 

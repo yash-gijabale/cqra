@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserView } from '../user-log/user-log.component';
 import { Observable } from 'rxjs';
+import { UseAllocationData } from '../create-user-allocation/create-user-allocation.component';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,20 @@ export class UserService {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/user/adduserData`,data)
   }
 
+  retriveUSer(id){
+    // return this.httpClient.get<UserView[]>(`${this.REST_API_SERVER}/`)
+  }
+
+
+  //USER ALLOCATION API CALL
+  createUserAllocation(data):Observable<UserService>{
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/adduserAllocation`, data)
+  }
   
+  retriveAllocation(id){
+    return this.httpClient.get<UseAllocationData>(`${this.REST_API_SERVER}/userAllocation/${id}`)
+  }
+  updateUserAllocation(data,id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/userAllocation/${id}`, data)
+  }
 }

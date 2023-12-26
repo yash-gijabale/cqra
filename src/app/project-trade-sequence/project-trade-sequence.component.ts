@@ -21,7 +21,7 @@ export class ProjectTradeSequenceComponent implements OnInit {
   ngOnInit() {
     // this.trades = ['test', 'test2', 'test3', 'test4', 'test5']
     this.projectId = this.route.snapshot.params['id']
-    this.tradeService.getProjectTrades(this.projectId)
+    this.tradeService.getProjectTradesScheme(this.projectId)
       .subscribe(
         data => {
           console.log(data)

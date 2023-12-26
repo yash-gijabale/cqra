@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from "../common.service";
-import { ProjectData } from '../project/project.component';
+import { ProjectData, ProjectView } from '../project/project.component';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { TradeMaintanceService } from "../trade-maintance.service";
 import { TradeGroup } from '../trade-group/trade-group.component';
@@ -41,7 +41,7 @@ export class SamplingView {
 export class CreateSamplingComponent implements OnInit {
 
   samplingId: number
-  projects: ProjectData[]
+  projects: ProjectView[]
   tradeGroups: TradeGroup[]
   clients: ClientData[]
   trades: any
@@ -69,41 +69,35 @@ export class CreateSamplingComponent implements OnInit {
 
     this.samplingId = this.route.snapshot.params['id']
 
-    // this.commanService.getAllProject()
-    //   .subscribe(
-    //     data => this.projects = data,
-    //     err => console.log(err)
-    //   )
     if (this.samplingId != -1) {
+      let samplingData;
       this.clientService.retriveSampling(this.samplingId)
         .pipe(first())
         .subscribe(
-          data => this.samplingForm.patchValue(data),
+          data => {
+            samplingData = data
+            console.log(data)
+            this.commanService.getStructureByProjectId(samplingData.projectId).subscribe(data => this.structures = data)
+
+            this.tradeService.getProjectTrades(samplingData.projectId).subscribe(data => this.trades = data, err=> console.log(err))
+  
+            this.commanService.getStagesByStructureId(samplingData.structureId).subscribe(data => this.stages = data)
+  
+            this.tradeService.getQuestionGroupBytradeId(samplingData.tradeId).subscribe(data =>this.questionGroup = data)
+
+            this.samplingForm.patchValue(data)
+          },
           err => console.log(err))
     }
-    // this.tradeService.getAllTradeGroups()
-    //   .subscribe(
-    //     data => {
-    //       this.tradeGroups = data
-    //       console.log(data)
-    //     },
-    //     err => console.log(err)
-    //   )
-    // this.tradeService.getAllTrades()
-    //   .subscribe(data => {
-    //     console.log(data)
-    //     this.trades = data
-    //   })
-    this.clientService.getAllClients()
-      .subscribe(
-        data => {
-          this.clients = data;
-        },
-        err => console.log(err)
-      )
+
+    this.clientService.getAllProject()
+      .subscribe(data => {
+        console.log('projects ==>', data)
+        this.projects = data;
+      })
+
 
     this.samplingForm = this.formBuilder.group({
-      clientId: ['', Validators.required],
       projectId: ['', Validators.required],
       tradeGroupId: ['', Validators.required],
       tradeId: ['', Validators.required],
@@ -117,21 +111,10 @@ export class CreateSamplingComponent implements OnInit {
     return this.samplingForm.controls;
   }
 
-  getProjects() {
-    console.log(this.SelClientId)
-    this.commanService.getClientProject(this.SelClientId)
-      .subscribe(
-        (data) => {
-          console.log('Project Data==', data)
-          this.projects = data;
 
-        }, (err) => {
-          console.log('-----> err', err);
-        })
-  }
   getStructure() {
     console.log(this.SelProject)
-    this.commanService.getStructures(this.SelClientId, this.SelProject)
+    this.commanService.getStructureByProjectId(this.SelProject)
       .subscribe(
         (data) => {
           console.log('Structure Data==', data)
@@ -150,7 +133,7 @@ export class CreateSamplingComponent implements OnInit {
       )
   }
   getStages() {
-    this.commanService.getStages(this.SelClientId, this.SelProject, this.SelStructure)
+    this.commanService.getStagesByStructureId(this.SelStructure)
       .subscribe(
         data => {
           this.stages = data
@@ -180,10 +163,11 @@ export class CreateSamplingComponent implements OnInit {
       tradeGroupId: this.samplingForm.value.tradeGroupId,
       tradeId: this.samplingForm.value.tradeId,
       structureId: this.samplingForm.value.structureId,
-      completePercentage: this.samplingForm.value.completePercentage
+      completePercentage: this.samplingForm.value.completePercentage,
+      stageId: this.samplingForm.value.stageId.toString()
     }
-    console.log(this.samplingForm.value)
-    return
+    console.log(JSON.stringify(formData))
+    // return
 
     if (this.samplingId != -1) {
       this.clientService.updateSampling(formData, this.samplingId)

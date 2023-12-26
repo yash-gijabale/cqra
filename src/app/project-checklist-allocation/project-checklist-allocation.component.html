@@ -57,7 +57,7 @@
             <select formControlName="checklistId" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.checklistId.errors }" multiple>
               <option [value]="0">Please Select</option>
-              <option [value]="o.checklistId" *ngFor="let o of checklists">
+              <option [value]="o.checklistMasterId" *ngFor="let o of checklists">
                 {{o.checklistName}}
               </option>
             </select>

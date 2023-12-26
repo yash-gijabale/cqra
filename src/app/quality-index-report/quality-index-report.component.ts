@@ -12,7 +12,7 @@ import { ContractorData } from '../contractor-forman/contractor-forman.component
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 
-export class NcCountReportData {
+export class QualityIndexReport {
   constructor(
     public clientId: number,
     public projectId: number,
@@ -24,26 +24,28 @@ export class NcCountReportData {
     public dateTo: string,
     public approveDesign: string,
     public remark: string,
+    public reviewDesign: string,
+    public reportHeader: string,
   ) { }
 }
 
 @Component({
-  selector: 'app-nc-count-report',
-  templateUrl: './nc-count-report.component.html',
-  styleUrls: ['./nc-count-report.component.css']
+  selector: 'app-quality-index-report',
+  templateUrl: './quality-index-report.component.html',
+  styleUrls: ['./quality-index-report.component.css']
 })
-export class NcCountReportComponent implements OnInit {
+export class QualityIndexReportComponent implements OnInit {
   SelProject: any;
   SelStructure: any;
   SelClient: any;
   projects: ProjectData[];
   structures: StructureData[]
-  ncCountForm: FormGroup
+  qualityIndexForm: FormGroup
   clients: ClientData[]
   trades: Trade
   clientStaff: clientStaffData[]
   contractors: ContractorData[]
-  ncCountID: number
+  qualityIndexId: number
   constructor(
     private formBuilder: FormBuilder,
     private clientService: ClientServiceService,
@@ -53,10 +55,10 @@ export class NcCountReportComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.ncCountID = this.route.snapshot.params['id']
-    if (this.ncCountID != -1) {
+    this.qualityIndexId = this.route.snapshot.params['id']
+    if (this.qualityIndexId != -1) {
       let Retrivedata;
-      this.commonService.retirveNcCountReport(this.ncCountID)
+      this.commonService.retriveQualityIndexReport(this.qualityIndexId)
         .pipe(first())
         .subscribe(data => {
           Retrivedata = data
@@ -64,7 +66,7 @@ export class NcCountReportComponent implements OnInit {
           this.commonService.getClientProject(Retrivedata.clientId).subscribe(data => this.projects = data)
           this.commonService.getStructures(Retrivedata.clientId, Retrivedata.projectId).subscribe(data => { this.structures = data })
           this.tradeService.getProjectTrades(Retrivedata.projectId).subscribe(data => { this.trades = data })
-          this.ncCountForm.patchValue(data)
+          this.qualityIndexForm.patchValue(data)
         })
     }
 
@@ -77,16 +79,17 @@ export class NcCountReportComponent implements OnInit {
     this.commonService.getAllContractors()
       .subscribe(data => this.contractors = data)
 
-    this.ncCountForm = this.formBuilder.group({
+    this.qualityIndexForm = this.formBuilder.group({
       clientId: ['', Validators.required],
       projectId: ['', Validators.required],
       structureId: ['', Validators.required],
       tradeId: ['', Validators.required],
       reviewBy: ['', Validators.required],
-      approveBy: ['', Validators.required],
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required],
       approveDesign: ['', Validators.required],
+      reviewDesign: ['', Validators.required],
+      reportHeader: ['', Validators.required],
       remark: ['', Validators.required],
     })
 
@@ -113,16 +116,15 @@ export class NcCountReportComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.ncCountForm.value)
-    if (this.ncCountID != -1) {
-      this.commonService.updateNcCountReport(this.ncCountForm.value, this.ncCountID)
+    console.log(this.qualityIndexForm.value)
+    if (this.qualityIndexId != -1) {
+      this.commonService.updateQualityINdexReport(this.qualityIndexForm.value, this.qualityIndexId)
       .subscribe(data =>{
         console.log('report updated-->', data)
       },
       err => console.log(err))
     } else {
-
-      this.commonService.createNcCountReport(this.ncCountForm.value)
+      this.commonService.createQualityIndexReport(this.qualityIndexForm.value)
         .subscribe(data => {
           console.log('report created', data)
         },

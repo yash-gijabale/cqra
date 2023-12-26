@@ -64,6 +64,8 @@ export class ProjectChecklistAllocationComponent implements OnInit {
   }
 
   onSubmit(){
+
+    console.log(this.configureForm.value)
     
   }
 }

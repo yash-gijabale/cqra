@@ -113,6 +113,10 @@ import { ProjectChecklistAllocationComponent } from './project-checklist-allocat
 import { ProjectTradeDetailsComponent } from './project-trade-details/project-trade-details.component';
 import { ProjectTradeSequenceComponent } from './project-trade-sequence/project-trade-sequence.component';
 import { AssignContractorForemanComponent } from './assign-contractor-foreman/assign-contractor-foreman.component';
+import { NcCountReportListComponent } from './nc-count-report-list/nc-count-report-list.component';
+import { QualityIndexReportComponent } from './quality-index-report/quality-index-report.component';
+import { CreateLastNoteComponent } from './manualIndexCalulator/lastNote/create-last-note/create-last-note.component';
+import { LastNoteComponent } from './manualIndexCalulator/lastNote/last-note/last-note.component';
 
 @NgModule({
   declarations: [
@@ -219,7 +223,11 @@ import { AssignContractorForemanComponent } from './assign-contractor-foreman/as
     ProjectChecklistAllocationComponent,
     ProjectTradeDetailsComponent,
     ProjectTradeSequenceComponent,
-    AssignContractorForemanComponent
+    AssignContractorForemanComponent,
+    NcCountReportListComponent,
+    QualityIndexReportComponent,
+    CreateLastNoteComponent,
+    LastNoteComponent
   ],
   imports: [
     BrowserModule,

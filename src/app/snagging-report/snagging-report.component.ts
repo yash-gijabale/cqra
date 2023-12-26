@@ -54,6 +54,27 @@ export class SnaggingReportComponent implements OnInit {
     })
     }
 
+    nameOfInspector(id){
+      this.router.navigate(['assessorName', id])
+    }
+
+    inspectedArea(id){
+      this.router.navigate(['sampledArea', id])
+
+    }
+    reportOverview(id){
+      this.router.navigate(['firstNote', id])
+      
+    }
+    activityNotAvaialable(id){
+      this.router.navigate(['stageOfWork', id])
+
+    }
+
+    remark(id){
+      this.router.navigate(['lastNotes', id])
+
+    }
   }
 
 

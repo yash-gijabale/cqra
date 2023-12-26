@@ -160,7 +160,7 @@ export class CreateChecklistComponent implements OnInit {
 
     this.tradeMaintanceService.getAllSubgroups()
       .subscribe(data => {
-        console.log(data);
+        console.log('subgroups',data);
         this.subgroups = data;
       })
 

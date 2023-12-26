@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ClientData } from '../client/client.component';
 import { CommonService } from '../common.service';
@@ -33,11 +33,38 @@ export class CreateSnaggingDocumentComponent implements OnInit {
   SelFromDate:string ="0";
   SelToDate:string ="0";
   
+  snaggingReportFrom : FormGroup
   
   
   constructor(private clientServiceService:ClientServiceService,private commonService:CommonService,private formBuilder: FormBuilder,private router: Router) { }
 
   ngOnInit() {
+
+    this.snaggingReportFrom = this.formBuilder.group({
+      clientId: ['', Validators.required],
+      projectId: ['', Validators.required],
+      structureId: ['', Validators.required],
+      tradeId: ['', Validators.required],
+      clientRep: ['', Validators.required],
+      assessmentDate: ['', Validators.required],
+      nabcReport: ['', Validators.required],
+      nabcNote: ['', Validators.required],
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
+      approver: ['', Validators.required],
+      approverDesign: ['', Validators.required],
+      revever: ['', Validators.required],
+      revekverDesign: ['', Validators.required],
+      createrName: ['', Validators.required],
+      createrDesign: ['', Validators.required],
+      reportHeader: ['', Validators.required],
+      image1: ['', Validators.required],
+      image2: ['', Validators.required],
+      cycleOfInspection: ['', Validators.required],
+      typeOfProject: ['', Validators.required],
+      uicNumber: ['', Validators.required],
+      index: ['', Validators.required]
+    })
 
     this.clientServiceService.getAllClients().subscribe((data) => {
       console.log('----> office service : get all data', data);
@@ -125,6 +152,12 @@ export class CreateSnaggingDocumentComponent implements OnInit {
       console.log('-----> err', err);
     })
    
+  }
+
+  get f(){return this.snaggingReportFrom.controls}
+
+  onSubmit(){
+    console.log(this.snaggingReportFrom.value)
   }
 
 }

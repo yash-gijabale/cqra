@@ -33,7 +33,7 @@ export class ProjectTradeDetailsComponent implements OnInit {
       scrollX:true
     };
     this.projectId = this.route.snapshot.params['id']
-    this.tradeService.getProjectTrades(this.projectId)
+    this.tradeService.getProjectTradesScheme(this.projectId)
     .subscribe(
       data =>{
         console.log(data)

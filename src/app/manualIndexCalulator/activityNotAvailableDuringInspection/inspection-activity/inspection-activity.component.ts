@@ -48,7 +48,7 @@ export class InspectionActivityComponent implements OnInit {
       scrollX:true
     };
 
-    this.clientService.getAllInspectionActivity()
+    this.clientService.getAllInspectionActivity(this.snapAuditId)
     .subscribe(data =>{
       console.log(data)
       this.activityData = data

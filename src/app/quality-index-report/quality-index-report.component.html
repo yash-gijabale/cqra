@@ -8,24 +8,24 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">NC Count REport/li>
+            <li class="breadcrumb-item active">Quality Index Report</li>
           </ol>
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/ncCountReportList">Manage NC Count Report</a> </button>
+            <button type="button"> <a routerLink="/ncCountReportList">Manage quality inidex report</a> </button>
           </div>
         </div>
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1> NC Count Report </h1>
+            <h1> Quality Index Report</h1>
           </div>
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="ncCountForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="qualityIndexForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Select Client</label>
             <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
@@ -81,16 +81,7 @@
             <div class="invalid-feedback">
             </div>
           </div>
-          <div class="form-group">
-            <label>Client Staff</label>
-            <select formControlName="approveBy" class="form-control" >
-              <option [value]="client.clientStaffId" *ngFor="let client of clientStaff">
-                {{client.clientName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
-            </div>
-          </div>
+     
 
           <div class="form-group">
             <label>Report From:</label>
@@ -121,12 +112,39 @@
           </div>
 
           <div class="form-group">
+            <label>Reviewed By:</label>
+            <input type="text" class="form-control">
+            <div class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Reviewer Designation:</label>
+            <input type="text" class="form-control" formControlName="reviewDesign">
+            <div class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Report Header:</label>
+            <input type="text" class="form-control" formControlName="reportHeader">
+            <div class="invalid-feedback">
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
             <label>Remark:</label>
            <textarea class="form-control" formControlName="remark"></textarea>
           </div>
           <div class="form-group">
-            <button class="btn btn-primary m-1">View Report</button>
-            <button class="btn btn-primary">Save Report</button>
+            <button class="btn btn-primary m-1">Subgroup Wise View</button>
+            <button class="btn btn-primary m-1">Trade Wise View</button>
+            <button class="btn btn-primary m-1">Save Subgroup Wise</button>
+            <button class="btn btn-primary m-1">Save Trade Wise</button>
+            <button type="button" class="btn btn-primary m-1">Reset</button>
+
           </div> 
         </form>
       </div>

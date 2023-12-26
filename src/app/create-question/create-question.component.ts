@@ -9,16 +9,56 @@ import { SubgroupView } from "../subgroup/subgroup.component";
 import { data } from "jquery";
 import { QuestionGroupView } from "../question-group/question-group.component";
 import { QuestionHeadingView } from "../question-heading/question-heading.component";
+import { first } from "rxjs/operators";
+
+
+export class QuestionData {
+  constructor(
+    public tradeId: number,
+    public subgroupId: number,
+    public questionGroupId: number,
+    public questionType: number,
+    public questionHeadingId: number,
+    public qualityRequiement: string,
+    public ncDescription: string,
+    public reference: string,
+    public typeOfCheck: string,
+    public workInstruction: string,
+    public sampleSize: string,
+    public sampleUnit: string,
+    public tolerance: string,
+    public minimumobservation: number,
+    public impactOnQuality: string,
+    public ncRectification: string,
+    public subSection: string,
+    public category: string,
+    public goodImage1: string,
+    public goodImage2: string,
+    public ncImage1: string,
+    public ncImage2: string,
+    public dataToBeCaptured: number,
+    public option1: string,
+    public option2: string,
+    public option3: string,
+    public option4: string,
+    public option5: string,
+    public option6: string,
+    public mandatory: boolean,
+    public unitOfMeasurement: string,
+  ) { }
+}
+
 @Component({
   selector: "app-create-question",
   templateUrl: "./create-question.component.html",
   styleUrls: ["./create-question.component.css"],
 })
+
 export class CreateQuestionComponent implements OnInit {
   SelTrade: string = "0";
   SelSubgroup: string = "0";
   SelQuestionGroup: string = "0";
-  selQuestionType :number
+  selQuestionType: number
   questionFrom: FormGroup;
   trades: Trade[];
   subgroups: SubgroupView
@@ -27,6 +67,7 @@ export class CreateQuestionComponent implements OnInit {
   clients: ClientData[];
   submitted = false;
   isOptionShow = false;
+  questionId: number
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -36,104 +77,129 @@ export class CreateQuestionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.questionId = this.route.snapshot.params['id']
+    let questionData;
+    if (this.questionId != -1) {
+      this.tradeMaintanceService.retriveQuestion(this.questionId)
+        .pipe(first())
+        .subscribe(data => {
+          questionData = data
+          this.tradeMaintanceService.getSubgroupsByTrades(questionData.tradeId).subscribe(data => this.subgroups = data)
+          this.tradeMaintanceService.getQuestiongroupBySubgroup(questionData.subgroupId).subscribe(data => this.questionGroups = data)
+          this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(questionData.questionGroupId).subscribe(data =>this.questionHeading = data)
+          console.log(data)
+          this.questionFrom.patchValue(data)
+        })
+  }
     this.tradeMaintanceService.getAllTrades().subscribe(
-      (data) => {
-        console.log("----> office service : get all data", data);
-        this.trades = data;
-      },
-      (err) => {
-        console.log("-----> err", err);
-      }
-    );
+    (data) => {
+      console.log("----> office service : TRADE", data);
+      this.trades = data;
+    },
+    (err) => {
+      console.log("-----> err", err);
+    }
+  );
 
-    this.clientServiceService.getAllClients().subscribe(
-      (data) => {
-        console.log("----> office service : get all data", data);
-        this.clients = data;
-      },
-      (err) => {
-        console.log("-----> err", err);
-      }
-    );
+this.clientServiceService.getAllClients().subscribe(
+  (data) => {
+    console.log("----> office service : get all data", data);
+    this.clients = data;
+  },
+  (err) => {
+    console.log("-----> err", err);
+  }
+);
 
 
-    this.questionFrom = this.formBuilder.group({
-      tradeId: ['', Validators.required],
-      subgroupId: ['', Validators.required],
-      questionGroupId: ['', Validators.required],
-      questionType: ['', Validators.required],
-      questionHeadingId: ['', Validators.required],
-      qualityRequiement: ['', Validators.required],
-      ncDescription: ['', Validators.required],
-      reference: ['', Validators.required],
-      typeOfCheck: ['', Validators.required],
-      workInstruction: ['', Validators.required],
-      sampleSize: ['', Validators.required],
-      sampleUnit: ['', Validators.required],
-      tolerance: ['', Validators.required],
-      minimumobservation: ['', Validators.required],
-      impactOnQuality: ['', Validators.required],
-      ncRectification: ['', Validators.required],
-      subSection: ['', Validators.required],
-      category: ['', Validators.required],
-      goodImage1: ['', Validators.required],
-      goodImage2: ['', Validators.required],
-      ncImage1: ['', Validators.required],
-      ncImage2: ['', Validators.required],
-      dataToBeCaptured: ['', Validators.required],
-      option1: ['', Validators.nullValidator],
-      option2: ['', Validators.nullValidator],
-      option3: ['', Validators.nullValidator],
-      option4: ['', Validators.nullValidator],
-      option5: ['', Validators.nullValidator],
-      option6: ['', Validators.nullValidator],
-      mandatory: ['', Validators.nullValidator],
-      measureUnit: ['', Validators.nullValidator],
-    })
+this.questionFrom = this.formBuilder.group({
+  tradeId: ['', Validators.required],
+  subgroupId: ['', Validators.required],
+  questionGroupId: ['', Validators.required],
+  questionType: ['', Validators.required],
+  questionHeadingId: ['', Validators.required],
+  qualityRequiement: ['', Validators.required],
+  ncDescription: ['', Validators.required],
+  reference: ['', Validators.required],
+  typeOfCheck: ['', Validators.required],
+  workInstruction: ['', Validators.required],
+  sampleSize: ['', Validators.required],
+  sampleUnit: ['', Validators.required],
+  tolerance: ['', Validators.required],
+  minimumobservation: ['', Validators.required],
+  impactOnQuality: ['', Validators.required],
+  ncRectification: ['', Validators.required],
+  subSection: ['', Validators.required],
+  category: ['', Validators.required],
+  goodImage1: ['', Validators.required],
+  goodImage2: ['', Validators.required],
+  ncImage1: ['', Validators.required],
+  ncImage2: ['', Validators.required],
+  dataToBeCaptured: ['', Validators.required],
+  option1: ['', Validators.nullValidator],
+  option2: ['', Validators.nullValidator],
+  option3: ['', Validators.nullValidator],
+  option4: ['', Validators.nullValidator],
+  option5: ['', Validators.nullValidator],
+  option6: ['', Validators.nullValidator],
+  mandatory: ['', Validators.nullValidator],
+  unitOfMeasurement: ['', Validators.nullValidator],
+})
   }
 
   get f() {
-    return this.questionFrom.controls;
-  }
+  return this.questionFrom.controls;
+}
 
 
-  getSubgroups() {
-    this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
-      .subscribe(
-        data => {
-          console.log(data)
-          this.subgroups = data
-        }
-
-      )
-  }
-
-  getQuestionGroup() {
-    this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
-      .subscribe(data => this.questionGroups = data)
-  }
-
-  getQuestionHeading() {
-    this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(this.SelQuestionGroup)
-      .subscribe(data => {
+getSubgroups() {
+  this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
+    .subscribe(
+      data => {
         console.log(data)
-        this.questionHeading = data
-      })
-  }
+        this.subgroups = data
+      }
 
-  showOptions(){
-    if(this.selQuestionType == 2){
-      this.isOptionShow = true
-    }else{
-      this.isOptionShow = false
-    }
-  }
+    )
+}
 
-  
-  onSubmit() {
-    console.log("Id==");
-    console.log(this.questionFrom.value)
-    this.tradeMaintanceService.createQuestions(this.questionFrom.value)
+getQuestionGroup() {
+  this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
+    .subscribe(data => this.questionGroups = data)
+}
+
+getQuestionHeading() {
+  this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(this.SelQuestionGroup)
+    .subscribe(data => {
+      console.log(data)
+      this.questionHeading = data
+    })
+}
+
+showOptions() {
+  if (this.selQuestionType == 2) {
+    this.isOptionShow = true
+  } else {
+    this.isOptionShow = false
+  }
+}
+
+
+onSubmit() {
+  console.log("Id==");
+  console.log(this.questionFrom.value)
+  let formData = {
+    ...this.questionFrom.value,
+    isActive:1
+  }
+  if(this.questionId != -1){
+    this.tradeMaintanceService.updateQuestion(this.questionFrom.value, this.questionId)
+    .subscribe(data =>{
+      console.log('q updated-->', data)
+    })
+  }else{
+    this.tradeMaintanceService.createQuestions(formData)
     .subscribe(data => console.log(data))
   }
+}
 }

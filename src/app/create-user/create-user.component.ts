@@ -39,19 +39,19 @@ export class CreateUserComponent implements OnInit {
     }
 
     this.registerForm = this.formBuilder.group({
+      userFullName: ['', Validators.required],
       userName: ['', Validators.required],
-      loginName: ['', Validators.required],
       password: ['', Validators.required],
       discription: ['', Validators.required],
       designation: ['', Validators.required],
-      contactNumber: ['', [Validators.required, Validators.minLength(10)]],
-      emailId: ['', [Validators.required, Validators.email]],
+      mobile: ['', [Validators.required, Validators.minLength(10)]],
+      email: ['', [Validators.required, Validators.email]],
       userType: ['', Validators.required],
-      userRole: ['', Validators.required],
+      roleId: ['', Validators.required],
       userImage: ['', Validators.required],
       approver: ['', Validators.nullValidator],
-      reviewer: ['', Validators.nullValidator],
-      siteAdmin: ['', Validators.nullValidator]
+      reviwer: ['', Validators.nullValidator],
+      creater: ['', Validators.nullValidator]
 
     });
   }
@@ -63,11 +63,10 @@ export class CreateUserComponent implements OnInit {
     console.log(this.registerForm.value)
     let formData = {
       ...this.registerForm.value,
-      approver: this.registerForm.value.approver ? '0':'' ,
-      reviewer: this.registerForm.value.reviewer ? '1' :'' ,
-      siteAdmin: this.registerForm.value.siteAdmin ? '2' :'' 
+      userRole: Number(this.registerForm.value.userRole),
+      status:true
     }
-    console.log(JSON.stringify(this.registerForm.value))
+    console.log(formData)
     // return
     // if (this.registerForm.invalid) {
     //   return

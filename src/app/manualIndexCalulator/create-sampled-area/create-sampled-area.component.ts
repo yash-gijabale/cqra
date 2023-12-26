@@ -9,7 +9,7 @@ import { data } from 'jquery';
 
 export class SampledAreaData {
   constructor(
-    public sampledAreaId: number,
+    public snapAuditId: number,
     public sampledAreaName: string
   ) { }
 }
@@ -57,7 +57,7 @@ export class CreateSampledAreaComponent implements OnInit {
     }
 
     let formData = {
-      sampledAreaId: this.snapAuditId,
+      snapAuditId: this.snapAuditId,
       sampledAreaName: this.sampledAreaForm.value.sampledAreaName
     }
     console.log(formData);

@@ -37,16 +37,7 @@
               <div *ngIf="f.userId.errors.required">User is required</div>
             </div>
           </div>
-          <div class="form-group">
-            <label for="fname" class="col-form-label">Client</label>
-            <select class="form-control" formControlName="clientId" [(ngModel)]="SelClientId" #clientId
-              (change)="getProjects()">
-              <option [value]="0">Please Select</option>
-              <option [value]="o.clientId" *ngFor="let o of clients">
-                {{o.clientName}}
-              </option>
-            </select>
-          </div>
+         
           <div class="form-group">
             <label>Project Name</label>
             <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()">
@@ -94,7 +85,7 @@
           </div>
           <div class="form-group">
             <label>Checklist Name </label>
-            <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()" multiple>
+            <select formControlName="tradeId" class="form-control" (change)="getChecklist()" multiple >
               <option [value]="o.checkistIdChecklist" *ngFor="let o of checklists">
                 {{o.checklistNameChecklist}}
               </option>
