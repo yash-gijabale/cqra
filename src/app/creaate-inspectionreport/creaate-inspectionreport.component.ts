@@ -198,11 +198,21 @@ export class CreaateInspectionreportComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.inspectionReporotForm.value)
+    let tradeIds = this.inspectionReporotForm.value.tradeId
+    let structureIds = this.inspectionReporotForm.value.structureId
+    let contractors = this.inspectionReporotForm.value.clientRep
+
+    delete this.inspectionReporotForm.value.tradeId
+    delete this.inspectionReporotForm.value.structureId
+    delete this.inspectionReporotForm.value.clientRep
     let data = {
-      ...this.inspectionReporotForm.value,
-      stageId: '454, 4545'
+      inspectReport: this.inspectionReporotForm.value,
+      inspectTrade: tradeIds,
+      inspectClient: contractors,
+      inspectStructure: structureIds
     }
+    console.log(data)
+    // return
     if (this.inspectionReportId != -1) {
       this.commonService.updateInspectionReport(data, this.inspectionReportId)
         .subscribe(data => console.log('Updated inpection-->', data))

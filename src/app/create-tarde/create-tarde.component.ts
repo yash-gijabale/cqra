@@ -70,35 +70,30 @@ export class CreateTardeComponent implements OnInit {
     keyResultAreaElement.forEach(item => {
       keyResultArea.push((<HTMLInputElement>item).value)
     })
-    this.registerForm.value.keyResultArea = keyResultArea
-    console.log(JSON.stringify(this.registerForm.value))
-    return
+    // this.registerForm.value.keyResultArea = keyResultArea
+    let formData = {
+      trade: {
+        tradeName: this.registerForm.value.tradeName,
+        discription: this.registerForm.value.discription,
+        tradeSequence: this.registerForm.value.tradeSequence,
+        tradeNumber: this.registerForm.value.tradeNumber
+      },
+      tradeKey : keyResultArea,
+      tradeTradeGroupId : this.registerForm.value.tradegroupId
+    }
+    console.log(formData)
+    // return
     this.submitted = true;
-    console.log("Id==");
-    if (this.registerForm.invalid) {
-      return
-    }
-    let fromData = {
-      tradeName: this.registerForm.value.tradeName,
-      status: true,
-      tradegroupId: this.registerForm.value.tradegroupId,
-    }
-
-    let UpdatefromData = {
-      tardeId: this.tradeId,
-      tradeName: this.registerForm.value.tradeName,
-      status: true,
-      tradegroupId: this.registerForm.value.tradegroupId,
-    }
-    console.log(fromData);
+  
+    console.log(formData);
     if (this.tradeId != -1) {
-      this.tradeService.updateTrade(UpdatefromData, this.tradeId)
-        .subscribe(data => {
-          console.log('data updated')
-        }, (err) => console.log(err))
+      // this.tradeService.updateTrade(formData, this.tradeId)
+      //   .subscribe(data => {
+      //     console.log('data updated')
+      //   }, (err) => console.log(err))
 
     } else {
-      this.tradeService.createTrade(fromData)
+      this.tradeService.createTrade(formData)
         .subscribe(data => {
           console.log(data)
         })

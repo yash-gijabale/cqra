@@ -31,7 +31,7 @@
           <div class="row m-2">
             <div class="form-group col-md-6">
               <label>Select Trade</label>
-              <select [(ngModel)]="tradeId" formControlName="selTrade" class="form-control" (change)="getSubgroups()">
+              <select [(ngModel)]="tradeId" formControlName="fkTradeId" class="form-control" (change)="getSubgroups()">
                 <option [value]="0" selected >Please Select</option>
                 <option [value]="o.tardeId" *ngFor="let o of trades">
                   {{o.tradeName}}
@@ -43,7 +43,7 @@
             </div>
             <div class="form-group col-md-6">
               <label>Checklist Name</label>
-              <input type="text" formControlName="checkListName" class="form-control"
+              <input type="text" formControlName="checklistName" class="form-control"
                 (ngClass)="{ 'is-invalid': submitted && f.clientName.errors }" />
               <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>
@@ -54,7 +54,7 @@
 
             <div class="form-group col-md-6">
               <label>Select Subgroup</label>
-              <select (ngModel)="SelClientId" formControlName="subgroupId" class="form-control">
+              <select (ngModel)="SelClientId" formControlName="fkSubgroupId" class="form-control">
                 <option [value]="0" selected>Please Select</option>
                 <option [value]="o.subgroupId" *ngFor="let o of subgroups">
                   {{o.subgroupName}}

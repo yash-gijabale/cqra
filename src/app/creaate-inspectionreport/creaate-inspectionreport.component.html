@@ -46,7 +46,7 @@
           </div>
           <div class="form-group">
             <label>Structure Name</label>
-            <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control">
+            <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control" multiple>
               <option [value]="0">Please Select</option>
               <option [value]="o.structureId" *ngFor="let o of structures">
                 {{o.structureName}}
@@ -57,7 +57,7 @@
           </div>
           <div class="form-group">
             <label>Trade</label>
-            <select formControlName="tradeId" class="form-control">
+            <select formControlName="tradeId" class="form-control" multiple>
               <option [value]="trade.tardeId" *ngFor="let trade of trades">
                 {{trade.tradeName}}
               </option>
@@ -67,7 +67,7 @@
           </div>
           <div class="form-group">
             <label>Contractor</label>
-            <select [(ngModel)]="SelContractor" formControlName="clientRep" class="form-control">
+            <select [(ngModel)]="SelContractor" formControlName="clientRep" class="form-control" multiple>
               <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
                 {{contractor.contractorName}}
               </option>

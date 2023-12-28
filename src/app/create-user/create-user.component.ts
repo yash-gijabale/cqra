@@ -72,9 +72,9 @@ export class CreateUserComponent implements OnInit {
     console.log(formData)
 
     //IF VALDATION IS FALSE THEN RETUN AND SHOW ERRORS
-    if (this.registerForm.invalid) {
-      return
-    }
+    // if (this.registerForm.invalid) {
+    //   return
+    // }
 
 
     //UPDATE USER AND CREATE USER 

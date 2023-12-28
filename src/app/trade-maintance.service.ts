@@ -103,8 +103,8 @@ export class TradeMaintanceService {
   }
 
   // TRADE
-  createTrade(tradeDAta: TradeGroup): Observable<TradeMaintanceService> {
-    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/trade/addTrade`, tradeDAta);
+  createTrade(tradeDAta): Observable<TradeMaintanceService> {
+    return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/addtradem`, tradeDAta);
   }
 
   retriveTrade(id) {

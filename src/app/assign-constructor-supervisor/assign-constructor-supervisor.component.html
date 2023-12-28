@@ -39,7 +39,7 @@
           </div>
           <div class="form-group">
             <label>Project Name</label>
-            <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()">
+            <select [(ngModel)]="SelProject" formControlName="schemeId" class="form-control" (change)="getStructure()">
               <option [value]="0">Please Select</option>
               <option [value]="project.projectId" *ngFor="let project of projects">
                 {{project.projectName}}
@@ -61,7 +61,7 @@
           </div>
           <div class="form-group">
             <label>Select Stages</label>
-            <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control" multiple>
+            <select formControlName="stageId" class="form-control" multiple>
               <option [value]="0">Please Select</option>
               <option [value]="o.stageId" *ngFor="let o of stages">
                 {{o.stageName}}

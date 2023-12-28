@@ -1,0 +1,16 @@
+.manage-btn{
+    background-color: rgb(237, 211, 160) !important;
+    transition: 0.2s all ease-in;
+}
+.manage-btn a{
+    color: black !important;
+    text-decoration: none !important;
+}
+.manage-btn:hover{
+    background-color: rgb(241, 204, 84) !important;
+    
+    
+}
+.add-bg-here{
+    background-color: rgb(248, 245, 245) !important;
+}

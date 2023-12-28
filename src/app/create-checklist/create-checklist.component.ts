@@ -166,9 +166,9 @@ export class CreateChecklistComponent implements OnInit {
     //   })
 
     this.registerForm = this.formBuilder.group({
-      selTrade: ["", Validators.required],
-      checkListName: ["", Validators.required],
-      subgroupId: ["", Validators.required],
+      fkTradeId: ["", Validators.required],
+      checklistName: ["", Validators.required],
+      fkSubgroupId: ["", Validators.required],
     });
 
     // console.log(this.formData);
@@ -192,8 +192,8 @@ export class CreateChecklistComponent implements OnInit {
     let getForm = this.registerForm.value;
     this.getListFormData = getForm;
     console.log(getForm)
-    this.commonService.getQuestionByTrade(getForm.selTrade, getForm.subgroupId).subscribe(
-    // this.commonService.getQuestionByTrade(118, 222).subscribe(
+    this.commonService.getQuestionByTrade(getForm.fkTradeId, getForm.fkSubgroupId).subscribe(
+      // this.commonService.getQuestionByTrade(118, 222).subscribe(
       (data) => {
         // this.structures= data;
         this.questionList2 = data;

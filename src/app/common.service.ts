@@ -205,7 +205,7 @@ export class CommonService {
 
   //INSPECTION REPORT CRUD API CALL
   createInspectionReport(data):Observable<CommonService>{
-    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addInspectReport`,data)
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addminspectrep`,data)
   }
 
   retriveInspectionReport(id){
@@ -216,6 +216,13 @@ export class CommonService {
     return this.httpClient.put(`${this.REST_API_SERVER}/InspectReport/${id}`, data)
   }
   
+
+
+
+  createSnaggingReport(data): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addSnaggingMul`, data)
+  }
+
 
   // createStructure(clientData): Observable<ClientServiceService> {
   //   return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/structure/addStructure`, clientData);

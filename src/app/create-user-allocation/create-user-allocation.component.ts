@@ -77,7 +77,7 @@ export class CreateUserAllocationComponent implements OnInit {
 
           this.commanService.getStructureByProjectId(allocationData.projectId).subscribe(data => this.structures = data)
 
-          this.tradeMaintance.getProjectTrades(allocationData.projectId).subscribe(data => this.trades = data, err=> console.log(err))
+          this.tradeMaintance.getProjectTrades(allocationData.projectId).subscribe(data => this.trades = data, err => console.log(err))
 
           this.commanService.getStagesByStructureId(allocationData.structureId).subscribe(data => this.stages = data)
 
@@ -116,14 +116,42 @@ export class CreateUserAllocationComponent implements OnInit {
   onSubmit() {
     console.log("Id==");
     console.log(this.userAllocationForm.value)
-    if(this.allocationId != -1){
-      this.userService.updateUserAllocation(this.userAllocationForm.value, this.allocationId)
-      .subscribe(data =>{
-        console.log('updated allocation-->', data)
-      })
-    }else{
 
-      this.userService.createUserAllocation(this.userAllocationForm.value)
+    let formData = this.userAllocationForm.value
+    let AllocationData = []
+    let checklistIds = this.userAllocationForm.value.checklistId
+    let stageId = this.userAllocationForm.value.stageId
+    checklistIds.forEach((id) => {
+      stageId.forEach((stageId) => {
+        let data = {
+          userId: this.userAllocationForm.value.userId,
+          projectId: this.userAllocationForm.value.projectId,
+          structureId: this.userAllocationForm.value.structureId,
+          tradeId: this.userAllocationForm.value.tradeId,
+          stageId: stageId,
+          checklistId: id
+        }
+        AllocationData.push(data)
+      })
+    })
+
+    let finalAllocationData = {
+        userChecklist: AllocationData,
+        userAllocation: AllocationData
+    }
+
+    console.log(finalAllocationData)
+    // return
+    
+
+    if (this.allocationId != -1) {
+      this.userService.updateUserAllocation(this.userAllocationForm.value, this.allocationId)
+        .subscribe(data => {
+          console.log('updated allocation-->', data)
+        })
+    } else {
+
+      this.userService.createUserAllocation(finalAllocationData)
         .subscribe(data => {
           console.log('allocated -->', data)
         })

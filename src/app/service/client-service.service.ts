@@ -28,6 +28,8 @@ import { UserView } from '../user-log/user-log.component';
 import { SamplingData, SamplingView } from '../create-sampling/create-sampling.component';
 import { FirstNote } from '../manualIndexCalulator/firstNote/first-note/first-note.component';
 import { LastNoteData } from '../manualIndexCalulator/lastNote/last-note/last-note.component';
+import { AssignSupervisor } from '../assign-constructor-supervisor/assign-constructor-supervisor.component';
+import { AssignForeman } from '../assign-contractor-foreman/assign-contractor-foreman.component';
 
 @Injectable({
   providedIn: 'root'
@@ -87,6 +89,15 @@ export class ClientServiceService {
 
   createTradeAllocation(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeTrade`, data)
+  }
+
+  projectChecklistAlloaction(data):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addschemeque`, data)
+
+  }
+
+  projectTradeallocation(data): Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/saveOrUpdate`, data)
   }
   // PROJECT API CALL
 
@@ -571,5 +582,13 @@ export class ClientServiceService {
   //LAST NOTE API CALL
 
 
+  //ASSING CONTRACTOR SUPRTVISOR
+  assignContractorSupervisor(data: Array<AssignSupervisor>) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeContractorSupervisor`, data)
+  }
+
+  assignContractorForeman(data: Array<AssignForeman>) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeContractorForeman`, data)
+  }
 
 }

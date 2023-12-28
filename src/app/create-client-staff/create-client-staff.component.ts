@@ -93,7 +93,7 @@ export class CreateClientStaffComponent implements OnInit {
     }else{
       this.clientServiceService.updateClientStaff(this.clientStaffForm.value, this.id)
       .subscribe(data => {
-        this.router.navigate(['clientStaff'])
+        console.log('updated-->', data)
       },
       (err) => {
         console.log('update err---->', err)

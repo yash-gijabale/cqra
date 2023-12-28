@@ -3,6 +3,7 @@ import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk
 import { ActivatedRoute } from '@angular/router';
 import { Trade } from '../trade/trade.component';
 import { TradeMaintanceService } from '../trade-maintance.service';
+import { ClientServiceService } from '../service/client-service.service';
 
 @Component({
   selector: 'app-project-trade-sequence',
@@ -13,10 +14,12 @@ export class ProjectTradeSequenceComponent implements OnInit {
 
   projectId: number
   trades: any
-  submitted: boolean =false
+  submitted: boolean = false
   constructor(
     private route: ActivatedRoute,
-    private tradeService: TradeMaintanceService) { }
+    private tradeService: TradeMaintanceService,
+    private clientService: ClientServiceService
+    ) { }
 
   ngOnInit() {
     // this.trades = ['test', 'test2', 'test3', 'test4', 'test5']
@@ -28,6 +31,7 @@ export class ProjectTradeSequenceComponent implements OnInit {
           this.trades = data
         }
       )
+    console.log(this.trades)
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -35,7 +39,16 @@ export class ProjectTradeSequenceComponent implements OnInit {
   }
 
   onSubimt() {
-    console.log(this.trades)
+    let tradeWithSquence = this.trades.map((item, key) => {
+      return {
+        projectId: this.projectId,
+        tradeId: item.fkTradeId,
+        seqNo: key + 1
+      }
+    })
+    console.log(tradeWithSquence)
+    this.clientService.projectTradeallocation(tradeWithSquence)
+    .subscribe(data => console.log('Trade allocated -> ', data))
   }
 
 }

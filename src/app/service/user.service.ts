@@ -38,8 +38,11 @@ export class UserService {
   }
 
   //USER ALLOCATION API CALL
+  getUserAllocation(){
+    return this.httpClient.get(`${this.REST_API_SERVER}/getUserAllocations`)
+  }
   createUserAllocation(data):Observable<UserService>{
-    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/adduserAllocation`, data)
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/saveData`, data)
   }
   
   retriveAllocation(id){
