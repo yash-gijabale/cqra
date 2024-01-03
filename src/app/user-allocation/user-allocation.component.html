@@ -28,7 +28,6 @@
             <thead> 
               <tr>
                 <th>User Name</th>
-                <th>Client Name</th>
                 <th>Project Name</th>
                 <th>Structure Name</th>
                 <th>Stages</th>
@@ -36,22 +35,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of users">
-                <td>ABC</td>
-                <td>ABC</td>
-                <td>ABC</td>
-                <td>ABC</td>
-                <td>ABC</td>
+              <tr *ngFor="let allocation of userAllocation">
+                <td>{{allocation.userFullName}}</td>
+                <td>{{allocation.projectName}}</td>
+                <td>{{allocation.structureName}}</td>
+                <td>{{allocation.stageName}}</td>
                 <td> 
                   <div class="action-commonview"> 
-                    <button type="text" (click) = "editProject(client.tradegroupId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+                    <button type="text" (click) = "editProject(allocation.userAllocationId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
                       <span class="edit-tessst"> 
                       <i class="las la-pencil-alt"></i>
                       </span> 
                     </button>
                   </div>
                   <div class="action-commonview"> 
-                    <button type="text" (click) = "editProject(client.tradegroupId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+                    <button type="text" (click) = "editProject(allocation.userAllocationId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
                       <span class="edit-tessst"> 
                       <i class="las la-pencil-alt"></i>
                       </span> 

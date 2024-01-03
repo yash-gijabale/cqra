@@ -8,15 +8,15 @@
         <div class="main-header_createview">
           <div class="left-side-header">
             <div class="create-content-header">
-              <h1> Assign Projects </h1>
+              <h1> Observation Tracker Reports </h1>
 
             </div>
           </div>
 
           <div class="right-side-create-view ">
             <div class="create-content-operations">
-              <a routerLink="/createProject/-1">
-                <button type="button"> Create New Projects </button>
+              <a routerLink="/createOTR/-1">
+                <button type="button"> Create OTR </button>
               </a>
             </div>
           </div>
@@ -31,25 +31,40 @@
           <!-- Example DataTables Card-->
 
 
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" style="width:100%">
+          <table datatable [dtOptions]="dtOptions" id="customers" style="width:100%">
             <thead>
               <tr>
                 <th>Client Name</th>
                 <th>Project Name</th>
-                <th>Actions</th>
+                <th>Structure Name</th>
+                <th>Duration Report</th>
+                <th>Report Name</th>
+                <th>Save Report(NC PDF)</th>
+                <th>Download Report</th>
+                <th>View Compliance Report(HTML)</th>
+                <th>View NC Report(HTML)</th>
+                <th>Open Observation</th>
+                <th>Observation Closure</th>
+                <th>Save Closure Report</th>
+                <th>Download Closure Report</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let project of projects">
-                <td>{{project.clientName}}</td>
-                <td>{{project.projectName}}</td>
-                <td>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
-                      (change)="assignProject($event, project.projectId, project.clientId)" [checked]="projectIds[project.projectId]">
-                    <!-- <label class="form-check-label" for="flexSwitchCheckDefault">{{projectIds[project.projectId]}}</label> -->
-                  </div>
-                </td>
+              <tr>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                <td>aa</td>
+                
               </tr>
             </tbody>
           </table>

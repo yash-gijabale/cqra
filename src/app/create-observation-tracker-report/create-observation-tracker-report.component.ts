@@ -9,26 +9,13 @@ import { TradeMaintanceService } from '../trade-maintance.service';
 import { Trade } from '../trade/trade.component';
 import { ContractorData } from '../contractor-forman/contractor-forman.component';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
-import { forEach } from '@angular/router/src/utils/collection';
-
-
-export class AssignSupervisor {
-  constructor(
-    public schemeId: Number,
-    public structureId: Number,
-    public contractorId: Number,
-    public supervisorId: Number,
-    public tradeId: number,
-    public stageId: number,
-  ) { }
-}
 
 @Component({
-  selector: 'app-assign-constructor-supervisor',
-  templateUrl: './assign-constructor-supervisor.component.html',
-  styleUrls: ['./assign-constructor-supervisor.component.css']
+  selector: 'app-create-observation-tracker-report',
+  templateUrl: './create-observation-tracker-report.component.html',
+  styleUrls: ['./create-observation-tracker-report.component.css']
 })
-export class AssignConstructorSupervisorComponent implements OnInit {
+export class CreateObservationTrackerReportComponent implements OnInit {
 
   registerForm: FormGroup;
   SelProject: any;
@@ -43,7 +30,6 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   trades: Trade
   contractors: ContractorData[]
   supervisors: SupervisorData
-
   constructor(
     private commonServices: CommonService,
     private clientService: ClientServiceService,
@@ -52,7 +38,6 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.submitted = true;
     this.clientService.getAllClients()
       .subscribe(data => this.clients = data)
@@ -67,12 +52,17 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       clientId: ['', Validators.required],
       schemeId: ['', Validators.required],
       structureId: ['', Validators.required],
-      contractorId: ['', Validators.required],
-      supervisorId: ['', Validators.required],
       tradeId: ['', Validators.required],
-      stageId: ['', Validators.required]
+      stageId: ['', Validators.required],
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
+      clientRep: ['', Validators.required],
+      cqraRep: ['', Validators.required],
+      reportHeader: ['', Validators.required],
+      othPerson: ['', Validators.required],
     })
   }
+
 
   getProjects() {
     console.log(this.SelClient)
@@ -100,39 +90,9 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       })
   }
 
-  getSupervisores() {
-    this.clientService.getSupervisorByContractorId(this.SelContractor)
-      .subscribe(data => {
-        console.log(data)
-        this.supervisors = data
-      })
-  }
+  get f() { return this.registerForm.controls }
 
   onSubmit() {
     console.log(this.registerForm.value)
-
-    let tradeIds = this.registerForm.value.tradeId
-    let stageId = this.registerForm.value.stageId
-    let finalArrayData = []
-    tradeIds.forEach((tradeId) => {
-      stageId.forEach((stageId) => {
-        let data = {
-          schemeId: this.registerForm.value.schemeId,
-          structureId: this.registerForm.value.structureId,
-          contractorId: this.registerForm.value.contractorId,
-          supervisorId: this.registerForm.value.supervisorId,
-          tradeId,
-          stageId
-        }
-
-        finalArrayData.push(data)
-      })
-    })
-
-    console.log(finalArrayData)
-    this.clientService.assignContractorSupervisor(finalArrayData)
-      .subscribe(data => { console.log('assigned-->', data) },
-        err => console.log(err))
   }
-
 }

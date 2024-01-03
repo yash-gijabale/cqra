@@ -12,7 +12,7 @@ export class CreateUserAccessComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   SelUser:string="0"; 
-
+  userMenu = JSON.parse(sessionStorage.getItem('userMenu'))
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,private router: Router,private clientServiceService:ClientServiceService) { }
 
   ngOnInit() {

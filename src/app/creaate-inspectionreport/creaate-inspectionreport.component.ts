@@ -61,7 +61,7 @@ export class CreaateInspectionreportComponent implements OnInit {
   SelProject: string = "0";
   SelStructure: string = "0";
   SelTradeId: string = "0";
-  SelContractorId: string = "0";
+  SelContractor: string = "0";
   cycleOfInspection: CycleOfInspection[]
 
   inspectionReporotForm: FormGroup
@@ -101,42 +101,28 @@ export class CreaateInspectionreportComponent implements OnInit {
         .subscribe(data => {
           console.log(data)
           retrivedData = data
-          this.commonService.getClientProject(retrivedData.clientId).subscribe(data => this.projects = data)
+          this.commonService.getClientProject(retrivedData.inspectReport.clientId).subscribe(data => this.projects = data)
 
-          this.commonService.getStructures(retrivedData.clientId, retrivedData.projectId).subscribe(data => this.structures = data)
+          this.commonService.getStructures(retrivedData.inspectReport.clientId, retrivedData.inspectReport.projectId).subscribe(data => this.structures = data)
 
-          this.tradeService.getProjectTrades(retrivedData.projectId).subscribe(data => this.trades = data)
-          this.inspectionReporotForm.patchValue(data)
+          this.tradeService.getProjectTrades(retrivedData.inspectReport.projectId).subscribe(data => this.trades = data)
+          this.inspectionReporotForm.patchValue(retrivedData.inspectReport)
+          let tradeIds = retrivedData.inspectTradeList.map((items) =>{
+            return items.tradeId
+          })
+          let structureIds = retrivedData.inspectStructureList.map((item) =>{
+            return item.structureId
+          })
+          let clientReps = retrivedData.inspectClientList.map((item) =>{
+            return item.clientId
+          })
+          console.log(structureIds)
+          this.inspectionReporotForm.patchValue({tradeId : tradeIds})
+          this.inspectionReporotForm.patchValue({structureId : structureIds})
+          this.inspectionReporotForm.patchValue({clientRep : clientReps})
         }, err => console.log(err))
-
-
-
     }
-    // this.commonService.getApprovers().subscribe((data) => {
-    //   console.log('----> office service : approval', data);
-    //   this.approvers = data;
-
-    // }, (err) => {
-    //   console.log('-----> err', err);
-    // })
-
-    // this.commonService.getReviewer().subscribe((data) => {
-    //   console.log('----> office service : reviever', data);
-    //   this.reviwers = data;
-
-    // }, (err) => {
-    //   console.log('-----> err', err);
-    // })
-
-    // this.commonService.getCreater().subscribe((data) => {
-    //   console.log('----> office service :crateter', data);
-    //   this.creaters = data;
-
-    // }, (err) => {
-    //   console.log('-----> err', err);
-    // })
-
-
+    
     this.inspectionReporotForm = this.formBuilder.group({
       clientId: ['', Validators.required],
       projectId: ['', Validators.required],

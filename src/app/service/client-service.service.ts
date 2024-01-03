@@ -508,6 +508,10 @@ export class ClientServiceService {
 
 
   // EQUIPMENT USED BY CLIENT
+  createEquipUsedByClient(data):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addequipmentUsedByClient`, data)
+  }
+
   getEquipUsedByClient(id) {
     return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByClientbysnapauditid/${id}`)
   }
@@ -522,6 +526,11 @@ export class ClientServiceService {
 
 
   // EQUIPMENT USED BY CONTRACTOR
+
+  createEquipUsedByContractor(data): Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addequipmentUsedByContractor`, data)
+  }
+
   getEquipUsedByContractor(id) {
     return this.httpClient.get<EquipmentList[]>(`${this.REST_API_SERVER}/equipmentUsedByContractorbysnapauditid/${id}`)
   }

@@ -44,12 +44,17 @@ export class CreateQuestionHeadingComponent implements OnInit {
     this.questionHeadingId = this.route.snapshot.params["id"];
 
     if (this.questionHeadingId != -1) {
+      let headingData;
       this.tradeMaintanceService
         .retriveQuestionHeading(this.questionHeadingId)
         .pipe(first())
         .subscribe(
           (data) => {
             console.log(data)
+            headingData = data
+            this.tradeMaintanceService.getSubgroupsByTrades(headingData.tardeId).subscribe(data => this.subGroups = data)
+            this.tradeMaintanceService.getQuestiongroupBySubgroup(headingData.subgroupId).subscribe(data => this.questionGroup = data)
+
             this.registerForm.patchValue(data)
           },
           (err) => console.log(err)
@@ -66,7 +71,7 @@ export class CreateQuestionHeadingComponent implements OnInit {
       }
     );
 
-    
+
     this.registerForm = this.formBuilder.group({
       tardeId: ["", Validators.required],
       subgroupId: ["", Validators.required],
@@ -115,11 +120,11 @@ export class CreateQuestionHeadingComponent implements OnInit {
     }
   }
 
-  getSubgroups(){
+  getSubgroups() {
     this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade).subscribe(data => this.subGroups = data)
   }
 
-  getQuestionGroups(){
+  getQuestionGroups() {
     this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup).subscribe(data => this.questionGroup = data)
   }
 }

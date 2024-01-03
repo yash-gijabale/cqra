@@ -105,6 +105,11 @@ import { NcCountReportListComponent } from './nc-count-report-list/nc-count-repo
 import { QualityIndexReportComponent } from './quality-index-report/quality-index-report.component';
 import { LastNoteComponent } from './manualIndexCalulator/lastNote/last-note/last-note.component';
 import { CreateLastNoteComponent } from './manualIndexCalulator/lastNote/create-last-note/create-last-note.component';
+import { AddEquipmentComponent } from './add-equipment/add-equipment.component';
+import { AssignEquipementListComponent } from './assign-equipement-list/assign-equipement-list.component';
+import { QaulityIndexReportListComponent } from './qaulity-index-report-list/qaulity-index-report-list.component';
+import { CreateObservationTrackerReportComponent } from './create-observation-tracker-report/create-observation-tracker-report.component';
+import { ObservationTrackerReportComponent } from './observation-tracker-report/observation-tracker-report.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -157,7 +162,7 @@ const routes: Routes = [
   { path: 'qualityUpdateReport', component: QualityUpdateReportComponent },
   { path: 'qualityReviewReport', component: QualityReviewReportComponent },
   { path: 'misReport', component: MisReportComponent },
-  { path: 'assignProject', component: AssignProjectComponent },
+  { path: 'assignProject/:userId', component: AssignProjectComponent },
   { path: 'createMisReport/:id', component: CreateMisReportComponent },
 
   { path: 'userLog', component: UserLogComponent },
@@ -171,7 +176,7 @@ const routes: Routes = [
   { path: 'ncReviewerSa', component: NcReviewerComponent },
   { path: 'ncApproverSa', component: NcApproverSaComponent },
   { path: 'createinspection/:id', component: CreaateInspectionreportComponent },
-  { path: 'createsnagging', component: CreateSnaggingDocumentComponent },
+  { path: 'createsnagging/:id', component: CreateSnaggingDocumentComponent },
   { path: 'createsignoff', component: CreateSignoffDocumentComponent },
   { path: 'contractorForman', component: ContractorFormanComponent },
   { path: 'createForman/:id', component: CreateContractorFormanComponent },
@@ -210,8 +215,13 @@ const routes: Routes = [
   { path: 'projectTradeSequence/:id', component: ProjectTradeSequenceComponent },
   { path: 'ncCountReportList', component: NcCountReportListComponent },
   { path: 'qualityIndexReport/:id', component: QualityIndexReportComponent },
+  { path: 'qualityIndexReportList', component: QaulityIndexReportListComponent },
   { path: 'lastNotes/:id', component: LastNoteComponent },
   { path: 'createLastNote/:id/:id2', component: CreateLastNoteComponent },
+  { path: 'addEquipment/:id', component: AddEquipmentComponent },
+  { path: 'assignEquipementList', component: AssignEquipementListComponent },
+  { path: 'createOTR/:id', component: CreateObservationTrackerReportComponent },
+  { path: 'OTRList', component: ObservationTrackerReportComponent },
 
 
 

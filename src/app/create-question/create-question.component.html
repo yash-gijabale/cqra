@@ -97,7 +97,7 @@
 
           <div class="form-group">
             <label>Quality Requirement </label>
-            <input type="text" formControlName="qualityRequiement" class="form-control"
+            <input type="text" formControlName="questionText" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
               <div *ngIf="f.clientName.errors.required">Question Group Description is required</div>

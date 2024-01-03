@@ -9,6 +9,19 @@ import { UserView } from '../user-log/user-log.component';
 import { CycleOfInspection } from '../ncclosure-sa/ncclosure-sa.component';
 import { UserService } from '../service/user.service';
 import { TradeMaintanceService } from '../trade-maintance.service';
+import { ActivatedRoute } from '@angular/router';
+import { first } from 'rxjs/operators';
+
+
+export class SnaggingReportView {
+  constructor(
+    public snapAudit: Object,
+    public snaggStruList: Array<Object>,
+    public snaggclientList: Array<Object>,
+    public snaggTradeList: Array<Object>
+  ) { }
+}
+
 
 @Component({
   selector: 'app-create-snagging-document',
@@ -30,7 +43,7 @@ export class CreateSnaggingDocumentComponent implements OnInit {
   SelProjectId: string = "0";
   SelstructureId: string = "0";
   SelTradeId: string = "0";
-  SelContractorId: string = "0";
+  SelContractor: string = "0";
   SelAssessmentDate: string = "0";
   Selnabcreport: string = "0";
   Selnabcnote: string = "0";
@@ -38,44 +51,47 @@ export class CreateSnaggingDocumentComponent implements OnInit {
   SelToDate: string = "0";
 
   snaggingReportFrom: FormGroup
+  snaggingReportId: Number
 
 
   constructor(
-    private clientServiceService: ClientServiceService, 
-    private commonService: CommonService, 
-    private formBuilder: FormBuilder, 
+    private clientServiceService: ClientServiceService,
+    private commonService: CommonService,
+    private formBuilder: FormBuilder,
     private router: Router,
     private userService: UserService,
     private tradeService: TradeMaintanceService,
-    )
-     { }
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
 
+    this.snaggingReportId = this.route.snapshot.params['id']
+
     this.snaggingReportFrom = this.formBuilder.group({
       clientId: ['', Validators.required],
-      projectId: ['', Validators.required],
+      schemeId: ['', Validators.required],
       structureId: ['', Validators.required],
       tradeId: ['', Validators.required],
       clientRep: ['', Validators.required],
       assessmentDate: ['', Validators.required],
-      nabcReport: ['', Validators.required],
+      nabc: ['', Validators.required],
       nabcNote: ['', Validators.required],
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
-      approver: ['', Validators.required],
+      approverId: ['', Validators.required],
       approverDesign: ['', Validators.required],
-      revever: ['', Validators.required],
-      revekverDesign: ['', Validators.required],
+      reviewerId: ['', Validators.required],
+      reviewerDesign: ['', Validators.required],
+      createrId: ['', Validators.required],
       createrName: ['', Validators.required],
-      createrDesign: ['', Validators.required],
       reportHeader: ['', Validators.required],
       image1: ['', Validators.required],
       image2: ['', Validators.required],
-      cycleOfInspection: ['', Validators.required],
-      typeOfProject: ['', Validators.required],
-      uicNumber: ['', Validators.required],
-      index: ['', Validators.required]
+      cycleId: ['', Validators.required],
+      typeOfReport: ['', Validators.required],
+      uicNo: ['', Validators.required],
+      saIndex: ['', Validators.required]
     })
 
     this.clientServiceService.getAllClients().subscribe((data) => {
@@ -84,14 +100,46 @@ export class CreateSnaggingDocumentComponent implements OnInit {
       console.log('-----> err', err);
     })
 
+    if (this.snaggingReportId != -1) {
+      let retrivedData;
+      this.commonService.getSnaggingReport(this.snaggingReportId)
+        .pipe(first())
+        .subscribe(data => {
+          console.log(data)
+          this.snaggingReportFrom.patchValue(data.snapAudit)
+          retrivedData = data
+          this.commonService.getClientProject(retrivedData.snapAudit.clientId).subscribe(data => this.projects = data)
+
+          this.commonService.getStructures(retrivedData.snapAudit.clientId, retrivedData.snapAudit.schemeId).subscribe(data => this.structures = data)
+
+          this.tradeService.getProjectTrades(retrivedData.snapAudit.schemeId).subscribe(data => this.trades = data)
+
+          let tradeIds = retrivedData.snaggTradeList.map((items) => {
+            return items.tradeIds
+          })
+          let structureIds = retrivedData.snaggStruList.map((item) => {
+            return item.structureIds
+          })
+          let clientReps = retrivedData.snaggclientList.map((item) => {
+            return item.clientId
+          })
+          this.snaggingReportFrom.patchValue({ tradeId: tradeIds })
+          this.snaggingReportFrom.patchValue({ structureId: structureIds })
+          this.snaggingReportFrom.patchValue({ clientRep: clientReps })
+        })
+    }
+
+
     this.commonService.getAllContractors().subscribe(data => this.contractors = data)
 
     this.commonService.getAllCycleOfInspection().subscribe(data => this.cycleOfInspection = data, err => console.log(err))
 
-    this.userService.getApproverList().subscribe(data => this.approvers = data)
+    this.userService.getApproverList().subscribe(data => {
+      console.log(data)
+      this.approvers = data
+    })
     this.userService.getReviewverList().subscribe(data => this.reviwers = data)
     this.userService.getCreaterList().subscribe(data => this.creaters = data)
-
   }
 
   getProjects() {
@@ -118,11 +166,11 @@ export class CreateSnaggingDocumentComponent implements OnInit {
         }, (err) => {
           console.log('-----> err', err);
         })
-        this.tradeService.getProjectTrades(this.SelProjectId)
-        .subscribe(data => {
-          console.log(data)
-          this.trades = data
-        })
+    this.tradeService.getProjectTrades(this.SelProjectId)
+      .subscribe(data => {
+        console.log(data)
+        this.trades = data
+      })
   }
 
 
@@ -151,14 +199,20 @@ export class CreateSnaggingDocumentComponent implements OnInit {
     delete this.snaggingReportFrom.value.structureId
     delete this.snaggingReportFrom.value.clientRep
     let data = {
-      inspectReport: this.snaggingReportFrom.value,
-      inspectTrade: tradeIds,
-      inspectClient: contractors,
-      inspectStructure: structureIds
+      snapAudit: this.snaggingReportFrom.value,
+      snaggTrade: tradeIds,
+      snaggclient: contractors,
+      snaggStru: structureIds
     }
     console.log(data)
-    this.commonService.createSnaggingReport(data)
-    .subscribe(data => console.log('snagging added-->', data))
+
+    if (this.snaggingReportId != -1) {
+      this.commonService.updateSnaggingReport(data, this.snaggingReportId)
+        .subscribe(data => console.log('snagging upadated-->', data))
+    } else {
+      this.commonService.createSnaggingReport(data)
+        .subscribe(data => console.log('snagging added-->', data))
+    }
   }
 
 }

@@ -34,7 +34,7 @@
           </div>
           <div class="form-group">
             <label>Project Name</label>
-            <select [(ngModel)]="SelProjectId" formControlName="projectId" class="form-control"
+            <select [(ngModel)]="SelProjectId" formControlName="schemeId" class="form-control"
               (change)="getStructures()">
               <option [value]="0">Please Select</option>
               <option [value]="project.projectId" *ngFor="let project of projects">
@@ -85,7 +85,7 @@
 
           <div class="form-group">
             <label>NABC Report </label>
-            <select formControlName="nabcReport" class="form-control">
+            <select formControlName="nabc" class="form-control">
               <option [value]="0" [selected]="0">Please select</option>
               <option [value]="1">With NABCB</option>
               <option [value]="2">Without NABCB</option>
@@ -122,8 +122,8 @@
 
           <div class="form-group">
             <label>Approver: </label>
-            <select formControlName="approver" class="form-control">
-              <option [value]="user.userId" *ngFor="let user of approvers">
+            <select formControlName="approverId" class="form-control">
+              <option [value]="user.id" *ngFor="let user of approvers">
                 {{user.userFullName}}
               </option>
             </select>
@@ -140,8 +140,8 @@
 
           <div class="form-group">
             <label>Reviewer: </label>
-            <select formControlName="revever" class="form-control">
-              <option [value]="user.userId" *ngFor="let user of reviwers">
+            <select formControlName="reviewerId" class="form-control">
+              <option [value]="user.id" *ngFor="let user of reviwers">
                 {{user.userFullName}}
               </option>
             </select>
@@ -151,15 +151,15 @@
 
           <div class="form-group">
             <label>Reviewer Design: </label>
-            <input type="text" class="form-control" formControlName="revekverDesign">
+            <input type="text" class="form-control" formControlName="reviewerDesign">
             <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Creater Name: </label>
-            <select formControlName="createrName" class="form-control">
-              <option [value]="user.userId" *ngFor="let user of creaters">
+            <select formControlName="createrId" class="form-control">
+              <option [value]="user.id" *ngFor="let user of creaters">
                 {{user.userFullName}}
               </option>
             </select>
@@ -169,7 +169,7 @@
 
           <div class="form-group">
             <label>Create Design: </label>
-            <input type="text" class="form-control" formControlName="createrDesign">
+            <input type="text" class="form-control" formControlName="createrName">
             <div class="invalid-feedback">
             </div>
           </div>
@@ -199,7 +199,7 @@
 
           <div class="form-group">
             <label>Cycle of Inpection: </label>
-            <select formControlName="cycleOfInspection" class="form-control">
+            <select formControlName="cycleId" class="form-control">
               <option [value]="cycle.cycle_id" *ngFor="let cycle of cycleOfInspection">
                 {{cycle.cycle_name}}
               </option>
@@ -210,21 +210,21 @@
 
           <div class="form-group">
             <label>Type of Project: </label>
-            <input type="text" class="form-control" formControlName="typeOfProject">
+            <input type="text" class="form-control" formControlName="typeOfReport">
             <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>UIC no: </label>
-            <input type="text" class="form-control" formControlName="uicNumber">
+            <input type="text" class="form-control" formControlName="uicNo">
             <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Index: </label>
-            <input type="text" class="form-control" formControlName="index">
+            <input type="text" class="form-control" formControlName="saIndex">
             <div class="invalid-feedback">
             </div>
           </div>

@@ -145,7 +145,13 @@ export class CreateUserAllocationComponent implements OnInit {
     
 
     if (this.allocationId != -1) {
-      this.userService.updateUserAllocation(this.userAllocationForm.value, this.allocationId)
+    //   let finalAllocationDataUpdate = {
+    //     userChecklists: AllocationData,
+    //     userAllocation: AllocationData
+    // }
+    // console.log(finalAllocationDataUpdate)
+
+      this.userService.updateUserAllocation(finalAllocationData)
         .subscribe(data => {
           console.log('updated allocation-->', data)
         })

@@ -40,11 +40,14 @@ export class CreateQuestionGroupComponent implements OnInit {
     this.questionGroupId = this.route.snapshot.params["id"];
 
     if (this.questionGroupId != -1) {
+      let groupData;
       this.tradeMaintanceService
         .retriveQuestionGroup(this.questionGroupId)
         .pipe(first())
         .subscribe((data) => {
+          groupData = data
           this.registerForm.patchValue(data);
+          this.tradeMaintanceService.getSubgroupsByTrades(groupData.tardeId).subscribe(data => this.subgroups = data)
         });
     }
 

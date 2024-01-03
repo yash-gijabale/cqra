@@ -1,23 +1,20 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommonService } from '../common.service';
 import { DataTableDirective } from 'angular-datatables';
-import { Subject } from "rxjs";
+
 @Component({
-  selector: 'app-nc-count-report-list',
-  templateUrl: './nc-count-report-list.component.html',
-  styleUrls: ['./nc-count-report-list.component.css']
+  selector: 'app-qaulity-index-report-list',
+  templateUrl: './qaulity-index-report-list.component.html',
+  styleUrls: ['./qaulity-index-report-list.component.css']
 })
-export class NcCountReportListComponent implements OnInit {
+export class QaulityIndexReportListComponent implements OnInit {
   isLoading: boolean = false
   title = "Datatables";
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   ProjectViews:any
-  // dtTrigger: Subject<FirstNote> = new Subject<FirstNote>();
-  constructor(
-    private commonService: CommonService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -27,8 +24,6 @@ export class NcCountReportListComponent implements OnInit {
       responsive:true,
       scrollX:true
     };
-    this.commonService.getNcCountReports()
-      .subscribe(data => console.log(data))
   }
 
 }

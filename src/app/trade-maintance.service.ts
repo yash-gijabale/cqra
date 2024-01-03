@@ -20,7 +20,7 @@ import { CheckListView, EditNcsListView } from './edit-non-conf/edit-non-conf.co
 import { UserLogDataView } from './user-log/user-log.component';
 import { data } from 'jquery';
 import { QuestionData } from './create-question/create-question.component';
-
+import { TradeData } from './create-tarde/create-tarde.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -108,11 +108,12 @@ export class TradeMaintanceService {
   }
 
   retriveTrade(id) {
-    return this.httpClient.get<TradeGroup>(`${this.REST_API_SERVER}/trade/trade/${id}`)
+    // return this.httpClient.get<TradeGroup>(`${this.REST_API_SERVER}/trade/trade/${id}`)
+    return this.httpClient.get<TradeData>(`${this.REST_API_SERVER}/gettradem/${id}`)
   }
 
-  updateTrade(tradeData: TradeGroup, id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/trade/trade/${id}`, tradeData)
+  updateTrade(tradeData, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/updatetradem/${id}`, tradeData)
   }
   deleteTrade(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/trade/trade/${id}`)

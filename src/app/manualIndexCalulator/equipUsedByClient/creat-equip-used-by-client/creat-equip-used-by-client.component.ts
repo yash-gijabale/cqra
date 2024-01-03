@@ -46,19 +46,22 @@ export class CreatEquipUsedByClientComponent implements OnInit {
 
   onSubmit() {
     console.log(this.equipmentForm.value);
+    let formData = {
+      snapAuditId: this.snapAuditId,
+      description: this.equipmentForm.value.description,
+      remark: this.equipmentForm.value.remark,
+      image1: this.equipmentForm.value.image1.replace(/^.*[\\\/]/, ""),
+      image2: this.equipmentForm.value.image2.replace(/^.*[\\\/]/, ""),
+    };
     if (this.equipmentId != -1) {
-      let formData = {
-        snapAuditId: this.snapAuditId,
-        description: this.equipmentForm.value.description,
-        remark: this.equipmentForm.value.remark,
-        image1: this.equipmentForm.value.image1.replace(/^.*[\\\/]/, ""),
-        image2: this.equipmentForm.value.image2.replace(/^.*[\\\/]/, ""),
-      };
       console.log(formData);
       this.clientService.updateWquipmentUsedByClient(formData, this.equipmentId)
       .subscribe(data => {
         console.log('updated')
       })
+    }else{
+      this.clientService.createEquipUsedByClient(formData)
+      .subscribe(data => console.log('Equiptment -->', data))
     }
   }
 }

@@ -7,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 username=sessionStorage.getItem('username');
-  
+userMenu = JSON.parse(sessionStorage.getItem('userMenu'))
   constructor() { }
 
   ngOnInit() {
+    console.log(this.userMenu)
+
     $("#sidenavToggler").click(function(e) {
       e.preventDefault();
       $("body").toggleClass("sidenav-toggled");

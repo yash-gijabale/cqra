@@ -86,5 +86,10 @@ export class QuestionComponent implements OnInit {
       console.log('-----> err', err);
     })
   }
+
+
+  editQuestion(id){
+    this.router.navigate(['createQuestion', id])
+  }
   }
 

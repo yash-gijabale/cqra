@@ -117,6 +117,11 @@ import { NcCountReportListComponent } from './nc-count-report-list/nc-count-repo
 import { QualityIndexReportComponent } from './quality-index-report/quality-index-report.component';
 import { CreateLastNoteComponent } from './manualIndexCalulator/lastNote/create-last-note/create-last-note.component';
 import { LastNoteComponent } from './manualIndexCalulator/lastNote/last-note/last-note.component';
+import { AddEquipmentComponent } from './add-equipment/add-equipment.component';
+import { AssignEquipementListComponent } from './assign-equipement-list/assign-equipement-list.component';
+import { QaulityIndexReportListComponent } from './qaulity-index-report-list/qaulity-index-report-list.component';
+import { ObservationTrackerReportComponent } from './observation-tracker-report/observation-tracker-report.component';
+import { CreateObservationTrackerReportComponent } from './create-observation-tracker-report/create-observation-tracker-report.component';
 
 @NgModule({
   declarations: [
@@ -227,7 +232,12 @@ import { LastNoteComponent } from './manualIndexCalulator/lastNote/last-note/las
     NcCountReportListComponent,
     QualityIndexReportComponent,
     CreateLastNoteComponent,
-    LastNoteComponent
+    LastNoteComponent,
+    AddEquipmentComponent,
+    AssignEquipementListComponent,
+    QaulityIndexReportListComponent,
+    ObservationTrackerReportComponent,
+    CreateObservationTrackerReportComponent
   ],
   imports: [
     BrowserModule,

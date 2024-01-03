@@ -16,6 +16,7 @@ import { BehaviorSubject } from 'rxjs';
 import { NcCountReportData } from './nc-count-report/nc-count-report.component';
 import { QualityIndexReport } from './quality-index-report/quality-index-report.component';
 import { InspectionReport } from './creaate-inspectionreport/creaate-inspectionreport.component';
+import { SnaggingReportView } from './create-snagging-document/create-snagging-document.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -165,6 +166,10 @@ export class CommonService {
 
   //REPORT API CALL
   //NC COUNT API CALL
+getNcCountReports(){
+  return this.httpClient.get<any>(`${this.REST_API_SERVER}/getAllnccount`)
+}
+
   createNcCountReport(data): Observable<CommonService>{
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/NcCount`, data)
   }
@@ -209,20 +214,27 @@ export class CommonService {
   }
 
   retriveInspectionReport(id){
-    return this.httpClient.get<InspectionReport>(`${this.REST_API_SERVER}/InspectReport/${id}`)
+    return this.httpClient.get<InspectionReport>(`${this.REST_API_SERVER}/getInspectDataByReportId/${id}`)
   }
 
   updateInspectionReport(data, id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/InspectReport/${id}`, data)
+    return this.httpClient.put(`${this.REST_API_SERVER}/updateminspectrep/${id}`, data)
   }
   
 
 
-
+//SANGGING REPORT
   createSnaggingReport(data): Observable<CommonService>{
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addSnaggingMul`, data)
   }
 
+  getSnaggingReport(id){
+    return this.httpClient.get<SnaggingReportView>(`${this.REST_API_SERVER}/getSnaggingMul/${id}`)
+  }
+
+  updateSnaggingReport(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/updateSnaggingMul/${id}`, data)
+  }
 
   // createStructure(clientData): Observable<ClientServiceService> {
   //   return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/structure/addStructure`, clientData);

@@ -8,20 +8,19 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Manage First Note</li>
+            <li class="breadcrumb-item active">Assign Equipment</li>
           </ol>
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a [routerLink]="'/createFirstNote/' + snapAuditId+'/-1'">Create First Note</a>
-            </button>
+            <button type="button"> <a [routerLink]="'/addEquipment/-1'">Assign Eupiment</a> </button>
           </div>
         </div>
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1> Mamage First Note</h1>
+            <h1>Assign Equipment</h1>
           </div>
         </div>
       </div>
@@ -32,28 +31,37 @@
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
           <!-- Example DataTables Card-->
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-            style="width:100%">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  id="customers"  class="row-border hover" style="width:100%">
             <thead>
               <tr>
 
-                <th>First Note</th>
+                <th>Asset Name</th>
+                <th>Description</th>
+                <th>Asset Number</th>
+                <th>Remark</th>
+                <th>Assign To</th>
+                <th>Assign Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let note of (firstNotes)">
-                <td>{{note.firstNoteText}}</td>
+              <tr *ngFor="let equipment of (assignEquipment)">
+                <td>{{equipment.assetName}}</td>
+                <td>{{equipment.description}}</td>
+                <td>{{equipment.assetSerialNo}}</td>
+                <td>{{equipment.remark}}</td>
+                <td>{{equipment.assignTo}}</td>
+                <td>{{equipment.dateOfAssign}}</td>
                 <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
                 <td>
                   <div class="action-commonview">
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter" (click)="editNote(note.firstNoteId)">
+                      data-target="#exampleModalCenter" (click)="editEquipment(equipment.equipmentId)">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" class="Delete-modal" (click)="deActivate(note.firstNoteId)">
+                    <button type="text" class="Delete-modal"  (click)="deActivate(equipment.equipmentId)">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>

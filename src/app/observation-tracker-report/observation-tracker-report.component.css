@@ -1,0 +1,36 @@
+/* #customers_wrapper{
+  overflow-x: auto !important;
+
+} */
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  /* overflow-x: auto !important; */
+
+  }
+  
+    
+  table.dataTable td, table.dataTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+ 
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #2d5a91 !important;
+    color: white;
+  }
+
+  table.dataTable thead{
+    background-color: #2d5a91 !important;
+    color: white;
+    
+  }

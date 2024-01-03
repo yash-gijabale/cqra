@@ -5,6 +5,23 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TradeMaintanceService } from "../trade-maintance.service";
 import { TradeGroup } from "../trade-group/trade-group.component";
 import { first } from 'rxjs/operators'
+import { forEach } from "@angular/router/src/utils/collection";
+
+
+export class TradeData {
+  constructor(
+    public trade: {
+      tardeId: number,
+      tradegroupId: Number,
+      tradeName: string,
+      status: boolean,
+      tradeNumber: string,
+      tradeSequence: number
+    },
+    public tradeKey: Array<String>,
+    public tradeTradeGroupId: Array<number>
+  ) { }
+}
 
 @Component({
   selector: "app-create-tarde",
@@ -17,7 +34,7 @@ export class CreateTardeComponent implements OnInit {
   submitted = false;
   tradeGroups: TradeGroup[]
   tradeId: number
-  filed:string
+  filed: string
 
   constructor(
     private route: ActivatedRoute,
@@ -44,7 +61,17 @@ export class CreateTardeComponent implements OnInit {
       this.tradeService.retriveTrade(this.tradeId)
         .pipe(first())
         .subscribe(data => {
-          this.registerForm.patchValue(data)
+          console.log(data)
+          this.registerForm.patchValue(data.trade)
+          this.registerForm.patchValue({ tradegroupId: data.tradeTradeGroupId })
+          let areaFiled = <HTMLDivElement>document.querySelector('#keyResultArea')
+          if (data.tradeKey.length) {
+            areaFiled.removeChild(areaFiled.firstElementChild)
+            data.tradeKey.forEach((item) => {
+              let filed = `<input type="text" formControlName="keyResultArea" class="form-control keyResultArea" value='${item}' />`
+              areaFiled.insertAdjacentHTML('beforeend', filed)
+            })
+          }
         })
     }
 
@@ -78,19 +105,20 @@ export class CreateTardeComponent implements OnInit {
         tradeSequence: this.registerForm.value.tradeSequence,
         tradeNumber: this.registerForm.value.tradeNumber
       },
-      tradeKey : keyResultArea,
-      tradeTradeGroupId : this.registerForm.value.tradegroupId
+      tradeKey: keyResultArea,
+      tradeTradeGroupId: this.registerForm.value.tradegroupId
     }
-    console.log(formData)
+    // console.log(formData)
     // return
     this.submitted = true;
-  
+
     console.log(formData);
     if (this.tradeId != -1) {
-      // this.tradeService.updateTrade(formData, this.tradeId)
-      //   .subscribe(data => {
-      //     console.log('data updated')
-      //   }, (err) => console.log(err))
+      this.tradeService.updateTrade(formData, this.tradeId)
+        .subscribe(data => {
+          console.log('data updated')
+        }, (err) => console.log(err))
+      // console.log(formData)
 
     } else {
       this.tradeService.createTrade(formData)
@@ -103,6 +131,6 @@ export class CreateTardeComponent implements OnInit {
   addKeyResultField() {
     let filed = '<input type="text" formControlName="keyResultArea" class="form-control keyResultArea" />'
     let areaFiled = <HTMLDivElement>document.querySelector('#keyResultArea')
-    areaFiled.insertAdjacentHTML('beforeend',filed)
+    areaFiled.insertAdjacentHTML('beforeend', filed)
   }
 }

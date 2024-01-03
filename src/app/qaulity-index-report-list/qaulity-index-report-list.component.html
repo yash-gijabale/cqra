@@ -6,16 +6,15 @@
         <div class="main-header_createview">
           <div class="left-side-header">
             <div class="create-content-header">
-              <h1> Manage Question </h1>
+              <h1> Manage Quality Index Report </h1>
 
             </div>
           </div>
 
           <div class="right-side-create-view ">
             <div class="create-content-operations">
-
-              <a routerLink="/createQuestion/-1">
-                <button type="button"> Create Question </button>
+              <a routerLink="/qualityIndexReport/-1">
+                <button type="button"> Create Quality Index Report </button>
               </a>
             </div>
           </div>
@@ -30,35 +29,31 @@
 
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-            style="width:100%">
+          <table datatable [dtOptions]="dtOptions" id="customers" style="width:100%">
             <thead>
               <tr>
-                <th>Trade Name</th>
-                <th>Subgroup Name</th>
-                <th>Question Group</th>
-                <th>Question Heading Group</th>
-                <th>Question </th>
-                <th>Actions </th>
 
+                <th>Client Name</th>
+                <th>Project Name</th>
+                <th>Structure Name</th>
+                <th>Remark</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of questions">
-                <td>{{ client.tradeName }}</td>
-                <td>{{ client.subgroupName }}</td>
-                <td>{{ client.questionGroupText }}</td>
-                <td>{{ client.questionHeadingText }}</td>
-                <td>{{ client.questionText }}</td>
+              <tr *ngFor="let client of ProjectViews">
+                <td>{{ client.projectName }}</td>
+                <td>{{ client.clientName }}</td>
+                <td>{{ client.projectCity }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editQuestion(client.questionId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActivateClient(client.questionId)" class="Delete-modal">
+                    <button type="text" (click)="deActivateProject(client.projectId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>

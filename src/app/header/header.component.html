@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">	
-	<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet"
+    href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
 
 
 </head>
-	<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark  fixed-top myclassnav" id="mainNav">
-    <a class="navbar-brand" href="index.php"> 
+    <a class="navbar-brand" href="index.php">
       <div class="header-view-logo">
         <img src="assets/images/cqra-logo-s-1.png">
-      </div> 
+      </div>
     </a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-       <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
           <a class="nav-link" routerLink="/dashboard">
            <span class="all-font-icons">  <i class="lab la-microsoft"></i> </span> 
             <span class="nav-link-text">Dashboard</span>
@@ -39,89 +47,123 @@
         </li> -->
         <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Dashboard">
           <a class="dropdown-item" routerLink="/wbs">
-            <span class="all-font-icons"> 
-              <i class="las la-sitemap"></i> 
+            <span class="all-font-icons">
+              <i class="las la-sitemap"></i>
             </span>
             <span class="nav-link-text"> Dashboard </span>
           </a>
-        </li> 
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Users">
+        </li>
+        <li *ngIf="(userMenu.userlog || userMenu.userMenu || userMenu.contractorMenu 
+        || userMenu.supervisorMenu || userMenu.foremanMenu || userMenu.clientStaffMenu
+        || userMenu.assignContractor || userMenu.manageUserAccessMenu || userMenu.userAllocationMenu)"
+          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Users">
           <a class="dropdown-item" routerLink="/wbs">
-            <span class="all-font-icons"> 
-              <i class="las la-sitemap"></i> 
+            <span class="all-font-icons">
+              <i class="las la-sitemap"></i>
             </span>
             <span class="nav-link-text"> User Management </span>
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/users">User</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/userAccess">Manage User Access</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/userAllocation">User Allocation</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/contractor">Contractor</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/contractorSupervisor">Contractor Supervisor</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/contractorForman">Contractor Forman</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/clientStaff">Client Staff</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/assign-constructor-supervisor">Assign Constructor's Supervisor</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/assign-constructor-foreman">Assign Constructor's Foreman</a></li>
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/users">User</a></li>
+
+            <li *ngIf="userMenu.manageUserAccessMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/userAccess">Manage User Access</a></li>
+
+            <li *ngIf="userMenu.userAllocationMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/userAllocation">User Allocation</a></li>
+
+            <li *ngIf="userMenu.contractorMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/contractor">Contractor</a></li>
+
+            <li *ngIf="userMenu.supervisorMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/contractorSupervisor">Contractor Supervisor</a></li>
+
+            <li *ngIf="userMenu.foremanMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/contractorForman">Contractor Forman</a></li>
+
+            <li *ngIf="userMenu.clientStaffMenu" class="dropdown-item"><a tabindex="-1" routerLink="/clientStaff">Client
+                Staff</a></li>
+
+            <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
+                routerLink="/assign-constructor-supervisor">Assign Constructor's Supervisor</a>
+            </li>
+            <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
+                routerLink="/assign-constructor-foreman">Assign Constructor's Foreman</a></li>
+
             <li class="dropdown-item"><a tabindex="-1" routerLink="/sampling">Sampling</a></li>
+
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/assignEquipementList">Assign Equipment</a></li>
           </ul>
-        </li> 
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Masters">
+        </li>
+        <li *ngIf="(userMenu.clientMenu || userMenu.schemeMenu || userMenu.buildingMenu)" class="dropdown-submenu"
+          data-toggle="tooltip" data-placement="right" title="Masters">
           <a class="dropdown-item" routerLink="/wbs">
-            <span class="all-font-icons"> 
-              <i class="las la-sitemap"></i> 
+            <span class="all-font-icons">
+              <i class="las la-sitemap"></i>
             </span>
             <span class="nav-link-text"> Master Maintance </span>
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/client">Client</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/project">Project </a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/wbs">WBS </a></li>
+            <li *ngIf="userMenu.clientMenu" class="dropdown-item"><a tabindex="-1" routerLink="/client">Client</a></li>
+            <li *ngIf="userMenu.schemeMenu" class="dropdown-item"><a tabindex="-1" routerLink="/project">Project </a>
+            </li>
+            <li *ngIf="userMenu.buildingMenu" class="dropdown-item"><a tabindex="-1" routerLink="/wbs">WBS </a></li>
           </ul>
-        </li> 
-       
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Trades">
+        </li>
+
+        <li *ngIf="(userMenu.tradeGroup || userMenu.tradeMenu || userMenu.subgroupMenu || userMenu.questionGroupMenu
+        || userMenu.questionHeadingMenu || userMenu.questionMenu || userMenu.checklistGenerationMenu)"
+          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Trades">
           <a class="dropdown-item" routerLink="/wbs">
-            <span class="all-font-icons"> 
-              <i class="las la-sitemap"></i> 
+            <span class="all-font-icons">
+              <i class="las la-sitemap"></i>
             </span>
             <span class="nav-link-text"> Trade Maintance </span>
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/tradegroup">Trade Group</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/trade">Trade </a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/subgroup">Subgroup</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/questiongroup">Question Group</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/questionheading">Question Heading</a></li>
+            <li *ngIf="userMenu.tradeMenu" class="dropdown-item"><a tabindex="-1" routerLink="/tradegroup">Trade
+                Group</a></li>
+            <li *ngIf="userMenu.tradeMenu" class="dropdown-item"><a tabindex="-1" routerLink="/trade">Trade </a></li>
+            <li *ngIf="userMenu.subgroupMenu" class="dropdown-item"><a tabindex="-1" routerLink="/subgroup">Subgroup</a>
+            </li>
+            <li *ngIf="userMenu.questionGroupMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/questiongroup">Question Group</a></li>
+            <li *ngIf="userMenu.questionHeadingMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/questionheading">Question Heading</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/questiontitle">Question Title</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/question">Question </a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/checklist">Checklist </a></li>
+            <li *ngIf="userMenu.questionMenu" class="dropdown-item"><a tabindex="-1" routerLink="/question">Question
+              </a></li>
+            <li *ngIf="userMenu.checklistGenerationMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/checklist">Checklist </a></li>
           </ul>
-        </li> 
+        </li>
         <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Snap Audit">
           <a class="dropdown-item" routerLink="/wbs">
-            <span class="all-font-icons"> 
-              <i class="las la-sitemap"></i> 
+            <span class="all-font-icons">
+              <i class="las la-sitemap"></i>
             </span>
             <span class="nav-link-text">Snap Audit Reports </span>
           </a>
           <ul class="dropdown-menu">
             <li class="dropdown-item"><a tabindex="-1" routerLink="/userLog">User Log</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/editNC">Edit NC & Conformity </a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/ncCountReport/-1">NC count</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/ncCountReportList">NC count</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/snaggingDocument">SingOff documents</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/inspectionReport">Inspection report</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/snaggingReport">Snagging report</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/ncClosureSa">NC closure (SA)</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/ncReviewerSa">NC Reviwer (SA)</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/ncApproverSa">NC Approver (SA)</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/qualityIndexReport/-1">Quality Index Report</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/qualityIndexReportList">Quality Index Report</a>
+            </li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation Tracker Report</a></li>
 
           </ul>
-        </li> 
+        </li>
         <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports">
           <a class="dropdown-item" routerLink="/wbs">
-            <span class="all-font-icons"> 
-              <i class="las la-sitemap"></i> 
+            <span class="all-font-icons">
+              <i class="las la-sitemap"></i>
             </span>
             <span class="nav-link-text">Reports </span>
           </a>
@@ -131,13 +173,15 @@
             <li class="dropdown-item"><a tabindex="-1" href="/misReport">MIS Report</a></li>
             <li class="dropdown-item"><a tabindex="-1" href="/createKickoff/-1">Kickoff Report</a></li>
             <li class="dropdown-item"><a tabindex="-1" href="/createTraining/-1">Training Conducted Report</a></li>
-            <li class="dropdown-item"><a tabindex="-1" href="/createNcObservationCount/-1">NC and observation Count</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createNcObservationCount/-1">NC and observation Count</a>
+            </li>
             <li class="dropdown-item"><a tabindex="-1" href="/createQualityIndexReport/-1">Quality Index Report</a></li>
             <li class="dropdown-item"><a tabindex="-1" href="/createNcsStatusReport/-1">NCs Status Report</a></li>
-            <li class="dropdown-item"><a tabindex="-1" href="/createNCClosureHistoryReport/-1">NC Closure History</a></li>
+            <li class="dropdown-item"><a tabindex="-1" href="/createNCClosureHistoryReport/-1">NC Closure History</a>
+            </li>
             <li class="dropdown-item"><a tabindex="-1" href="/createNcLogReport/-1">NC Log Report</a></li>
           </ul>
-        </li> 
+        </li>
         <!-- <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="dropdown-item" routerLink="/wbs">
             <span class="all-font-icons"> 
@@ -174,31 +218,37 @@
           </a>
         </li>
       </ul>
-    <div class="common-headerview navbar-nav w-100">
-      <div class="navbar-nav mr-auto">
-        <div class="cqra-heading_text">
-            <div class="cqra-text-st"> Think <span class="cqra-auality"> Quality</span>, think <span class="cqra-cqra">CQRA</span>!</div> <div class="cqra-home-back"> <a routerLink="/home"> Home </a> </div>
-        </div>
-        
-      </div>
-      <ul class="navbar-nav ml-auto">
-        
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div class="user-profile-sign"> 
-               <span> {{username}} </span>
-            </div>
-          </a>
-          <div class="dropdown-menu add-custom-view" aria-labelledby="alertsDropdown">
-            <h6 class="dropdown-header">
-              <a class="nav-link" href="profile.php"> <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
-              <a class="nav-link"> <i class="fa fa-fw fa-sign-out"></i>Logout</a>
-            </h6>
+      <div class="common-headerview navbar-nav w-100">
+        <div class="navbar-nav mr-auto">
+          <div class="cqra-heading_text">
+            <div class="cqra-text-st"> Think <span class="cqra-auality"> Quality</span>, think <span
+                class="cqra-cqra">CQRA</span>!</div>
+            <div class="cqra-home-back"> <a routerLink="/home"> Home </a> </div>
           </div>
-        </li>
-        
-      </ul>
+
+        </div>
+        <ul class="navbar-nav ml-auto">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <div class="user-profile-sign">
+                <span> {{username}} </span>
+              </div>
+            </a>
+            <div class="dropdown-menu add-custom-view" aria-labelledby="alertsDropdown">
+              <h6 class="dropdown-header">
+                <a class="nav-link text-danger" href="profile.php"> <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                <a class="nav-link"> <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                <a class="nav-link" target="_blank"
+                  href="https://docs.google.com/spreadsheets/d/1gwcWXlQwrLPZvF9VBW_x-rQcLMqHPTwCU1R2bpi4oOM/edit#gid=0"><i
+                    class="fa fa-fw fa-sign-out text-danger"></i>Report Issue</a>
+              </h6>
+            </div>
+
+          </li>
+
+        </ul>
+      </div>
     </div>
-  </div>
   </nav>
-  

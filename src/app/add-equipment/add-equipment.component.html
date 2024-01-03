@@ -1,0 +1,112 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Assign Equipment</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/assignEquipementList">Manage Assign Equipment</a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Assign Equipment</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Asset Type: </label>
+            <select formControlName="id" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="asset.id" *ngFor="let asset of assets">{{asset.assetName}}</option>
+            </select>
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Asset Name: </label>
+            <input type="text" class="form-control" formControlName="assetName">
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Description: </label>
+            <input type="text" class="form-control" formControlName="description">
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Asset Serial No.: </label>
+            <input type="text" class="form-control" formControlName="assetSerialNo">
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Date of calibration: </label>
+            <input type="date" class="form-control" formControlName="dateOfCalibration">
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Assign To: </label>
+            <select formControlName="assignTo" class="form-control" >
+              <option [value]="0">Please Select</option>
+              <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
+            </select>
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Remark: </label>
+            <input type="text" class="form-control" formControlName="remark">
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Assign Date: </label>
+            <input type="date" class="form-control" formControlName="dateOfAssign">
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Equipment Image: </label>
+            <input type="file" class="form-control" formControlName="eImage">
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Calibration Caertificate: </label>
+            <input type="file" class="form-control" formControlName="ccImage">
+            <div  class="invalid-feedback">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
