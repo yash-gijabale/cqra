@@ -27,6 +27,32 @@
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
+            <label>Representing Type</label>
+            <select [(ngModel)]="representingType" formControlName="userType" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }" (change)="getRepresentors()">
+              <option [value]="1" [selected]="1">CQRA</option>
+              <option [value]="2">Client</option>
+              <option [value]="3">Contractor</option>
+              <option [value]="4">PMC</option>
+              <option [value]="4">Other</option>
+            </select>
+            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
+              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Representor</label>
+            <select formControlName="userType" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
+              <option [value]="client.clientId" *ngFor="let client of clients">
+                {{client.clientName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
+              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            </div>
+          </div>
+          <div class="form-group">
             <label>User Name</label>
             <input type="text" formControlName="userFullName" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.userFullName.errors }" />
@@ -100,6 +126,17 @@
               <div *ngIf="f.roleId.errors.required">Role is required</div>
             </div>
           </div>
+
+
+          <!-- <mat-form-field appearance="fill">
+            <mat-label>Toppings</mat-label>
+            <mat-select [formControl]="toppings" multiple>
+              <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+            </mat-select>
+          </mat-form-field> -->
+
+
+
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
@@ -130,7 +167,12 @@
             <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </form>
+
+
       </div>
     </div>
   </div>
   <app-footer></app-footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule  } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -122,6 +122,9 @@ import { AssignEquipementListComponent } from './assign-equipement-list/assign-e
 import { QaulityIndexReportListComponent } from './qaulity-index-report-list/qaulity-index-report-list.component';
 import { ObservationTrackerReportComponent } from './observation-tracker-report/observation-tracker-report.component';
 import { CreateObservationTrackerReportComponent } from './create-observation-tracker-report/create-observation-tracker-report.component';
+import { AddRoleComponent } from './add-role/add-role.component';
+import { AddRegionComponent } from './add-region/add-region.component';
+
 
 @NgModule({
   declarations: [
@@ -237,13 +240,15 @@ import { CreateObservationTrackerReportComponent } from './create-observation-tr
     AssignEquipementListComponent,
     QaulityIndexReportListComponent,
     ObservationTrackerReportComponent,
-    CreateObservationTrackerReportComponent
+    CreateObservationTrackerReportComponent,
+    AddRoleComponent,
+    AddRegionComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule ,
+    ReactiveFormsModule,
     DataTablesModule,
     HttpClientModule,
     DragDropModule,

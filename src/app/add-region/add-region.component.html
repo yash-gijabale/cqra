@@ -1,0 +1,97 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Manage Regions</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a [routerLink]="'/createFirstNote/' + snapAuditId+'/-1'">Create First Note</a>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Add Region</h1>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="regionForm" (ngSubmit)="onSubmit()">
+        <div class="form-group col-md-4">
+          <label>Region name</label>
+          <input type="text" formControlName="regionName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.regionName.errors }" />
+          <div *ngIf="submitted && f.regionName.errors" class="invalid-feedback">
+            <div *ngIf="f.regionName.errors.required">Region is required</div>
+          </div>
+        </div>
+        <div class="form-group col-md-3">
+          <button type="submit" class="btn btn-primary mt-1">Save</button>
+        </div>
+      </form>
+
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Manage Region</h1>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+
+                <th>Region</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let region of (regions)">
+                <td>{{region.regionName}}</td>
+                <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="getRole(region.regionId)">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
+                    </button>
+                    <button type="text" class="Delete-modal" (click)="deactiveRole(region.regionId)">
+                      <span class="edit-tessst">
+                        <i class="lar la-trash-alt"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+      </div>
+      <!-- Example DataTables Card-->
+
+    </div>
+  </div>
+  <app-footer></app-footer>

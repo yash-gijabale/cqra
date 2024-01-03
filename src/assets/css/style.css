@@ -1068,3 +1068,8 @@ footer.sticky-footer {
     font-size: 1.2rem;
 }
 /*profile page css*/
+
+.multiple-checkbox{
+  height: 300px;
+  background-color: red;
+}

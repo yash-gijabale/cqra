@@ -6,6 +6,8 @@ import { UseAllocationData } from '../create-user-allocation/create-user-allocat
 import { UserAllocationView } from '../user-allocation/user-allocation.component';
 import { AssestView, EquipmentView } from '../add-equipment/add-equipment.component';
 import { AssignedProjectData } from '../assign-project/assign-project.component';
+import { RoleView } from '../add-role/add-role.component';
+import { RegionView } from '../add-region/add-region.component';
 
 @Injectable({
   providedIn: 'root'
@@ -105,5 +107,37 @@ export class UserService {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/adduserproject`, data)
   }
   //ASSIGN PROJECT TO USER API CALL
+
+
+  //ROLES API CALL
+  addRoles(data) :Observable<UserService>{
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/addroles`, data)
+  }
+  
+  getAllRoles(){
+    return this.httpClient.get<RoleView>(`${this.REST_API_SERVER}/getRoles`)
+  }
+
+  getRole(id){
+    return this.httpClient.get<RoleView>(`${this.REST_API_SERVER}/roles/${id}`)
+  }
+
+  updateRole(data: RoleView, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/roles/${id}`, data)
+  }
+  
+  deactiveRole(id){
+    return this.httpClient.delete(`${this.REST_API_SERVER}/roles/${id}`)
+  }
+  //ROLES API CALL
+
+  //REGIONS API CALL
+  getAllRegions(){
+    return this.httpClient.get<RegionView>(`${this.REST_API_SERVER}/getRegions`)
+  }
+
+  AddRegion(data):Observable<UserService>{
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/addRegiont`, data)
+  }
 
 }

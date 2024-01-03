@@ -37,6 +37,8 @@
                 <th>Address</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Supervisors</th>
+                <th>Forrmans</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -47,6 +49,22 @@
                 <td>{{ client.contarctorAddress }}</td>
                 <td>{{ client.contarctorEmail }}</td>
                 <td>{{ client.contarctorPhone }}</td>
+                <td>
+                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-supervisor"
+                      (click)="changeContractorId(client.contractorId)">Add</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-supervisor"
+                      (click)="getSupervisors(client.contractorId)">View</button>
+                  </div>
+                </td>
+                <td>
+                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-foreman"
+                      (click)="changeContractorId(client.contractorId)">Add</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-foreman"
+                      (click)="getForemans(client.contractorId)">View</button>
+                  </div>
+                </td>
                 <td>
                   <div class="action-commonview">
                     <button type="text" (click)="editContractor(client.contractorId)" class="edit-modal add-modal"
@@ -64,16 +82,186 @@
                 </td>
               </tr>
             </tbody>
-
           </table>
-
         </div>
-
-
       </div>
 
-      <!-- Example DataTables Card-->
+      <!-- Modal -->
+      <div class="modal fade" id="add-supervisor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle"> Add Supervisor</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="supervisorForm" (ngSubmit)="addSupervisor()">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" formControlName="supervisorName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.supervisorName.errors }" />
+                  <div *ngIf="submitted && f.supervisorName.errors" class="invalid-feedback">
+                    <div *ngIf="f.supervisorName.errors.required">Supervisor Name is required</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary">Save</button>
+
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="view-supervisor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Supervisor List</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="isDataLoad; then supervisorLoad else supervisor"></div>
+              <ng-template #supervisorLoad>
+                <h3>Loading....</h3>
+              </ng-template>
+              <ng-template #supervisor>
+                <table datatale id="customers" class="row-border hover"
+                  style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Contractor Name</th>
+                      <th>Supervisor Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let client of supervisors">
+
+                      <td>{{ client.contractorName }}</td>
+                      <td>{{ client.supervisorName }}</td>
+                      <td>
+                        <div class="action-commonview">
+                          <button type="text" data-toggle="modal" data-target="#add-supervisor">
+                            <span class="edit-tessst">
+                              <i class="las la-pencil-alt"></i>
+                            </span>
+                          </button>
+                          <button type="text" (click)="deActivateClient(client.supervisorId)" class="Delete-modal">
+                            <span class="edit-tessst">
+                              <i class="lar la-trash-alt"></i>
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </ng-template>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Foreman -->
+      <div class="modal fade" id="add-foreman" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle"> Add Foreman</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="foremanForm" (ngSubmit)="addForeman()">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" formControlName="foremanName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.foremanName.errors }" />
+                  <div *ngIf="submitted && f.foremanName.errors" class="invalid-feedback">
+                    <div *ngIf="f.foremanName.errors.required">Foreman Name is required</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="view-foreman" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Foreman List</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="isDataLoad; then foremanLoad else foreman"></div>
+              <ng-template #foremanLoad>
+                <h3>Loading....</h3>
+              </ng-template>
+              <ng-template #foreman>
+                <table datatable  id="customers" class="row-border hover"
+                  style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Contractor Name</th>
+                      <th>Foreman Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let client of foremans">
+
+                      <td>{{ client.contractorName }}</td>
+                      <td>{{ client.foremanName }}</td>
+                      <td>
+                        <div class="action-commonview">
+                          <button type="text" data-toggle="modal">
+                            <span class="edit-tessst">
+                              <i class="las la-pencil-alt"></i>
+                            </span>
+                          </button>
+                          <button type="text" (click)="deActivateClient(client.foremanId)" class="Delete-modal">
+                            <span class="edit-tessst">
+                              <i class="lar la-trash-alt"></i>
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </ng-template>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
 
     </div>
   </div>
+
   <app-footer></app-footer>

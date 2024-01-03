@@ -66,6 +66,11 @@
           <ul class="dropdown-menu">
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/users">User</a></li>
 
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/roles">Role</a></li>
+
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li>
+
+
             <li *ngIf="userMenu.manageUserAccessMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/userAccess">Manage User Access</a></li>
 

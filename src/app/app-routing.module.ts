@@ -110,6 +110,8 @@ import { AssignEquipementListComponent } from './assign-equipement-list/assign-e
 import { QaulityIndexReportListComponent } from './qaulity-index-report-list/qaulity-index-report-list.component';
 import { CreateObservationTrackerReportComponent } from './create-observation-tracker-report/create-observation-tracker-report.component';
 import { ObservationTrackerReportComponent } from './observation-tracker-report/observation-tracker-report.component';
+import { AddRoleComponent } from './add-role/add-role.component';
+import { AddRegionComponent } from './add-region/add-region.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -222,6 +224,9 @@ const routes: Routes = [
   { path: 'assignEquipementList', component: AssignEquipementListComponent },
   { path: 'createOTR/:id', component: CreateObservationTrackerReportComponent },
   { path: 'OTRList', component: ObservationTrackerReportComponent },
+  { path: 'roles', component: AddRoleComponent },
+  { path: 'regions', component: AddRegionComponent },
+
 
 
 
