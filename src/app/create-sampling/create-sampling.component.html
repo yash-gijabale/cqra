@@ -67,7 +67,7 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Select Stage: </label>
             <select [(ngModel)]="SelStage" formControlName="stageId" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.structureId.errors }" multiple>
@@ -113,7 +113,79 @@
             <div *ngIf="submitted && f.completePercentage.errors" class="invalid-feedback">
               <div *ngIf="f.completePercentage.errors.required">Persantage % is required</div>
             </div>
-          </div>
+          </div> -->
+
+
+          <table>
+            <thead>
+              <th>Srno</th>
+              <th>TradeGroup</th>
+              <th>Trade</th>
+              <th>Work complete status</th>
+              <th>Contractor name</th>
+              <th>Representative Name</th>
+              <th>Allocated Area</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tg of testTG">
+                <td>1</td>
+                <td>{{tg.tradegroupName}}</td>
+                <td>
+                  <span class="tradename" *ngFor="let t of testTrade[tg.id]" [attr.title]="t.tradeId">
+                    {{t.tradeNane}}
+                  </span>
+                </td>
+
+                <td>
+                  <select [class]="'tradeStatusSelect_'+t.tradeId" *ngFor="let t of testTrade[tg.id]">
+                    <option value="complted">complted</option>
+                    <option value="NA">NA</option>
+                    <option value="notStarted">Not Started</option>
+                  </select>
+                </td>
+                <td>
+                  <span *ngFor="let t of testTrade[tg.id]">
+                    CYX
+                  </span>
+                </td>
+
+                <td>
+                  <span *ngFor="let t of testTrade[tg.id]">
+                    YTD
+                  </span>
+                </td>
+                <td>
+                  <span class="add-stages" *ngFor="let t of testTrade[tg.id]">
+                    {{allocatedarea[t.tradeId] ? allocatedarea[t.tradeId].length : 0}}
+                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" [attr.data-target]="'#add-edit-stage_'+t.tradeId">+</button>
+
+                    <div class="modal fade" [id]="'add-edit-stage_'+t.tradeId" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Add Stage</h5>
+                            <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-check" *ngFor="let o of stages">
+                              <input class="form-check-input" [class]="'stagesCheckbox_'+t.tradeId" type="checkbox" [value]="o.stageId" id="flexCheckDefault" (change)="addStageToArea(t.tradeId)">
+                              <label class="form-check-label" for="flexCheckDefault">{{o.stageName}}</label> 
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </td>
+
+              </tr>
+
+            </tbody>
+          </table>
 
           <div class="form-group">
             <button class="btn btn-primary">Save</button>

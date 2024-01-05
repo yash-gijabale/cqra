@@ -4,6 +4,8 @@ import { UserService } from '../service/user.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 import { first } from 'rxjs/operators';
+
+
 export class RoleView {
   constructor(
     public id: number,
@@ -28,7 +30,7 @@ export class AddRoleComponent implements OnInit {
 
   isLoading: boolean = false
   isUpdate: boolean = false
-  roleId : number
+  roleId: number
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService
@@ -60,41 +62,43 @@ export class AddRoleComponent implements OnInit {
     return this.roleForm.controls
   }
   onSubmit() {
+    // Toast.show('#liveToast')
+    // return/
     console.log(this.roleForm.value)
-    if(this.isUpdate){
+    if (this.isUpdate) {
       this.userService.updateRole(this.roleForm.value, this.roleId)
-      .subscribe(data => {
-        console.log('ROles Updted', data)
-        this.userService.getAllRoles().subscribe(data => this.roles = data)
-        this.isUpdate = false
-        this.roleForm.reset()
-      })
+        .subscribe(data => {
+          console.log('ROles Updted', data)
+          this.userService.getAllRoles().subscribe(data => this.roles = data)
+          this.isUpdate = false
+          this.roleForm.reset()
+        })
 
-    }else{
+    } else {
 
       this.userService.addRoles(this.roleForm.value)
-      .subscribe(data => {
-        console.log('ROles addded', data)
-        this.userService.getAllRoles().subscribe(data => this.roles = data)
-        this.roleForm.reset()
+        .subscribe(data => {
+          console.log('ROles addded', data)
+          this.userService.getAllRoles().subscribe(data => this.roles = data)
+          this.roleForm.reset()
 
-      })
+        })
     }
   }
 
-  getRole(id){
+  getRole(id) {
     this.isUpdate = true
     this.roleId = id
     this.userService.getRole(id)
-    .pipe(first())
-    .subscribe(data => this.roleForm.patchValue(data))
+      .pipe(first())
+      .subscribe(data => this.roleForm.patchValue(data))
   }
 
-  deactiveRole(id){
+  deactiveRole(id) {
     let isDeactive = confirm('Are you sure want to deactive ?')
-    if(isDeactive){
+    if (isDeactive) {
       this.userService.deactiveRole(id)
-      .subscribe(data => this.userService.getAllRoles().subscribe(data => this.roles = data))
+        .subscribe(data => this.userService.getAllRoles().subscribe(data => this.roles = data))
     }
   }
 

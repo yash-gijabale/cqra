@@ -6,15 +6,15 @@
         <div class="main-header_createview">
           <div class="left-side-header">
             <div class="create-content-header">
-              <h1> Manage Contractor Forman </h1>
+              <h1> Manage PMC </h1>
 
             </div>
           </div>
 
           <div class="right-side-create-view ">
             <div class="create-content-operations">
-              <a routerLink="/contractor">
-                <button type="button">Manage Contractor</button>
+              <a routerLink="/createpmc/-1">
+                <button type="button"> Create PMC </button>
               </a>
             </div>
           </div>
@@ -25,36 +25,36 @@
       <ng-template #thenBlock>
         <app-loader></app-loader>
       </ng-template>
-      
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
           <!-- Example DataTables Card-->
-
-
           <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
             style="width:100%">
             <thead>
               <tr>
-
-                <th>Contractor Name</th>
-                <th>Foreman Name</th>
+                <th>PMC Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of forman">
+              <tr *ngFor="let client of contractors">
 
                 <td>{{ client.contractorName }}</td>
-                <td>{{ client.foremanName }}</td>
+                <td>{{ client.contarctorAddress }}</td>
+                <td>{{ client.contarctorEmail }}</td>
+                <td>{{ client.contarctorPhone }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editClient(client.foremanId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editContractor(client.contractorId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActivateClient(client.foremanId)" class="Delete-modal">
+                    <button type="text" (click)="deleteContractor(client.contractorId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>
@@ -63,15 +63,10 @@
                 </td>
               </tr>
             </tbody>
-
           </table>
-
         </div>
-
-
       </div>
-      <!-- Example DataTables Card-->
-
     </div>
   </div>
+
   <app-footer></app-footer>

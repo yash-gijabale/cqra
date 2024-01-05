@@ -27,6 +27,7 @@ export class CreateContractorSupervisorComponent implements OnInit {
   submitted = false;
   clients: ContractorData[];
   id: number;
+  contractorId: number
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +44,10 @@ export class CreateContractorSupervisorComponent implements OnInit {
       this.clientServiceService
         .retrieveSupervisor(this.id)
         .pipe(first())
-        .subscribe((x) => this.supervisorForm.patchValue(x));
+        .subscribe((x) => {
+          this.supervisorForm.patchValue(x)
+          this.contractorId = x.contractorId
+        });
     }
 
     this.commanService.getContractorsList().subscribe(
@@ -70,8 +74,7 @@ export class CreateContractorSupervisorComponent implements OnInit {
 
     this.submitted = true
 
-    if(this.supervisorForm.invalid)
-    {
+    if (this.supervisorForm.invalid) {
       // console.log(this.f.contractorId.errors.required);
       return;
     }

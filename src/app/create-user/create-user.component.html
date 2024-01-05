@@ -28,7 +28,7 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Representing Type</label>
-            <select [(ngModel)]="representingType" formControlName="userType" class="form-control"
+            <select [(ngModel)]="representingType" formControlName="representingTypeId" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.userType.errors }" (change)="getRepresentors()">
               <option [value]="1" [selected]="1">CQRA</option>
               <option [value]="2">Client</option>
@@ -40,9 +40,10 @@
               <div *ngIf="f.userType.errors.required">User Type is required</div>
             </div>
           </div>
+          
           <div class="form-group">
             <label>Representor</label>
-            <select formControlName="userType" class="form-control"
+            <select formControlName="representingId" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
               <option [value]="client.clientId" *ngFor="let client of clients">
                 {{client.clientName}}
@@ -52,6 +53,32 @@
               <div *ngIf="f.userType.errors.required">User Type is required</div>
             </div>
           </div>
+
+          <div class="form-group" *ngIf="showCadre">
+            <label>CADRE</label>
+            <select  formControlName="cadre" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
+              <option  [selected]="1">Select CADRE</option>
+              <option [value]="'m1'">M1</option>
+              <option [value]="'m2'">M2</option>
+              <option [value]="'m3'">M3</option>
+              <option [value]="'m4'">M4</option>
+              <option [value]="'m5'">M5</option>
+              <option [value]="'c1'">C1</option>
+              <option [value]="'c2'">C2</option>
+              <option [value]="'c3'">C3</option>
+              <option [value]="'o1'">O1</option>
+              <option [value]="'o2'">O2</option>
+              <option [value]="'o3'">O3</option>
+              <option [value]="'o4'">O4</option>
+              <option [value]="'t1'">T1</option>
+              <option [value]="'t2'">T2</option>
+            </select>
+            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
+              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            </div>
+          </div>
+
           <div class="form-group">
             <label>User Name</label>
             <input type="text" formControlName="userFullName" class="form-control"
@@ -84,6 +111,30 @@
               <div *ngIf="f.designation.errors.required">Designation is required</div>
             </div>
           </div>
+
+          <div class="form-group" *ngIf="showCadre">
+            <label>Department</label>
+            <select formControlName="department" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
+              <option [value]="1" [selected]="true">Administrative</option>
+              <option [value]="2">Billing(QS)</option>
+              <option [value]="3">Central Audit Team</option>
+              <option [value]="4">Digital Marketing</option>
+              <option [value]="5">Finance</option>
+              <option [value]="6">Human Resource</option>
+              <option [value]="7">Management & Operation</option>
+              <option [value]="8">Marketing</option>
+              <option [value]="9">MEP Operations</option>
+              <option [value]="10">Operations</option>
+              <option [value]="11">Quality Operations</option>
+              <option [value]="12">RMC Operations</option>
+              <option [value]="13">Safety</option>
+            </select>
+            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
+              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            </div>
+          </div>
+
           <div class="form-group">
             <label>Contact No.</label>
             <input type="text" formControlName="mobile" class="form-control"
@@ -118,16 +169,39 @@
             <label>Role</label>
             <select formControlName="roleId" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
-              <option [value]="0">Please Select</option>
-              <option [value]="1">Admin </option>
-              <option [value]="2">Supervisor or Engg</option>
+              <option [value]="role.id" *ngFor="let role of roles">{{role.name}}</option>
             </select>
             <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
               <div *ngIf="f.roleId.errors.required">Role is required</div>
             </div>
           </div>
 
+          <div class="form-group">
+            <label>Region</label>
+            <select formControlName="region" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.region.errors }">
+              <option [value]="region.regionId" *ngFor="let region of regions">{{region.regionName}}</option>
+            </select>
+            <div *ngIf="submitted && f.region.errors" class="invalid-feedback">
+              <div *ngIf="f.region.errors.required">Role is required</div>
+            </div>
+          </div>
 
+          <div class="form-group">
+            <label>Date OF join</label>
+            <input type="date" class="form-control" formControlName="dateOfJoining">
+            <div *ngIf="submitted && f.dateOfJoining.errors" class="invalid-feedback">
+              <div *ngIf="f.dateOfJoining.errors.required">Role is required</div>
+            </div>
+          </div>
+
+
+          <!-- <mat-form-field appearance="fill">
+            <mat-label>Toppings</mat-label>
+            <mat-select [formControl]="toppings" multiple>
+              <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+            </mat-select>
+          </mat-form-field> -->
           <!-- <mat-form-field appearance="fill">
             <mat-label>Toppings</mat-label>
             <mat-select [formControl]="toppings" multiple>
@@ -155,6 +229,34 @@
               <div class="form-group">
                 <label>Site Admin
                   <input type="checkbox" formControlName="createrN" [value]="2" class="form-control" /></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>L0
+                  <input type="checkbox" formControlName="l0" [value]="0" class="form-control" /></label>
+              </div>
+            </div>
+            <!-- [(ngModel)] = "SelRole" [ngModelOptions]="{standalone: true}" [value]="0" -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>L1
+                  <input type="checkbox" formControlName="l1" [value]="1" class="form-control" /></label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>L2
+                  <input type="checkbox" formControlName="l2" [value]="2" class="form-control" /></label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>L3
+                  <input type="checkbox" formControlName="l3" [value]="2" class="form-control" /></label>
               </div>
             </div>
           </div>

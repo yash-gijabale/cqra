@@ -32,6 +32,8 @@ export class AddRegionComponent implements OnInit {
   dtTrigger: Subject<RegionView> = new Subject<RegionView>();
 
   isLoading: boolean = false
+  isUpdate: boolean = true
+  regionId : number = 0
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService
@@ -65,13 +67,41 @@ export class AddRegionComponent implements OnInit {
   onSubmit() {
     console.log(this.regionForm.value)
     this.regionForm.value.displayName = ""
-    this.userService.AddRegion(this.regionForm.value)
+    if (this.isUpdate) {
+      this.userService.updateRegion(this.regionForm.value, this.regionId)
       .subscribe(data => {
-        console.log('added -->', data)
-        this.userService.getAllRegions().subscribe(data => {
-          this.regions = data
-        })
+        console.log('Region Updated-->', data)
+        this.regionForm.reset()
       })
+
+    } else {
+      this.userService.AddRegion(this.regionForm.value)
+        .subscribe(data => {
+          console.log('added -->', data)
+          this.userService.getAllRegions().subscribe(data => {
+            this.regions = data
+          })
+        })
+    }
+  }
+
+  getRegion(id) {
+    this.isUpdate = true
+    this.regionId = id
+    this.userService.getRegion(id)
+      .pipe(first())
+      .subscribe(data => {
+        this.regionForm.patchValue(data)
+      })
+
+  }
+
+  deactiveRegion(id){
+    let isDeactive = confirm('Are Sure sure to deactive ?')
+    if(isDeactive){
+      this.userService.deactiveRegion(id)
+      .subscribe(data => location.reload())
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { DataTableDirective } from "angular-datatables";
 import { Subject } from "rxjs";
 import { ClientServiceService } from "../service/client-service.service";
@@ -36,19 +36,24 @@ export class ContractorFormanComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<FormanData> = new Subject();
-  forman: FormanData[];
+  forman: FormanData;
 
   isLoading: boolean
+
+  contractorId: number
 
   constructor(
     private clientService: ClientServiceService,
     private router: Router,
     private commanService: CommonService,
+    private route: ActivatedRoute
 
   ) {
   }
 
   ngOnInit() {
+
+    this.contractorId = this.route.snapshot.params['id']
 
     this.isLoading = true
 
@@ -58,7 +63,7 @@ export class ContractorFormanComponent implements OnInit {
       lengthMenu: [10, 25, 50],
     };
 
-    this.clientService.getAllForemans().subscribe(
+    this.clientService.getForemanByContractorId(this.contractorId).subscribe(
       (data) => {
         console.log("----> office service : get all data", data);
         this.forman = data;

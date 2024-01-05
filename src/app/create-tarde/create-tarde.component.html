@@ -72,12 +72,19 @@
           </div>
           <div class="form-group">
             <label>Trade Group</label>
-            <select formControlName="tradegroupId" class="form-control" multiple>
+            <!-- <select formControlName="tradegroupId" class="form-control" multiple>
               <option [value]="0">Please Select</option>
               <option [value]="o.tradegroupId" *ngFor="let o of tradeGroups">
                 {{o.tradeGroupName}}
               </option>
-            </select>
+            </select> -->
+            <div class="ckechbox-select">
+              <div class="form-check" *ngFor="let o of tradeGroups">
+                <input class="form-check-input" class="tradeGroups" type="checkbox" [value]="o.tradegroupId" id="flexCheckDefault" [checked]="allocatedTradegroupObj[o.tradegroupId]" >
+                <label class="form-check-label" for="flexCheckDefault">{{o.tradeGroupName}}</label>
+              </div>
+            </div>
+
             <div *ngIf="submitted && f.tradegroupId.errors" class="invalid-feedback">
               <div *ngIf="f.tradegroupId.errors.required">Trade Group is required</div>
             </div>

@@ -5,7 +5,9 @@ import { first } from 'rxjs/operators';
 import { ClientServiceService } from '../service/client-service.service';
 import { UserService } from '../service/user.service';
 import { ClientData } from '../client/client.component';
-
+import { RegionView } from '../add-region/add-region.component';
+import { RoleView } from '../add-role/add-role.component';
+// import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-create-user',
@@ -26,8 +28,11 @@ export class CreateUserComponent implements OnInit {
   registerForm: FormGroup;
   redAlerts;
   submitted = false;
-  representingType : Number = 1
+  representingType: Number = 1
+  showCadre = true
   clients: ClientData[]
+  regions: RegionView
+  roles: RoleView
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,10 +43,14 @@ export class CreateUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-   
+
     this.id = this.route.snapshot.params['id'];
+
+    this.userService.getAllRegions().subscribe(data => this.regions = data)
+    this.userService.getAllRoles().subscribe(data => this.roles = data)
+
     this.clientServiceService.getAllClients()
-    .subscribe(data => this.clients = data)
+      .subscribe(data => this.clients = data)
 
     if (this.id != -1) {
       this.userService.retriveUser(this.id)
@@ -65,7 +74,17 @@ export class CreateUserComponent implements OnInit {
       approverN: ['', Validators.nullValidator],
       reviewerN: ['', Validators.nullValidator],
       createrN: ['', Validators.nullValidator],
-      region : [[], Validators.required]
+      l0: ['', Validators.nullValidator],
+      l1: ['', Validators.nullValidator],
+      l2: ['', Validators.nullValidator],
+      l3: ['', Validators.nullValidator],
+      region: [[], Validators.required],
+      representingTypeId: ['', Validators.required],
+      representingId: ['', Validators.required],
+      dateOfJoining: ['', Validators.required],
+      department: ['', Validators.required],
+      cadre: ['', Validators.required]
+
 
     });
   }
@@ -75,15 +94,15 @@ export class CreateUserComponent implements OnInit {
     this.submitted = true;
 
     console.log(this.registerForm.value)
-    return
+    // return
 
     //UPDATING THE FORM FOR MAPPING VALUES IN BACKEND
     let formData = {
       ...this.registerForm.value,
-      userRole: Number(this.registerForm.value.roleId),
+      // userRole: Number(this.registerForm.value.roleId),
       status: true
     }
-    
+
     console.log(formData)
 
     //IF VALDATION IS FALSE THEN RETUN AND SHOW ERRORS
@@ -105,7 +124,7 @@ export class CreateUserComponent implements OnInit {
         .subscribe(
           data => {
             console.log('user created!--->', data),
-            this.registerForm.reset()
+              this.registerForm.reset()
           },
           err => console.log(err)
         )
@@ -113,9 +132,14 @@ export class CreateUserComponent implements OnInit {
 
   }
 
-  getRepresentors(){
+  getRepresentors() {
     console.log(this.representingType)
-    
+    if (this.representingType == 1) {
+      this.showCadre = true
+    } else {
+      this.showCadre = false
+    }
+    console.log(this.showCadre)
   }
 
 }

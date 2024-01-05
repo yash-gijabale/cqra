@@ -1,0 +1,33 @@
+thead, th, tr, td{
+    border: 1px solid black;
+}
+table{
+    width: 70vw;
+}
+
+td span{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 5px 0;
+    border-bottom: 1px solid black;
+}
+
+td span:last-child{
+    border-bottom: none;
+
+}
+
+td select{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+    border-bottom: 1px solid black;
+}
+
+td .add-stages{
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-around;
+}

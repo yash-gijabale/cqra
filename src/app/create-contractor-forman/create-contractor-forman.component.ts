@@ -19,6 +19,7 @@ export class CreateContractorFormanComponent implements OnInit {
   submitted = false;
   clients: ContractorData[];
 
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -26,20 +27,23 @@ export class CreateContractorFormanComponent implements OnInit {
     private commanService: CommonService,
     private formBuilder: FormBuilder,
 
-  ) {}
+  ) { }
 
-  contractorId:number = 0;
-  foremanName:string ="";
-  id:number;
+  contractorId: number = 0;
+  foremanName: string = "";
+  id: number;
 
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
 
-    if(this.id!=-1) {
+    if (this.id != -1) {
       this.clientServiceService.retrieveForeman(this.id)
-      .pipe(first())
-      .subscribe(x => this.foremanForm.patchValue(x));
+        .pipe(first())
+        .subscribe(x => {
+          this.foremanForm.patchValue(x)
+          this.contractorId = x.contractorId
+        });
     }
 
     this.commanService.getContractorsList().subscribe(
@@ -57,34 +61,33 @@ export class CreateContractorFormanComponent implements OnInit {
       foremanName: ['', Validators.required],
     });
   }
-  
+
   get f() {
     return this.foremanForm.controls;
   }
   onSubmit() {
     this.submitted = true;
 
-    if(this.foremanForm.invalid)
-    {
+    if (this.foremanForm.invalid) {
       return;
     }
     console.log("Id==");
     console.log(this.foremanForm.value)
-    if(this.id == -1){
-    this.clientServiceService.createFormeman(this.foremanForm.value)
-      .subscribe( data => {
-        // this.router.navigate(['contractorForman']);
-        console.log('foreman created!')
-      });
-    }else {
-      this.clientServiceService.updateForeman(  this.foremanForm.value,this.id)
-      .subscribe (
-        data => {
-          console.log(data)
-          console.log('updated!')
+    if (this.id == -1) {
+      this.clientServiceService.createFormeman(this.foremanForm.value)
+        .subscribe(data => {
+          // this.router.navigate(['contractorForman']);
+          console.log('foreman created!')
+        });
+    } else {
+      this.clientServiceService.updateForeman(this.foremanForm.value, this.id)
+        .subscribe(
+          data => {
+            console.log(data)
+            console.log('updated!')
 
-        }
-      )
+          }
+        )
     }
   }
 }

@@ -112,6 +112,8 @@ import { CreateObservationTrackerReportComponent } from './create-observation-tr
 import { ObservationTrackerReportComponent } from './observation-tracker-report/observation-tracker-report.component';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { AddRegionComponent } from './add-region/add-region.component';
+import { CreatePmcComponent } from './create-pmc/create-pmc.component';
+import { PmcListComponent } from './pmc-list/pmc-list.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -154,7 +156,7 @@ const routes: Routes = [
   { path: 'createUserAllocation/:id', component: CreateUserAllocationComponent },
   { path: 'contractor', component: ContractorComponent },
   { path: 'createContractor/:id', component: CreateContractorComponent },
-  { path: 'contractorSupervisor', component: ContractorSupervisorComponent },
+  { path: 'contractorSupervisor/:id', component: ContractorSupervisorComponent },
   { path: 'createContractorSupervisor/:id', component: CreateContractorSupervisorComponent },
   { path: 'userEquipment/:id', component: UserEquipmentComponent },
   { path: 'createUserEquipment/:id/:id2', component: CreateUserEquipmentComponent },
@@ -180,11 +182,11 @@ const routes: Routes = [
   { path: 'createinspection/:id', component: CreaateInspectionreportComponent },
   { path: 'createsnagging/:id', component: CreateSnaggingDocumentComponent },
   { path: 'createsignoff', component: CreateSignoffDocumentComponent },
-  { path: 'contractorForman', component: ContractorFormanComponent },
+  { path: 'contractorForman/:id', component: ContractorFormanComponent },
   { path: 'createForman/:id', component: CreateContractorFormanComponent },
   { path: 'clientStaff', component: ClientStaffComponent },
   { path: 'createclientStaff/:id', component: CreateClientStaffComponent },
-  { path: 'assign-constructor-supervisor', component: AssignConstructorSupervisorComponent },
+  { path: 'assign-constructor-supervisor-foreman', component: AssignConstructorSupervisorComponent },
   { path: 'assign-constructor-foreman', component: AssignContractorForemanComponent },
   { path: 'assessorName/:id', component: AccessorNameComponent },
   { path: 'createAssessorName/:id/:id2', component: CreateAccessorNameComponent },
@@ -226,6 +228,8 @@ const routes: Routes = [
   { path: 'OTRList', component: ObservationTrackerReportComponent },
   { path: 'roles', component: AddRoleComponent },
   { path: 'regions', component: AddRegionComponent },
+  { path: 'createpmc/:id', component: CreatePmcComponent },
+  { path: 'pmcList', component: PmcListComponent },
 
 
 

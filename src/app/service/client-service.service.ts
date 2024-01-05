@@ -30,6 +30,7 @@ import { FirstNote } from '../manualIndexCalulator/firstNote/first-note/first-no
 import { LastNoteData } from '../manualIndexCalulator/lastNote/last-note/last-note.component';
 import { AssignSupervisor } from '../assign-constructor-supervisor/assign-constructor-supervisor.component';
 import { AssignForeman } from '../assign-contractor-foreman/assign-contractor-foreman.component';
+import { PmcData } from '../create-pmc/create-pmc.component';
 
 @Injectable({
   providedIn: 'root'
@@ -600,4 +601,10 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeContractorForeman`, data)
   }
 
+
+  //PMC API CALL
+  createPmc(data) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addPmc`, data)
+  }
+  //PMC API CALL
 }

@@ -7,13 +7,23 @@ import { first } from 'rxjs/operators';
 import { CommonService } from '../common.service';
 import { ProjectData } from '../project/project.component';
 
-@Component({
-  selector: 'app-create-contractor',
-  templateUrl: './create-contractor.component.html',
-  styleUrls: ['./create-contractor.component.css']
-})
-export class CreateContractorComponent implements OnInit {
+export class PmcData{
+  constructor(
+    public pmcName : string,
+    public pmcAddress : string,
+    public pmcEmail : string,
+    public pmcPhone : string
+  ){
 
+  }
+}
+
+@Component({
+  selector: 'app-create-pmc',
+  templateUrl: './create-pmc.component.html',
+  styleUrls: ['./create-pmc.component.css']
+})
+export class CreatePmcComponent implements OnInit {
   SelClient: string = "0";
   registerForm: FormGroup;
   submitted = false;
@@ -31,7 +41,6 @@ export class CreateContractorComponent implements OnInit {
 
 
   ngOnInit() {
-
     this.contractorId = this.route.snapshot.params['id'];
 
     if (this.contractorId != -1) {
@@ -51,15 +60,13 @@ export class CreateContractorComponent implements OnInit {
     })
     this.registerForm = this.formBuilder.group({
       clientId: ['', Validators.required],
-      contractorName: ['', Validators.required],
-      contarctorAddress: ['', Validators.required],
+      pmcName: ['', Validators.required],
+      pmcAddress: ['', Validators.required],
       projectId: ['', Validators.required],
       gstNumber: ['', Validators.required],
-      contarctorEmail: ['', [Validators.required, Validators.email]],
-      contarctorPhone: ['', [Validators.required, Validators.minLength(10)]],
+      pmcEmail: ['', [Validators.required, Validators.email]],
+      pmcPhone: ['', [Validators.required, Validators.minLength(10)]],
     });
-
-
   }
 
   get f() { return this.registerForm.controls; }
@@ -68,37 +75,13 @@ export class CreateContractorComponent implements OnInit {
     console.log(this.SelClient)
     this.commonService.getClientProject(this.SelClient).subscribe(data => this.projects = data)
   }
-
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.registerForm.invalid) {
-      return
-    }
-    this.isLoading = true;
-    console.log("Id==");
+  
+  onSubmit(){
     console.log(this.registerForm.value)
-
-    if (this.contractorId != -1) {
-
-      this.clientServiceService.updateContractor(this.registerForm.value, this.contractorId)
-        .subscribe(
-          data => {
-            console.log('updated !')
-            console.log(data)
-          },
-          err => console.log(err)
-        )
-
-    } else {
-
-      this.clientServiceService.createContractor(this.registerForm.value)
-        .subscribe(data => {
-          console.log('data adedd')
-          this.isLoading = false
-        })
-    }
-
+    this.clientServiceService.createPmc(this.registerForm.value)
+    .subscribe(data => {
+      console.log('pmc aded-->', data)
+    })
   }
 
 }

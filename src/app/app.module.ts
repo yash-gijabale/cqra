@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -13,6 +12,8 @@ import { ErrorComponent } from './error/error.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ClientComponent } from './client/client.component';
 import { DataTablesModule } from 'angular-datatables';
+
+// import {MatFormFieldModule} from '@angular/material/form-field';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProjectComponent } from './project/project.component';
@@ -124,6 +125,8 @@ import { ObservationTrackerReportComponent } from './observation-tracker-report/
 import { CreateObservationTrackerReportComponent } from './create-observation-tracker-report/create-observation-tracker-report.component';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { AddRegionComponent } from './add-region/add-region.component';
+import { PmcListComponent } from './pmc-list/pmc-list.component';
+import { CreatePmcComponent } from './create-pmc/create-pmc.component';
 
 
 @NgModule({
@@ -242,7 +245,9 @@ import { AddRegionComponent } from './add-region/add-region.component';
     ObservationTrackerReportComponent,
     CreateObservationTrackerReportComponent,
     AddRoleComponent,
-    AddRegionComponent
+    AddRegionComponent,
+    PmcListComponent,
+    CreatePmcComponent
   ],
   imports: [
     BrowserModule,
@@ -252,7 +257,11 @@ import { AddRegionComponent } from './add-region/add-region.component';
     DataTablesModule,
     HttpClientModule,
     DragDropModule,
+    // MatFormFieldModule,
+    // MatInputModule,
+    // MatFormFieldModule
   ],
+ 
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })

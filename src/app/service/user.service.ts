@@ -140,4 +140,16 @@ export class UserService {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/addRegiont`, data)
   }
 
+  getRegion(id){
+    return this.httpClient.get<RegionView>(`${this.REST_API_SERVER}/Region/${id}`)
+  }
+
+  updateRegion(data, id){
+    return  this.httpClient.put(`${this.REST_API_SERVER}/Region/${id}`, data)
+  }
+
+  deactiveRegion(id){
+    return this.httpClient.delete(`${this.REST_API_SERVER}/Region/${id}`)
+  }
+
 }

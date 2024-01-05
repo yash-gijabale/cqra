@@ -70,6 +70,7 @@
 
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li>
 
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/createpmc/-1">PMC</a></li>
 
             <li *ngIf="userMenu.manageUserAccessMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/userAccess">Manage User Access</a></li>
@@ -80,20 +81,20 @@
             <li *ngIf="userMenu.contractorMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/contractor">Contractor</a></li>
 
-            <li *ngIf="userMenu.supervisorMenu" class="dropdown-item"><a tabindex="-1"
+            <!-- <li *ngIf="userMenu.supervisorMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/contractorSupervisor">Contractor Supervisor</a></li>
 
             <li *ngIf="userMenu.foremanMenu" class="dropdown-item"><a tabindex="-1"
-                routerLink="/contractorForman">Contractor Forman</a></li>
+                routerLink="/contractorForman">Contractor Forman</a></li> -->
 
             <li *ngIf="userMenu.clientStaffMenu" class="dropdown-item"><a tabindex="-1" routerLink="/clientStaff">Client
                 Staff</a></li>
 
             <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
-                routerLink="/assign-constructor-supervisor">Assign Constructor's Supervisor</a>
+                routerLink="/assign-constructor-supervisor-foreman">Assign Constructor's Supervisor & Foreman</a>
             </li>
-            <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
-                routerLink="/assign-constructor-foreman">Assign Constructor's Foreman</a></li>
+            <!-- <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
+                routerLink="/assign-constructor-foreman">Assign Constructor's Foreman</a></li> -->
 
             <li class="dropdown-item"><a tabindex="-1" routerLink="/sampling">Sampling</a></li>
 

@@ -8,26 +8,23 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Create Contractor</li>
+            <li class="breadcrumb-item active">Create PMC</li>
           </ol>
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/contractor">Manage Contractor </a> </button>
+            <button type="button"> <a routerLink="/pmcList">Manage PMC </a> </button>
           </div>
         </div>
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1> Create Contractor </h1>
+            <h1> Create PMC </h1>
           </div>
         </div>
       </div>
-      <div *ngIf="isLoading; then thenBlock"></div>
-      <ng-template #thenBlock>
-        <app-loader></app-loader>
-      </ng-template>
+      
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
@@ -55,36 +52,36 @@
           </div>
           <div class="form-group">
             <label>Company Name</label>
-            <input type="text" formControlName="contractorName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.contractorName.errors }" />
-            <div *ngIf="submitted && f.contractorName.errors" class="invalid-feedback">
-              <div *ngIf="f.contractorName.errors.required">Contractor Name is required</div>
+            <input type="text" formControlName="pmcName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.pmcName.errors }" />
+            <div *ngIf="submitted && f.pmcName.errors" class="invalid-feedback">
+              <div *ngIf="f.pmcName.errors.required">PMC Name is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Address</label>
-            <textarea formControlName="contarctorAddress" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.contarctorAddress.errors }"></textarea>
-            <div *ngIf="submitted && f.contarctorAddress.errors" class="invalid-feedback">
-              <div *ngIf="f.contarctorAddress.errors.required">Address is required</div>
+            <textarea formControlName="pmcAddress" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.pmcAddress.errors }"></textarea>
+            <div *ngIf="submitted && f.pmcAddress.errors" class="invalid-feedback">
+              <div *ngIf="f.pmcAddress.errors.required">Address is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Email</label>
-            <input type="email" formControlName="contarctorEmail" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.contarctorEmail.errors }" />
-            <div *ngIf="submitted && f.contarctorEmail.errors" class="invalid-feedback">
-              <div *ngIf="f.contarctorEmail.errors.required">Email is required</div>
-              <div *ngIf="f.contarctorEmail.errors.email">Email must be a valid email address</div>
+            <input type="email" formControlName="pmcEmail" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.pmcEmail.errors }" />
+            <div *ngIf="submitted && f.pmcEmail.errors" class="invalid-feedback">
+              <div *ngIf="f.pmcEmail.errors.required">Email is required</div>
+              <div *ngIf="f.pmcEmail.errors.email">Email must be a valid email address</div>
             </div>
           </div>
           <div class="form-group">
             <label>Phone No</label>
-            <input type="text" formControlName="contarctorPhone" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.contarctorPhone.errors }" />
-            <div *ngIf="submitted && f.contarctorPhone.errors" class="invalid-feedback">
-              <div *ngIf="f.contarctorPhone.errors.required">Phone number is required</div>
-              <div *ngIf="f.contarctorPhone.errors">Must be 10 char</div>
+            <input type="text" formControlName="pmcPhone" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.pmcPhone.errors }" />
+            <div *ngIf="submitted && f.pmcPhone.errors" class="invalid-feedback">
+              <div *ngIf="f.pmcPhone.errors.required">Phone number is required</div>
+              <div *ngIf="f.pmcPhone.errors">Must be 10 char</div>
 
             </div>
           </div>

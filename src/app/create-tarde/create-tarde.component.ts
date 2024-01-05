@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TradeMaintanceService } from "../trade-maintance.service";
 import { TradeGroup } from "../trade-group/trade-group.component";
 import { first } from 'rxjs/operators'
-import { forEach } from "@angular/router/src/utils/collection";
 
 
 export class TradeData {
@@ -35,6 +34,8 @@ export class CreateTardeComponent implements OnInit {
   tradeGroups: TradeGroup[]
   tradeId: number
   filed: string
+  allocatedTradegroup = []
+  allocatedTradegroupObj: Object = {}
 
   constructor(
     private route: ActivatedRoute,
@@ -47,23 +48,18 @@ export class CreateTardeComponent implements OnInit {
   ngOnInit() {
     this.tradeId = this.route.snapshot.params['id'];
 
-    this.tradeService.getAllTradeGroups().subscribe(
-      (data) => {
-        console.log("----> office service : get all data", data);
-        this.tradeGroups = data;
-      },
-      (err) => {
-        console.log("-----> err", err);
-      }
-    );
-
     if (this.tradeId != -1) {
       this.tradeService.retriveTrade(this.tradeId)
         .pipe(first())
         .subscribe(data => {
           console.log(data)
           this.registerForm.patchValue(data.trade)
-          this.registerForm.patchValue({ tradegroupId: data.tradeTradeGroupId })
+          
+          this.allocatedTradegroup = data.tradeTradeGroupId
+          this.allocatedTradegroup.forEach(item =>{
+            this.allocatedTradegroupObj[item] = true
+          })
+
           let areaFiled = <HTMLDivElement>document.querySelector('#keyResultArea')
           if (data.tradeKey.length) {
             areaFiled.removeChild(areaFiled.firstElementChild)
@@ -74,6 +70,18 @@ export class CreateTardeComponent implements OnInit {
           }
         })
     }
+
+    this.tradeService.getAllTradeGroups().subscribe(
+      (data) => {
+        console.log("----> office service : get all data", data);
+        
+
+        this.tradeGroups = data;
+      },
+      (err) => {
+        console.log("-----> err", err);
+      }
+    );
 
     this.registerForm = this.formBuilder.group({
       tradeName: ["", Validators.required],
@@ -92,7 +100,16 @@ export class CreateTardeComponent implements OnInit {
   onSubmit() {
 
     let keyResultAreaElement = document.querySelectorAll('.keyResultArea')
-    // console.log(document.querySelectorAll('.keyResultArea'))
+
+    let tradegroupIdElement = document.querySelectorAll('.tradeGroups')
+    
+    let tradegroupIds = []
+    tradegroupIdElement.forEach(item => {
+      if((<HTMLInputElement>item).checked){
+        tradegroupIds.push((<HTMLInputElement>item).value)
+      }
+    })
+    // return
     let keyResultArea = []
     keyResultAreaElement.forEach(item => {
       keyResultArea.push((<HTMLInputElement>item).value)
@@ -106,13 +123,14 @@ export class CreateTardeComponent implements OnInit {
         tradeNumber: this.registerForm.value.tradeNumber
       },
       tradeKey: keyResultArea,
-      tradeTradeGroupId: this.registerForm.value.tradegroupId
+      tradeTradeGroupId: tradegroupIds
     }
     // console.log(formData)
     // return
     this.submitted = true;
 
     console.log(formData);
+    // return
     if (this.tradeId != -1) {
       this.tradeService.updateTrade(formData, this.tradeId)
         .subscribe(data => {

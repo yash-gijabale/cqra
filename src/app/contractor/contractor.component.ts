@@ -8,6 +8,7 @@ import { ClientServiceService } from '../service/client-service.service';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
 import { FormanData } from '../contractor-forman/contractor-forman.component';
 
+
 export class ContractorData {
   constructor(
     public contractorId: number,
@@ -112,20 +113,23 @@ export class ContractorComponent implements OnInit {
   }
 
   getSupervisors(contractorId) {
-    this.isDataLoad = true
-    this.clientService.getSupervisorByContractorId(contractorId)
-      .subscribe(data => {
-        this.isDataLoad = false
-        // this.dtOptionsSup = {
-        //   pagingType: 'full_numbers',
-        //   pageLength: 10,
-        //   lengthMenu: [10, 25, 50]
-        // };
-        console.log(data)
-        // subject.subscribe()
-        this.supervisors = data
-        // this.dtTriggerSup.next()
-      })
+    // this.isDataLoad = true
+    // this.clientService.getSupervisorByContractorId(contractorId)
+    //   .subscribe(data => {
+    //     this.isDataLoad = false
+    //     // this.dtOptionsSup = {
+    //     //   pagingType: 'full_numbers',
+    //     //   pageLength: 10,
+    //     //   lengthMenu: [10, 25, 50]
+    //     // };
+    //     console.log(data)
+    //     // subject.subscribe()
+    //     this.supervisors = data
+    //     // this.dtTriggerSup.next()
+    //   })
+    this.router.navigate(['contractorSupervisor', contractorId])
+
+    
   }
 
 
@@ -138,16 +142,18 @@ export class ContractorComponent implements OnInit {
       .subscribe(data => console.log('foreman added--->', data))
   }
 
-  getForemans(id) {
-    this.isDataLoad = true
-    this.clientService.getForemanByContractorId(id)
-      .subscribe(data => {
-        this.isDataLoad = false
-        this.foremans = data
-        console.log(data)
-        // this.dtTrigger.next()
+  getForemans(contractorId) {
+    // this.isDataLoad = true
+    // this.clientService.getForemanByContractorId(id)
+    //   .subscribe(data => {
+    //     this.isDataLoad = false
+    //     this.foremans = data
+    //     console.log(data)
+    //     // this.dtTrigger.next()
 
-      })
+    //   })
+
+    this.router.navigate(['contractorForman',contractorId])
       
   }
 

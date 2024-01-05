@@ -56,6 +56,61 @@ export class CreateSamplingComponent implements OnInit {
   selTrade: any
   submitted = false
 
+  testTG = [
+    {
+      id: 1,
+      tradegroupName: 'test 1'
+    },
+    {
+      id: 2,
+      tradegroupName: 'test 2'
+    },
+    {
+      id: 3,
+      tradegroupName: 'test 3'
+    }
+  ]
+
+  tgTds = [1, 2, 3]
+
+  testTrade = {
+    1: [
+      {
+        tradeId: 23,
+        tradeNane: 'trade 1'
+      },
+      {
+        tradeId: 24,
+        tradeNane: 'trade 2'
+      }
+    ],
+    2: [
+      {
+        tradeId: 56,
+        tradeNane: 'trade 56'
+      },
+      {
+        tradeId: 54,
+        tradeNane: 'trade 54'
+      },
+      {
+        tradeId: 57,
+        tradeNane: 'trade 57'
+      },
+    ],
+    3: [
+      {
+        tradeId: 566,
+        tradeNane: 'trade 566'
+      },
+
+    ]
+  }
+
+  allocatedarea = {
+
+  }
+
   constructor(
     private commanService: CommonService,
     private formBuilder: FormBuilder,
@@ -79,11 +134,11 @@ export class CreateSamplingComponent implements OnInit {
             console.log(data)
             this.commanService.getStructureByProjectId(samplingData.projectId).subscribe(data => this.structures = data)
 
-            this.tradeService.getProjectTrades(samplingData.projectId).subscribe(data => this.trades = data, err=> console.log(err))
-  
+            this.tradeService.getProjectTrades(samplingData.projectId).subscribe(data => this.trades = data, err => console.log(err))
+
             this.commanService.getStagesByStructureId(samplingData.structureId).subscribe(data => this.stages = data)
-  
-            this.tradeService.getQuestionGroupBytradeId(samplingData.tradeId).subscribe(data =>this.questionGroup = data)
+
+            this.tradeService.getQuestionGroupBytradeId(samplingData.tradeId).subscribe(data => this.questionGroup = data)
 
             this.samplingForm.patchValue(data)
           },
@@ -137,6 +192,7 @@ export class CreateSamplingComponent implements OnInit {
       .subscribe(
         data => {
           this.stages = data
+          console.log(this.stages)
         }
       )
   }
@@ -151,6 +207,26 @@ export class CreateSamplingComponent implements OnInit {
       )
   }
   onSubmit() {
+
+    let stautsSelect = document.querySelectorAll('.tradename')
+    let tradeIds = []
+    let newformData = []
+    stautsSelect.forEach((item) => {
+      tradeIds.push(Number((<HTMLSpanElement>item).title))
+    })
+    console.log(tradeIds)
+    tradeIds.forEach((item) => {
+      let statusValue = document.querySelector(`.tradeStatusSelect_${item}`)
+      // console.log()
+      newformData.push(
+        {
+          tradeId: item,
+          status: (<HTMLSelectElement>statusValue).value,
+          allocatedArea: this.allocatedarea[item] ? this.allocatedarea[item] : []
+        })
+    })
+    console.log(newformData)
+    return
 
     this.submitted = true;
 
@@ -197,4 +273,29 @@ export class CreateSamplingComponent implements OnInit {
   //     console.log('-----> err', err);
   //   })
   // }
+
+
+  addStageToArea(tradeId) {
+    console.log(tradeId)
+    // let selectedStages = []
+    let stageIds = document.querySelectorAll(`.stagesCheckbox_${tradeId}`)
+    stageIds.forEach(item => {
+      if ((<HTMLInputElement>item).checked) {
+        let stageId = (<HTMLInputElement>item).value
+        let isExist = this.allocatedarea[tradeId] && this.allocatedarea[tradeId].find(stage => {
+          return stage === stageId ? true : false
+        })
+        if (!isExist) {
+          // selectedStages.push()
+          if (this.allocatedarea[tradeId]) {
+            this.allocatedarea[tradeId].push(stageId)
+          } else {
+            this.allocatedarea[tradeId] = []
+            this.allocatedarea[tradeId].push(stageId)
+          }
+        }
+      }
+    })
+    console.log(this.allocatedarea)
+  }
 }

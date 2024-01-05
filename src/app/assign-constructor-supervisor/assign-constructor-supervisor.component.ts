@@ -9,7 +9,7 @@ import { TradeMaintanceService } from '../trade-maintance.service';
 import { Trade } from '../trade/trade.component';
 import { ContractorData } from '../contractor-forman/contractor-forman.component';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
-import { forEach } from '@angular/router/src/utils/collection';
+import { FormanData } from '../contractor-forman/contractor-forman.component';
 
 
 export class AssignSupervisor {
@@ -43,6 +43,8 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   trades: Trade
   contractors: ContractorData[]
   supervisors: SupervisorData
+  formans: FormanData
+
 
   constructor(
     private commonServices: CommonService,
@@ -69,6 +71,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       structureId: ['', Validators.required],
       contractorId: ['', Validators.required],
       supervisorId: ['', Validators.required],
+      foremanId: ['', Validators.required],
       tradeId: ['', Validators.required],
       stageId: ['', Validators.required]
     })
@@ -85,7 +88,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
         this.structures = data
       })
 
-    this.tradeService.getProjectTrades(this.SelProject)
+    this.tradeService.getProjectTradesScheme(this.SelProject)
       .subscribe(data => {
         console.log(data)
         this.trades = data
@@ -106,14 +109,58 @@ export class AssignConstructorSupervisorComponent implements OnInit {
         console.log(data)
         this.supervisors = data
       })
+    this.clientService.getForemanByContractorId(this.SelContractor)
+      .subscribe(data => {
+        console.log(data)
+        this.formans = data
+      })
   }
+
+  selectAllTradeCheckbox(e){
+    console.log(e)
+    if(e.target.checked){
+      $('.tradeGroups').prop('checked', true);
+    }else{
+      $('.tradeGroups').prop('checked', false);
+
+    }
+  }
+
+  selectAllStageCheckbox(e){
+    console.log(e)
+    if(e.target.checked){
+      $('.stagesCheckbox').prop('checked', true);
+    }else{
+      $('.stagesCheckbox').prop('checked', false);
+
+    }
+  }
+  
 
   onSubmit() {
     console.log(this.registerForm.value)
 
-    let tradeIds = this.registerForm.value.tradeId
-    let stageId = this.registerForm.value.stageId
-    let finalArrayData = []
+    let tradeElements = document.querySelectorAll('.tradeGroups')
+    let stageElements = document.querySelectorAll('.stagesCheckbox')
+    let TradeIdArray = []
+    let stageIdArray = []
+    tradeElements.forEach((item) => {
+      if((<HTMLInputElement>item).checked){
+        TradeIdArray.push(Number((<HTMLInputElement>item).value))
+      }
+    })
+
+    stageElements.forEach((item) => {
+      if((<HTMLInputElement>item).checked){
+        stageIdArray.push(Number((<HTMLInputElement>item).value))
+      }
+    })
+    
+
+    let tradeIds = TradeIdArray
+    let stageId = stageIdArray
+    let supervisorData = []
+    let foremanData = []
     tradeIds.forEach((tradeId) => {
       stageId.forEach((stageId) => {
         let data = {
@@ -125,14 +172,34 @@ export class AssignConstructorSupervisorComponent implements OnInit {
           stageId
         }
 
-        finalArrayData.push(data)
+        let fdata = {
+          schemeId: this.registerForm.value.schemeId,
+          structureId: this.registerForm.value.structureId,
+          contractorId: this.registerForm.value.contractorId,
+          foremanId: this.registerForm.value.foremanId,
+          tradeId,
+          stageId
+        }
+
+        supervisorData.push(data)
+        foremanData.push(fdata)
       })
     })
 
-    console.log(finalArrayData)
-    this.clientService.assignContractorSupervisor(finalArrayData)
-      .subscribe(data => { console.log('assigned-->', data) },
-        err => console.log(err))
-  }
+    // console.log(supervisorData)
+    if (this.registerForm.value.supervisorId) {
+      this.clientService.assignContractorSupervisor(supervisorData)
+        .subscribe(data => { console.log('assigned-->', data) },
+          err => console.log(err))
+    }
 
+    if(this.registerForm.value.foremanId){
+      this.clientService.assignContractorForeman(foremanData)
+      .subscribe(data => console.log('assisned foreman-->', data),
+      err => console.log(err))
+    }
+  }
 }
+
+
+

@@ -41,13 +41,20 @@ export class ContractorSupervisorComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<SupervisorData> = new Subject();
 
-  clients: SupervisorData[]
+  clients: SupervisorData
   isLoading: boolean
 
-  constructor(private route: ActivatedRoute, private router: Router, private clientServiceService: ClientServiceService, private formBuilder: FormBuilder,) { }
+  contractorId:Number
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private clientServiceService: ClientServiceService,
+    ) { }
 
 
   ngOnInit() {
+    this.contractorId = this.route.snapshot.params['id']
     this.isLoading = true
     this.dtOptions = {
       pagingType: "full_numbers",
@@ -55,7 +62,7 @@ export class ContractorSupervisorComponent implements OnInit {
       lengthMenu: [10, 25, 50],
     };
 
-    this.clientServiceService.getAllSupervisor().subscribe((data) => {
+    this.clientServiceService.getSupervisorByContractorId(this.contractorId).subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.clients = data;
       this.dtTrigger.next()
