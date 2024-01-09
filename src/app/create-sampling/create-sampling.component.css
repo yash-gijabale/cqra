@@ -31,3 +31,14 @@ td .add-stages{
     flex-direction: row !important;
     justify-content: space-around;
 }
+
+thead th{
+    background-color: lightgray;
+    padding: 5px;
+}
+
+/* tbody tr td{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */

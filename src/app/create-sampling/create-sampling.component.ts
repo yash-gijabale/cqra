@@ -11,6 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { StageData } from '../wbs/wbs.component';
 import { QuestionGroupView } from '../question-group/question-group.component';
+import { ContractorData } from '../contractor-forman/contractor-forman.component';
+import { clientStaffData } from '../create-client-staff/create-client-staff.component';
 
 export class SamplingData {
   constructor(
@@ -56,6 +58,26 @@ export class CreateSamplingComponent implements OnInit {
   selTrade: any
   submitted = false
 
+  contratorData: ContractorData[]
+  staffData: clientStaffData
+
+
+  tradeIds = []
+  steptracker = {
+    step1: {
+      status: true,
+      data: []
+    },
+    step2: {
+      status: false,
+      data: []
+    },
+    step3: {
+      status: false,
+      data: []
+    }
+  }
+
   testTG = [
     {
       id: 1,
@@ -71,7 +93,7 @@ export class CreateSamplingComponent implements OnInit {
     }
   ]
 
-  tgTds = [1, 2, 3]
+  // tgTds = [1, 2, 3]
 
   testTrade = {
     1: [
@@ -107,10 +129,29 @@ export class CreateSamplingComponent implements OnInit {
     ]
   }
 
-  allocatedarea = {
+  step2formRenderData = {}
+  step2StatusData = {}
 
-  }
+  allocatedarea = {}
+  workArea = {}
+  statusData = [
+    {
+      id: "compledted",
+      name: "Compledted",
+    },
+    {
+      id: "na",
+      name: "NA",
+    },
+    {
+      id: "notStarted",
+      name: "Not Started",
+    }
 
+  ]
+  isStepFirstFormField: boolean = false
+  isStepSecondFormField: boolean = false
+  title = "step1"
   constructor(
     private commanService: CommonService,
     private formBuilder: FormBuilder,
@@ -121,6 +162,7 @@ export class CreateSamplingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.allocatedarea)
 
     this.samplingId = this.route.snapshot.params['id']
 
@@ -160,6 +202,7 @@ export class CreateSamplingComponent implements OnInit {
       stageId: ['', Validators.required],
       completePercentage: ['', Validators.required],
     })
+
   }
 
   get f() {
@@ -186,15 +229,41 @@ export class CreateSamplingComponent implements OnInit {
           this.trades = data
         }
       )
+
+    this.commanService.getAllContractors().subscribe(data => this.contratorData = data)
+    this.clientService.getClientStaffByProjectId(22).subscribe(data => this.staffData = data)
   }
   getStages() {
+    this.statusData = [
+      {
+        id: "compledted",
+        name: "Compledted",
+      },
+      {
+        id: "na",
+        name: "NA",
+      },
+      {
+        id: "notStarted",
+        name: "Not Started",
+      }
+
+    ]
     this.commanService.getStagesByStructureId(this.SelStructure)
       .subscribe(
         data => {
           this.stages = data
           console.log(this.stages)
+          this.stages.forEach((stage) => {
+            let item = {
+              id: String(stage.stageId),
+              name: stage.stageName
+            }
+            this.statusData.push(item)
+          })
         }
       )
+    console.log(this.statusData)
   }
 
   getQuestionGroup() {
@@ -206,59 +275,78 @@ export class CreateSamplingComponent implements OnInit {
         }
       )
   }
-  onSubmit() {
+
+
+  samplingStep1Submit() {
+
+    // console.log(Object.keys(this.allocatedarea).length)
 
     let stautsSelect = document.querySelectorAll('.tradename')
-    let tradeIds = []
+    this.tradeIds = []
     let newformData = []
     stautsSelect.forEach((item) => {
-      tradeIds.push(Number((<HTMLSpanElement>item).title))
+      this.tradeIds.push(Number((<HTMLSpanElement>item).title))
     })
-    console.log(tradeIds)
-    tradeIds.forEach((item) => {
+    console.log(this.tradeIds)
+    this.tradeIds.forEach((item) => {
       let statusValue = document.querySelector(`.tradeStatusSelect_${item}`)
+      let contractorValue = document.querySelector(`.contractorSelect_${item}`)
+      let staffValue = document.querySelector(`.staffSelect_${item}`)
       // console.log()
       newformData.push(
         {
+          projectId: this.SelProject,
+          structureId: this.SelStructure,
           tradeId: item,
           status: (<HTMLSelectElement>statusValue).value,
+          contractor: (<HTMLSelectElement>contractorValue).value,
+          staff: (<HTMLSelectElement>staffValue).value,
           allocatedArea: this.allocatedarea[item] ? this.allocatedarea[item] : []
         })
     })
-    console.log(newformData)
-    return
+    // console.log(newformData)
+    this.steptracker.step1.data = newformData
+    console.log(this.steptracker)
 
-    this.submitted = true;
-
-    if (this.samplingForm.invalid) {
-      return;
+    this.steptracker.step2.status = true
+    if (this.steptracker.step2.status) {
+      this.generateDataForStep2(this.steptracker.step1.data)
+      this.title = "step2"
     }
 
-    let formData = {
-      projectId: this.samplingForm.value.projectId,
-      tradeGroupId: this.samplingForm.value.tradeGroupId,
-      tradeId: this.samplingForm.value.tradeId,
-      structureId: this.samplingForm.value.structureId,
-      completePercentage: this.samplingForm.value.completePercentage,
-      stageId: this.samplingForm.value.stageId.toString()
-    }
-    console.log(JSON.stringify(formData))
     // return
 
-    if (this.samplingId != -1) {
-      this.clientService.updateSampling(formData, this.samplingId)
-        .subscribe(
-          data => console.log('updated', data),
-          err => console.log(err)
-        )
-    } else {
-      this.clientService.createSampling(formData)
-        .subscribe(data => {
-          console.log(data)
-        },
-          err => console.log(err)
-        )
-    }
+    // this.submitted = true;
+
+    // if (this.samplingForm.invalid) {
+    //   return;
+    // }
+
+    // let formData = {
+    //   projectId: this.samplingForm.value.projectId,
+    //   tradeGroupId: this.samplingForm.value.tradeGroupId,
+    //   tradeId: this.samplingForm.value.tradeId,
+    //   structureId: this.samplingForm.value.structureId,
+    //   completePercentage: this.samplingForm.value.completePercentage,
+    //   stageId: this.samplingForm.value.stageId.toString()
+    // }
+    // console.log(JSON.stringify(formData))
+    // // return
+
+    // if (this.samplingId != -1) {
+    //   this.clientService.updateSampling(formData, this.samplingId)
+    //     .subscribe(
+    //       data => console.log('updated', data),
+    //       err => console.log(err)
+    //     )
+    // } else {
+    //   this.clientService.createSampling(formData)
+    //     .subscribe(data => {
+    //       console.log(data)
+    //     },
+    //       err => console.log(err)
+    //     )
+    // }
   }
 
   // getStructure(){
@@ -275,27 +363,161 @@ export class CreateSamplingComponent implements OnInit {
   // }
 
 
-  addStageToArea(tradeId) {
-    console.log(tradeId)
+  addStageToArea(e, tradeId) {
+    // console.log(tradeId)
     // let selectedStages = []
-    let stageIds = document.querySelectorAll(`.stagesCheckbox_${tradeId}`)
-    stageIds.forEach(item => {
-      if ((<HTMLInputElement>item).checked) {
-        let stageId = (<HTMLInputElement>item).value
-        let isExist = this.allocatedarea[tradeId] && this.allocatedarea[tradeId].find(stage => {
-          return stage === stageId ? true : false
+    // let stageIds = document.querySelectorAll(`.stagesCheckbox_${tradeId}`)
+    if (!e.target.checked) {
+      //FOR REMOVE STAGE FROM AREA
+      let stageId = e.target.value
+      let isExist = this.allocatedarea[tradeId] && this.allocatedarea[tradeId].find(stage => {
+        return stage === stageId ? true : false
+      })
+      if (isExist) {
+        this.allocatedarea[tradeId] = this.allocatedarea[tradeId].filter(stage => {
+          return stage != stageId
         })
-        if (!isExist) {
-          // selectedStages.push()
-          if (this.allocatedarea[tradeId]) {
-            this.allocatedarea[tradeId].push(stageId)
-          } else {
-            this.allocatedarea[tradeId] = []
-            this.allocatedarea[tradeId].push(stageId)
-          }
+      }
+      if (this.allocatedarea[tradeId].length === 0) {
+        delete this.allocatedarea[tradeId]
+      }
+    } else {
+      //FOR ADD STAGE FROM AREA
+      let stageId = e.target.value
+      let isExist = this.allocatedarea[tradeId] && this.allocatedarea[tradeId].find(stage => {
+        return stage === stageId ? true : false
+      })
+      if (!isExist) {
+        // selectedStages.push()
+        if (this.allocatedarea[tradeId]) {
+          this.allocatedarea[tradeId].push(stageId)
+        } else {
+          this.allocatedarea[tradeId] = []
+          this.allocatedarea[tradeId].push(stageId)
+        }
+      }
+    }
+    // stageIds.forEach(item => {
+    //   if ((<HTMLInputElement>item).checked) {
+    //     let stageId = (<HTMLInputElement>item).value
+    //     let isExist = this.allocatedarea[tradeId] && this.allocatedarea[tradeId].find(stage => {
+    //       return stage === stageId ? true : false
+    //     })
+    //     if (!isExist) {
+    //       // selectedStages.push()
+    //       if (this.allocatedarea[tradeId]) {
+    //         this.allocatedarea[tradeId].push(stageId)
+    //       } else {
+    //         this.allocatedarea[tradeId] = []
+    //         this.allocatedarea[tradeId].push(stageId)
+    //       }
+    //     }
+    //   }
+    // })
+    console.log(this.allocatedarea)
+    if (Object.keys(this.allocatedarea).length != 0) {
+      this.isStepFirstFormField = true
+    } else {
+      this.isStepFirstFormField = false
+
+    }
+  }
+
+  generateDataForStep2(step1Data) {
+    this.step2formRenderData
+    step1Data.forEach(data => {
+      if (data.status != 'notStarted' && data.status != 'na') {
+        this.step2StatusData
+        [data.tradeId] = {
+          id: data.status,
+          name: data.status
         }
       }
     })
-    console.log(this.allocatedarea)
+
+    for (const key in this.testTrade) {
+
+      this.step2formRenderData[key] = []
+      for (const trade of this.testTrade[key]) {
+        if (this.step2StatusData
+        [trade.tradeId]) {
+          this.step2formRenderData[key].push({
+            tradeId: trade.tradeId,
+            tradeNane: trade.tradeNane
+          })
+        }
+      }
+    }
+
+    console.log(this.step2formRenderData)
+    console.log(this.step2StatusData)
+
   }
+
+
+  samplingStep2Submit() {
+    let stautsSelect = document.querySelectorAll('.step2Tradename')
+    this.tradeIds = []
+    let newformData = []
+    stautsSelect.forEach((item) => {
+      this.tradeIds.push(Number((<HTMLSpanElement>item).title))
+    })
+    console.log(this.tradeIds)
+    this.tradeIds.forEach((item) => {
+      let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
+      // console.log()
+      newformData.push(
+        {
+          projectId: this.SelProject,
+          structureId: this.SelStructure,
+          tradeId: item,
+          status: (<HTMLSelectElement>statusValue).value,
+          workArea: this.workArea[item] ? this.workArea[item] : []
+        })
+    })
+
+    console.log(newformData)
+  }
+
+  addStep2WorkArea(e, tradeId) {
+    if (!e.target.checked) {
+      //FOR REMOVE STAGE FROM AREA
+      let stageId = e.target.value
+      let isExist = this.workArea[tradeId] && this.workArea[tradeId].find(stage => {
+        return stage === stageId ? true : false
+      })
+      if (isExist) {
+        this.workArea[tradeId] = this.workArea[tradeId].filter(stage => {
+          return stage != stageId
+        })
+      }
+      if (this.workArea[tradeId].length === 0) {
+        delete this.workArea[tradeId]
+      }
+    } else {
+      //FOR ADD STAGE FROM AREA
+      let stageId = e.target.value
+      let isExist = this.workArea[tradeId] && this.workArea[tradeId].find(stage => {
+        return stage === stageId ? true : false
+      })
+      if (!isExist) {
+        // selectedStages.push()
+        if (this.workArea[tradeId]) {
+          this.workArea[tradeId].push(stageId)
+        } else {
+          this.workArea[tradeId] = []
+          this.workArea[tradeId].push(stageId)
+        }
+      }
+    }
+
+
+    if (Object.keys(this.workArea).length != 0) {
+      this.isStepSecondFormField = true
+    } else {
+      this.isStepSecondFormField = false
+
+    }
+  }
+
 }

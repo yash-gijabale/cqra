@@ -40,21 +40,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of contractors">
+              <tr *ngFor="let pmc of pmcs">
 
-                <td>{{ client.contractorName }}</td>
-                <td>{{ client.contarctorAddress }}</td>
-                <td>{{ client.contarctorEmail }}</td>
-                <td>{{ client.contarctorPhone }}</td>
+                <td>{{ pmc.pmcName }}</td>
+                <td>{{ pmc.pmcAddress }}</td>
+                <td>{{ pmc.pmcEmail }}</td>
+                <td>{{ pmc.pmcPhone }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editContractor(client.contractorId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editPmc(pmc.pmcId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deleteContractor(client.contractorId)" class="Delete-modal">
+                    <button type="text" (click)="deactivatePmc(pmc.pmcId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>

@@ -167,7 +167,7 @@ export class CommonService {
   //REPORT API CALL
   //NC COUNT API CALL
 getNcCountReports(){
-  return this.httpClient.get<any>(`${this.REST_API_SERVER}/getAllnccount`)
+  return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getAllnccount`)
 }
 
   createNcCountReport(data): Observable<CommonService>{
@@ -183,6 +183,9 @@ getNcCountReports(){
   }
 
   //QUALITY INDEX REPORT
+  getAllQualityIndexReport(){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
+  }
   createQualityIndexReport(data): Observable<CommonService>{
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/QualityIndex/addQualityIndex`, data)
   }

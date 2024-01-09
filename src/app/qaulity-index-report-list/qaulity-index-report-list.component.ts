@@ -1,6 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommonService } from '../common.service';
 import { DataTableDirective } from 'angular-datatables';
+import { Subject } from "rxjs";
 
 @Component({
   selector: 'app-qaulity-index-report-list',
@@ -13,7 +14,9 @@ export class QaulityIndexReportListComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<Array<object>> = new Subject<Array<object>>();
   ProjectViews:any
+  qaulityIndexReports : Array<object>
   constructor() { }
 
   ngOnInit() {

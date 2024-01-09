@@ -75,7 +75,7 @@
           <div class="form-group col-md-4">
             <label>Trade Name</label>
             <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()">
-              <option [value]="o.tardeId" *ngFor="let o of trades">
+              <option [value]="o.fkTradeId" *ngFor="let o of trades">
                 {{o.tradeName}}
               </option>
             </select>

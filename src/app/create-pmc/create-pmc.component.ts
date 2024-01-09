@@ -7,13 +7,13 @@ import { first } from 'rxjs/operators';
 import { CommonService } from '../common.service';
 import { ProjectData } from '../project/project.component';
 
-export class PmcData{
+export class PmcData {
   constructor(
-    public pmcName : string,
-    public pmcAddress : string,
-    public pmcEmail : string,
-    public pmcPhone : string
-  ){
+    public pmcName: string,
+    public pmcAddress: string,
+    public pmcEmail: string,
+    public pmcPhone: string
+  ) {
 
   }
 }
@@ -28,26 +28,31 @@ export class CreatePmcComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   clients: ClientData[]
-  contractorId: number;
+  pmcId: number;
   isLoading = false;
-  projects:ProjectData[]
+  projects: ProjectData[]
   constructor(
-    private route: ActivatedRoute, 
-    private router: Router, 
-    private clientServiceService: ClientServiceService, 
+    private route: ActivatedRoute,
+    private router: Router,
+    private clientServiceService: ClientServiceService,
     private formBuilder: FormBuilder,
-    private commonService : CommonService
-    ) { }
+    private commonService: CommonService
+  ) { }
 
 
   ngOnInit() {
-    this.contractorId = this.route.snapshot.params['id'];
+    this.pmcId = this.route.snapshot.params['id'];
 
-    if (this.contractorId != -1) {
-      this.clientServiceService.retrieveContractor(this.contractorId)
+    if (this.pmcId != -1) {
+      let retrivePmc;
+      this.clientServiceService.retrivePmc(this.pmcId)
         .pipe(first())
         .subscribe(
-          data => this.registerForm.patchValue(data),
+          data => {
+            retrivePmc = data
+            this.commonService.getClientProject(retrivePmc.clientId).subscribe(data => this.projects = data)
+            this.registerForm.patchValue(data)
+          },
           err => console.log(err)
         )
     }
@@ -75,13 +80,20 @@ export class CreatePmcComponent implements OnInit {
     console.log(this.SelClient)
     this.commonService.getClientProject(this.SelClient).subscribe(data => this.projects = data)
   }
-  
-  onSubmit(){
+
+  onSubmit() {
     console.log(this.registerForm.value)
-    this.clientServiceService.createPmc(this.registerForm.value)
-    .subscribe(data => {
-      console.log('pmc aded-->', data)
-    })
+    if(this.pmcId != -1){
+      this.clientServiceService.updatePmc(this.registerForm.value, this.pmcId)
+      .subscribe(data =>  console.log('updated-->', data))
+
+    }else{
+      this.clientServiceService.createPmc(this.registerForm.value)
+      .subscribe(data => {
+        console.log('pmc aded-->', data)
+      })
+    }
   }
+  
 
 }

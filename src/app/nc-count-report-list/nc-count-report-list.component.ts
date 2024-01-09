@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from '../common.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
@@ -13,7 +13,9 @@ export class NcCountReportListComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  ProjectViews:any
+  dtTrigger: Subject<Array<object>> = new Subject<Array<object>>();
+  ProjectViews: any
+  ncCountData: Array<Object>
   // dtTrigger: Subject<FirstNote> = new Subject<FirstNote>();
   constructor(
     private commonService: CommonService
@@ -24,11 +26,14 @@ export class NcCountReportListComponent implements OnInit {
       pagingType: "full_numbers",
       pageLength: 10,
       lengthMenu: [10, 25, 50],
-      responsive:true,
-      scrollX:true
+      responsive: true,
+      scrollX: true
     };
     this.commonService.getNcCountReports()
-      .subscribe(data => console.log(data))
+      .subscribe(data => {
+        this.ncCountData = data
+        this.dtTrigger.next()
+      })
   }
 
 }

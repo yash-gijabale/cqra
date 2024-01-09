@@ -31,6 +31,7 @@ import { LastNoteData } from '../manualIndexCalulator/lastNote/last-note/last-no
 import { AssignSupervisor } from '../assign-constructor-supervisor/assign-constructor-supervisor.component';
 import { AssignForeman } from '../assign-contractor-foreman/assign-contractor-foreman.component';
 import { PmcData } from '../create-pmc/create-pmc.component';
+import { PmcView } from '../pmc-list/pmc-list.component';
 
 @Injectable({
   providedIn: 'root'
@@ -606,5 +607,33 @@ export class ClientServiceService {
   createPmc(data) :Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addPmc`, data)
   }
+
+  getAllPmcs(){
+    return this.httpClient.get<PmcView>(`${this.REST_API_SERVER}/getPmcs`);
+  }
+
+  retrivePmc(id){
+    return this.httpClient.get<PmcView>(`${this.REST_API_SERVER}/Pmc/${id}`)
+  }
+
+  updatePmc(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Pmc/${id}`, data)
+  }
+
+  deletePmc(id){
+    return this.httpClient.delete<PmcView>(`${this.REST_API_SERVER}/Pmc/${id}`)
+  }
   //PMC API CALL
+
+  //GEt CLIENT STAFF BY PROJECT ID
+  getClientStaffByProjectId(projectId){
+    return this.httpClient.get<clientStaffData>(`${this.REST_API_SERVER}/clientstaffbyprojectid/${projectId}`)
+  }
+  //GEt CLIENT STAFF BY PROJECT ID
+
+  //GET CONTRACTOR BY PROJECT ID
+  getContractorByProjectId(projectId){
+    return this.httpClient.get<ContractorData>(`${this.REST_API_SERVER}/contractorbyprojectid/${projectId}`)
+  }
+  //GET CONTRACTOR BY PROJECT ID
 }

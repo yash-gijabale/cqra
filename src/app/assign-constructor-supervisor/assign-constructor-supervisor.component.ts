@@ -10,6 +10,7 @@ import { Trade } from '../trade/trade.component';
 import { ContractorData } from '../contractor-forman/contractor-forman.component';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
 import { FormanData } from '../contractor-forman/contractor-forman.component';
+import { clientStaffData } from '../create-client-staff/create-client-staff.component';
 
 
 export class AssignSupervisor {
@@ -41,7 +42,8 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   stages: StageData[]
   clients: ClientData[]
   trades: Trade
-  contractors: ContractorData[]
+  clientStaffs : clientStaffData
+  contractors: ContractorData
   supervisors: SupervisorData
   formans: FormanData
 
@@ -59,11 +61,11 @@ export class AssignConstructorSupervisorComponent implements OnInit {
     this.clientService.getAllClients()
       .subscribe(data => this.clients = data)
 
-    this.commonServices.getAllContractors()
-      .subscribe(data => {
-        console.log('contractor', data)
-        this.contractors = data
-      })
+    // this.commonServices.getAllContractors()
+    //   .subscribe(data => {
+    //     console.log('contractor', data)
+    //     this.contractors = data
+    //   })
 
     this.registerForm = this.formBuilder.group({
       clientId: ['', Validators.required],
@@ -73,7 +75,8 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       supervisorId: ['', Validators.required],
       foremanId: ['', Validators.required],
       tradeId: ['', Validators.required],
-      stageId: ['', Validators.required]
+      stageId: ['', Validators.required],
+      clientStaffId: ['', Validators.required]
     })
   }
 
@@ -93,6 +96,15 @@ export class AssignConstructorSupervisorComponent implements OnInit {
         console.log(data)
         this.trades = data
       })
+    
+      this.clientService.getClientStaffByProjectId(this.SelProject)
+      .subscribe(data => {
+        console.log(data)
+        this.clientStaffs = data
+      })
+
+      this.clientService.getContractorByProjectId(this.SelProject)
+      .subscribe(data => this.contractors = data)
 
   }
   getStages() {
@@ -168,6 +180,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
           structureId: this.registerForm.value.structureId,
           contractorId: this.registerForm.value.contractorId,
           supervisorId: this.registerForm.value.supervisorId,
+          clientStaffId: this.registerForm.value.clientStaffId,
           tradeId,
           stageId
         }
@@ -177,6 +190,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
           structureId: this.registerForm.value.structureId,
           contractorId: this.registerForm.value.contractorId,
           foremanId: this.registerForm.value.foremanId,
+          clientStaffId: this.registerForm.value.clientStaffId,
           tradeId,
           stageId
         }

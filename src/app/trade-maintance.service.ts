@@ -249,7 +249,9 @@ export class TradeMaintanceService {
 
   //GET TRADES BY PROJECT ID
   getProjectTrades(id){
-    return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/common/getProjectTrades/${id}`)
+    // return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/common/getProjectTrades/${id}`)
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getAllSchemeTradeView/${id}`)
+
   }
 
   getProjectTradesScheme(id){
