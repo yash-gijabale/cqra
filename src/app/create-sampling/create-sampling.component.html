@@ -42,6 +42,14 @@
           </div> -->
 
           <div class="form-group">
+            <div class="form-group">
+              <label>Sampling Type</label>
+              <select [(ngModel)]="samplingType" formControlName="samplingType" class="form-control">
+                <option [value]="1" [selected]="true">Client wise</option>
+                <option [value]="2">Contractor wise</option>
+              </select>
+
+            </div>
             <label>Project Name</label>
             <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()"
               [ngClass]="{ 'is-invalid': submitted && f.projectId.errors }">
@@ -66,6 +74,7 @@
               <div *ngIf="f.structureId.errors.required">Structure is required</div>
             </div>
           </div>
+
 
           <!-- <div class="form-group">
             <label>Select Stage: </label>
@@ -123,9 +132,8 @@
                 <th>TradeGroup</th>
                 <th>Trade</th>
                 <th>Work complete status</th>
-                <th>Contractor name</th>
-                <th>Representative Name</th>
-                <th>Work Area</th>
+                <th>Floor Before</th>
+                <th>Allocated Area</th>
               </thead>
               <tbody>
                 <tr *ngFor="let tg of testTG">
@@ -133,37 +141,24 @@
                   <td>{{tg.tradegroupName}}</td>
                   <td>
                     <span class="tradename" *ngFor="let t of testTrade[tg.id]" [attr.title]="t.tradeId">
+                      <!-- <span>-</span> -->
                       {{t.tradeNane}}
                     </span>
                   </td>
 
                   <td>
                     <select [class]="'tradeStatusSelect_'+t.tradeId" *ngFor="let t of testTrade[tg.id]">
-                      <option [value]="status.id" *ngFor="let status of statusData">{{status.name}}</option>
-                      >
-                    </select>
-                  </td>
-                  <td>
-                    <select [class]="'contractorSelect_'+t.tradeId" *ngFor="let t of testTrade[tg.id]">
-                      <option [value]="contractor.contractorId" *ngFor="let contractor of contratorData">
-                        {{contractor.contractorName}}</option>
+                      <option [value]="status.id" *ngFor="let status of statusData"
+                        [selected]="status.id === 'notStarted'">{{status.name}}</option>
                     </select>
                   </td>
 
                   <td>
-                    <select [class]="'staffSelect_'+t.tradeId" *ngFor="let t of testTrade[tg.id]">
-                      <option [value]="staff.clientStaffId" *ngFor="let staff of staffData">{{staff.clientName}}
-                      </option>
-
-                    </select>
-                  </td>
-                  <td>
-                    <span class="add-stages" *ngFor="let t of testTrade[tg.id]">
-                      {{allocatedarea[t.tradeId] ? allocatedarea[t.tradeId].length : 0}}
-                      <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
-                        [attr.data-target]="'#add-edit-stage_'+t.tradeId">+</button>
-
-                      <div class="modal fade" [id]="'add-edit-stage_'+t.tradeId" tabindex="-1" role="dialog"
+                    <div *ngFor="let t of testTrade[tg.id]">
+                      <span class="btn btn-sm btn-success" data-toggle="modal"
+                        [attr.data-target]="'#step1-add-stage_'+t.tradeId">+</span>
+                      <!-- <span></span> -->
+                      <div class="modal fade" [id]="'step1-add-stage_'+t.tradeId" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                           <div class="modal-content">
@@ -175,9 +170,9 @@
                             </div>
                             <div class="modal-body">
                               <div class="form-check" *ngFor="let o of stages">
-                                <input class="form-check-input" [class]="'stagesCheckbox_'+t.tradeId" type="checkbox"
-                                  [value]="o.stageId" id="flexCheckDefault"
-                                  (change)="addStageToArea($event, t.tradeId)">
+                                <input class="form-check-input" [class]="'step2StagesCheckbox_'+t.tradeId"
+                                  type="checkbox" [value]="o.stageId" id="flexCheckDefault"
+                                  (change)="addStep1WorkArea($event, t.tradeId)">
                                 <label class="form-check-label" for="flexCheckDefault">{{o.stageName}}</label>
                               </div>
                             </div>
@@ -185,6 +180,12 @@
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    <span *ngFor="let t of testTrade[tg.id]">
+                      {{workArea[t.tradeId] ? workArea[t.tradeId].length : 0 }}
                     </span>
                   </td>
 
@@ -193,7 +194,8 @@
               </tbody>
             </table>
             <div class="form-group my-2">
-              <button class="btn btn-primary" [disabled]="!isStepFirstFormField" (click)="samplingStep1Submit()">Submit
+              <button class="btn btn-primary" [disabled]="!isStepFirstFormField"
+                (click)="samplingStepFirstSubmit()">Submit
                 And Next</button>
             </div>
           </div>
@@ -205,25 +207,27 @@
               <h5>{{title}}</h5>
               <table>
                 <thead>
-                  <th>Srno</th>
+                  <!-- <th>Srno</th> -->
                   <th>TradeGroup</th>
                   <th>Trade</th>
-                  <th>Work complete status</th>
-                  <th>Floor Before</th>
-                  <th>Allocated Area</th>
+                  <th>Work Complete Status</th>
+                  <th>Contractor</th>
+                  <th>Representative</th>
+                  <th>Work Area</th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let tg of testTG">
-                    <td>1</td>
-                    <td>{{tg.tradegroupName}}</td>
-                    <td>
+                    <!-- <td>1</td> -->
+                    <td *ngIf="step2formRenderData[tg.id].length">{{tg.tradegroupName}}</td>
+                    <td *ngIf="step2formRenderData[tg.id].length">
                       <span class="step2Tradename" *ngFor="let t of step2formRenderData[tg.id]"
                         [attr.title]="t.tradeId">
                         {{t.tradeNane}}
                       </span>
                     </td>
 
-                    <td>
+                    <td *ngIf="step2formRenderData[tg.id].length">
+                      <!-- step2TradeStatusSelect_ -->
                       <select [class]="'step2TradeStatusSelect_'+t.tradeId"
                         *ngFor="let t of step2formRenderData[tg.id]">
                         <option [value]="status.id" *ngFor="let status of statusData"
@@ -232,17 +236,52 @@
                       </select>
                     </td>
 
-                    <td>
+                    <!-- Check for sampling type -->
+                    <div *ngIf="samplingType != 1; then thenBlock else elseBolck"></div>
+                    <ng-template #thenBlock>
+                      <td *ngIf="step2formRenderData[tg.id].length">
+                        <select [class]="'step2ContractorSelect_'+t.tradeId" *ngFor="let t of step2formRenderData[tg.id]">
+                          <option [value]="contractor.contractorId" *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
+                            {{contractor.contractorName}}</option>
+                        </select>
+                      </td>
+  
+                      <td *ngIf="step2formRenderData[tg.id].length">
+                        <select [class]="'step2StaffSelect_'+t.tradeId" *ngFor="let t of step2formRenderData[tg.id]">
+                          <option [value]="staff.clientStaffId" *ngFor="let staff of staffData">{{staff.clientName}}
+                          </option>
+  
+                        </select>
+                      </td>
+                    </ng-template>
+                    <ng-template #elseBolck>
+                      <td *ngIf="step2formRenderData[tg.id].length">
+                        <select [class]="'step2ContractorSelect_'+t.tradeId" *ngFor="let t of step2formRenderData[tg.id]">
+                          <option [value]="client.clientId" *ngFor="let client of clients">
+                            {{client.clientName}}</option>
+                        </select>
+                      </td>
+  
+                      <td *ngIf="step2formRenderData[tg.id].length">
+                        <select [class]="'step2StaffSelect_'+t.tradeId" *ngFor="let t of step2formRenderData[tg.id]">
+                          <option [value]="client.clientId" *ngFor="let client of clients">
+                            {{client.clientName}}</option>
+                        </select>
+                      </td>
+                    </ng-template>
+                    
+                    <td *ngIf="step2formRenderData[tg.id].length">
                       <span class="add-stages" *ngFor="let t of step2formRenderData[tg.id]">
+                        {{allocatedarea[t.tradeId] ? allocatedarea[t.tradeId].length : 0}}
                         <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
-                          [attr.data-target]="'#step2-add-stage_'+t.tradeId">+</button>
+                          [attr.data-target]="'#step2Add-stage_'+t.tradeId">+</button>
 
-                        <div class="modal fade" [id]="'step2-add-stage_'+t.tradeId" tabindex="-1" role="dialog"
+                        <div class="modal fade" [id]="'step2Add-stage_'+t.tradeId" tabindex="-1" role="dialog"
                           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Add Stage</h5>
+                                <h5 class="modal-title" id="exampleModalLongTitle">Allocate Stage step2</h5>
                                 <button type="button" class="close" #closebutton data-dismiss="modal"
                                   aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
@@ -250,10 +289,11 @@
                               </div>
                               <div class="modal-body">
                                 <div class="form-check" *ngFor="let o of stages">
-                                  <input class="form-check-input" [class]="'step2StagesCheckbox_'+t.tradeId"
-                                    type="checkbox" [value]="o.stageId" id="flexCheckDefault"
-                                    (change)="addStep2WorkArea($event, t.tradeId)">
-                                  <label class="form-check-label" for="flexCheckDefault">{{o.stageName}}</label>
+                                  <input *ngIf="workArea[t.tradeId].includes(o.stageId)" class="form-check-input"
+                                    [class]="'step2StagesCheckbox_'+t.tradeId" type="checkbox" [value]="o.stageId"
+                                    id="flexCheckDefault" (change)="addStep2WorkArea($event, t.tradeId)">
+                                  <label *ngIf="workArea[t.tradeId].includes(o.stageId)" class="form-check-label"
+                                    for="flexCheckDefault">{{o.stageName}}</label>
                                 </div>
                               </div>
 
@@ -263,19 +303,13 @@
                       </span>
                     </td>
 
-                    <td>
-                      <span *ngFor="let t of step2formRenderData[tg.id]">
-                        {{workArea[t.tradeId] ? workArea[t.tradeId].length : 0 }}
-                      </span>
-                    </td>
-
                   </tr>
 
                 </tbody>
               </table>
               <div class="form-group my-2">
                 <button class="btn btn-primary" [disabled]="!isStepSecondFormField"
-                  (click)="samplingStep2Submit()">Submit
+                  (click)="samplingStepSeceondSubmit()">Submit
                   And Next</button>
               </div>
             </div>
@@ -283,6 +317,12 @@
 
 
         </form>
+        <div *ngIf="isThirdStep;then step3Block"></div>
+        <ng-template #step3Block>
+          <div class="form-group my-2">
+            <a [routerLink]="'/createSamplingStep3'"><button class="btn btn-success">Procced Final Step</button></a>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

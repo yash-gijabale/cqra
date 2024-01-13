@@ -17,6 +17,7 @@ import { NcCountReportData } from './nc-count-report/nc-count-report.component';
 import { QualityIndexReport } from './quality-index-report/quality-index-report.component';
 import { InspectionReport } from './creaate-inspectionreport/creaate-inspectionreport.component';
 import { SnaggingReportView } from './create-snagging-document/create-snagging-document.component';
+import { StepTrackerData } from './create-sampling-step-three/create-sampling-step-three.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -243,6 +244,12 @@ getNcCountReports(){
   //   return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/structure/addStructure`, clientData);
   // }
 
+
+  //
+
+
+
+
   private oldMessage = sessionStorage.getItem('pkId')
   private message = new BehaviorSubject(this.oldMessage)
   getMessage = this.message.asObservable();
@@ -250,6 +257,166 @@ getNcCountReports(){
   setMessage(message:string){
     this.message.next(message)
   }
+
+
+  //Sampling step data
+  test = {
+    step1: {
+      status: true,
+      data: [
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 23,
+          status: "118991",
+          workArea: [
+            118986,
+            118987,
+            118988,
+            118989,
+            118990
+          ]
+        },
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 24,
+          status: "118996",
+          workArea: [
+            118992,
+            118993,
+            118994,
+            118995
+          ]
+        },
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 56,
+          status: "118997",
+          workArea: [
+            118997,
+            118996,
+            118995,
+            118999,
+            119000,
+            119001
+          ]
+        },
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 54,
+          status: "notStarted",
+          workArea: []
+        },
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 57,
+          status: "118997",
+          workArea: [
+            131796,
+            125928,
+            122910,
+            119000,
+            118999
+          ]
+        },
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 566,
+          status: "notStarted",
+          workArea: []
+        }
+      ]
+    },
+    step2: {
+      status: true,
+      data: [
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 23,
+          status: "118991",
+          contractor: "45",
+          staff: "131",
+          allocatedArea: [
+            "118987",
+            "118986",
+            "118988",
+            "118989",
+            "118990"
+          ]
+        },
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 24,
+          status: "118996",
+          contractor: "45",
+          staff: "131",
+          allocatedArea: [
+            "118992",
+            "118993",
+            "118994",
+            "118995"
+          ]
+        },
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 56,
+          status: "118997",
+          contractor: "31",
+          staff: "131",
+          allocatedArea: [
+            "118995",
+            "118996",
+            "118997",
+            "118999",
+            "119000",
+            "119001"
+          ]
+        },
+        {
+          projectId: "284",
+          structureId: "2508",
+          tradeId: 57,
+          status: "118997",
+          contractor: "31",
+          staff: "131",
+          allocatedArea: [
+            "118999",
+            "119000",
+            "122910",
+            "125928",
+            "161796",
+            "131236",
+            "131723",
+            "161796",
+            "131796",
+            "191776",
+          ]
+        }
+      ]
+    },
+    step3: {
+      status: false,
+      data: []
+    }
+  }
+
+  // private stepData = new BehaviorSubject(this.test)
+  private stepData = new BehaviorSubject(this.test)
+  getSamplingStepData = this.stepData.asObservable();
+  
+  setSamplingStepData(stepData: StepTrackerData){
+    this.stepData.next(stepData)
+
+  }
+
  
 
 }

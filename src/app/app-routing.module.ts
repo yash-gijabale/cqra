@@ -114,6 +114,7 @@ import { AddRoleComponent } from './add-role/add-role.component';
 import { AddRegionComponent } from './add-region/add-region.component';
 import { CreatePmcComponent } from './create-pmc/create-pmc.component';
 import { PmcListComponent } from './pmc-list/pmc-list.component';
+import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -230,6 +231,7 @@ const routes: Routes = [
   { path: 'regions', component: AddRegionComponent },
   { path: 'createpmc/:id', component: CreatePmcComponent },
   { path: 'pmcList', component: PmcListComponent },
+  { path: 'createSamplingStep3', component: CreateSamplingStepThreeComponent },
 
 
 

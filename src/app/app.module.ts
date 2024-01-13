@@ -127,6 +127,7 @@ import { AddRoleComponent } from './add-role/add-role.component';
 import { AddRegionComponent } from './add-region/add-region.component';
 import { PmcListComponent } from './pmc-list/pmc-list.component';
 import { CreatePmcComponent } from './create-pmc/create-pmc.component';
+import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
 
 
 @NgModule({
@@ -247,7 +248,8 @@ import { CreatePmcComponent } from './create-pmc/create-pmc.component';
     AddRoleComponent,
     AddRegionComponent,
     PmcListComponent,
-    CreatePmcComponent
+    CreatePmcComponent,
+    CreateSamplingStepThreeComponent
   ],
   imports: [
     BrowserModule,

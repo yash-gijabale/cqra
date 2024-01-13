@@ -14,6 +14,26 @@ import { QuestionGroupView } from '../question-group/question-group.component';
 import { ContractorData } from '../contractor-forman/contractor-forman.component';
 import { clientStaffData } from '../create-client-staff/create-client-staff.component';
 
+
+export class TradeRowDataForSamplingStep {
+  constructor(
+    public projectId: Number,
+    public tradeId: Number,
+    public tradeggroupId: Number,
+    public tradeGroupName: string,
+    public tradeName: string
+  ) { }
+}
+
+export class ContractorDataForSamplingStep {
+  constructor(
+    public id: Number,
+    public projectId: Number,
+    public tradeId: Number,
+    public contractorId: Number,
+    public contractorName: string
+  ) { }
+}
 export class SamplingData {
   constructor(
     public projectId: number,
@@ -44,8 +64,7 @@ export class CreateSamplingComponent implements OnInit {
 
   samplingId: number
   projects: ProjectView[]
-  tradeGroups: TradeGroup[]
-  clients: ClientData[]
+  clients: Array<Object>
   trades: any
   questionGroup: QuestionGroupView
   samplingForm: FormGroup;
@@ -54,12 +73,15 @@ export class CreateSamplingComponent implements OnInit {
   SelStructure: any
   SelClientId: any
   SelProject: any
-  SelStage: any
   selTrade: any
+  SelContractorId: number
+  samplingType = 1;
   submitted = false
 
   contratorData: ContractorData[]
   staffData: clientStaffData
+  tradeRowData: TradeRowDataForSamplingStep
+  contractorDataTradeWise = {}
 
 
   tradeIds = []
@@ -79,54 +101,54 @@ export class CreateSamplingComponent implements OnInit {
   }
 
   testTG = [
-    {
-      id: 1,
-      tradegroupName: 'test 1'
-    },
-    {
-      id: 2,
-      tradegroupName: 'test 2'
-    },
-    {
-      id: 3,
-      tradegroupName: 'test 3'
-    }
+    // {
+    //   id: 1,
+    //   tradegroupName: 'test 1'
+    // },
+    // {
+    //   id: 2,
+    //   tradegroupName: 'test 2'
+    // },
+    // {
+    //   id: 3,
+    //   tradegroupName: 'test 3'
+    // }
   ]
 
   // tgTds = [1, 2, 3]
 
   testTrade = {
-    1: [
-      {
-        tradeId: 23,
-        tradeNane: 'trade 1'
-      },
-      {
-        tradeId: 24,
-        tradeNane: 'trade 2'
-      }
-    ],
-    2: [
-      {
-        tradeId: 56,
-        tradeNane: 'trade 56'
-      },
-      {
-        tradeId: 54,
-        tradeNane: 'trade 54'
-      },
-      {
-        tradeId: 57,
-        tradeNane: 'trade 57'
-      },
-    ],
-    3: [
-      {
-        tradeId: 566,
-        tradeNane: 'trade 566'
-      },
+    // 1: [
+    //   {
+    //     tradeId: 23,
+    //     tradeNane: 'trade 1'
+    //   },
+    //   {
+    //     tradeId: 24,
+    //     tradeNane: 'trade 2'
+    //   }
+    // ],
+    // 2: [
+    //   {
+    //     tradeId: 56,
+    //     tradeNane: 'trade 56'
+    //   },
+    //   {
+    //     tradeId: 54,
+    //     tradeNane: 'trade 54'
+    //   },
+    //   {
+    //     tradeId: 57,
+    //     tradeNane: 'trade 57'
+    //   },
+    // ],
+    // 3: [
+    //   {
+    //     tradeId: 566,
+    //     tradeNane: 'trade 566'
+    //   },
 
-    ]
+    // ]
   }
 
   step2formRenderData = {}
@@ -149,9 +171,11 @@ export class CreateSamplingComponent implements OnInit {
     }
 
   ]
-  isStepFirstFormField: boolean = false
-  isStepSecondFormField: boolean = false
+  isStepFirstFormField = false
+  isStepSecondFormField = false
+  isThirdStep = false
   title = "step1"
+  stageNameData = {}
   constructor(
     private commanService: CommonService,
     private formBuilder: FormBuilder,
@@ -201,6 +225,7 @@ export class CreateSamplingComponent implements OnInit {
       structureId: ['', Validators.required],
       stageId: ['', Validators.required],
       completePercentage: ['', Validators.required],
+      samplingType: ['', Validators.required]
     })
 
   }
@@ -212,6 +237,7 @@ export class CreateSamplingComponent implements OnInit {
 
   getStructure() {
     console.log(this.SelProject)
+    console.log(this.samplingType)
     this.commanService.getStructureByProjectId(this.SelProject)
       .subscribe(
         (data) => {
@@ -230,22 +256,117 @@ export class CreateSamplingComponent implements OnInit {
         }
       )
 
-    this.commanService.getAllContractors().subscribe(data => this.contratorData = data)
-    this.clientService.getClientStaffByProjectId(22).subscribe(data => this.staffData = data)
+
+    if (this.samplingType === 1) {
+      // console.log('hh')
+      // this.clientService.getAllClients().subscribe(data => {
+      //   console.log('Clinet data-->', data)
+      //   this.clients = data
+      // })
+
+      this.clientService.getClientByProjectId(this.SelProject)
+      .subscribe(data => this.clients = data)
+
+    } else {
+      this.clientService.getContractorsForSamplingStep(this.SelProject)
+      .subscribe(data => {
+        console.log(data);
+        this.convertContractorRowObjet(data)
+      })
+
+      this.clientService.getClientStaffByProjectId(22).subscribe(data => this.staffData = data)
+    }
+
+
+    this.clientService.getTradesForSamplingStepFirst(this.SelProject)
+      .subscribe(data => {
+        console.log(data);
+        this.convertRowObjet(data)
+      })
+
+    
+
   }
+
+  convertRowObjet(data) {
+    let tradeGroupArray = []
+    let tradeObject = {}
+
+    data.forEach(item => {
+      if (tradeObject[item.tradeggroupId]) {
+        let tradeData = {
+          tradeId: item.tradeId,
+          tradeNane: item.tradeName
+        }
+
+        tradeObject[item.tradeggroupId].push(tradeData)
+      } else {
+
+        let tradeGroup = {
+          id: item.tradeggroupId,
+          tradegroupName: item.tradeGroupName
+        }
+
+        tradeGroupArray.push(tradeGroup)
+
+        tradeObject[item.tradeggroupId] = []
+        let tradeData = {
+          tradeId: item.tradeId,
+          tradeNane: item.tradeName
+        }
+        tradeObject[item.tradeggroupId].push(tradeData)
+      }
+    })
+
+
+    console.log(tradeObject)
+    this.testTG = tradeGroupArray
+    this.testTrade = tradeObject
+
+  }
+
+  convertContractorRowObjet(data){
+      let contractorObject = {}
+    data.forEach(item => {
+      if (contractorObject[item.tradeId]) {
+        let contractor = {
+          contractorId: item.contractorId,
+          contractorName: item.contractorName
+        }
+
+        contractorObject[item.tradeId].push(contractor)
+      } else {
+
+        let contractor = {
+          contractorId: item.contractorId,
+          contractorName: item.contractorName
+        }
+
+        contractorObject[item.tradeId] = []
+
+        contractorObject[item.tradeId].push(contractor)
+      }
+
+    })
+
+    console.log(contractorObject)
+    this.contractorDataTradeWise = contractorObject
+
+  }
+
   getStages() {
     this.statusData = [
       {
-        id: "compledted",
-        name: "Compledted",
+        id: "notStarted",
+        name: "Not Started",
       },
       {
         id: "na",
         name: "NA",
       },
       {
-        id: "notStarted",
-        name: "Not Started",
+        id: "compledted",
+        name: "Compledted",
       }
 
     ]
@@ -260,6 +381,8 @@ export class CreateSamplingComponent implements OnInit {
               name: stage.stageName
             }
             this.statusData.push(item)
+
+            this.stageNameData[stage.stageId] = stage.stageName
           })
         }
       )
@@ -277,10 +400,7 @@ export class CreateSamplingComponent implements OnInit {
   }
 
 
-  samplingStep1Submit() {
-
-    // console.log(Object.keys(this.allocatedarea).length)
-
+  samplingStepFirstSubmit() {
     let stautsSelect = document.querySelectorAll('.tradename')
     this.tradeIds = []
     let newformData = []
@@ -290,9 +410,135 @@ export class CreateSamplingComponent implements OnInit {
     console.log(this.tradeIds)
     this.tradeIds.forEach((item) => {
       let statusValue = document.querySelector(`.tradeStatusSelect_${item}`)
-      let contractorValue = document.querySelector(`.contractorSelect_${item}`)
-      let staffValue = document.querySelector(`.staffSelect_${item}`)
       // console.log()
+      let workAreaWithName = []
+      this.workArea[item] && this.workArea[item].forEach(stage =>{
+        let workAreaName = {
+          stageId: stage,
+          stageName: this.stageNameData[stage]
+        }
+        workAreaWithName.push(workAreaName)
+      })
+      newformData.push(
+        {
+          projectId: this.SelProject,
+          structureId: this.SelStructure,
+          tradeId: item,
+          status: (<HTMLSelectElement>statusValue).value,
+          workArea: this.workArea[item] ? this.workArea[item] : [],
+          workAreaWithName
+        })
+    })
+
+    // console.log(newformData)
+    this.steptracker.step1.data = newformData
+    console.log(this.steptracker)
+    console.log('wokr area-->', this.workArea)
+
+
+    this.steptracker.step2.status = true
+    if (this.steptracker.step2.status) {
+      this.generateDataForStep2(this.steptracker.step1.data)
+      this.title = "step2"
+    }
+  }
+  addStep1WorkArea(e, tradeId) {
+    if (!e.target.checked) {
+      //FOR REMOVE STAGE FROM AREA
+      let stageId = e.target.value
+      let isExist = this.workArea[tradeId] && this.workArea[tradeId].find(stage => {
+        return stage === stageId ? true : false
+      })
+      if (isExist) {
+        this.workArea[tradeId] = this.workArea[tradeId].filter(stage => {
+          return stage != stageId
+        })
+      }
+      if (this.workArea[tradeId].length === 0) {
+        delete this.workArea[tradeId]
+      }
+    } else {
+      //FOR ADD STAGE FROM AREA
+      let stageId = e.target.value
+      let isExist = this.workArea[tradeId] && this.workArea[tradeId].find(stage => {
+        return stage === stageId ? true : false
+      })
+      if (!isExist) {
+        // selectedStages.push()
+        if (this.workArea[tradeId]) {
+          this.workArea[tradeId].push(Number(stageId))
+        } else {
+          this.workArea[tradeId] = []
+          this.workArea[tradeId].push(Number(stageId))
+        }
+      }
+    }
+
+
+    if (Object.keys(this.workArea).length != 0) {
+      this.isStepFirstFormField = true
+    } else {
+      this.isStepFirstFormField = false
+
+    }
+  }
+
+
+  generateDataForStep2(step1Data) {
+    this.step2formRenderData
+    step1Data.forEach(data => {
+      if (data.status != 'notStarted' && data.status != 'na') {
+        this.step2StatusData[data.tradeId] = {
+          id: data.status,
+          name: data.status
+        }
+      }else{
+        if(this.step2StatusData[data.tradeId]){
+          delete this.step2StatusData[data.tradeId]
+        }
+      }
+    })
+
+    for (const key in this.testTrade) {
+
+      this.step2formRenderData[key] = []
+      for (const trade of this.testTrade[key]) {
+        if (this.step2StatusData[trade.tradeId]) {
+          this.step2formRenderData[key].push({
+            tradeId: trade.tradeId,
+            tradeNane: trade.tradeNane
+          })
+        }
+      }
+    }
+
+    console.log('step 2 render-->',this.step2formRenderData)
+    console.log(this.step2StatusData)
+
+  }
+
+  samplingStepSeceondSubmit() {
+    let stautsSelect = document.querySelectorAll('.step2Tradename')
+    this.tradeIds = []
+    let newformData = []
+    stautsSelect.forEach((item) => {
+      this.tradeIds.push(Number((<HTMLSpanElement>item).title))
+    })
+    console.log(this.tradeIds)
+    this.tradeIds.forEach((item) => {
+      let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
+      let contractorValue = document.querySelector(`.step2ContractorSelect_${item}`)
+      let staffValue = document.querySelector(`.step2StaffSelect_${item}`)
+      // console.log()
+      let workAreaWithName = []
+      this.workArea[item] && this.workArea[item].forEach(stage =>{
+        let workAreaName = {
+          stageId: stage,
+          stageName: this.stageNameData[stage]
+        }
+        workAreaWithName.push(workAreaName)
+      })
+      
       newformData.push(
         {
           projectId: this.SelProject,
@@ -301,72 +547,25 @@ export class CreateSamplingComponent implements OnInit {
           status: (<HTMLSelectElement>statusValue).value,
           contractor: (<HTMLSelectElement>contractorValue).value,
           staff: (<HTMLSelectElement>staffValue).value,
-          allocatedArea: this.allocatedarea[item] ? this.allocatedarea[item] : []
+          allocatedArea: this.allocatedarea[item] ? this.allocatedarea[item] : [],
+          workAreaWithName
         })
     })
     // console.log(newformData)
-    this.steptracker.step1.data = newformData
+    this.steptracker.step2.data = newformData
     console.log(this.steptracker)
 
-    this.steptracker.step2.status = true
-    if (this.steptracker.step2.status) {
-      this.generateDataForStep2(this.steptracker.step1.data)
-      this.title = "step2"
-    }
+    this.commanService.setSamplingStepData(this.steptracker)
+    this.isThirdStep = true
 
-    // return
-
-    // this.submitted = true;
-
-    // if (this.samplingForm.invalid) {
-    //   return;
-    // }
-
-    // let formData = {
-    //   projectId: this.samplingForm.value.projectId,
-    //   tradeGroupId: this.samplingForm.value.tradeGroupId,
-    //   tradeId: this.samplingForm.value.tradeId,
-    //   structureId: this.samplingForm.value.structureId,
-    //   completePercentage: this.samplingForm.value.completePercentage,
-    //   stageId: this.samplingForm.value.stageId.toString()
-    // }
-    // console.log(JSON.stringify(formData))
-    // // return
-
-    // if (this.samplingId != -1) {
-    //   this.clientService.updateSampling(formData, this.samplingId)
-    //     .subscribe(
-    //       data => console.log('updated', data),
-    //       err => console.log(err)
-    //     )
-    // } else {
-    //   this.clientService.createSampling(formData)
-    //     .subscribe(data => {
-    //       console.log(data)
-    //     },
-    //       err => console.log(err)
-    //     )
+    // this.steptracker.step2.status = true
+    // if (this.steptracker.step2.status) {
+    //   this.generateDataForStep2(this.steptracker.step1.data)
+    //   this.title = "step2"
     // }
   }
 
-  // getStructure(){
-  //   console.log(this.SelProject)
-  //   this.commanService.getStructures(this.SelClientId,this.SelProject)
-  //   .subscribe(
-  //     (data) => {
-  //     console.log('Structure Data==',data)
-  //     this.structures= data;
-
-  //   }, (err) => {
-  //     console.log('-----> err', err);
-  //   })
-  // }
-
-
-  addStageToArea(e, tradeId) {
-    // console.log(tradeId)
-    // let selectedStages = []
-    // let stageIds = document.querySelectorAll(`.stagesCheckbox_${tradeId}`)
+  addStep2WorkArea(e, tradeId) {
     if (!e.target.checked) {
       //FOR REMOVE STAGE FROM AREA
       let stageId = e.target.value
@@ -397,127 +596,15 @@ export class CreateSamplingComponent implements OnInit {
         }
       }
     }
-    // stageIds.forEach(item => {
-    //   if ((<HTMLInputElement>item).checked) {
-    //     let stageId = (<HTMLInputElement>item).value
-    //     let isExist = this.allocatedarea[tradeId] && this.allocatedarea[tradeId].find(stage => {
-    //       return stage === stageId ? true : false
-    //     })
-    //     if (!isExist) {
-    //       // selectedStages.push()
-    //       if (this.allocatedarea[tradeId]) {
-    //         this.allocatedarea[tradeId].push(stageId)
-    //       } else {
-    //         this.allocatedarea[tradeId] = []
-    //         this.allocatedarea[tradeId].push(stageId)
-    //       }
-    //     }
-    //   }
-    // })
-    console.log(this.allocatedarea)
+    // console.log(this.allocatedarea)
     if (Object.keys(this.allocatedarea).length != 0) {
-      this.isStepFirstFormField = true
-    } else {
-      this.isStepFirstFormField = false
-
-    }
-  }
-
-  generateDataForStep2(step1Data) {
-    this.step2formRenderData
-    step1Data.forEach(data => {
-      if (data.status != 'notStarted' && data.status != 'na') {
-        this.step2StatusData
-        [data.tradeId] = {
-          id: data.status,
-          name: data.status
-        }
-      }
-    })
-
-    for (const key in this.testTrade) {
-
-      this.step2formRenderData[key] = []
-      for (const trade of this.testTrade[key]) {
-        if (this.step2StatusData
-        [trade.tradeId]) {
-          this.step2formRenderData[key].push({
-            tradeId: trade.tradeId,
-            tradeNane: trade.tradeNane
-          })
-        }
-      }
-    }
-
-    console.log(this.step2formRenderData)
-    console.log(this.step2StatusData)
-
-  }
-
-
-  samplingStep2Submit() {
-    let stautsSelect = document.querySelectorAll('.step2Tradename')
-    this.tradeIds = []
-    let newformData = []
-    stautsSelect.forEach((item) => {
-      this.tradeIds.push(Number((<HTMLSpanElement>item).title))
-    })
-    console.log(this.tradeIds)
-    this.tradeIds.forEach((item) => {
-      let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
-      // console.log()
-      newformData.push(
-        {
-          projectId: this.SelProject,
-          structureId: this.SelStructure,
-          tradeId: item,
-          status: (<HTMLSelectElement>statusValue).value,
-          workArea: this.workArea[item] ? this.workArea[item] : []
-        })
-    })
-
-    console.log(newformData)
-  }
-
-  addStep2WorkArea(e, tradeId) {
-    if (!e.target.checked) {
-      //FOR REMOVE STAGE FROM AREA
-      let stageId = e.target.value
-      let isExist = this.workArea[tradeId] && this.workArea[tradeId].find(stage => {
-        return stage === stageId ? true : false
-      })
-      if (isExist) {
-        this.workArea[tradeId] = this.workArea[tradeId].filter(stage => {
-          return stage != stageId
-        })
-      }
-      if (this.workArea[tradeId].length === 0) {
-        delete this.workArea[tradeId]
-      }
-    } else {
-      //FOR ADD STAGE FROM AREA
-      let stageId = e.target.value
-      let isExist = this.workArea[tradeId] && this.workArea[tradeId].find(stage => {
-        return stage === stageId ? true : false
-      })
-      if (!isExist) {
-        // selectedStages.push()
-        if (this.workArea[tradeId]) {
-          this.workArea[tradeId].push(stageId)
-        } else {
-          this.workArea[tradeId] = []
-          this.workArea[tradeId].push(stageId)
-        }
-      }
-    }
-
-
-    if (Object.keys(this.workArea).length != 0) {
       this.isStepSecondFormField = true
     } else {
       this.isStepSecondFormField = false
 
     }
   }
+
+
 
 }

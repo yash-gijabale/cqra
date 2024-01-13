@@ -25,7 +25,7 @@ import { StageOfWork, StageOfWorkData } from '../manualIndexCalulator/stage-of-w
 import { Remarks, RemarkData } from '../manualIndexCalulator/remark/remark/remark.component';
 import { EquipmentList, EquipmentData } from '../user-equipment/user-equipment.component';
 import { UserView } from '../user-log/user-log.component';
-import { SamplingData, SamplingView } from '../create-sampling/create-sampling.component';
+import { ContractorDataForSamplingStep, SamplingData, SamplingView, TradeRowDataForSamplingStep } from '../create-sampling/create-sampling.component';
 import { FirstNote } from '../manualIndexCalulator/firstNote/first-note/first-note.component';
 import { LastNoteData } from '../manualIndexCalulator/lastNote/last-note/last-note.component';
 import { AssignSupervisor } from '../assign-constructor-supervisor/assign-constructor-supervisor.component';
@@ -376,6 +376,19 @@ export class ClientServiceService {
 
   getSampledAreaBySanapId(id){
     return this.httpClient.get<SampledArea>(`${this.REST_API_SERVER}/sampledAreabysnapauditid/${id}`)
+  }
+
+
+  getTradesForSamplingStepFirst(projectId){
+    return this.httpClient.get<TradeRowDataForSamplingStep>(`${this.REST_API_SERVER}/gettradegrp/${projectId}`)
+  }
+
+  getContractorsForSamplingStep(projectId){
+    return this.httpClient.get<ContractorDataForSamplingStep>(`${this.REST_API_SERVER}/getconbypid/${projectId}`)
+  }
+
+  getClientByProjectId(projectId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/clientbyproject/${projectId}`)
   }
   //SAMPLED AREA API CALL
 
