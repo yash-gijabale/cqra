@@ -29,7 +29,7 @@
             <div class="form-group">
               <label>Client Name</label>
               <select  [(ngModel)]="SelClientId" class="form-control" formControlName="clientId" (change)="getProject()" > 
-                <option  [value]="0">Please Select Client</option>
+                <option  [value]="0">Please Select</option>
                 <option [value]="o.clientId" *ngFor="let o of clients">
                    {{o.clientName}}
                 </option>
