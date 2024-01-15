@@ -125,6 +125,7 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     }
     console.log(this.persentageData)
     console.log(this.sampledUnitnumber)
+    console.log('stage data-->', this.stageData)
 
   }
 
@@ -152,6 +153,8 @@ export class CreateSamplingStepThreeComponent implements OnInit {
       this.tradeTracker = 0
     }
   }
+
+
   lessPersentage(tradeId) {
     if (this.persentageData[tradeId] && this.persentageData[tradeId] > 5) {
       let units = this.persentageData[tradeId] * this.stageData[tradeId].length / 100
@@ -163,32 +166,100 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     }
   }
 
+  // stageAreas = []
   getRandomStage(tradeId) {
-    if (this.tradeTracker != tradeId) {
-      this.tradeTracker = tradeId
-      let areas = this.stageData[tradeId]
-      this.allocatedArea = {}
-      areas.forEach(area => {
-        this.allocatedArea[area] = area
-      })
-      console.log('new')
-    }
+    let stageAreas = []
+    this.allocatedArea = {}
+    stageAreas = this.stageData[tradeId]
+    console.log('inital stages--',stageAreas)
 
     let unit = this.sampledUnitnumber[tradeId]
-    let area = []
+
     if (unit === this.stageData[tradeId].length) {
-      console.log(this.stageData[tradeId])
-      this.randomSampledArea = this.stageData[tradeId]
+      this.randomSampledArea[tradeId] = this.stageData[tradeId]
       return
     }
+
+    stageAreas.forEach(item => {
+      this.allocatedArea[item.stageId] = item
+    })
+
+    console.log('allocated area-->',this.allocatedArea)
+
+    let area = []
     for (let i = 1; i <= unit; i++) {
-      let keysArray = Object.keys(this.allocatedArea)
-      let randomKey = keysArray[Math.floor(Math.random() * keysArray.length)]
-      area.push(this.allocatedArea[randomKey])
-      delete this.allocatedArea[randomKey]
-    }
+        let keysArray = Object.keys(this.allocatedArea)
+        let randomKey = keysArray[Math.floor(Math.random() * keysArray.length)]
+        area.push(this.allocatedArea[randomKey])
+        delete this.allocatedArea[randomKey]
+      }
+    
+    console.log('random area-->',area)
+
     this.randomSampledArea[tradeId] = area
-    console.log(area)
+      
+      console.log(this.randomSampledArea)
+
+    //single click random
+    // let randomStage = this.stageAreas[Math.floor(Math.random() * this.stageAreas.length)]
+    // if (!this.allocatedArea[tradeId]) {
+    //   this.allocatedArea[tradeId] = []
+    //   this.allocatedArea[tradeId].push(randomStage)
+
+    //   this.stageAreas = this.stageAreas.filter(stage => {
+    //     return stage.stageId != randomStage.stageId
+    //   })
+    // }
+
+    // let isExist = this.allocatedArea[tradeId] && this.allocatedArea[tradeId].find(stage => {
+    //   return stage.stageId === randomStage.stageId ? true : false
+    // })
+    // if (!isExist) {
+    //   if (unit > this.allocatedArea[tradeId].length) {
+    //     this.allocatedArea[tradeId].push(randomStage)
+    //     this.stageAreas = this.stageAreas.filter(stage => {
+    //       return stage.stageId != randomStage.stageId
+    //     })
+    //   }
+    // }
+    // console.log(randomStage)
+    // console.log('allocated atra random', this.allocatedArea)
+    // this.randomSampledArea = this.allocatedArea
+
+
+
+    // if (this.tradeTracker != tradeId) {
+    //   this.tradeTracker = tradeId
+    //   let areas = this.stageData[tradeId]
+    //   this.allocatedArea = {}
+    //   areas.forEach(area => {
+    //     this.allocatedArea[area.stageId] = area
+    //   })
+    //   console.log('new')
+    // }
+
+    // console.log(this.allocatedArea)
+    // // return
+
+    // let unit = this.sampledUnitnumber[tradeId]
+
+    // //if unit number and total flats are same then return same object of falts
+    // if (unit === this.stageData[tradeId].length) {
+    //   console.log(this.stageData[tradeId])
+    //   this.randomSampledArea = this.stageData[tradeId]
+    //   return
+    // }
+
+
+    // let area = []
+    // for (let i = 1; i <= unit; i++) {
+    //   let keysArray = Object.keys(this.allocatedArea)
+    //   let randomKey = keysArray[Math.floor(Math.random() * keysArray.length)]
+    //   area.push(this.allocatedArea[randomKey])
+    //   delete this.allocatedArea[randomKey]
+    // }
+    // this.randomSampledArea[tradeId] = area
+    // console.log(this.randomSampledArea)
 
 
   }

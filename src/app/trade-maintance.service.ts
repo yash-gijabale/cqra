@@ -137,6 +137,10 @@ export class TradeMaintanceService {
   deleteSubgroup(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/Subgroup/questionGroup/${id}`)
   }
+
+  deActivateSubgroup(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Subgroup/Subgroup/${id}/${false}`,'')
+  }
   // SUBGROUP
 
 
@@ -156,6 +160,10 @@ export class TradeMaintanceService {
   deleteQuetionGroup(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`)
   }
+
+  deactivateQuestionGroup(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}/${false}`,'')
+  }
   //QUESTION GROUP
 
   //QUESTION HEADING 
@@ -174,6 +182,10 @@ export class TradeMaintanceService {
   deleteQuestionHeading(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`)
   }
+
+  deactivateQuestionHeding(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/questionHeading/Questionheading/${id}/${false}`,'')
+  }
   //QUESTION HEADING
 
 
@@ -187,6 +199,9 @@ export class TradeMaintanceService {
   }
   updateQuestion(data, id){
     return this.httpClient.put(`${this.REST_API_SERVER}/question/question/${id}`, data)
+  }
+  deActivateQuestion(id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/question/Client/${id}/${0}`,'')
   }
   //QUESTIONS
   

@@ -34,7 +34,7 @@
               <option [value]="2">Client</option>
               <option [value]="3">Contractor</option>
               <option [value]="4">PMC</option>
-              <option [value]="4">Other</option>
+              <option [value]="5">Other</option>
             </select>
             <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
               <div *ngIf="f.userType.errors.required">User Type is required</div>
@@ -45,8 +45,8 @@
             <label>Representor</label>
             <select formControlName="representingId" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
-              <option [value]="client.clientId" *ngFor="let client of clients">
-                {{client.clientName}}
+              <option [value]="user.id" *ngFor="let user of representator">
+                {{user.name}}
               </option>
             </select>
             <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">

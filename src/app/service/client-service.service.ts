@@ -390,6 +390,11 @@ export class ClientServiceService {
   getClientByProjectId(projectId){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/clientbyproject/${projectId}`)
   }
+
+
+  addSamplingStepFirst(data) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulstep1`, data)
+  }
   //SAMPLED AREA API CALL
 
   //INSPECTION ACTIVITY NOT AVAILABALE API
@@ -649,4 +654,33 @@ export class ClientServiceService {
     return this.httpClient.get<ContractorData>(`${this.REST_API_SERVER}/contractorbyprojectid/${projectId}`)
   }
   //GET CONTRACTOR BY PROJECT ID
+
+
+
+  //MIS REPORT API CALL
+  createMisReport(data) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/misReport`, data)
+  }
+
+  getMisReport(id){
+    return this.httpClient.get<Object>(`${this.REST_API_SERVER}/misReport/${id}`)
+  }
+
+  updateMisReport(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/misReport/${id}`, data)
+  }
+
+  deactivateMisReport(id){
+    return this.httpClient.delete(`${this.REST_API_SERVER}/misReport/${}id`)
+  }
+
+  getAllMisReport(){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/misReport`)
+  }
+
+  //MIS REPORT API CALL
+
+
+
+
 }

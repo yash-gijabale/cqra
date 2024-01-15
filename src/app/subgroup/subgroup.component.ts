@@ -68,9 +68,9 @@ export class SubgroupComponent implements OnInit {
   deActive(id) {
     let isDelete = confirm('Are you sure want to delete ?')
     if (isDelete) {
-      this.tradeMaintanceService.deleteSubgroup(id)
+      this.tradeMaintanceService.deActivateSubgroup(id)
         .subscribe(data => {
-          console.log('deleted')
+          console.log('Deactivated')
           location.reload()
         })
     }

@@ -18,6 +18,7 @@ import { QualityIndexReport } from './quality-index-report/quality-index-report.
 import { InspectionReport } from './creaate-inspectionreport/creaate-inspectionreport.component';
 import { SnaggingReportView } from './create-snagging-document/create-snagging-document.component';
 import { StepTrackerData } from './create-sampling-step-three/create-sampling-step-three.component';
+import { ChecklistData } from './create-checklist/create-checklist.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,216 +28,219 @@ export class CommonService {
   //private REST_API_SERVER = "http://18.217.108.137:8080";
   constructor(private httpClient: HttpClient) { }
 
-  getClientProject(id){
-    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER+`/common/ClientProjects/${id}`);
+  getClientProject(id) {
+    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/common/ClientProjects/${id}`);
   }
 
-  getStructures(clientId,projectId){
-    return this.httpClient.get<StructureData[]>(this.REST_API_SERVER+`/common/getSelectedStructure/${clientId}/${projectId}`);
+  getStructures(clientId, projectId) {
+    return this.httpClient.get<StructureData[]>(this.REST_API_SERVER + `/common/getSelectedStructure/${clientId}/${projectId}`);
   }
 
-  getStages(clientId,projectId,structureId){
-    return this.httpClient.get<StageData[]>(this.REST_API_SERVER+`/common/getSelectedStages/${clientId}/${projectId}/${structureId}`);
+  getStages(clientId, projectId, structureId) {
+    return this.httpClient.get<StageData[]>(this.REST_API_SERVER + `/common/getSelectedStages/${clientId}/${projectId}/${structureId}`);
   }
 
-  getUnits(clientId,projectId,structureId,stageId){
-    return this.httpClient.get<StageData[]>(this.REST_API_SERVER+`/common/getSelectedUnits/${clientId}/${projectId}/${structureId}/${stageId}`);
+  getUnits(clientId, projectId, structureId, stageId) {
+    return this.httpClient.get<StageData[]>(this.REST_API_SERVER + `/common/getSelectedUnits/${clientId}/${projectId}/${structureId}/${stageId}`);
   }
 
-  getSubUnit(clientId,projectId,structureId,stageId,unitId){
-    return this.httpClient.get<StageData[]>(this.REST_API_SERVER+`/common/getSelectedSubUnits/${clientId}/${projectId}/${structureId}/${stageId}/${unitId}`);
+  getSubUnit(clientId, projectId, structureId, stageId, unitId) {
+    return this.httpClient.get<StageData[]>(this.REST_API_SERVER + `/common/getSelectedSubUnits/${clientId}/${projectId}/${structureId}/${stageId}/${unitId}`);
   }
-  getRegionalManagers(){
-    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/user/getAllRegionalManager`);
+  getRegionalManagers() {
+    return this.httpClient.get<UserView[]>(this.REST_API_SERVER + `/user/getAllRegionalManager`);
   }
-  getUsers(){
-    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/user/getAllusers`);
-  }
-
-  getProjects(userId){
-    return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER+`/user/getAllRproject/${userId}`);
-  }
-  
-  getTrades(projectId,structureId){
-    return this.httpClient.get<Trade[]>(this.REST_API_SERVER+`/common/getAllTrades/${projectId}/${structureId}`);
+  getUsers() {
+    return this.httpClient.get<UserView[]>(this.REST_API_SERVER + `/user/getAllusers`);
   }
 
-  getChecklists(userId,tradeId){
-    return this.httpClient.get<Checklist[]>(this.REST_API_SERVER+`/common/getAllChecklists/${userId}`);
-  }
-  getChecklistsByTrade(tradeId){
-    return this.httpClient.get<Checklist[]>(this.REST_API_SERVER+`/findbytradeid/${tradeId}`);
+  getProjects(userId) {
+    return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER + `/user/getAllRproject/${userId}`);
   }
 
-  getQuestionGroup(userId){
-    return this.httpClient.get<QuestionGroup[]>(this.REST_API_SERVER+`/common/getAllQuestionGroup/${userId}`);
+  getTrades(projectId, structureId) {
+    return this.httpClient.get<Trade[]>(this.REST_API_SERVER + `/common/getAllTrades/${projectId}/${structureId}`);
   }
 
-  getQuestion(userId,questionGroup){
-    return this.httpClient.get<Question[]>(this.REST_API_SERVER+`/common/getAllQuestion/${userId}/${questionGroup}`);
+  getChecklists(userId, tradeId) {
+    return this.httpClient.get<Checklist[]>(this.REST_API_SERVER + `/common/getAllChecklists/${userId}`);
+  }
+  getChecklistsByTrade(tradeId) {
+    return this.httpClient.get<Checklist[]>(this.REST_API_SERVER + `/findbytradeid/${tradeId}`);
   }
 
-  getAllProject(){
-    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER+`/project/getAllProjects`);
+  getQuestionGroup(userId) {
+    return this.httpClient.get<QuestionGroup[]>(this.REST_API_SERVER + `/common/getAllQuestionGroup/${userId}`);
   }
 
-  getAllContractors(){
-    return this.httpClient.get<ContractorData[]>(this.REST_API_SERVER+`/getContractors`);
+  getQuestion(userId, questionGroup) {
+    return this.httpClient.get<Question[]>(this.REST_API_SERVER + `/common/getAllQuestion/${userId}/${questionGroup}`);
   }
 
-  getProjectTrades(projectId){
-    return this.httpClient.get<Trade[]>(this.REST_API_SERVER+`/common/getProjectTrades/${projectId}`);
+  getAllProject() {
+    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/project/getAllProjects`);
+  }
+
+  getAllContractors() {
+    return this.httpClient.get<ContractorData[]>(this.REST_API_SERVER + `/getContractors`);
+  }
+
+  getProjectTrades(projectId) {
+    return this.httpClient.get<Trade[]>(this.REST_API_SERVER + `/common/getProjectTrades/${projectId}`);
 
   }
 
-  getTrade(clientId,projectId,structureId){
-    return this.httpClient.get<Trade[]>(this.REST_API_SERVER+`/common/getProjectAllTrades/${projectId}/${structureId}`);
+  getTrade(clientId, projectId, structureId) {
+    return this.httpClient.get<Trade[]>(this.REST_API_SERVER + `/common/getProjectAllTrades/${projectId}/${structureId}`);
   }
 
-  getContractors(clientId,projectId,structureId,tradeId){
-    return this.httpClient.get<Trade[]>(this.REST_API_SERVER+`/common/getProjectAllContractors/${projectId}/${structureId}/${tradeId}`);
+  getContractors(clientId, projectId, structureId, tradeId) {
+    return this.httpClient.get<Trade[]>(this.REST_API_SERVER + `/common/getProjectAllContractors/${projectId}/${structureId}/${tradeId}`);
   }
 
-  getApprovers(){
-    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/common/getAllApprover`);
+  getApprovers() {
+    return this.httpClient.get<UserView[]>(this.REST_API_SERVER + `/common/getAllApprover`);
   }
 
-  getReviewer(){
-    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/common/getAllReviwer`);
+  getReviewer() {
+    return this.httpClient.get<UserView[]>(this.REST_API_SERVER + `/common/getAllReviwer`);
   }
 
-  getCreater(){
-    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+`/common/getAllCreater`);
+  getCreater() {
+    return this.httpClient.get<UserView[]>(this.REST_API_SERVER + `/common/getAllCreater`);
   }
 
-  getQuestionByTrade(tradeId, groupId)
-  {
-    return this.httpClient.get<Question[]>(this.REST_API_SERVER+`/question/question/${tradeId}/${groupId}`);
-    
-  }
- 
-  getContractorsList(){
-    return this.httpClient.get<ContractorData[]>(this.REST_API_SERVER+`/getContractors/`);
-  }
-  getContractorsById(id){
-    return this.httpClient.get<ContractorData[]>(this.REST_API_SERVER+`/contractor/107`);
+  getQuestionByTrade(tradeId, groupId) {
+    return this.httpClient.get<Question[]>(this.REST_API_SERVER + `/question/question/${tradeId}/${groupId}`);
+
   }
 
-  getAllUsers(){
-    return this.httpClient.get<UserView[]>(this.REST_API_SERVER+'/user/getAllusers');
+  getContractorsList() {
+    return this.httpClient.get<ContractorData[]>(this.REST_API_SERVER + `/getContractors/`);
+  }
+  getContractorsById(id) {
+    return this.httpClient.get<ContractorData[]>(this.REST_API_SERVER + `/contractor/107`);
   }
 
-  getAllFirstNotes()
-  {
-    return this.httpClient.get<FirstNote[]>(this.REST_API_SERVER+'/getfirstNotes')
+  getAllUsers() {
+    return this.httpClient.get<UserView[]>(this.REST_API_SERVER + '/user/getAllusers');
   }
 
-  getAllRegions()
-  {
+  getAllFirstNotes() {
+    return this.httpClient.get<FirstNote[]>(this.REST_API_SERVER + '/getfirstNotes')
+  }
+
+  getAllRegions() {
     return this.httpClient.get<RegionList[]>(`${this.REST_API_SERVER}/getRegions`)
   }
 
-  getAllCycleOfInspection()
-  {
+  getAllCycleOfInspection() {
     return this.httpClient.get<CycleOfInspection[]>(`${this.REST_API_SERVER}/getCycleOfInspections`)
   }
 
-  getNcClosedSAReport(region, project, cycle, trade, status)
-  {
+  getNcClosedSAReport(region, project, cycle, trade, status) {
     return this.httpClient.get<CycleOfInspection[]>(`${this.REST_API_SERVER}/getCycleOfInspections`)
 
   }
 
 
   //USer log
-  getUserLogData(id){
+  getUserLogData(id) {
     return this.httpClient.get<UserLogDataView[]>(`${this.REST_API_SERVER}/getCountViews/${id}`)
 
   }
 
-  getUserLogAnswers(data): Observable<CommonService>{
+  getUserLogAnswers(data): Observable<CommonService> {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/getarrayy`, data);
-    
+
   }
 
-  addCheckList(data): Observable<CommonService>{
+  //CHECKLIST API CALL
+  addCheckList(data): Observable<CommonService> {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/checklist/adddatalist`, data);
-    
+  }
+
+  getCheckList(id){
+    return this.httpClient.get<ChecklistData>(`${this.REST_API_SERVER}/checklist/checklist/${id}`)
+  }
+
+  updateChecklist(data, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/checklist/updatebychecklistid/${id}`, data)
   }
 
 
   //REPORT API CALL
   //NC COUNT API CALL
-getNcCountReports(){
-  return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getAllnccount`)
-}
+  getNcCountReports() {
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getAllnccount`)
+  }
 
-  createNcCountReport(data): Observable<CommonService>{
+  createNcCountReport(data): Observable<CommonService> {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/NcCount`, data)
   }
 
-  retirveNcCountReport(id){
+  retirveNcCountReport(id) {
     return this.httpClient.get<NcCountReportData>(`${this.REST_API_SERVER}/NcCount/${id}`)
   }
 
-  updateNcCountReport(data, id){
+  updateNcCountReport(data, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/NcCount/${id}`, data)
   }
 
   //QUALITY INDEX REPORT
-  getAllQualityIndexReport(){
+  getAllQualityIndexReport() {
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
   }
-  createQualityIndexReport(data): Observable<CommonService>{
+  createQualityIndexReport(data): Observable<CommonService> {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/QualityIndex/addQualityIndex`, data)
   }
 
-  retriveQualityIndexReport(id){
+  retriveQualityIndexReport(id) {
     return this.httpClient.get<QualityIndexReport>(`${this.REST_API_SERVER}/QualityIndex/QualityIndexx/${id}`)
   }
 
-  updateQualityINdexReport(data, id){
+  updateQualityINdexReport(data, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/QualityIndex/QualityIndex/${id}`, data)
   }
-  
+
 
   //NEW API FOR STRUCURES AND STAGE GET
-  getStructureByProjectId(id){
+  getStructureByProjectId(id) {
     return this.httpClient.get<StructureData[]>(`${this.REST_API_SERVER}/structure/getSelectedStructure/${id}`)
   }
 
-  getStagesByStructureId(id){
+  getStagesByStructureId(id) {
     return this.httpClient.get<StageData[]>(`${this.REST_API_SERVER}/stage/getstagebystructure/${id}`)
 
   }
 
-  
+
 
   //INSPECTION REPORT CRUD API CALL
-  createInspectionReport(data):Observable<CommonService>{
-    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addminspectrep`,data)
+  createInspectionReport(data): Observable<CommonService> {
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addminspectrep`, data)
   }
 
-  retriveInspectionReport(id){
+  retriveInspectionReport(id) {
     return this.httpClient.get<InspectionReport>(`${this.REST_API_SERVER}/getInspectDataByReportId/${id}`)
   }
 
-  updateInspectionReport(data, id){
+  updateInspectionReport(data, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/updateminspectrep/${id}`, data)
   }
-  
 
 
-//SANGGING REPORT
-  createSnaggingReport(data): Observable<CommonService>{
+
+  //SANGGING REPORT
+  createSnaggingReport(data): Observable<CommonService> {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addSnaggingMul`, data)
   }
 
-  getSnaggingReport(id){
+  getSnaggingReport(id) {
     return this.httpClient.get<SnaggingReportView>(`${this.REST_API_SERVER}/getSnaggingMul/${id}`)
   }
 
-  updateSnaggingReport(data, id){
+  updateSnaggingReport(data, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/updateSnaggingMul/${id}`, data)
   }
 
@@ -254,7 +258,7 @@ getNcCountReports(){
   private message = new BehaviorSubject(this.oldMessage)
   getMessage = this.message.asObservable();
 
-  setMessage(message:string){
+  setMessage(message: string) {
     this.message.next(message)
   }
 
@@ -343,11 +347,18 @@ getNcCountReports(){
           contractor: "45",
           staff: "131",
           allocatedArea: [
-            "118987",
-            "118986",
-            "118988",
-            "118989",
-            "118990"
+            {
+              "stageId": 118986,
+              "stageName": "Floor 1"
+            },
+            {
+              "stageId": 116486,
+              "stageName": "Floor 2"
+            },
+            {
+              "stageId": 648986,
+              "stageName": "Floor 3"
+            },
           ]
         },
         {
@@ -358,10 +369,22 @@ getNcCountReports(){
           contractor: "45",
           staff: "131",
           allocatedArea: [
-            "118992",
-            "118993",
-            "118994",
-            "118995"
+            {
+              "stageId": 1986,
+              "stageName": "Floor 4"
+            },
+            {
+              "stageId": 1486,
+              "stageName": "Floor 5"
+            },
+            {
+              "stageId": 69865,
+              "stageName": "Floor 6"
+            },
+            {
+              "stageId": 6986,
+              "stageName": "Floor 7"
+            },
           ]
         },
         {
@@ -372,12 +395,15 @@ getNcCountReports(){
           contractor: "31",
           staff: "131",
           allocatedArea: [
-            "118995",
-            "118996",
-            "118997",
-            "118999",
-            "119000",
-            "119001"
+            {
+              "stageId": 19866,
+              "stageName": "Besment 1"
+            },
+            {
+              "stageId": 14864,
+              "stageName": "Besment 2"
+            },
+            
           ]
         },
         {
@@ -388,16 +414,19 @@ getNcCountReports(){
           contractor: "31",
           staff: "131",
           allocatedArea: [
-            "118999",
-            "119000",
-            "122910",
-            "125928",
-            "161796",
-            "131236",
-            "131723",
-            "161796",
-            "131796",
-            "191776",
+            {
+              "stageId": 1986,
+              "stageName": "Floor 8"
+            },
+            {
+              "stageId": 1464,
+              "stageName": "Floor 9"
+            },
+            {
+              "stageId": 19486,
+              "stageName": "Floor 10"
+            },
+            
           ]
         }
       ]
@@ -411,12 +440,12 @@ getNcCountReports(){
   // private stepData = new BehaviorSubject(this.test)
   private stepData = new BehaviorSubject(this.test)
   getSamplingStepData = this.stepData.asObservable();
-  
-  setSamplingStepData(stepData: StepTrackerData){
+
+  setSamplingStepData(stepData: StepTrackerData) {
     this.stepData.next(stepData)
 
   }
 
- 
+
 
 }

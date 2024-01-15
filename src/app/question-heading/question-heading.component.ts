@@ -70,10 +70,10 @@ export class QuestionHeadingComponent implements OnInit {
     let isDelete = confirm('Are you sure to delete ?')
     if(isDelete)
     {
-      this.tradeMaintanceService.deleteQuestionHeading(id)
+      this.tradeMaintanceService.deactivateQuestionHeding(id)
       .subscribe(
         data => {
-          console.log('deleted')
+          console.log('Deactivated')
           location.reload()
         },
         err => console.log(err)

@@ -272,7 +272,7 @@
                     
                     <td *ngIf="step2formRenderData[tg.id].length">
                       <span class="add-stages" *ngFor="let t of step2formRenderData[tg.id]">
-                        {{allocatedarea[t.tradeId] ? allocatedarea[t.tradeId].length : 0}}
+                        {{step2workArea[t.tradeId] ? step2workArea[t.tradeId].length : 0}}
                         <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
                           [attr.data-target]="'#step2Add-stage_'+t.tradeId">+</button>
 

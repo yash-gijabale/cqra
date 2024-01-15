@@ -90,13 +90,16 @@
               <tr *ngFor="let t of testTG">
                 <td>{{t.tradegroupName}}</td>
                 <td style="width: 10%;">
-                  <span class="trades" *ngFor="let trade of testTrade[t.id]" [attr.title]="trade.tradeId">{{trade.tradeNane}}</span>
+                  <span class="trades" *ngFor="let trade of testTrade[t.id]"
+                    [attr.title]="trade.tradeId">{{trade.tradeNane}}</span>
                 </td>
                 <td>
-                  <span *ngFor="let trade of testTrade[t.id]">{{stageData[trade.tradeId] && stageData[trade.tradeId][0]}}</span>
+                  <span *ngFor="let trade of testTrade[t.id]">{{stageData[trade.tradeId] &&
+                    stageData[trade.tradeId][0].stageName}}</span>
                 </td>
                 <td>
-                  <span *ngFor="let trade of testTrade[t.id]">{{stageData[trade.tradeId] && stageData[trade.tradeId][stageData[trade.tradeId].length- 1]}}</span>
+                  <span *ngFor="let trade of testTrade[t.id]">{{stageData[trade.tradeId] &&
+                    stageData[trade.tradeId][stageData[trade.tradeId].length- 1].stageName}}</span>
                 </td>
                 <td>
                   <span *ngFor="let trade of testTrade[t.id]" class="btn-span">
@@ -105,12 +108,15 @@
                   </span>
                 </td>
                 <td style="width: 5%;">
-                  <span [class]="'percentageCount_'+trade.tradeId" [attr.title]="persentageData[trade.tradeId]" *ngFor="let trade of testTrade[t.id]">{{persentageData[trade.tradeId]+' %'}}</span>
+                  <span [class]="'percentageCount_'+trade.tradeId" [attr.title]="persentageData[trade.tradeId]"
+                    *ngFor="let trade of testTrade[t.id]">{{persentageData[trade.tradeId]+' %'}}</span>
                 </td>
                 <td>
                   <span *ngFor="let trade of testTrade[t.id]" class="btn-span">
-                    <button type="button" class="btn btn-sm btn-primary h-2 py-0" (click)="addPersentage(trade.tradeId)">+</button>
-                    <button type="button" class="btn btn-sm btn-warning h-2" (click)="lessPersentage(trade.tradeId)">-</button>
+                    <button type="button" class="btn btn-sm btn-primary h-2 py-0"
+                      (click)="addPersentage(trade.tradeId)">+</button>
+                    <button type="button" class="btn btn-sm btn-warning h-2"
+                      (click)="lessPersentage(trade.tradeId)">-</button>
                   </span>
                 </td>
                 <td style="width: 5%;">
@@ -118,11 +124,16 @@
                 </td>
                 <td style="width: 5%;">
                   <span *ngFor="let trade of testTrade[t.id]">
-                    <button type="button" class="btn btn-sm btn-secondary p-0 m-0" (click)="getRandomStage(trade.tradeId)">Get Random</button>
+                    <button type="button" class="btn btn-sm btn-secondary p-0 m-0"
+                      (click)="getRandomStage(trade.tradeId)">Get Random</button>
                   </span>
                 </td>
                 <td tyle="width: 20%;">
-                  <span *ngFor="let trade of testTrade[t.id]">{{randomSampledArea[trade.tradeId] ? randomSampledArea[trade.tradeId] : '' }}</span>
+                  <span *ngFor="let trade of testTrade[t.id]">
+                    <div class="floor-list" *ngIf="randomSampledArea[trade.tradeId]">
+                      <h6 *ngFor="let stage of randomSampledArea[trade.tradeId]">{{stage.stageName}}</h6>
+                    </div>
+                  </span>
                 </td>
               </tr>
             </tbody>

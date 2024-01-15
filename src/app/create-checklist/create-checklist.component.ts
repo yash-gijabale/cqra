@@ -15,6 +15,18 @@ import {
   transferArrayItem,
 } from "@angular/cdk/drag-drop";
 import { CommonService } from "../common.service";
+import { first } from "rxjs/operators";
+
+
+export class ChecklistData {
+  constructor(
+    public checklistMasterId: Number,
+    public subgroupId: Number,
+    public tradeId: Number,
+    public checklistName: String,
+    public actDea: Number
+  ) { }
+}
 
 export class checklistFormTemp {
   constructor(
@@ -65,6 +77,8 @@ export class CreateChecklistComponent implements OnInit {
   // finalCheckList = FinalCheckList[];
   submitted = false;
   tradeId: String = "0"
+
+  checkListId: Number
 
   constructor(
     private route: ActivatedRoute,
@@ -139,6 +153,27 @@ export class CreateChecklistComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.checkListId = this.route.snapshot.params['id']
+
+    if (this.checkListId != -1) {
+      this.commonService.getCheckList(this.checkListId)
+        .pipe(first())
+        .subscribe(data => {
+          console.log('retrive checlist-->', data)
+          let formData = {
+            fkTradeId: data.tradeId,
+            fkSubgroupId: data.subgroupId,
+            checklistName: data.checklistName
+          }
+          this.tradeMaintanceService.getSubgroupsByTrades(data.tradeId).subscribe(data => this.subgroups = data)
+
+          this.commonService.getQuestionByTrade(data.tradeId, data.subgroupId).subscribe(data => this.renderQuestions(data));
+          this.registerForm.patchValue(formData)
+        })
+
+    }
+
     this.tradeMaintanceService.getAllTrades().subscribe(
       (data) => {
         console.log("----> office Trdae : get all data", data);
@@ -148,22 +183,6 @@ export class CreateChecklistComponent implements OnInit {
         console.log("-----> err", err);
       }
     );
-
-    // this.clientServiceService.getAllClients().subscribe(
-    //   (data) => {
-    //     console.log("----> office service : get all data", data);
-    //     this.clients = data;
-    //   },
-    //   (err) => {
-    //     console.log("-----> err", err);
-    //   }
-    // );
-
-    // this.tradeMaintanceService.getAllSubgroups()
-    //   .subscribe(data => {
-    //     console.log('subgroups', data);
-    //     this.subgroups = data;
-    //   })
 
     this.registerForm = this.formBuilder.group({
       fkTradeId: ["", Validators.required],
@@ -195,51 +214,7 @@ export class CreateChecklistComponent implements OnInit {
     this.commonService.getQuestionByTrade(getForm.fkTradeId, getForm.fkSubgroupId).subscribe(
       // this.commonService.getQuestionByTrade(118, 222).subscribe(
       (data) => {
-        // this.structures= data;
-        this.questionList2 = data;
-        console.log(data)
-
-        this.questionList2.forEach((question) => {
-          if (this.questionGroup.length == 0) {
-            if (this.questionList2.length != 0) {
-              let newArr = {
-                subgroupId: this.questionList2[0].subgroupId,
-                questions: [
-                  {
-                    questionId: this.questionList2[0].questionId,
-                    questionText: this.questionList2[0].questionText,
-                  },
-                ],
-              };
-              this.questionGroup.push(newArr);
-            }
-          } else {
-            let found = this.questionGroup.find(function (element) {
-              return element.subgroupId == question.subgroupId;
-            });
-            if (found) {
-              let neqQ = {
-                questionId: question.questionId,
-                questionText: question.questionText,
-              };
-              found.questions.push(neqQ);
-            } else {
-              let newG = {
-                subgroupId: question.subgroupId,
-                questions: [
-                  {
-                    questionId: question.questionId,
-                    questionText: question.questionText,
-                  },
-                ],
-              };
-              this.questionGroup.push(newG);
-            }
-          }
-        });
-        // console.log(this.questionGroup);
-
-        // console.log("checklist questions Data==", this.questionList2);
+        this.renderQuestions(data)
       },
       (err) => {
         console.log("-----> err", err);
@@ -254,11 +229,64 @@ export class CreateChecklistComponent implements OnInit {
     }
     console.log(finalCheckList)
     // console.log(JSON.stringify(finalCheckList));
-    this.commonService.addCheckList(finalCheckList)
-      .subscribe(
-        data => console.log(data),
-        err => console.log(err)
-      )
+    if (this.checkListId != -1) {
 
+      this.commonService.updateChecklist(finalCheckList, this.checkListId)
+      .subscribe(data => {
+        console.log('checklist updated', data)
+      })
+    } else {
+
+      this.commonService.addCheckList(finalCheckList)
+        .subscribe(
+          data => console.log(data),
+          err => console.log(err)
+        )
+    }
+
+  }
+
+  renderQuestions(data) {
+    this.questionList2 = data;
+    console.log(data)
+
+    this.questionList2.forEach((question) => {
+      if (this.questionGroup.length == 0) {
+        if (this.questionList2.length != 0) {
+          let newArr = {
+            subgroupId: this.questionList2[0].subgroupId,
+            questions: [
+              {
+                questionId: this.questionList2[0].questionId,
+                questionText: this.questionList2[0].questionText,
+              },
+            ],
+          };
+          this.questionGroup.push(newArr);
+        }
+      } else {
+        let found = this.questionGroup.find(function (element) {
+          return element.subgroupId == question.subgroupId;
+        });
+        if (found) {
+          let neqQ = {
+            questionId: question.questionId,
+            questionText: question.questionText,
+          };
+          found.questions.push(neqQ);
+        } else {
+          let newG = {
+            subgroupId: question.subgroupId,
+            questions: [
+              {
+                questionId: question.questionId,
+                questionText: question.questionText,
+              },
+            ],
+          };
+          this.questionGroup.push(newG);
+        }
+      }
+    });
   }
 }

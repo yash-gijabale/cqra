@@ -7,6 +7,9 @@ import { UserService } from '../service/user.service';
 import { ClientData } from '../client/client.component';
 import { RegionView } from '../add-region/add-region.component';
 import { RoleView } from '../add-role/add-role.component';
+import { CommonService } from '../common.service';
+import { data } from 'jquery';
+import { forEach } from '@angular/router/src/utils/collection';
 // import {FormControl} from '@angular/forms';
 
 @Component({
@@ -34,12 +37,15 @@ export class CreateUserComponent implements OnInit {
   regions: RegionView
   roles: RoleView
 
+  representator = []
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private clientServiceService: ClientServiceService,
-    private userService: UserService
+    private userService: UserService,
+    private commonService: CommonService
   ) { }
 
   ngOnInit() {
@@ -49,8 +55,13 @@ export class CreateUserComponent implements OnInit {
     this.userService.getAllRegions().subscribe(data => this.regions = data)
     this.userService.getAllRoles().subscribe(data => this.roles = data)
 
-    this.clientServiceService.getAllClients()
-      .subscribe(data => this.clients = data)
+    if(this.representingType == 1){
+      this.clientServiceService.getAllClients()
+      .subscribe(data => {
+        this.clients = data
+        this.clientDataToRepresentator(data)
+      })
+    }
 
     if (this.id != -1) {
       this.userService.retriveUser(this.id)
@@ -139,7 +150,67 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.showCadre = false
     }
+
+    let letter: Number = this.representingType
+    switch (Number(letter)) {
+      // console.log()
+      case 3:
+        this.commonService.getAllContractors().subscribe(data => {
+          console.log('contractors-->', data)
+          this.contractorDataToRepresentator(data)
+        })
+        break;
+
+      case 4:
+        this.clientServiceService.getAllPmcs().subscribe(data => {
+          console.log('PMC-->', data)
+          this.pmcDataToRepresentator(data)
+        })
+        break;
+
+      default:
+        this.clientServiceService.getAllClients().subscribe(data => {
+          console.log('clients-->', data)
+          this.clientDataToRepresentator(data)
+        })
+        break;
+    }
+
     console.log(this.showCadre)
+  }
+
+
+  contractorDataToRepresentator(data){
+    this.representator = []
+      data.forEach(item =>{
+        let contractor = {
+          id: item.contractorId,
+          name: item.contractorName
+        }
+        this.representator.push(contractor)
+      })
+  }
+
+  pmcDataToRepresentator(data){
+    this.representator = []
+      data.forEach(item =>{
+        let pmc = {
+          id: item.pmcId,
+          name: item.pmcName
+        }
+        this.representator.push(pmc)
+      })
+  }
+
+  clientDataToRepresentator(data){
+    this.representator = []
+      data.forEach(item =>{
+        let client = {
+          id: item.clientId,
+          name: item.clientName
+        }
+        this.representator.push(client)
+      })
   }
 
 }

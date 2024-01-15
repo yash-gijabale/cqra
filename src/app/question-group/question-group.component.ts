@@ -70,10 +70,10 @@ export class QuestionGroupComponent implements OnInit {
   deActivate(id) {
     let isDelete = confirm('Are you sure want to delete ?')
     if (isDelete) {
-      this.tradeMaintanceService.deleteQuetionGroup(id)
+      this.tradeMaintanceService.deactivateQuestionGroup(id)
         .subscribe(
           (data) => {
-            console.log('deleted')
+            console.log('Deactivated')
             location.reload()
           },
           (err) => console.log(err)

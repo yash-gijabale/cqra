@@ -28,7 +28,7 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
               <label>Client Name</label>
-              <select  [(ngModel)]="SelClientId" class="form-control" formControlName="clientId"  > 
+              <select  [(ngModel)]="SelClientId" class="form-control" formControlName="clientId" (change)="getProject()" > 
                 <option  [value]="0">Please Select</option>
                 <option [value]="o.clientId" *ngFor="let o of clients">
                    {{o.clientName}}
@@ -40,49 +40,49 @@
             </div>
             <div class="form-group">
               <label>Project Name</label>
-              <select  [(ngModel)]="SelProject" class="form-control" formControlName="selProject"  > 
+              <select class="form-control" formControlName="projectId"  > 
                 <option  [value]="0">Please Select</option>
-                <option [value]="o.selProject" *ngFor="let o of clients">
-                   {{o.clientName}}
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                   {{project.projectName}}
                 </option>
             </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                  <div *ngIf="f.selProject.errors.required">Client Name is required</div>
+              <div *ngIf="submitted && f.projectId.errors" class="invalid-feedback">
+                  <div *ngIf="f.projectId.errors.required">Project is required</div>
               </div>
             </div>
             <div class="form-group">
                 <label>Month</label>
-                <input type="date" formControlName="projectCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectCode.errors }" />
-                <div *ngIf="submitted && f.projectCode.errors" class="invalid-feedback">
-                    <div *ngIf="f.projectCode.errors.required">Project Code is required</div>
+                <input type="month" formControlName="month" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.month.errors }" />
+                <div *ngIf="submitted && f.month.errors" class="invalid-feedback">
+                    <div *ngIf="f.month.errors.required">Month is required</div>
                 </div>
             </div>
             <div class="form-group">
                 <label>Index(Out of 10) </label>
-                <input type="text" formControlName="projectAddress" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectAddress.errors }" />
-                <div *ngIf="submitted && f.projectAddress.errors" class="invalid-feedback">
-                    <div *ngIf="f.projectAddress.errors.required">Address is required</div>
+                <input type="text" formControlName="index" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.index.errors }" />
+                <div *ngIf="submitted && f.index.errors" class="invalid-feedback">
+                    <div *ngIf="f.index.errors.required">Index is required</div>
                 </div>
             </div>
             <div class="form-group">
               <label>Review of Work</label>
-              <input type="text" formControlName="projectCity" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectCity.errors }" />
-              <div *ngIf="submitted && f.projectCity.errors" class="invalid-feedback">
-                  <div *ngIf="f.projectCity.errors.required">Project City is required</div>
+              <input type="text" formControlName="reviewOfWork" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.reviewOfWork.errors }" />
+              <div *ngIf="submitted && f.reviewOfWork.errors" class="invalid-feedback">
+                  <div *ngIf="f.reviewOfWork.errors.required">Project City is required</div>
               </div>
           </div>
             <div class="form-group">
                 <label>Project Image1</label>
-                <input type="file" formControlName="projectKValue" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectKValue.errors }" />
-                <div *ngIf="submitted && f.projectKValue.errors" class="invalid-feedback">
-                    <div *ngIf="f.projectKValue.errors.required">K value is required</div>
+                <input type="file" formControlName="image1" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.image1.errors }" />
+                <div *ngIf="submitted && f.image1.errors" class="invalid-feedback">
+                    <div *ngIf="f.image1.errors.required">K value is required</div>
                 </div>
             </div>
             <div class="form-group">
               <label>Project Image2</label>
-              <input type="file" formControlName="projectRegionalManagerId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.projectRegionalManagerId.errors }" />
-              <div *ngIf="submitted && f.projectRegionalManagerId.errors" class="invalid-feedback">
-                  <div *ngIf="f.projectRegionalManagerId.errors.required">Regional Manager is required</div>
+              <input type="file" formControlName="image2" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.image2.errors }" />
+              <div *ngIf="submitted && f.image2.errors" class="invalid-feedback">
+                  <div *ngIf="f.image2.errors.required">Regional Manager is required</div>
               </div>
           </div>
           
