@@ -344,8 +344,11 @@ export class CommonService {
           structureId: "2508",
           tradeId: 23,
           status: "118991",
+          samplingType: 2,
           contractor: "45",
+          contractorName: "Test",
           staff: "131",
+          staffName: "tets",
           allocatedArea: [
             {
               "stageId": 118986,
@@ -366,8 +369,11 @@ export class CommonService {
           structureId: "2508",
           tradeId: 24,
           status: "118996",
+          samplingType: 1,
           contractor: "45",
+          contractorName: "Test",
           staff: "131",
+          staffName: "tets",
           allocatedArea: [
             {
               "stageId": 1986,
@@ -392,8 +398,11 @@ export class CommonService {
           structureId: "2508",
           tradeId: 56,
           status: "118997",
+          samplingType: 1,
           contractor: "31",
+          contractorName: "Test2",
           staff: "131",
+          staffName: "tets",
           allocatedArea: [
             {
               "stageId": 19866,
@@ -411,8 +420,11 @@ export class CommonService {
           structureId: "2508",
           tradeId: 57,
           status: "118997",
+          samplingType: 1,
           contractor: "31",
+          contractorName: "Test 2",
           staff: "131",
+          staffName: "tets",
           allocatedArea: [
             {
               "stageId": 1986,

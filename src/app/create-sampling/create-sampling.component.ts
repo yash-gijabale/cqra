@@ -430,11 +430,11 @@ export class CreateSamplingComponent implements OnInit {
       }
 
       newformData.push({
-        ...data, 
+        ...data,
         workArea: this.workArea[item] ? this.workArea[item] : [],
       })
 
-      samplingStepFirstSubmitData.push({...data, samplingType: this.samplingType})
+      samplingStepFirstSubmitData.push({ ...data, samplingType: this.samplingType })
 
     })
 
@@ -445,10 +445,10 @@ export class CreateSamplingComponent implements OnInit {
     // console.log('wokr area-->', this.workArea)
 
     //Submiting step fist data to backend
-    // this.clientService.addSamplingStepFirst(samplingStepFirstSubmitData)
-    // .subscribe(data =>{
-    //   console.log('Step 1 data Added-->', data)
-    // })
+    this.clientService.addSamplingStepFirst(samplingStepFirstSubmitData)
+      .subscribe(data => {
+        console.log('Step 1 data Added-->', data)
+      })
 
 
     this.steptracker.step2.status = true
@@ -536,6 +536,8 @@ export class CreateSamplingComponent implements OnInit {
     let stautsSelect = document.querySelectorAll('.step2Tradename')
     this.tradeIds = []
     let newformData = []
+    let samplingStepFirstSubmitData = []
+
     stautsSelect.forEach((item) => {
       this.tradeIds.push(Number((<HTMLSpanElement>item).title))
     })
@@ -554,24 +556,34 @@ export class CreateSamplingComponent implements OnInit {
         workAreaWithName.push(workAreaName)
       })
 
-      newformData.push(
-        {
-          projectId: this.SelProject,
-          structureId: this.SelStructure,
-          tradeId: item,
-          status: (<HTMLSelectElement>statusValue).value,
-          contractor: (<HTMLSelectElement>contractorValue).value,
-          staff: (<HTMLSelectElement>staffValue).value,
-          allocatedArea: this.step2workArea[item] ? this.step2workArea[item] : [],
-          workAreaWithName
-        })
+      let data = {
+        projectId: this.SelProject,
+        structureId: this.SelStructure,
+        tradeId: item,
+        status: (<HTMLSelectElement>statusValue).value,
+        contractor: (<HTMLSelectElement>contractorValue).value,
+        staff: (<HTMLSelectElement>staffValue).value,
+        workAreaWithName
+      }
+
+      newformData.push({
+        ...data,
+        allocatedArea: this.step2workArea[item] ? this.step2workArea[item] : [],
+      })
+
+      samplingStepFirstSubmitData.push({...data, samplingType:this.samplingType})
     })
     // console.log(newformData)
     this.steptracker.step2.data = newformData
-    console.log(this.steptracker)
+    console.log('sampling step 2-->',samplingStepFirstSubmitData)
+    this.clientService.addSamplingStepSecond(samplingStepFirstSubmitData)
+      .subscribe(data => {
+        console.log('Step 2 data Added-->', data)
+      })
 
     this.commanService.setSamplingStepData(this.steptracker)
     this.isThirdStep = true
+
 
     // this.steptracker.step2.status = true
     // if (this.steptracker.step2.status) {
@@ -579,6 +591,8 @@ export class CreateSamplingComponent implements OnInit {
     //   this.title = "step2"
     // }
   }
+
+
   step2workArea = {}
   addStep2WorkArea(e, tradeId) {
     if (!e.target.checked) {

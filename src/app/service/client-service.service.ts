@@ -395,6 +395,10 @@ export class ClientServiceService {
   addSamplingStepFirst(data) :Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulstep1`, data)
   }
+
+  addSamplingStepSecond(data) :Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulstep2`, data)
+  }
   //SAMPLED AREA API CALL
 
   //INSPECTION ACTIVITY NOT AVAILABALE API
@@ -671,7 +675,7 @@ export class ClientServiceService {
   }
 
   deactivateMisReport(id){
-    return this.httpClient.delete(`${this.REST_API_SERVER}/misReport/${}id`)
+    return this.httpClient.delete(`${this.REST_API_SERVER}/misReport/${id}`)
   }
 
   getAllMisReport(){

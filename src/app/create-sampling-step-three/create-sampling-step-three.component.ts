@@ -84,6 +84,14 @@ export class CreateSamplingStepThreeComponent implements OnInit {
   randomSampledArea = {}
   sampledUnitnumber = {}
 
+  type2step3data = {}
+  type2StageData = {}
+  type2PersentageData = {}
+  type2RandomSampledArea = {}
+  type2SampledUnitnumber = {}
+
+  samplingType = 1
+
   constructor(
     private commanService: CommonService,
     private ClientService: ClientServiceService,
@@ -94,6 +102,10 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     this.commanService.getSamplingStepData.subscribe(data => {
       this.step2Data = data.step2.data
       console.log(this.step2Data)
+      if (this.step2Data[0].samplingType === 2) {
+        this.samplingType = 2;
+        this.genarateDataForSamplingType2(this.step2Data)
+      }
     })
 
     this.ClientService.getAllProject()
@@ -154,6 +166,16 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     }
   }
 
+  type2addPersentage(contractorId, tradeId){
+    if (this.type2PersentageData[contractorId][tradeId] && this.type2PersentageData[contractorId][tradeId] < 100) {
+      this.type2PersentageData[contractorId][tradeId] += 5
+      let units = this.type2PersentageData[contractorId][tradeId] * this.type2StageData[contractorId][tradeId].length / 100
+      units < 1 ? units = 1 : units = Math.round(units)
+      this.type2SampledUnitnumber[contractorId][tradeId] = units
+      this.tradeTracker = 0
+    }
+  }
+
 
   lessPersentage(tradeId) {
     if (this.persentageData[tradeId] && this.persentageData[tradeId] > 5) {
@@ -161,8 +183,16 @@ export class CreateSamplingStepThreeComponent implements OnInit {
       units < 1 ? units = 1 : units = Math.round(units)
       this.sampledUnitnumber[tradeId] = units
       this.persentageData[tradeId] -= 5
-      this.tradeTracker = 0
 
+    }
+  }
+
+  type2lessPersentage(contractorId, tradeId){
+    if (this.type2PersentageData[contractorId][tradeId] && this.type2PersentageData[contractorId][tradeId] > 5) {
+      this.type2PersentageData[contractorId][tradeId] -= 5
+      let units = this.type2PersentageData[contractorId][tradeId] * this.type2StageData[contractorId][tradeId].length / 100
+      units < 1 ? units = 1 : units = Math.round(units)
+      this.type2SampledUnitnumber[contractorId][tradeId] = units
     }
   }
 
@@ -171,7 +201,7 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     let stageAreas = []
     this.allocatedArea = {}
     stageAreas = this.stageData[tradeId]
-    console.log('inital stages--',stageAreas)
+    console.log('inital stages--', stageAreas)
 
     let unit = this.sampledUnitnumber[tradeId]
 
@@ -184,86 +214,60 @@ export class CreateSamplingStepThreeComponent implements OnInit {
       this.allocatedArea[item.stageId] = item
     })
 
-    console.log('allocated area-->',this.allocatedArea)
+    console.log('allocated area-->', this.allocatedArea)
 
     let area = []
     for (let i = 1; i <= unit; i++) {
-        let keysArray = Object.keys(this.allocatedArea)
-        let randomKey = keysArray[Math.floor(Math.random() * keysArray.length)]
-        area.push(this.allocatedArea[randomKey])
-        delete this.allocatedArea[randomKey]
-      }
-    
-    console.log('random area-->',area)
+      let keysArray = Object.keys(this.allocatedArea)
+      let randomKey = keysArray[Math.floor(Math.random() * keysArray.length)]
+      area.push(this.allocatedArea[randomKey])
+      delete this.allocatedArea[randomKey]
+    }
+
+    console.log('random area-->', area)
 
     this.randomSampledArea[tradeId] = area
-      
-      console.log(this.randomSampledArea)
 
-    //single click random
-    // let randomStage = this.stageAreas[Math.floor(Math.random() * this.stageAreas.length)]
-    // if (!this.allocatedArea[tradeId]) {
-    //   this.allocatedArea[tradeId] = []
-    //   this.allocatedArea[tradeId].push(randomStage)
-
-    //   this.stageAreas = this.stageAreas.filter(stage => {
-    //     return stage.stageId != randomStage.stageId
-    //   })
-    // }
-
-    // let isExist = this.allocatedArea[tradeId] && this.allocatedArea[tradeId].find(stage => {
-    //   return stage.stageId === randomStage.stageId ? true : false
-    // })
-    // if (!isExist) {
-    //   if (unit > this.allocatedArea[tradeId].length) {
-    //     this.allocatedArea[tradeId].push(randomStage)
-    //     this.stageAreas = this.stageAreas.filter(stage => {
-    //       return stage.stageId != randomStage.stageId
-    //     })
-    //   }
-    // }
-    // console.log(randomStage)
-    // console.log('allocated atra random', this.allocatedArea)
-    // this.randomSampledArea = this.allocatedArea
-
-
-
-    // if (this.tradeTracker != tradeId) {
-    //   this.tradeTracker = tradeId
-    //   let areas = this.stageData[tradeId]
-    //   this.allocatedArea = {}
-    //   areas.forEach(area => {
-    //     this.allocatedArea[area.stageId] = area
-    //   })
-    //   console.log('new')
-    // }
-
-    // console.log(this.allocatedArea)
-    // // return
-
-    // let unit = this.sampledUnitnumber[tradeId]
-
-    // //if unit number and total flats are same then return same object of falts
-    // if (unit === this.stageData[tradeId].length) {
-    //   console.log(this.stageData[tradeId])
-    //   this.randomSampledArea = this.stageData[tradeId]
-    //   return
-    // }
-
-
-    // let area = []
-    // for (let i = 1; i <= unit; i++) {
-    //   let keysArray = Object.keys(this.allocatedArea)
-    //   let randomKey = keysArray[Math.floor(Math.random() * keysArray.length)]
-    //   area.push(this.allocatedArea[randomKey])
-    //   delete this.allocatedArea[randomKey]
-    // }
-    // this.randomSampledArea[tradeId] = area
-    // console.log(this.randomSampledArea)
-
+    console.log(this.randomSampledArea)
 
   }
 
+  type2GetRandomStage(contractorId, tradeId) {
+    let stageAreas = []
+    let allocatedArea = {}
+    stageAreas = this.type2StageData[contractorId][tradeId]
+    console.log('inital stages--', stageAreas)
+
+    let unit = this.type2SampledUnitnumber[contractorId][tradeId]
+
+    if (unit === this.type2StageData[contractorId][tradeId].length) {
+      this.type2RandomSampledArea[contractorId][tradeId] = this.type2StageData[contractorId][tradeId]
+      return
+    }
+    console.log('stages--.', stageAreas)
+    stageAreas.forEach(item => {
+      allocatedArea[item.stageId] = item
+    })
+
+    console.log('allocated area-->', allocatedArea)
+
+    let area = []
+    for (let i = 1; i <= unit; i++) {
+      let keysArray = Object.keys(allocatedArea)
+      let randomKey = keysArray[Math.floor(Math.random() * keysArray.length)]
+      area.push(allocatedArea[randomKey])
+      delete allocatedArea[randomKey]
+    }
+
+    console.log('random area-->', area )
+    let randomstages = {...this.type2RandomSampledArea[contractorId]}
+
+    randomstages[tradeId] = area 
+    this.type2RandomSampledArea[contractorId]= randomstages
+
+    console.log('type 2 random area-->',this.type2RandomSampledArea)
+
+  }
 
   submitStep3Data() {
     let stautsSelect = document.querySelectorAll('.trades')
@@ -292,5 +296,88 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     console.log(newformData)
   }
 
+
+  genarateDataForSamplingType2(samplingData) {
+    // let samplingData2 = []
+
+    let tempData = {}
+    samplingData.forEach(data => {
+
+      if (!tempData[data.contractor]) {
+        tempData[data.contractor] = {
+          contractorId: data.contractor,
+          contractorName: data.contractorName,
+          samplingData: [data]
+        }
+      } else {
+        tempData[data.contractor].samplingData.push(data)
+      }
+
+      // samplingData2.push(tempData)
+    })
+
+    console.log(tempData)
+    this.type2step3data = tempData
+
+    // for (const item in this.step2Data) {
+    //   let data = this.step2Data[item]
+    //   this.stageData[data.tradeId] = data.allocatedArea
+    //   this.persentageData[data.tradeId] = this.sampledUnitPersentage
+    // }
+
+    // for (const key in this.persentageData) {
+    //   let units = this.persentageData[key] * this.stageData[key].length / 100
+    //   units < 1 ? units = 1 : units = Math.round(units)
+    //   this.sampledUnitnumber[key] = units
+    // }
+    for (const key in tempData) {
+      samplingData = tempData[key].samplingData
+      let tradeData = {}
+      let persentageData = {}
+      samplingData.forEach(data => {
+        tradeData[data.tradeId] = data.allocatedArea
+        persentageData[data.tradeId] = this.sampledUnitPersentage
+      })
+
+      this.type2StageData[key] = tradeData
+      this.type2PersentageData[key] = persentageData
+    }
+
+
+    for (const contractor in this.type2PersentageData) {
+      let persentageTrade = this.type2PersentageData[contractor]
+      let sampleUnitNumber = {}
+      for (const trade in persentageTrade) {
+        let units = persentageTrade[trade] * this.type2StageData[contractor][trade].length / 100
+        units < 1 ? units = 1 : units = Math.round(units)
+        sampleUnitNumber[trade] = units
+      }
+
+      this.type2SampledUnitnumber[contractor] = sampleUnitNumber
+    }
+
+    console.log('type2 stage-->', this.type2StageData)
+    console.log('type2 persentage-->', this.type2PersentageData)
+    console.log('type2 sampled unit number-->', this.type2SampledUnitnumber)
+
+
+
+  }
+
+  Type2submitStep3Data(){
+    let contractorRow = document.querySelectorAll('.contractorId')
+    let contractorIds = []
+    let tradeRow = document.querySelectorAll('.type2trades')
+    let tradeIds = []
+    // let newformData = []
+    contractorRow.forEach((item) => {
+      contractorIds.push(Number((<HTMLSpanElement>item).title))
+    })
+    tradeRow.forEach((item) => {
+      tradeIds.push(Number((<HTMLSpanElement>item).title))
+    })
+    console.log(contractorIds)
+    console.log(tradeIds)
+  }
 
 }
