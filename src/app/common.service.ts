@@ -344,7 +344,7 @@ export class CommonService {
           structureId: "2508",
           tradeId: 23,
           status: "118991",
-          samplingType: 2,
+          samplingType: 1,
           contractor: "45",
           contractorName: "Test",
           staff: "131",

@@ -48,7 +48,7 @@
 
           <div class="form-group">
             <label>Cycle of Inspection</label>
-            <select class="form-control" [(ngModel)]="Selcycle">
+            <select [(ngModel)]="Selcycle" class="form-control">
               <option [value]="0">Please Select</option>
               <option [value]="o.cycle_id" *ngFor="let o of cycles">
                 {{o.cycle_name}}
@@ -151,6 +151,7 @@
         <ng-template #elseBlock>
           <div class="table" *ngFor="let data of type2step3data | keyvalue">
             <h2 class="contractorId" [attr.title]="data.key">{{data.value.contractorName}}</h2>
+            <input type="hidden" [id]="'staffId_'+data.key" [value]="data.value.staffId">
             <table>
               <thead>
                 <!-- <th>Group Name</th> -->

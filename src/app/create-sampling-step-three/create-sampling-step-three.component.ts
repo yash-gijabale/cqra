@@ -5,6 +5,7 @@ import { StructureData } from '../wbs/wbs.component';
 import { ClientServiceService } from '../service/client-service.service';
 import { CycleOfInspection } from '../ncclosure-sa/ncclosure-sa.component';
 import { forEach } from '@angular/router/src/utils/collection';
+import { ActivatedRoute } from '@angular/router';
 
 class Steps {
   constructor(
@@ -44,37 +45,37 @@ export class CreateSamplingStepThreeComponent implements OnInit {
   step2Data = {}
 
   testTG = [
-    {
-      id: 1,
-      tradegroupName: 'test 1'
-    },
-    {
-      id: 2,
-      tradegroupName: 'test 2'
-    },
+    // {
+    //   id: 1,
+    //   tradegroupName: 'test 1'
+    // },
+    // {
+    //   id: 2,
+    //   tradegroupName: 'test 2'
+    // },
   ]
 
   testTrade = {
-    1: [
-      {
-        tradeId: 23,
-        tradeNane: 'trade 1'
-      },
-      {
-        tradeId: 24,
-        tradeNane: 'trade 2'
-      }
-    ],
-    2: [
-      {
-        tradeId: 56,
-        tradeNane: 'trade 56'
-      },
-      {
-        tradeId: 57,
-        tradeNane: 'trade 57'
-      },
-    ],
+    // 1: [
+    //   {
+    //     tradeId: 23,
+    //     tradeNane: 'trade 1'
+    //   },
+    //   {
+    //     tradeId: 24,
+    //     tradeNane: 'trade 2'
+    //   }
+    // ],
+    // 2: [
+    //   {
+    //     tradeId: 56,
+    //     tradeNane: 'trade 56'
+    //   },
+    //   {
+    //     tradeId: 57,
+    //     tradeNane: 'trade 57'
+    //   },
+    // ],
 
   }
 
@@ -91,21 +92,49 @@ export class CreateSamplingStepThreeComponent implements OnInit {
   type2SampledUnitnumber = {}
 
   samplingType = 1
+  contractorId: number //assign if sampling type 1
+  staffId: number //assign if sampling type 1
 
   constructor(
     private commanService: CommonService,
     private ClientService: ClientServiceService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.commanService.getSamplingStepData.subscribe(data => {
-      this.step2Data = data.step2.data
+    this.SelProject = this.route.snapshot.params['id'];
+    this.SelStructure = this.route.snapshot.params['id2']
+    this.ClientService.getSamplingStep2Data(this.SelProject, this.SelStructure).subscribe(data => {
+      // this.step2Data = data
+      this.step2Data = this.convertStep2Data(data)
       console.log(this.step2Data)
       if (this.step2Data[0].samplingType === 2) {
         this.samplingType = 2;
         this.genarateDataForSamplingType2(this.step2Data)
       }
+
+      if (this.step2Data[0].samplingType === 1) {
+        this.contractorId = this.step2Data[0].contractor
+        this.staffId = this.step2Data[0].staff
+      }
+
+
+      for (const item in this.step2Data) {
+        let data = this.step2Data[item]
+        this.stageData[data.tradeId] = data.allocatedArea
+        this.persentageData[data.tradeId] = this.sampledUnitPersentage
+      }
+  
+      for (const key in this.persentageData) {
+        let units = this.persentageData[key] * this.stageData[key].length / 100
+        units < 1 ? units = 1 : units = Math.round(units)
+        this.sampledUnitnumber[key] = units
+      }
+      console.log(this.persentageData)
+      console.log(this.sampledUnitnumber)
+      console.log('stage data-->', this.stageData)
+
     })
 
     this.ClientService.getAllProject()
@@ -118,26 +147,18 @@ export class CreateSamplingStepThreeComponent implements OnInit {
       .subscribe(data => this.cycles = data)
 
 
+    this.ClientService.getTradesForSamplingStepSecond(this.SelProject)
+      .subscribe(data => {
+        console.log(data);
+        this.convertRowObjet(data)
+      })
     // for (const key in this.testTrade) {
     //   this.tradeIds.push(...this.testTrade[key])
     // }
 
     // console.log(this.tradeIds)
 
-    for (const item in this.step2Data) {
-      let data = this.step2Data[item]
-      this.stageData[data.tradeId] = data.allocatedArea
-      this.persentageData[data.tradeId] = this.sampledUnitPersentage
-    }
-
-    for (const key in this.persentageData) {
-      let units = this.persentageData[key] * this.stageData[key].length / 100
-      units < 1 ? units = 1 : units = Math.round(units)
-      this.sampledUnitnumber[key] = units
-    }
-    console.log(this.persentageData)
-    console.log(this.sampledUnitnumber)
-    console.log('stage data-->', this.stageData)
+    
 
   }
 
@@ -154,6 +175,80 @@ export class CreateSamplingStepThreeComponent implements OnInit {
         })
   }
 
+  convertRowObjet(data) {
+    let tradeGroupArray = []
+    let tradeObject = {}
+
+    data.forEach(item => {
+      if (tradeObject[item.tradeGroupId]) {
+        let tradeData = {
+          tradeId: item.tradeId,
+          tradeNane: item.tradeName
+        }
+
+        tradeObject[item.tradeGroupId].push(tradeData)
+      } else {
+
+        let tradeGroup = {
+          id: item.tradeGroupId,
+          tradegroupName: item.tradeGroupName
+        }
+
+        tradeGroupArray.push(tradeGroup)
+
+        tradeObject[item.tradeGroupId] = []
+        let tradeData = {
+          tradeId: item.tradeId,
+          tradeNane: item.tradeName
+        }
+        tradeObject[item.tradeGroupId].push(tradeData)
+      }
+    })
+    console.log(tradeObject)
+    this.testTG = tradeGroupArray
+    this.testTrade = tradeObject
+
+  }
+
+  convertStep2Data(data) {
+    let tempTradeData = {}
+
+    data.forEach(item => {
+      let stage = {
+        stageId: item.stageId,
+        stageName: item.stageName
+      }
+      if (!tempTradeData[item.tradeId]) {
+        tempTradeData[item.tradeId] = []
+        tempTradeData[item.tradeId].push(stage)
+      } else {
+
+        tempTradeData[item.tradeId].push(stage)
+      }
+    })
+
+    let step2data = []
+    data.forEach(item => {
+      let data = {
+        projectId: item.projectId,
+        structureId: item.structureId,
+        tradeId: item.tradeId,
+        status: item.status,
+        samplingType: Number(item.samplingType),
+        contractor: item.contractorId,
+        contractorName: item.contractorName,
+        staff: item.staff,
+        staffName: "tets",
+        allocatedArea: tempTradeData[item.tradeId]
+      }
+
+      step2data.push(data)
+    })
+
+    console.log('---->',step2data)
+    return step2data
+  }
+
   allocatedArea = {}
   tradeTracker = 0
   addPersentage(tradeId) {
@@ -166,7 +261,7 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     }
   }
 
-  type2addPersentage(contractorId, tradeId){
+  type2addPersentage(contractorId, tradeId) {
     if (this.type2PersentageData[contractorId][tradeId] && this.type2PersentageData[contractorId][tradeId] < 100) {
       this.type2PersentageData[contractorId][tradeId] += 5
       let units = this.type2PersentageData[contractorId][tradeId] * this.type2StageData[contractorId][tradeId].length / 100
@@ -187,7 +282,7 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     }
   }
 
-  type2lessPersentage(contractorId, tradeId){
+  type2lessPersentage(contractorId, tradeId) {
     if (this.type2PersentageData[contractorId][tradeId] && this.type2PersentageData[contractorId][tradeId] > 5) {
       this.type2PersentageData[contractorId][tradeId] -= 5
       let units = this.type2PersentageData[contractorId][tradeId] * this.type2StageData[contractorId][tradeId].length / 100
@@ -259,13 +354,13 @@ export class CreateSamplingStepThreeComponent implements OnInit {
       delete allocatedArea[randomKey]
     }
 
-    console.log('random area-->', area )
-    let randomstages = {...this.type2RandomSampledArea[contractorId]}
+    console.log('random area-->', area)
+    let randomstages = { ...this.type2RandomSampledArea[contractorId] }
 
-    randomstages[tradeId] = area 
-    this.type2RandomSampledArea[contractorId]= randomstages
+    randomstages[tradeId] = area
+    this.type2RandomSampledArea[contractorId] = randomstages
 
-    console.log('type 2 random area-->',this.type2RandomSampledArea)
+    console.log('type 2 random area-->', this.type2RandomSampledArea)
 
   }
 
@@ -282,18 +377,44 @@ export class CreateSamplingStepThreeComponent implements OnInit {
       let formdata = {
         projectId: this.SelProject,
         structureId: this.SelStructure,
-        cycleId: this.Selcycle,
+        cycleOfInspection: this.Selcycle,
+        contractorId: this.contractorId,
+        tradeId: trade,
+        staffId: this.staffId,
+        samplingType: this.samplingType,
         fromDate: this.fromDate,
         toDate: this.toDate,
         stageFrom: this.stageData[trade][0],
         stageTo: this.stageData[trade][this.stageData[trade].length - 1],
-        UnitPersentage: this.persentageData[trade],
-        randomStage: this.randomSampledArea[trade]
+        samplUnitPersentage: this.persentageData[trade],
+        sampledUnitnumber: this.sampledUnitnumber[trade],
+        randomStages: this.randomSampledArea[trade]
       }
       newformData.push(formdata)
     })
 
-    console.log(newformData)
+    // projectId: this.SelProject,
+    // structureId: this.SelStructure,
+    // fromDate: this.fromDate,
+    // toDate: this.toDate,
+    // cycleOfInspection: this.Selcycle,
+    // contractorId : contractor,
+    // staffId: (<HTMLInputElement>staffId).value,
+    // tradeId: trade,
+    // samplingType: this.samplingType,
+    // fromStage: this.type2StageData[contractor][trade][0],
+    // toStage: this.type2StageData[contractor][trade][this.type2StageData[contractor][trade].length - 1],
+    // samplUnitPersentage: this.type2PersentageData[contractor][trade],
+    // sampledUnitnumber: this.type2SampledUnitnumber[contractor][trade],
+    // randomStages: this.type2RandomSampledArea[contractor][trade]
+
+    let dataWrapper = {}
+    dataWrapper = {
+      clientWise: newformData,
+      contractorWise: null
+    }
+    console.log(dataWrapper)
+
   }
 
 
@@ -307,6 +428,7 @@ export class CreateSamplingStepThreeComponent implements OnInit {
         tempData[data.contractor] = {
           contractorId: data.contractor,
           contractorName: data.contractorName,
+          staffId: data.staff,
           samplingData: [data]
         }
       } else {
@@ -359,12 +481,13 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     console.log('type2 stage-->', this.type2StageData)
     console.log('type2 persentage-->', this.type2PersentageData)
     console.log('type2 sampled unit number-->', this.type2SampledUnitnumber)
+    console.log('type2 random area-->', this.type2RandomSampledArea)
 
 
 
   }
 
-  Type2submitStep3Data(){
+  Type2submitStep3Data() {
     let contractorRow = document.querySelectorAll('.contractorId')
     let contractorIds = []
     let tradeRow = document.querySelectorAll('.type2trades')
@@ -378,6 +501,46 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     })
     console.log(contractorIds)
     console.log(tradeIds)
+
+    let dataWrapper = {}
+
+    let contractorWiseData = []
+    contractorIds.forEach(contractor => {
+
+      let staffId = document.getElementById(`staffId_${contractor}`)
+      tradeIds.forEach(trade => {
+        if (this.type2PersentageData[contractor][trade]) {
+
+          let data = {
+            projectId: this.SelProject,
+            structureId: this.SelStructure,
+            fromDate: this.fromDate,
+            toDate: this.toDate,
+            cycleOfInspection: this.Selcycle,
+            contractorId: contractor,
+            staffId: (<HTMLInputElement>staffId).value,
+            tradeId: trade,
+            samplingType: this.samplingType,
+            fromStage: this.type2StageData[contractor][trade][0],
+            toStage: this.type2StageData[contractor][trade][this.type2StageData[contractor][trade].length - 1],
+            samplUnitPersentage: this.type2PersentageData[contractor][trade],
+            sampledUnitnumber: this.type2SampledUnitnumber[contractor][trade],
+            randomStages: this.type2RandomSampledArea[contractor][trade]
+          }
+
+          contractorWiseData.push(data)
+        }
+
+
+      })
+    })
+
+    dataWrapper = {
+      clientWise: null,
+      contractorWise: contractorWiseData
+    }
+
+    console.log(dataWrapper)
   }
 
 }

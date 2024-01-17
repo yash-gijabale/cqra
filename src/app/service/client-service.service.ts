@@ -383,6 +383,10 @@ export class ClientServiceService {
     return this.httpClient.get<TradeRowDataForSamplingStep>(`${this.REST_API_SERVER}/gettradegrp/${projectId}`)
   }
 
+  getTradesForSamplingStepSecond(projectId){
+    return this.httpClient.get<TradeRowDataForSamplingStep>(`${this.REST_API_SERVER}/getstep2tradebypid/${projectId}`)
+  }
+
   getContractorsForSamplingStep(projectId){
     return this.httpClient.get<ContractorDataForSamplingStep>(`${this.REST_API_SERVER}/getconbypid/${projectId}`)
   }
@@ -398,6 +402,11 @@ export class ClientServiceService {
 
   addSamplingStepSecond(data) :Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulstep2`, data)
+  }
+
+
+  getSamplingStep2Data(projectid, structureId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/findByProjectAndStructure/${projectid}/${structureId}`)
   }
   //SAMPLED AREA API CALL
 

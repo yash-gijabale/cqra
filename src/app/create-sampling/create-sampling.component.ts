@@ -274,7 +274,7 @@ export class CreateSamplingComponent implements OnInit {
           this.convertContractorRowObjet(data)
         })
 
-      this.clientService.getClientStaffByProjectId(22).subscribe(data => this.staffData = data)
+      this.clientService.getClientStaffByProjectId(this.SelProject).subscribe(data => this.staffData = data)
     }
 
 
@@ -561,7 +561,7 @@ export class CreateSamplingComponent implements OnInit {
         structureId: this.SelStructure,
         tradeId: item,
         status: (<HTMLSelectElement>statusValue).value,
-        contractor: (<HTMLSelectElement>contractorValue).value,
+        contractorId: (<HTMLSelectElement>contractorValue).value,
         staff: (<HTMLSelectElement>staffValue).value,
         workAreaWithName
       }

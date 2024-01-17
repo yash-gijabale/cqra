@@ -231,7 +231,7 @@ const routes: Routes = [
   { path: 'regions', component: AddRegionComponent },
   { path: 'createpmc/:id', component: CreatePmcComponent },
   { path: 'pmcList', component: PmcListComponent },
-  { path: 'createSamplingStep3', component: CreateSamplingStepThreeComponent },
+  { path: 'createSamplingStep3/:id/:id2', component: CreateSamplingStepThreeComponent },
 
 
 

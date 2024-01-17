@@ -320,7 +320,7 @@
         <div *ngIf="isThirdStep;then step3Block"></div>
         <ng-template #step3Block>
           <div class="form-group my-2">
-            <a [routerLink]="'/createSamplingStep3'"><button class="btn btn-success">Procced Final Step</button></a>
+            <a [routerLink]="'/createSamplingStep3/'+SelProject+'/'+SelStructure"><button class="btn btn-success">Procced Final Step</button></a>
           </div>
         </ng-template>
       </div>
