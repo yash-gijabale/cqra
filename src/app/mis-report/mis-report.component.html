@@ -2,55 +2,131 @@
 <div class="content-wrapper">
   <div class="container-fluid">
     <div class="add-bg-here">
-       <div class="add-container-viewcommon">
-         <div class="main-header_createview">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
           <div class="left-side-header">
-              <div class="create-content-header">
-                <h1> Manage MIS Report  </h1>
-                 
-              </div>
+            <div class="create-content-header">
+              <h1> Manage MIS Report </h1>
+
+            </div>
           </div>
-       
-         <div class="right-side-create-view ">
-             <div class="create-content-operations">
-              <a routerLink="/createMisReport/-1"> 
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <a routerLink="/createMisReport/-1">
                 <button type="button"> Create MIS Report </button>
-               </a>
-             </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
-    <div class="row m-0">
-      <div class="col-xl-12 col-sm-12 mb-3">
-            <table datatable  id="customers" class="row-border hover" style="width:100%">
-              <thead>
-                <tr>
-                  <th>Client</th>
-                  <th>Project</th>
-                  <th>Month</th>
-                  <th>Report Name</th>
-                  <th>Index(Out of 10) </th>
-                  <th>Update Index </th>
-                  <th>Activities in Progress</th>
-                  <th>Review of Work</th>
-                  <th>Appreciation / Improvement</th>
-                  <th>Management Decisions</th>
-                  <th>Recommendations</th>
-                  <th>Top Performers</th>
-                  <th>Below Performers</th>
-                  <th>Save Report</th>
-                </tr>
-              </thead>
-              <tbody>
-               
-              </tbody>
-            </table>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Project</th>
+                <th>Month</th>
+                <th>Report Name</th>
+                <th>Index(Out of 10) </th>
+                <th>Update Index </th>
+                <th>Activities in Progress</th>
+                <th>Review of Work</th>
+                <th>Appreciation / Improvement</th>
+                <th>Management Decisions</th>
+                <th>Recommendations</th>
+                <th>Top Performers</th>
+                <th>Below Performers</th>
+                <th>Save Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mis of (misReports)">
+                <td>{{mis.clientId}}</td>
+                <td>{{mis.schemeId}}</td>
+                <td>{{mis.month}}</td>
+                <td>{{mis.reportNo}}</td>
+                <td>{{mis.value}}</td>
+                <td><button class="btn btn-primary btn-sm">+</button></td>
+                <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-edit-unit">+</button>
+                </td>
+                <td>{{mis.qualityOfWork}}</td>
+                <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#appreciation">+</button></td>
+                <td><button class="btn btn-primary btn-sm">+</button></td>
+                <td><button class="btn btn-primary btn-sm">+</button></td>
+                <td><button class="btn btn-primary btn-sm">+</button></td>
+                <td><button class="btn btn-primary btn-sm">+</button></td>
+                <td><button class="btn btn-primary btn-sm">Save</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Example DataTables Card-->
+
+
+
+      <div class="modal fade" id="add-edit-unit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Activities in Progress</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="my-2 row">
+                <input type="text" class="form-control col-md-5" placeholder="Activities in progress">
+                <button class="btn btn-success">Save</button>
+              </form>
+
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+                style="width:100%">
+                <thead>
+                  <tr>
+                    <th style="width:70%">Activities</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tst</td>
+                    <td><button class="btn btn-sm btn-secondary">Edit</button></td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="appreciation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Appreciation / Improvement</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="my-2 row">
+                <input type="text" class="form-control col-md-5" placeholder="Activities in progress">
+                <button class="btn btn-success">Save</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
-<!-- Example DataTables Card-->
-
-</div>
-</div>
+  </div>
   <app-footer></app-footer>
-  

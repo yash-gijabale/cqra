@@ -77,11 +77,12 @@ export class CreateContractorComponent implements OnInit {
     }
     this.isLoading = true;
     console.log("Id==");
-    console.log(this.registerForm.value)
+    let fromData = {...this.registerForm.value, isActive: 1}
+    console.log(fromData)
 
     if (this.contractorId != -1) {
 
-      this.clientServiceService.updateContractor(this.registerForm.value, this.contractorId)
+      this.clientServiceService.updateContractor(fromData, this.contractorId)
         .subscribe(
           data => {
             console.log('updated !')
@@ -92,9 +93,9 @@ export class CreateContractorComponent implements OnInit {
 
     } else {
 
-      this.clientServiceService.createContractor(this.registerForm.value)
+      this.clientServiceService.createContractor(fromData)
         .subscribe(data => {
-          console.log('data adedd')
+          console.log('data adedd', data)
           this.isLoading = false
         })
     }

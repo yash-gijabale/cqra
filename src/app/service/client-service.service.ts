@@ -408,6 +408,11 @@ export class ClientServiceService {
   getSamplingStep2Data(projectid, structureId){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/findByProjectAndStructure/${projectid}/${structureId}`)
   }
+
+
+  submitStep3Data(data):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulclientwise`, data)
+  }
   //SAMPLED AREA API CALL
 
   //INSPECTION ACTIVITY NOT AVAILABALE API

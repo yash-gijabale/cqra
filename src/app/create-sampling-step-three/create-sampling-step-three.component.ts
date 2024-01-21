@@ -415,6 +415,14 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     }
     console.log(dataWrapper)
 
+    this.ClientService.submitStep3Data(dataWrapper)
+    .subscribe(data =>{
+      console.log('step3 Data is added-->', data)
+    },
+    err =>{
+      console.log(err)
+    })
+
   }
 
 

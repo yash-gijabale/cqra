@@ -19,6 +19,8 @@ import { InspectionReport } from './creaate-inspectionreport/creaate-inspectionr
 import { SnaggingReportView } from './create-snagging-document/create-snagging-document.component';
 import { StepTrackerData } from './create-sampling-step-three/create-sampling-step-three.component';
 import { ChecklistData } from './create-checklist/create-checklist.component';
+import { MisFromData } from './create-mis-report/create-mis-report.component';
+import { MisReport } from './mis-report/mis-report.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -160,11 +162,11 @@ export class CommonService {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/checklist/adddatalist`, data);
   }
 
-  getCheckList(id){
+  getCheckList(id) {
     return this.httpClient.get<ChecklistData>(`${this.REST_API_SERVER}/checklist/checklist/${id}`)
   }
 
-  updateChecklist(data, id){
+  updateChecklist(data, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/checklist/updatebychecklistid/${id}`, data)
   }
 
@@ -247,9 +249,26 @@ export class CommonService {
   // createStructure(clientData): Observable<ClientServiceService> {
   //   return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/structure/addStructure`, clientData);
   // }
-
-
   //
+
+
+
+  //MIS REPORT API CALL
+  createMisReport(data: MisFromData): Observable<CommonService> {
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addMis`, data)
+  }
+  getMisReport(id) {
+    return this.httpClient.get<Object>(`${this.REST_API_SERVER}/Mis/${id}`)
+  }
+
+  updateMisReport(data: MisFromData, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Mis/${id}`, data)
+  }
+
+  getAllMisReport(){
+    return this.httpClient.get<MisReport>(`${this.REST_API_SERVER}/getMis`)
+  }
+
 
 
 
@@ -412,7 +431,7 @@ export class CommonService {
               "stageId": 14864,
               "stageName": "Besment 2"
             },
-            
+
           ]
         },
         {
@@ -438,7 +457,7 @@ export class CommonService {
               "stageId": 19486,
               "stageName": "Floor 10"
             },
-            
+
           ]
         }
       ]

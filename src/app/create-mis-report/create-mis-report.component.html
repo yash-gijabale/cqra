@@ -40,14 +40,14 @@
             </div>
             <div class="form-group">
               <label>Project Name</label>
-              <select class="form-control" formControlName="projectId"  > 
+              <select class="form-control" formControlName="schemeId"  > 
                 <option  [value]="0">Please Select</option>
                 <option [value]="project.projectId" *ngFor="let project of projects">
                    {{project.projectName}}
                 </option>
             </select>
-              <div *ngIf="submitted && f.projectId.errors" class="invalid-feedback">
-                  <div *ngIf="f.projectId.errors.required">Project is required</div>
+              <div *ngIf="submitted && f.schemeId.errors" class="invalid-feedback">
+                  <div *ngIf="f.schemeId.errors.required">Project is required</div>
               </div>
             </div>
             <div class="form-group">
@@ -59,16 +59,16 @@
             </div>
             <div class="form-group">
                 <label>Index(Out of 10) </label>
-                <input type="text" formControlName="index" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.index.errors }" />
-                <div *ngIf="submitted && f.index.errors" class="invalid-feedback">
-                    <div *ngIf="f.index.errors.required">Index is required</div>
+                <input type="text" formControlName="value" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.value.errors }" />
+                <div *ngIf="submitted && f.value.errors" class="invalid-feedback">
+                    <div *ngIf="f.value.errors.required">Index is required</div>
                 </div>
             </div>
             <div class="form-group">
               <label>Review of Work</label>
-              <input type="text" formControlName="reviewOfWork" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.reviewOfWork.errors }" />
-              <div *ngIf="submitted && f.reviewOfWork.errors" class="invalid-feedback">
-                  <div *ngIf="f.reviewOfWork.errors.required">Project City is required</div>
+              <input type="text" formControlName="qualityOfWork" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.qualityOfWork.errors }" />
+              <div *ngIf="submitted && f.qualityOfWork.errors" class="invalid-feedback">
+                  <div *ngIf="f.qualityOfWork.errors.required">Project City is required</div>
               </div>
           </div>
             <div class="form-group">
