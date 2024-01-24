@@ -53,6 +53,10 @@ export class CreateUserAllocationComponent implements OnInit {
 
   allocationId: number
 
+
+  // allocatedCheckList: Array<number> = []
+  // allocatedStages: Array<number> = []
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -136,20 +140,20 @@ export class CreateUserAllocationComponent implements OnInit {
     })
 
     let finalAllocationData = {
-        userChecklist: AllocationData,
-        userAllocation: AllocationData
+      userChecklist: AllocationData,
+      userAllocation: AllocationData
     }
 
     console.log(finalAllocationData)
     // return
-    
+
 
     if (this.allocationId != -1) {
-    //   let finalAllocationDataUpdate = {
-    //     userChecklists: AllocationData,
-    //     userAllocation: AllocationData
-    // }
-    // console.log(finalAllocationDataUpdate)
+      //   let finalAllocationDataUpdate = {
+      //     userChecklists: AllocationData,
+      //     userAllocation: AllocationData
+      // }
+      // console.log(finalAllocationDataUpdate)
 
       this.userService.updateUserAllocation(finalAllocationData)
         .subscribe(data => {
@@ -157,7 +161,7 @@ export class CreateUserAllocationComponent implements OnInit {
         })
     } else {
 
-      this.userService.createUserAllocation(finalAllocationData)
+      this.userService.updateUserAllocation(finalAllocationData)
         .subscribe(data => {
           console.log('allocated -->', data)
         })
@@ -218,5 +222,35 @@ export class CreateUserAllocationComponent implements OnInit {
           this.checklists = data
         }
       )
+
+    let stageMap = {}
+    let checkListMap = {}
+    let allocatedData
+    this.commanService.getUserAllocationData(this.SelProject, this.SelStructure, this.SelTrade, this.SelUser)
+      .subscribe(data => {
+        allocatedData = data
+        console.log('allocation data-->', data)
+        allocatedData.forEach(item => {
+          stageMap[item.stageId] = true
+          checkListMap[item.fkChecklistId] = true
+        })
+
+        let allocatedCheckList: Array<number> = []
+        let allocatedStages: Array<Number> = []
+        
+        for (const key in checkListMap) {
+          allocatedCheckList.push(Number(key))
+        }
+        for (const key in stageMap) {
+          allocatedStages.push(Number(key))
+        }
+
+        console.log(allocatedCheckList, allocatedStages)
+
+        this.userAllocationForm.patchValue({ stageId: allocatedStages })
+        this.userAllocationForm.patchValue({ checklistId: allocatedCheckList })
+
+      })
   }
+
 }

@@ -115,6 +115,7 @@ import { AddRegionComponent } from './add-region/add-region.component';
 import { CreatePmcComponent } from './create-pmc/create-pmc.component';
 import { PmcListComponent } from './pmc-list/pmc-list.component';
 import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
+import { MisAppriciationComponent } from './MIS/mis-appriciation/mis-appriciation.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -232,6 +233,7 @@ const routes: Routes = [
   { path: 'createpmc/:id', component: CreatePmcComponent },
   { path: 'pmcList', component: PmcListComponent },
   { path: 'createSamplingStep3/:id/:id2', component: CreateSamplingStepThreeComponent },
+  { path: 'misAppriciation/:id', component: MisAppriciationComponent },
 
 
 

@@ -59,7 +59,7 @@ export class MisReportComponent implements OnInit {
     .subscribe(data =>{
       this.misReports = data
       this.dtTrigger.next();
-
+      console.log(data)
     }, err => console.log(err))
   }
  

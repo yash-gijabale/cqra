@@ -7,6 +7,16 @@ import { supportsScrollBehavior } from '@angular/cdk/platform';
 import { SubgroupView } from '../subgroup/subgroup.component';
 import { CheckListView } from '../edit-non-conf/edit-non-conf.component';
 import { ClientServiceService } from '../service/client-service.service';
+
+export class allocatedChecklistData {
+  constructor(
+    public pkTradeId: Number,
+    public pkSubgroupId: number,
+    public checklistId: number,
+    public schemeId: number
+
+  ) { }
+}
 @Component({
   selector: 'app-project-checklist-allocation',
   templateUrl: './project-checklist-allocation.component.html',
@@ -17,7 +27,7 @@ export class ProjectChecklistAllocationComponent implements OnInit {
   configureForm: FormGroup
   projectId: number
   trades: Trade
-  SelTrade: any
+  SelTrade: String = '0'
   SelSubgroup: any
   subgroups: SubgroupView
   checklists: CheckListView
@@ -50,6 +60,7 @@ export class ProjectChecklistAllocationComponent implements OnInit {
 
 
   getSubgroups() {
+    console.log(this.SelTrade)
     this.tradeService.getSubgroupsByTrades(this.SelTrade)
       .subscribe(data => {
         console.log(data)
@@ -62,6 +73,17 @@ export class ProjectChecklistAllocationComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         this.checklists = data
+      })
+    this.tradeService.getAllocatedChecklist(this.projectId, this.SelTrade, this.SelSubgroup)
+      .subscribe(data => {
+        let allocatedData = data
+        let allocatedChecklist = []
+        allocatedData.forEach(item => {
+          allocatedChecklist.push(item.checklistId)
+        })
+        this.configureForm.patchValue({checklistId: allocatedChecklist})
+        console.log('---->', data, allocatedChecklist)
+
       })
   }
 
@@ -78,6 +100,6 @@ export class ProjectChecklistAllocationComponent implements OnInit {
 
     console.log(finalArray)
     this.clientService.projectChecklistAlloaction(finalArray)
-    .subscribe(data => console.log('checklist Aloocated-->', data))
+      .subscribe(data => console.log('checklist Aloocated-->', data))
   }
 }

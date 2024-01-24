@@ -21,6 +21,7 @@ import { UserLogDataView } from './user-log/user-log.component';
 import { data } from 'jquery';
 import { QuestionData } from './create-question/create-question.component';
 import { TradeData } from './create-tarde/create-tarde.component';
+import { allocatedChecklistData } from './project-checklist-allocation/project-checklist-allocation.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -281,6 +282,11 @@ export class TradeMaintanceService {
   //CHECKLIST BY SUBGROUPS
   getChecklistBySubgroupId(id){
     return this.httpClient.get<CheckListView>(`${this.REST_API_SERVER}/checklist/checklistbysub/${id}`)
+  }
+
+
+  getAllocatedChecklist(projectId, tradeId, subgroupId){
+    return this.httpClient.get<allocatedChecklistData[]>(`${this.REST_API_SERVER}/getschemequestionbyprojectidtradesubgroup/${projectId}/${tradeId}/${subgroupId}`)
   }
 
 }

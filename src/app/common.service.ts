@@ -21,6 +21,7 @@ import { StepTrackerData } from './create-sampling-step-three/create-sampling-st
 import { ChecklistData } from './create-checklist/create-checklist.component';
 import { MisFromData } from './create-mis-report/create-mis-report.component';
 import { MisReport } from './mis-report/mis-report.component';
+import { MisAppriciateData, MisAppriciateForm } from './MIS/mis-appriciation/mis-appriciation.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -69,6 +70,10 @@ export class CommonService {
   }
   getChecklistsByTrade(tradeId) {
     return this.httpClient.get<Checklist[]>(this.REST_API_SERVER + `/findbytradeid/${tradeId}`);
+  }
+
+  getUserAllocationData(projectId, structureId, tradeId, userID){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getuserallocationchecklist/${projectId}/${structureId}/${tradeId}/${userID}`)
   }
 
   getQuestionGroup(userId) {
@@ -269,6 +274,17 @@ export class CommonService {
     return this.httpClient.get<MisReport>(`${this.REST_API_SERVER}/getMis`)
   }
 
+  misAddAppriciate(data: MisAppriciateForm): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addmisAppriciationImprovements`, data)
+  }
+
+  misGetAllAppriceiate(id){
+    return this.httpClient.get<MisAppriciateData[]>(`${this.REST_API_SERVER}/MisAppriciationImprovementsbyfkmisid/${id}`)
+  }
+
+  retreiveMisAppriciation(id){
+    return this.httpClient.get<MisAppriciateData>(`${this.REST_API_SERVER}/MisAppriciationImprovements/${id}`)
+  }
 
 
 

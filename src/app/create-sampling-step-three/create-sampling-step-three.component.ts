@@ -107,6 +107,7 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     this.SelStructure = this.route.snapshot.params['id2']
     this.ClientService.getSamplingStep2Data(this.SelProject, this.SelStructure).subscribe(data => {
       // this.step2Data = data
+      console.log('---------->>',data)
       this.step2Data = this.convertStep2Data(data)
       console.log(this.step2Data)
       if (this.step2Data[0].samplingType === 2) {
@@ -329,6 +330,7 @@ export class CreateSamplingStepThreeComponent implements OnInit {
 
   type2GetRandomStage(contractorId, tradeId) {
     let stageAreas = []
+    console.log(contractorId, tradeId)
     let allocatedArea = {}
     stageAreas = this.type2StageData[contractorId][tradeId]
     console.log('inital stages--', stageAreas)
@@ -336,7 +338,10 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     let unit = this.type2SampledUnitnumber[contractorId][tradeId]
 
     if (unit === this.type2StageData[contractorId][tradeId].length) {
+      this.type2RandomSampledArea[contractorId] = {}
       this.type2RandomSampledArea[contractorId][tradeId] = this.type2StageData[contractorId][tradeId]
+    console.log('type 2 random area-->', this.type2RandomSampledArea)
+
       return
     }
     console.log('stages--.', stageAreas)
@@ -384,10 +389,10 @@ export class CreateSamplingStepThreeComponent implements OnInit {
         samplingType: this.samplingType,
         fromDate: this.fromDate,
         toDate: this.toDate,
-        stageFrom: this.stageData[trade][0],
-        stageTo: this.stageData[trade][this.stageData[trade].length - 1],
+        stageFrom: [this.stageData[trade][0]],
+        stageTo: [this.stageData[trade][this.stageData[trade].length - 1]],
         samplUnitPersentage: this.persentageData[trade],
-        sampledUnitnumber: this.sampledUnitnumber[trade],
+        sampledUnitNumber: this.sampledUnitnumber[trade],
         randomStages: this.randomSampledArea[trade]
       }
       newformData.push(formdata)
@@ -413,9 +418,10 @@ export class CreateSamplingStepThreeComponent implements OnInit {
       clientWise: newformData,
       contractorWise: null
     }
-    console.log(dataWrapper)
+    console.log(newformData)
+    // return
 
-    this.ClientService.submitStep3Data(dataWrapper)
+    this.ClientService.submitStep3Data(newformData)
     .subscribe(data =>{
       console.log('step3 Data is added-->', data)
     },
@@ -430,6 +436,7 @@ export class CreateSamplingStepThreeComponent implements OnInit {
     // let samplingData2 = []
 
     let tempData = {}
+    let checkTrade = {}
     samplingData.forEach(data => {
 
       if (!tempData[data.contractor]) {
@@ -439,8 +446,11 @@ export class CreateSamplingStepThreeComponent implements OnInit {
           staffId: data.staff,
           samplingData: [data]
         }
+        checkTrade[data.tradeId] = true
       } else {
-        tempData[data.contractor].samplingData.push(data)
+        if(!checkTrade[data.tradeId]){
+          tempData[data.contractor].samplingData.push(data)
+        }
       }
 
       // samplingData2.push(tempData)
@@ -529,10 +539,10 @@ export class CreateSamplingStepThreeComponent implements OnInit {
             staffId: (<HTMLInputElement>staffId).value,
             tradeId: trade,
             samplingType: this.samplingType,
-            fromStage: this.type2StageData[contractor][trade][0],
-            toStage: this.type2StageData[contractor][trade][this.type2StageData[contractor][trade].length - 1],
+            stageFrom: [this.type2StageData[contractor][trade][0]],
+            stageTo: [this.type2StageData[contractor][trade][this.type2StageData[contractor][trade].length - 1]],
             samplUnitPersentage: this.type2PersentageData[contractor][trade],
-            sampledUnitnumber: this.type2SampledUnitnumber[contractor][trade],
+            sampledUnitNumber: this.type2SampledUnitnumber[contractor][trade],
             randomStages: this.type2RandomSampledArea[contractor][trade]
           }
 
@@ -548,7 +558,11 @@ export class CreateSamplingStepThreeComponent implements OnInit {
       contractorWise: contractorWiseData
     }
 
-    console.log(dataWrapper)
+    console.log(contractorWiseData)
+    this.ClientService.submitStep3Data(contractorWiseData)
+    .subscribe(data =>{
+      console.log('step 3 sub,ited-->', data)
+    })
   }
 
 }

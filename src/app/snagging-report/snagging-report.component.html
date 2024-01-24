@@ -43,7 +43,7 @@
                 <th>Activity not Available </th>
                 <th>Remark </th>
                 <th>Equ./Inst. used by CQRA </th>
-                <th>Equ./Inst. used by CQRA </th>
+                <th>Equ./Inst. used by Client</th>
                 <th>Equ./Inst. used by Contractor </th>
                 <th>Save Report </th>
                 <th>Pure Complience Report </th>
@@ -68,7 +68,7 @@
                 <td>{{ client.assessmentDate }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editSnagging(client.id)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
@@ -128,7 +128,7 @@
                 </td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
+                    <button type="text" (click)="getEquipUsedByCqra(client.id)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
@@ -138,7 +138,7 @@
                 </td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
+                    <button type="text" (click)="getEquipUsedByClient(client.id)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
@@ -148,7 +148,7 @@
                 </td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
+                    <button type="text" (click)="getEquipUsedByContractor(client.id)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>

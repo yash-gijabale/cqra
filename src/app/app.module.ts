@@ -128,6 +128,7 @@ import { AddRegionComponent } from './add-region/add-region.component';
 import { PmcListComponent } from './pmc-list/pmc-list.component';
 import { CreatePmcComponent } from './create-pmc/create-pmc.component';
 import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
+import { MisAppriciationComponent } from './MIS/mis-appriciation/mis-appriciation.component';
 
 
 @NgModule({
@@ -249,7 +250,8 @@ import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/c
     AddRegionComponent,
     PmcListComponent,
     CreatePmcComponent,
-    CreateSamplingStepThreeComponent
+    CreateSamplingStepThreeComponent,
+    MisAppriciationComponent
   ],
   imports: [
     BrowserModule,

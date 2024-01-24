@@ -28,7 +28,7 @@
         <form [formGroup]="userAllocationForm" (ngSubmit)="onSubmit()" class="row">
           <div class="form-group col-md-4">
             <label>User</label>
-            <select formControlName="userId" class="form-control">
+            <select  [(ngModel)]="SelUser" formControlName="userId" class="form-control">
               <option [value]="o.userId" *ngFor="let o of users">
                 {{o.userFullName}}
               </option>
@@ -62,17 +62,6 @@
             </div>
           </div>
           <div class="form-group col-md-4">
-            <label>Stages </label>
-            <select formControlName="stageId" class="form-control" multiple>
-              <option [value]="o.stageId" *ngFor="let o of stages">
-                {{o.stageName}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.selStage.errors" class="invalid-feedback">
-              <div *ngIf="f.selStage.errors.required">Stage is required</div>
-            </div>
-          </div>
-          <div class="form-group col-md-4">
             <label>Trade Name</label>
             <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()">
               <option [value]="o.fkTradeId" *ngFor="let o of trades">
@@ -84,8 +73,20 @@
             </div>
           </div>
           <div class="form-group col-md-4">
+            <label>Stages </label>
+            <select formControlName="stageId" class="form-control" multiple>
+              <option [value]="o.stageId" *ngFor="let o of stages">
+                {{o.stageName}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.selStage.errors" class="invalid-feedback">
+              <div *ngIf="f.selStage.errors.required">Stage is required</div>
+            </div>
+          </div>
+         
+          <div class="form-group col-md-4">
             <label>Checklist Name </label>
-            <select formControlName="checklistId" class="form-control" (change)="getChecklist()" multiple >
+            <select formControlName="checklistId" class="form-control"  multiple >
               <option [value]="o.checkistIdChecklist" *ngFor="let o of checklists">
                 {{o.checklistNameChecklist}}
               </option>

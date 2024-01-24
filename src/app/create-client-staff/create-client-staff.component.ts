@@ -62,7 +62,7 @@ export class CreateClientStaffComponent implements OnInit {
 
     this.clientStaffForm = this.formBuilder.group({
       clientId: ["", Validators.required],
-      projectId: ["", Validators.required],
+      schemeId: ["", Validators.required],
       clientName: ["", Validators.required],
       designation: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
@@ -85,7 +85,7 @@ export class CreateClientStaffComponent implements OnInit {
     if(this.id == -1){
       this.clientServiceService.createClientStaff(this.clientStaffForm.value)
       .subscribe(data => {
-        console.log('data added')
+        console.log('data added', data)
       },
       (err)=>{
         console.log(err)

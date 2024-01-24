@@ -394,6 +394,12 @@ export class ClientServiceService {
   getClientByProjectId(projectId){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/clientbyproject/${projectId}`)
   }
+  //GEt CLIENT STAFF BY PROJECT ID
+ 
+  getClientStaffByProjectId(projectId){
+    return this.httpClient.get<clientStaffData>(`${this.REST_API_SERVER}/clientstaffbyprojectid/${projectId}`)
+  }
+  //GEt CLIENT STAFF BY PROJECT ID
 
 
   addSamplingStepFirst(data) :Observable<ClientServiceService>{
@@ -661,11 +667,7 @@ export class ClientServiceService {
   }
   //PMC API CALL
 
-  //GEt CLIENT STAFF BY PROJECT ID
-  getClientStaffByProjectId(projectId){
-    return this.httpClient.get<clientStaffData>(`${this.REST_API_SERVER}/clientstaffbyprojectid/${projectId}`)
-  }
-  //GEt CLIENT STAFF BY PROJECT ID
+  
 
   //GET CONTRACTOR BY PROJECT ID
   getContractorByProjectId(projectId){

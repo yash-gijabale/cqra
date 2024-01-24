@@ -78,7 +78,12 @@ export class AssignProjectComponent implements OnInit {
       let isDeactivet = confirm('Are you sure want to deactivate ?')
       if (!isDeactivet) {
         event.target.checked = true
-        return
+        
+      }else{
+        this.userService.removeUserProject(id, this.userId)
+        .subscribe(data => {
+          console.log('project removed-->', data)
+        })
       }
       console.log(event.target.checked)
       console.log(id)

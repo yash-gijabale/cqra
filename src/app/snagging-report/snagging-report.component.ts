@@ -4,14 +4,14 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { TradeMaintanceService } from '../trade-maintance.service';
 
-export class SnggingView{
+export class SnggingView {
   constructor(
-    public clientName:string,
+    public clientName: string,
     public projectName: string,
-    public reportName:string,
-    public assessmentDate:string,
-    
-  ){
+    public reportName: string,
+    public assessmentDate: string,
+
+  ) {
 
   }
 }
@@ -28,9 +28,9 @@ export class SnaggingReportComponent implements OnInit {
   dtTrigger: Subject<SnggingView> = new Subject();
 
 
-  reports:SnggingView[];
+  reports: SnggingView[];
 
-  constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
+  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
 
   ngOnInit() {
@@ -38,43 +38,57 @@ export class SnaggingReportComponent implements OnInit {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
-      lengthMenu : [5, 10, 25],
+      lengthMenu: [5, 10, 25],
       scrollX: true
     };
 
     this.tradeMaintanceService.getAllSnggingReports().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.reports= data;
-    
+      this.reports = data;
+
       // ADD THIS
       this.dtTrigger.next();
-    
+
     }, (err) => {
       console.log('-----> err', err);
     })
-    }
-
-    nameOfInspector(id){
-      this.router.navigate(['assessorName', id])
-    }
-
-    inspectedArea(id){
-      this.router.navigate(['sampledArea', id])
-
-    }
-    reportOverview(id){
-      this.router.navigate(['firstNote', id])
-      
-    }
-    activityNotAvaialable(id){
-      this.router.navigate(['stageOfWork', id])
-
-    }
-
-    remark(id){
-      this.router.navigate(['lastNotes', id])
-
-    }
   }
+
+  nameOfInspector(id) {
+    this.router.navigate(['assessorName', id])
+  }
+
+  inspectedArea(id) {
+    this.router.navigate(['sampledArea', id])
+
+  }
+  reportOverview(id) {
+    this.router.navigate(['firstNote', id])
+
+  }
+  activityNotAvaialable(id) {
+    this.router.navigate(['stageOfWork', id])
+
+  }
+
+  remark(id) {
+    this.router.navigate(['lastNotes', id])
+
+  }
+
+  editSnagging(id) {
+    this.router.navigate(['createsnagging', id])
+  }
+  getEquipUsedByCqra(id) {
+    this.router.navigate(['userEquipment', id])
+  }
+  getEquipUsedByClient(id) {
+    this.router.navigate(['equipUsedByClient', id])
+  }
+  getEquipUsedByContractor(id) {
+    this.router.navigate(['equipUsedByContractor', id])
+
+  }
+}
 
 

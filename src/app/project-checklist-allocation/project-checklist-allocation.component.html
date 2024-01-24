@@ -31,7 +31,7 @@
             <select [(ngModel)]="SelTrade" formControlName="pkTradeId" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }" (change)="getSubgroups()">
               <option [value]="0">Please Select</option>
-              <option [value]="o.tardeId" *ngFor="let o of trades">
+              <option [value]="o.fkTradeId" *ngFor="let o of trades">
                 {{o.tradeName}}
               </option>
             </select>

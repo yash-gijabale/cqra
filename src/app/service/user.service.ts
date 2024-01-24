@@ -106,6 +106,10 @@ export class UserService {
   assignProject(data) :Observable <UserService>{
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/adduserproject`, data)
   }
+
+  removeUserProject(projectId, userId){
+    return this.httpClient.delete(`${this.REST_API_SERVER}/userproject/${userId}/${projectId}`)
+  }
   //ASSIGN PROJECT TO USER API CALL
 
 
