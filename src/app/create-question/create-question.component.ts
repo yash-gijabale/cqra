@@ -193,7 +193,8 @@ onSubmit() {
     isActive:1
   }
   if(this.questionId != -1){
-    this.tradeMaintanceService.updateQuestion(this.questionFrom.value, this.questionId)
+    console.log(this.questionId)
+    this.tradeMaintanceService.updateQuestion(formData, this.questionId)
     .subscribe(data =>{
       console.log('q updated-->', data)
     })

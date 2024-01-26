@@ -40,6 +40,11 @@ export class MisAppriciationComponent implements OnInit {
 
   misData: MisAppriciateData[]
 
+  appriciationId: number
+
+  isUpdate = false
+  isLoading = false
+
   constructor(
     private formBulider: FormBuilder,
     private route: ActivatedRoute,
@@ -79,19 +84,30 @@ export class MisAppriciationComponent implements OnInit {
       active: 1
     }
 
-    this.commonService.misAddAppriciate(formData)
-      .subscribe(data => {
-        console.log('Appriciated added-->', data)
-        this.commonService.misGetAllAppriceiate(this.misId)
+    if (this.isUpdate) {
+      this.commonService.updateMisAppriciation(formData, this.appriciationId)
+        .subscribe(data => console.log('updated-->', data))
+    } else {
+      this.commonService.misAddAppriciate(formData)
         .subscribe(data => {
-          this.misData = data
-          this.dtTrigger.next()
+          console.log('Appriciated added-->', data)
+          this.commonService.misGetAllAppriceiate(this.misId)
+            .subscribe(data => {
+              this.misData = data
+              this.dtTrigger.next()
+            })
         })
-      })
+    }
   }
 
-  editNote(id){
+  editNote(id) {
+    this.isUpdate = true;
     this.commonService.retreiveMisAppriciation(id)
-    .subscribe(data => console.log(data))
+      .subscribe(data => {
+        console.log(data)
+        this.appriciationId = Number(data.itemId)
+        console.log(this.appriciationId)
+        this.appriciationForm.patchValue({ item: data.item })
+      })
   }
 }

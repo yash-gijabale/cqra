@@ -32,7 +32,7 @@ export class AddRegionComponent implements OnInit {
   dtTrigger: Subject<RegionView> = new Subject<RegionView>();
 
   isLoading: boolean = false
-  isUpdate: boolean = true
+  isUpdate: boolean = false
   regionId : number = 0
   constructor(
     private formBuilder: FormBuilder,

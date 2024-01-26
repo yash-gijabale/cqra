@@ -82,12 +82,14 @@ export class CreateContractorSupervisorComponent implements OnInit {
     console.log("Id==");
     console.log(this.supervisorForm.value);
     if (this.id == -1) {
+      this.supervisorForm.value.isActive = true
       this.clientServiceService
         .createSupervisor(this.supervisorForm.value)
         .subscribe((data) => {
           console.log("supervisor added");
         });
     } else {
+      this.supervisorForm.value.isActive = true
       this.clientServiceService
         .updateSupervisor(this.supervisorForm.value, this.id)
         .subscribe((data) => {

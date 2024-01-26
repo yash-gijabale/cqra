@@ -29,7 +29,7 @@
 
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
-          <table datatable [dtOptions]="dtOptions" id="customers" style="width:100%">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" style="width:100%">
             <thead>
               <tr>
 
@@ -41,19 +41,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of ProjectViews">
-                <td>{{ client.projectName }}</td>
-                <td>{{ client.clientName }}</td>
-                <td>{{ client.projectCity }}</td>
+              <tr *ngFor="let report of qaulityIndexReports">
+                <td>{{ report.clientName }}</td>
+                <td>{{ report.projectName }}</td>
+                <td>{{ report.structureName }}</td>
+                <td>{{ report.remark }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editReport(report.qualityIndexId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActivateProject(client.projectId)" class="Delete-modal">
+                    <button type="text" (click)="deActivateReport(report.qualityIndexId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>

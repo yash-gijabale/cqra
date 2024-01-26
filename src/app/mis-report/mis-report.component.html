@@ -37,7 +37,7 @@
                 <th>Review of Work</th>
                 <th>Appreciation / Improvement</th>
                 <th>Management Decisions</th>
-                <th>Recommendations</th>
+                <th>CQRA Initiative</th>
                 <th>Top Performers</th>
                 <th>Below Performers</th>
                 <th>Save Report</th>
@@ -55,8 +55,8 @@
                 </td>
                 <td>{{mis.qualityOfWork}}</td>
                 <td><a [routerLink]="'/misAppriciation/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
-                <td><button class="btn btn-primary btn-sm">+</button></td>
-                <td><button class="btn btn-primary btn-sm">+</button></td>
+                <td><a [routerLink]="'/misDecisionManegament/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
+                <td><a [routerLink]="'/misInitiative/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
                 <td><button class="btn btn-primary btn-sm">+</button></td>
                 <td><button class="btn btn-primary btn-sm">+</button></td>
                 <td><button class="btn btn-primary btn-sm">Save</button></td>

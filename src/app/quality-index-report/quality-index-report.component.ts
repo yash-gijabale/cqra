@@ -43,8 +43,8 @@ export class QualityIndexReportComponent implements OnInit {
   qualityIndexForm: FormGroup
   clients: ClientData[]
   trades: Trade
-  clientStaff: clientStaffData[]
-  contractors: ContractorData[]
+  // clientStaff: clientStaffData[]
+  contractors: ContractorData
   qualityIndexId: number
   constructor(
     private formBuilder: FormBuilder,
@@ -66,6 +66,8 @@ export class QualityIndexReportComponent implements OnInit {
           this.commonService.getClientProject(Retrivedata.clientId).subscribe(data => this.projects = data)
           this.commonService.getStructures(Retrivedata.clientId, Retrivedata.projectId).subscribe(data => { this.structures = data })
           this.tradeService.getProjectTrades(Retrivedata.projectId).subscribe(data => { this.trades = data })
+          this.clientService.getContractorByProjectId(Retrivedata.projectId).subscribe(data => this.contractors = data)
+
           this.qualityIndexForm.patchValue(data)
         })
     }
@@ -73,11 +75,11 @@ export class QualityIndexReportComponent implements OnInit {
     this.clientService.getAllClients()
       .subscribe(data => this.clients = data)
 
-    this.clientService.getAllClientStaff()
-      .subscribe(data => this.clientStaff = data)
+    // this.clientService.getAllClientStaff()
+    //   .subscribe(data => this.clientStaff = data)
 
-    this.commonService.getAllContractors()
-      .subscribe(data => this.contractors = data)
+    // this.commonService.getAllContractors()
+    //   .subscribe(data => this.contractors = data)
 
     this.qualityIndexForm = this.formBuilder.group({
       clientId: ['', Validators.required],
@@ -113,16 +115,20 @@ export class QualityIndexReportComponent implements OnInit {
         console.log(data)
         this.trades = data
       })
+
+    this.clientService.getContractorByProjectId(this.SelProject).subscribe(data => this.contractors = data)
+
+    // this.clientService.getClientStaffByProjectId(this.SelProject).subscribe(data => this.clientStaff = data)
   }
 
   onSubmit() {
     console.log(this.qualityIndexForm.value)
     if (this.qualityIndexId != -1) {
       this.commonService.updateQualityINdexReport(this.qualityIndexForm.value, this.qualityIndexId)
-      .subscribe(data =>{
-        console.log('report updated-->', data)
-      },
-      err => console.log(err))
+        .subscribe(data => {
+          console.log('report updated-->', data)
+        },
+          err => console.log(err))
     } else {
       this.commonService.createQualityIndexReport(this.qualityIndexForm.value)
         .subscribe(data => {

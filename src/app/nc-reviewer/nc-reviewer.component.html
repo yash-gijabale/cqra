@@ -48,7 +48,7 @@
           <label for="fname" class=" col-form-label">Trade</label>
           <select class="form-control col-md-12" [(ngModel)]="SelTradeId" #projectId>
             <option [value]="">Please Select</option>
-            <option [value]="o.tardeId" *ngFor="let o of trades">
+            <option [value]="o.fkTradeId" *ngFor="let o of trades">
               {{o.tradeName}}
             </option>
           </select>

@@ -15,6 +15,7 @@ import { ProjectData } from '../project/project.component';
 export class CreateContractorComponent implements OnInit {
 
   SelClient: string = "0";
+  SelProject: string = '0'
   registerForm: FormGroup;
   submitted = false;
   clients: ClientData[]

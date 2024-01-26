@@ -9,7 +9,20 @@ import { TradeMaintanceService } from '../trade-maintance.service';
 import { Trade } from '../trade/trade.component';
 import { ContractorData } from '../contractor-forman/contractor-forman.component';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
+import { ActivatedRoute } from '@angular/router';
+import { InspectionReport } from '../creaate-inspectionreport/creaate-inspectionreport.component';
 
+
+
+export class otrReportData {
+  constructor(
+    public observationtracker: InspectionReport,
+    public trade: Array<Number>,
+    public stages: Array<Number>
+  ) {
+
+  }
+}
 @Component({
   selector: 'app-create-observation-tracker-report',
   templateUrl: './create-observation-tracker-report.component.html',
@@ -30,30 +43,50 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   trades: Trade
   contractors: ContractorData[]
   supervisors: SupervisorData
+  otrId: Number
   constructor(
     private commonServices: CommonService,
     private clientService: ClientServiceService,
     private formBuilder: FormBuilder,
-    private tradeService: TradeMaintanceService
+    private tradeService: TradeMaintanceService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.submitted = true;
+    this.otrId = this.route.snapshot.params['id']
     this.clientService.getAllClients()
       .subscribe(data => this.clients = data)
 
-    this.commonServices.getAllContractors()
-      .subscribe(data => {
-        console.log('contractor', data)
-        this.contractors = data
-      })
+    // this.commonServices.getAllContractors()
+    //   .subscribe(data => {
+    //     console.log('contractor', data)
+    //     this.contractors = data
+    //   })
+
+    if (this.otrId != -1) {
+      this.commonServices.getOTRReport(this.otrId)
+        .subscribe(data => {
+          console.log(data)
+          // let retriveData = data
+          this.commonServices.getClientProject(data.observationtracker.clientId).subscribe(data => this.projects = data)
+          this.commonServices.getStructures(data.observationtracker.clientId, data.observationtracker.projectId).subscribe(data => this.structures = data)
+          this.tradeService.getProjectTrades(data.observationtracker.projectId).subscribe(data => this.trades = data)
+          this.commonServices.getStages(data.observationtracker.clientId, data.observationtracker.projectId, data.observationtracker.structureId).subscribe(data => this.stages = data)
+
+          this.registerForm.patchValue(data.observationtracker)
+          this.registerForm.patchValue({ obstraTrade: data.trade })
+          this.registerForm.patchValue({ obstraStage: data.stages })
+        })
+
+    }
 
     this.registerForm = this.formBuilder.group({
       clientId: ['', Validators.required],
-      schemeId: ['', Validators.required],
+      projectId: ['', Validators.required],
       structureId: ['', Validators.required],
-      tradeId: ['', Validators.required],
-      stageId: ['', Validators.required],
+      obstraTrade: ['', Validators.required],
+      obstraStage: ['', Validators.required],
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
       clientRep: ['', Validators.required],
@@ -94,5 +127,12 @@ export class CreateObservationTrackerReportComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm.value)
+    let formData = {
+      inspectReport: this.registerForm.value,
+      obstraTrade: this.registerForm.value.obstraTrade,
+      obstraStage: this.registerForm.value.obstraStage
+    }
+    this.commonServices.createObservationTrackerReport(formData)
+      .subscribe(data => console.log(data))
   }
 }

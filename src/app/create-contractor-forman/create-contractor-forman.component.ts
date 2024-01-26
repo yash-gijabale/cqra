@@ -80,6 +80,7 @@ export class CreateContractorFormanComponent implements OnInit {
           console.log('foreman created!')
         });
     } else {
+    this.foremanForm.value.active = true
       this.clientServiceService.updateForeman(this.foremanForm.value, this.id)
         .subscribe(
           data => {

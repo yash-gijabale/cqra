@@ -1,3 +1,4 @@
+
 <app-header></app-header>
 <div class="content-wrapper">
   <div class="container-fluid">
@@ -8,44 +9,45 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Manage Roles</li>
+            <li class="breadcrumb-item active">MIS Initiative</li>
           </ol>
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <!-- <button type="button"> <a [routerLink]="'/createFirstNote/' + snapAuditId+'/-1'">Create First Note</a> -->
-            <!-- </button> -->
+            <button type="button"> <a [routerLink]="'/misReport'">Manage MIS</a>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-headcer">
+          <div class="create-content-header">
+            <h1> Mamage MIS</h1>
           </div>
         </div>
       </div>
 
-      <div class="main-header_createview">
-        <div class="left-side-header">
-          <div class="create-content-header">
-            <h1> Add Roles</h1>
-          </div>
-        </div>
-      </div>
-      <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
-        <div class="form-group col-md-4">
-          <label>First Note</label>
-          <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-            <div *ngIf="f.name.errors.required">Role name is required</div>
-          </div>
-        </div>
-        <div class="form-group col-md-3">
-          <button type="submit" class="btn btn-primary mt-1">Save</button>
-        </div>
-      </form>
 
       <div class="main-header_createview">
-        <div class="left-side-header">
+        <div class="left-side-headcer">
           <div class="create-content-header">
-            <h1> Manage Roles</h1>
+            <form [formGroup]="appriciationForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label>MIS Initialtive</label>
+                <input type="text" formControlName="item" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.item.errors }" />
+                <div *ngIf="submitted && f.item.errors" class="invalid-feedback">
+                  <div *ngIf="f.item.errors.required">Discription is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary mt-1">Save</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
+    
       <div *ngIf="isLoading; then thenBlock"></div>
       <ng-template #thenBlock>
         <app-loader></app-loader>
@@ -58,23 +60,23 @@
             <thead>
               <tr>
 
-                <th>Role Name</th>
+                <th>Discription</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let role of (roles)">
-                <td>{{role.name}}</td>
+              <tr *ngFor="let mis of (misData)">
+                <td>{{mis.item}}</td>
                 <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
                 <td>
                   <div class="action-commonview">
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter" (click)="getRole(role.id)">
+                      data-target="#exampleModalCenter" (click)="editNote(mis.itemId)">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" class="Delete-modal" (click)="deactiveRole(role.id)">
+                    <button type="text" class="Delete-modal" (click)="deActivate(mis.itemId)">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>
@@ -85,20 +87,6 @@
             </tbody>
 
           </table>
-          <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
-          <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-              <div class="toast-header">
-                <img src="..." class="rounded me-2" alt="...">
-                <strong class="me-auto">Bootstrap</strong>
-                <small>11 mins ago</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-              </div>
-              <div class="toast-body">
-                Hello, world! This is a toast message.
-              </div>
-            </div>
-          </div>
 
         </div>
 
@@ -108,5 +96,4 @@
 
     </div>
   </div>
- 
   <app-footer></app-footer>

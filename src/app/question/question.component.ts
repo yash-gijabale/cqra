@@ -96,7 +96,7 @@ export class QuestionComponent implements OnInit {
   deActivateQuestion(id){
     let isDeactivate = confirm('Are you sure want to deactivate?')
     if(isDeactivate){
-      this.tradeMaintanceService.deactivateQuestionGroup(id)
+      this.tradeMaintanceService.deActivateQuestion(id)
       .subscribe(data => {
         console.log('Deactivated')
         location.reload()

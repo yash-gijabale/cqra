@@ -77,6 +77,7 @@ export class CreateSubgroupComponent implements OnInit {
         subgroupId: this.subgroupId,
         tardeId: this.registerForm.value.tardeId,
         subgroupName: this.registerForm.value.subgroupName,
+        status:true
       };
       this.tradeMaintanceService
         .updateSubgroup(updatedData, this.subgroupId)
@@ -85,7 +86,7 @@ export class CreateSubgroupComponent implements OnInit {
         });
     } else {
       this.tradeMaintanceService
-        .createSubgroup(this.registerForm.value)
+        .createSubgroup({...this.registerForm.value, status:true})
         .subscribe(
           (data) => {
             console.log(data);

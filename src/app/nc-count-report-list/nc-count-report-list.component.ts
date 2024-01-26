@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from '../common.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-nc-count-report-list',
   templateUrl: './nc-count-report-list.component.html',
@@ -18,7 +19,8 @@ export class NcCountReportListComponent implements OnInit {
   ncCountData: Array<Object>
   // dtTrigger: Subject<FirstNote> = new Subject<FirstNote>();
   constructor(
-    private commonService: CommonService
+    private commonService: CommonService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -32,8 +34,13 @@ export class NcCountReportListComponent implements OnInit {
     this.commonService.getNcCountReports()
       .subscribe(data => {
         this.ncCountData = data
+        console.log('NC count-->', data)
         this.dtTrigger.next()
       })
+  }
+
+  editReport(id){
+    this.router.navigate(['ncCountReport', id])
   }
 
 }

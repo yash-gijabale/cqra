@@ -129,6 +129,8 @@ import { PmcListComponent } from './pmc-list/pmc-list.component';
 import { CreatePmcComponent } from './create-pmc/create-pmc.component';
 import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
 import { MisAppriciationComponent } from './MIS/mis-appriciation/mis-appriciation.component';
+import { MisDecisionComponent } from './MIS/misDecision/mis-decision/mis-decision.component';
+import { MisInitiativeComponent } from './MIS/mis-initiative/mis-initiative.component';
 
 
 @NgModule({
@@ -251,7 +253,9 @@ import { MisAppriciationComponent } from './MIS/mis-appriciation/mis-appriciatio
     PmcListComponent,
     CreatePmcComponent,
     CreateSamplingStepThreeComponent,
-    MisAppriciationComponent
+    MisAppriciationComponent,
+    MisDecisionComponent,
+    MisInitiativeComponent
   ],
   imports: [
     BrowserModule,

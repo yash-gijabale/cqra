@@ -68,7 +68,7 @@ export class CreateChecklistComponent implements OnInit {
   getListFormData: checklistFormTemp[];
   questionList: Question[];
   questionList2: Question[];
-  finalQuestion: Question[];
+  finalQuestion: Array<Object>;
   tempQuestions: Question[];
   q: Question[];
   questionGroup: QuestionGroup[];
@@ -172,6 +172,15 @@ export class CreateChecklistComponent implements OnInit {
           this.registerForm.patchValue(formData)
         })
 
+      this.commonService.getAllocatedQuestion(this.checkListId)
+      .subscribe(data =>{
+        let allocatedQ = data
+        console.log(data)
+        allocatedQ.forEach(item =>{
+          this.finalQuestion.push(item)
+        })
+      })
+
     }
 
     this.tradeMaintanceService.getAllTrades().subscribe(
@@ -230,7 +239,14 @@ export class CreateChecklistComponent implements OnInit {
     console.log(finalCheckList)
     // console.log(JSON.stringify(finalCheckList));
     if (this.checkListId != -1) {
-
+      let finalCheckList = {
+        formDataList: [{
+          fkTradeId: this.registerForm.value.fkTradeId,
+          fkSubgroupId: this.registerForm.value.fkSubgroupId,
+          checklistName: this.registerForm.value.checklistName
+        }],
+        checklistQuestionDataList: this.finalQuestion,
+      }
       this.commonService.updateChecklist(finalCheckList, this.checkListId)
       .subscribe(data => {
         console.log('checklist updated', data)

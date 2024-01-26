@@ -95,6 +95,8 @@ export class CreateSamplingStepThreeComponent implements OnInit {
   contractorId: number //assign if sampling type 1
   staffId: number //assign if sampling type 1
 
+  tradeNameObj = {}
+
   constructor(
     private commanService: CommonService,
     private ClientService: ClientServiceService,
@@ -204,8 +206,12 @@ export class CreateSamplingStepThreeComponent implements OnInit {
         }
         tradeObject[item.tradeGroupId].push(tradeData)
       }
+
+      this.tradeNameObj[item.tradeId] = item.tradeName
     })
+
     console.log(tradeObject)
+    console.log(this.tradeNameObj)
     this.testTG = tradeGroupArray
     this.testTrade = tradeObject
 

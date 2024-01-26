@@ -41,8 +41,8 @@ export class NcCountReportComponent implements OnInit {
   ncCountForm: FormGroup
   clients: ClientData[]
   trades: Trade
-  clientStaff: clientStaffData[]
-  contractors: ContractorData[]
+  clientStaff: clientStaffData
+  contractors: ContractorData
   ncCountID: number
   constructor(
     private formBuilder: FormBuilder,
@@ -64,6 +64,8 @@ export class NcCountReportComponent implements OnInit {
           this.commonService.getClientProject(Retrivedata.clientId).subscribe(data => this.projects = data)
           this.commonService.getStructures(Retrivedata.clientId, Retrivedata.projectId).subscribe(data => { this.structures = data })
           this.tradeService.getProjectTrades(Retrivedata.projectId).subscribe(data => { this.trades = data })
+          this.clientService.getContractorByProjectId(Retrivedata.projectId).subscribe(data => this.contractors = data)
+          this.clientService.getClientStaffByProjectId(Retrivedata.projectId).subscribe(data => this.clientStaff = data)
           this.ncCountForm.patchValue(data)
         })
     }
@@ -71,11 +73,6 @@ export class NcCountReportComponent implements OnInit {
     this.clientService.getAllClients()
       .subscribe(data => this.clients = data)
 
-    this.clientService.getAllClientStaff()
-      .subscribe(data => this.clientStaff = data)
-
-    this.commonService.getAllContractors()
-      .subscribe(data => this.contractors = data)
 
     this.ncCountForm = this.formBuilder.group({
       clientId: ['', Validators.required],
@@ -110,16 +107,20 @@ export class NcCountReportComponent implements OnInit {
         console.log(data)
         this.trades = data
       })
+
+    this.clientService.getContractorByProjectId(this.SelProject).subscribe(data => this.contractors = data)
+
+    this.clientService.getClientStaffByProjectId(this.SelProject).subscribe(data => this.clientStaff = data)
   }
 
   onSubmit() {
     console.log(this.ncCountForm.value)
     if (this.ncCountID != -1) {
       this.commonService.updateNcCountReport(this.ncCountForm.value, this.ncCountID)
-      .subscribe(data =>{
-        console.log('report updated-->', data)
-      },
-      err => console.log(err))
+        .subscribe(data => {
+          console.log('report updated-->', data)
+        },
+          err => console.log(err))
     } else {
 
       this.commonService.createNcCountReport(this.ncCountForm.value)

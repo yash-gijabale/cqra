@@ -102,6 +102,7 @@ export class CreateQuestionHeadingComponent implements OnInit {
         questionGroupId: this.registerForm.value.questionGroupId,
         subgroupId: this.registerForm.value.subgroupId,
         tardeId: this.registerForm.value.tardeId,
+        status:true
       };
 
       this.tradeMaintanceService.updateQuestionHeading(formData, this.questionHeadingId)
@@ -112,7 +113,7 @@ export class CreateQuestionHeadingComponent implements OnInit {
 
     } else {
       this.tradeMaintanceService
-        .createQuestionHeading(this.registerForm.value)
+        .createQuestionHeading({...this.registerForm.value, status:true})
         .subscribe(
           (data) => console.log("heading created-->", data),
           (err) => console.log(err)

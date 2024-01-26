@@ -168,7 +168,7 @@
               <tbody>
 
                 <tr *ngFor="let t of type2step3data[data.key].samplingData">
-                  <td style="width: 10%;" class="type2trades" [attr.title]="t.tradeId">{{t.tradeId}}</td>
+                  <td style="width: 30%;" class="type2trades" [attr.title]="t.tradeId">{{tradeNameObj[t.tradeId]}}</td>
                   <td>
                     {{type2StageData[data.key][t.tradeId][0].stageName}}
                   </td>

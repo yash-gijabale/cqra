@@ -106,14 +106,10 @@ export class NcReviewerComponent implements OnInit {
 
   getProjectTrades(){
       
-    this.commonService.getProjectTrades(this.SelProjectId)
-    .subscribe(
-      (data) => {
-      console.log('stage Data==',data)
-      this.trades= data;
-    
-    }, (err) => {
-      console.log('-----> err', err);
+    this.tradeMaintanceService.getProjectTrades(this.SelProjectId)
+    .subscribe(data => {
+      console.log(data)
+      this.trades = data
     })
   }
 

@@ -22,6 +22,9 @@ import { ChecklistData } from './create-checklist/create-checklist.component';
 import { MisFromData } from './create-mis-report/create-mis-report.component';
 import { MisReport } from './mis-report/mis-report.component';
 import { MisAppriciateData, MisAppriciateForm } from './MIS/mis-appriciation/mis-appriciation.component';
+import { QualityIndexReportData } from './qaulity-index-report-list/qaulity-index-report-list.component';
+import { MisDecisionData, MisDecisionForm } from './MIS/misDecision/mis-decision/mis-decision.component';
+import { otrReportData } from './create-observation-tracker-report/create-observation-tracker-report.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -72,7 +75,7 @@ export class CommonService {
     return this.httpClient.get<Checklist[]>(this.REST_API_SERVER + `/findbytradeid/${tradeId}`);
   }
 
-  getUserAllocationData(projectId, structureId, tradeId, userID){
+  getUserAllocationData(projectId, structureId, tradeId, userID) {
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getuserallocationchecklist/${projectId}/${structureId}/${tradeId}/${userID}`)
   }
 
@@ -175,6 +178,10 @@ export class CommonService {
     return this.httpClient.put(`${this.REST_API_SERVER}/checklist/updatebychecklistid/${id}`, data)
   }
 
+  getAllocatedQuestion(id) {
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/checklist/questionbychecklistid/${id}`)
+  }
+
 
   //REPORT API CALL
   //NC COUNT API CALL
@@ -196,7 +203,7 @@ export class CommonService {
 
   //QUALITY INDEX REPORT
   getAllQualityIndexReport() {
-    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
+    return this.httpClient.get<QualityIndexReportData>(`${this.REST_API_SERVER}/QualityIndex/getAllQualityIndex`)
   }
   createQualityIndexReport(data): Observable<CommonService> {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/QualityIndex/addQualityIndex`, data)
@@ -257,6 +264,15 @@ export class CommonService {
   //
 
 
+  //OBSERVATION TRACKER REPORT
+  createObservationTrackerReport(data): Observable<CommonService> {
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addmobstrarep`, data)
+  }
+
+  getOTRReport(id){
+    return this.httpClient.get<otrReportData>(`${this.REST_API_SERVER}/getobsid/${id}`)
+  }
+
 
   //MIS REPORT API CALL
   createMisReport(data: MisFromData): Observable<CommonService> {
@@ -266,27 +282,52 @@ export class CommonService {
     return this.httpClient.get<Object>(`${this.REST_API_SERVER}/Mis/${id}`)
   }
 
-  updateMisReport(data: MisFromData, id){
+  updateMisReport(data: MisFromData, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/Mis/${id}`, data)
   }
 
-  getAllMisReport(){
+  getAllMisReport() {
     return this.httpClient.get<MisReport>(`${this.REST_API_SERVER}/getMis`)
   }
 
-  misAddAppriciate(data: MisAppriciateForm): Observable<CommonService>{
+  misAddAppriciate(data: MisAppriciateForm): Observable<CommonService> {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addmisAppriciationImprovements`, data)
   }
 
-  misGetAllAppriceiate(id){
+  misGetAllAppriceiate(id) {
     return this.httpClient.get<MisAppriciateData[]>(`${this.REST_API_SERVER}/MisAppriciationImprovementsbyfkmisid/${id}`)
   }
 
-  retreiveMisAppriciation(id){
+  retreiveMisAppriciation(id) {
     return this.httpClient.get<MisAppriciateData>(`${this.REST_API_SERVER}/MisAppriciationImprovements/${id}`)
   }
 
+  updateMisAppriciation(data: MisAppriciateForm, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/MisApgetMisDecisionInterventionspriciationImprovements/${id}`, data)
+  }
 
+
+  //DECISION MANAGMENT FORM API
+  getAllMisDecision(id) {
+    return this.httpClient.get<MisDecisionData>(`${this.REST_API_SERVER}/MisDecisionInterventionsbyfkmisid/${id}`)
+  }
+
+  addMisDesicion(data: MisDecisionForm): Observable<CommonService> {
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addmisDecisionInterventions`, data)
+  }
+
+  updateMisDecision(data: MisAppriciateForm, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/MisDecisionInterventions/${id}`, data)
+  }
+
+  retriveDecision(id) {
+    return this.httpClient.get<MisAppriciateData>(`${this.REST_API_SERVER}/MisDecisionInterventions/${id}`)
+  }
+
+  //MIS INITIATIVE API
+  addMisInitiative(data): Observable<CommonService> {
+    return this.httpClient.post<CommonService>(`${this.httpClient}/addMisInitiative`, data)
+  }
 
 
   private oldMessage = sessionStorage.getItem('pkId')

@@ -4,15 +4,16 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { TradeMaintanceService } from '../trade-maintance.service';
 
-export class Checklist{
+
+export class Checklist {
   constructor(
-    
-    public checklistId:number,
-    public checklistName:string,
-    public tradeName:string,
-    
-    
-  ){
+
+    public checklistId: number,
+    public checklistName: string,
+    public tradeName: string,
+
+
+  ) {
 
   }
 }
@@ -30,22 +31,31 @@ export class ChecklistComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<Checklist> = new Subject();
 
-  checklists:Checklist[];
+  checklists: Checklist[];
 
-  constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
+  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
   ngOnInit() {
     this.tradeMaintanceService.getAllChecklist().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.checklists= data;
-    
+      this.checklists = data;
+
       // ADD THIS
       this.dtTrigger.next();
-    
+
     }, (err) => {
       console.log('-----> err', err);
     })
-    
+
+  }
+
+
+  editChecklist(id) {
+    this.router.navigate(['createChecklist', id])
+  }
+
+  deActivateCheckList(id) {
+
   }
 
 }

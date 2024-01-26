@@ -45,6 +45,7 @@ export class ContractorComponent implements OnInit {
   contractorId: number = 0
   supervisors: SupervisorData
   foremans: FormanData
+  submitted = false
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -81,6 +82,13 @@ export class ContractorComponent implements OnInit {
 
   }
 
+  get f(){
+    return this.foremanForm.controls
+  }
+
+  get s(){
+    return this.supervisorForm.controls
+  }
   editContractor(id) {
 
     this.router.navigate(['createContractor', id])
@@ -104,6 +112,7 @@ export class ContractorComponent implements OnInit {
     this.contractorId = id
   }
   addSupervisor() {
+    this.submitted = true
     this.supervisorForm.value.contractorId = this.contractorId
     this.supervisorForm.value.isActive = true
 
@@ -129,12 +138,12 @@ export class ContractorComponent implements OnInit {
     //   })
     this.router.navigate(['contractorSupervisor', contractorId])
 
-    
+
   }
 
 
   addForeman() {
-
+    this.submitted = true
     this.foremanForm.value.contractorId = this.contractorId
     this.foremanForm.value.active = true
 
@@ -153,8 +162,8 @@ export class ContractorComponent implements OnInit {
 
     //   })
 
-    this.router.navigate(['contractorForman',contractorId])
-      
+    this.router.navigate(['contractorForman', contractorId])
+
   }
 
 
