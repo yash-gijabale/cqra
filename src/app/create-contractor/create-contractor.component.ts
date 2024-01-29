@@ -21,14 +21,15 @@ export class CreateContractorComponent implements OnInit {
   clients: ClientData[]
   contractorId: number;
   isLoading = false;
-  projects:ProjectData[]
+  isBtnLoading = false
+  projects: ProjectData[]
   constructor(
-    private route: ActivatedRoute, 
-    private router: Router, 
-    private clientServiceService: ClientServiceService, 
+    private route: ActivatedRoute,
+    private router: Router,
+    private clientServiceService: ClientServiceService,
     private formBuilder: FormBuilder,
-    private commonService : CommonService
-    ) { }
+    private commonService: CommonService
+  ) { }
 
 
   ngOnInit() {
@@ -76,9 +77,9 @@ export class CreateContractorComponent implements OnInit {
     if (this.registerForm.invalid) {
       return
     }
-    this.isLoading = true;
+    this.isBtnLoading = true;
     console.log("Id==");
-    let fromData = {...this.registerForm.value, isActive: 1}
+    let fromData = { ...this.registerForm.value, isActive: 1 }
     console.log(fromData)
 
     if (this.contractorId != -1) {
@@ -88,6 +89,8 @@ export class CreateContractorComponent implements OnInit {
           data => {
             console.log('updated !')
             console.log(data)
+            this.isBtnLoading = false
+
           },
           err => console.log(err)
         )
@@ -97,7 +100,8 @@ export class CreateContractorComponent implements OnInit {
       this.clientServiceService.createContractor(fromData)
         .subscribe(data => {
           console.log('data adedd', data)
-          this.isLoading = false
+          this.isBtnLoading = false
+          this.registerForm.reset()
         })
     }
 

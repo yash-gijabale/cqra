@@ -53,7 +53,7 @@ export class UsersComponent implements OnInit {
 
   projects: UserData[];
   users: UserView[];
-
+  isLoading = false
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
@@ -63,12 +63,14 @@ export class UsersComponent implements OnInit {
       lengthMenu: [10, 25, 50]
     };
 
+    this.isLoading = true
     this.userService.getAllUsers().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.users = data;
 
       // ADD THIS
       this.dtTrigger.next();
+      this.isLoading = false
 
     }, (err) => {
       console.log('-----> err', err);
@@ -77,15 +79,15 @@ export class UsersComponent implements OnInit {
 
   }
 
-  editUser(id){
+  editUser(id) {
     this.router.navigate(['createUser', id])
   }
 
-  deactivateUser(id){
+  deactivateUser(id) {
     let idDeactivate = confirm('Are you sure want to deactivate ?')
-    if(idDeactivate){
+    if (idDeactivate) {
       this.userService.deactivateUser(id)
-      .subscribe(data => console.log('deactivated...', data))
+        .subscribe(data => console.log('deactivated...', data))
     }
   }
 

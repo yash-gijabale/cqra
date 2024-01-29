@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { NcCountReportData } from './nc-count-report/nc-count-report.component';
 import { QualityIndexReport } from './quality-index-report/quality-index-report.component';
-import { InspectionReport } from './creaate-inspectionreport/creaate-inspectionreport.component';
+import { InspectionReport, InspectionReportSnappAudit } from './creaate-inspectionreport/creaate-inspectionreport.component';
 import { SnaggingReportView } from './create-snagging-document/create-snagging-document.component';
 import { StepTrackerData } from './create-sampling-step-three/create-sampling-step-three.component';
 import { ChecklistData } from './create-checklist/create-checklist.component';
@@ -25,6 +25,10 @@ import { MisAppriciateData, MisAppriciateForm } from './MIS/mis-appriciation/mis
 import { QualityIndexReportData } from './qaulity-index-report-list/qaulity-index-report-list.component';
 import { MisDecisionData, MisDecisionForm } from './MIS/misDecision/mis-decision/mis-decision.component';
 import { otrReportData } from './create-observation-tracker-report/create-observation-tracker-report.component';
+import { OtrData } from './observation-tracker-report/observation-tracker-report.component';
+import { MisInitiativeData, MisInitiativeForm } from './MIS/mis-initiative/mis-initiative.component';
+import { MisTopPerformanceData, MisTopPerformanceFrom } from './MIS/mis-top-performance/mis-top-performance.component';
+import { MisBelowPerformanceData, MisBelowPerformanceFrom } from './MIS/mis-below-person/mis-below-person.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -236,7 +240,7 @@ export class CommonService {
   }
 
   retriveInspectionReport(id) {
-    return this.httpClient.get<InspectionReport>(`${this.REST_API_SERVER}/getInspectDataByReportId/${id}`)
+    return this.httpClient.get<InspectionReportSnappAudit>(`${this.REST_API_SERVER}/getInspectDataByReportId/${id}`)
   }
 
   updateInspectionReport(data, id) {
@@ -269,8 +273,16 @@ export class CommonService {
     return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addmobstrarep`, data)
   }
 
-  getOTRReport(id){
+  getOTRReport(id) {
     return this.httpClient.get<otrReportData>(`${this.REST_API_SERVER}/getobsid/${id}`)
+  }
+
+  getAllOtrReport() {
+    return this.httpClient.get<OtrData>(`${this.REST_API_SERVER}/getobsreps`)
+  }
+
+  updateOtr(data, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/updateminspecrep/${id}`, data)
   }
 
 
@@ -325,9 +337,60 @@ export class CommonService {
   }
 
   //MIS INITIATIVE API
-  addMisInitiative(data): Observable<CommonService> {
-    return this.httpClient.post<CommonService>(`${this.httpClient}/addMisInitiative`, data)
+  addMisInitiative(data: MisInitiativeForm): Observable<CommonService> {
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addMisInitiative`, data)
   }
+
+  getAllMisInitiative(id) {
+    return this.httpClient.get<MisInitiativeData>(`${this.REST_API_SERVER}/MisInitiativebyfkmisid/${id}`)
+  }
+
+  getMisInitiative(id) {
+    return this.httpClient.get<MisInitiativeData>(`${this.REST_API_SERVER}/MisInitiative/${id}`)
+  }
+
+  updateMisInitiative(data: MisInitiativeForm, id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/MisInitiative/${id}`, data)
+  }
+
+  deleteMisInitiative(id){
+    return this.httpClient.delete(`${this.REST_API_SERVER}/MisInitiative/${id}`)
+  }
+
+
+  //MIS TOP PERFORMANCE
+  createMisTopPerformance(data: MisTopPerformanceFrom): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addMisTopPerformance`, data)
+  }
+
+  getAllMisTopPerformance(id){
+    return this.httpClient.get<MisTopPerformanceData>(`${this.REST_API_SERVER}/MisTopPerformancebyfkmisid/${id}`)
+  }
+
+  getMisTopPerformance(id){
+    return this.httpClient.get<MisTopPerformanceData>(`${this.REST_API_SERVER}/MisTopPerformance/${id}`)
+  }
+
+  updateMisTopPerformance(data:MisTopPerformanceFrom, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/MisTopPerformance/${id}`, data)
+  }
+  
+
+  //Below performaer
+  getAllMisBelowPerformance(id){
+    return this.httpClient.get<MisBelowPerformanceData>(`${this.REST_API_SERVER}/MisPersonPerformancebyfkmisid/${id}`)
+  }
+  createMisBelowPerformance(data: MisBelowPerformanceFrom): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addMisPersonPerformance`, data)
+  }
+  getMisBelowPerformance(id){
+    return this.httpClient.get<MisBelowPerformanceData>(`${this.REST_API_SERVER}/MisPersonPerformance/${id}`)
+  }
+
+  updateMisBelowPerformance(data:MisBelowPerformanceFrom, id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/MisPersonPerformance/${id}`, data)
+  }
+
 
 
   private oldMessage = sessionStorage.getItem('pkId')

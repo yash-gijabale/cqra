@@ -118,6 +118,8 @@ import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/c
 import { MisAppriciationComponent } from './MIS/mis-appriciation/mis-appriciation.component';
 import { MisDecisionComponent } from './MIS/misDecision/mis-decision/mis-decision.component';
 import { MisInitiativeComponent } from './MIS/mis-initiative/mis-initiative.component';
+import { MisTopPerformanceComponent } from './MIS/mis-top-performance/mis-top-performance.component';
+import { MisBelowPersonComponent } from './MIS/mis-below-person/mis-below-person.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -228,7 +230,7 @@ const routes: Routes = [
   { path: 'createLastNote/:id/:id2', component: CreateLastNoteComponent },
   { path: 'addEquipment/:id', component: AddEquipmentComponent },
   { path: 'assignEquipementList', component: AssignEquipementListComponent },
-  { path: 'createOTR/:id', component: CreateObservationTrackerReportComponent },
+  { path: 'createOTR/:id/:type', component: CreateObservationTrackerReportComponent },
   { path: 'OTRList', component: ObservationTrackerReportComponent },
   { path: 'roles', component: AddRoleComponent },
   { path: 'regions', component: AddRegionComponent },
@@ -238,6 +240,8 @@ const routes: Routes = [
   { path: 'misAppriciation/:id', component: MisAppriciationComponent },
   { path: 'misDecisionManegament/:id', component: MisDecisionComponent },
   { path: 'misInitiative/:id', component: MisInitiativeComponent },
+  { path: 'misTopPerformance/:id', component: MisTopPerformanceComponent },
+  { path: 'misBelowPerformance/:id', component: MisBelowPersonComponent },
 
 
 

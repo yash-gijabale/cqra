@@ -33,6 +33,7 @@ export class CreateClientStaffComponent implements OnInit {
   projects: ProjectData[];
   id: number;
   submitted=false
+  isbtnLoading = false
 
   constructor(
     private clientServiceService: ClientServiceService,
@@ -81,11 +82,13 @@ export class CreateClientStaffComponent implements OnInit {
     {
       return;
     }
+    this.isbtnLoading = true
     console.log(this.clientStaffForm.value);
     if(this.id == -1){
       this.clientServiceService.createClientStaff(this.clientStaffForm.value)
       .subscribe(data => {
         console.log('data added', data)
+        this.isbtnLoading = false
       },
       (err)=>{
         console.log(err)
@@ -94,6 +97,8 @@ export class CreateClientStaffComponent implements OnInit {
       this.clientServiceService.updateClientStaff(this.clientStaffForm.value, this.id)
       .subscribe(data => {
         console.log('updated-->', data)
+        this.isbtnLoading = false
+
       },
       (err) => {
         console.log('update err---->', err)

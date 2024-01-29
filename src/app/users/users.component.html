@@ -23,7 +23,10 @@
 
 
 
-
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
           <!-- Example DataTables Card-->

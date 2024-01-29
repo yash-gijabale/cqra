@@ -42,10 +42,11 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   stages: StageData[]
   clients: ClientData[]
   trades: Trade
-  clientStaffs : clientStaffData
+  clientStaffs: clientStaffData
   contractors: ContractorData
   supervisors: SupervisorData
   formans: FormanData
+  isbtnLoading = false
 
 
   constructor(
@@ -96,14 +97,14 @@ export class AssignConstructorSupervisorComponent implements OnInit {
         console.log(data)
         this.trades = data
       })
-    
-      this.clientService.getClientStaffByProjectId(this.SelProject)
+
+    this.clientService.getClientStaffByProjectId(this.SelProject)
       .subscribe(data => {
         console.log(data)
         this.clientStaffs = data
       })
 
-      this.clientService.getContractorByProjectId(this.SelProject)
+    this.clientService.getContractorByProjectId(this.SelProject)
       .subscribe(data => this.contractors = data)
 
   }
@@ -128,26 +129,26 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       })
   }
 
-  selectAllTradeCheckbox(e){
+  selectAllTradeCheckbox(e) {
     console.log(e)
-    if(e.target.checked){
+    if (e.target.checked) {
       $('.tradeGroups').prop('checked', true);
-    }else{
+    } else {
       $('.tradeGroups').prop('checked', false);
 
     }
   }
 
-  selectAllStageCheckbox(e){
+  selectAllStageCheckbox(e) {
     console.log(e)
-    if(e.target.checked){
+    if (e.target.checked) {
       $('.stagesCheckbox').prop('checked', true);
-    }else{
+    } else {
       $('.stagesCheckbox').prop('checked', false);
 
     }
   }
-  
+
 
   onSubmit() {
     console.log(this.registerForm.value)
@@ -157,17 +158,17 @@ export class AssignConstructorSupervisorComponent implements OnInit {
     let TradeIdArray = []
     let stageIdArray = []
     tradeElements.forEach((item) => {
-      if((<HTMLInputElement>item).checked){
+      if ((<HTMLInputElement>item).checked) {
         TradeIdArray.push(Number((<HTMLInputElement>item).value))
       }
     })
 
     stageElements.forEach((item) => {
-      if((<HTMLInputElement>item).checked){
+      if ((<HTMLInputElement>item).checked) {
         stageIdArray.push(Number((<HTMLInputElement>item).value))
       }
     })
-    
+
 
     let tradeIds = TradeIdArray
     let stageId = stageIdArray
@@ -201,16 +202,25 @@ export class AssignConstructorSupervisorComponent implements OnInit {
     })
 
     // console.log(supervisorData)
+    this.isbtnLoading = true
     if (this.registerForm.value.supervisorId) {
       this.clientService.assignContractorSupervisor(supervisorData)
-        .subscribe(data => { console.log('assigned-->', data) },
+        .subscribe(data => {
+          console.log('assigned-->', data)
+          this.isbtnLoading = false
+
+        },
           err => console.log(err))
     }
 
-    if(this.registerForm.value.foremanId){
+    if (this.registerForm.value.foremanId) {
       this.clientService.assignContractorForeman(foremanData)
-      .subscribe(data => console.log('assisned foreman-->', data),
-      err => console.log(err))
+        .subscribe(data => {
+          console.log('assisned foreman-->', data)
+          this.isbtnLoading = false
+
+        },
+          err => console.log(err))
     }
   }
 }

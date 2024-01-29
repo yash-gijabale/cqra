@@ -8,7 +8,8 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Observation Tracker Report</li>
+            <li class="breadcrumb-item active" *ngIf="typeId == 2">Observation Tracker Report</li>
+            <li class="breadcrumb-item active" *ngIf="typeId == 0">SignOff Report</li>
           </ol>
         </div>
         <div class="right-side-create-view">
@@ -20,7 +21,8 @@
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1> Create Observation Tracker Report </h1>
+            <h1 *ngIf="typeId == 2"> Create Observation Tracker Report </h1>
+            <h1 *ngIf="typeId == 0"> Create SignOff Report</h1>
           </div>
         </div>
       </div>

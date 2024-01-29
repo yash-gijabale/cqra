@@ -5,15 +5,15 @@ import { Subject } from 'rxjs';
 import { saveAs } from 'file-saver';
 import { TradeMaintanceService } from '../trade-maintance.service';
 
-export class InspectionView{
+export class InspectionView {
   constructor(
-    public id:number,
-    public clientName:string,
+    public id: number,
+    public clientName: string,
     public projectName: string,
-    public reportName:string,
-    public assessmentDate:string,
-    
-  ){
+    public reportName: string,
+    public assessmentDate: string,
+
+  ) {
 
   }
 }
@@ -29,11 +29,11 @@ export class InspectionReportComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<InspectionView> = new Subject();
 
-  snapAuditDetails:InspectionView;
-  reports:InspectionView[];
-  snapAuditId:number;
+  snapAuditDetails: InspectionView;
+  reports: InspectionView[];
+  snapAuditId: number;
   isLoading: boolean
-  constructor(private router: Router,private tradeMaintanceService :TradeMaintanceService) { }
+  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
   ngOnInit() {
 
@@ -41,92 +41,85 @@ export class InspectionReportComponent implements OnInit {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
-      lengthMenu : [5, 10, 25],
+      lengthMenu: [5, 10, 25],
       scrollX: true
-     
+
     };
 
     this.tradeMaintanceService.getAllInspectionReports().subscribe((data) => {
       console.log('----> office service : get all data', data);
-      this.reports= data;
+      this.reports = data;
       this.dtTrigger.next();
       this.isLoading = false
-    
+
     }, (err) => {
       console.log('-----> err', err);
     })
-    }
+  }
 
-    editReport(id){
-alert("SA =="+id);
-    }
-
-   
-    saveReport(filename: number): void {
-    this.snapAuditDetails= this.reports.find(item => item.id === filename);
-      this.tradeMaintanceService
-        .saveReport(this.snapAuditDetails)
-        .subscribe(blob => saveAs(blob, "Test.pdf"));
-    }
-
-    notifyClient(id){
-      
-    }
-
-    openNC(id){
-      
-    }
-
-    addFirstNote(id)
-    {
-      this.router.navigate(['firstNote', id])
-    }
-    getOfferdAerea(id){
-      this.router.navigate(['offredArea', id])
-
-    }
-    assessorNote(id)
-    {
-      this.router.navigate(['assessorName', id])
-    }
-    activityNotAvailable(id)
-    {
-      this.router.navigate(['activityNotAvailableDuringInspection', id])
-    }
-
-    getSampledArea(id){
-      this.router.navigate(['sampledArea', id])
-
-    }
-
-    getReferenceReport(id)
-    {
-      this.router.navigate(['referenceNote', id])
-
-    }
-
-    stageOfWork(id)
-    {
-      this.router.navigate(['stageOfWork', id])
-    }
-
-    getRemark(id)
-    {
-      this.router.navigate(['remarks', id])
-    }
-
-    getEquipUsedByCqra(id)
-    {
-      this.router.navigate(['userEquipment', id])
-    }
-    getEquipUsedByClient(id)
-    {
-      this.router.navigate(['equipUsedByClient', id])
-    }
-    getEquipUsedByContractor(id)
-    {
-      this.router.navigate(['equipUsedByContractor', id])
-
-    }
+  editReport(id) {
+    // alert("SA ==" + id);
+    this.router.navigate(['createinspection', id])
 
   }
+
+
+  saveReport(filename: number): void {
+    this.snapAuditDetails = this.reports.find(item => item.id === filename);
+    this.tradeMaintanceService
+      .saveReport(this.snapAuditDetails)
+      .subscribe(blob => saveAs(blob, "Test.pdf"));
+  }
+
+  notifyClient(id) {
+
+  }
+
+  openNC(id) {
+
+  }
+
+  addFirstNote(id) {
+    this.router.navigate(['firstNote', id])
+  }
+  getOfferdAerea(id) {
+    this.router.navigate(['offredArea', id])
+
+  }
+  assessorNote(id) {
+    this.router.navigate(['assessorName', id])
+  }
+  activityNotAvailable(id) {
+    this.router.navigate(['activityNotAvailableDuringInspection', id])
+  }
+
+  getSampledArea(id) {
+    this.router.navigate(['sampledArea', id])
+
+  }
+
+  getReferenceReport(id) {
+    this.router.navigate(['referenceNote', id])
+
+  }
+
+  stageOfWork(id) {
+    this.router.navigate(['stageOfWork', id])
+  }
+
+  getRemark(id) {
+    this.router.navigate(['remarks', id])
+  }
+
+  getEquipUsedByCqra(id) {
+    this.router.navigate(['userEquipment', id])
+  }
+  getEquipUsedByClient(id) {
+    this.router.navigate(['equipUsedByClient', id])
+  }
+  getEquipUsedByContractor(id) {
+    this.router.navigate(['equipUsedByContractor', id])
+
+  }
+
+}

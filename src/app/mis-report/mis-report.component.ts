@@ -40,12 +40,13 @@ export class MisReportComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<MisReport> = new Subject<MisReport>();
 
-
+  isLoading = false
   constructor(
     private commonService : CommonService
   ) { }
 
   ngOnInit() {
+    this.isLoading = true
 
     this.dtOptions = {
       pagingType: "full_numbers",
@@ -60,6 +61,7 @@ export class MisReportComponent implements OnInit {
       this.misReports = data
       this.dtTrigger.next();
       console.log(data)
+      this.isLoading = false
     }, err => console.log(err))
   }
  

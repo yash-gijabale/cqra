@@ -13,6 +13,15 @@ import { UserService } from '../service/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 
+export class InspectionReportSnappAudit {
+  constructor(
+    public snapAudit: Object,
+    public inspectTradeList: Array<Object>,
+    public inspectClientList: Array<Object>,
+    public inspectStructureList: Array<Object>
+  ) { }
+}
+
 export class InspectionReport {
   constructor(
     public clientId: number,
@@ -41,6 +50,7 @@ export class InspectionReport {
   ) { }
 }
 
+
 @Component({
   selector: 'app-creaate-inspectionreport',
   templateUrl: './creaate-inspectionreport.component.html',
@@ -50,7 +60,7 @@ export class CreaateInspectionreportComponent implements OnInit {
 
   clients: ClientData[];
   projects: ProjectData[];
-  contractors: ContractorData[]
+  contractors: ContractorData
   structures: any;
   trades: any;
   SelAssessmentDate: any;
@@ -86,7 +96,7 @@ export class CreaateInspectionreportComponent implements OnInit {
       console.log('-----> err', err);
     })
 
-    this.commonService.getAllContractors().subscribe(data => this.contractors = data)
+    // this.commonService.getAllContractors().subscribe(data => this.contractors = data)
 
     this.commonService.getAllCycleOfInspection().subscribe(data => this.cycleOfInspection = data, err => console.log(err))
 
@@ -101,52 +111,56 @@ export class CreaateInspectionreportComponent implements OnInit {
         .subscribe(data => {
           console.log(data)
           retrivedData = data
-          this.commonService.getClientProject(retrivedData.inspectReport.clientId).subscribe(data => this.projects = data)
+          this.commonService.getClientProject(retrivedData.snapAudit.clientId).subscribe(data => this.projects = data)
 
-          this.commonService.getStructures(retrivedData.inspectReport.clientId, retrivedData.inspectReport.projectId).subscribe(data => this.structures = data)
+          this.commonService.getStructures(retrivedData.snapAudit.clientId, retrivedData.snapAudit.schemeId).subscribe(data => this.structures = data)
 
-          this.tradeService.getProjectTrades(retrivedData.inspectReport.projectId).subscribe(data => this.trades = data)
-          this.inspectionReporotForm.patchValue(retrivedData.inspectReport)
-          let tradeIds = retrivedData.inspectTradeList.map((items) =>{
+          this.tradeService.getProjectTrades(retrivedData.snapAudit.schemeId).subscribe(data => this.trades = data)
+
+          this.clientServiceService.getContractorByProjectId(retrivedData.snapAudit.schemeId).subscribe(data => {
+              this.contractors = data
+            })
+          this.inspectionReporotForm.patchValue(retrivedData.snapAudit)
+          let tradeIds = retrivedData.inspectTradeList.map((items) => {
             return items.tradeId
           })
-          let structureIds = retrivedData.inspectStructureList.map((item) =>{
+          let structureIds = retrivedData.inspectStructureList.map((item) => {
             return item.structureId
           })
-          let clientReps = retrivedData.inspectClientList.map((item) =>{
+          let clientReps = retrivedData.inspectClientList.map((item) => {
             return item.clientId
           })
           console.log(structureIds)
-          this.inspectionReporotForm.patchValue({tradeId : tradeIds})
-          this.inspectionReporotForm.patchValue({structureId : structureIds})
-          this.inspectionReporotForm.patchValue({clientRep : clientReps})
+          this.inspectionReporotForm.patchValue({ tradeId: tradeIds })
+          this.inspectionReporotForm.patchValue({ structureId: structureIds })
+          this.inspectionReporotForm.patchValue({ clientRep: clientReps })
         }, err => console.log(err))
     }
-    
+
     this.inspectionReporotForm = this.formBuilder.group({
       clientId: ['', Validators.required],
-      projectId: ['', Validators.required],
+      schemeId: ['', Validators.required],
       structureId: ['', Validators.required],
       tradeId: ['', Validators.required],
       clientRep: ['', Validators.required],
       assessmentDate: ['', Validators.required],
-      nabcReport: ['', Validators.required],
+      nabc: ['', Validators.required],
       nabcNote: ['', Validators.required],
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
-      approver: ['', Validators.required],
+      approverId: ['', Validators.required],
       approverDesign: ['', Validators.required],
-      revever: ['', Validators.required],
-      revekverDesign: ['', Validators.required],
+      reviewerId: ['', Validators.required],
+      reviewerDesign: ['', Validators.required],
+      createrId: ['', Validators.required],
       createrName: ['', Validators.required],
-      createrDesign: ['', Validators.required],
       reportHeader: ['', Validators.required],
       image1: ['', Validators.required],
       image2: ['', Validators.required],
-      cycleOfInspection: ['', Validators.required],
-      typeOfProject: ['', Validators.required],
-      uicNumber: ['', Validators.required],
-      index: ['', Validators.required]
+      cycleId: ['', Validators.required],
+      typeOfReport: ['', Validators.required],
+      uicNo: ['', Validators.required],
+      saIndex: ['', Validators.required]
     })
 
   }
@@ -181,6 +195,11 @@ export class CreaateInspectionreportComponent implements OnInit {
         console.log(data)
         this.trades = data
       })
+
+    this.clientServiceService.getContractorByProjectId(this.SelProject)
+      .subscribe(data => {
+        this.contractors = data
+      })
   }
 
   onSubmit() {
@@ -192,7 +211,7 @@ export class CreaateInspectionreportComponent implements OnInit {
     delete this.inspectionReporotForm.value.structureId
     delete this.inspectionReporotForm.value.clientRep
     let data = {
-      inspectReport: this.inspectionReporotForm.value,
+      snapAudit: { ...this.inspectionReporotForm.value, type: 0 },
       inspectTrade: tradeIds,
       inspectClient: contractors,
       inspectStructure: structureIds

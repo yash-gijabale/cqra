@@ -29,36 +29,36 @@
           <div class="form-group">
             <label>Representing Type</label>
             <select [(ngModel)]="representingType" formControlName="representingTypeId" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }" (change)="getRepresentors()">
+              [ngClass]="{ 'is-invalid': submitted && f.representingTypeId.errors }" (change)="getRepresentors()">
               <option [value]="1" [selected]="1">CQRA</option>
               <option [value]="2">Client</option>
               <option [value]="3">Contractor</option>
               <option [value]="4">PMC</option>
               <option [value]="5">Other</option>
             </select>
-            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
-              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            <div *ngIf="submitted && f.representingTypeId.errors" class="invalid-feedback">
+              <div *ngIf="f.representingTypeId.errors.required">Representor Type is required</div>
             </div>
           </div>
-          
+
           <div class="form-group">
             <label>Representor</label>
             <select formControlName="representingId" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
+              [ngClass]="{ 'is-invalid': submitted && f.representingId.errors }">
               <option [value]="user.id" *ngFor="let user of representator">
                 {{user.name}}
               </option>
             </select>
-            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
-              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            <div *ngIf="submitted && f.representingId.errors" class="invalid-feedback">
+              <div *ngIf="f.representingId.errors.required">Representor is required</div>
             </div>
           </div>
 
           <div class="form-group" *ngIf="showCadre">
             <label>CADRE</label>
-            <select  formControlName="cadre" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
-              <option  [selected]="1">Select CADRE</option>
+            <select formControlName="cadre" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.cadre.errors }">
+              <option [selected]="1">Select CADRE</option>
               <option [value]="'m1'">M1</option>
               <option [value]="'m2'">M2</option>
               <option [value]="'m3'">M3</option>
@@ -74,8 +74,8 @@
               <option [value]="'t1'">T1</option>
               <option [value]="'t2'">T2</option>
             </select>
-            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
-              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            <div *ngIf="submitted && f.cadre.errors" class="invalid-feedback">
+              <div *ngIf="f.cadre.errors.required">CADRE is required</div>
             </div>
           </div>
 
@@ -115,7 +115,7 @@
           <div class="form-group" *ngIf="showCadre">
             <label>Department</label>
             <select formControlName="department" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
+              [ngClass]="{ 'is-invalid': submitted && f.department.errors }">
               <option [value]="1" [selected]="true">Administrative</option>
               <option [value]="2">Billing(QS)</option>
               <option [value]="3">Central Audit Team</option>
@@ -130,8 +130,8 @@
               <option [value]="12">RMC Operations</option>
               <option [value]="13">Safety</option>
             </select>
-            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
-              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            <div *ngIf="submitted && f.department.errors" class="invalid-feedback">
+              <div *ngIf="f.department.errors.required">User Type is required</div>
             </div>
           </div>
 
@@ -266,7 +266,17 @@
             <input type="file" formControlName="userImage" class="form-control" />
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+            <ng-template #thenBlock>
+              <button class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
+            </ng-template>
+            <ng-template #elseBlock>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </ng-template>
+
           </div>
         </form>
 

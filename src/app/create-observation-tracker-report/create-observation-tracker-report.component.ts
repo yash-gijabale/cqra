@@ -9,7 +9,7 @@ import { TradeMaintanceService } from '../trade-maintance.service';
 import { Trade } from '../trade/trade.component';
 import { ContractorData } from '../contractor-forman/contractor-forman.component';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InspectionReport } from '../creaate-inspectionreport/creaate-inspectionreport.component';
 
 
@@ -44,17 +44,20 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   contractors: ContractorData[]
   supervisors: SupervisorData
   otrId: Number
+  typeId: Number
   constructor(
     private commonServices: CommonService,
     private clientService: ClientServiceService,
     private formBuilder: FormBuilder,
     private tradeService: TradeMaintanceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.submitted = true;
     this.otrId = this.route.snapshot.params['id']
+    this.typeId = this.route.snapshot.params['type']
     this.clientService.getAllClients()
       .subscribe(data => this.clients = data)
 
@@ -126,13 +129,28 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   get f() { return this.registerForm.controls }
 
   onSubmit() {
-    console.log(this.registerForm.value)
     let formData = {
-      inspectReport: this.registerForm.value,
+      inspectReport: {...this.registerForm.value, type:this.typeId},
       obstraTrade: this.registerForm.value.obstraTrade,
       obstraStage: this.registerForm.value.obstraStage
     }
-    this.commonServices.createObservationTrackerReport(formData)
-      .subscribe(data => console.log(data))
+
+    console.log(formData)
+
+    if (this.otrId != -1) {
+      this.commonServices.updateOtr(formData, this.otrId)
+      .subscribe(data =>{
+        console.log('updated', data)
+      })
+
+    } else {
+
+      this.commonServices.createObservationTrackerReport(formData)
+        .subscribe(data => console.log(data))
+    }
+  }
+
+  edit(id){
+    this.router.navigate(['createOTR', id])
   }
 }

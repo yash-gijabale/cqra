@@ -29,6 +29,7 @@ export class AddRoleComponent implements OnInit {
   dtTrigger: Subject<RoleView> = new Subject<RoleView>();
 
   isLoading: boolean = false
+  isbtnLoading = false
   isUpdate: boolean = false
   roleId: number
   constructor(
@@ -64,6 +65,10 @@ export class AddRoleComponent implements OnInit {
   onSubmit() {
     // Toast.show('#liveToast')
     // return/
+    if (this.roleForm.invalid) {
+      return
+    }
+    this.isbtnLoading = true
     console.log(this.roleForm.value)
     if (this.isUpdate) {
       this.userService.updateRole(this.roleForm.value, this.roleId)
@@ -71,6 +76,7 @@ export class AddRoleComponent implements OnInit {
           console.log('ROles Updted', data)
           this.userService.getAllRoles().subscribe(data => this.roles = data)
           this.isUpdate = false
+          this.isbtnLoading = false
           this.roleForm.reset()
         })
 
@@ -80,6 +86,7 @@ export class AddRoleComponent implements OnInit {
         .subscribe(data => {
           console.log('ROles addded', data)
           this.userService.getAllRoles().subscribe(data => this.roles = data)
+          this.isbtnLoading = false
           this.roleForm.reset()
 
         })
@@ -89,9 +96,13 @@ export class AddRoleComponent implements OnInit {
   getRole(id) {
     this.isUpdate = true
     this.roleId = id
+    this.isLoading = true
     this.userService.getRole(id)
       .pipe(first())
-      .subscribe(data => this.roleForm.patchValue(data))
+      .subscribe(data => {
+        this.roleForm.patchValue(data)
+        this.isLoading = false
+      })
   }
 
   deactiveRole(id) {

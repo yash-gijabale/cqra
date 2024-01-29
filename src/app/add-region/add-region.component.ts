@@ -33,7 +33,8 @@ export class AddRegionComponent implements OnInit {
 
   isLoading: boolean = false
   isUpdate: boolean = false
-  regionId : number = 0
+  isbtnLoading = false
+  regionId: number = 0
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService
@@ -66,41 +67,53 @@ export class AddRegionComponent implements OnInit {
 
   onSubmit() {
     console.log(this.regionForm.value)
+    this.isbtnLoading = true
     this.regionForm.value.displayName = ""
     if (this.isUpdate) {
       this.userService.updateRegion(this.regionForm.value, this.regionId)
-      .subscribe(data => {
-        console.log('Region Updated-->', data)
-        this.regionForm.reset()
-      })
+        .subscribe(data => {
+          console.log('Region Updated-->', data)
+          this.regionForm.reset()
+          this.isbtnLoading = false
+          this.getRegions()
+
+        })
 
     } else {
       this.userService.AddRegion(this.regionForm.value)
         .subscribe(data => {
           console.log('added -->', data)
-          this.userService.getAllRegions().subscribe(data => {
-            this.regions = data
-          })
+          this.regionForm.reset()
+          this.isbtnLoading = false
+          this.getRegions()
         })
     }
+  }
+
+  getRegions(){
+    this.userService.getAllRegions().subscribe(data => {
+      this.regions = data
+    })
   }
 
   getRegion(id) {
     this.isUpdate = true
     this.regionId = id
+    this.isLoading = true
     this.userService.getRegion(id)
       .pipe(first())
       .subscribe(data => {
         this.regionForm.patchValue(data)
+        this.isLoading = false
       })
 
   }
 
-  deactiveRegion(id){
+  deactiveRegion(id) {
     let isDeactive = confirm('Are Sure sure to deactive ?')
-    if(isDeactive){
+    if (isDeactive) {
       this.userService.deactiveRegion(id)
-      .subscribe(data => location.reload())
+        .subscribe(data => location.reload())
     }
   }
 

@@ -30,6 +30,9 @@ export class AssignProjectComponent implements OnInit {
   projectIds: object = {}
 
   userId: number
+  userFullName: String
+
+  isLoading = false
 
   constructor(
     private commonService: CommonService,
@@ -40,7 +43,15 @@ export class AssignProjectComponent implements OnInit {
   ngOnInit() {
     this.userId = this.route.snapshot.params['userId']
 
+    // this.userService.retriveUser(this.userId)
+    // .subscribe(data => {
+    //   let user = data
+    //   console.log(data)
+    //   this.userFullName = data.userFullName
+    // })
+
     // let projects = {}
+    this.isLoading = true
     this.userService.getAssignedProjectByUserId(this.userId)
       .subscribe(data => {
         console.log(data)
@@ -64,6 +75,7 @@ export class AssignProjectComponent implements OnInit {
         console.log(data)
         this.projects = data
         this.dtTrigger.next()
+        this.isLoading = false
       })
   }
 
@@ -78,19 +90,26 @@ export class AssignProjectComponent implements OnInit {
       let isDeactivet = confirm('Are you sure want to deactivate ?')
       if (!isDeactivet) {
         event.target.checked = true
-        
-      }else{
+
+      } else {
+        this.isLoading = true
         this.userService.removeUserProject(id, this.userId)
-        .subscribe(data => {
-          console.log('project removed-->', data)
-        })
+          .subscribe(data => {
+            console.log('project removed-->', data)
+            this.isLoading = false
+          })
       }
       console.log(event.target.checked)
       console.log(id)
     } else {
 
+      this.isLoading = true
       this.userService.assignProject(assignData)
-        .subscribe(data => console.log('project assied-->', data))
+        .subscribe(data => {
+          console.log('project assied-->', data)
+          this.isLoading = false
+
+        })
       console.log(event.target.checked)
       console.log(id)
     }

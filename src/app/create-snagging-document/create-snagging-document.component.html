@@ -58,7 +58,7 @@
           <div class="form-group">
             <label>Trade</label>
             <select formControlName="tradeId" class="form-control" multiple>
-              <option [value]="trade.tardeId" *ngFor="let trade of trades">
+              <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
                 {{trade.tradeName}}
               </option>
             </select>

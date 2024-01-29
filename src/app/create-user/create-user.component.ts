@@ -39,6 +39,8 @@ export class CreateUserComponent implements OnInit {
 
   representator = []
 
+  isLoading = false
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -55,12 +57,12 @@ export class CreateUserComponent implements OnInit {
     this.userService.getAllRegions().subscribe(data => this.regions = data)
     this.userService.getAllRoles().subscribe(data => this.roles = data)
 
-    if(this.representingType == 1){
+    if (this.representingType == 1) {
       this.clientServiceService.getAllClients()
-      .subscribe(data => {
-        this.clients = data
-        this.clientDataToRepresentator(data)
-      })
+        .subscribe(data => {
+          this.clients = data
+          this.clientDataToRepresentator(data)
+        })
     }
 
     if (this.id != -1) {
@@ -81,7 +83,7 @@ export class CreateUserComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       userType: ['', Validators.required],
       roleId: ['', Validators.required],
-      userImage: ['', Validators.required],
+      userImage: ['', Validators.nullValidator],
       approverN: ['', Validators.nullValidator],
       reviewerN: ['', Validators.nullValidator],
       createrN: ['', Validators.nullValidator],
@@ -110,32 +112,38 @@ export class CreateUserComponent implements OnInit {
     //UPDATING THE FORM FOR MAPPING VALUES IN BACKEND
     let formData = {
       ...this.registerForm.value,
-      // userRole: Number(this.registerForm.value.roleId),
       status: true
     }
 
     console.log(formData)
 
-    //IF VALDATION IS FALSE THEN RETUN AND SHOW ERRORS
-    // if (this.registerForm.invalid) {
-    //   return
-    // }
+    // IF VALDATION IS FALSE THEN RETUN AND SHOW ERRORS
+    if (this.registerForm.invalid) {
+      console.log(this.registerForm)
+      return
+    }
 
 
     //UPDATE USER AND CREATE USER 
     if (this.id != -1) {
+      this.isLoading = true
       this.userService.updateUSer(formData, this.id)
         .subscribe(
-          data => { console.log('user updated-->', data) },
+          data => {
+            console.log('user updated-->', data)
+            this.isLoading = false
+          },
           err => console.log(err))
-
     } else {
 
+      this.isLoading = true
       this.userService.createUser(formData)
         .subscribe(
           data => {
             console.log('user created!--->', data),
-              this.registerForm.reset()
+            this.registerForm.reset()
+            this.isLoading = false
+
           },
           err => console.log(err)
         )
@@ -180,37 +188,37 @@ export class CreateUserComponent implements OnInit {
   }
 
 
-  contractorDataToRepresentator(data){
+  contractorDataToRepresentator(data) {
     this.representator = []
-      data.forEach(item =>{
-        let contractor = {
-          id: item.contractorId,
-          name: item.contractorName
-        }
-        this.representator.push(contractor)
-      })
+    data.forEach(item => {
+      let contractor = {
+        id: item.contractorId,
+        name: item.contractorName
+      }
+      this.representator.push(contractor)
+    })
   }
 
-  pmcDataToRepresentator(data){
+  pmcDataToRepresentator(data) {
     this.representator = []
-      data.forEach(item =>{
-        let pmc = {
-          id: item.pmcId,
-          name: item.pmcName
-        }
-        this.representator.push(pmc)
-      })
+    data.forEach(item => {
+      let pmc = {
+        id: item.pmcId,
+        name: item.pmcName
+      }
+      this.representator.push(pmc)
+    })
   }
 
-  clientDataToRepresentator(data){
+  clientDataToRepresentator(data) {
     this.representator = []
-      data.forEach(item =>{
-        let client = {
-          id: item.clientId,
-          name: item.clientName
-        }
-        this.representator.push(client)
-      })
+    data.forEach(item => {
+      let client = {
+        id: item.clientId,
+        name: item.clientName
+      }
+      this.representator.push(client)
+    })
   }
 
 }

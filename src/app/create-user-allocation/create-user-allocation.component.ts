@@ -54,6 +54,7 @@ export class CreateUserAllocationComponent implements OnInit {
   allocationId: number
 
 
+  isbtnLoading = false
   // allocatedCheckList: Array<number> = []
   // allocatedStages: Array<number> = []
 
@@ -146,6 +147,7 @@ export class CreateUserAllocationComponent implements OnInit {
 
     console.log(finalAllocationData)
     // return
+    this.isbtnLoading = true
 
 
     if (this.allocationId != -1) {
@@ -154,16 +156,18 @@ export class CreateUserAllocationComponent implements OnInit {
       //     userAllocation: AllocationData
       // }
       // console.log(finalAllocationDataUpdate)
-
       this.userService.updateUserAllocation(finalAllocationData)
         .subscribe(data => {
           console.log('updated allocation-->', data)
+          this.isbtnLoading = false
         })
     } else {
 
       this.userService.updateUserAllocation(finalAllocationData)
         .subscribe(data => {
           console.log('allocated -->', data)
+          this.isbtnLoading = false
+
         })
     }
   }
@@ -237,7 +241,7 @@ export class CreateUserAllocationComponent implements OnInit {
 
         let allocatedCheckList: Array<number> = []
         let allocatedStages: Array<Number> = []
-        
+
         for (const key in checkListMap) {
           allocatedCheckList.push(Number(key))
         }

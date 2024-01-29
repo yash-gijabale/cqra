@@ -114,6 +114,8 @@ export class CreateSnaggingDocumentComponent implements OnInit {
 
           this.tradeService.getProjectTrades(retrivedData.snapAudit.schemeId).subscribe(data => this.trades = data)
 
+          this.clientServiceService.getContractorByProjectId(retrivedData.snapAudit.schemeId).subscribe(data =>{this.contractors = data})
+
           let tradeIds = retrivedData.snaggTradeList.map((items) => {
             return items.tradeIds
           })
@@ -130,7 +132,7 @@ export class CreateSnaggingDocumentComponent implements OnInit {
     }
 
 
-    this.commonService.getAllContractors().subscribe(data => this.contractors = data)
+    // this.commonService.getAllContractors().subscribe(data => this.contractors = data)
 
     this.commonService.getAllCycleOfInspection().subscribe(data => this.cycleOfInspection = data, err => console.log(err))
 
@@ -171,22 +173,27 @@ export class CreateSnaggingDocumentComponent implements OnInit {
         console.log(data)
         this.trades = data
       })
+
+      this.clientServiceService.getContractorByProjectId(this.SelProjectId)
+      .subscribe(data =>{
+        this.contractors = data
+      })
   }
 
 
-  getContractor() {
-    // alert("called" + this.SelstructureId);
-    this.commonService.getContractors(this.SelClientId, this.SelProjectId, this.SelstructureId, this.SelTradeId)
-      .subscribe(
-        (data) => {
-          console.log('Contractor Data==', data)
-          this.contractors = data;
+  // getContractor() {
+  //   // alert("called" + this.SelstructureId);
+  //   this.commonService.getContractors(this.SelClientId, this.SelProjectId, this.SelstructureId, this.SelTradeId)
+  //     .subscribe(
+  //       (data) => {
+  //         console.log('Contractor Data==', data)
+  //         this.contractors = data;
 
-        }, (err) => {
-          console.log('-----> err', err);
-        })
+  //       }, (err) => {
+  //         console.log('-----> err', err);
+  //       })
 
-  }
+  // }
 
   get f() { return this.snaggingReportFrom.controls }
 
@@ -199,7 +206,7 @@ export class CreateSnaggingDocumentComponent implements OnInit {
     delete this.snaggingReportFrom.value.structureId
     delete this.snaggingReportFrom.value.clientRep
     let data = {
-      snapAudit: this.snaggingReportFrom.value,
+      snapAudit: {...this.snaggingReportFrom.value, type: 1},
       snaggTrade: tradeIds,
       snaggclient: contractors,
       snaggStru: structureIds

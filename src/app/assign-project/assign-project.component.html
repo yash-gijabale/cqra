@@ -20,11 +20,19 @@
               </a>
             </div>
           </div>
+
+          <!-- <div class="left-side-header col-md-12 m-0 p-0">
+            <div class="create-content-header">
+              <h1> Assign Projects </h1>
+            </div>
+          </div> -->
         </div>
       </div>
 
-
-
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
 
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
@@ -46,7 +54,8 @@
                 <td>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
-                      (change)="assignProject($event, project.projectId, project.clientId)" [checked]="projectIds[project.projectId]">
+                      (change)="assignProject($event, project.projectId, project.clientId)"
+                      [checked]="projectIds[project.projectId]">
                     <!-- <label class="form-check-label" for="flexSwitchCheckDefault">{{projectIds[project.projectId]}}</label> -->
                   </div>
                 </td>

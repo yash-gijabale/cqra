@@ -1,3 +1,4 @@
+
 <app-header></app-header>
 <div class="content-wrapper">
   <div class="container-fluid">
@@ -8,54 +9,54 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Manage Regions</li>
+            <li class="breadcrumb-item active">MIS Below Performers</li>
           </ol>
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <!-- <button type="button"> <a [routerLink]="'/createFirstNote/' + snapAuditId+'/-1'">Create First Note</a>
-            </button> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="main-header_createview">
-        <div class="left-side-header">
-          <div class="create-content-header">
-            <h1> Add Region</h1>
-          </div>
-        </div>
-      </div>
-      <form [formGroup]="regionForm" (ngSubmit)="onSubmit()">
-        <div class="form-group col-md-4">
-          <label>Region name</label>
-          <input type="text" formControlName="regionName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.regionName.errors }" />
-          <div *ngIf="submitted && f.regionName.errors" class="invalid-feedback">
-            <div *ngIf="f.regionName.errors.required">Region is required</div>
-          </div>
-        </div>
-        <div class="form-group col-md-3">
-          <div *ngIf="isbtnLoading; then btnthenBlock else elsebtnBlock"></div>
-          <ng-template #btnthenBlock>
-            <button class="btn btn-primary" type="button" disabled>
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Loading...
+            <button type="button"> <a [routerLink]="'/misReport'">Manage MIS</a>
             </button>
-          </ng-template>
-          <ng-template #elsebtnBlock>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </ng-template>
-
-        </div>
-      </form>
-
-      <div class="main-header_createview">
-        <div class="left-side-header">
-          <div class="create-content-header">
-            <h1> Manage Region</h1>
           </div>
         </div>
       </div>
+      <div class="main-header_createview">
+        <div class="left-side-headcer">
+          <div class="create-content-header">
+            <h1>MIS Below Performers</h1>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="main-header_createview">
+        <div class="left-side-headcer">
+          <div class="create-content-header">
+            <form [formGroup]="belowPerformanceForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label>Person Name</label>
+                <input type="text" formControlName="personName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.personName.errors }" />
+                <div *ngIf="submitted && f.personName.errors" class="invalid-feedback">
+                  <div *ngIf="f.personName.errors.required">Person Name is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Designation</label>
+                <input type="text" formControlName="designation" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.designation.errors }" />
+                <div *ngIf="submitted && f.designation.errors" class="invalid-feedback">
+                  <div *ngIf="f.designation.errors.required">Desgnation is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary mt-1">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
       <div *ngIf="isLoading; then thenBlock"></div>
       <ng-template #thenBlock>
         <app-loader></app-loader>
@@ -67,24 +68,25 @@
             style="width:100%">
             <thead>
               <tr>
-
-                <th>Region</th>
+                <th>Person Name</th>
+                <th>Designation</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let region of (regions)">
-                <td>{{region.regionName}}</td>
+              <tr *ngFor="let mis of (belowPerformance)">
+                <td>{{mis.personName}}</td>
+                <td>{{mis.designation}}</td>
                 <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
                 <td>
                   <div class="action-commonview">
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter" (click)="getRegion(region.regionId)">
+                      data-target="#exampleModalCenter" (click)="editMis(mis.personId)">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" class="Delete-modal" (click)="deactiveRegion(region.regionId)">
+                    <button type="text" class="Delete-modal" (click)="deActivate(mis.personId)">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>

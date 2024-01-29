@@ -15,7 +15,7 @@
 
           <div class="right-side-create-view ">
             <div class="create-content-operations">
-              <a routerLink="/createOTR/-1">
+              <a routerLink="/createOTR/-1/1">
                 <button type="button"> Create OTR </button>
               </a>
             </div>
@@ -24,21 +24,22 @@
       </div>
 
 
-
-
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
           <!-- Example DataTables Card-->
-
-
-          <table datatable [dtOptions]="dtOptions" id="customers" style="width:100%">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" style="width:100%">
             <thead>
               <tr>
                 <th>Client Name</th>
                 <th>Project Name</th>
                 <th>Structure Name</th>
                 <th>Duration Report</th>
-                <th>Report Name</th>
+                <th style="width: 30%;">Report Name</th>
+                <th>Upadte</th>
                 <th>Save Report(NC PDF)</th>
                 <th>Download Report</th>
                 <th>View Compliance Report(HTML)</th>
@@ -50,21 +51,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                <td>aa</td>
-                
+              <tr *ngFor="let otr of (OTRdata)">
+                <td>{{otr.ClientName}}</td>
+                <td>{{otr.projectName}}</td>
+                <td>{{otr.StructureName}}</td>
+                <td>{{otr.fromDate}}</td>
+                <td>{{otr.reportName}}</td>
+                <td><button class="btn btn-sm btn-warning" (click)="edit(otr.id)">+</button></td>
+                <td><button class="btn btn-sm btn-secondary">+</button></td>
+                <td><button class="btn btn-sm btn-secondary">+</button></td>
+                <td><button class="btn btn-sm btn-secondary">+</button></td>
+                <td><button class="btn btn-sm btn-secondary">+</button></td>
+                <td><button class="btn btn-sm btn-secondary">+</button></td>
+                <td><button class="btn btn-sm btn-secondary">+</button></td>
+                <td><button class="btn btn-sm btn-secondary">+</button></td>
+                <td><button class="btn btn-sm btn-secondary">+</button></td>
+
               </tr>
             </tbody>
           </table>

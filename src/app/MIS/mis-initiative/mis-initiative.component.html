@@ -31,7 +31,7 @@
       <div class="main-header_createview">
         <div class="left-side-headcer">
           <div class="create-content-header">
-            <form [formGroup]="appriciationForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="initiativeFrom" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <label>MIS Initialtive</label>
                 <input type="text" formControlName="item" class="form-control"
@@ -65,13 +65,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let mis of (misData)">
+              <tr *ngFor="let mis of (initiatives)">
                 <td>{{mis.item}}</td>
                 <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
                 <td>
                   <div class="action-commonview">
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter" (click)="editNote(mis.itemId)">
+                      data-target="#exampleModalCenter" (click)="editMis(mis.itemId)">
                       <span class="edit-tessst">
                         <i class="las la-pencil-alt"></i>
                       </span>
