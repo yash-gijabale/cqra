@@ -120,6 +120,7 @@ import { MisDecisionComponent } from './MIS/misDecision/mis-decision/mis-decisio
 import { MisInitiativeComponent } from './MIS/mis-initiative/mis-initiative.component';
 import { MisTopPerformanceComponent } from './MIS/mis-top-performance/mis-top-performance.component';
 import { MisBelowPersonComponent } from './MIS/mis-below-person/mis-below-person.component';
+import { CreateRfiComponent } from './create-rfi/create-rfi.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -242,6 +243,8 @@ const routes: Routes = [
   { path: 'misInitiative/:id', component: MisInitiativeComponent },
   { path: 'misTopPerformance/:id', component: MisTopPerformanceComponent },
   { path: 'misBelowPerformance/:id', component: MisBelowPersonComponent },
+  { path: 'createRfi/:id', component: CreateRfiComponent },
+
 
 
 

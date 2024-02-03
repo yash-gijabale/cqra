@@ -29,6 +29,8 @@ import { OtrData } from './observation-tracker-report/observation-tracker-report
 import { MisInitiativeData, MisInitiativeForm } from './MIS/mis-initiative/mis-initiative.component';
 import { MisTopPerformanceData, MisTopPerformanceFrom } from './MIS/mis-top-performance/mis-top-performance.component';
 import { MisBelowPerformanceData, MisBelowPerformanceFrom } from './MIS/mis-below-person/mis-below-person.component';
+import { CommaExpr } from '@angular/compiler';
+import { RFIForm } from './create-rfi/create-rfi.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -597,6 +599,18 @@ export class CommonService {
 
   }
 
+
+
+
+  //RFI API CALL
+
+  createRFI(data: RFIForm) : Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/addRfiCreate`,data)
+  }
+
+  retriveRFI(id){
+    return this.httpClient.get<RFIForm>(`${this.REST_API_SERVER}/RfiCreate/${id}`)
+  }
 
 
 }

@@ -1,0 +1,171 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Create RFI</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/client">Manage RFI</a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Create RFI </h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="rfiFrom" (ngSubmit)="onSubmit()" class="row">
+          <div class="form-group col-md-4">
+            <label>Select Client</label>
+            <select [(ngModel)]="SelClient" formControlName="client" class="form-control" (change)="getProjects()">
+              <option [value]="0">Please Select</option>
+              <option [value]="client.clientId" *ngFor="let client of clients">
+                {{client.clientName}}
+              </option>
+            </select>
+            <div class="invalid-feedback">
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Project Name</label>
+            <select [(ngModel)]="SelProject" formControlName="project" class="form-control" (change)="getStructure()">
+              <option [value]="0">Please Select</option>
+              <option [value]="project.projectId" *ngFor="let project of projects">
+                {{project.projectName}}
+              </option>
+            </select>
+            <div class="invalid-feedback">
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Structure Name</label>
+            <select [(ngModel)]="SelStructure" formControlName="structure" class="form-control"
+              (change)="getStages()">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.structureId" *ngFor="let o of structures">
+                {{o.structureName}}
+              </option>
+            </select>
+            <div class="invalid-feedback">
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Select Stages</label>
+            <select formControlName="stage" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.stageId" *ngFor="let o of stages">
+                {{o.stageName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Unit</label>
+            <select formControlName="unit" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.stageId" *ngFor="let o of stages">
+                {{o.stageName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Subunit</label>
+            <select formControlName="subUnit" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.stageId" *ngFor="let o of stages">
+                {{o.stageName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Element</label>
+            <select formControlName="element" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.stageId" *ngFor="let o of stages">
+                {{o.stageName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Sub Element</label>
+            <select formControlName="subElement" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.stageId" *ngFor="let o of stages">
+                {{o.stageName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Trade</label>
+            <select [(ngModel)]="Seltrade" formControlName="tradeId" class="form-control" (change)="getSubgroups()">
+              <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
+                {{trade.tradeName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Groups</label>
+            <select [(ngModel)]="SelSubgroup" formControlName="groupColumn" class="form-control" (change)="getCheckList()">
+              <option [value]="sub.subgroupId" *ngFor="let sub of subgroups">
+                {{sub.subgroupName}}
+              </option>
+            </select>
+            <div class="invalid-feedback">
+            </div>
+          </div>
+
+
+          <div class="form-group col-md-4">
+            <label>CheckList</label>
+            <select [(ngModel)]="SelContractor" formControlName="checkList" class="form-control">
+              <option [value]="checkList.checklistMasterId" *ngFor="let checkList of checklists">
+                {{checkList.checklistName}}
+              </option>
+            </select>
+            <div class="invalid-feedback">
+            </div>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Coverage</label>
+            <input type="text" class="form-control" formControlName="coverage">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Drawing No.</label>
+            <input type="text" class="form-control" formControlName="drawingNo">
+          </div>
+
+          <div class="form-group col-md-3">
+            <div *ngIf="isbtnLoading; then btnthenBlock else elsebtnBlock"></div>
+            <ng-template #btnthenBlock>
+              <button class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
+            </ng-template>
+            <ng-template #elsebtnBlock>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </ng-template>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>a

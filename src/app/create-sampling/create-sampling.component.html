@@ -169,6 +169,8 @@
                               </button>
                             </div>
                             <div class="modal-body">
+                              <input class="form-check" type="checkbox" (change)="step1SelectAll($event,t.tradeId)">
+                              <label class="form-check-label" for="flexCheckDefault">Select All</label>
                               <div class="form-check" *ngFor="let o of stages">
                                 <input class="form-check-input" [class]="'step2StagesCheckbox_'+t.tradeId"
                                   type="checkbox" [value]="o.stageId" id="flexCheckDefault"
@@ -211,8 +213,8 @@
                   <th>TradeGroup</th>
                   <th>Trade</th>
                   <th>Work Complete Status</th>
-                  <th>Contractor</th>
                   <th>Representative</th>
+                  <th>Contractor</th>
                   <th>Work Area</th>
                 </thead>
                 <tbody>
@@ -240,18 +242,20 @@
                     <div *ngIf="samplingType != 1; then thenBlock else elseBolck"></div>
                     <ng-template #thenBlock>
                       <td *ngIf="step2formRenderData[tg.id].length">
-                        <select [class]="'step2ContractorSelect_'+t.tradeId" *ngFor="let t of step2formRenderData[tg.id]">
-                          <option [value]="contractor.contractorId" *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
-                            {{contractor.contractorName}}</option>
-                        </select>
-                      </td>
-  
-                      <td *ngIf="step2formRenderData[tg.id].length">
                         <select [class]="'step2StaffSelect_'+t.tradeId" *ngFor="let t of step2formRenderData[tg.id]">
                           <option [value]="staff.clientStaffId" *ngFor="let staff of staffData">{{staff.clientName}}
                           </option>
-  
+
                         </select>
+                      </td>
+                      <td *ngIf="step2formRenderData[tg.id].length">
+
+                        <div *ngFor="let t of step2formRenderData[tg.id]"
+                          style="margin-bottom: 10px; display: flex; flex-direction: column;">
+                          <input [class]="'step2ContractorSelect_'+t.tradeId" [value]="contractor.contractorName"
+                            [attr.title]="contractor.contractorId"
+                            *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
+                        </div>
                       </td>
                     </ng-template>
                     <ng-template #elseBolck>
@@ -261,7 +265,7 @@
                             {{client.clientName}}</option>
                         </select>
                       </td>
-  
+
                       <td *ngIf="step2formRenderData[tg.id].length">
                         <select [class]="'step2StaffSelect_'+t.tradeId" *ngFor="let t of step2formRenderData[tg.id]">
                           <option [value]="client.clientId" *ngFor="let client of clients">
@@ -269,39 +273,93 @@
                         </select>
                       </td>
                     </ng-template>
-                    
-                    <td *ngIf="step2formRenderData[tg.id].length">
-                      <span class="add-stages" *ngFor="let t of step2formRenderData[tg.id]">
-                        {{step2workArea[t.tradeId] ? step2workArea[t.tradeId].length : 0}}
-                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
-                          [attr.data-target]="'#step2Add-stage_'+t.tradeId">+</button>
 
-                        <div class="modal fade" [id]="'step2Add-stage_'+t.tradeId" tabindex="-1" role="dialog"
-                          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Allocate Stage step2</h5>
-                                <button type="button" class="close" #closebutton data-dismiss="modal"
-                                  aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <div class="form-check" *ngFor="let o of stages">
-                                  <input *ngIf="workArea[t.tradeId].includes(o.stageId)" class="form-check-input"
-                                    [class]="'step2StagesCheckbox_'+t.tradeId" type="checkbox" [value]="o.stageId"
-                                    id="flexCheckDefault" (change)="addStep2WorkArea($event, t.tradeId)">
-                                  <label *ngIf="workArea[t.tradeId].includes(o.stageId)" class="form-check-label"
-                                    for="flexCheckDefault">{{o.stageName}}</label>
+
+
+                    <div *ngIf="samplingType != 1; then stageThenBlock else stageElseBolck"></div>
+                    <ng-template #stageThenBlock>
+                      <td *ngIf="step2formRenderData[tg.id].length">
+
+                        <span class="add-stages" *ngFor="let t of step2formRenderData[tg.id]"
+                          style="display: flex; flex-direction: column !important;">
+                          <div *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
+                            {{step2workArea[t.tradeId] ? step2workArea[t.tradeId][contractor.contractorId] ?
+                            step2workArea[t.tradeId][contractor.contractorId].length:0 : 0}}
+                            <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                              [attr.data-target]="'#step2Add-stage_'+t.tradeId+'_'+contractor.contractorId">+</button>
+
+                            <div class="modal fade" [id]="'step2Add-stage_'+t.tradeId+'_'+contractor.contractorId"
+                              tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Allocate Stage step2</h5>
+                                    <button type="button" class="close" #closebutton data-dismiss="modal"
+                                      aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <input class="form-check" type="checkbox"
+                                      (change)="step2SelectAll($event,t.tradeId)">
+                                    <label class="form-check-label" for="flexCheckDefault">Select All</label>
+                                    <div class="form-check" *ngFor="let o of stages">
+                                      <input *ngIf="workArea[t.tradeId].includes(o.stageId)" class="form-check-input"
+                                        [class]="'step2StagesCheckbox_'+t.tradeId" type="checkbox" [value]="o.stageId"
+                                        id="flexCheckDefault"
+                                        (change)="addStep2WorkArea($event, t.tradeId, contractor.contractorId)">
+                                      <label *ngIf="workArea[t.tradeId].includes(o.stageId)" class="form-check-label"
+                                        for="flexCheckDefault">{{o.stageName}}</label>
+                                    </div>
+                                  </div>
+
                                 </div>
                               </div>
-
                             </div>
                           </div>
-                        </div>
-                      </span>
-                    </td>
+
+                        </span>
+                      </td>
+                    </ng-template>
+                    <ng-template #stageElseBolck>
+                      <td *ngIf="step2formRenderData[tg.id].length">
+                        <span class="add-stages" *ngFor="let t of step2formRenderData[tg.id]">
+                          {{step2workArea[t.tradeId] ? step2workArea[t.tradeId].length : 0}}
+                          <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                            [attr.data-target]="'#step2Add-stage_'+t.tradeId">+</button>
+  
+                          <div class="modal fade" [id]="'step2Add-stage_'+t.tradeId" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLongTitle">Allocate Stage step2</h5>
+                                  <button type="button" class="close" #closebutton data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="form-check" *ngFor="let o of stages">
+                                    <input *ngIf="workArea[t.tradeId].includes(o.stageId)" class="form-check-input"
+                                      [class]="'step2StagesCheckbox_'+t.tradeId" type="checkbox" [value]="o.stageId"
+                                      id="flexCheckDefault" (change)="addStep2type1WorkArea($event, t.tradeId)">
+                                    <label *ngIf="workArea[t.tradeId].includes(o.stageId)" class="form-check-label"
+                                      for="flexCheckDefault">{{o.stageName}}</label>
+                                  </div>
+                                </div>
+  
+                              </div>
+                            </div>
+                          </div>
+                        </span>
+                      </td>
+                    </ng-template>
+
+
+
+
+
 
                   </tr>
 
@@ -320,7 +378,8 @@
         <div *ngIf="isThirdStep;then step3Block"></div>
         <ng-template #step3Block>
           <div class="form-group my-2">
-            <a [routerLink]="'/createSamplingStep3/'+SelProject+'/'+SelStructure"><button class="btn btn-success">Procced Final Step</button></a>
+            <a [routerLink]="'/createSamplingStep3/'+SelProject+'/'+SelStructure"><button
+                class="btn btn-success">Procced Final Step</button></a>
           </div>
         </ng-template>
       </div>

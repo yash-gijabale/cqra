@@ -133,6 +133,7 @@ import { MisDecisionComponent } from './MIS/misDecision/mis-decision/mis-decisio
 import { MisInitiativeComponent } from './MIS/mis-initiative/mis-initiative.component';
 import { MisTopPerformanceComponent } from './MIS/mis-top-performance/mis-top-performance.component';
 import { MisBelowPersonComponent } from './MIS/mis-below-person/mis-below-person.component';
+import { CreateRfiComponent } from './create-rfi/create-rfi.component';
 
 
 @NgModule({
@@ -259,7 +260,8 @@ import { MisBelowPersonComponent } from './MIS/mis-below-person/mis-below-person
     MisDecisionComponent,
     MisInitiativeComponent,
     MisTopPerformanceComponent,
-    MisBelowPersonComponent
+    MisBelowPersonComponent,
+    CreateRfiComponent
   ],
   imports: [
     BrowserModule,
