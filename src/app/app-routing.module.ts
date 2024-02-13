@@ -121,6 +121,8 @@ import { MisInitiativeComponent } from './MIS/mis-initiative/mis-initiative.comp
 import { MisTopPerformanceComponent } from './MIS/mis-top-performance/mis-top-performance.component';
 import { MisBelowPersonComponent } from './MIS/mis-below-person/mis-below-person.component';
 import { CreateRfiComponent } from './create-rfi/create-rfi.component';
+import { GenerateSamplingReortComponent } from './generate-sampling-reort/generate-sampling-reort.component';
+
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -244,6 +246,7 @@ const routes: Routes = [
   { path: 'misTopPerformance/:id', component: MisTopPerformanceComponent },
   { path: 'misBelowPerformance/:id', component: MisBelowPersonComponent },
   { path: 'createRfi/:id', component: CreateRfiComponent },
+  { path: 'generateSamplingReport', component: GenerateSamplingReortComponent },
 
 
 

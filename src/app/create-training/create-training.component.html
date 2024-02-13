@@ -28,9 +28,9 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Client</label>
-            <select  [(ngModel)]="SelClient" formControlName="selClient"  class="form-control"> 
+            <select  [(ngModel)]="SelClient" formControlName="clientId"  class="form-control" (change)="getProjects()"> 
                 <option  [value]="0">Please Select</option>
-                <option [value]="o.selClient" *ngFor="let o of clients">
+                <option [value]="o.clientId" *ngFor="let o of clients">
                   {{o.clientName}}
                 </option>
             </select>
@@ -40,11 +40,11 @@
           </div>
           <div class="form-group">
             <label>Project</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
+            <select  [(ngModel)]="SelProject" formControlName="schemeId" class="form-control" (change)="getTrade()" > 
                 <option  [value]="0">Please Select</option>
-                <option  [value]="1">Both</option>
-                <option  [value]="2">Device</option>
-                <option  [value]="3">Web</option>
+                <option [value]="o.projectId" *ngFor="let o of projects">
+                  {{o.projectName}}
+                </option>
             </select>
             <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
                 <div *ngIf="f.selProject.errors.required">Project is required</div>
@@ -52,11 +52,11 @@
           </div>
           <div class="form-group">
             <label>Trade</label>
-            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
+            <select  [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" > 
                 <option  [value]="0">Please Select</option>
-                <option  [value]="1">Both</option>
-                <option  [value]="2">Device</option>
-                <option  [value]="3">Web</option>
+                <option [value]="o.fkTradeId" *ngFor="let o of trades">
+                  {{o.tradeName}}
+                </option>
             </select>
             <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
                 <div *ngIf="f.selTrade.errors.required">Project is required</div>
@@ -65,41 +65,41 @@
 
           <div class="form-group">
             <label>Trainer Name </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="text" formControlName="trainerName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Trainer Name  is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Training Topic </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="text" formControlName="trainingSubject" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
           </div>
           <div class="form-group">
             <label>Training Duration </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="text" formControlName="trainingDurationInHours" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
           </div>
           <div class="form-group">
             <label>Training Date </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="date" formControlName="trainingDate" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
               <div *ngIf="f.clientName.errors.required">Training Date is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Image 1 </label>
-            <input type="file" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="file" formControlName="image1" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
           </div>
           <div class="form-group">
             <label>Image 2</label>
-            <input type="file" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="file" formControlName="image2" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
           </div>
           <div class="form-group">
             <label>Other Attendees</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="text" formControlName="otherAttendies" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
           </div>
           <div class="form-group">
             <label>Contractor Name1</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <input type="text" formControlName="contractorName1" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
           </div>
           
           <table border="1" datatable id="customers" class="row-border hover" style="width:100%">
@@ -111,12 +111,12 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="clientStaffTable">
               <tr>
                 <td>1</td>
-                <td><input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></td>
-                <td><input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></td>
-                <td><button class="btn btn-danger">Add Row</button></td>
+                <td><input type="text"  class="form-control clientStaff"   /></td>
+                <td><input type="text"  class="form-control cleintStaffDesignation" /></td>
+                <td><button type="button" class="btn btn-danger" (click)="addClientRow()">Add Row</button></td>
               </tr>
             </tbody>
           </table>
@@ -130,12 +130,12 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="contractorTable">
               <tr>
                 <td>1</td>
-                <td><input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></td>
-                <td><input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></td>
-                <td><button class="btn btn-danger">Add Row</button></td>
+                <td><input type="text"  class="form-control contractorName"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></td>
+                <td><input type="text"  class="form-control contractorDesignation"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" /></td>
+                <td><button type="button" class="btn btn-danger" (click)="addCOntractorRow()">Add Row</button></td>
               </tr>
             </tbody>
           </table>

@@ -31,6 +31,7 @@ import { MisTopPerformanceData, MisTopPerformanceFrom } from './MIS/mis-top-perf
 import { MisBelowPerformanceData, MisBelowPerformanceFrom } from './MIS/mis-below-person/mis-below-person.component';
 import { CommaExpr } from '@angular/compiler';
 import { RFIForm } from './create-rfi/create-rfi.component';
+import { traningReportData } from './create-training/create-training.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -612,5 +613,14 @@ export class CommonService {
     return this.httpClient.get<RFIForm>(`${this.REST_API_SERVER}/RfiCreate/${id}`)
   }
 
+
+  //TRAINING CONDUCTED REPORT API
+  addTraningReport(data:traningReportData): Observable<CommonService>{
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/report/addtrainingdata`, data)
+  }
+
+  downloadTrainingReport(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadTraining/${id}`)
+  }
 
 }

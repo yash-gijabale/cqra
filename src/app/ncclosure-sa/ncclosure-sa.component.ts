@@ -158,10 +158,10 @@ export class NCClosureSAComponent implements OnInit {
   getNCs() {
     // alert("called=="+this.SelProjectId+"Cycle Id=="+this.SelCycleId);
     let formData = {
-      locationNcBeanSa:this.selRegion,
-      projectIdNcBeanSa: this.SelProjectId,
-      cycleINcBeanSa: this.SelCycleId,
-      tradeIdNcBeanSa: this.SelTradeId,
+      locationNcBeanSa:'mumbai',
+      projectIdNcBeanSa: Number(this.SelProjectId),
+      cycleINcBeanSa: Number(this.SelCycleId),
+      tradeIdNcBeanSa: Number(this.SelTradeId),
       statusNcBeanSa: this.SelStatusId
     };
 

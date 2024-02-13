@@ -1,0 +1,185 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Generate Sampling Report</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a [routerLink]="'/sampling'">Manage Sampling </a> </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Genearate Sampling Report</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="create-viewform">
+        <div class="form row">
+          <div class="form-group col-md-3">
+            <label>Client Name</label>
+            <select [(ngModel)]="SelClient" class="form-control" (change)="getProject()">
+              <option [value]="client.clientId" *ngFor="let client of clients">
+                {{client.clientName}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label>Project Name</label>
+            <select [(ngModel)]="SelProject" class="form-control" (change)="getStep3RowData()">
+              <option [value]="project.projectId" *ngFor="let project of projects">
+                {{project.projectName}}
+              </option>
+            </select>
+          </div>
+
+
+          <div class="form-group col-md-3">
+            <label>Inspection date</label>
+            <input type="date" class="form-control" [(ngModel)]="inspectionDate">
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>Cycle of Inspection</label>
+            <select [(ngModel)]="Selcycle" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.cycle_id" *ngFor="let o of cycles">
+                {{o.cycle_name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>Report date</label>
+            <input type="date" class="form-control" [(ngModel)]="reportDate">
+          </div>
+
+
+          <div class="form-group my-2 mt-4 pt-2 col-md-2">
+            <button class="btn btn-secondary col-md-12">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-gear-fill mx-2" viewBox="0 0 16 16">
+                <path
+                  d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+              </svg>Generate</button>
+          </div>
+        </div>
+
+
+        <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <app-loader></app-loader>
+        </ng-template>
+        <ng-template #elseBlock>
+          <div class="details-container" *ngIf="isShow">
+            <div class="tradewise-container">
+              <div class="header">
+                <div class="tradegroup">trade Group</div>
+                <div class="tradegroup">Trade Name</div>
+                <div class="tradegroup contractorName" *ngFor="let item of contractors | keyvalue"
+                  (click)="getContractorData(item.value.contractorId)">{{item.value.contractorName}}</div>
+              </div>
+              <div class="content" *ngFor="let tg of tradeData | keyvalue">
+                <div class="tradegroup">
+                  {{tg.value.tradeGroupName}}
+                </div>
+                <div class="tradegroup trade">
+                  <span *ngFor="let trade of tg.value.trade">{{trade.tradeName}}</span>
+                </div>
+
+                <div class="tradegroup contractor" *ngFor="let item of contractors | keyvalue">
+                  <span *ngFor="let trade of tg.value.trade">{{contractorWithStage[item.key][trade.tradeId] ?
+                    contractorWithStage[item.key][trade.tradeId].length: '0'}}</span>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </ng-template>
+
+        <div *ngIf="isContractorShow">
+
+          <div class="tradewise-container contractor-wise mt-3">
+            <h4>{{contractorName}}</h4>
+            <div class="header">
+              <div class="tradegroup">trade Group</div>
+              <div class="tradegroup">Trade Name</div>
+              <div class="tradegroup">Structure</div>
+              <div class="tradegroup stages">Sampling Area</div>
+            </div>
+            <div class="content" *ngFor="let tg of tradeDataContractor | keyvalue">
+              <div class="tradegroup">
+                {{tg.value.tradeGroupName}}
+              </div>
+              <div class="tradegroup trade">
+                <span *ngFor="let trade of tg.value.trade">{{trade.tradeName}}</span>
+              </div>
+
+              <div class="tradegroup contractor">
+                <span *ngFor="let trade of tg.value.trade">
+                  <p>{{structureByTrade[trade.tradeId].structureName}}</p>
+                </span>
+                
+              </div>
+
+              <div class="tradegroup contractor stages">
+                <span *ngFor="let trade of tg.value.trade" class="stage-div">
+                  <span class="mx-2" *ngFor="let stage of stageByTrade[trade.tradeId]">{{stage.stageName}}</span>
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="addresse-main">
+            <h3>Address: </h3>
+            <div class="addresse-table">
+              <div class="addresse-header">
+                <div class="header-title">Client Representative Name</div>
+                <div class="header-title">signature</div>
+                <div class="header-title">PMC Representative Name</div>
+                <div class="header-title">signature</div>
+              </div>
+              <div class="addresse-header">
+                <div class="addresse-text"></div>
+                <div class="addresse-text"></div>
+                <div class="addresse-text"></div>
+                <div class="addresse-text"></div>
+              </div>
+            </div>
+
+            <div class="addresse-table mt-3">
+              <div class="addresse-header">
+                <div class="header-title">CQRA Representative Name</div>
+                <div class="header-title">signature</div>
+                <div class="header-title">Other Person Name</div>
+                <div class="header-title">signature</div>
+              </div>
+              <div class="addresse-header">
+                <div class="addresse-text"></div>
+                <div class="addresse-text"></div>
+                <div class="addresse-text"></div>
+                <div class="addresse-text"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

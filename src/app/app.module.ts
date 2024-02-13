@@ -134,6 +134,7 @@ import { MisInitiativeComponent } from './MIS/mis-initiative/mis-initiative.comp
 import { MisTopPerformanceComponent } from './MIS/mis-top-performance/mis-top-performance.component';
 import { MisBelowPersonComponent } from './MIS/mis-below-person/mis-below-person.component';
 import { CreateRfiComponent } from './create-rfi/create-rfi.component';
+import { GenerateSamplingReortComponent } from './generate-sampling-reort/generate-sampling-reort.component';
 
 
 @NgModule({
@@ -261,7 +262,8 @@ import { CreateRfiComponent } from './create-rfi/create-rfi.component';
     MisInitiativeComponent,
     MisTopPerformanceComponent,
     MisBelowPersonComponent,
-    CreateRfiComponent
+    CreateRfiComponent,
+    GenerateSamplingReortComponent
   ],
   imports: [
     BrowserModule,

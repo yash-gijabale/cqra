@@ -31,6 +31,8 @@ export class CreatePmcComponent implements OnInit {
   pmcId: number;
   isLoading = false;
   projects: ProjectData[]
+
+  isbtnLoading: boolean = false
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -83,17 +85,24 @@ export class CreatePmcComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm.value)
-    if(this.pmcId != -1){
+    this.isbtnLoading = true
+    if (this.pmcId != -1) {
       this.clientServiceService.updatePmc(this.registerForm.value, this.pmcId)
-      .subscribe(data =>  console.log('updated-->', data))
+        .subscribe(data => {
+          console.log('updated-->', data)
+          this.isbtnLoading = false
+        })
 
-    }else{
+
+    } else {
       this.clientServiceService.createPmc(this.registerForm.value)
-      .subscribe(data => {
-        console.log('pmc aded-->', data)
-      })
+        .subscribe(data => {
+          console.log('pmc aded-->', data)
+          this.isbtnLoading = false
+
+        })
     }
   }
-  
+
 
 }

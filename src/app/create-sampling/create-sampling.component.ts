@@ -617,9 +617,7 @@ export class CreateSamplingComponent implements OnInit {
     }
 
     console.log(newformData)
-    return
-
-    return
+    
     this.steptracker.step2.data = newformData
     console.log('sampling step 2-->', samplingStepFirstSubmitData)
     this.clientService.addSamplingStepSecond(samplingStepFirstSubmitData)

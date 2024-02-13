@@ -1,0 +1,99 @@
+.details-container{
+    width: 100%;
+    height: auto;
+    min-height: 50vh;
+    background-color: rgb(255, 255, 255);
+
+}
+.tradewise-container{
+    width: 100%;
+    height: auto;
+    min-height: 50vh;
+}
+.contractor-wise{
+    width: auto !important;
+}
+.header{
+    width: 100%;
+    display: flex;
+    height: auto;
+    padding: 10px auto;
+    font-weight: 500;
+    height: 70px;
+    border-radius: 10px 10px 0 0;
+    background-color: rgb(194, 194, 194);
+
+}
+
+.header .contractorName:hover{
+    background-color: rgb(144, 141, 141);
+    cursor: pointer;
+
+}
+
+.tradegroup{
+    width: 20%;
+    border: 1px solid rgb(141, 140, 140);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-radius: 10px; */
+}
+.content{
+    display: flex;
+}
+.contractor, .trade{
+    display: flex;
+    flex-direction: column;
+}
+.contractor span, .trade span{
+    border-bottom: 1px solid rgb(141, 140, 140);
+    height: 50px;
+    padding: 5px 0 0 5px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.contractor span{
+    text-align: center;
+}
+
+.stages{
+    width: 40% !important;
+}
+
+.stage-div{
+    display: flex;
+    overflow-x: auto;
+    height: 100%;
+}
+
+.addresse-main{
+    width: 100vw;
+    height: auto;
+}
+
+.addresse-table{
+    width: 100%;
+    height: auto;
+}
+
+.addresse-header{
+    width: 100%;
+    display: flex;
+}
+
+.addresse-header > .header-title{
+    border: 1px solid rgb(104, 102, 102);
+    background-color: lightgray;
+    width: 20%;
+    height: 30px;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+.addresse-text{
+    width: 20%;
+    height: 40px;
+    border: 1px solid rgb(69, 68, 68);
+}
