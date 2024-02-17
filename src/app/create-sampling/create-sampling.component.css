@@ -1,3 +1,28 @@
+.main-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #000000;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-link{
+    border-bottom: 1px solid #000000;
+
+}
+
+.active-link{
+    background-color: rgb(64, 90, 163) !important;
+    color: #dee2e6;
+    border-bottom: 1px solid #000000;
+
+}
+
+
+
 thead, th, tr, td{
     border: 1px solid black;
 }
@@ -45,3 +70,7 @@ thead th{
     align-items: center;
     justify-content: center;
 } */
+
+.nav-tabs[_ngcontent-c1]{
+    margin-bottom: 1rem;
+}
