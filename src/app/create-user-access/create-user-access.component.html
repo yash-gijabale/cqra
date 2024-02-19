@@ -25,18 +25,13 @@
         </div>
       </div>
       <div class="create-viewform">
-        <form>
-
+        <form [formGroup]="accessFrom">
           <div class="form-group">
             <label>Users</label>
-            <select class="form-control">
-              <option [value]="0">Please Select</option>
-              <option [value]="1">Admin </option>
-              <option [value]="2">Supervisor or Engg</option>
+            <select class="form-control" formControlName="pkUserId">
+              <option [value]="1">Select user</option>
+              <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
             </select>
-            <div *ngIf="submitted && f.selUser.errors" class="invalid-feedback">
-              <div *ngIf="f.selUser.errors.required">Role is required</div>
-            </div>
           </div>
           <hr>
           <div class="row ml-4 my-3">
@@ -47,34 +42,43 @@
           <div class="row">
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" formControlName="roleMenu" type="checkbox" value="" id="flexCheckDefault"
+                  [checked]="userMenu.roleMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Role
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" formControlName="userMenu" type="checkbox" value="" id="flexCheckDefault"
                   [checked]="userMenu.userMenu">
                 <label class="form-check-label" for="flexCheckDefault">
-                  User
+                  CQRA User
                 </label>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" fromControlName="manageUserAccessMenu" value="" id="flexCheckDefault"
                   [checked]="userMenu.manageUserAccessMenu">
                 <label class="form-check-label" for="flexCheckDefault">
-                  Manage USer Access
+                  Manage CQRA User Access
                 </label>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="userAllocationMenu" value="" id="flexCheckDefault"
                   [checked]="userMenu.userAllocationMenu">
                 <label class="form-check-label" for="flexCheckDefault">
-                  User Allocation
+                 CQRA User Allocation
                 </label>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="contractorMenu" value="" id="flexCheckDefault"
                   [checked]="userMenu.contractorMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Contractor
@@ -84,7 +88,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.supervisorMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Contractor Supervisor
@@ -94,7 +98,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.foremanMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Contractor Foreman
@@ -104,7 +108,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.clientStaffMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Client Staff
@@ -114,7 +118,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.assignContractor">
                 <label class="form-check-label" for="flexCheckDefault">
                   Assign Contractor Supervisor
@@ -124,7 +128,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.assignContractor">
                 <label class="form-check-label" for="flexCheckDefault">
                   Assign Contractor Foreman
@@ -134,7 +138,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Sampling
                 </label>
@@ -147,7 +151,7 @@
           <div class="row">
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.clientMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Client
@@ -157,7 +161,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.schemeMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Project
@@ -167,7 +171,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.buildingMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   WBS
@@ -181,7 +185,7 @@
           <div class="row">
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.tradeGroup">
                 <label class="form-check-label" for="flexCheckDefault">
                   Trade Group
@@ -191,7 +195,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.tradeMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Trade
@@ -201,7 +205,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.subgroupMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Subgroup
@@ -211,7 +215,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.questionGroupMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Question Group
@@ -221,7 +225,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.questionHeadingMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Quesstion Heading
@@ -231,7 +235,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Question Title
                 </label>
@@ -240,7 +244,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.questionMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Question
@@ -250,7 +254,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
                   [checked]="userMenu.checklistGenerationMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Checklist
@@ -266,7 +270,7 @@
           <div class="row">
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   User log
                 </label>
@@ -275,7 +279,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Edit NC & Conformity
                 </label>
@@ -284,7 +288,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Nc Count
                 </label>
@@ -293,7 +297,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   SingOff documents
                 </label>
@@ -302,7 +306,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Inspection Report
                 </label>
@@ -311,7 +315,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Snagging Report
                 </label>
@@ -319,7 +323,7 @@
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   NC Closure
                 </label>
@@ -327,7 +331,7 @@
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   NC Review
                 </label>
@@ -335,7 +339,7 @@
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   NC Approve
                 </label>
@@ -344,7 +348,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Quality Index
                 </label>

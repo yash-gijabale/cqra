@@ -428,6 +428,10 @@ export class ClientServiceService {
   getContractorSamplingData(contractorId, projectId){
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getclientwisebyconid/${contractorId}/${projectId}`)
   }
+
+  generateSamplingFinalReport(clientId, projectId, inspectionDate, cycleId, reportDate, location){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadstep4/${clientId}/${projectId}/${inspectionDate}/${cycleId}/${reportDate}/${location}`)
+  }
   //SAMPLED AREA API CALL
 
   //INSPECTION ACTIVITY NOT AVAILABALE API

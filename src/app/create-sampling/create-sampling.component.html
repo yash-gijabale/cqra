@@ -18,8 +18,17 @@
               <option [value]="1" [selected]="true">Client wise</option>
               <option [value]="2">Contractor wise</option>
             </select>
-
           </div>
+
+          <div class="form-group col-md-4">
+            <label>Client Name</label>
+            <select [(ngModel)]="SelClientId" class="form-control" (change)="getProject()">
+              <option [value]="client.clientId" *ngFor="let client of allClients">
+                {{client.clientName}}
+              </option>
+            </select>
+          </div>
+
           <div class="form-group col-md-4">
             <label>Project Name</label>
             <select [(ngModel)]="SelProject" class="form-control" (change)="getStructure()"
@@ -41,6 +50,39 @@
             <div *ngIf="submitted && f.structureId.errors" class="invalid-feedback">
               <div *ngIf="f.structureId.errors.required">Structure is required</div>
             </div>
+            <!-- <button (click)="goToStepThree()">step 3</button> -->
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Cycle of inspection</label>
+            <select [(ngModel)]="Selcycle" class="form-control"(change)="getStages()">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.cycle_id" *ngFor="let o of cycleOfInspection">
+                {{o.cycle_name}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.structureId.errors" class="invalid-feedback">
+              <div *ngIf="f.structureId.errors.required">Structure is required</div>
+            </div>
+            <!-- <button (click)="goToStepThree()">step 3</button> -->
+          </div>
+
+
+          <div class="form-group col-md-4">
+            <label>Location</label>
+            <input [(ngModel)]="location" type="text" class="form-control">
+          </div>
+
+
+          <div class="form-group col-md-4">
+            <label>Report Date</label>
+            <input [(ngModel)]="reportDate" type="date" class="form-control">
+          </div>
+
+
+          <div class="form-group col-md-4">
+            <label>Inspection Date</label>
+            <input [(ngModel)]="inspectionDate" type="date" class="form-control">
           </div>
           <div class="row m-0 main-container col-md-12">
             <nav>
@@ -135,6 +177,10 @@
                   </div>
                 </div>
               </div>
+
+
+
+              <!-- ---------------------------------------STEP 2------------------------------ -->
               <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div *ngIf="steptracker.step2.status; then step2Block"></div>
                 <ng-template #step2Block>
@@ -151,7 +197,7 @@
                         <th>Work Area</th>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let tg of testTG">
+                        <tr *ngFor="let tg of testTG" class="step-2">
                           <!-- <td>1</td> -->
                           <td *ngIf="step2formRenderData[tg.id].length">{{tg.tradegroupName}}</td>
                           <td *ngIf="step2formRenderData[tg.id].length">
@@ -197,7 +243,8 @@
                             <td *ngIf="step2formRenderData[tg.id].length">
                               <select [class]="'step2ContractorSelect_'+t.tradeId"
                                 *ngFor="let t of step2formRenderData[tg.id]">
-                                <option [value]="client.clientId" *ngFor="let client of clients">
+                                <option [value]="client.clientId" *ngFor="let client of clients"
+                                  [attr.title]="client.clientName">
                                   {{client.clientName}}</option>
                               </select>
                             </td>
@@ -298,15 +345,21 @@
 
                       </tbody>
                     </table>
+
+
                     <div class="form-group my-2">
                       <button class="btn btn-primary" [disabled]="!isStepSecondFormField"
                         (click)="samplingStepSeceondSubmit()">Save</button>
-                        <button class="btn btn-primary" [disabled]="!isStepSecondFormField"
+                      <button class="btn btn-primary" [disabled]="!isStepSecondFormField"
                         (click)="goToStepThree()">Next</button>
                     </div>
                   </div>
                 </ng-template>
               </div>
+
+
+              <!-- ---------------------------------------STEP 3------------------------------ -->
+
               <div class="tab-pane fade" id="step3" role="tabpanel" aria-labelledby="nav-contact-tab">
                 <div *ngIf="samplingType==1; then thenBlock else elseBlock"></div>
                 <ng-template #thenBlock>
@@ -317,15 +370,15 @@
                         <th>trades</th>
                         <th>From</th>
                         <th>To</th>
-                        <th>More</th>
+                        <th>Allocate Area</th>
                         <th>Sampled unit</th>
                         <th>Add</th>
                         <th>No of Sampled unit</th>
                         <th>Random Sampling</th>
                         <th>Sampled Area</th>
                       </thead>
-                      <tbody>
-        
+                      <tbody class="type1-table">
+
                         <tr *ngFor="let t of testTGStep3">
                           <td>{{t.tradegroupName}}</td>
                           <td style="width: 10%;">
@@ -342,15 +395,15 @@
                           </td>
                           <td>
                             <span *ngFor="let trade of testTradeStep3[t.id]" class="btn-span">
-                              <button type="button" class="btn btn-sm btn-primary h-2 py-0">+</button>
-                              <button type="button" class="btn btn-sm btn-warning h-2">-</button>
+                              {{stageData[trade.tradeId].length}}
                             </span>
                           </td>
                           <td style="width: 5%;">
-                            <span [class]="'percentageCount_'+trade.tradeId" [attr.title]="persentageData[trade.tradeId]"
+                            <span [class]="'percentageCount_'+trade.tradeId"
+                              [attr.title]="persentageData[trade.tradeId]"
                               *ngFor="let trade of testTradeStep3[t.id]">{{persentageData[trade.tradeId]+' %'}}</span>
                           </td>
-                          <td>
+                          <td class="type1-table">
                             <span *ngFor="let trade of testTradeStep3[t.id]" class="btn-span">
                               <button type="button" class="btn btn-sm btn-primary h-2 py-0"
                                 (click)="addPersentage(trade.tradeId)">+</button>
@@ -377,14 +430,16 @@
                         </tr>
                       </tbody>
                     </table>
-        
+
                     <div class="form-group my-2">
                       <button class="btn btn-success" (click)="submitStep3Data()">Save</button>
+                      <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">Generate Report</button>
+
                     </div>
                   </div>
                 </ng-template>
-        
-        
+
+
                 <ng-template #elseBlock>
                   <div class="table" *ngFor="let data of type2step3data | keyvalue">
                     <h2 class="contractorId" [attr.title]="data.key">{{data.value.contractorName}}</h2>
@@ -403,51 +458,57 @@
                         <th>Sampled Area</th>
                       </thead>
                       <tbody>
-        
+
                         <tr *ngFor="let t of type2step3data[data.key].samplingData | keyvalue">
-                          <td style="width: 30%;" class="type2trades" [attr.title]="t.key">{{tradeNameObj[t.key]}}</td>
-                          <td>
-                            {{type2StageData[data.key][t.key][0].stageName}}
-                          </td>
-                          <td>
-                            {{type2StageData[data.key][t.key][type2StageData[data.key][t.key].length -1 ].stageName}}
-                          </td>
-                          <td>
-                            {{type2StageData[data.key][t.key].length}}
-                          </td>
-                          <td style="width: 5%;">
-                            <span [class]="'percentageCount_'+t.key"
-                              [attr.title]="type2PersentageData[data.key][t.key]">{{type2PersentageData[data.key][t.key]+'
-                              %'}}</span>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-sm btn-primary h-2 py-0"
-                              (click)="type2addPersentage(data.key, t.key)">+</button>
-                            <button type="button" class="btn btn-sm btn-warning h-2 py-0"
-                              (click)="type2lessPersentage(data.key, t.key)">-</button>
-                          </td>
-                          <td style="width: 5%;">
-                            {{ type2SampledUnitnumber[data.key][t.key]}}
-                          </td>
-                          <td style="width: 5%;">
-                            <button type="button" class="btn btn-sm btn-secondary p-0 m-0"
-                              (click)="type2GetRandomStage(data.key, t.key)">Get Random</button>
-                          </td>
-                          <td tyle="width: 20%;">
-                            <div class="floor-list" *ngIf="type2RandomSampledArea[data.key]">
-                              <h6 *ngFor="let stage of type2RandomSampledArea[data.key][t.key]">{{stage.stageName}}</h6>
-                            </div>
-                          </td>
+                          <ng-container *ngIf="type2StageData[data.key][t.key].length">
+                            <td style="width: 30%;" class="type2trades" [attr.title]="t.key">{{tradeNameObj[t.key]}}
+                            </td>
+                            <td>
+                              {{type2StageData[data.key][t.key][0].stageName}}
+                            </td>
+                            <td>
+                              {{type2StageData[data.key][t.key][type2StageData[data.key][t.key].length -1 ].stageName}}
+                            </td>
+                            <td>
+                              {{type2StageData[data.key][t.key].length}}
+                            </td>
+                            <td style="width: 5%;">
+                              <span [class]="'percentageCount_'+t.key"
+                                [attr.title]="type2PersentageData[data.key][t.key]">{{type2PersentageData[data.key][t.key]+'
+                                %'}}</span>
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-sm btn-primary h-2 py-0"
+                                (click)="type2addPersentage(data.key, t.key)">+</button>
+                              <button type="button" class="btn btn-sm btn-warning h-2 py-0"
+                                (click)="type2lessPersentage(data.key, t.key)">-</button>
+                            </td>
+                            <td style="width: 5%;">
+                              {{ type2SampledUnitnumber[data.key][t.key]}}
+                            </td>
+                            <td style="width: 5%;">
+                              <button type="button" class="btn btn-sm btn-secondary p-0 m-0"
+                                (click)="type2GetRandomStage(data.key, t.key)">Get Random</button>
+                            </td>
+                            <td tyle="width: 20%;">
+                              <div class="floor-list" *ngIf="type2RandomSampledArea[data.key]">
+                                <h6 *ngFor="let stage of type2RandomSampledArea[data.key][t.key]">{{stage.stageName}}
+                                </h6>
+                              </div>
+                            </td>
+                          </ng-container>
                         </tr>
                       </tbody>
                     </table>
-        
+
                   </div>
                   <div class="form-group my-2">
                     <button class="btn btn-success" (click)="Type2submitStep3Data()">Save</button>
+                    <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">Generate Report</button>
+
                   </div>
-                </ng-template>  
-              
+                </ng-template>
+
               </div>
             </div>
           </div>

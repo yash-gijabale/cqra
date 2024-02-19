@@ -225,10 +225,10 @@
             <div class="form-group">
               <label>Service Type</label>
               <select formControlName="serviceType"  [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
-                <option value="QAQC">QAQC</option>
-                <option value="SA">SA</option>
-                <option value="Visiting">Visiting</option>
-                <option value="PMC">PMC</option>
+                <option value="1">QAQC</option>
+                <option value="2">SA</option>
+                <option value="3">Visiting</option>
+                <option value="4">PMC</option>
               </select>
               <div *ngIf="submitted && f.serviceType.errors" class="invalid-feedback">
                 <div *ngIf="f.serviceType.errors.required">Service Type is required</div>

@@ -36,8 +36,23 @@ td span{
     width: 100%;
     padding: 7px 0;
     border-bottom: 1px solid black;
+    align-items: center;
 }
 
+.type1-table td span{
+    display: flex;
+    min-height: 85px;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.type1-table button{
+    width: 100%;
+    padding: 0;
+    height: 32px;
+    font-size: 10px;
+
+}
 td span:last-child{
     border-bottom: none;
 
@@ -50,6 +65,15 @@ td select{
     padding: 5px 0;
     border-bottom: 1px solid black;
     margin-bottom: 6px;
+}
+
+.step-2 td select{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    border-bottom: 1px solid black;
+    margin-bottom: 12px;
 }
 
 td .add-stages{
