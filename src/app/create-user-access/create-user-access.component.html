@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/userAccess">Manage User Access</a></button>
+            <!-- <button type="button"> <a routerLink="/userAccess">Manage User Access</a></button> -->
           </div>
         </div>
       </div>
@@ -25,10 +25,10 @@
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="accessFrom">
+        <form [formGroup]="accessFrom" (submit)="onSubmit()">
           <div class="form-group">
             <label>Users</label>
-            <select class="form-control" formControlName="pkUserId">
+            <select [(ngModel)]="SelUser" class="form-control" formControlName="pkUserId" (change)="getUserAccess()">
               <option [value]="1">Select user</option>
               <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
             </select>
@@ -36,14 +36,14 @@
           <hr>
           <div class="row ml-4 my-3">
             <input type="checkbox" class="btn-check mb-1" id="btn-check-outlined" autocomplete="off">
-            <label class="label" for="btn-check-outlined">Select All  </label><br>
+            <label class="label" for="btn-check-outlined">Select All </label><br>
           </div>
           <h5>User Maintainance</h5>
           <div class="row">
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" formControlName="roleMenu" type="checkbox" value="" id="flexCheckDefault"
-                  [checked]="userMenu.roleMenu">
+                <input class="form-check-input" formControlName="roleMenu" type="checkbox" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.roleMenu" (change)="addCheckMenu($event)">
                 <label class="form-check-label" for="flexCheckDefault">
                   Role
                 </label>
@@ -51,8 +51,8 @@
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" formControlName="userMenu" type="checkbox" value="" id="flexCheckDefault"
-                  [checked]="userMenu.userMenu">
+                <input class="form-check-input" formControlName="userMenu" type="checkbox" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.userMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   CQRA User
                 </label>
@@ -60,7 +60,8 @@
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" fromControlName="manageUserAccessMenu" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="manageUserAccessMenu"
+                  fromControlName="manageUserAccessMenu" [value]="1" id="flexCheckDefault"
                   [checked]="userMenu.manageUserAccessMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Manage CQRA User Access
@@ -69,17 +70,48 @@
             </div>
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="userAllocationMenu" value="" id="flexCheckDefault"
-                  [checked]="userMenu.userAllocationMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="userAllocationMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.userAllocationMenu">
                 <label class="form-check-label" for="flexCheckDefault">
-                 CQRA User Allocation
+                  CQRA User Allocation
                 </label>
               </div>
             </div>
+
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="contractorMenu" value="" id="flexCheckDefault"
-                  [checked]="userMenu.contractorMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="mockupMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.mockupMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  CQRA Mockup Allocation
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="clientStaffMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.clientStaffMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Client Person
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="inductionMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.inductionMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Client Engeneer's induction
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="contractorMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.contractorMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Contractor
                 </label>
@@ -88,7 +120,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="supervisorMenu" [value]="1" id="flexCheckDefault"
                   [checked]="userMenu.supervisorMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Contractor Supervisor
@@ -98,7 +130,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="foremanMenu" [value]="1" id="flexCheckDefault"
                   [checked]="userMenu.foremanMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Contractor Foreman
@@ -108,17 +140,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.clientStaffMenu">
-                <label class="form-check-label" for="flexCheckDefault">
-                  Client Staff
-                </label>
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="assignContractor" [value]="1" id="flexCheckDefault"
                   [checked]="userMenu.assignContractor">
                 <label class="form-check-label" for="flexCheckDefault">
                   Assign Contractor Supervisor
@@ -128,7 +150,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="assignContractor" [value]="1" id="flexCheckDefault"
                   [checked]="userMenu.assignContractor">
                 <label class="form-check-label" for="flexCheckDefault">
                   Assign Contractor Foreman
@@ -138,7 +160,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" [value]="1" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Sampling
                 </label>
@@ -151,8 +173,8 @@
           <div class="row">
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.clientMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="clientMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.clientMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Client
                 </label>
@@ -161,8 +183,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.schemeMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="schemeMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.schemeMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Project
                 </label>
@@ -171,10 +193,30 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
+                <input class="form-check-input" type="checkbox" fromControlName="buildingMenu" [value]="1" id="flexCheckDefault"
                   [checked]="userMenu.buildingMenu">
                 <label class="form-check-label" for="flexCheckDefault">
-                  WBS
+                  Structure
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="floorMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.floorMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Stages
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="cis" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.cis">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Change Image
                 </label>
               </div>
             </div>
@@ -185,8 +227,8 @@
           <div class="row">
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.tradeGroup">
+                <input class="form-check-input" type="checkbox" fromControlName="tradeGroup" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.tradeGroup">
                 <label class="form-check-label" for="flexCheckDefault">
                   Trade Group
                 </label>
@@ -195,8 +237,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.tradeMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="tradeMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.tradeMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Trade
                 </label>
@@ -205,8 +247,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.subgroupMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="subgroupMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.subgroupMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Subgroup
                 </label>
@@ -215,8 +257,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.questionGroupMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="questionGroupMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.questionGroupMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Question Group
                 </label>
@@ -225,8 +267,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.questionHeadingMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="questionHeadingMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.questionHeadingMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Quesstion Heading
                 </label>
@@ -235,7 +277,7 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" [value]="1" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                   Question Title
                 </label>
@@ -244,8 +286,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.questionMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="questionMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.questionMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Question
                 </label>
@@ -254,10 +296,20 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault"
-                  [checked]="userMenu.checklistGenerationMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="checklistGenerationMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.checklistGenerationMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Checklist
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="queView" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.queView">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Question View
                 </label>
               </div>
             </div>
@@ -266,11 +318,52 @@
 
 
 
-          <h5 class="mt-3">Sanp Audit Report</h5>
+          <h5 class="mt-3">Report</h5>
           <div class="row">
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="kickoffMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.kickoffMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Kickoff Meeting
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="qualityIpMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.qualityIpMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Quality Inspection Parameter
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="qpaMenu" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.qpaMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Qaulity Procedure Ammendement
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="trainingMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.trainingMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Training
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="logMenu" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.logMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   User log
                 </label>
@@ -279,34 +372,372 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="qur" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.qur">
                 <label class="form-check-label" for="flexCheckDefault">
-                  Edit NC & Conformity
+                  Quality Update Report
                 </label>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="qrr" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.qrr">
                 <label class="form-check-label" for="flexCheckDefault">
-                  Nc Count
+                  Quality Review Report (R0)
                 </label>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="nc" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.nc">
                 <label class="form-check-label" for="flexCheckDefault">
-                  SingOff documents
+                  Edit Nc
                 </label>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="qrr1" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.qrr1">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Quality Review Report (R1)
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncco1" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.ncco1">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Count and Observation Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="qi" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.qi">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Quality Index Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="gdremark" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.gdremark">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Edit Good Work Practices
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="schemeMomMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.schemeMomMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Minute of Meeting
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="qualityRecommendation" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.qualityRecommendation">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Quality Recommendation
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="methodStatementMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.methodStatementMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Method Statement
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="addExt" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.addExt">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Add NC
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncClosureMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncClosureMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Closure Procedure
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncr" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.ncr">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Count Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncStatusMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncStatusMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Status
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="nccloseHistory" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.nccloseHistory">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Closure History
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="nclogMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.nclogMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Log
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="misLink" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.misLink">
+                <label class="form-check-label" for="flexCheckDefault">
+                  MIS
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="deletedNcMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.deletedNcMenu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Deleted NC's
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="downloadReports" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.downloadReports">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Download Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="sar" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.sar">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Snap Audit Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="iu" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.iu">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Image Upload
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="momlog" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.momlog">
+                <label class="form-check-label" for="flexCheckDefault">
+                  MOM Log
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="rgct" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.rgct">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Red Green card token
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="hi" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.hi">
+                <label class="form-check-label" for="flexCheckDefault">
+                  HomeInspection Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="qos " [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.qos">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Quality Observation Summary
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncClosureMenu1" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncClosureMenu1">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Nc Closure Menu 1
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="misLinkNew" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.misLinkNew">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Observation summary report (Phoenix)
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="mirLink" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.mirLink">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Audit Observation report (Rheonix)
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncBeanCreaterNew" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncBeanCreaterNew">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Closure(R1)
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncBeanReviewerNew" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncBeanReviewerNew">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Reviewwer(R1)
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncBeanApproverNew" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncBeanApproverNew">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Approver(R1)
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="webCard" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.webCard">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Web cart
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+          <h3 class="row">Audit Report</h3>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="aSnapAudit" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.aSnapAudit">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Snap Audit
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="aQualityIndex" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.aQualityIndex">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Qaulity index
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="aHomeInspect" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.aHomeInspect">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Home inspect
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="aDownloadReport" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.aDownloadReport">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Download Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="aInspectReport" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.aInspectReport">
                 <label class="form-check-label" for="flexCheckDefault">
                   Inspection Report
                 </label>
@@ -315,45 +746,225 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="ncBeanCreater" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncBeanCreater">
                 <label class="form-check-label" for="flexCheckDefault">
-                  Snagging Report
-                </label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  NC Closure
-                </label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  NC Review
-                </label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  NC Approve
+                  NC Closure Sa
                 </label>
               </div>
             </div>
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" fromControlName="ncBeanReviewer" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncBeanReviewer">
                 <label class="form-check-label" for="flexCheckDefault">
-                  Quality Index
+                  NC Reviewer SA
                 </label>
               </div>
             </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ncBeanApprover" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncBeanApprover">
+                <label class="form-check-label" for="flexCheckDefault">
+                  NC Approvar Sa
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="clientDash" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.clientDash">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Client Dashboard
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="aHomeInspect1" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.aHomeInspect1">
+                <label class="form-check-label" for="flexCheckDefault">
+                  SifnOff report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="wash" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.wash">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Inspection Survey Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="qipr" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.qipr">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Qaulity and quantity assessment report KSA
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+          <h5 class="row">EXT Alert</h5>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="pnf" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.pnf">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Trade Started but QIP
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="mnp" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.mnp">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Trade satrted but Mockup
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="sfa" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.sfa">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Contractor Supervisor/Foreman Changed
+                </label>
+              </div>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" fromControlName="nnc" [value]="1" id="flexCheckDefault"
+                [checked]="userMenu.nnc">
+              <label class="form-check-label" for="flexCheckDefault">
+                NC not closed
+              </label>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ra" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.ra">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Nc's Red Alert
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+
+          <h5 class="row">INT Alert</h5>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ta" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.ta">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Trade Started but training
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="ma" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.ma">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Trade Started but Mockup
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="pat" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.pat">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Traning given without QIP
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="pam" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.pam">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Mockup done without OIP
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="tam" [value]="1" id="flexCheckDefault"
+                  [checked]="userMenu.tam">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Mockup done without Traning
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+          <h5 class="row">Client Access</h5>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="clientMis" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.clientMis">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Client MIS Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="clientNcr" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.clientNcr">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Client NC Closure
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="clientDr" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.clientDr">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Client Download Report
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" fromControlName="aorClientReport" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.aorClientReport">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Observation Tracker Closure Report (CLient)
+                </label>
+              </div>
+            </div>
+
           </div>
 
           <div class="form-group mt-4">

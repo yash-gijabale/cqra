@@ -68,8 +68,8 @@
 
           <div class="form-group col-md-4">
             <label class="col-md-12">Trade</label>
-            <select class="form-control col-md-12" [(ngModel)]="SelTradeId" (change)="getChecklist()">
-              <option [value]="trade.tardeId" *ngFor="let trade of allTrades">{{trade.tradeName}}</option>
+            <select [(ngModel)]="SelTradeId"  class="form-control col-md-12" (change)="getChecklist()">
+              <option [value]="trade.fkTradeId" *ngFor="let trade of allTrades">{{trade.tradeName}}</option>
             </select>
            
           </div>
@@ -92,7 +92,7 @@
             <select [(ngModel)]="SelQuestionGroupId" class="col-md-12 form-control" (change)="getQuestions()">
               <option [value]="0">Please Select</option>
               <option [value]="o.questionGroupIdQ" *ngFor="let o of questiongroups">
-                {{o.questionTextQ}}
+                {{o.questionGroupTextQ}}
               </option>
             </select>
 
@@ -103,8 +103,8 @@
 
             <select [(ngModel)]="SelQuestionId" #questionId class="col-md-12 form-control" >
               <option [value]="0">Please Select</option>
-              <option [value]="o.checklistIdQ" *ngFor="let o of questions">
-                {{o.questionGroupTextQ}}
+              <option [value]="o.questionIdQ" *ngFor="let o of questions">
+                {{o.questionTextQ}}
               </option>
             </select>
 

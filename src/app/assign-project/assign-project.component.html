@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <div class="add-bg-here">
       <div class="add-container-viewcommon">
-        <div class="main-header_createview">
+        <div class="main-header_createview assign-project-div">
           <div class="left-side-header">
             <div class="create-content-header">
               <h1> Assign Projects </h1>
@@ -13,12 +13,10 @@
             </div>
           </div>
 
-          <div class="right-side-create-view ">
-            <div class="create-content-operations">
-              <a routerLink="/createProject/-1">
-                <button type="button"> Create New Projects </button>
-              </a>
-            </div>
+          <div class="row d-flex assign-project-btns">
+            <button *ngIf="toggelSendmailBtn" type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+              data-target="#add-view"><i class="las la-envelope"></i> Send Declaration </button>
+            <button type="button" class="btn btn-sm btn-success"><i class="las la-plus"></i> New Projects </button>
           </div>
 
           <!-- <div class="left-side-header col-md-12 m-0 p-0">
@@ -69,7 +67,101 @@
       </div>
       <!-- Example DataTables Card-->
 
+      <div class="modal fade" id="add-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Send Email</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex justify-content-between">
+                <input type="file" class="form-control" id="pdf-file" (change)="getFile($event)">
+                <button class="btn btn-sm btn-primary" (click)="generatePdf()">Privew Froms</button>
+                <button class="btn btn-sm btn-success" (click)="sendMail()">Send</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <!-- <div class="declaration-from-main" id="table">
+      <div class="declaration-from-content">
+        <div class="form-heading">
+          <h2>Declaration Form</h2>
+          <img src="assets/images/cqra-logo-s-1.png" alt="logo">
+        </div>
+
+        <div class="form-heading mt-2">
+          <h5>Team Declaration</h5>
+          <h5>Date:_____________________</h5>
+        </div>
+
+        <div class="form-heading mt-2">
+          <span>Project Name: ___________________________________________________________________________</span>
+        </div>
+
+        <div class="mt-2">
+          <p>We the following members hereby declare that we and our blood relatives had/have no
+            formal/informal/personal role/relationship with the above-mentioned construction project in any form with
+            respect to its design, manufacture / construction, supply, installation, purchase, ownership and use or
+            maintenance of the items being inspected</p>
+
+          <p>We confirm that we have not inspected this project for another contractor service provider to client for
+            last three moriths</p>
+
+          <p>We shall not accept any kind of gift/inducement in any manner from client/contractor</p>
+
+          <p>We are committed to follow Impartiality during inspection and are committed to maintain confidentiality of
+            all information obtained or created during the inspection</p>
+
+          <p>We confirm to have no current association as well as no past association for last two years with client
+            /Vendor /Supplier/contractor/Service provider to client of this project</p>
+        </div>
+
+        <table class="table table-bordered mt-3">
+          <thead>
+            <tr>
+              <th scope="col">Sr no</th>
+              <th scope="col">Name</th>
+              <th scope="col">Level</th>
+              <th scope="col">Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="mt-3">
+          <h5>Review</h5>
+
+          <p>Whether involved in any other service for this project giving solutions to specific defects-(Yes/No)</p>
+
+          <p>Whether qualified and competent to carry out inspection for this project as per authorization matrix (Yes/
+            No)</p>
+        </div>
+
+        <div class="mt-5">
+          <p>(Sign of Technical Manager/Director)</p>
+        </div>
+
+      </div>
+
+    </div> -->
+
+
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
     integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"

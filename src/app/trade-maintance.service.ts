@@ -227,11 +227,11 @@ export class TradeMaintanceService {
   }
 
   getQuestiongroupById(id) {
-    return this.httpClient.get<QuestionGroupView[]>(`${this.REST_API_SERVER}/findbyquestongroupid/${id}`)
-  }
-
-  getQuestionById(id) {
     return this.httpClient.get<Question[]>(`${this.REST_API_SERVER}/findquestonbyid/${id}`)
+  }
+  
+  getQuestionById(id) {
+    return this.httpClient.get<QuestionGroupView[]>(`${this.REST_API_SERVER}/findbyquestongroupid/${id}`)
   }
 
   getEditNcsReportList(stageId, date) {

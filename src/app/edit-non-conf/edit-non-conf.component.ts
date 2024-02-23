@@ -15,7 +15,7 @@ export class CheckListView {
     public tradeIdChecklist: number,
     public checkistIdChecklist: number,
     public checklistNameChecklist: string
-  ) {}
+  ) { }
 }
 
 export class EditNcsListView {
@@ -26,7 +26,7 @@ export class EditNcsListView {
     public floorNo: number,
     public ansDate: string,
     public ncDescriptio: string
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -74,7 +74,7 @@ export class EditNonConfComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private tradeService: TradeMaintanceService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -93,14 +93,9 @@ export class EditNonConfComponent implements OnInit {
       }
     );
 
-    this.tradeService.getAllTrades().subscribe(
-      (data) => (this.allTrades = data),
-      (err) => console.log(err)
-    );
   }
 
   getProjects() {
-    alert(this.SelClientId);
     this.commonService.getClientProject(this.SelClientId).subscribe(
       (data) => {
         console.log("Project Data==", data);
@@ -113,7 +108,6 @@ export class EditNonConfComponent implements OnInit {
   }
 
   getStructures() {
-    alert(this.SelProjectId);
     this.commonService
       .getStructures(this.SelClientId, this.SelProjectId)
       .subscribe(
@@ -125,10 +119,15 @@ export class EditNonConfComponent implements OnInit {
           console.log("-----> err", err);
         }
       );
+
+    this.tradeService.getProjectTradesScheme(this.SelProjectId)
+      .subscribe(data => {
+        this.allTrades = data
+        console.log('trade --> ',data)
+      })
   }
 
   getStages() {
-    alert("Structure =" + this.SelProjectId + " stage=" + this.SelStructureId);
     this.commonService
       .getStages(this.SelClientId, this.SelProjectId, this.SelStructureId)
       .subscribe(
@@ -143,7 +142,6 @@ export class EditNonConfComponent implements OnInit {
   }
 
   getTrades() {
-    alert("Structure =" + this.SelProjectId + " stage=" + this.SelStructureId);
     this.commonService
       .getTrades(this.SelProjectId, this.SelStructureId)
       .subscribe(
@@ -158,7 +156,7 @@ export class EditNonConfComponent implements OnInit {
   }
 
   getChecklist() {
-    alert("Structure =" + this.SelProjectId + " stage=" + this.SelStructureId);
+    console.log(this.SelTradeId)
     this.tradeService.getChecklistByTrade(this.SelTradeId).subscribe(
       (data) => {
         console.log("checklist Data==", data);
@@ -183,7 +181,6 @@ export class EditNonConfComponent implements OnInit {
   }
 
   getQuestions() {
-    alert("Structure =" + this.SelProjectId + " stage=" + this.SelStructureId);
     this.tradeService.getQuestionById(this.SelQuestionGroupId).subscribe(
       (data) => {
         console.log("Question Data==", data);
@@ -222,8 +219,8 @@ export class EditNonConfComponent implements OnInit {
         this.editNcsList = data;
         this.dtTrigger.next()
       },
-      err => {
-        console.log(err)
-      });
+        err => {
+          console.log(err)
+        });
   }
 }

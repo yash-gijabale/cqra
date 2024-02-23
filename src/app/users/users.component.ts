@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { UserService } from '../service/user.service';
+import { TradeMaintanceService } from '../trade-maintance.service';
 
 export class UserData {
   constructor(
@@ -54,7 +55,11 @@ export class UsersComponent implements OnInit {
   projects: UserData[];
   users: UserView[];
   isLoading = false
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private tradeService: TradeMaintanceService
+  ) { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -89,6 +94,31 @@ export class UsersComponent implements OnInit {
       this.userService.deactivateUser(id)
         .subscribe(data => console.log('deactivated...', data))
     }
+  }
+
+  traningTrades = []
+  isTradeLoad: boolean = false
+  getTraningTrade(userId) {
+    this.isTradeLoad = true
+    this.userService.getAssignedProjectByUserId(userId)
+      .subscribe(data => {
+        console.log(data)
+        data.forEach(project => {
+          let projectTrade = {
+            project: project.projectId,
+            trades: []
+          }
+          this.tradeService.getProjectTradesScheme(project.projectId)
+            .subscribe(trade => {
+              projectTrade.trades = trade
+            })
+
+          this.traningTrades.push(projectTrade)
+        })
+
+        console.log(this.traningTrades)
+        this.isTradeLoad = false
+      })
   }
 
 }

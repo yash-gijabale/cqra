@@ -135,6 +135,8 @@ import { MisTopPerformanceComponent } from './MIS/mis-top-performance/mis-top-pe
 import { MisBelowPersonComponent } from './MIS/mis-below-person/mis-below-person.component';
 import { CreateRfiComponent } from './create-rfi/create-rfi.component';
 import { GenerateSamplingReortComponent } from './generate-sampling-reort/generate-sampling-reort.component';
+import { InspectorDeclarationComponent } from './inspectorAuthorization/inspector-declaration/inspector-declaration.component';
+import { InspectorTradeTrainingComponent } from './inspectorAuthorization/inspector-trade-training/inspector-trade-training.component';
 
 
 @NgModule({
@@ -263,7 +265,9 @@ import { GenerateSamplingReortComponent } from './generate-sampling-reort/genera
     MisTopPerformanceComponent,
     MisBelowPersonComponent,
     CreateRfiComponent,
-    GenerateSamplingReortComponent
+    GenerateSamplingReortComponent,
+    InspectorDeclarationComponent,
+    InspectorTradeTrainingComponent,
   ],
   imports: [
     BrowserModule,

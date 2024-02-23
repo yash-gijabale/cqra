@@ -156,4 +156,16 @@ export class UserService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/Region/${id}`)
   }
 
+
+
+  //USER ACCESS MANAGEMENT
+  
+  setUserAccess(data):Observable<UserService>{
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/addusermenu`, data)
+  }
+
+  getUserAccess(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getuserMenubyid/${id}`)
+  }
+
 }
