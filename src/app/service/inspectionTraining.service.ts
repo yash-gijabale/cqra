@@ -16,8 +16,16 @@ export class InspectorTraning {
   constructor(private httpClient: HttpClient) { }
 
 
+  getAllUserTradeTraining(){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallinspectrade`)
+  }
+
   newUserTradeTraining(data): Observable<InspectorTraning>{
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/mulispecttradetraining/addinspectrade`, data)
+  }
+
+  uploadTrainingAttachment(id, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data)
   }
   
 }

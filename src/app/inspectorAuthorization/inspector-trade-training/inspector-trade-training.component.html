@@ -79,14 +79,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
+              <tr *ngFor="let data of userTradeTrainingData | keyvalue">
+                <td>{{data.value.srNo}}</td>
                 <td>
-                  <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#new-trade-1">+</button>
+                  <button class="btn btn-sm btn-warning" data-toggle="modal"
+                    [attr.data-target]="'#new-trade-'+data.key">+</button>
 
-                  <div class="modal fade" id="new-trade-1" tabindex="-1" role="dialog"
+                  <div class="modal fade" [id]="'new-trade-'+data.key" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLongTitle">New Trades</h5>
@@ -95,16 +96,23 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                          <div class="form-check col-md-12" *ngFor="let trade of tradeData">
-                            <input class="form-check-input" type="checkbox" [value]="trade.tradeId"
-                              id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
+                          <div class="form-group col-md-6 mb-6">
+                            <input type="search" class="form-control col-md-12" (input)="searchTrade($event)"
+                              placeholder="Search trades">
+                          </div>
+
+                          <div class="form-check col-md-12 newTrade" *ngFor="let trade of searchTradeData">
+                            <input class="form-check-input" type="checkbox" [value]="trade.tardeId"
+                              id="flexCheckDefault" (change)="addToNewUserTraining($event)"
+                              [checked]="newUserTrainingTrde.includes(trade.tardeId)"
+                              [disabled]="allocatedtrade[data.value.userId].includes(trade.tardeId)">
+                            <label class="form-check-label" for="flexCheckDefault" [title]="trade.tardeId">
                               {{trade.tradeName}}
                             </label>
                           </div>
                         </div>
                         <div class="modal-footer">
-                          <button class="btn btn-sm btn-success">Save</button>
+                          <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining(data.key)">Save</button>
                         </div>
 
                       </div>
@@ -112,14 +120,15 @@
                   </div>
 
                 </td>
-                <td>Jhone Doue</td>
+                <td>{{data.value.userName}}</td>
                 <td>
-                  <button class="btn btn-sm btn-warning p-1" data-toggle="modal" data-target="#traning-trade-1">View
+                  <button class="btn btn-sm btn-warning p-1" data-toggle="modal"
+                    [attr.data-target]="'#traning-trade-'+data.key">View
                     Trade</button>
 
-                  <div class="modal fade" id="traning-trade-1" tabindex="-1" role="dialog"
+                  <div class="modal fade" [id]="'traning-trade-'+data.key" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLongTitle">Allocated Trades</h5>
@@ -128,7 +137,9 @@
                           </button>
                         </div>
                         <div class="modal-body">
-
+                          <div class="row mb-2" *ngFor="let trade of data.value.trades">
+                            <span class="ml-2">{{trade.tradeName}}</span>
+                          </div>
                         </div>
 
                       </div>
@@ -138,139 +149,114 @@
 
                 </td>
                 <td>
-                  <span class="badge bg-success text-light">Available</span>
-                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                  <div *ngIf="data.value.trainingAttachment; then thenTraining else elseTraining"></div>
+                  <ng-template #thenTraining>
+                    <span class="badge bg-success text-light">Available</span>
+                    <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                  </ng-template>
+                  <ng-template #elseTraining>
+                    <span class="badge bg-danger text-light">Not Available</span>
+                    <!-- <span class="badge bg-light text-dark mx-2 border border-dark">view</span> -->
+                  </ng-template>
                 </td>
-                <td>Jan 15 2024</td>
+                <td>{{data.value.trainingData}}</td>
                 <td>
-                  <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#user-details-1">Deatils</button>
-                  <div class="modal fade" id="user-details-1" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">User Name</h5>
-                          <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body modal-full-body">
-                          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers2"
-                            class="row-border hover inspector_list_table inspector_list_details_table"
-                            style="width:100%">
-                            <thead>
-                              <tr>
-                                <th>Sr no</th>
-                                <th style="width: 25%;">Trade</th>
-                                <th>Traning Attch</th>
-                                <th>Date</th>
-                                <th>Question Attch</th>
-                                <th>Question Attch</th>
-                                <th>Marks</th>
-                                <th>Report1</th>
-                                <th>Report2</th>
-                                <th>Report3</th>
-                                <th>Approve</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td >1</td>
-                                <td style="width: 25%;" class="pl-2">
-                                  <span class="row mb-2 ml-2">Burnt Brick Masonry Work</span>
-                                  <span class="row mb-2 ml-2" title="Aerocon OR Siporex Block Masonry Work Aerocon OR Siporex Block Masonry Work">{{('Aerocon OR Siporex Block Masonry Work Aerocon OR Siporex Block Masonry Work').substr(0,50)}}...</span>
-                                  <span class="row mb-2 ml-2">Internal Plaster (Cement Sand)</span>
-                                  <span class="row mb-2 ml-2">Internal Plaster (Gypsum)</span>
-                                  <span class="row mb-2 ml-2">Burnt Brick Masonry Work</span>
-                                  <span class="row mb-2 ml-2">Burnt Brick Masonry Work</span>
-                                </td>
-                                <td >
-                                  <span class="badge bg-success text-light">Upload</span>
-                                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                                </td>
-                                <td >
-                                  27/02/2024
-                                </td>
-                                <td >
-                                  <span class="badge bg-success text-light">Upload</span>
-                                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                                </td>
-                                <td >
-                                  <span class="badge bg-success text-light">Upload</span>
-                                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                                </td>
-                                <td >
-                                  <input type="text" style="width: 40%;">
-                                </td>
-                                <td >
-                                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                                  <span class="badge bg-success text-light">Approve</span>
-                                </td>
-                                <td >
-                                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                                  <span class="badge bg-success text-light">Approve</span>
-                                </td>
-                                <td >
-                                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                                  <span class="badge bg-success text-light">Approve</span>
-                                </td>
-                                <td >
-                                  <button class="btn btn-sm btn-primary">Approve</button>
-                                </td>
-                              </tr>
-                              
-                             
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-sm btn-success">Save</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>
-                  <button class="btn btn-sm btn-warning">+</button>
-                </td>
-                <td>Suresh kumar</td>
-                <td>
-                  <button class="btn btn-sm btn-warning p-1">View Trade</button>
-                </td>
-                <td>
-                  <span class="badge bg-danger text-light">not available</span>
-                  <!-- <span class="badge bg-light text-dark" aria-disabled="true">view</span> -->
-                </td>
-                <td>Jan 15 2024</td>
-                <td>
-                  <button class="btn btn-sm btn-dark">Deatils</button>
+                  <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#user-details-1"
+                    (click)="getUserTradeDetails(data.key)">Deatils</button>
+
                 </td>
               </tr>
 
-              <tr>
-                <td>3</td>
-                <td>
-                  <button class="btn btn-sm btn-warning">+</button>
-                </td>
-                <td>Shekhar Jadhav</td>
-                <td>
-                  <button class="btn btn-sm btn-warning p-1">View Trade</button>
-                </td>
-                <td>
-                  <span class="badge bg-success text-light">Available</span>
-                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                </td>
-                <td>Jan 15 2024</td>
-                <td>
-                  <button class="btn btn-sm btn-dark">Deatils</button>
-                </td>
-              </tr>
             </tbody>
-
           </table>
+
+
+          <div class="modal fade" id="user-details-1" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">{{usertradeDetailsData.userName}}</h5>
+                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body modal-full-body">
+                  <table class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Sr no</th>
+                        <th style="width: 25%;">Trade</th>
+                        <th>Traning Attch</th>
+                        <th>Date</th>
+                        <th>Question Attch</th>
+                        <th>Marks</th>
+                        <th>Report1</th>
+                        <th>Report2</th>
+                        <th>Report3</th>
+                        <th>Approve</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- {{let count = 0}} -->
+                      <tr *ngFor="let data of usertradeDetailsData.trades | keyvalue">
+                        <td>{{data.key}}</td>
+                        <td style="width: 25%;" class="pl-2">
+                          <span class="row mb-2 ml-2">{{data.value.tradeName}}</span>
+                        </td>
+                        <td>
+                          <div class="traning_upload row d-flex p-2">
+                            <label for="inputField" class="badge bg-secondary text-light m-0">Choosed file</label>
+                            <input type="file" id="inputField" (change)="getFile($event)"  style="display: none;">
+                            <span class="badge bg-success text-light" role="button">Upload</span>
+                          </div>
+                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                        </td>
+                        <td>
+                          {{usertradeDetailsData.trainingData}}
+                        </td>
+                        <td>
+                          <div class="traning_upload row d-flex p-2">
+                            <label for="inputField" class="badge bg-secondary text-light m-0">Choose file</label>
+                            <input type="file" id="inputField" style="display:none">
+                            <span class="badge bg-success text-light" role="button">Upload</span>
+                          </div>
+                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                        </td>
+                       
+                        <td>
+                          <input type="text" style="width: 40%;">
+                        </td>
+
+                        <td>
+                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                          <span class="badge bg-success text-light">Approve</span>
+                        </td>
+
+                        <td>
+                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                          <span class="badge bg-success text-light">Approve</span>
+                        </td>
+
+                        <td>
+                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                          <span class="badge bg-success text-light">Approve</span>
+                        </td>
+                        <td>
+                          <button class="badge bg-primary text-light">Approve</button>
+                        </td>
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-sm btn-success">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

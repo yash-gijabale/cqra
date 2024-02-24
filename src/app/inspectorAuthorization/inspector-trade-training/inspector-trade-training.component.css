@@ -90,3 +90,26 @@
         margin: 0;
     }
 }
+
+.hide{
+    display: none;
+}
+.traning_upload{
+    width: auto;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+
+}
+.traning_upload input::file-selector-button{
+    width: 40px !important;
+    height: 20px !important;
+    background-color: rgb(133, 135, 134);
+    font-size: 10px;
+    color: #fff;
+}
+
+.traning_upload input::file-selector-button::after{
+    content: 'upload';
+}
