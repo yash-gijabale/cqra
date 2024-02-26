@@ -245,7 +245,12 @@ export class AuthenticateionService {
           sessionStorage.setItem('email', userData.email);
           let tokenStr = 'Bearer ' + userData.accessToken;
           sessionStorage.setItem('token', tokenStr);
-          sessionStorage.setItem('userMenu', JSON.stringify(this.user1));
+
+          localStorage.setItem('username', userData.username);
+          localStorage.setItem('id', userData.id);
+          localStorage.setItem('email', userData.email);
+          localStorage.setItem('token', tokenStr);
+          // localStorage.setItem('userMenu', JSON.stringify(this.user1));
           return userData;
         }
       )

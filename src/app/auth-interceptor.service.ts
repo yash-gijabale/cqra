@@ -10,7 +10,8 @@ token
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     let authReq = req;
-    this.token  = sessionStorage.getItem('token');
+    this.token  = localStorage.getItem('token');
+    console.log(localStorage.getItem('username'));
     console.log("refresh token"+this.token)
     if (this.token != null) {
       authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, this.token) });

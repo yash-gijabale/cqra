@@ -1,144 +1,162 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Login</title>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/css/dataTables.bootstrap4.css">
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,900&display=swap" rel="stylesheet">
 
-	
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,900&display=swap"
+    rel="stylesheet">
+
+
 </head>
+
 <body>
   <div class="global-container">
-<div class="container-fluid p-0">
-  <div class="container">
-<nav class="navbar navbar-expand-lg navbar-dark  fixed-top myclassnav" id="mainNav">
-    <a class="navbar-brand" href="index.php"> 
-      <div class="header-view-logo">
-        <img src="assets/images/cqra-logo-s-1.png">
-      </div> 
-    </a>
-    <div class="think-header-view">
-    
-    <div class="common-headerview navbar-nav w-100">
-      <div class="pull-left">
-        <div class="cqra-heading_text">
-            <div class="cqra-text-st"> Think <span class="cqra-auality"> Quality</span>, think <span class="cqra-cqra">CQRA</span>!</div> <div class="cqra-home-back"> <a href=""> Logout </a> </div>
-        </div>
-      </div>
-      <div class="pull-right">
-        <div class="cqra-heading_text">
-            <div class="common-app-download">
-                  <a href="#"> <button type="button"> App Download  </button> </a>
-                  </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
-  </div>
-  <div class="container top-home-sectionview">
-    <div class="homeview">
-      <section class="common-section-v py-0">
-       <div class="container ">
-          <div class="header-text-homepage">
-             <h2> CQRA Services</h2>
-          </div>
-        <div class="card-main-fatures-views">
-         <div class="row">
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4 d-flex align-items-stretch">
-              <div class="cards_icons-top-add-ex">
-                <div class="card border-0">
-                  <div class="card-body">
-                    <div class="icons-top-add-ex"> 
-                        <img class="img-fluid" alt="" src="assets/images/1.png">
-                    </div>
-                    <div class="details-card-card-subtitle my-2">
-                       <h6 class="card-subtitle1"> Q-assure </h6>
-                       <p class="card-text1"> The users can enable the features to form note on each documents you’re uploading.  </p>
+    <div class="container-fluid p-0">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark  fixed-top myclassnav" id="mainNav">
+          <a class="navbar-brand" href="index.php">
+            <div class="header-view-logo">
+              <img src="assets/images/cqra-logo-s-1.png">
+            </div>
+          </a>
+          <div class="think-header-view">
 
-                       <div class="common-loginview">
-                         <a routerLink="/dashboard"> <button type="button"> Launch  </button> </a>
-                       </div>
-                     </div>
-                   </div>
+            <div class="common-headerview navbar-nav w-100">
+              <div class="pull-left">
+                <div class="cqra-heading_text">
+                  <div class="cqra-text-st"> Think <span class="cqra-auality"> Quality</span>, think <span
+                      class="cqra-cqra">CQRA</span>!</div>
+                  <div class="cqra-home-back"> <a href=""> Logout </a> </div>
+                </div>
+              </div>
+              <div class="pull-right">
+                <div class="cqra-heading_text">
+                  <div class="common-app-download">
+                    <a href="#"> <button type="button"> App Download </button> </a>
                   </div>
                 </div>
               </div>
-              <!-- add -->
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4 d-flex align-items-stretch mb-2 wow fadeInLeft">
-              <div class="cards_icons-top-add-ex">
-                <div class="card border-0">
-                  <div class="card-body">
-                    <div class="icons-top-add-ex"> 
-                         <img class="img-fluid" alt="" src="assets/images/2.png">
-                    </div>
-                    <div class="details-card-card-subtitle my-2">
-                       <h6 class="card-subtitle1"> Snap Inspection  </h6>
-                       <p class="card-text1"> The users can enable the features to form note on each documents you’re uploading.  </p>
-
-                       <div class="common-loginview">
-                         <a href="#"> <button type="button"> Launch  </button> </a>
-                       </div>
-                     </div>
-                   </div>
-                  </div>
-                </div>
-              </div>
-               <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4 d-flex align-items-stretch mb-2 wow fadeInLeft">
-              <div class="cards_icons-top-add-ex">
-                <div class="card border-0">
-                  <div class="card-body">
-                    <div class="icons-top-add-ex"> 
-                        <img class="img-fluid" alt="" src="assets/images/3.png">
-                    </div>
-                    <div class="details-card-card-subtitle my-2">
-                       <h6 class="card-subtitle1"> RFI / Q-Control</h6>
-                       <p class="card-text1"> The users can enable the features to form note on each documents you’re uploading.  </p>
-
-                       <div class="common-loginview">
-                         <a href="#"> <button type="button"> Launch  </button> </a>
-                       </div>
-                     </div>
-                   </div>
-                  </div>
-                </div>
-              </div>
-              <!-- add -->
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4 d-flex align-items-stretch mb-2 wow fadeInLeft">
-              <div class="cards_icons-top-add-ex">
-                <div class="card border-0">
-                  <div class="card-body">
-                    <div class="icons-top-add-ex"> 
-                         <img class="img-fluid" alt="" src="assets/images/4.png">
-                    </div>
-                    <div class="details-card-card-subtitle my-2">
-                       <h6 class="card-subtitle1"> Home Inspection </h6>
-                       <p class="card-text1"> The users can enable the features to form note on each documents you’re uploading.  </p>
-
-                       <div class="common-loginview">
-                         <a href="#"> <button type="button"> Launch  </button> </a>
-                       </div>
-                     </div>
-                   </div>
-                  </div>
-                </div>
-              </div>
-             </div>
             </div>
           </div>
-        </section>
+        </nav>
+      </div>
+      <div class="container top-home-sectionview">
+        <div class="homeview">
+          <section class="common-section-v py-0">
+            <div class="container ">
+              <div class="header-text-homepage">
+                <h2> CQRA Services</h2>
+              </div>
+              <div class="card-main-fatures-views">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4 d-flex align-items-stretch">
+                    <div class="cards_icons-top-add-ex">
+                      <div class="card border-0">
+                        <div class="card-body">
+                          <div class="icons-top-add-ex">
+                            <img class="img-fluid" alt="" src="assets/images/1.png">
+                          </div>
+                          <div class="details-card-card-subtitle my-2">
+                            <h6 class="card-subtitle1"> Q-assure </h6>
+                            <p class="card-text1"> The users can enable the features to form note on each documents
+                              you’re uploading. </p>
 
+                            <div class="common-loginview">
+                              <button type="button" (click)="getUserMenu()">
+                                <div *ngIf="launchLoad" class="spinner-border text-light" role="status">
+                                </div>
+                                <span *ngIf="!launchLoad">Launch</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- add -->
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4 d-flex align-items-stretch mb-2 wow fadeInLeft">
+                    <div class="cards_icons-top-add-ex">
+                      <div class="card border-0">
+                        <div class="card-body">
+                          <div class="icons-top-add-ex">
+                            <img class="img-fluid" alt="" src="assets/images/2.png">
+                          </div>
+                          <div class="details-card-card-subtitle my-2">
+                            <h6 class="card-subtitle1"> Snap Inspection </h6>
+                            <p class="card-text1"> The users can enable the features to form note on each documents
+                              you’re uploading. </p>
+
+                            <div class="common-loginview">
+                              <a href="#"> <button type="button"> Launch </button> </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4 d-flex align-items-stretch mb-2 wow fadeInLeft">
+                    <div class="cards_icons-top-add-ex">
+                      <div class="card border-0">
+                        <div class="card-body">
+                          <div class="icons-top-add-ex">
+                            <img class="img-fluid" alt="" src="assets/images/3.png">
+                          </div>
+                          <div class="details-card-card-subtitle my-2">
+                            <h6 class="card-subtitle1"> RFI / Q-Control</h6>
+                            <p class="card-text1"> The users can enable the features to form note on each documents
+                              you’re uploading. </p>
+
+                            <div class="common-loginview">
+                              <a href="#"> <button type="button"> Launch </button> </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- add -->
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4 d-flex align-items-stretch mb-2 wow fadeInLeft">
+                    <div class="cards_icons-top-add-ex">
+                      <div class="card border-0">
+                        <div class="card-body">
+                          <div class="icons-top-add-ex">
+                            <img class="img-fluid" alt="" src="assets/images/4.png">
+                          </div>
+                          <div class="details-card-card-subtitle my-2">
+                            <h6 class="card-subtitle1"> Home Inspection </h6>
+                            <p class="card-text1"> The users can enable the features to form note on each documents
+                              you’re uploading. </p>
+
+                            <div class="common-loginview">
+                              <a href="#"> <button type="button"> Launch </button> </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
     </div>
+
   </div>
-</div>
-
-</div>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
-</html>
 
+</html>

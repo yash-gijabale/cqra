@@ -120,7 +120,7 @@
                   </div>
 
                 </td>
-                <td>{{data.value.userName}}</td>
+                <td [title]="data.value.userId">{{data.value.userName}}</td>
                 <td>
                   <button class="btn btn-sm btn-warning p-1" data-toggle="modal"
                     [attr.data-target]="'#traning-trade-'+data.key">View
@@ -182,74 +182,96 @@
                   </button>
                 </div>
                 <div class="modal-body modal-full-body">
-                  <table class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
-                    <thead>
-                      <tr>
-                        <th>Sr no</th>
-                        <th style="width: 25%;">Trade</th>
-                        <th>Traning Attch</th>
-                        <th>Date</th>
-                        <th>Question Attch</th>
-                        <th>Marks</th>
-                        <th>Report1</th>
-                        <th>Report2</th>
-                        <th>Report3</th>
-                        <th>Approve</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- {{let count = 0}} -->
-                      <tr *ngFor="let data of usertradeDetailsData.trades | keyvalue">
-                        <td>{{data.key}}</td>
-                        <td style="width: 25%;" class="pl-2">
-                          <span class="row mb-2 ml-2">{{data.value.tradeName}}</span>
-                        </td>
-                        <td>
-                          <div class="traning_upload row d-flex p-2">
-                            <label for="inputField" class="badge bg-secondary text-light m-0">Choosed file</label>
-                            <input type="file" id="inputField" (change)="getFile($event)"  style="display: none;">
-                            <span class="badge bg-success text-light" role="button">Upload</span>
-                          </div>
-                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                        </td>
-                        <td>
-                          {{usertradeDetailsData.trainingData}}
-                        </td>
-                        <td>
-                          <div class="traning_upload row d-flex p-2">
-                            <label for="inputField" class="badge bg-secondary text-light m-0">Choose file</label>
-                            <input type="file" id="inputField" style="display:none">
-                            <span class="badge bg-success text-light" role="button">Upload</span>
-                          </div>
-                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                        </td>
-                       
-                        <td>
-                          <input type="text" style="width: 40%;">
-                        </td>
+                  <div *ngIf="userDetailsLoad then thenUserDetails else elseUserDetails"></div>
+                  <ng-template #thenUserDetails>
+                    <div class="userdeailsload">
+                      <div class="spinner-border text-warning" role="status">
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template #elseUserDetails>
+                    <table class="row-border hover inspector_list_table inspector_list_details_table"
+                      style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Sr no</th>
+                          <th style="width: 25%;">Trade</th>
+                          <th>Traning Attch</th>
+                          <th>Date</th>
+                          <th>Question Attch</th>
+                          <th style="width: 9%;">Marks</th>
+                          <th>Report1</th>
+                          <th>Report2</th>
+                          <th>Report3</th>
+                          <th>Approve</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- {{let count = 0}} -->
+                        <tr *ngFor="let data of usertradeDetailsData.trades | keyvalue">
+                          <td>{{data.key}}</td>
+                          <td style="width: 25%;" class="pl-2">
+                            <span class="row mb-2 ml-2">{{data.value.tradeName}}</span>
+                          </td>
+                          <td>
+                            <div class="traning_upload row d-flex p-2">
+                              <label for="inputField" class="badge bg-secondary text-light m-0">Choosed file</label>
+                              <input type="file" id="inputField" (change)="getFile($event)" style="display: none;">
+                              <span class="badge bg-success text-light" role="button">Upload</span>
+                            </div>
+                            <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                          </td>
+                          <td>
+                            {{usertradeDetailsData.trainingData}}
+                          </td>
+                          <td>
+                            <div *ngIf="data.value.qStatus!==0" class="traning_upload row d-flex p-2">
+                              <span *ngIf="data.value.qStatus===2" class="badge bg-success text-light" role="button">Submited</span>
+                              <span *ngIf="data.value.qStatus===1" class="badge bg-warning text-light">Not Submited</span>
+                            </div>
+                            <span class="badge bg-light text-dark mx-2 border border-dark" data-toggle="modal"
+                              data-target="#add-view" role="button"
+                              (click)="getQuestionByTrade(data.value.tradeId)">Add Questions</span>
+                          </td>
 
-                        <td>
-                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                          <span class="badge bg-success text-light">Approve</span>
-                        </td>
+                          <td>
+                            <input type="text" style="width: 50%;" (input)="getMark($event)" [value]="data.value.marks">
+                            <span class="badge bg-warning text-dark mx-2 border border-dark" role="button"
+                              (click)="updateMark(usertradeDetailsData.userId, data.value.tradeId)">
+                              <div *ngIf="markLoader" class="spinner-border badge-spinner text-dark" role="status">
+                                <!-- <span class="visually-hidden">Loading...</span> -->
+                              </div>
+                              <span *ngIf="!markLoader">Save</span>
+                            </span>
 
-                        <td>
-                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                          <span class="badge bg-success text-light">Approve</span>
-                        </td>
+                          </td>
 
-                        <td>
-                          <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                          <span class="badge bg-success text-light">Approve</span>
-                        </td>
-                        <td>
-                          <button class="badge bg-primary text-light">Approve</button>
-                        </td>
-                      </tr>
+                          <td>
+                            <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                            <span class="badge bg-success text-light">Approve</span>
+                          </td>
+
+                          <td>
+                            <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                            <span class="badge bg-success text-light">Approve</span>
+                          </td>
+
+                          <td>
+                            <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                            <span class="badge bg-success text-light">Approve</span>
+                          </td>
+                          <td>
+                            <button class="badge bg-primary text-light border-none"><i
+                                class="las la-check"></i></button>
+                            <button class="badge bg-danger text-light border-none mx-2"><i
+                                class="las la-times"></i></button>
+                          </td>
+                        </tr>
 
 
-                    </tbody>
-                  </table>
+                      </tbody>
+                    </table>
+                  </ng-template>
                 </div>
                 <div class="modal-footer">
                   <button class="btn btn-sm btn-success">Save</button>
@@ -257,6 +279,57 @@
               </div>
             </div>
           </div>
+
+
+
+          <!-- question modal -->
+          <div class="modal fade" id="add-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Generate Random Questions</h5>
+                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                 
+                  <div *ngIf="questionLoad; then thenUestions else elseQuestion"></div>
+                  <ng-template #thenUestions>
+                    <div class="w-100 text-center">
+                      <div class="spinner-border text-warning" role="status">
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template #elseQuestion>
+                    <div class="row mb-3">
+                      <h6 class="mx-2">Total Questions: {{questionData.length}}</h6>
+                      <input type="number" placeholder="Selecte Question" class="form-select" style="width: 10%;"
+                        (input)="randomCount($event)">
+                      <button class="btn btn-sm btn-secondary p-0" (click)="pickRandomQuestion()">Random</button>
+                    </div>
+
+                    <div class="form-check col-md-12 newTrade" *ngFor="let question of questionData">
+                      <input class="form-check-input" type="checkbox" [value]="question.questionId"
+                        id="flexCheckDefault" (change)="pickQuestion($event)"
+                        [checked]="pickedQuestion.includes(question.questionId)">
+                      <label class="form-check-label" for="flexCheckDefault" [title]="question.questionId">
+                        {{question.questionText}}
+                      </label>
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="modal-footer bg-secondary">
+                  <button class="btn btn-sm btn-success" (click)="submitRandomQuestion()">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
         </div>
       </div>
     </div>

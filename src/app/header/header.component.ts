@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -6,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-username=sessionStorage.getItem('username');
-userMenu = JSON.parse(sessionStorage.getItem('userMenu'))
-  constructor() { }
+username=localStorage.getItem('username');
+userMenu = JSON.parse(localStorage.getItem('userMenu'))
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
     console.log(this.userMenu)
@@ -19,5 +22,11 @@ userMenu = JSON.parse(sessionStorage.getItem('userMenu'))
       $(".navbar-sidenav .nav-link-collapse").addClass("collapsed");
       $(".navbar-sidenav .sidenav-second-level, .navbar-sidenav .sidenav-third-level").removeClass("show");
     });
+  }
+
+  logout(){
+    sessionStorage.clear()
+    localStorage.clear()
+    this.router.navigate(['login'])
   }
 }

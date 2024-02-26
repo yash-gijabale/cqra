@@ -9,24 +9,30 @@ import { AuthenticateionService } from '../service/authenticateion.service';
 })
 export class LoginComponent implements OnInit {
 
-  userName=''
-  password=''
-  errorMessage='Invalid Credentials'
-  invalidLogin=false
-  constructor(private router:Router,private authenticateService: AuthenticateionService) { }
+  userName = ''
+  password = ''
+  errorMessage = 'Invalid Credentials'
+  invalidLogin = false
+  constructor(private router: Router, private authenticateService: AuthenticateionService) { }
 
   ngOnInit() {
   }
 
-  handleLogin(){
-    this.authenticateService.authenticate(this.userName,this.password).subscribe(
-      data=>{
+  loginLoad: boolean = false
+
+  handleLogin() {
+    this.loginLoad = true
+    this.authenticateService.authenticate(this.userName, this.password).subscribe(
+      data => {
         console.log(data)
         this.router.navigate(['home'])
-        this.invalidLogin=false;
+        this.invalidLogin = false;
+        this.loginLoad = false
+
       },
-      error=>{
-        this.invalidLogin=true;
+      error => {
+        this.invalidLogin = true;
+        this.loginLoad = false
       }
     )
 

@@ -200,6 +200,8 @@
           <ul class="dropdown-menu">
             <li class="dropdown-item"><a tabindex="-1" routerLink="/declaration">Declarations</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/inspectorTradeTraning">Inspector Traning</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/inspectorView">Inspector Traning</a></li>
+            
           </ul>
         </li>
         <!-- <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
@@ -259,7 +261,7 @@
             <div class="dropdown-menu add-custom-view" aria-labelledby="alertsDropdown">
               <h6 class="dropdown-header">
                 <a class="nav-link text-danger" href="profile.php"> <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
-                <a class="nav-link"> <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                <a class="nav-link" (click)="logout()"> <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                 <a class="nav-link" target="_blank"
                   href="https://docs.google.com/spreadsheets/d/1gwcWXlQwrLPZvF9VBW_x-rQcLMqHPTwCU1R2bpi4oOM/edit#gid=0"><i
                     class="fa fa-fw fa-sign-out text-danger"></i>Report Issue</a>

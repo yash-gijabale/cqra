@@ -137,6 +137,7 @@ import { CreateRfiComponent } from './create-rfi/create-rfi.component';
 import { GenerateSamplingReortComponent } from './generate-sampling-reort/generate-sampling-reort.component';
 import { InspectorDeclarationComponent } from './inspectorAuthorization/inspector-declaration/inspector-declaration.component';
 import { InspectorTradeTrainingComponent } from './inspectorAuthorization/inspector-trade-training/inspector-trade-training.component';
+import { InspectorTrainingViewComponent } from './inspectorAuthorization/inspector-training-view/inspector-training-view.component';
 
 
 @NgModule({
@@ -268,6 +269,7 @@ import { InspectorTradeTrainingComponent } from './inspectorAuthorization/inspec
     GenerateSamplingReortComponent,
     InspectorDeclarationComponent,
     InspectorTradeTrainingComponent,
+    InspectorTrainingViewComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,9 +4,11 @@ import { Trade } from 'src/app/trade/trade.component';
 import { UserService } from 'src/app/service/user.service';
 import { UserView } from 'src/app/user-log/user-log.component';
 import { InspectorTraning } from 'src/app/service/inspectionTraining.service';
+import { CommonService } from 'src/app/common.service';
 
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-inspector-trade-training',
@@ -30,12 +32,13 @@ export class InspectorTradeTrainingComponent implements OnInit {
 
   userTradeTrainingData = {}
 
-  usertradeDetailsData = {} //this data is form full screen modal according to user
+  usertradeDetailsData: any = {} //this data is form full screen modal according to user
 
   constructor(
     private tradeService: TradeMaintanceService,
     private userService: UserService,
-    private inspectionTraining: InspectorTraning
+    private inspectionTraining: InspectorTraning,
+    private commonService: CommonService
   ) { }
 
   ngOnInit() {
@@ -80,12 +83,17 @@ export class InspectorTradeTrainingComponent implements OnInit {
   generateDataFromTradeUserList(data) {
     let ListArray = {}
     let srNo = 1
+    let srNo2 = 1
     data.forEach(item => {
       if (ListArray[item.userId]) {
         ListArray[item.userId].trades.push({
+          srNo: srNo2,
           tradeId: item.tradeId,
-          tradeName: item.tradeName
+          tradeName: item.tradeName,
+          marks: item.marks,
+          qStatus: item.status ? item.status : 0
         })
+        srNo2++
       } else {
         let userData = {
           srNo: srNo,
@@ -96,12 +104,17 @@ export class InspectorTradeTrainingComponent implements OnInit {
           trades: []
         }
         userData.trades.push({
+          srNo: srNo2,
           tradeId: item.tradeId,
-          tradeName: item.tradeName
+          tradeName: item.tradeName,
+          marks: item.marks,
+          qStatus: item.status ? item.status : 0
+
         })
 
         ListArray[item.userId] = userData
         srNo++
+        srNo2++
       }
 
       if (this.allocatedtrade[item.userId]) {
@@ -167,19 +180,135 @@ export class InspectorTradeTrainingComponent implements OnInit {
     this.searchTradeData = filteredTrade
   }
 
+  userDetailsLoad: boolean = false
   getUserTradeDetails(userId) {
-    this.usertradeDetailsData = this.userTradeTrainingData[userId]
-    console.log(this.usertradeDetailsData)
+    // this.usertradeDetailsData = this.userTradeTrainingData[userId]
+    this.usertradeDetailsData = {}
+    this.userDetailsLoad = true
+    this.inspectionTraining.getUserTrainingData(userId)
+      .subscribe(data => {
+        console.log(data)
+        let generatedData = this.generateDataFromTradeUserList(data)
+        this.usertradeDetailsData = generatedData[userId]
+        console.log(this.usertradeDetailsData)
+        this.userDetailsLoad = false
+
+      })
   }
 
   getFile(e) {
     console.log(e)
     let file: File = e.target.files[0]
     const formData = new FormData();
+
     let data = {
       file: file
     }
-    console.log(data)
+    this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, data)
+      .subscribe(data => {
+        console.log('File uploaded', data)
+      },
+        err => console.log('file error-->', err))
+    // console.log(data)
+  }
+
+  inputMark: Number
+  markLoader: boolean = false
+  getMark(e) {
+    this.inputMark = Number(e.target.value)
+  }
+
+  updateMark(userId, tradeId) {
+    this.markLoader = true
+    console.log(userId, tradeId, this.inputMark)
+    this.inspectionTraining.updateTrainingMark(userId, tradeId, this.inputMark)
+      .subscribe(data => {
+        console.log('mark', data)
+        this.markLoader = false
+      })
+
+  }
+
+
+  questionData = []
+  questionLoad: boolean = false
+  currentSelectedTrade: Number
+
+  getQuestionByTrade(tradeId) {
+    this.questionData = []
+    this.pickedQuestion = [] //TO clear previewd selection
+    this.questionLoad = true
+    this.currentSelectedTrade = tradeId
+    this.commonService.getQuestionByTradeId(tradeId)
+      .subscribe(data => {
+        console.log(data)
+        this.questionData = data
+        this.questionLoad = false
+
+      })
+  }
+
+  pickedQuestion = []
+
+  pickQuestion(e) {
+    if (e.target.checked) {
+      this.pickedQuestion.push(Number(e.target.value))
+    } else {
+      let updateTradeArray = this.pickedQuestion.filter(trade => {
+        if (trade != e.target.value) {
+          return trade
+        }
+      })
+
+      this.pickedQuestion = updateTradeArray
+    }
+    console.log(this.pickedQuestion)
+  }
+
+  randomQuestionCount: Number
+  randomCount(e) {
+    this.randomQuestionCount = Number(e.target.value)
+  }
+
+  pickRandomQuestion() {
+    let questionId = {}
+    this.questionData.forEach(q => {
+      questionId[q.questionId] = q.questionId
+    })
+
+    let questionIdArr = Object.keys(questionId)
+    if (this.randomQuestionCount == this.questionData.length) {
+      this.pickedQuestion = questionIdArr
+    }
+
+    // const randomElement = array[Math.floor(Math.random() * array.length)];
+    let tempRandomId = []
+    while (Number(tempRandomId.length) < Number(this.randomQuestionCount)) {
+      let tempQuestionId = Object.keys(questionId)
+
+      let ramdom = tempQuestionId[Math.floor(Math.random() * tempQuestionId.length)]
+      tempRandomId.push(Number(ramdom))
+      delete questionId[ramdom]
+
+    }
+
+    // console.log(tempRandomId)
+    this.pickedQuestion = tempRandomId
+  }
+
+  submitRandomQuestion() {
+    let questionData = {
+      inspectorTradeTrainingsTrade: this.pickedQuestion
+    }
+
+    console.log(this.pickedQuestion)
+    console.log(this.usertradeDetailsData.userId)
+    console.log(this.currentSelectedTrade)
+
+    this.inspectionTraining.addTrainingQuestions(this.usertradeDetailsData.userId, this.currentSelectedTrade, questionData)
+      .subscribe(data => {
+        console.log('question added', data)
+      })
   }
 
 }

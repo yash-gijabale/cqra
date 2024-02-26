@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -16,16 +16,39 @@ export class InspectorTraning {
   constructor(private httpClient: HttpClient) { }
 
 
-  getAllUserTradeTraining(){
+  getAllUserTradeTraining() {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallinspectrade`)
   }
 
-  newUserTradeTraining(data): Observable<InspectorTraning>{
+  newUserTradeTraining(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/mulispecttradetraining/addinspectrade`, data)
   }
 
-  uploadTrainingAttachment(id, data){
-    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data)
+  getUserTrainingData(id) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallinspectradebyuserid/${id}`)
   }
-  
+
+  uploadTrainingAttachment(id, data) {
+    let token = sessionStorage.getItem('token')
+    let config = { headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }) };
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data, config)
+  }
+
+  updateTrainingMark(userId, tradeId, mark) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatemarks/${userId}/${tradeId}/${mark}`, '')
+  }
+
+  addTrainingQuestions(userId, TradeId, data) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/addquestiontotid/${userId}/${TradeId}`, data)
+  }
+
+
+  getUserTradeQuestion(userId, tradeId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallbyuserandtradeid/${userId}/${tradeId}`)
+  }
+
+  submitTradeAnswer(userId, tradeId, data):Observable<InspectorTraning>{
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/mulispecttradetraining/addanswerstoque/${userId}/${tradeId}`, data)
+  }
+
 }
