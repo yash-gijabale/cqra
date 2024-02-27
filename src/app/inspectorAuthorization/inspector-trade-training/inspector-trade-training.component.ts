@@ -9,6 +9,7 @@ import { CommonService } from 'src/app/common.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 import { data } from 'jquery';
+import { Key } from 'protractor';
 
 @Component({
   selector: 'app-inspector-trade-training',
@@ -91,7 +92,9 @@ export class InspectorTradeTrainingComponent implements OnInit {
           tradeId: item.tradeId,
           tradeName: item.tradeName,
           marks: item.marks,
-          qStatus: item.status ? item.status : 0
+          qStatus: item.status ? item.status : 0,
+          passorfail: item.passorfail
+
         })
         srNo2++
       } else {
@@ -108,7 +111,8 @@ export class InspectorTradeTrainingComponent implements OnInit {
           tradeId: item.tradeId,
           tradeName: item.tradeName,
           marks: item.marks,
-          qStatus: item.status ? item.status : 0
+          qStatus: item.status ? item.status : 0,
+          passorfail: item.passorfail
 
         })
 
@@ -221,11 +225,11 @@ export class InspectorTradeTrainingComponent implements OnInit {
   updateMark(userId, tradeId) {
     this.markLoader = true
     console.log(userId, tradeId, this.inputMark)
-    this.inspectionTraining.updateTrainingMark(userId, tradeId, this.inputMark)
-      .subscribe(data => {
-        console.log('mark', data)
-        this.markLoader = false
-      })
+    // this.inspectionTraining.updateTrainingMark(userId, tradeId, this.inputMark)
+    //   .subscribe(data => {
+    //     console.log('mark', data)
+    //     this.markLoader = false
+    //   })
 
   }
 
@@ -310,5 +314,113 @@ export class InspectorTradeTrainingComponent implements OnInit {
         console.log('question added', data)
       })
   }
+
+  questionAnsLoad: boolean = false
+  questionResult = {}
+  questionAnsData = []
+  totalQuestionsAns = 0
+  getUserSubmittedAns(userId, tradeId) {
+    this.questionAnsLoad = true
+    this.usertradeDetailsData.tradeId = tradeId
+    console.log(userId, tradeId)
+    this.totalQuestionsAns = 0
+    this.rigthAns = 0
+    this.wrongAns = 0
+    this.inspectionTraining.getUserQuestionAnswer(userId, tradeId)
+      .subscribe(data => {
+        this.questionAnsLoad = false
+        this.questionAnsData = data
+
+        data.forEach(item => {
+          this.questionResult[item.instradeAnswerId] = undefined
+        })
+
+        this.totalQuestionsAns = data.length
+        console.log(data)
+
+      })
+  }
+
+  rigthAns = 0
+  wrongAns = 0
+  addAnswer(answerId, e) {
+    console.log(e.target.value)
+    this.questionResult[answerId] = Number(e.target.value)
+    this.rigthAns = this.calculateRigthAndWrongQuestion(this.questionResult).rigthQuestions
+    this.wrongAns = this.calculateRigthAndWrongQuestion(this.questionResult).wrongQuestions
+
+  }
+
+  calculateRigthAndWrongQuestion(data) {
+    let rigthQuestions = 0
+    let wrongQuestions = 0
+    for (const key in data) {
+      if (data[key] === 1) {
+        rigthQuestions += 1
+      }
+      if (data[key] === 0) {
+        wrongQuestions += 1
+      }
+    }
+
+    return {
+      rigthQuestions,
+      wrongQuestions
+    }
+  }
+
+  submitQuestionPaperResult(userId, tradeId) {
+    console.log(this.questionResult)
+ 
+    let finalResult = []
+    for (const result in this.questionResult) {
+        let data = {
+          'inspectTradeAnswerId': result,
+          'ansstatus': this.questionResult[result]
+        }
+
+        finalResult.push(data)
+    }
+    let marks = this.calculateMarks(this.questionResult).totalMarks
+    console.log(finalResult)
+    console.log(marks)
+    this.inspectionTraining.submitUserExamResult(finalResult)
+    .subscribe(data =>{
+      console.log('Exam result added-->', data)
+    })
+
+    let passOrFail = this.checkPassOrFali(this.totalQuestionsAns, marks)
+    console.log('pass or fail-->',passOrFail)
+    this.inspectionTraining.updateTrainingMark(userId, tradeId, marks, passOrFail)
+    .subscribe(data =>{
+      console.log('mark updated-->', data)
+    },
+    err => console.log(err))
+  }
+
+  calculateMarks(resultData) {
+    let totalQuestion = Object.keys(resultData).length
+    let totalMarks = 0
+
+    for (const result in resultData) {
+      if (resultData[result]) {
+        totalMarks += 1
+      }
+    }
+    return {
+      totalQuestion,
+      totalMarks
+    }
+  }
+
+  checkPassOrFali(totalQuestion, marks){
+    let minMarks = Math.round(totalQuestion*35/100)
+    if(marks >= minMarks){
+      return 1
+    }else{
+      return 0
+    }
+  }
+
 
 }

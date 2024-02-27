@@ -225,13 +225,44 @@
                             {{usertradeDetailsData.trainingData}}
                           </td>
                           <td>
-                            <div *ngIf="data.value.qStatus!==0" class="traning_upload row d-flex p-2">
-                              <span *ngIf="data.value.qStatus===2" class="badge bg-success text-light" role="button">Submited</span>
-                              <span *ngIf="data.value.qStatus===1" class="badge bg-warning text-light">Not Submited</span>
+                            <div
+                              *ngIf="data.value.qStatus!==0 && data.value.passorfail === null || data.value.passorfail == -1"
+                              class="traning_upload row d-flex p-2">
+
+                              <span *ngIf="data.value.qStatus===2" class="badge bg-secondary text-light" role="button"
+                                data-toggle="modal" data-target="#question-answer-modal"
+                                (click)="getUserSubmittedAns(usertradeDetailsData.userId, data.value.tradeId)">
+                                Ready to check
+                              </span>
+
+                              <span *ngIf="data.value.qStatus===1" class="badge bg-warning text-light">
+                                Not Submited
+                              </span>
+
                             </div>
+
+                            <div *ngIf="data.value.passorfail != null" class="traning_upload row d-flex p-2">
+
+                              <span *ngIf="data.value.passorfail===0" class="badge bg-danger text-light">
+                                Fail
+                              </span>
+                          
+                              <span *ngIf="data.value.passorfail===1" class="badge bg-success text-light">
+                                Pass
+                              </span>
+                              
+                              <span class="badge bg-secondary text-light" role="button" data-toggle="modal"
+                                data-target="#question-answer-modal"
+                                (click)="getUserSubmittedAns(usertradeDetailsData.userId, data.value.tradeId)">
+                                Recheck
+                              </span>
+
+                            </div>
+
                             <span class="badge bg-light text-dark mx-2 border border-dark" data-toggle="modal"
-                              data-target="#add-view" role="button"
-                              (click)="getQuestionByTrade(data.value.tradeId)">Add Questions</span>
+                              data-target="#add-view" role="button" (click)="getQuestionByTrade(data.value.tradeId)">
+                              Add Questions
+                            </span>
                           </td>
 
                           <td>
@@ -282,7 +313,7 @@
 
 
 
-          <!-- question modal -->
+          <!-- question Paper modal -->
           <div class="modal fade" id="add-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -294,7 +325,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                 
+
                   <div *ngIf="questionLoad; then thenUestions else elseQuestion"></div>
                   <ng-template #thenUestions>
                     <div class="w-100 text-center">
@@ -323,6 +354,61 @@
                 </div>
                 <div class="modal-footer bg-secondary">
                   <button class="btn btn-sm btn-success" (click)="submitRandomQuestion()">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Question Anwser Modal -->
+          <div class="modal fade" id="question-answer-modal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Question Anwser ({{usertradeDetailsData.userName}})
+                  </h5>
+                  <span class="badge badge-secondary modal-title">Questions: {{totalQuestionsAns}}</span>
+                  <span class="badge badge-secondary modal-title mx-1">Rigth: {{rigthAns}}</span>
+                  <span class="badge badge-secondary modal-title">Wrong: {{wrongAns}}</span>
+                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <div *ngIf="questionAnsLoad; then thenQuestionAns else elseQuestionAns"></div>
+                  <ng-template #thenQuestionAns>
+                    <div class="w-100 text-center">
+                      <div class="spinner-border text-warning" role="status">
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template #elseQuestionAns>
+                    <div class="question-box" *ngFor="let ansData of questionAnsData">
+                      <span>{{ansData.questionText}}</span>
+                      <textarea class="question-ans answes" [id]="ansData.instradeAnswerId" type="text"
+                        readonly>{{ansData.answer}}</textarea>
+                      <div class="form-check form-check-inline row ml-2">
+                        <div class="mx-1">
+                          <input class="form-check-input" type="radio" [name]="'ansData-'+ansData.instradeAnswerId"
+                            [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event)">
+                          <label class="form-check-label" for="inlineRadio1">Rigth</label>
+                        </div>
+
+                        <div class="mx-1">
+                          <input class="form-check-input" type="radio" [name]="'ansData-'+ansData.instradeAnswerId"
+                            [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event)">
+                          <label class="form-check-label text-danger">Wrong</label>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="modal-footer bg-secondary">
+                  <button class="btn btn-sm btn-success"
+                    (click)="submitQuestionPaperResult(usertradeDetailsData.userId, usertradeDetailsData.tradeId)">Save</button>
                 </div>
               </div>
             </div>

@@ -34,8 +34,8 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data, config)
   }
 
-  updateTrainingMark(userId, tradeId, mark) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatemarks/${userId}/${tradeId}/${mark}`, '')
+  updateTrainingMark(userId, tradeId, mark, passOrfail) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatemarks/${userId}/${tradeId}/${mark}/${passOrfail}`, '')
   }
 
   addTrainingQuestions(userId, TradeId, data) {
@@ -49,6 +49,14 @@ export class InspectorTraning {
 
   submitTradeAnswer(userId, tradeId, data):Observable<InspectorTraning>{
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/mulispecttradetraining/addanswerstoque/${userId}/${tradeId}`, data)
+  }
+
+  getUserQuestionAnswer(userId, TradeId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getanswerbyusertradeid/${userId}/${TradeId}`)
+  }
+
+  submitUserExamResult(data){
+    return this.httpClient.put<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/updatestatus`, data)
   }
 
 }

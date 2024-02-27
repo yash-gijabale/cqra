@@ -15,121 +15,136 @@
       </div>
 
       <div class="main-view">
-        <h5>{{userTradeData.userName}}</h5>
+        <h5 *ngIf="!loadUserData">{{userTradeData ? userTradeData.userName: ''}}</h5>
 
-        <div class="inspector-list mt-5">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
-            class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
-            <thead>
-              <tr>
-                <th>Sr no</th>
-                <th style="width: 25%;">Trade</th>
-                <th>Traning Attch</th>
-                <th>Date</th>
-                <th>Solve Question</th>
-                <th style="width: 9%;">Marks</th>
-                <th>Report1</th>
-                <th>Report2</th>
-                <th>Report3</th>
-                <th>Approve</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of userTradeData.trades">
-                <td>{{data.srNo}}</td>
-                <td style="width: 25%;" class="pl-2">
-                  <span class="row mb-2 ml-2">{{data.tradeName}}</span>
-                </td>
-                <td>
-                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                </td>
-                <td>
-                  {{userTradeData.trainingData}}
-                </td>
-                <td>
-                  <span *ngIf="data.qStatus === 0" class="badge bg-light text-dark mx-2 border border-dark">Not
-                    Available</span>
+        <div *ngIf="loadUserData; then thenLoadTemplate else elseLoadTemplate"></div>
 
-                  <span *ngIf="data.qStatus === 1" class="badge bg-warning text-dark mx-2" data-toggle="modal"
-                    data-target="#inspector_qoestion_papar" role="button"
-                    (click)="getQuestionPaper(data.tradeId)">Available
-                  </span>
-                  <span *ngIf="data.qStatus === 2" class="badge bg-success text-light">Submited</span>
+        <ng-template #thenLoadTemplate>
+          <app-loader></app-loader>
+        </ng-template>
 
-                </td>
+        <ng-template #elseLoadTemplate>
+          <div class="inspector-list mt-5">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
+              class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Sr no</th>
+                  <th style="width: 25%;">Trade</th>
+                  <th>Traning Attch</th>
+                  <th>Date</th>
+                  <th>Solve Question</th>
+                  <th style="width: 9%;">Marks</th>
+                  <th>Report1</th>
+                  <th>Report2</th>
+                  <th>Report3</th>
+                  <th>Approve</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of userTradeData.trades">
+                  <td>{{data.srNo}}</td>
+                  <td style="width: 25%;" class="pl-2">
+                    <span class="row mb-2 ml-2">{{data.tradeName}}</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                  </td>
+                  <td>
+                    {{userTradeData.trainingData}}
+                  </td>
+                  <td>
 
-                <td>
-                  <input type="text" style="width: 50%;" [value]="data.marks ? data.marks : ''" readonly disabled>
-                </td>
+                    <div *ngIf="data.passorfail === null || data.passorfail == -1">
+                      <span *ngIf="data.qStatus === 0" class="badge bg-light text-dark mx-2 border border-dark">Not Available</span>
 
-                <td>
-                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                </td>
-
-                <td>
-                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                </td>
-
-                <td>
-                  <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                </td>
-                <td>
-                  <span class="badge bg-light text-dark border border-dark">Not Available</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-
-
-
-
-          <div class="modal fade" id="inspector_qoestion_papar" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">{{userTradeData.userName}}</h5>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-
-                <div *ngIf="questionLoad then thenUserDetails else elseUserDetails"></div>
-                <ng-template #thenUserDetails>
-                  <div class="userdeailsload">
-                    <div class="spinner-border text-warning" role="status">
+                      <span *ngIf="data.qStatus === 1" class="badge bg-warning text-dark mx-2" data-toggle="modal"
+                        data-target="#inspector_qoestion_papar" role="button"
+                        (click)="getQuestionPaper(data.tradeId)">Available
+                      </span>
+                      <span *ngIf="data.qStatus === 2" class="badge bg-success text-light">Submited</span>
                     </div>
-                  </div>
-                </ng-template>
-                <ng-template #elseUserDetails>
-                  <div class="modal-body modal-full-body question-paper-main">
-                    <div class="question-paper-body">
-                      <h5 class="mb-3">All Question Are Nessessory.</h5>
-                      <form>
-                        <div class="question-box" *ngFor="let question of questionPaper |keyvalue">
-                          <span>{{question.value}}</span>
-                          <textarea class="question-ans" [id]="question.key" type="text" placeholder="Answer"
-                            required></textarea>
-                        </div>
 
-                        <button class="btn btn-sm btn-success" type="button"
-                          (click)="submitQuestionPaper()" [disabled]="answerSubmitted">
-                          <div *ngIf="ansSubmitLoad" class="spinner-border text-light" role="status">
+                    <div *ngIf="data.passorfail != null || data.passorfail != -1">
+                      <span *ngIf="data.passorfail === 0" class="badge bg-danger text-light">Fail</span>
+
+                      <span *ngIf="data.passorfail === 1" class="badge bg-success text-light">Pass</span>
+                    </div>
+
+                  </td>
+
+                  <td>
+                    <input type="text" style="width: 50%;" [value]="data.marks ? data.marks : ''" readonly disabled>
+                  </td>
+
+                  <td>
+                    <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                  </td>
+
+                  <td>
+                    <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                  </td>
+
+                  <td>
+                    <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-dark border border-dark">Not Available</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+
+
+
+
+            <div class="modal fade" id="inspector_qoestion_papar" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{userTradeData.userName}}</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
+                  <div *ngIf="questionLoad then thenUserDetails else elseUserDetails"></div>
+                  <ng-template #thenUserDetails>
+                    <div class="userdeailsload">
+                      <div class="spinner-border text-warning" role="status">
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template #elseUserDetails>
+                    <div class="modal-body modal-full-body question-paper-main">
+                      <div class="question-paper-body">
+                        <h5 class="mb-3">All Question Are Nessessory.</h5>
+                        <form>
+                          <div class="question-box" *ngFor="let question of questionPaper |keyvalue">
+                            <span>{{question.value}}</span>
+                            <textarea class="question-ans" [id]="question.key" type="text" placeholder="Answer"
+                              required></textarea>
                           </div>
-                          <span>Submit</span>
-                        </button>
-                      </form>
+
+                          <button class="btn btn-sm btn-success" type="button" (click)="submitQuestionPaper()"
+                            [disabled]="answerSubmitted">
+                            <div *ngIf="ansSubmitLoad" class="spinner-border text-light" role="status">
+                            </div>
+                            <span>Submit</span>
+                          </button>
+                        </form>
+                      </div>
                     </div>
+                  </ng-template>
+                  <div class="modal-footer">
                   </div>
-                </ng-template>
-                <div class="modal-footer">
                 </div>
               </div>
             </div>
           </div>
-
-        </div>
+        </ng-template>
       </div>
     </div>
   </div>

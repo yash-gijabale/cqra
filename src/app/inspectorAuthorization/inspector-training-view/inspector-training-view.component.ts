@@ -24,6 +24,8 @@ export class InspectorTrainingViewComponent implements OnInit {
 
   userTradeData: any
 
+  loadUserData:boolean = false
+
   ngOnInit() {
 
     this.dtOptions = {
@@ -32,13 +34,16 @@ export class InspectorTrainingViewComponent implements OnInit {
       lengthMenu: [10, 25, 50],
       responsive: true,
     };
-    this.inspectorService.getUserTrainingData(this.testUserId)
+
+    this.loadUserData = true
+    this.inspectorService.getUserTrainingData(this.currentUser)
       .subscribe(data => {
         console.log(data)
         // let generatedData = this.inspectorTradeComponent.generateDataFromTradeUserList(data)
         this.userTradeData = this.generateData(data)
         console.log(this.userTradeData)
         this.dtTrigger.next()
+        this.loadUserData = false
 
       })
   }
@@ -53,7 +58,9 @@ export class InspectorTrainingViewComponent implements OnInit {
           tradeId: item.tradeId,
           tradeName: item.tradeName,
           marks: item.marks,
-          qStatus: item.status ? item.status : 0
+          qStatus: item.status ? item.status : 0,
+          passorfail: item.passorfail
+
         })
         srNo++
 
@@ -71,7 +78,9 @@ export class InspectorTrainingViewComponent implements OnInit {
           tradeId: item.tradeId,
           tradeName: item.tradeName,
           marks: item.marks,
-          qStatus: item.status ? item.status : 0
+          qStatus: item.status ? item.status : 0,
+          passorfail: item.passorfail
+
         })
 
         ListArray[item.userId] = userData
@@ -79,7 +88,7 @@ export class InspectorTrainingViewComponent implements OnInit {
       }
 
     })
-    return ListArray[this.testUserId]
+    return ListArray[this.currentUser]
   }
 
 
@@ -90,7 +99,7 @@ export class InspectorTrainingViewComponent implements OnInit {
   getQuestionPaper(tradeId) {
     this.currentTrade = tradeId
     this.questionLoad = true
-    this.inspectorService.getUserTradeQuestion(this.testUserId, tradeId)
+    this.inspectorService.getUserTradeQuestion(this.currentUser, tradeId)
       .subscribe(data => {
         this.questionPaper = data
         this.questionLoad = false
@@ -108,7 +117,7 @@ export class InspectorTrainingViewComponent implements OnInit {
     let ansFinalData = []
     ansData.forEach(ans => {
       let data = {
-        userId: this.testUserId,
+        userId: this.currentUser,
         tradeId: this.currentTrade,
         questionId: (<HTMLTextAreaElement>ans).id,
         answer: (<HTMLTextAreaElement>ans).value,
@@ -118,7 +127,7 @@ export class InspectorTrainingViewComponent implements OnInit {
     })
 
     console.log(ansFinalData)
-    this.inspectorService.submitTradeAnswer(this.testUserId, this.currentTrade, ansFinalData)
+    this.inspectorService.submitTradeAnswer(this.currentUser, this.currentTrade, ansFinalData)
       .subscribe(data => {
         console.log('Question submitted-->', data)
         this.answerSubmitted = true

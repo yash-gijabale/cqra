@@ -132,3 +132,24 @@
 .question-paper-main{
     width: 100%;
 }
+
+.question-box{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.question-box .question-ans{
+    width: 100%;
+    border: 1px solid rgb(202, 200, 200);
+    border-radius: 5px;
+    padding: 10px;
+    padding-bottom: 0px;
+    background-color: #f4f4f4;
+}
+
+.question-box .question-ans:focus{
+    outline: none;
+}
