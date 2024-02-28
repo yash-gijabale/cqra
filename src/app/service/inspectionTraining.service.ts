@@ -64,4 +64,19 @@ export class InspectorTraning {
     return this.httpClient.put<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/updatestatus`, data)
   }
 
+
+
+  //INSPECTION DECLARATION
+  getTrainingApprovedUser(){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/getbyuserapprover`)
+  }
+
+  assignMultipleProject(data):Observable<InspectorTraning>{
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/addmuluserproject`, data)
+  }
+
+  sendMailDeclaration(id){
+    return this.httpClient.post<any>(`${this.REST_API_SERVER}/mulispecttradetraining/emailsend/${id}`, '')
+  }
+
 }

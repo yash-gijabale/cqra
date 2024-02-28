@@ -22,40 +22,42 @@
             <label>New User: </label>
             <select [(ngModel)]="SelUserId" class="form-control col-md-12">
               <option [value]="1">Select user</option>
-              <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
+              <option [value]="user.userId" *ngFor="let user of userList">{{user.userId}}</option>
             </select>
           </div>
           <div class="form-group col-md-1 mt-4 pt-2 pr-0">
-            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#new-trade-user">Trade</button>
+            <button class="btn btn-sm btn-primary p-0 m-0" data-toggle="modal" data-target="#new-trade-user">Assign Projects</button>
+
             <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">New Trades</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Projects</h5>
                     <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
-                    <div *ngIf="isTradeLoad; then newTradeThen else newTradeElse"></div>
+                    <div *ngIf="isProjectLoad; then newTradeThen else newTradeElse"></div>
                     <ng-template #newTradeThen>
-                      <div class="spinner-border" role="status">
-                        <!-- <span class="visually-hidden">Loading...</span> -->
+                      <div class="userdeailsload">
+                        <div class="spinner-border text-warning" role="status">
+                        </div>
                       </div>
                     </ng-template>
                     <ng-template #newTradeElse>
-                      <div class="form-check col-md-12" *ngFor="let trade of tradeData">
-                        <input class="form-check-input" (change)="addToNewUserTraining($event)" type="checkbox"
-                          [value]="trade.tardeId" id="flexCheckDefault">
+                      <div class="form-check col-md-12" *ngFor="let project of products">
+                        <input class="form-check-input" (change)="addToProjectList($event)" type="checkbox"
+                          [value]="project.projectId" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
-                          {{trade.tradeName}}
+                          {{project.projectName}}
                         </label>
                       </div>
                     </ng-template>
                   </div>
                   <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining()">Save</button>
+                    <button class="btn btn-sm btn-success" (click)="saveAssignProjects()">Save</button>
                   </div>
 
                 </div>
