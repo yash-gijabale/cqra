@@ -9,16 +9,81 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Manage First Note</li>
+            <li class="breadcrumb-item active">Inspector Declaration</li>
           </ol>
         </div>
       </div>
 
       <div class="main-view">
-        <h1>DEclaration</h1>
-      </div>
-  
+        <h4>Inspector Declaration</h4>
 
+        <div class="new-inspector row mt-5">
+          <div class="form-group col-md-3">
+            <label>New User: </label>
+            <select [(ngModel)]="SelUserId" class="form-control col-md-12">
+              <option [value]="1">Select user</option>
+              <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-1 mt-4 pt-2 pr-0">
+            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#new-trade-user">Trade</button>
+            <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">New Trades</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div *ngIf="isTradeLoad; then newTradeThen else newTradeElse"></div>
+                    <ng-template #newTradeThen>
+                      <div class="spinner-border" role="status">
+                        <!-- <span class="visually-hidden">Loading...</span> -->
+                      </div>
+                    </ng-template>
+                    <ng-template #newTradeElse>
+                      <div class="form-check col-md-12" *ngFor="let trade of tradeData">
+                        <input class="form-check-input" (change)="addToNewUserTraining($event)" type="checkbox"
+                          [value]="trade.tardeId" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          {{trade.tradeName}}
+                        </label>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining()">Save</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="inspector-list mt-5">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
+            class="row-border hover inspector_list_table" style="width:100%">
+            <thead>
+              <tr>
+                <th>Sr no</th>
+                <th style="width: 9%;">New Traning</th>
+                <th>User Name</th>
+                <th>Trades</th>
+                <th>Traning Attchment</th>
+                <th>Date</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
   <app-footer></app-footer>

@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InspectorDeclarationComponent implements OnInit {
 
+  SelUserId:String
   constructor() { }
 
   ngOnInit() {
