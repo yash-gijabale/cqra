@@ -1,20 +1,28 @@
-import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpHandler, HttpInterceptor, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 const TOKEN_HEADER_KEY = 'Authorization';
+const USER_ID = 'userId';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthInterceptorService implements HttpInterceptor {
 token
+userId
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     let authReq = req;
     this.token  = localStorage.getItem('token');
-    console.log(localStorage.getItem('username'));
+    this.userId = localStorage.getItem('id');
+
     console.log("refresh token"+this.token)
     if (this.token != null) {
-      authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, this.token) });
+      
+      let headers = new HttpHeaders()
+      .set(TOKEN_HEADER_KEY, this.token)
+      .set(USER_ID, this.userId)
+
+      authReq = req.clone({ headers:headers });
     }
     return next.handle(authReq);
   }

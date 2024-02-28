@@ -5,7 +5,7 @@ import { UserService } from 'src/app/service/user.service';
 import { UserView } from 'src/app/user-log/user-log.component';
 import { InspectorTraning } from 'src/app/service/inspectionTraining.service';
 import { CommonService } from 'src/app/common.service';
-
+import { saveAs } from 'file-saver';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 import { data } from 'jquery';
@@ -93,7 +93,9 @@ export class InspectorTradeTrainingComponent implements OnInit {
           tradeName: item.tradeName,
           marks: item.marks,
           qStatus: item.status ? item.status : 0,
-          passorfail: item.passorfail
+          passorfail: item.passorfail,
+          trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false
+
 
         })
         srNo2++
@@ -112,7 +114,8 @@ export class InspectorTradeTrainingComponent implements OnInit {
           tradeName: item.tradeName,
           marks: item.marks,
           qStatus: item.status ? item.status : 0,
-          passorfail: item.passorfail
+          passorfail: item.passorfail,
+          trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false
 
         })
 
@@ -203,15 +206,9 @@ export class InspectorTradeTrainingComponent implements OnInit {
   getFile(e) {
     console.log(e)
     let file: File = e.target.files[0]
-    const formData = new FormData();
-
-    let data = {
-      file: file
-    }
-    this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, data)
-      .subscribe(data => {
-        console.log('File uploaded', data)
-      },
+  
+    this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, file)
+    .subscribe(data => console.log(data,'uploaded'),
         err => console.log('file error-->', err))
     // console.log(data)
   }

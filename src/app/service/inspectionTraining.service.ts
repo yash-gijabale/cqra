@@ -28,10 +28,15 @@ export class InspectorTraning {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallinspectradebyuserid/${id}`)
   }
 
-  uploadTrainingAttachment(id, data) {
-    let token = sessionStorage.getItem('token')
-    let config = { headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }) };
-    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data, config)
+  uploadTrainingAttachment(id, file: File) {
+    let config = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
+    let formParams = new FormData();
+    formParams.append('file', file)
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, formParams, config)
+    // return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data, config);
   }
 
   updateTrainingMark(userId, tradeId, mark, passOrfail) {
@@ -43,19 +48,19 @@ export class InspectorTraning {
   }
 
 
-  getUserTradeQuestion(userId, tradeId){
+  getUserTradeQuestion(userId, tradeId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallbyuserandtradeid/${userId}/${tradeId}`)
   }
 
-  submitTradeAnswer(userId, tradeId, data):Observable<InspectorTraning>{
+  submitTradeAnswer(userId, tradeId, data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/mulispecttradetraining/addanswerstoque/${userId}/${tradeId}`, data)
   }
 
-  getUserQuestionAnswer(userId, TradeId){
+  getUserQuestionAnswer(userId, TradeId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getanswerbyusertradeid/${userId}/${TradeId}`)
   }
 
-  submitUserExamResult(data){
+  submitUserExamResult(data) {
     return this.httpClient.put<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/updatestatus`, data)
   }
 
