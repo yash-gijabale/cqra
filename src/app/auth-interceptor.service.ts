@@ -20,7 +20,7 @@ userId
       
       let headers = new HttpHeaders()
       .set(TOKEN_HEADER_KEY, this.token)
-      .set(USER_ID, this.userId)
+      // .set(USER_ID, this.userId)
 
       authReq = req.clone({ headers:headers });
     }

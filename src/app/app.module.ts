@@ -138,6 +138,7 @@ import { GenerateSamplingReortComponent } from './generate-sampling-reort/genera
 import { InspectorDeclarationComponent } from './inspectorAuthorization/inspector-declaration/inspector-declaration.component';
 import { InspectorTradeTrainingComponent } from './inspectorAuthorization/inspector-trade-training/inspector-trade-training.component';
 import { InspectorTrainingViewComponent } from './inspectorAuthorization/inspector-training-view/inspector-training-view.component';
+import { InspectorDeclarationViewComponent } from './inspectorAuthorization/inspector-declaration-view/inspector-declaration-view.component';
 
 
 @NgModule({
@@ -270,6 +271,7 @@ import { InspectorTrainingViewComponent } from './inspectorAuthorization/inspect
     InspectorDeclarationComponent,
     InspectorTradeTrainingComponent,
     InspectorTrainingViewComponent,
+    InspectorDeclarationViewComponent,
   ],
   imports: [
     BrowserModule,

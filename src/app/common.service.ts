@@ -42,7 +42,9 @@ export class CommonService {
   constructor(private httpClient: HttpClient) { }
 
   getClientProject(id) {
-    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/common/ClientProjects/${id}`);
+    const userId = localStorage.getItem('id')
+    // return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/common/ClientProjects/${id}`);
+    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/common/ClientProjects/${id}/${userId}`);
   }
 
   getStructures(clientId, projectId) {
@@ -95,7 +97,9 @@ export class CommonService {
   }
 
   getAllProject() {
-    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/project/getAllProjects`);
+    let userId = localStorage.getItem('id')
+    // console.log(userId)
+    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/project/getprojectbyuserid/${userId}`);
   }
 
   getAllContractors() {

@@ -43,7 +43,9 @@ export class ClientServiceService {
   //private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
   constructor(private httpClient: HttpClient) { }
   getAllClients() {
-    return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getClients');
+    const userId = localStorage.getItem('id')
+    // return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getClients');
+    return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getCliebyuserid/'+userId);
   }
   createClient(clientData: ClientData): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addClient', clientData);
@@ -66,7 +68,8 @@ export class ClientServiceService {
 
   // PROJECT API CALL
   getAllProject() {
-    return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER + '/project/getAllProjects');
+    let userId = localStorage.getItem('id')
+    return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER + '/project/getprojectbyuserid/'+userId);
   }
 
   retrieveProject(id) {

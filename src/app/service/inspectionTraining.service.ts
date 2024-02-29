@@ -65,7 +65,6 @@ export class InspectorTraning {
   }
 
 
-
   //INSPECTION DECLARATION
   getTrainingApprovedUser(){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/getbyuserapprover`)
@@ -77,6 +76,20 @@ export class InspectorTraning {
 
   sendMailDeclaration(id){
     return this.httpClient.post<any>(`${this.REST_API_SERVER}/mulispecttradetraining/emailsend/${id}`, '')
+  }
+
+
+  // DTM
+  getDeclarationUserList(){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getall`)
+  }
+
+  getUserDeclarationDetails(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getallbyid/${id}`)
+  }
+
+  submitDeclarationForm(data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserproject`, data)
   }
 
 }

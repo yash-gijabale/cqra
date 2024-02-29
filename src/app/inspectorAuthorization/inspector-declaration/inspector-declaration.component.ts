@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { InspectorTraning } from 'src/app/service/inspectionTraining.service';
 import { ClientServiceService } from 'src/app/service/client-service.service';
 import { ProjectData, ProjectView } from 'src/app/project/project.component';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from "rxjs";
 
 @Component({
   selector: 'app-inspector-declaration',
@@ -10,11 +12,18 @@ import { ProjectData, ProjectView } from 'src/app/project/project.component';
 })
 export class InspectorDeclarationComponent implements OnInit {
 
+  title = "Datatables";
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
+
   SelUserId: String
   products: ProjectView[]
   isProjectLoad: boolean = false
   userList = []
 
+  declarationUserList = []
 
   constructor(
     private inspectionTraining: InspectorTraning,
@@ -22,6 +31,14 @@ export class InspectorDeclarationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.dtOptions = {
+      pagingType: "full_numbers",
+      pageLength: 10,
+      lengthMenu: [10, 25, 50],
+      responsive: true,
+    };
+
 
     this.inspectionTraining.getTrainingApprovedUser()
       .subscribe(data => {
@@ -36,6 +53,13 @@ export class InspectorDeclarationComponent implements OnInit {
         this.products = data
         this.isProjectLoad = false
       })
+
+    this.inspectionTraining.getDeclarationUserList()
+    .subscribe(data => {
+      console.log(data)
+      this.declarationUserList = data
+      this.dtTrigger.next()
+    })
   }
 
 
@@ -81,5 +105,28 @@ export class InspectorDeclarationComponent implements OnInit {
         console.log('email send', data)
       })
     })
+  }
+
+  toggleComment(id, type){
+    let commentBox = document.querySelector(`.comment-box-${id}`) as HTMLDivElement
+    console.log(commentBox)
+
+    if(type === 'show'){
+      commentBox.classList.remove('comment-box-hide')
+    }else if(type === 'hide'){
+      commentBox.classList.add('comment-box-hide')
+    }
+
+  }
+
+  toggleDeclineComment(id, type){
+    let commentBox = document.querySelector(`.comment-decline-${id}`) as HTMLDivElement
+    console.log(commentBox)
+
+    if(type === 'show'){
+      commentBox.classList.remove('comment-box-hide')
+    }else if(type === 'hide'){
+      commentBox.classList.add('comment-box-hide')
+    }
   }
 }

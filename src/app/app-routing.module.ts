@@ -125,6 +125,7 @@ import { GenerateSamplingReortComponent } from './generate-sampling-reort/genera
 import { InspectorDeclarationComponent } from './inspectorAuthorization/inspector-declaration/inspector-declaration.component';
 import { InspectorTradeTrainingComponent } from './inspectorAuthorization/inspector-trade-training/inspector-trade-training.component';
 import { InspectorTrainingViewComponent } from './inspectorAuthorization/inspector-training-view/inspector-training-view.component';
+import { InspectorDeclarationViewComponent } from './inspectorAuthorization/inspector-declaration-view/inspector-declaration-view.component';
 
 
 const routes: Routes = [
@@ -251,6 +252,7 @@ const routes: Routes = [
   { path: 'createRfi/:id', component: CreateRfiComponent },
   { path: 'generateSamplingReport', component: GenerateSamplingReortComponent },
   { path: 'declaration', component: InspectorDeclarationComponent },
+  { path: 'declarationView', component: InspectorDeclarationViewComponent },
   { path: 'inspectorTradeTraning', component: InspectorTradeTrainingComponent },
   { path: 'inspectorView', component: InspectorTrainingViewComponent },
 
