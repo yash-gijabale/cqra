@@ -122,4 +122,8 @@ export class InspectionReportComponent implements OnInit {
 
   }
 
+  preSnapAuditProcess(id){
+    this.router.navigate(['preSnapAuditProccess', id])
+
+  }
 }

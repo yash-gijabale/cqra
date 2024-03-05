@@ -139,6 +139,7 @@ import { InspectorDeclarationComponent } from './inspectorAuthorization/inspecto
 import { InspectorTradeTrainingComponent } from './inspectorAuthorization/inspector-trade-training/inspector-trade-training.component';
 import { InspectorTrainingViewComponent } from './inspectorAuthorization/inspector-training-view/inspector-training-view.component';
 import { InspectorDeclarationViewComponent } from './inspectorAuthorization/inspector-declaration-view/inspector-declaration-view.component';
+import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/pre-snapaudit-froms.component';
 
 
 @NgModule({
@@ -272,6 +273,7 @@ import { InspectorDeclarationViewComponent } from './inspectorAuthorization/insp
     InspectorTradeTrainingComponent,
     InspectorTrainingViewComponent,
     InspectorDeclarationViewComponent,
+    PreSnapauditFromsComponent,
   ],
   imports: [
     BrowserModule,

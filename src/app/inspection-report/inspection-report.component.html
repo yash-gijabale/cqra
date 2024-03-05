@@ -57,6 +57,7 @@
                 <th>NC Open</th>
                 <th>Add index</th>
                 <th>Add contractor Index</th>
+                <th>Pre SnapAudit Proccess</th>
               </tr>
             </thead>
             <tbody>
@@ -223,6 +224,15 @@
                       data-target="#exampleModalCenter">
                       <img src="assets/images/edit.png" height="20px" width="20px">
                     </button></a>
+                  </div>
+                </td>
+
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="preSnapAuditProcess(client.id)">
+                      <img src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
                   </div>
                 </td>
                 
