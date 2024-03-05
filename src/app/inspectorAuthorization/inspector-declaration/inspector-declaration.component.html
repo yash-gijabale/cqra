@@ -7,9 +7,9 @@
         <div class="add-breadcrames">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Home Home </a>
+              <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Inspector Declaration</li>
+            <li class="breadcrumb-item active">Inspector Declaration1</li>
           </ol>
         </div>
       </div>
@@ -88,8 +88,8 @@
                 </td>
                 <td>{{user.trainingDate ? user.trainingDate : 'not specified'}}</td>
                 <td>
-                  <button class="btn btn-sm btn-dark m-0" data-toggle="modal"
-                    data-target="#declaration-view" (click)="getUserDetails(user.userId)" >View D</button>
+                  <button class="btn btn-sm btn-dark m-0" data-toggle="modal" data-target="#declaration-view"
+                    (click)="getUserDetails(user.userId)">View D</button>
                 </td>
               </tr>
             </tbody>
@@ -116,49 +116,51 @@
         <div class="modal-body modal-full-body">
 
           <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
-          class="row-border hover inspector_list_table" style="width:100%">
-          <thead>
-            <tr>
-              <th>Sr no</th>
-              <th>Client Name</th>
-              <th>Project Name</th>
-              <th>User Status</th>
-              <th>Comment</th>
-              <th>Date</th>
-              <th>Approve</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of userDeclaration">
-              <td>1</td>
-              <td>
-                {{user.clientName}}
-              </td>
-              <td>
-                {{user.projectName}}
-              </td>
-              <td>
-                <span class="badge badge-success" *ngIf="user.userStatus == 1">Accepted</span>
-                <span class="badge badge-danger" *ngIf="user.userStatus == 0">Declined</span>
-              </td>
-              <td>
-                {{user.comment}}
-              </td>
-              <td>{{user.trainingDate ? user.trainingDate: 'not specified'}}</td>
+            class="row-border hover inspector_list_table" style="width:100%">
+            <thead>
+              <tr>
+                <th>Sr no</th>
+                <th>Client Name</th>
+                <th>Project Name</th>
+                <th>User Status</th>
+                <th>Comment</th>
+                <th>Date</th>
+                <th>Approve</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of userDeclaration">
+                <td>1</td>
+                <td>
+                  {{user.clientName}}
+                </td>
+                <td>
+                  {{user.projectName}}
+                </td>
+                <td>
+                  <span class="badge badge-success" *ngIf="user.userStatus == 1">Accepted</span>
+                  <span class="badge badge-danger" *ngIf="user.userStatus == 0">Declined</span>
+                </td>
+                <td>
+                  {{user.comment}}
+                </td>
+                <td>{{user.trainingDate ? user.trainingDate: 'not specified'}}</td>
 
-              <td>
-                <div *ngIf="user.dtmStatus === null">
-                  <span class="badge badge-success" (click)="addToApproveProject(user.projectId, 1)" role="button">Approve</span>
-                  <span class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2)"  role="button">Decline</span>
-                </div>
-                <div *ngIf="user.dtmStatus != null">
-                  <span class="badge badge-success" *ngIf="user.dtmStatus == 1">User Approved</span>
-                  <span class="badge badge-danger" *ngIf="user.dtmStatus == 0">User Not Approved</span>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td>
+                  <div *ngIf="user.dtmStatus === null">
+                    <span class="badge badge-success" (click)="addToApproveProject(user.projectId, 1)"
+                      role="button">Approve</span>
+                    <span class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2)"
+                      role="button">Decline</span>
+                  </div>
+                  <div *ngIf="user.dtmStatus != null">
+                    <span class="badge badge-success" *ngIf="user.dtmStatus == 1">User Approved</span>
+                    <span class="badge badge-danger" *ngIf="user.dtmStatus == 0">User Not Approved</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="modal-footer">
           <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
