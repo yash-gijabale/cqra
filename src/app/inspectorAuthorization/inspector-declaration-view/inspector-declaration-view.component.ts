@@ -62,20 +62,25 @@ export class InspectorDeclarationViewComponent implements OnInit {
 
   submitDeclarationFromInspector() {
     let newData = this.userDetails.map(item => {
-      let comment = document.querySelector(`.comment-${item.projectId}`) as HTMLInputElement
-      let data = {
-        clientId: item.clientId,
-        comment: comment.value,
-        dtmStatus: item.dtmStatus,
-        isActive: item.isActive,
-        projectId: item.projectId,
-        trainingDate: item.trainingDate,
-        userId: item.userId,
-        userStatus: Number(this.commentAndStatus[item.projectId].status),
-        userProjectId: item.userProjectId
-      }
+      if(this.commentAndStatus[item.projectId]){
 
-      return data
+        let comment = document.querySelector(`.comment-${item.projectId}`) as HTMLInputElement
+        let data = {
+          clientId: item.clientId,
+          comment: comment.value,
+          dtmStatus: item.dtmStatus,
+          isActive: item.isActive,
+          projectId: item.projectId,
+          trainingDate: item.trainingDate,
+          userId: item.userId,
+          userStatus: Number(this.commentAndStatus[item.projectId].status),
+          userProjectId: item.userProjectId
+        }
+  
+        return data
+      }else{
+        return item
+      }
     })
 
     console.log(newData)

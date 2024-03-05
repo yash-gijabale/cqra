@@ -32,6 +32,7 @@ export class AddRoleComponent implements OnInit {
   isbtnLoading = false
   isUpdate: boolean = false
   roleId: number
+  submitted:boolean = false
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService
@@ -65,6 +66,7 @@ export class AddRoleComponent implements OnInit {
   onSubmit() {
     // Toast.show('#liveToast')
     // return/
+    this.submitted = true
     if (this.roleForm.invalid) {
       return
     }

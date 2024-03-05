@@ -36,6 +36,8 @@ export class MisInitiativeComponent implements OnInit {
   initiatives: MisInitiativeData
   isUpdate = false
   initiativeId: Number
+  submitted: boolean = false
+  isLoading: boolean = false
 
 
   constructor(
@@ -71,6 +73,7 @@ export class MisInitiativeComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true
     let formData = {
       fkMisId: Number(this.misId),
       item: this.initiativeFrom.value.item,
@@ -78,10 +81,10 @@ export class MisInitiativeComponent implements OnInit {
     }
 
     if (this.isUpdate) {
-      this.commonService.updateMisInitiative(formData, this.initiativeId )
-      .subscribe(data =>{
-        console.log('updated', data)
-      })
+      this.commonService.updateMisInitiative(formData, this.initiativeId)
+        .subscribe(data => {
+          console.log('updated', data)
+        })
     } else {
       console.log(formData)
       this.commonService.addMisInitiative(formData)
@@ -100,7 +103,7 @@ export class MisInitiativeComponent implements OnInit {
       })
   }
 
-  deActivate(id){
+  deActivate(id) {
     this.commonService.deleteMisInitiative(id).subscribe(
       data => {
         console.log('deleted')

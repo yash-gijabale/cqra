@@ -35,6 +35,7 @@ export class AddRegionComponent implements OnInit {
   isUpdate: boolean = false
   isbtnLoading = false
   regionId: number = 0
+  submitted: boolean = false
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService
@@ -65,7 +66,12 @@ export class AddRegionComponent implements OnInit {
 
   }
 
+  get f() {
+    return this.regionForm.controls
+  }
+
   onSubmit() {
+    this.submitted = true
     console.log(this.regionForm.value)
     this.isbtnLoading = true
     this.regionForm.value.displayName = ""
@@ -90,7 +96,7 @@ export class AddRegionComponent implements OnInit {
     }
   }
 
-  getRegions(){
+  getRegions() {
     this.userService.getAllRegions().subscribe(data => {
       this.regions = data
     })

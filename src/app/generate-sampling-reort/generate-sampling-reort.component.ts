@@ -15,6 +15,7 @@ export class GenerateSamplingReortComponent implements OnInit {
   inspectionDate: string
   Selcycle: string
   reportDate: string
+  cycles: any = []
 
   projects: ProjectData[]
   clients: ClientData[]
@@ -34,6 +35,10 @@ export class GenerateSamplingReortComponent implements OnInit {
         this.clients = data
       })
 
+    this.commanService.getAllCycleOfInspection()
+      .subscribe(data => {
+        this.cycles = data
+      })
 
   }
 
@@ -135,10 +140,10 @@ export class GenerateSamplingReortComponent implements OnInit {
 
 
   tradeDataContractor = {}
-  structureByTrade= {}
-  stageByTrade ={}
+  structureByTrade = {}
+  stageByTrade = {}
   isContractorShow = false
-  contractorName= ''
+  contractorName = ''
   getContractorData(contractorId) {
     this.clientService.getContractorSamplingData(contractorId, this.SelProject)
       .subscribe(data => {
@@ -184,8 +189,8 @@ export class GenerateSamplingReortComponent implements OnInit {
         structureName: RrowData[key][0].structureName
       }
 
-      let a = this.stageByTrade[data.tradeId] ? [...this.stageByTrade[data.tradeId]]: []
-      RrowData[key].forEach(stage =>{
+      let a = this.stageByTrade[data.tradeId] ? [...this.stageByTrade[data.tradeId]] : []
+      RrowData[key].forEach(stage => {
         a.push(stage)
       })
 

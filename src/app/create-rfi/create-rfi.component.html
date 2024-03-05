@@ -133,7 +133,7 @@
 
           <div class="form-group col-md-4">
             <label>CheckList</label>
-            <select [(ngModel)]="SelContractor" formControlName="checkList" class="form-control">
+            <select  formControlName="checkList" class="form-control">
               <option [value]="checkList.checklistMasterId" *ngFor="let checkList of checklists">
                 {{checkList.checklistName}}
               </option>

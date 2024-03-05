@@ -69,7 +69,11 @@ export class ClientServiceService {
   // PROJECT API CALL
   getAllProject() {
     let userId = localStorage.getItem('id')
-    return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER + '/project/getprojectbyuserid/'+userId);
+    if(Number(userId) == 1){
+      return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER + `/project/getAllProjects`);
+    }else{
+      return this.httpClient.get<ProjectView[]>(this.REST_API_SERVER + `/project/getprojectbyuserid/${userId}`);
+    }
   }
 
   retrieveProject(id) {

@@ -44,6 +44,7 @@ export class MisAppriciationComponent implements OnInit {
 
   isUpdate = false
   isLoading = false
+  submitted: boolean = false
 
   constructor(
     private formBulider: FormBuilder,
@@ -77,6 +78,7 @@ export class MisAppriciationComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true
     console.log(this.appriciationForm.value)
     let formData = {
       fkMisId: Number(this.misId),

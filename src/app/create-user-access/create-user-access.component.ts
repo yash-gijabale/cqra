@@ -16,7 +16,7 @@ export class CreateUserAccessComponent implements OnInit {
   accessFrom: FormGroup;
   submitted = false;
   SelUser: string = "0";
-  userMenu = {}
+  userMenu:any = {}
   users: UserView[]
   constructor(
     private formBuilder: FormBuilder,
