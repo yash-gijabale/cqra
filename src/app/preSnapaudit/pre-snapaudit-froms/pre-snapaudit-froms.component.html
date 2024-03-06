@@ -14,9 +14,9 @@
         </div>
       </div>
 
-      <div class="row pb-2 border-bottom">
+      <div class="row pb-2 border-bottom border-secondary">
         <h5 class="col-md-12">Inspection Team Composition</h5>
-        <button class="btn btn-success mx-2"  data-toggle="modal" data-target="#declaration-view">Fill the from</button>
+        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#declaration-view">Fill the from</button>
 
         <div class="modal fade" id="declaration-view" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -43,7 +43,568 @@
                     </tr>
                   </thead>
                   <tbody>
-                    
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EQUIPMENT MAINTENANCE FORMAt -->
+      <div class="row pb-2 border-bottom mt-5 border-secondary">
+        <h5 class="col-md-12">Equipment Maintenance Format</h5>
+        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the
+          from</button>
+
+        <div class="modal fade" id="equipmentMaintenance-view" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Equipment Maintenance Format</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body modal-full-body">
+
+                <div class="row m-2">
+                  <div class="form-group col-md-3">
+                    <label>Client Name</label>
+                    <select class="form-control col-md-12">
+                      <option>Option</option>
+                      <option>Option</option>
+                      <option>Option</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Projcet Name</label>
+                    <select class="form-control col-md-12">
+                      <option>Option</option>
+                      <option>Option</option>
+                      <option>Option</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Cycle Of Inspection</label>
+                    <select class="form-control col-md-12">
+                      <option>Option</option>
+                      <option>Option</option>
+                      <option>Option</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Select User:</label>
+                    <select class="form-control col-md-12">
+                      <option>Option</option>
+                      <option>Option</option>
+                      <option>Option</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>From date:</label>
+                    <input type="date" class="form-control">
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>From date:</label>
+                    <input type="date" class="form-control">
+                  </div>
+
+                </div>
+
+                <table class="row-border hover inspector_list_table" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Sr no</th>
+                      <th>Equipment Details</th>
+                      <th>Asset No</th>
+                      <th>Physical condition of equipment/Tool satisfatory and no damage observed</th>
+                      <th>Analog tools and equipment digits are clearly legible</th>
+                      <th>Batteries for digital tools are available and woking condition</th>
+                      <th>Digital tools and equipement are working satisfactory</th>
+                      <th>Valid calibration certificate available for equipement/tools</th>
+                      <th>validation of equipment ensured where calibration is not feasible</th>
+                      <th>Hinge/Rivet are intact and no loose connection observed</th>
+                      <th>no fault observed in equipment </th>
+                      <th>Remark</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Equipement for drill</td>
+                      <td>A1233</td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- OPENING/CLOSING MEETING ATTENDANCE SHEET -->
+      <div class="row pb-2 border-bottom mt-5 border-secondary">
+        <h5 class="col-md-12">Opening/Closing meeting attendance sheet</h5>
+        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#opening-closeing-meering-view">Fill the
+          from</button>
+
+        <div class="modal fade" id="opening-closeing-meering-view" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Opening/Closing meeting attendance sheet</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body modal-full-body">
+                <div class="card">
+                  <div class="card-body bg-light">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item bg-light">
+                        <div class="row m-2">
+                          <div class="form-group col-md-4">
+                            <label>Client Name</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Projcet Name</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Meeting Location</label>
+                            <input type="text" class="form-control">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Cycle of inspection</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>From date:</label>
+                            <input type="date" class="form-control">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>To date:</label>
+                            <input type="date" class="form-control">
+                          </div>
+
+                          <div class="form-group col-md-12">
+                            <label>Agenda</label>
+                            <textarea type="text" cols="10" class="form-control col-md-12">Introduction of team members, Apprising inspection process, Information to auditee about impartiality, Independence and confidentiality and information to auditee about necessity of no interference in the audit process by auditees, information to auditee about no involvement of inspectors in RCA and Corrective action process for the NCs identified
+                            </textarea>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item bg-light">
+                        <div class="row d-flex col-md-12 mt-3">
+                          <div class="col-md-6">
+                            <h5>Opening Meeting</h5>
+                            <div class="col-md-12 d-flex g-1">
+                              <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" class="form-control">
+                              </div>
+
+                              <div class="form-group">
+                                <label>Start Time</label>
+                                <input type="time" class="form-control">
+                              </div>
+
+                              <div class="form-group">
+                                <label>End Time</label>
+                                <input type="time" class="form-control">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <h5>Closing Meeting</h5>
+                            <div class="col-md-12 d-flex g-1">
+                              <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" class="form-control">
+                              </div>
+
+                              <div class="form-group">
+                                <label>Start Time</label>
+                                <input type="time" class="form-control">
+                              </div>
+
+                              <div class="form-group">
+                                <label>End Time</label>
+                                <input type="time" class="form-control">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th rowspan="2">Sr no</th>
+                      <th rowspan="2">Name</th>
+                      <th rowspan="2">Organization</th>
+                      <th rowspan="2">Designation</th>
+                      <th colspan="2">signature</th>
+                    </tr>
+                    <tr>
+                      <th style="border-radius: 0px;">Opening Meet</th>
+                      <th style="border-radius: 0px;">Closing Meet</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Jhone Due</td>
+                      <td>CQRA</td>
+                      <td>Inspector</td>
+                      <td>
+                        <span class="badge badge-secondary" role="button">upload</span>
+                      </td>
+                      <td>
+                        <span class="badge badge-secondary" role="button">upload</span>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- SUPERVISOR FORM FOR L1 AND L2 -->
+      <div class="row pb-2 border-bottom mt-5 border-secondary">
+        <h5 class="col-md-12">Supervisor form for L1 and L2</h5>
+        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#supervisorForm-view">Fill the
+          from</button>
+
+        <div class="modal fade" id="supervisorForm-view" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Opening/Closing meeting attendance sheet</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body modal-full-body">
+                <div class="card">
+                  <div class="card-body bg-light">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item bg-light">
+                        <div class="row m-2">
+                          <div class="form-group col-md-4">
+                            <label>Client Name</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Projcet Name</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Meeting Location</label>
+                            <input type="text" class="form-control">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Cycle of inspection</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>From date:</label>
+                            <input type="date" class="form-control">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>To date:</label>
+                            <input type="date" class="form-control">
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th rowspan="2">Sr no</th>
+                      <th rowspan="2">Name</th>
+                      <th rowspan="2">Level</th>
+                      <th rowspan="2">Witnerss area/Location</th>
+                      <th rowspan="2">Witness activity</th>
+                      <th colspan="2">Remark</th>
+                    </tr>
+                    <tr>
+                      <th style="border-radius: 0px;">Satisfactory</th>
+                      <th style="border-radius: 0px;">Not Satisfactory</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Jhone Due</td>
+                      <td>L2</td>
+                      <td>Location 1</td>
+                      <td>
+                        <input type="text" class="form-control">
+                      </td>
+                      <td>
+                        <input type="radio" class="form-check-input" name="satisfactory">
+                      </td>
+                      <td>
+                        <input type="radio" class="form-check-input" name="satisfactory">
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INSPECTOR ONSITE PERFORMANCE EVALUTION FORM -->
+      <div class="row pb-2 border-bottom mt-5 border-secondary">
+        <h5 class="col-md-12">Inspector Onsite performance evalution form</h5>
+        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view">Fill the
+          from</button>
+
+        <div class="modal fade" id="onsiteEvalutionForm-view" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Inspector Onsite performance evalution form</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body modal-full-body">
+                <div class="card">
+                  <div class="card-body bg-light">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item bg-light">
+                        <div class="row m-2">
+                          <div class="form-group col-md-4">
+                            <label>Client Name</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Projcet Name</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Meeting Location</label>
+                            <input type="text" class="form-control">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>Cycle of inspection</label>
+                            <select class="form-control col-md-12">
+                              <option>Option</option>
+                              <option>Option</option>
+                              <option>Option</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>From date:</label>
+                            <input type="date" class="form-control">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label>To date:</label>
+                            <input type="date" class="form-control">
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="card mt-3">
+                  <div class="card-body bg-light">
+                    <span class="card-title text-danger col-md-12 m-0 p-0">
+                      *Team leader to rate the following categories as mentioned in table 0-10, for rating 0-4 & above
+                      out of 10 needs to be specified in deatils in remark
+                    </span>
+                    <table class="row-border hover inspector_list_table" style="width: 30%;">
+                      <tbody>
+                        <tr>
+                          <td>Not Satisfactory</td>
+                          <td>0 - 4</td>
+                        </tr>
+                        <tr>
+                          <td>Good</td>
+                          <td> > 4 & < 8</td>
+                        </tr>
+                        <tr>
+                          <td>Not Satisfactory</td>
+                          <td> > 8</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+
+                <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Sr no</th>
+                      <th>Name of Inspector</th>
+                      <th>Level</th>
+                      <th>Quality Obeservation</th>
+                      <th>Timely completion of Inspection</th>
+                      <th>Behavior & Discipline during Inspection including use of PPEs</th>
+                      <th>Interaction with client during inspection</th>
+                      <th>Technical Knowledge/Skill</th>
+                      <th>Requirements of NABCB clauses during inspection fulfilled</th>
+                      <th>Remark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Jhone Due</td>
+                      <td>L2</td>
+                      <td>
+                        <select class="form-control col-md-12">
+                          <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control col-md-12">
+                          <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control col-md-12">
+                          <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control col-md-12">
+                          <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control col-md-12">
+                          <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control col-md-12">
+                          <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <textarea class="form-control"></textarea>
+                      </td>
+                      
+                    </tr>
+
                   </tbody>
                 </table>
               </div>
