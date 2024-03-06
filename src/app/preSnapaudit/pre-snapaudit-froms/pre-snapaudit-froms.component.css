@@ -38,7 +38,7 @@
 .inspector_list_table tbody td {
     text-align: center;
     border: 1px solid rgb(191, 184, 184);
-    /* padding: 10px; */
+    padding: 10px;
 
 }
 

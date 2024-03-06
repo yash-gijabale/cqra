@@ -15,8 +15,8 @@
       </div>
 
       <div class="row pb-2 border-bottom border-secondary">
-        <h5 class="col-md-12">Inspection Team Composition</h5>
-        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#declaration-view">Fill the from</button>
+        <h5 class="col-md-12">Inspection Team Composition</h5><span class="badge badge-warning">Pending</span>
+        <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#declaration-view">Fill the from</button>
 
         <div class="modal fade" id="declaration-view" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -28,35 +28,33 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body row">
+              <div class="modal-body modal-full-body">
 
-                <div class="form-group col-md-3">
-                  <label>Client Name</label>
-                  <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
-                    <option [value]="0">Please Select</option>
-                    <option [value]="1">CQRA</option>
-                  </select>
+                <div class="row">
+                  <div class="form-group col-md-3">
+                    <label>Client Name</label>
+                    <select class="form-control">
+                      <option [value]="clientData.clientId" disabled>{{clientData.clientName}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Project Name</label>
+                    <select class="form-control">
+                      <option [value]="projectData.projectId" disabled>{{projectData.projectName}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>From Date</label>
+                    <input type="date" class="form-control" [value]="reportFromDate" readonly />
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>To Date</label>
+                    <input type="date" class="form-control" [value]="reportToDate" readonly />
+                  </div>
                 </div>
-
-                <div class="form-group col-md-3">
-                  <label>Project Name</label>
-                  <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
-                    <option [value]="0">Please Select</option>
-                    <option [value]="1">CQRA</option>
-                  </select>
-                </div>
-
-                <div class="form-group col-md-3">
-                  <label>From Date</label>
-                  <input type="date" formControlName="clientName" class="form-control" />
-                </div>
-
-                <div class="form-group col-md-3">
-                  <label>To Date</label>
-                  <input type="date" formControlName="clientName" class="form-control" />
-                </div>
-
-
 
                 <table class="row-border hover inspector_list_table" style="width:100%">
                   <thead>
@@ -64,16 +62,27 @@
                       <th>Sr no</th>
                       <th>Inspector Name</th>
                       <th>Level</th>
-                      <th>Add</th>
                     </tr>
                   </thead>
-                  <tbody>
-
+                  <tbody id="inspectionTeamFrom">
+                    <tr>
+                      <td>1</td>
+                      <td>
+                        <select class="form-control inspectorTeamUser" title="1" (change)="getUser($event)">
+                          <!-- <option selected>Select user</option> -->
+                          <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}</option>
+                        </select>
+                      </td>
+                      <td id="userLevel-1"></td>
+                    </tr>
                   </tbody>
                 </table>
+                <div class="row d-flex mx-2">
+                  <button class="btn btn-sm btn-primary" (click)="addRow()">Add row</button>
+                </div>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
+                <button class="btn btn-sm btn-success" (click)="submitInspectionTeamComposition()">Save</button>
               </div>
             </div>
           </div>
@@ -83,7 +92,7 @@
       <!-- EQUIPMENT MAINTENANCE FORMAt -->
       <div class="row pb-2 border-bottom mt-5 border-secondary">
         <h5 class="col-md-12">Equipment Maintenance Format</h5>
-        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the
+        <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the
           from</button>
 
         <div class="modal fade" id="equipmentMaintenance-view" tabindex="-1" role="dialog"
@@ -101,19 +110,15 @@
                 <div class="row m-2">
                   <div class="form-group col-md-3">
                     <label>Client Name</label>
-                    <select class="form-control col-md-12">
-                      <option>Option</option>
-                      <option>Option</option>
-                      <option>Option</option>
+                    <select class="form-control">
+                      <option [value]="clientData.clientId" disabled>{{clientData.clientName}}</option>
                     </select>
                   </div>
 
                   <div class="form-group col-md-3">
                     <label>Projcet Name</label>
                     <select class="form-control col-md-12">
-                      <option>Option</option>
-                      <option>Option</option>
-                      <option>Option</option>
+                      <option [value]="projectData.projectId" disabled>{{projectData.projectName}}</option>
                     </select>
                   </div>
 
@@ -126,23 +131,23 @@
                     </select>
                   </div>
 
+
+                  <div class="form-group col-md-3">
+                    <label>From date:</label>
+                    <input type="date" class="form-control" [value]="reportFromDate" readonly>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>From date:</label>
+                    <input type="date" class="form-control" [value]="reportToDate" readonly>
+                  </div>
+
                   <div class="form-group col-md-3">
                     <label>Select User:</label>
                     <select class="form-control col-md-12">
-                      <option>Option</option>
-                      <option>Option</option>
-                      <option>Option</option>
+                      <option>Select User</option>
+                      <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}</option>
                     </select>
-                  </div>
-
-                  <div class="form-group col-md-3">
-                    <label>From date:</label>
-                    <input type="date" class="form-control">
-                  </div>
-
-                  <div class="form-group col-md-3">
-                    <label>From date:</label>
-                    <input type="date" class="form-control">
                   </div>
 
                 </div>
@@ -213,7 +218,7 @@
       <!-- OPENING/CLOSING MEETING ATTENDANCE SHEET -->
       <div class="row pb-2 border-bottom mt-5 border-secondary">
         <h5 class="col-md-12">Opening/Closing meeting attendance sheet</h5>
-        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#opening-closeing-meering-view">Fill the
+        <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#opening-closeing-meering-view">Fill the
           from</button>
 
         <div class="modal fade" id="opening-closeing-meering-view" tabindex="-1" role="dialog"
@@ -370,7 +375,7 @@
       <!-- SUPERVISOR FORM FOR L1 AND L2 -->
       <div class="row pb-2 border-bottom mt-5 border-secondary">
         <h5 class="col-md-12">Supervisor form for L1 and L2</h5>
-        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#supervisorForm-view">Fill the
+        <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view">Fill the
           from</button>
 
         <div class="modal fade" id="supervisorForm-view" tabindex="-1" role="dialog"
@@ -482,7 +487,7 @@
       <!-- INSPECTOR ONSITE PERFORMANCE EVALUTION FORM -->
       <div class="row pb-2 border-bottom mt-5 border-secondary">
         <h5 class="col-md-12">Inspector Onsite performance evalution form</h5>
-        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view">Fill the
+        <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view">Fill the
           from</button>
 
         <div class="modal fade" id="onsiteEvalutionForm-view" tabindex="-1" role="dialog"
