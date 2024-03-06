@@ -11,6 +11,36 @@ export class PreSnapauditFromsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
+
+  //   inspectorRowCount = 1
+  //   addInspectorRow() {
+  //   this.inspectorRowCount++
+  //   let filed = `
+  //                 <tr>
+  //                 <td>${this.inspectorRowCount}</td>
+  //                 <td><select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
+  //                 <option [value]="0">Please Select</option>
+  //                 <option [value]="1">CQRA</option>
+  //               </select></td>
+  //             <td></td>
+  //             <td><button type="button" class="btn btn-danger" (click)="addInspectorRow()">Add Row</button></td>
+  //               </tr>`
+  //   let areaFiled = <HTMLTableElement>document.querySelector('#inspectorTable')
+  //   areaFiled.insertAdjacentHTML('beforeend', filed)
+  // }
+
+
+
+
+           
+
+
 }
+
+
+
+
+

@@ -23,23 +23,48 @@
           <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Declaration</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Inspection Team Composition</h5>
                 <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body modal-full-body">
+              <div class="modal-body row">
+
+                <div class="form-group col-md-3">
+                  <label>Client Name</label>
+                  <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
+                    <option [value]="0">Please Select</option>
+                    <option [value]="1">CQRA</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-3">
+                  <label>Project Name</label>
+                  <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
+                    <option [value]="0">Please Select</option>
+                    <option [value]="1">CQRA</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-3">
+                  <label>From Date</label>
+                  <input type="date" formControlName="clientName" class="form-control" />
+                </div>
+
+                <div class="form-group col-md-3">
+                  <label>To Date</label>
+                  <input type="date" formControlName="clientName" class="form-control" />
+                </div>
+
+
 
                 <table class="row-border hover inspector_list_table" style="width:100%">
                   <thead>
                     <tr>
                       <th>Sr no</th>
-                      <th>Client Name</th>
-                      <th>Project Name</th>
-                      <th>User Status</th>
-                      <th>Comment</th>
-                      <th>Date</th>
-                      <th>Approve</th>
+                      <th>Inspector Name</th>
+                      <th>Level</th>
+                      <th>Add</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -602,7 +627,7 @@
                       <td>
                         <textarea class="form-control"></textarea>
                       </td>
-                      
+
                     </tr>
 
                   </tbody>
