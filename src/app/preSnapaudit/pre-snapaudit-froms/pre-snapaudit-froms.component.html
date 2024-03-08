@@ -223,7 +223,7 @@
         </h5>
         <button class="btn btn-success btn-sm mx-2" data-toggle="modal"
           data-target="#opening-closeing-meering-view">Fill the
-          from</button>
+          form</button>
 
         <div class="modal fade" id="opening-closeing-meering-view" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -344,28 +344,35 @@
                       <th rowspan="2">Organization</th>
                       <th rowspan="2">Designation</th>
                       <th colspan="2">signature</th>
+                      <th rowspan="2">Action</th>
                     </tr>
                     <tr>
                       <th style="border-radius: 0px;">Opening Meet</th>
                       <th style="border-radius: 0px;">Closing Meet</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
+                  <tbody id="openingClosingForm">
+                    <tr id="">
                       <td>1</td>
-                      <td>Jhone Due</td>
-                      <td>CQRA</td>
-                      <td>Inspector</td>
+                      <td><input type="text" class="form-control"></td>
+                      <td><input type="text" class="form-control"></td>
+                      <td><input type="text" class="form-control"></td>
                       <td>
                         <span class="badge badge-secondary" role="button">upload</span>
                       </td>
                       <td>
                         <span class="badge badge-secondary" role="button">upload</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-danger" (click)="removeRow()">Remove</button>
                       </td>
                     </tr>
 
                   </tbody>
                 </table>
+                <div class="row d-flex mx-2">
+                  <button class="btn btn-sm btn-primary" (click)="addNewRow()">Add row</button>
+                </div>
               </div>
               <div class="modal-footer">
                 <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
@@ -464,9 +471,9 @@
                   <tbody>
                     <tr>
                       <td>1</td>
-                      <td>Jhone Due</td>
-                      <td>L2</td>
-                      <td>Location 1</td>
+                      <td><input type="text"></td>
+                      <td><input type="text"></td>
+                      <td><input type="text"></td>
                       <td>
                         <input type="text" class="form-control">
                       </td>
@@ -652,8 +659,131 @@
         </div>
       </div>
 
-    </div>
-  </div>
+      <!-- Client feedback Form -->
+      <div class="row pb-2 border-bottom mt-5 border-secondary">
+        <h5 class="col-md-12">Client Feedback Form</h5>
+        <button class="btn btn-success mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill the
+          from</button>
+
+        <div class="modal fade" id="client_feedback_form" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Client Feedback Form</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body modal-full-body">
+
+                <div class="card bg-light mb-3" id="client_feedback_form" aria-hidden="true">
+                  <!-- <div class="card-header">Client Feedback Form</div> -->
+                  <form [formGroup]="feedbackForm" (ngSubmit)="submitfeedback()">
+
+                    <div class="card-body">
+                      <p class="card-text">CQRA Management would be greateful if you could spare some of your valuable
+                        time to
+                        fill in the following Assessment Form and forword it to us at <a
+                          href="tdcat@cqra.acts-int.com">tdcat@cqra.acts-int.com</a>,<a
+                          href="maratha.f@cqra.acts-int.com">maratha.f@cqra.acts-int.com</a>.
+                      </p>
+
+                      <div class="modal-body row">
+                        <div class="form-group col-md-4">
+                          <label>Name of Client :</label>
+                          <input type="text" class="form-control" formControlName="clientId" disabled>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Name of The Project :</label>
+                          <input type="text" class="form-control" formControlName="projectId" disabled>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Location (City) :</label>
+                          <input type="text" class="form-control" formControlName="location" disabled>
+                        </div>
+                      </div>
+
+                      <div>
+                        <ol type="A">
+                          <li>Kindly rate our services on the scale of 1-5, 1 being the lowest and 5 being the highest.
+                            <ol type="1">
+                              <li>Opening and closing meeting conducted professionally<br> <input type="text"
+                                  class="form-control" formControlName="A1"></li>
+                              <li>Non-conformities discussed to your satisfaction at the end of inspection
+                                process<br><input type="text" class="form-control" formControlName="A2"></li>
+                              <li>Quality of non-conformities given in the inspection report<br><input type="text"
+                                  class="form-control" formControlName="A3"></li>
+                            </ol>
+                          </li>
+                          <li>Mark against Your Feedback
+                            <ol type="1">
+                              <li>How correctly in your opinion did our inspection report assess the quality of work?
+                                <ol type="a">
+                                  <li><input type="radio" formControlName="radio" name="radio" value="over">Over
+                                    representative</li>
+                                  <li><input type="radio" formControlName="radio" name="radio" value="under">Under
+                                    representative
+                                  </li>
+                                  <li><input type="radio" formControlName="radio" name="radio" value="correct">Correctly
+                                    Presented
+                                  </li>
+                                  <li><input type="radio" formControlName="radio" name="radio" value="mix">It's a mix
+                                  </li>
+                                </ol>
+                              </li>
+                            </ol>
+                          </li>
+                          <li>What would you suggest that we do differently?<textarea class="form-control"
+                              formControlName="suggestion"></textarea>
+                          </li>
+                          <li>Feedback on assessment team:<textarea class="form-control"
+                              formControlName="feedbackOnTeam"></textarea>
+                          </li>
+                          <li>Other comments if any to improve our services:<textarea class="form-control"
+                              formControlName="other"></textarea>
+                          </li>
+                        </ol>
+                      </div>
+
+                      <div class="">
+                        <div class="form-group col-md-4">
+                          <label> Feedback Given BY :</label>
+                          <input type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Name and Signature :</label>
+                          <input type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Designation :</label>
+                          <input type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Date :</label>
+                          <input type="date" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button class="btn btn-sm btn-success">Submit</button>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
 
 
-  <app-footer></app-footer>
+      <app-footer></app-footer>
