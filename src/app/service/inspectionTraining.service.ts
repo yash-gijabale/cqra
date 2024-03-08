@@ -92,4 +92,30 @@ export class InspectorTraning {
     return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserproject`, data)
   }
 
+
+
+  //SNAPAUDIT PRE PROCCESS SERVICES
+  addInspectionTeamComposition(data):Observable<InspectorTraning>{
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/inspectionteammaster/save`, data)
+  }
+
+  getUserEquipmentList(id){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getequipmentbyassignto/${id}`)
+  }
+
+  getMasterDetails(id, userId){
+    return this.httpClient.get<Object>(`${this.REST_API_SERVER}/inspectionTeamMasterView/getbymasterid/${id}/${userId}`)
+  }
+
+  getMasterIdsByUserId(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/inspectionteammaster/masteridbyuserid/${id}`)
+  }
+
+  addEquipmentMaintenanceForm(data):Observable<InspectorTraning>{
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/save`, data)
+  }
+
+  checkUserDeclarationForProject(userId, projectId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getUserProjectbyuseridandprojectids/${userId}/${projectId}`)
+  }
 }

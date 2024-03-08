@@ -1,0 +1,124 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> Equipment Maintenance From </h1>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="row m-2">
+        <div class="form-group col-md-12">
+          <label><b>Select Matser Id:</b></label>
+          <select class="form-control col-md-3" (change)="getMasterDetails($event)">
+            <option [value]="''">Select Master ID</option>
+            <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label>Client Name</label>
+          <input type="text" [value]="masterData.clientName" [title]="masterData.clientId" class="form-control"
+            readonly>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label>Projcet Name</label>
+          <input type="text" [value]="masterData.projectName" [title]="masterData.projectId" class="form-control"
+            readonly>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label>Cycle Of Inspection</label>
+          <input type="text" [value]="cycles[masterData.cycleId] ? cycles[masterData.cycleId] : ''"
+            [title]="masterData.cycleId" class="form-control" readonly>
+        </div>
+
+
+        <div class="form-group col-md-3">
+          <label>From date:</label>
+          <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label>From date:</label>
+          <input type="date" class="form-control" [value]="masterData.toDate" readonly>
+        </div>
+      </div>
+
+      <div *ngIf="showForm">
+        <table *ngIf="isDeclarationFormFiled" class="row-border hover inspector_list_table" style="width:100%">
+          <thead>
+            <tr>
+              <th>Sr no</th>
+              <th>Equipment Details</th>
+              <th>Asset No</th>
+              <th>Physical condition of equipment/Tool satisfatory and no damage observed</th>
+              <th>Analog tools and equipment digits are clearly legible</th>
+              <th>Batteries for digital tools are available and woking condition</th>
+              <th>Digital tools and equipement are working satisfactory</th>
+              <th>Valid calibration certificate available for equipement/tools</th>
+              <th>validation of equipment ensured where calibration is not feasible</th>
+              <th>Hinge/Rivet are intact and no loose connection observed</th>
+              <th>no fault observed in equipment </th>
+              <th>Remark</th>
+            </tr>
+
+          </thead>
+          <tbody>
+            <tr *ngFor="let eq of equipementList">
+              <td>1</td>
+              <td>{{eq.assetName}}</td>
+              <td>{{eq.assetSerialNo}}</td>
+              <td>
+                <input [id]="'physical_condition_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+              <td>
+                <input [id]="'analog_condition_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+              <td>
+                <input [id]="'battery_condition_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+              <td>
+                <input [id]="'digital_condition_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+              <td>
+                <input [id]="'calibration_condition_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+              <td>
+                <input [id]="'fesible_condition_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+              <td>
+                <input [id]="'hinge_condition_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+              <td>
+                <input [id]="'fault_condition_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+              <td>
+                <input [id]="'remark_'+eq.equipmentId" type="text" class="form-control">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row d-flex justify-content-center" *ngIf="!isDeclarationFormFiled">
+          <a routerLink="/declarationView"><button class="btn btn-danger text-center" role="banner">{{message}}</button></a>
+        </div>
+      </div>
+      <div *ngIf="loadDeclaration" class="userdeailsload">
+        <div class="spinner-border text-warning" role="status">
+        </div>
+      </div>
+      <button *ngIf="isDeclarationFormFiled" class="btn btn-sm btn-success" (click)="submitEquipmentForm()">Submit</button>
+
+    </div>
+  </div>
+
+  <app-footer></app-footer>

@@ -34,26 +34,33 @@
                 <div class="row">
                   <div class="form-group col-md-3">
                     <label>Client Name</label>
-                    <select class="form-control">
-                      <option [value]="clientData.clientId" disabled>{{clientData.clientName}}</option>
+                    <select [(ngModel)]="selClientId" class="form-control" (change)="getProjects()">
+                      <option [value]="client.clientId" *ngFor="let client of clients">{{client.clientName}}</option>
                     </select>
                   </div>
 
                   <div class="form-group col-md-3">
                     <label>Project Name</label>
-                    <select class="form-control">
-                      <option [value]="projectData.projectId" disabled>{{projectData.projectName}}</option>
+                    <select [(ngModel)]="selProjectId" class="form-control">
+                      <option [value]="project.projectId" *ngFor="let project of projectData">{{project.projectName}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label>Cycle of Inspection:</label>
+                    <select [(ngModel)]="selCycleId" class="form-control">
+                      <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles">{{cycle.cycle_name}}</option>
                     </select>
                   </div>
 
                   <div class="form-group col-md-3">
                     <label>From Date</label>
-                    <input type="date" class="form-control" [value]="reportFromDate" readonly />
+                    <input [(ngModel)]="fromDate" type="date" class="form-control" />
                   </div>
 
                   <div class="form-group col-md-3">
                     <label>To Date</label>
-                    <input type="date" class="form-control" [value]="reportToDate" readonly />
+                    <input [(ngModel)]="toDate" type="date" class="form-control" />
                   </div>
                 </div>
 
@@ -63,18 +70,27 @@
                       <th>Sr no</th>
                       <th>Inspector Name</th>
                       <th>Level</th>
+                      <th>Leader</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody id="inspectionTeamFrom">
-                    <tr>
+                    <tr id='teamRow-1'>
                       <td>1</td>
                       <td>
-                        <select class="form-control inspectorTeamUser" title="1" (change)="getUser($event)">
-                          <!-- <option selected>Select user</option> -->
+                        <select class="form-control inspectorTeamUser" title="1"
+                          (change)="getUser($event)">
+                          <option selected>Select User</option>
                           <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}</option>
                         </select>
                       </td>
                       <td id="userLevel-1"></td>
+                      <td>
+                        <input class="form-check-input p-2" type="checkbox" value="" id="userLeader-1" (change)="addLeader($event)">
+                      </td>
+                      <td>
+                        <span class="badge badge-danger" id="removeRow-1" title="1" role="button" (click)="removeRow($event)">Remove</span>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -83,7 +99,11 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-sm btn-success" (click)="submitInspectionTeamComposition()">Save</button>
+                <button class="btn btn-sm btn-success" (click)="submitInspectionTeamComposition()">
+                  <span *ngIf="!submitFormLoad">Save</span>
+                  <div *ngIf="submitFormLoad" class="spinner-border text-light" role="status">
+                  </div>
+                </button>
               </div>
             </div>
           </div>
@@ -110,25 +130,28 @@
               <div class="modal-body modal-full-body">
 
                 <div class="row m-2">
+                  <div class="form-group col-md-12">
+                    <label><b>Select Matser Id:</b></label>
+                    <select class="form-control col-md-3">
+                      <option [value]="">2024QA1</option>
+                    </select>
+                  </div>
+
                   <div class="form-group col-md-3">
                     <label>Client Name</label>
-                    <select class="form-control">
-                      <option [value]="clientData.clientId" disabled>{{clientData.clientName}}</option>
-                    </select>
+                    <input type="text" class="form-control" disabled>
                   </div>
 
                   <div class="form-group col-md-3">
                     <label>Projcet Name</label>
-                    <select class="form-control col-md-12">
-                      <option [value]="projectData.projectId" disabled>{{projectData.projectName}}</option>
-                    </select>
+                    <input type="text" class="form-control" disabled>
                   </div>
 
                   <div class="form-group col-md-3">
                     <label>Cycle Of Inspection</label>
-                    <select class="form-control col-md-12">
+                    <select class="form-control col-md-12" disabled>
                       <option>Option</option>
-                      <option>Option</option>
+                      <option selected>Option3</option>
                       <option>Option</option>
                     </select>
                   </div>
@@ -143,15 +166,6 @@
                     <label>From date:</label>
                     <input type="date" class="form-control" [value]="reportToDate" readonly>
                   </div>
-
-                  <div class="form-group col-md-3">
-                    <label>Select User:</label>
-                    <select class="form-control col-md-12">
-                      <option>Select User</option>
-                      <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}</option>
-                    </select>
-                  </div>
-
                 </div>
 
                 <table class="row-border hover inspector_list_table" style="width:100%">
@@ -378,7 +392,7 @@
 
       <!-- SUPERVISOR FORM FOR L1 AND L2 -->
       <div class="row pb-2 border-bottom mt-5 border-secondary">
-        <h5 class="col-md-12">Supervisor form for L1 and L2 <span class="badge badge-success">Filledlljfndkfjgnkd</span>
+        <h5 class="col-md-12">Supervisor form for L1 and L2 <span class="badge badge-success">Filled</span>
         </h5>
         <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view">Fill the
           from</button>

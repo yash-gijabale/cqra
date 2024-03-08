@@ -23,8 +23,9 @@
             <thead>
               <tr>
                 <th>Sr no</th>
-                <th>User Name</th>
-                <th>Status</th>
+                <th>Project Name</th>
+                <th>My Action</th>
+                <th>DTM Action</th>
                 <th>Date</th>
                 <th>Declaration</th>
               </tr>
@@ -32,9 +33,16 @@
             <tbody>
               <tr *ngFor="let user of userDetails">
                 <td>1</td>
-                <td>{{user.username}}</td>
+                <td>{{user.projectName}}</td>
                 <td>
-                  <span class="badge badge-primary">New</span>
+                  <span *ngIf="user.userStatus == null" class="badge badge-primary">New</span>
+                  <span *ngIf="user.userStatus == 1" class="badge badge-success">Accepted</span>
+                  <span *ngIf="user.userStatus == 0" class="badge badge-danger">Declined</span>
+                </td>
+                <td>
+                  <span *ngIf="user.dtmStatus == null" class="badge badge-warning">Pending</span>
+                  <span *ngIf="user.dtmStatus == 1" class="badge badge-success">Accepted</span>
+                  <span *ngIf="user.dtmStatus == 0" class="badge badge-danger">Declined</span>
                 </td>
                 <td>{{user.trainingDate ? user.trainingDate : ''}}</td>
                 <td>

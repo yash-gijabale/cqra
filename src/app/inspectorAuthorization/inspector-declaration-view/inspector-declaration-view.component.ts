@@ -54,7 +54,11 @@ export class InspectorDeclarationViewComponent implements OnInit {
     this.inspectorService.getUserDeclarationDetails(userId)
       .subscribe(data => {
         console.log(data)
-        this.userDeclaration = data
+        
+        this.userDeclaration = data.map(item => {
+          item.trainingDate = new  Date(item.trainingDate).toISOString().substring(0, 10)
+          return item
+        })
         this.userDetailsLoad = false
       })
   }

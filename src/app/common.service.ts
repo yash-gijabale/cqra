@@ -43,8 +43,11 @@ export class CommonService {
 
   getClientProject(id) {
     const userId = localStorage.getItem('id')
-    // return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/common/ClientProjects/${id}`);
-    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/common/ClientProjects/${id}/${userId}`);
+    if(Number(userId) == 1){
+      return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/common/clientProjects/${id}`);
+    }else{
+      return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/common/ClientProjects/${id}/${userId}`);
+    }
   }
 
   getStructures(clientId, projectId) {

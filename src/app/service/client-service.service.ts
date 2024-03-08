@@ -44,8 +44,11 @@ export class ClientServiceService {
   constructor(private httpClient: HttpClient) { }
   getAllClients() {
     const userId = localStorage.getItem('id')
-    // return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getClients');
-    return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getCliebyuserid/'+userId);
+    if(Number(userId)==1){
+      return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getClients');
+    }else{
+      return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getCliebyuserid/'+userId);
+    }
   }
   createClient(clientData: ClientData): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addClient', clientData);

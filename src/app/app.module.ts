@@ -140,6 +140,7 @@ import { InspectorTradeTrainingComponent } from './inspectorAuthorization/inspec
 import { InspectorTrainingViewComponent } from './inspectorAuthorization/inspector-training-view/inspector-training-view.component';
 import { InspectorDeclarationViewComponent } from './inspectorAuthorization/inspector-declaration-view/inspector-declaration-view.component';
 import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/pre-snapaudit-froms.component';
+import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-maintenance-form/equipment-maintenance-form.component';
 
 
 @NgModule({
@@ -274,6 +275,7 @@ import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/p
     InspectorTrainingViewComponent,
     InspectorDeclarationViewComponent,
     PreSnapauditFromsComponent,
+    EquipmentMaintenanceFormComponent,
   ],
   imports: [
     BrowserModule,
