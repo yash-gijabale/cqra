@@ -4,12 +4,15 @@ import { UserView } from 'src/app/user-equipment/user-equipment.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/common.service';
 import { ClientServiceService } from 'src/app/service/client-service.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-pre-snapaudit-froms',
   templateUrl: './pre-snapaudit-froms.component.html',
   styleUrls: ['./pre-snapaudit-froms.component.css']
 })
 export class PreSnapauditFromsComponent implements OnInit {
+  feedbackForm: FormGroup;
 
   rating: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   users: UserView[]
@@ -26,7 +29,9 @@ export class PreSnapauditFromsComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private commonService: CommonService,
-    private clientService: ClientServiceService
+    private clientService: ClientServiceService,
+    private formBuilder: FormBuilder
+
   ) { }
 
   ngOnInit() {
@@ -59,26 +64,32 @@ export class PreSnapauditFromsComponent implements OnInit {
         this.users = data
       })
 
-
+      this.feedbackForm = this.formBuilder.group({
+        clientId: ['', Validators.required],
+        projectId: ['', Validators.required],
+        location: ['', Validators.required],
+        A1: ['', Validators.required],
+        A2: ['', Validators.required],
+        A3: ['', Validators.required],
+        radio: ['', Validators.required],
+        suggestion: ['', Validators.required],
+        feedbackOnTeam: ['', Validators.required],
+        other: ['', Validators.required],
+        
+      })
   }
 
+  submitfeedback(){
+    console.log(this.feedbackForm.value);
+    }
 
-  //   inspectorRowCount = 1
-  //   addInspectorRow() {
-  //   this.inspectorRowCount++
-  //   let filed = `
-  //                 <tr>
-  //                 <td>${this.inspectorRowCount}</td>
-  //                 <td><select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
-  //                 <option [value]="0">Please Select</option>
-  //                 <option [value]="1">CQRA</option>
-  //               </select></td>
-  //             <td></td>
-  //             <td><button type="button" class="btn btn-danger" (click)="addInspectorRow()">Add Row</button></td>
-  //               </tr>`
-  //   let areaFiled = <HTMLTableElement>document.querySelector('#inspectorTable')
-  //   areaFiled.insertAdjacentHTML('beforeend', filed)
-  // }
+    submitDTMStatus(){
+
+    }
+
+  
+
+
 
 
   rowCount = 1
@@ -102,6 +113,47 @@ export class PreSnapauditFromsComponent implements OnInit {
     })
     userlist.addEventListener('change', (ev: Event) =>this.getUser(ev))
   }
+
+  addNewRow(){
+    this.rowCount++
+    let filed = `<tr _ngcontent-c1 id="datarow${this.rowCount}">
+    <td class='text-center p-1 border border-secondary'>${this.rowCount}</td>
+    <td class='p-1 border border-secondary'><input type="text" class="form-control"></td>
+    <td class='p-1 border border-secondary'><input type="text" class="form-control"></td>
+    <td class='p-1 border border-secondary'><input type="text" class="form-control"></td>
+    <td class='text-center p-1 border border-secondary'>
+      <span class="badge badge-secondary" role="button">upload</span>
+    </td>
+    <td class='text-center p-1 border border-secondary'>
+      <span class="badge badge-secondary" role="button">upload</span>
+    </td>
+    <td class='text-center p-1 border border-secondary'>
+      <button class="btn btn-sm btn-danger" id="newRemove">Remove</button>
+    </td>
+  </tr>`
+    let areaFiled = <HTMLTableElement>document.querySelector('#openingClosingForm')
+    areaFiled.insertAdjacentHTML('beforeend', filed);
+
+    let newRemoveButton = document.querySelector(`#newRemove`);
+    if (newRemoveButton) {
+      newRemoveButton.addEventListener('click', () => this.removeRoww(`datarow${this.rowCount}`));
+    }
+    
+
+  }
+
+  removeRoww(rowId: string) {
+    let rowToRemove = document.getElementById(rowId);
+    if (rowToRemove) {
+      rowToRemove.remove();
+    }}
+
+  removeRow(){
+    let rowToRemove = <HTMLTableElement>document.querySelector('#datarow');
+    console.log(rowToRemove);
+  if (rowToRemove) {
+    rowToRemove.remove();
+  }   }
 
   getUser(e){
     let loader = `<div class="spinner-border text-warning" role="status"></div>`

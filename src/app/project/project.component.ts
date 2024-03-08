@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { ClientServiceService } from '../service/client-service.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 
 export class ProjectData {
   constructor(
@@ -44,6 +46,8 @@ export class ProjectView {
   styleUrls: ['./project.component.css']
 })
 export class ProjectComponent implements OnInit {
+  riskimpartialityForm:FormGroup;
+
 
   title = 'datatables'
   @ViewChild(DataTableDirective)
@@ -56,7 +60,11 @@ export class ProjectComponent implements OnInit {
 
   isLoading:boolean
 
-  constructor(private clientService: ClientServiceService, private router: Router) { }
+    constructor(
+      private clientService: ClientServiceService, 
+      private router: Router,
+      private formBuilder: FormBuilder
+    ) { }
 
   ngOnInit() {
 
@@ -78,6 +86,31 @@ export class ProjectComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     });
+
+    this.riskimpartialityForm = this.formBuilder.group({
+      developerDet: ['', Validators.required],
+      Developer: ['', Validators.required],
+      developerIfyes: ['', Validators.required],
+      projectDet: ['', Validators.required],
+      Project: ['', Validators.required],
+      projectIfyes: ['', Validators.required],
+      locationDet: ['', Validators.required],
+      contructiondet: ['', Validators.required],
+      contruction: ['', Validators.required],
+      contructionIfyes: ['', Validators.required],
+      review: ['', Validators.required],
+      signature: ['', Validators.required],
+      date: ['', Validators.required],
+      name: ['', Validators.required],
+      designation: ['', Validators.required],
+      // Project: ['', Validators.required],
+
+    })
+
+  }
+
+  submitimpartiality(){
+    console.log(this.riskimpartialityForm.value);
 
   }
 

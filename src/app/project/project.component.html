@@ -2,6 +2,7 @@
 <div class="content-wrapper">
   <div class="container-fluid">
     <div class="add-bg-here">
+
       <div class="add-container-viewcommon">
         <div class="main-header_createview">
           <div class="left-side-header">
@@ -40,6 +41,7 @@
                 <th>Configure Checklist</th>
                 <th>Update Trade Details</th>
                 <th>Trade Sequence</th>
+                <th>Risk To Impartiality</th>
               </tr>
             </thead>
             <tbody>
@@ -63,7 +65,7 @@
                   </div>
                 </td>
                 <td>
-                  <button type="text" (click)="configureChecklist(client.projectId)"  class="btn btn-sm btn-warning"
+                  <button type="text" (click)="configureChecklist(client.projectId)" class="btn btn-sm btn-warning"
                     data-toggle="modal" data-target="#exampleModalCenter">
                     <span class="edit-tessst">
                       <i class="las la-pencil-alt"></i>
@@ -78,24 +80,157 @@
                   </button>
                 </td>
                 <td>
-                  <button type="text" (click)="manageTradeSequence(client.projectId)"  class="btn btn-sm btn-warning"
+                  <button type="text" (click)="manageTradeSequence(client.projectId)" class="btn btn-sm btn-warning"
                     data-toggle="modal" data-target="#exampleModalCenter">
                     <span class="edit-tessst">
                       <i class="las la-pencil-alt"></i>
                     </span>
                   </button>
                 </td>
-
+                <td>
+                  <button type="text" class="btn btn-sm btn-warning" data-toggle="modal"
+                    data-target="#risktoimpartialityForm">
+                    <span class="edit-tessst">
+                      <i class="las la-pencil-alt"></i>
+                    </span>
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
-
         </div>
-
-
       </div>
+
       <!-- Example DataTables Card-->
 
+      <div class="modal fade" id="risktoimpartialityForm" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Risk to impartiality of CQRA(IB) Management</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-full-body">
+              <form [formGroup]="riskimpartialityForm" (ngSubmit)="submitimpartiality()">
+
+
+                <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th rowspan="2">Sr No</th>
+                      <th rowspan="2">Description</th>
+                      <th rowspan="2">Details</th>
+                      <th colspan="2">Relationship(if any) with CQRA(IB) Management</th>
+                      <th rowspan="2">If Yes*, Provide details</th>
+                    </tr>
+                    <tr>
+                      <th style="border-radius: 0px;">Yes*</th>
+                      <th style="border-radius: 0px;">No</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Project Developer/Organization:</td>
+                      <td><input type="text" class="form-control" formControlName="developerDet"></td>
+                      <td>
+                        <div class="radios"><input type="radio" class="radio" name="Developer"
+                            formControlName="Developer" value="yDeveloper"></div>
+                      </td>
+                      <td>
+                        <div class="radios"><input type="radio" class="radio" name="Developer"
+                            formControlName="Developer" value="nDeveloper"></div>
+                      </td>
+                      <td><input type="text" class="form-control" formControlName="developerIfyes"></td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Project Name:</td>
+                      <td><input type="text" class="form-control" formControlName="projectDet"></td>
+                      <td>
+                        <div class="radios"><input type="radio" class="radio" name="Project" formControlName="Project"
+                            value="yProject"></div>
+                      </td>
+                      <td>
+                        <div class="radios"><input type="radio" class="radio" name="Project" formControlName="Project"
+                            value="nProject"></div>
+                      </td>
+                      <td><input type="text" class="form-control" formControlName="projectIfyes"></td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Project Location:</td>
+                      <td><input type="text" class="form-control" formControlName="locationDet"></td>
+                      <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>Contruction Contractor/Agency:</td>
+                      <td>
+                        <input type="text" class="form-control" formControlName="contructiondet">
+                        <input type="text" class="form-control" formControlName="contructiondet">
+                        <input type="text" class="form-control" formControlName="contructiondet">
+                      </td>
+                      <td>
+                        <div class="radios"><input type="radio" class="radio" formControlName="contruction"
+                            name="contruction" value="yContruction">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="radios"><input type="radio" class="radio" formControlName="contruction"
+                            name="contruction" value="nContruction">
+                        </div>
+                      </td>
+                      <td><input type="text" class="form-control" formControlName="contructionIfyes"></td>
+                    </tr>
+                    <tr>
+                      <td>5</td>
+                      <td>Review of Promotional text if any provided by client</td>
+                      <td colspan="4">Okay/Not Okay/Not Appllicable<input type="text" class="form-control"
+                          formControlName="review">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6">
+
+                        <p>
+                          I udersigned hereby declare that I along with my immediate family members do not have any kind
+                          of
+                          relationship with the developers and/or construction agency as mentioned above.
+                        </p>
+                        <div class="form-group d-flex">
+                          <label for="">Signature and Date:</label>
+                          <input type="text" class="form-control col-md-3" formControlName="signature">
+                          <input type="date" class="form-control col-md-3" formControlName="date">
+                        </div>
+                        <div class="form-group d-flex">
+                          <label for="">Name and Designation:</label>
+                          <input type="text" class="form-control col-md-3" formControlName="name">
+                          <input type="text" class="form-control col-md-3" formControlName="designation">
+                        </div>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="modal-footer">
+                  <button class="btn btn-sm btn-success">Submit</button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <app-footer></app-footer>
+
+
+
+</div>
+<app-footer></app-footer>
