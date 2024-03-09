@@ -118,4 +118,8 @@ export class InspectorTraning {
   checkUserDeclarationForProject(userId, projectId){
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getUserProjectbyuseridandprojectids/${userId}/${projectId}`)
   }
+
+  addOpeningClosingForm(data):Observable<InspectorTraning>{
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
+  }
 }

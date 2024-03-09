@@ -9,6 +9,8 @@ import { CommonService } from '../common.service';
 import { TradeMaintanceService } from '../trade-maintance.service';
 import { TradeGroup } from '../trade-group/trade-group.component';
 import { Trade } from '../trade/trade.component';
+import { RegionView } from '../add-region/add-region.component';
+import { UserService } from '../service/user.service';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -29,17 +31,22 @@ export class CreateProjectComponent implements OnInit {
   regionalManagers: UserView[];
   tradeGroups: TradeGroup[]
   trades: Trade
+  regions:RegionView
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientServiceService: ClientServiceService,
     private formBuilder: FormBuilder,
     private commonService: CommonService,
-    private tradeService: TradeMaintanceService
+    private tradeService: TradeMaintanceService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+
+    this.userService.getAllRegions().subscribe(data => this.regions = data)
+
 
     this.commonService.getRegionalManagers()
       .subscribe(
@@ -64,6 +71,7 @@ export class CreateProjectComponent implements OnInit {
       projectAddress: ['', Validators.required],
       projectCity: ['', Validators.required],
       projectKValue: ['', Validators.required],
+      region: ['', Validators.required],
       projectArea: ['', Validators.required],
       areaUnit: ['', Validators.required],
       projectStartDate: ['', Validators.required],
@@ -121,6 +129,7 @@ export class CreateProjectComponent implements OnInit {
       projectAddress: this.projectForm.value.projectAddress,
       projectCity: this.projectForm.value.projectCity,
       projectKValue: this.projectForm.value.projectKValue,
+      region: this.projectForm.value.region,
       projectArea: this.projectForm.value.projectArea,
       areaUnit: this.projectForm.value.areaUnit,
       projectStartDate: this.projectForm.value.projectStartDate,

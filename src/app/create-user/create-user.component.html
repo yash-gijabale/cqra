@@ -168,7 +168,7 @@
           <div class="form-group">
             <label>Role</label>
             <select formControlName="roleId" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
+              [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }" >
               <option [value]="role.id" *ngFor="let role of roles">{{role.name}}</option>
             </select>
             <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
@@ -179,7 +179,7 @@
           <div class="form-group">
             <label>Region</label>
             <select formControlName="region" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.region.errors }">
+              [ngClass]="{ 'is-invalid': submitted && f.region.errors }" multiple>
               <option [value]="region.regionId" *ngFor="let region of regions">{{region.regionName}}</option>
             </select>
             <div *ngIf="submitted && f.region.errors" class="invalid-feedback">

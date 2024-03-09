@@ -137,7 +137,12 @@ export class CreateUserAccessComponent implements OnInit {
       ncBeanApproverNew: [0, Validators.nullValidator],
       aorReport: [0, Validators.nullValidator],
       aorClientReport: [0, Validators.nullValidator],
-      aHomeInspect2: [0, Validators.nullValidator]
+      aHomeInspect2: [0, Validators.nullValidator],
+      dtmDeclaration: [0, Validators.nullValidator],
+      inspectorDeclaration: [0, Validators.nullValidator],
+      newInsTraining: [0, Validators.nullValidator],
+      underInsTraining: [0, Validators.nullValidator],
+      preSnapAuditForm: [0, Validators.nullValidator],
     })
   }
   get f() { return this.accessFrom.controls; }

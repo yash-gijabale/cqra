@@ -4,34 +4,29 @@ import { UserView } from 'src/app/user-equipment/user-equipment.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/common.service';
 import { ClientServiceService } from 'src/app/service/client-service.service';
-<<<<<<< HEAD
 import { ClientData } from 'src/app/client/client.component';
 import { CycleOfInspection } from 'src/app/ncclosure-sa/ncclosure-sa.component';
 import { InspectorTraning } from 'src/app/service/inspectionTraining.service';
 import { ProjectData } from 'src/app/project/project.component';
-=======
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
->>>>>>> 16f1cc1b03452c4de8b116d0dd67fa499738755f
 @Component({
   selector: 'app-pre-snapaudit-froms',
   templateUrl: './pre-snapaudit-froms.component.html',
   styleUrls: ['./pre-snapaudit-froms.component.css']
 })
 export class PreSnapauditFromsComponent implements OnInit {
-  feedbackForm: FormGroup;
 
   rating: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   users: UserView[]
   clients: ClientData[]
   cycles: CycleOfInspection[]
+
   snapAuditId: any;
 
   reportToDate: String
   reportFromDate: String
   cycleOfInspection: number
 
-  projectData:ProjectData[]
+  projectData: ProjectData[]
   clientData: any = {}
 
   selClientId: String
@@ -40,22 +35,27 @@ export class PreSnapauditFromsComponent implements OnInit {
   fromDate: String
   toDate: String
 
+  masterIds: Array<any>
+  userId: number = Number(localStorage.getItem('id'))
+  roleId = localStorage.getItem('role')
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
     private commonService: CommonService,
     private clientService: ClientServiceService,
-<<<<<<< HEAD
     private inspectionTraining: InspectorTraning
-=======
-    private formBuilder: FormBuilder
-
->>>>>>> 16f1cc1b03452c4de8b116d0dd67fa499738755f
   ) { }
 
   ngOnInit() {
+    // this.snapAuditId = this.route.snapshot.params['id']
 
-    this.snapAuditId = this.route.snapshot.params['id']
+    this.inspectionTraining.getMasterIdsByUserId(this.userId)
+      .subscribe(data => {
+        console.log(data)
+        this.masterIds = data
+
+      })
 
     // this.commonService.retriveInspectionReport(this.snapAuditId)
     //   .subscribe(data => {
@@ -89,12 +89,29 @@ export class PreSnapauditFromsComponent implements OnInit {
         this.users = data
       })
 
-<<<<<<< HEAD
     this.commonService.getAllCycleOfInspection()
       .subscribe(data => {
         this.cycles = data
       })
 
+  }
+
+  masterData: any = []
+  currentMasterId: String = ''
+  isLeader: boolean
+  getMasterDetails(e) {
+    // this.loadDeclaration = true
+    console.log(e.target.value)
+    this.currentMasterId = e.target.value
+    // this.masterID = e.target.value
+    this.inspectionTraining.getMasterDetails(e.target.value, this.userId)
+      .subscribe(data => {
+        console.log(data)
+        this.masterData = data[0]
+        this.masterData.fromDate = new Date(this.masterData.fromDate).toISOString().substring(0, 10)
+        this.masterData.toDate = new Date(this.masterData.toDate).toISOString().substring(0, 10)
+        this.isLeader = this.masterData.leader ? true : false
+      })
   }
 
   getProjects() {
@@ -104,34 +121,23 @@ export class PreSnapauditFromsComponent implements OnInit {
         this.projectData = data
       })
   }
-=======
-      this.feedbackForm = this.formBuilder.group({
-        clientId: ['', Validators.required],
-        projectId: ['', Validators.required],
-        location: ['', Validators.required],
-        A1: ['', Validators.required],
-        A2: ['', Validators.required],
-        A3: ['', Validators.required],
-        radio: ['', Validators.required],
-        suggestion: ['', Validators.required],
-        feedbackOnTeam: ['', Validators.required],
-        other: ['', Validators.required],
-        
-      })
-  }
 
-  submitfeedback(){
-    console.log(this.feedbackForm.value);
-    }
-
-    submitDTMStatus(){
-
-    }
-
-  
-
->>>>>>> 16f1cc1b03452c4de8b116d0dd67fa499738755f
-
+  //   inspectorRowCount = 1
+  //   addInspectorRow() {
+  //   this.inspectorRowCount++
+  //   let filed = `
+  //                 <tr>
+  //                 <td>${this.inspectorRowCount}</td>
+  //                 <td><select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
+  //                 <option [value]="0">Please Select</option>
+  //                 <option [value]="1">CQRA</option>
+  //               </select></td>
+  //             <td></td>
+  //             <td><button type="button" class="btn btn-danger" (click)="addInspectorRow()">Add Row</button></td>
+  //               </tr>`
+  //   let areaFiled = <HTMLTableElement>document.querySelector('#inspectorTable')
+  //   areaFiled.insertAdjacentHTML('beforeend', filed)
+  // }
 
 
   rowCount = 1
@@ -175,7 +181,6 @@ export class PreSnapauditFromsComponent implements OnInit {
 
   }
 
-<<<<<<< HEAD
   removeRow(e) {
     let row = document.querySelector(`#teamRow-${e.target.title}`) as HTMLTableElement
     row.remove()
@@ -184,50 +189,6 @@ export class PreSnapauditFromsComponent implements OnInit {
   currentSelectedUser: Number
 
   getUser(e) {
-=======
-  addNewRow(){
-    this.rowCount++
-    let filed = `<tr _ngcontent-c1 id="datarow${this.rowCount}">
-    <td class='text-center p-1 border border-secondary'>${this.rowCount}</td>
-    <td class='p-1 border border-secondary'><input type="text" class="form-control"></td>
-    <td class='p-1 border border-secondary'><input type="text" class="form-control"></td>
-    <td class='p-1 border border-secondary'><input type="text" class="form-control"></td>
-    <td class='text-center p-1 border border-secondary'>
-      <span class="badge badge-secondary" role="button">upload</span>
-    </td>
-    <td class='text-center p-1 border border-secondary'>
-      <span class="badge badge-secondary" role="button">upload</span>
-    </td>
-    <td class='text-center p-1 border border-secondary'>
-      <button class="btn btn-sm btn-danger" id="newRemove">Remove</button>
-    </td>
-  </tr>`
-    let areaFiled = <HTMLTableElement>document.querySelector('#openingClosingForm')
-    areaFiled.insertAdjacentHTML('beforeend', filed);
-
-    let newRemoveButton = document.querySelector(`#newRemove`);
-    if (newRemoveButton) {
-      newRemoveButton.addEventListener('click', () => this.removeRoww(`datarow${this.rowCount}`));
-    }
-    
-
-  }
-
-  removeRoww(rowId: string) {
-    let rowToRemove = document.getElementById(rowId);
-    if (rowToRemove) {
-      rowToRemove.remove();
-    }}
-
-  removeRow(){
-    let rowToRemove = <HTMLTableElement>document.querySelector('#datarow');
-    console.log(rowToRemove);
-  if (rowToRemove) {
-    rowToRemove.remove();
-  }   }
-
-  getUser(e){
->>>>>>> 16f1cc1b03452c4de8b116d0dd67fa499738755f
     let loader = `<div class="spinner-border text-warning" role="status"></div>`
     let td = document.querySelector(`#userLevel-${e.target.title}`) as HTMLTableElement
     td.innerHTML = loader
@@ -304,6 +265,89 @@ export class PreSnapauditFromsComponent implements OnInit {
         console.log('team added', data)
         this.submitFormLoad = false
       })
+
+  }
+
+
+
+  rowOpeningClosingCount = 1
+  addOpeningClosingRow() {
+    this.rowOpeningClosingCount++
+    this
+    let filed = `<tr id="">
+                <td class='text-center p-1 border border-secondary'>${this.rowOpeningClosingCount}</td>
+                <td><input type="text" class='opening_username' id='${this.rowOpeningClosingCount}' form-control'></td>
+                <td><input type="text" id='opening_organization_${this.rowOpeningClosingCount}' class='form-control'></td>
+                <td><input type="text" id='designation_${this.rowOpeningClosingCount}' class='form-control'></td>
+                <td class='text-center p-1 border border-secondary'>
+                  <span class="badge badge-secondary" role="button">upload</span>
+                </td>
+                <td class='text-center p-1 border border-secondary'>
+                  <span class="badge badge-secondary" role="button">upload</span>
+                </td>
+                <td class='text-center p-1 border border-secondary'>
+                  <button class="btn btn-sm btn-danger">Remove</button>
+                </td>
+              </tr>`
+    let areaFiled = <HTMLTableElement>document.querySelector('#openingClosingForm')
+    areaFiled.insertAdjacentHTML('beforeend', filed)
+  }
+
+
+  submitOpeningClosingMeetingFrom() {
+    let meetingLocation = document.querySelector('#meeting_location') as HTMLInputElement
+    let meetingAgenda = document.querySelector('#meeting_agenda') as HTMLInputElement
+    let openingMeetingdate = document.querySelector('#opening_meeting_date') as HTMLInputElement
+    let closingMeetingdate = document.querySelector('#closing_meeting_date') as HTMLInputElement
+    let openingStartTime = document.querySelector('#opening_meeting_startTime') as HTMLInputElement
+    let openingEndTime = document.querySelector('#opening_meeting_endTime') as HTMLInputElement
+    let closingStartTime = document.querySelector('#closing_meeting_startTime') as HTMLInputElement
+    let closingEndTime = document.querySelector('#opening_meeting_endTime') as HTMLInputElement
+
+    let oCMeetingAttandance = {
+      masterId: this.currentMasterId,
+      location: meetingLocation.value,
+      agenda: meetingAgenda.value,
+      oDate: openingMeetingdate.value,
+      oStartTime: openingStartTime.value,
+      oEndTime: openingEndTime.value,
+      cDate: closingMeetingdate.value,
+      cStartTime: closingStartTime.value,
+      cEndTime: closingEndTime.value,
+
+    }
+
+    let userRowData = document.querySelectorAll('.opening_username')
+
+    let userList = []
+    console.log(userRowData)
+    userRowData.forEach(userRow => {
+      let userData = userRow as HTMLInputElement
+      let organixation = document.querySelector(`#opening_organization_${userData.id}`) as HTMLInputElement
+      let designation = document.querySelector(`#designation_${userData.id}`) as HTMLInputElement
+      let data = {
+        masterId: this.currentMasterId,
+        usernameId: userData.value,
+        organization: organixation.value,
+        designation: designation.value
+      }
+
+      userList.push(data)
+    })
+    console.log(oCMeetingAttandance)
+    console.log(userList)
+
+    let formData = [
+      {
+        oCMeetingAttandance,
+        oCMeetingAttendanceUser: userList
+      }
+    ]
+
+    this.inspectionTraining.addOpeningClosingForm(formData)
+    .subscribe(data =>{
+      console.log('opening meeting form aded', data)
+    })
 
   }
 

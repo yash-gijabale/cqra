@@ -55,7 +55,7 @@
                   </td>
                   <td>
 
-                    <div *ngIf="data.passorfail === null || data.passorfail == -1">
+                    <div *ngIf="data.passorfail == null || data.passorfail == -1">
                       <span *ngIf="data.qStatus === 0" class="badge bg-light text-dark mx-2 border border-dark">Not Available</span>
 
                       <span *ngIf="data.qStatus === 1" class="badge bg-warning text-dark mx-2" data-toggle="modal"

@@ -305,6 +305,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
     console.log(this.pickedQuestion)
     console.log(this.usertradeDetailsData.userId)
     console.log(this.currentSelectedTrade)
+    console.log(questionData)
 
     this.inspectionTraining.addTrainingQuestions(this.usertradeDetailsData.userId, this.currentSelectedTrade, questionData)
       .subscribe(data => {

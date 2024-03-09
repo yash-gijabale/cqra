@@ -70,7 +70,7 @@ export class CreateUserComponent implements OnInit {
         .pipe(first())
         .subscribe(x => {
           console.log(x)
-          this.registerForm.patchValue(x)
+          this.registerForm.patchValue(x[0])
         });
     }
 
@@ -106,9 +106,9 @@ export class CreateUserComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    console.log(this.registerForm.value)
+    this.registerForm.value.region = this.registerForm.value.region.toString()
+    // console.log(this.registerForm.value)
     // return
-
     //UPDATING THE FORM FOR MAPPING VALUES IN BACKEND
     let formData = {
       ...this.registerForm.value,

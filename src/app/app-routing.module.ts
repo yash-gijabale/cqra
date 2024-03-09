@@ -257,7 +257,7 @@ const routes: Routes = [
   { path: 'declarationView', component: InspectorDeclarationViewComponent },
   { path: 'inspectorTradeTraning', component: InspectorTradeTrainingComponent },
   { path: 'inspectorView', component: InspectorTrainingViewComponent },
-  { path: 'preSnapAuditProccess/:id', component: PreSnapauditFromsComponent },
+  { path: 'preSnapAuditProccess', component: PreSnapauditFromsComponent },
   { path: 'equipmentMaintenanceFrom', component: EquipmentMaintenanceFormComponent },
 
 

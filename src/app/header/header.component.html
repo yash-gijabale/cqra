@@ -164,6 +164,7 @@
             </li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation Tracker Report</a></li>
 
+
           </ul>
         </li>
         <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports">
@@ -190,20 +191,27 @@
         </li>
 
 
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports">
-          <a class="dropdown-item" routerLink="/wbs">
+        <li *ngIf="(userMenu.dtmDeclaration || userMenu.inspectorDeclaration || userMenu.newInsTraining || userMenu.underInsTraining
+        || userMenu.preSnapAuditForm)"
+          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports">
+          <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="las la-sitemap"></i>
             </span>
             <span class="nav-link-text">Authorisation</span>
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/declaration">DTM Declarations</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/declarationView">Inspector Declarations</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/inspectorTradeTraning">Inspector Traning</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/inspectorView">Inspector Traning</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/equipmentMaintenanceFrom">Equipment Maintenance From</a></li>
-            
+            <li *ngIf="userMenu.dtmDeclaration" class="dropdown-item"><a tabindex="-1" routerLink="/declaration">DTM
+                Declarations</a></li>
+            <li *ngIf="userMenu.inspectorDeclaration" class="dropdown-item"><a tabindex="-1"
+                routerLink="/declarationView">Inspector Declarations</a></li>
+            <li *ngIf="userMenu.newInsTraining" class="dropdown-item"><a tabindex="-1"
+                routerLink="/inspectorTradeTraning">Inspector Traning</a></li>
+            <li *ngIf="userMenu.underInsTraining" class="dropdown-item"><a tabindex="-1"
+                routerLink="/inspectorView">Inspector Traning</a></li>
+            <li *ngIf="userMenu.preSnapAuditForm" class="dropdown-item"><a tabindex="-1"
+                routerLink="/preSnapAuditProccess">Pre Snapaudit From</a></li>
+
           </ul>
         </li>
         <!-- <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
@@ -262,7 +270,8 @@
             </a>
             <div class="dropdown-menu add-custom-view" aria-labelledby="alertsDropdown">
               <h6 class="dropdown-header">
-                <a class="nav-link text-danger" href="profile.php"> <i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                <a class="nav-link text-danger" href="profile.php"> <i class="fa fa-user" aria-hidden="true"></i>
+                  Profile</a>
                 <a class="nav-link" (click)="logout()"> <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                 <a class="nav-link" target="_blank"
                   href="https://docs.google.com/spreadsheets/d/1gwcWXlQwrLPZvF9VBW_x-rQcLMqHPTwCU1R2bpi4oOM/edit#gid=0"><i
