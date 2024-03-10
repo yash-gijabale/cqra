@@ -47,15 +47,12 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/addquestiontotid/${userId}/${TradeId}`, data)
   }
 
-
   getUserTradeQuestion(userId, tradeId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallbyuserandtradeid/${userId}/${tradeId}`)
   }
-
   submitTradeAnswer(userId, tradeId, data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/mulispecttradetraining/addanswerstoque/${userId}/${tradeId}`, data)
   }
-
   getUserQuestionAnswer(userId, TradeId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getanswerbyusertradeid/${userId}/${TradeId}`)
   }
