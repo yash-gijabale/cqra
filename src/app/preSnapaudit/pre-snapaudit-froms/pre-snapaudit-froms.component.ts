@@ -8,6 +8,7 @@ import { ClientData } from 'src/app/client/client.component';
 import { CycleOfInspection } from 'src/app/ncclosure-sa/ncclosure-sa.component';
 import { InspectorTraning } from 'src/app/service/inspectionTraining.service';
 import { ProjectData } from 'src/app/project/project.component';
+import { defaultCoreCipherList } from 'constants';
 @Component({
   selector: 'app-pre-snapaudit-froms',
   templateUrl: './pre-snapaudit-froms.component.html',
@@ -297,6 +298,149 @@ export class PreSnapauditFromsComponent implements OnInit {
     areaFiled.insertAdjacentHTML('beforeend', filed)
   }
 
+  SubmitInternalReviewMeeting(){
+    let meetingLocation = document.querySelector('#meetingLocation') as HTMLInputElement
+    let meetingdate = document.querySelector('#internalreview_date') as HTMLInputElement
+
+    let ppeselection = document.querySelector('input[name="ppe"]:checked') as HTMLInputElement
+    let infraselection = document.querySelector('input[name="infrastructure"]:checked') as HTMLInputElement
+    let manpowerselection = document.querySelector('input[name="manpower"]:checked') as HTMLInputElement
+    let transportselection = document.querySelector('input[name="transport"]:checked')as HTMLInputElement
+
+    let pperemark = document.querySelector('#ppe_remark') as HTMLInputElement
+    let infrastructureremark = document.querySelector('#infrastructure_remark') as HTMLInputElement
+    let manpowerremark = document.querySelector('#manpower_remark') as HTMLInputElement
+    let transportremark = document.querySelector('#transport_remark') as HTMLInputElement
+    let tools = document.querySelector('#tools') as HTMLInputElement
+
+    // console.log(transportselection.value);
+
+    let outdatedcalibration = document.querySelector('#outdatedCalibration') as HTMLInputElement
+    let anyotherdifffaced = document.querySelector('#anyOtherDiffFaced') as HTMLInputElement
+    let anygoodpracticesobserved = document.querySelector('#anyGoodPracticesObserved') as HTMLInputElement
+    let Intimidation = document.querySelector('#intimidation') as HTMLInputElement
+    let starttime = document.querySelector('#startTime') as HTMLInputElement
+    let endtime = document.querySelector('#endTime') as HTMLInputElement
+    let suggestionsforimprovement = document.querySelector('#suggestionsForImprovement') as HTMLInputElement
+
+
+    let internalReviewMeeting = {
+      // mLocation:meetingLocation.value,
+      // mDate:meetingdate.value,
+      
+      
+      masterId: this.currentMasterId,
+      // Tools:tools.value,
+      outdatedCalibration:outdatedcalibration.value,
+      anyOtherDiffFaced:anyotherdifffaced.value,
+      anyGoodPracticesObserved:anygoodpracticesobserved.value,
+      intimidation:Intimidation.value,
+      startTime:starttime.value,
+      endTime:endtime.value,
+      suggestionsForImprovement:suggestionsforimprovement.value
+
+    }
+    // console.log(internalReviewMeeting);
+
+    let intRevMeetAtProSiteMaster = [
+      {
+      "masterId": this.currentMasterId,
+      "facilities": 1,
+      "adequate": ppeselection.value == '1' ? 1 : 0,
+      "inAdeq": ppeselection.value == '1' ? 0 : 1,
+      "remark": pperemark.value,
+      "location": meetingLocation.value,
+      "meetng_date": meetingdate.value
+      },
+
+      {
+        "masterId": this.currentMasterId,
+        "facilities": 2,
+        "adequate": infraselection.value == '1' ? 1 : 0,
+        "inAdeq": infraselection.value == '1' ? 0 : 1,
+        "remark": infrastructureremark.value,
+        "location": meetingLocation.value,
+        "meetng_date": meetingdate.value
+        },
+
+        {
+          "masterId": this.currentMasterId,
+          "facilities": 3,
+          "adequate": manpowerselection.value == '1' ? 1 : 0,
+          "inAdeq": manpowerselection.value == '1' ? 0 : 1,
+          "remark": manpowerremark.value,
+          "location": meetingLocation.value,
+          "meetng_date": meetingdate.value
+          },
+
+          {
+            "masterId": this.currentMasterId,
+            "facilities": 4,
+            "adequate": transportselection.value == '1' ? 1 : 0,
+            "inAdeq": transportselection.value == '1' ? 0 : 1,
+            "remark": transportremark.value,
+            "location": meetingLocation.value,
+            "meetng_date": meetingdate.value
+            },
+
+          ]
+    // console.log(intRevMeetAtProSiteMaster);
+
+
+    let formData = [
+      {
+        internalReviewMeeting,
+        intRevMeetAtProSiteMaster
+
+      }
+      
+    ]
+    console.log(formData);
+
+    
+    this.inspectionTraining.addInternalReviewForm(formData)
+    .subscribe(data =>{
+      console.log('Internal Review meeting form aded', data)
+    })
+
+  }
+
+  SubmitClientFeedback(){
+    let meetinglocation = document.querySelector('#meeting_Location') as HTMLInputElement
+    let openingcloprofessionally = document.querySelector('#openingCloProfessionally') as HTMLInputElement
+    let nonconfirmitiesdiscussed = document.querySelector('#nonConfirmitiesDiscussed') as  HTMLInputElement
+    let qualityOfnonconfirmative = document.querySelector('#qualityOfNonConfirmative') as HTMLInputElement
+    let qualityOfWork = document.querySelector('input[name="quality"]:checked') as HTMLInputElement
+
+    let suggestdifferently = document.querySelector('#suggestDifferently') as HTMLInputElement
+    let feedback = document.querySelector('#Feedback') as HTMLInputElement
+    let othercomments = document.querySelector('#otherComments') as HTMLInputElement
+
+    let feedbackform ={
+      masterId: this.currentMasterId,
+      // clientId:this.clientId,
+      meeting_Location:meetinglocation.value,
+      openingCloProfessionally:openingcloprofessionally.value,
+      nonConfirmitiesDiscussed:nonconfirmitiesdiscussed.value,
+      qualityOfNonConfirmative:qualityOfnonconfirmative.value,
+      workQuality:qualityOfWork.value,
+
+      suggestDifferently:suggestdifferently.value,
+      Feedback:feedback.value,
+      otherComments:othercomments.value
+    }
+
+    console.log(feedbackform);
+
+  //   this.inspectionTraining.addClientFeedbackForm(feedbackform)
+  //   .subscribe(data => {
+  //     console.log('daa added', data)
+  //   // this.supervisorFormSubmitLoad = false
+  // })
+}
+
+
+
 
   submitOpeningClosingMeetingFrom() {
     let meetingLocation = document.querySelector('#meeting_location') as HTMLInputElement
@@ -357,7 +501,7 @@ export class PreSnapauditFromsComponent implements OnInit {
 
 
   inspectionTeam = []
-  inspectionTeamLoad: boolean = false
+  inspectionTeamLoad:boolean=false
   getTeamUser() {
     this.inspectionTeamLoad = true
     this.inspectionTraining.getComposedTeamByMasterId(this.currentMasterId)
@@ -368,8 +512,7 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
   }
 
-
-  supervisorFormSubmitLoad: boolean = false
+  supervisorFormSubmitLoad:boolean = false
   submitSupervisorForm() {
     this.supervisorFormSubmitLoad = true
     let fromData = []
@@ -396,81 +539,11 @@ export class PreSnapauditFromsComponent implements OnInit {
     console.log(fromData)
 
     this.inspectionTraining.addSupervisorL1L2Data(fromData)
-      .subscribe(data => {
-        console.log('dara added', data)
-        this.supervisorFormSubmitLoad = false
-
-      })
-  }
-
-
-  onsitePreFormData = null
-  onsitePerformance() {
-    this.getTeamUser()
-    this.inspectionTraining.getOnsitePerformanceFormData(this.currentMasterId)
-    .subscribe(data =>{
-      console.log(data)
-      if(data.length){
-        this.onsitePreFormData = {}
-        data.forEach(d => {
-          this.onsitePreFormData[d.userId] = d
-        })
-      }
-
-      console.log(this.onsitePreFormData)
+    .subscribe(data => {
+      console.log('dara added', data)
+    this.supervisorFormSubmitLoad = false
 
     })
-
-  }
-  onsiteFormLoad: boolean = false
-  submitOnsitePerformanceForm() {
-    this.onsiteFormLoad = true
-    let formData = []
-    this.inspectionTeam.forEach(team => {
-      let activityMonitor = document.querySelector(`#activity_monitored_${team.userId}`) as HTMLInputElement
-      let qualityObs = document.querySelector(`#qualityObservation_${team.userId}`) as HTMLSelectElement
-      let timelyCopmletion = document.querySelector(`#timelyComplition_${team.userId}`) as HTMLSelectElement
-      let behavior = document.querySelector(`#behavior_${team.userId}`) as HTMLSelectElement
-      let interaction = document.querySelector(`#interaction_${team.userId}`) as HTMLSelectElement
-      let tech = document.querySelector(`#techKnowledge${team.userId}`) as HTMLSelectElement
-      let nabc = document.querySelector(`#nabc_${team.userId}`) as HTMLSelectElement
-      let remark = document.querySelector(`#ratingRemark_${team.userId}`) as HTMLSelectElement
-
-      let data = {
-        masterId: this.currentMasterId,
-        userId: team.userId,
-        activitiesMon: activityMonitor.value,
-        qualityOfObservation: qualityObs.value,
-        timelyCompletion: timelyCopmletion.value,
-        behaviourDiscipline: behavior.value,
-        interactionWithClients: interaction.value,
-        technicalKnowledge: tech.value,
-        reqOfNabcb: nabc.value,
-        remark: remark.value,
-        // trainingReq: 2,
-        // comment: "Some comment",
-        // proposedAction: "Take corrective action"
-      }
-
-      formData.push(data)
-    })
-
-    console.log(formData)
-    if(this.onsitePreFormData != null){
-      this.inspectionTraining.updateInspectionOnsitePerformance(this.currentMasterId, formData)
-      .subscribe(data =>{
-        console.log('onsite per upadetd', data)
-        this.onsiteFormLoad = false
-
-      })
-    }else{
-
-      this.inspectionTraining.addInspectorOnsitePerformance(formData)
-        .subscribe(data => {
-          this.onsiteFormLoad = false
-          console.log('onsite added', data)
-        })
-    }
   }
 
 }

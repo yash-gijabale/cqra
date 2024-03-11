@@ -120,6 +120,7 @@ export class InspectorTraning {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
   }
 
+
   getComposedTeamByMasterId(masterId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/inspectionteammaster/getbymasterid/${masterId}`)
   }
@@ -141,4 +142,10 @@ export class InspectorTraning {
   updateInspectionOnsitePerformance(masterId, data) {
     return this.httpClient.put(`${this.REST_API_SERVER}/inspectorOnsitePerformanceEvaluation/update/${masterId}`, data)
   }
+
+  addInternalReviewForm(data): Observable<InspectorTraning>{
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
+  }
+
+
 }
