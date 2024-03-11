@@ -119,4 +119,8 @@ export class InspectorTraning {
   addOpeningClosingForm(data):Observable<InspectorTraning>{
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
   }
+
+  addInternalReviewForm(data):Observable<InspectorTraning>{
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
+  }
 }

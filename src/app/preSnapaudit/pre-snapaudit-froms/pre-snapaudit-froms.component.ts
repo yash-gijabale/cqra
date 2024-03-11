@@ -8,6 +8,7 @@ import { ClientData } from 'src/app/client/client.component';
 import { CycleOfInspection } from 'src/app/ncclosure-sa/ncclosure-sa.component';
 import { InspectorTraning } from 'src/app/service/inspectionTraining.service';
 import { ProjectData } from 'src/app/project/project.component';
+import { defaultCoreCipherList } from 'constants';
 @Component({
   selector: 'app-pre-snapaudit-froms',
   templateUrl: './pre-snapaudit-froms.component.html',
@@ -292,6 +293,117 @@ export class PreSnapauditFromsComponent implements OnInit {
     let areaFiled = <HTMLTableElement>document.querySelector('#openingClosingForm')
     areaFiled.insertAdjacentHTML('beforeend', filed)
   }
+
+  SubmitInternalReviewMeeting(){
+    let meetingLocation = document.querySelector('#meetingLocation') as HTMLInputElement
+    let meetingdate = document.querySelector('#internalreview_date') as HTMLInputElement
+
+    let ppeselection = document.querySelector('input[name="ppe"]:checked') as HTMLInputElement
+    let infraselection = document.querySelector('input[name="infrastructure"]:checked') as HTMLInputElement
+    let manpowerselection = document.querySelector('input[name="manpower"]:checked') as HTMLInputElement
+    let transportselection = document.querySelector('input[name="transport"]:checked')as HTMLInputElement
+
+    let pperemark = document.querySelector('#ppe_remark') as HTMLInputElement
+    let infrastructureremark = document.querySelector('#infrastructure_remark') as HTMLInputElement
+    let manpowerremark = document.querySelector('#manpower_remark') as HTMLInputElement
+    let transportremark = document.querySelector('#transport_remark') as HTMLInputElement
+    let tools = document.querySelector('#tools') as HTMLInputElement
+
+    let outdatedcalibration = document.querySelector('#outdatedCalibration') as HTMLInputElement
+    let anyotherdifffaced = document.querySelector('#anyOtherDiffFaced') as HTMLInputElement
+    let anygoodpracticesobserved = document.querySelector('#anyGoodPracticesObserved') as HTMLInputElement
+    let Intimidation = document.querySelector('#intimidation') as HTMLInputElement
+    let starttime = document.querySelector('#startTime') as HTMLInputElement
+    let endtime = document.querySelector('#endTime') as HTMLInputElement
+    let suggestionsforimprovement = document.querySelector('#suggestionsForImprovement') as HTMLInputElement
+
+
+    let internalReviewMeeting = {
+      masterId: this.currentMasterId,
+      mLocation:meetingLocation.value,
+      mDate:meetingdate.value,
+      ppeSelect:ppeselection.value,
+      infraSelect:infraselection.value,
+      manpowerSelect:manpowerselection.value,
+      transportSelect:transportselection.value,
+      ppeRemark:pperemark.value,
+      infraRemark:infrastructureremark.value,
+      manpowerRemark:manpowerremark.value,
+      transportRemark:transportremark.value,
+      Tools:tools.value,
+
+      outdatedCalibration:outdatedcalibration.value,
+      anyOtherDiffFaced:anyotherdifffaced.value,
+      anyGoodPracticesObserved:anygoodpracticesobserved.value,
+      intimidation:Intimidation.value,
+      startTime:starttime.value,
+      endTime:endtime.value,
+      suggestionsForImprovement:suggestionsforimprovement.value
+
+    }
+    // console.log(internalReviewMeeting);
+
+    "intRevMeetAtProSiteMaster": [
+
+      {
+      "masterId": "ABC123",
+      "facilities": 1,
+      "adequate": 1,
+      "inAdeq": 0,
+      "remark": pperemark.value,
+      "location": meetingLocation.value,
+      "meetng_date": meetingdate.value
+      },
+
+      {
+        "masterId": "ABC123",
+        "facilities": 2,
+        "adequate": 1,
+        "inAdeq": 0,
+        "remark": infrastructureremark.value,
+        "location": meetingLocation.value,
+        "meetng_date": meetingdate.value
+        },
+
+        {
+          "masterId": "ABC123",
+          "facilities": 3,
+          "adequate": 1,
+          "inAdeq": 0,
+          "remark": manpowerremark.value,
+          "location": meetingLocation.value,
+          "meetng_date": meetingdate.value
+          },
+
+          {
+            "masterId": "ABC123",
+            "facilities": 4,
+            "adequate": 1,
+            "inAdeq": 0,
+            "remark": transportremark.value,
+            "location": meetingLocation.value,
+            "meetng_date": meetingdate.value
+            },
+
+          ]
+
+    let formData = [
+      {
+        internalReviewMeeting,
+        intRevMeetAtProSiteMaster
+      }
+    ]
+    console.log(formData);
+
+    
+    // this.inspectionTraining.addInternalReviewForm(formData)
+    // .subscribe(data =>{
+    //   console.log('Internal Review meeting form aded', data)
+    // })
+
+  }
+
+
 
 
   submitOpeningClosingMeetingFrom() {
