@@ -292,6 +292,13 @@
         </div>
 
 
+        <!-- SAMPLING  -->
+        <div class="row pb-2 border-bottom mt-5 border-secondary">
+          <h5 class="col-md-12">Inspection Sampling</h5>
+          <a routerLink="/createSampling/-1" target="_blank"><button class="btn btn-success btn-sm mx-2">Fill the
+              from</button></a>
+        </div>
+
         <!-- Internal Review Meeting at Project Site -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Internal Review Meeting at Project Site</h5>
@@ -467,7 +474,8 @@
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Supervisor form for L1 and L2 <span class="badge badge-success">Filled</span>
           </h5>
-          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view">Fill the
+          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view"
+            (click)="getTeamUser()">Fill the
             from</button>
 
           <div class="modal fade" id="supervisorForm-view" tabindex="-1" role="dialog"
@@ -486,46 +494,43 @@
                       <ul class="list-group list-group-flush">
                         <li class="list-group-item bg-light">
                           <div class="row m-2">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
+                              <label><b>Matser Id:</b></label>
+                              <select class="form-control col-md-3">
+                                <option [value]="currentMasterId">{{currentMasterId}}</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
                               <label>Client Name</label>
-                              <select class="form-control col-md-12">
-                                <option>Option</option>
-                                <option>Option</option>
-                                <option>Option</option>
-                              </select>
+                              <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
+                                class="form-control" readonly>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                               <label>Projcet Name</label>
-                              <select class="form-control col-md-12">
-                                <option>Option</option>
-                                <option>Option</option>
-                                <option>Option</option>
+                              <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
+                                class="form-control" readonly>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                              <label>Cycle Of Inspection</label>
+                              <select [(ngModel)]="selCycleId" class="form-control">
+                                <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
+                                  [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
+                                  {{cycle.cycle_name}}</option>
                               </select>
                             </div>
 
-                            <div class="form-group col-md-4">
-                              <label>Meeting Location</label>
-                              <input type="text" class="form-control">
-                            </div>
 
-                            <div class="form-group col-md-4">
-                              <label>Cycle of inspection</label>
-                              <select class="form-control col-md-12">
-                                <option>Option</option>
-                                <option>Option</option>
-                                <option>Option</option>
-                              </select>
-                            </div>
-
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                               <label>From date:</label>
-                              <input type="date" class="form-control">
+                              <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
                             </div>
 
-                            <div class="form-group col-md-4">
-                              <label>To date:</label>
-                              <input type="date" class="form-control">
+                            <div class="form-group col-md-3">
+                              <label>From date:</label>
+                              <input type="date" class="form-control" [value]="masterData.toDate" readonly>
                             </div>
                           </div>
                         </li>
@@ -533,7 +538,12 @@
                     </div>
                   </div>
 
-                  <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                  <div *ngIf="inspectionTeamLoad" class="userdeailsload">
+                    <div class="spinner-border text-warning" role="status">
+                    </div>
+                  </div>
+                  <table *ngIf="!inspectionTeamLoad" class="row-border hover inspector_list_table mt-5"
+                    style="width:100%">
                     <thead>
                       <tr>
                         <th rowspan="2">Sr no</th>
@@ -542,6 +552,7 @@
                         <th rowspan="2">Witnerss area/Location</th>
                         <th rowspan="2">Witness activity</th>
                         <th colspan="2">Remark</th>
+                        <th rowspan="2">Remark</th>
                       </tr>
                       <tr>
                         <th style="border-radius: 0px;">Satisfactory</th>
@@ -549,19 +560,29 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let team of inspectionTeam">
                         <td>1</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
+                        <td><input type="text" class="form-control" [value]="team.username" readonly></td>
+                        <td><span class="badge badge-secondary" *ngIf="team.l0">L0</span>
+                          <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
+                          <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
+                          <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
+                        </td>
+                        <td><input type="text" [id]="'witnessLocation_'+team.userId" class="form-control"></td>
                         <td>
-                          <input type="text" class="form-control">
+                          <input type="text" [id]="'witnessActivity_'+team.userId" class="form-control">
                         </td>
                         <td>
-                          <input type="radio" class="form-check-input" name="satisfactory">
+                          <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
+                            [name]="'satisfactory'+team.userId" [value]="1">
                         </td>
                         <td>
-                          <input type="radio" class="form-check-input" name="satisfactory">
+                          <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
+                            [name]="'satisfactory'+team.userId" [value]="0">
+                        </td>
+
+                        <td>
+                          <input type="text" [id]="'remark_'+team.userId" class="form-control">
                         </td>
                       </tr>
 
@@ -569,7 +590,11 @@
                   </table>
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
+                  <button class="btn btn btn-success ml-3" (click)="submitSupervisorForm()">
+                    <span *ngIf="supervisorFormSubmitLoad" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+                    <span *ngIf="!supervisorFormSubmitLoad">Save</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -580,9 +605,8 @@
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Inspector Onsite performance evalution form <span
               class="badge badge-success">Filled</span></h5>
-          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view">Fill
-            the
-            from</button>
+          <button class="btn btn-success btn-sm mx-2" 
+          data-toggle="modal" data-target="#onsiteEvalutionForm-view" (click)="getTeamUser()">Fill the from</button>
 
           <div class="modal fade" id="onsiteEvalutionForm-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -600,46 +624,43 @@
                       <ul class="list-group list-group-flush">
                         <li class="list-group-item bg-light">
                           <div class="row m-2">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
+                              <label><b>Matser Id:</b></label>
+                              <select class="form-control col-md-3">
+                                <option [value]="currentMasterId">{{currentMasterId}}</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
                               <label>Client Name</label>
-                              <select class="form-control col-md-12">
-                                <option>Option</option>
-                                <option>Option</option>
-                                <option>Option</option>
-                              </select>
+                              <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
+                                class="form-control" readonly>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                               <label>Projcet Name</label>
-                              <select class="form-control col-md-12">
-                                <option>Option</option>
-                                <option>Option</option>
-                                <option>Option</option>
+                              <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
+                                class="form-control" readonly>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                              <label>Cycle Of Inspection</label>
+                              <select [(ngModel)]="selCycleId" class="form-control">
+                                <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
+                                  [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
+                                  {{cycle.cycle_name}}</option>
                               </select>
                             </div>
 
-                            <div class="form-group col-md-4">
-                              <label>Meeting Location</label>
-                              <input type="text" class="form-control">
-                            </div>
 
-                            <div class="form-group col-md-4">
-                              <label>Cycle of inspection</label>
-                              <select class="form-control col-md-12">
-                                <option>Option</option>
-                                <option>Option</option>
-                                <option>Option</option>
-                              </select>
-                            </div>
-
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                               <label>From date:</label>
-                              <input type="date" class="form-control">
+                              <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
                             </div>
 
-                            <div class="form-group col-md-4">
-                              <label>To date:</label>
-                              <input type="date" class="form-control">
+                            <div class="form-group col-md-3">
+                              <label>From date:</label>
+                              <input type="date" class="form-control" [value]="masterData.toDate" readonly>
                             </div>
                           </div>
                         </li>
@@ -679,6 +700,7 @@
                         <th>Sr no</th>
                         <th>Name of Inspector</th>
                         <th>Level</th>
+                        <th>Activities Monitored</th>
                         <th>Quality Obeservation</th>
                         <th>Timely completion of Inspection</th>
                         <th>Behavior & Discipline during Inspection including use of PPEs</th>
@@ -689,12 +711,20 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let team of inspectionTeam">
                         <td>1</td>
-                        <td>Jhone Due</td>
-                        <td>L2</td>
+                        <td>{{team.username}}</td>
                         <td>
-                          <select class="form-control col-md-12">
+                          <span class="badge badge-secondary" *ngIf="team.l0">L0</span>
+                          <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
+                          <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
+                          <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" [id]="'activity_monitored_'+team.userId">
+                        </td>
+                        <td>
+                          <select class="form-control col-md-12" (change)="addUserRating(team.userId, $event)" >
                             <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
                           </select>
                         </td>
@@ -870,8 +900,8 @@
         <!-- EQUIPMENT MAINTENANCE FORMAt -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Equipment Maintenance Format <span class="badge badge-warning">Pending</span></h5>
-          <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2" data-toggle="modal"
-              data-target="#equipmentMaintenance-view">Fill the from</button></a>
+          <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
+              data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
 
         </div>
       </div>

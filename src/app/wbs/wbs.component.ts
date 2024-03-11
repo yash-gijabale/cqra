@@ -178,19 +178,25 @@ export class WbsComponent implements OnInit {
         })
   }
 
+  loadStructure = false
   getStructures() {
+    this.loadStructure = true
     // alert(this.SelProjectId);
     this.commonService.getStructures(this.SelClientId, this.SelProjectId)
       .subscribe(
         (data) => {
           console.log('Structure Data==', data)
           this.structures = data;
+          this.loadStructure = false
 
         }, (err) => {
           console.log('-----> err', err);
         })
   }
+
+  loadStages = false
   isChangeLimitAccessToggle(event, id: string) {
+    this.loadStages = true
     this.isChecked = event.target.checked;//!this.isChecked;
     this.isCheckedName = event.target.name;
     if (this.structureSel != id) {
@@ -200,6 +206,8 @@ export class WbsComponent implements OnInit {
           (data) => {
             console.log('client Data==', data)
             this.stages = data;
+            this.loadStages = false
+
 
           }, (err) => {
             console.log('-----> err', err);
@@ -213,7 +221,9 @@ export class WbsComponent implements OnInit {
     console.log(event.target.checked + "==" + id);
   }
 
+  loadUnit = false
   isstageSelectionchange(event, id: string) {
+    this.loadUnit = true
     if (this.stageSel != id) {
       this.stageSel = id;
       this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel)
@@ -221,6 +231,7 @@ export class WbsComponent implements OnInit {
           (data) => {
             console.log('client Data==', data)
             this.units = data;
+            this.loadUnit = false
 
           }, (err) => {
             console.log('-----> err', err);
@@ -235,7 +246,9 @@ export class WbsComponent implements OnInit {
     }
   }
 
+  loadSubunit = false
   isUnitSelectionchange(event, id: string) {
+    this.loadSubunit = true
     if (this.unitSel != id) {
       console.log("Unit Id" + id)
       this.unitSel = id;
@@ -244,6 +257,7 @@ export class WbsComponent implements OnInit {
           (data) => {
             console.log('client Data==', data)
             this.subunits = data;
+            this.loadSubunit = false
 
           }, (err) => {
             console.log('-----> err', err);
@@ -286,8 +300,10 @@ export class WbsComponent implements OnInit {
     console.log("Client Id : " + clientId + " Project Id:" + projectId + "from called" + structureName);
   }
 
+  loadStructureSubmit = false
   onStructureSubmit() {
     console.log('suhn')
+    this.loadStructureSubmit = true
     const formData = {
       projectId: this.SelProjectId,
       structureName: this.strctureForm.value.structureName,
@@ -304,6 +320,8 @@ export class WbsComponent implements OnInit {
           data => {
             console.log('updated', data)
             this.getStructures()
+            this.loadStructureSubmit = false
+
           },
           err => console.log(err)
         )
@@ -313,6 +331,7 @@ export class WbsComponent implements OnInit {
           data => {
             console.log('created structure', data)
             this.getStructures()
+            this.loadStructureSubmit = false
 
           },
           err => console.log(err)
@@ -320,7 +339,9 @@ export class WbsComponent implements OnInit {
     }
   }
 
+  deleteStructureLoad = false
   deleteStructure() {
+    this.deleteStructureLoad = true
     const isDelete = confirm('Are you sure want to delete ?')
     if (isDelete) {
       console.log('delete structure--->', this.structureSel)
@@ -329,6 +350,7 @@ export class WbsComponent implements OnInit {
           data => {
             console.log('deleted')
             this.getStructures()
+            this.deleteStructureLoad = false
             this.isChecked = false
           },
           err => console.log(err)
@@ -337,7 +359,9 @@ export class WbsComponent implements OnInit {
 
   }
 
+  loadStageSubmit = false
   onStageSubmit() {
+    this.loadStageSubmit = true
     console.log(this.stageForm.value)
     let formData = {
       projectId: this.SelProjectId,
@@ -357,6 +381,8 @@ export class WbsComponent implements OnInit {
             console.log('updated')
             this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
             this.stageForm.reset()
+            this.loadStageSubmit = false
+
           },
           err => console.log(err)
         )
@@ -386,6 +412,8 @@ export class WbsComponent implements OnInit {
               console.log('bulk stage added -->', data)
               this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
               this.stageForm.reset()
+              this.loadStageSubmit = false
+
             },
             err => console.log(err)
           )
@@ -397,6 +425,8 @@ export class WbsComponent implements OnInit {
               console.log('added', data)
               this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
               this.stageForm.reset()
+              this.loadStageSubmit = false
+
 
             },
             err => console.log(err)
@@ -406,7 +436,9 @@ export class WbsComponent implements OnInit {
     }
   }
 
+  deleteStageLoad = false
   deleteStage() {
+    this.deleteStageLoad = true
     const isDelete = confirm('Are you sure want to delete ?')
     if (isDelete) {
       this.clientServiceService.deleteStage(this.stageSel)
@@ -417,7 +449,7 @@ export class WbsComponent implements OnInit {
               .subscribe(
                 (data) => {
                   this.stages = data;
-
+                  this.deleteStageLoad = false
                 }, (err) => {
                   console.log('-----> err', err);
                 })
@@ -429,7 +461,9 @@ export class WbsComponent implements OnInit {
   }
 
 
+  loadUnitSubmit = false
   onUnitSubmit() {
+    this.loadUnitSubmit = true
     let formData = {
       projectId: this.SelProjectId,
       clientId: this.SelClientId,
@@ -448,6 +482,8 @@ export class WbsComponent implements OnInit {
             console.log('updated', data)
             this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel).subscribe(data => this.units = data)
             this.unitForm.reset()
+            this.loadUnitSubmit = false
+
           },
           err => console.log(err)
         )
@@ -478,6 +514,8 @@ export class WbsComponent implements OnInit {
               console.log('bulk units created-->', data)
               this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel).subscribe((data) => this.units = data)
               this.unitForm.reset()
+              this.loadUnitSubmit = false
+
             },
             err => console.log(err)
           )
@@ -489,6 +527,8 @@ export class WbsComponent implements OnInit {
               console.log('added unit---->', data)
               this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel).subscribe((data) => this.units = data)
               this.unitForm.reset()
+              this.loadUnitSubmit = false
+
             }
 
           )
@@ -499,7 +539,9 @@ export class WbsComponent implements OnInit {
     console.log(formData)
   }
 
+  deleteUnitLoad = false
   deleteUnit() {
+    this.deleteUnitLoad = true
     const isDelete = confirm('Are You sure eant to delete ?')
     if (isDelete) {
       this.clientServiceService.deleteUnit(this.unitSel)
@@ -511,7 +553,7 @@ export class WbsComponent implements OnInit {
                 (data) => {
                   // console.log('client Data==', data)
                   this.units = data;
-
+                  this.deleteUnitLoad = false
                 }, (err) => {
                   console.log('-----> err', err);
                 })
@@ -522,7 +564,10 @@ export class WbsComponent implements OnInit {
   }
 
 
+  loadSubunitSubmit = false
+
   onSubunitSubmit() {
+    this.loadSubunitSubmit = true
     const formData = {
       projectId: this.SelProjectId,
       clientId: this.SelClientId,
@@ -541,6 +586,8 @@ export class WbsComponent implements OnInit {
             console.log('uopdted subunit', data)
             this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel).subscribe(data => this.subunits = data)
             this.subunitForm.reset()
+            this.loadSubunitSubmit = false
+
           },
           err => {
             console.log(err)
@@ -567,14 +614,16 @@ export class WbsComponent implements OnInit {
           addFrom++
         }
         this.clientServiceService.createBulkSubunits(subunitBulk)
-        .subscribe(
-          data => {
-            console.log('Bulk subunit created-->', data)
-            this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel).subscribe(data => this.subunits = data)
+          .subscribe(
+            data => {
+              console.log('Bulk subunit created-->', data)
+              this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel).subscribe(data => this.subunits = data)
               this.subunitForm.reset()
-          },
-          err =>  console.log(err)
-        )
+              this.loadSubunitSubmit = false
+
+            },
+            err => console.log(err)
+          )
 
       } else {
 
@@ -584,6 +633,8 @@ export class WbsComponent implements OnInit {
               console.log('added subunit')
               this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel).subscribe(data => this.subunits = data)
               this.subunitForm.reset()
+              this.loadSubunitSubmit = false
+
             },
             err => console.log(err)
           )
@@ -592,7 +643,9 @@ export class WbsComponent implements OnInit {
 
   }
 
+  deleteLoadSubunit = false
   deleteSubunit() {
+    this.deleteLoadSubunit = true
     if (this.subunitSel) {
       this.clientServiceService.deleteSubunit(this.subunitSel)
         .subscribe(
@@ -603,6 +656,7 @@ export class WbsComponent implements OnInit {
                 (data) => {
                   console.log('client Data==', data)
                   this.subunits = data;
+                  this.deleteLoadSubunit = false
 
                 }, (err) => {
                   console.log('-----> err', err);

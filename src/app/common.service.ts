@@ -612,6 +612,12 @@ export class CommonService {
   }
 
 
+  
+  private masterIdData = new BehaviorSubject([])
+  getMasterData = this.masterIdData.asObservable();
+  setMasterData(data:Array<any>){
+    this.masterIdData.next(data)
+  }
 
 
   //RFI API CALL

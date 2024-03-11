@@ -108,6 +108,10 @@ export class PreSnapauditFromsComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         this.masterData = data[0]
+
+        // this.commonService.setMasterData(this.masterData) //setting master data for sampling sheet
+        localStorage.setItem('mData', JSON.stringify(this.masterData))//setting master data for sampling sheet
+
         this.masterData.fromDate = new Date(this.masterData.fromDate).toISOString().substring(0, 10)
         this.masterData.toDate = new Date(this.masterData.toDate).toISOString().substring(0, 10)
         this.isLeader = this.masterData.leader ? true : false
@@ -345,10 +349,57 @@ export class PreSnapauditFromsComponent implements OnInit {
     ]
 
     this.inspectionTraining.addOpeningClosingForm(formData)
-    .subscribe(data =>{
-      console.log('opening meeting form aded', data)
+      .subscribe(data => {
+        console.log('opening meeting form aded', data)
+      })
+
+  }
+
+
+  inspectionTeam = []
+  inspectionTeamLoad:boolean=false
+  getTeamUser() {
+    this.inspectionTeamLoad = true
+    this.inspectionTraining.getComposedTeamByMasterId(this.currentMasterId)
+      .subscribe(data => {
+        console.log(data)
+        this.inspectionTeam = data
+        this.inspectionTeamLoad = false
+      })
+  }
+
+  supervisorFormSubmitLoad:boolean = false
+  submitSupervisorForm() {
+    this.supervisorFormSubmitLoad = true
+    let fromData = []
+    this.inspectionTeam.forEach(team => {
+      let witnessLocation = document.querySelector(`#witnessLocation_${team.userId}`) as HTMLInputElement
+      let witnessActivity = document.querySelector(`#witnessActivity_${team.userId}`) as HTMLInputElement
+      let satsfactory = document.querySelector(`input[name='satisfactory${team.userId}']:checked`) as HTMLInputElement
+      let remark = document.querySelector(`#remark_${team.userId}`) as HTMLInputElement
+
+      // console.log(satsfactory.value)
+
+      let data = {
+        masterId: this.currentMasterId,
+        userId: team.userId,
+        witnessedArea: witnessLocation.value,
+        witnessedActiv: witnessActivity.value,
+        remark: remark.value,
+        satisfactory: satsfactory.value
+      }
+
+      fromData.push(data)
     })
 
+    console.log(fromData)
+
+    this.inspectionTraining.addSupervisorL1L2Data(fromData)
+    .subscribe(data => {
+      console.log('dara added', data)
+    this.supervisorFormSubmitLoad = false
+
+    })
   }
 
 }

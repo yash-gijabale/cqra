@@ -14,7 +14,7 @@
         <div class="form-group row">
           <div class="form-group col-md-4">
             <label>Sampling Type</label>
-            <select [(ngModel)]="samplingType" class="form-control">
+            <select [(ngModel)]="samplingType" class="form-control" (change)="getSamplingInitialData($event)">
               <option [value]="1" [selected]="true">Client wise</option>
               <option [value]="2">Contractor wise</option>
             </select>
@@ -22,25 +22,28 @@
 
           <div class="form-group col-md-4">
             <label>Client Name</label>
-            <select [(ngModel)]="SelClientId" class="form-control" (change)="getProject()">
-              <option [value]="client.clientId" *ngFor="let client of allClients">
-                {{client.clientName}}
+            <!-- <select [(ngModel)]="SelClientId" class="form-control" [disabled]="true">
+              <option [value]="masterData.clientId" selected>
+                {{masterData.clientName}}
               </option>
-            </select>
+            </select> -->
+            <input type="text" [value]="masterData.clientName" class="form-control" readonly>
           </div>
 
           <div class="form-group col-md-4">
             <label>Project Name</label>
-            <select [(ngModel)]="SelProject" class="form-control" (change)="getStructure()">
-              <option [value]="project.projectId" *ngFor="let project of projects">
-                {{project.projectName}}
+            <!-- <select [(ngModel)]="SelProject" class="form-control" >
+              <option [value]="masterData.projectId" *ngFor="let project of projects">
+                {{masterData.projectName}}
               </option>
-            </select>
+            </select> -->
+            <input type="text" [value]="masterData.projectName" class="form-control" readonly>
+
           </div>
           <div class="form-group col-md-4">
             <label>Structure Name</label>
             <select [(ngModel)]="SelStructure" class="form-control" (change)="getStages()">
-              <option [value]="0">Please Select</option>
+              <option [value]="0" selected>Please Select</option>
               <option [value]="o.structureId" *ngFor="let o of structures">
                 {{o.structureName}}
               </option>
@@ -69,13 +72,13 @@
 
           <div class="form-group col-md-4">
             <label>Report Date</label>
-            <input [(ngModel)]="reportDate" type="date" class="form-control">
+            <input [(ngModel)]="reportDate" type="date" class="form-control" [value]="reportDate">
           </div>
 
 
           <div class="form-group col-md-4">
             <label>Inspection Date</label>
-            <input [(ngModel)]="inspectionDate" type="date" class="form-control">
+            <input [(ngModel)]="inspectionDate" type="date" class="form-control" [value]="inspectionDate">
           </div>
           <div class="row m-0 main-container col-md-12">
             <nav>

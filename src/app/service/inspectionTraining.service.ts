@@ -119,4 +119,13 @@ export class InspectorTraning {
   addOpeningClosingForm(data):Observable<InspectorTraning>{
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
   }
+
+  getComposedTeamByMasterId(masterId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/inspectionteammaster/getbymasterid/${masterId}`)
+  }
+
+  addSupervisorL1L2Data(data):Observable<InspectorTraning> {
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/supervisorForm/save`, data)
+
+  }
 }

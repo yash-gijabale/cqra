@@ -53,14 +53,23 @@
                 <h2> Structure</h2>
               </div>
               <div class="structure-createview new">
-                <div class="oneLine" *ngFor="let name of structures">
-                  <label>
-                    <input type="checkbox" [name]="name.structureId"
-                      (change)="isChangeLimitAccessToggle($event,name.structureId)"
-                      [disabled]="isChecked && (isCheckedName!=name.structureId)">
-                    {{name.structureName}}
-                  </label>
+
+                <div *ngIf="loadStructure" class="text-center">
+                  <div class="spinner-border" role="status">
+                  </div>
                 </div>
+
+                <div *ngIf="!loadStructure">
+                  <div class="oneLine" *ngFor="let name of structures">
+                    <label>
+                      <input type="checkbox" [name]="name.structureId"
+                        (change)="isChangeLimitAccessToggle($event,name.structureId)"
+                        [disabled]="isChecked && (isCheckedName!=name.structureId)">
+                      {{name.structureName}}
+                    </label>
+                  </div>
+                </div>
+
               </div>
               <div class="common-view-edit-delete my-1">
                 <button class="common-bnts add-view" [disabled]="isChecked" data-toggle="modal" data-target="#add-view"
@@ -72,7 +81,8 @@
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
                 <button class="common-bnts delete-view" [disabled]="!isChecked" (click)="deleteStructure()">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  <span *ngIf="deleteStructureLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <i *ngIf="!deleteStructureLoad" class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
@@ -83,12 +93,18 @@
                 <h2> Stage</h2>
               </div>
               <div class="structure-createview new">
-                <div class="oneLine" *ngFor="let o of stages">
-                  <label>
-                    <input type="checkbox" id=st{{o.stageId}} name={{o.stageId}}
-                      (change)="isstageSelectionchange($event,o.stageId)">
-                    {{o.stageName}}
-                  </label>
+                <div *ngIf="loadStages" class="text-center">
+                  <div class="spinner-border" role="status">
+                  </div>
+                </div>
+                <div *ngIf="!loadStages">
+                  <div class="oneLine" *ngFor="let o of stages">
+                    <label>
+                      <input type="checkbox" id=st{{o.stageId}} name={{o.stageId}}
+                        (change)="isstageSelectionchange($event,o.stageId)">
+                      {{o.stageName}}
+                    </label>
+                  </div>
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
@@ -101,7 +117,8 @@
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
                 <span class="common-bnts delete-view" (click)="deleteStage()">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  <span *ngIf="deleteStageLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <i *ngIf="!deleteStageLoad" class="fa fa-trash-o" aria-hidden="true"></i>
                 </span>
               </div>
             </div>
@@ -112,12 +129,18 @@
                 <h2> Unit</h2>
               </div>
               <div class="structure-createview new">
-                <div class="oneLine" *ngFor="let o of units">
-                  <label>
-                    <input type="checkbox" id=st{{o.unitId}} name={{o.unitId}}
-                      (change)="isUnitSelectionchange($event,o.unitId)">
-                    {{o.unitName}}
-                  </label>
+                <div *ngIf="loadUnit" class="text-center">
+                  <div class="spinner-border" role="status">
+                  </div>
+                </div>
+                <div *ngIf="!loadUnit">
+                  <div class="oneLine" *ngFor="let o of units">
+                    <label>
+                      <input type="checkbox" id=st{{o.unitId}} name={{o.unitId}}
+                        (change)="isUnitSelectionchange($event,o.unitId)">
+                      {{o.unitName}}
+                    </label>
+                  </div>
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
@@ -130,7 +153,8 @@
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
                 <span class="common-bnts delete-view" (click)="deleteUnit()">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  <span *ngIf="deleteUnitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <i *ngIf="!deleteUnitLoad"  class="fa fa-trash-o" aria-hidden="true"></i>
                 </span>
               </div>
             </div>
@@ -141,12 +165,18 @@
                 <h2> Sub-Unit</h2>
               </div>
               <div class="structure-createview new">
-                <div class="oneLine" *ngFor="let o of subunits">
-                  <label>
-                    <input type="checkbox" id=st{{o.subunitId}} name={{o.subunitId}}
-                      (change)="isSubunitSelectionchange($event,o.subunitId)">
-                    {{o.subunitName}}
-                  </label>
+                <div *ngIf="loadSubunit" class="text-center">
+                  <div class="spinner-border" role="status">
+                  </div>
+                </div>
+                <div *ngIf="!loadSubunit">
+                  <div class="oneLine" *ngFor="let o of subunits">
+                    <label>
+                      <input type="checkbox" id=st{{o.subunitId}} name={{o.subunitId}}
+                        (change)="isSubunitSelectionchange($event,o.subunitId)">
+                      {{o.subunitName}}
+                    </label>
+                  </div>
                 </div>
               </div>
               <div class="common-view-edit-delete my-1">
@@ -207,7 +237,11 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">
+                <span *ngIf="loadStructureSubmit" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
+                <span *ngIf="!loadStructureSubmit">Submit</span>
+              </button>
             </div>
           </div>
         </form>
@@ -255,7 +289,11 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">
+                <span *ngIf="loadStructureSubmit" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
+                <span *ngIf="!loadStructureSubmit">Submit</span>
+              </button>
             </div>
           </div>
         </form>
@@ -300,19 +338,24 @@
                 </div>
                 <div class="form-group d-flex d-hidden bulkAdd">
                   <div class="col-md-5">
-                    <label class="form-check-label" for="flexCheckDefault" >From:</label>
-                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="stageFrom" >
+                    <label class="form-check-label" for="flexCheckDefault">From:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault"
+                      formControlName="stageFrom">
                   </div>
 
                   <div class="col-md-5">
-                    <label class="form-check-label" for="flexCheckDefault" >To:</label>
-                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="stageTo" >
+                    <label class="form-check-label" for="flexCheckDefault">To:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="stageTo">
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">
+                <span *ngIf="loadStageSubmit" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
+                <span *ngIf="!loadStageSubmit">Submit</span>
+              </button>
             </div>
           </div>
         </form>
@@ -356,19 +399,24 @@
                 </div>
                 <div class="form-group d-flex d-hidden bulkAdd">
                   <div class="col-md-5">
-                    <label class="form-check-label" for="flexCheckDefault" >From:</label>
-                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="unitFrom" >
+                    <label class="form-check-label" for="flexCheckDefault">From:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="unitFrom">
                   </div>
 
                   <div class="col-md-5">
-                    <label class="form-check-label" for="flexCheckDefault" >To:</label>
-                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="unitTo" >
+                    <label class="form-check-label" for="flexCheckDefault">To:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="unitTo">
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">
+
+                <span *ngIf="loadUnitSubmit" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
+                <span *ngIf="!loadUnitSubmit">Submit</span>
+              </button>
             </div>
           </div>
         </form>
@@ -411,19 +459,26 @@
                 </div>
                 <div class="form-group d-flex d-hidden bulkAdd">
                   <div class="col-md-5">
-                    <label class="form-check-label" for="flexCheckDefault" >From:</label>
-                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="subunitFrom" >
+                    <label class="form-check-label" for="flexCheckDefault">From:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault"
+                      formControlName="subunitFrom">
                   </div>
 
                   <div class="col-md-5">
-                    <label class="form-check-label" for="flexCheckDefault" >To:</label>
-                    <input class="form-control" type="number" value="" id="flexCheckDefault" formControlName="subunitTo" >
+                    <label class="form-check-label" for="flexCheckDefault">To:</label>
+                    <input class="form-control" type="number" value="" id="flexCheckDefault"
+                      formControlName="subunitTo">
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">
+
+                <span *ngIf="loadSubunitSubmit" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
+                <span *ngIf="!loadSubunitSubmit">Submit</span>
+              </button>
             </div>
           </div>
         </form>

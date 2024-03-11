@@ -15,6 +15,7 @@ import { ContractorData } from '../contractor-forman/contractor-forman.component
 import { clientStaffData } from '../create-client-staff/create-client-staff.component';
 import { forEach } from '@angular/router/src/utils/collection';
 import { CycleOfInspection } from '../ncclosure-sa/ncclosure-sa.component';
+import { log } from 'console';
 
 
 export class TradeRowDataForSamplingStep {
@@ -143,6 +144,8 @@ export class CreateSamplingComponent implements OnInit {
   title = "step1"
   stageNameData = {}
 
+  masterData: any
+
   constructor(
     private commanService: CommonService,
     private formBuilder: FormBuilder,
@@ -154,9 +157,9 @@ export class CreateSamplingComponent implements OnInit {
   ngOnInit() {
 
     this.clientService.getAllClients()
-    .subscribe(data => {
-      this.allClients = data
-    })
+      .subscribe(data => {
+        this.allClients = data
+      })
 
     this.commanService.getAllCycleOfInspection()
       .subscribe(data => {
@@ -167,6 +170,12 @@ export class CreateSamplingComponent implements OnInit {
     console.log(this.allocatedarea)
 
     this.samplingId = this.route.snapshot.params['id']
+
+
+    this.masterData = JSON.parse(localStorage.getItem('mData'))
+    console.log(this.masterData)
+
+    this.getInitialData(this.masterData.projectId, this.samplingType)
 
     // this.clientService.getAllProject()
     //   .subscribe(data => {
@@ -186,7 +195,11 @@ export class CreateSamplingComponent implements OnInit {
     })
   }
 
-  getProject(){
+  getSamplingInitialData(e) {
+    this.getInitialData(this.masterData.projectId, Number(e.target.value))
+  }
+
+  getProject() {
     this.commanService.getClientProject(this.SelClientId)
       .subscribe(data => {
         this.projects = data
@@ -217,10 +230,63 @@ export class CreateSamplingComponent implements OnInit {
   }
 
 
-  getStructure() {
-    console.log(this.SelProject)
-    console.log(this.samplingType)
-    this.commanService.getStructureByProjectId(this.SelProject)
+  // getStructure() {
+  //   console.log(this.SelProject)
+  //   console.log(this.samplingType)
+  //   this.commanService.getStructureByProjectId(this.SelProject)
+  //     .subscribe(
+  //       (data) => {
+  //         console.log('Structure Data==', data)
+  //         this.structures = data;
+
+  //       }, (err) => {
+  //         console.log('-----> err', err);
+  //       })
+
+  //   this.tradeService.getProjectTrades(this.SelProject)
+  //     .subscribe(
+  //       data => {
+  //         console.log('trades-->', data)
+  //         this.trades = data
+  //       }
+  //     )
+
+
+  //   if (this.samplingType === 1) {
+  //     console.log(this.samplingType)
+  //     this.clientService.getClientByProjectId(this.SelProject)
+  //       .subscribe(data => this.clients = data)
+
+  //   } else {
+  //     console.log(this.samplingType)
+
+  //     this.clientService.getContractorsForSamplingStep(this.SelProject)
+  //       .subscribe(data => {
+  //         console.log(data);
+  //         this.convertContractorRowObjet(data)
+  //       })
+
+  //     this.clientService.getClientStaffByProjectId(this.SelProject).subscribe(data => this.staffData = data)
+  //   }
+
+
+  //   this.clientService.getTradesForSamplingStepFirst(this.SelProject)
+  //     .subscribe(data => {
+  //       console.log(data);
+  //       this.convertRowObjet(data)
+  //     })
+
+  // }
+
+  getInitialData(projectId, samplingType) {
+
+    this.SelClientId = this.masterData.clientId
+    this.SelProject = this.masterData.projectId,
+      this.Selcycle = this.masterData.cycleId,
+      this.reportDate = new Date(this.masterData.fromDate).toISOString().substring(0, 10)
+    this.inspectionDate = new Date(this.masterData.toDate).toISOString().substring(0, 10)
+
+    this.commanService.getStructureByProjectId(projectId)
       .subscribe(
         (data) => {
           console.log('Structure Data==', data)
@@ -230,7 +296,7 @@ export class CreateSamplingComponent implements OnInit {
           console.log('-----> err', err);
         })
 
-    this.tradeService.getProjectTrades(this.SelProject)
+    this.tradeService.getProjectTrades(projectId)
       .subscribe(
         data => {
           console.log('trades-->', data)
@@ -239,30 +305,29 @@ export class CreateSamplingComponent implements OnInit {
       )
 
 
-    if (this.samplingType === 1) {
-      console.log(this.samplingType)
-      this.clientService.getClientByProjectId(this.SelProject)
+    if (samplingType === 1) {
+      console.log(samplingType)
+      this.clientService.getClientByProjectId(projectId)
         .subscribe(data => this.clients = data)
 
     } else {
-      console.log(this.samplingType)
+      console.log(samplingType)
 
-      this.clientService.getContractorsForSamplingStep(this.SelProject)
+      this.clientService.getContractorsForSamplingStep(projectId)
         .subscribe(data => {
           console.log(data);
           this.convertContractorRowObjet(data)
         })
 
-      this.clientService.getClientStaffByProjectId(this.SelProject).subscribe(data => this.staffData = data)
+      this.clientService.getClientStaffByProjectId(projectId).subscribe(data => this.staffData = data)
     }
 
 
-    this.clientService.getTradesForSamplingStepFirst(this.SelProject)
+    this.clientService.getTradesForSamplingStepFirst(projectId)
       .subscribe(data => {
         console.log(data);
         this.convertRowObjet(data)
       })
-
   }
 
   convertRowObjet(data) {
@@ -402,6 +467,7 @@ export class CreateSamplingComponent implements OnInit {
       let data = {
         projectId: this.SelProject,
         structureId: this.SelStructure,
+        masterId: this.masterData.masterId,
         tradeId: item,
         status: (<HTMLSelectElement>statusValue).value,
         workAreaWithName
@@ -546,6 +612,7 @@ export class CreateSamplingComponent implements OnInit {
           let data = {
             projectId: this.SelProject,
             structureId: this.SelStructure,
+            masterId: this.masterData.masterId,
             tradeId: item,
             status: (<HTMLSelectElement>statusValue).value,
             contractorId: contractorId,
@@ -584,6 +651,7 @@ export class CreateSamplingComponent implements OnInit {
         let data = {
           projectId: this.SelProject,
           structureId: this.SelStructure,
+          masterId: this.masterData.masterId,
           tradeId: item,
           status: (<HTMLSelectElement>statusValue).value,
           contractorId: (<HTMLSelectElement>contractorValue).value,
@@ -863,21 +931,21 @@ export class CreateSamplingComponent implements OnInit {
         this.convertRowObjetFromStep3(data)
       })
 
-      for (const key in this.step2formRenderData) {
-        this.step2formRenderData[key].forEach(trade => {
-          this.tradeNameObj[trade.tradeId] = trade.tradeNane
-        })
-      }
-      console.log(this.tradeNameObj)
-      // this.testTGStep3 = tradeGroupArray
-      // this.testTradeStep3 = tradeObject
-      this.testTGStep3 = this.testTG
-      this.testTradeStep3 = this.step2formRenderData
-      console.log('Step 3----->', this.testTGStep3)
-      console.log('Step 3----->', this.testTradeStep3)
+    for (const key in this.step2formRenderData) {
+      this.step2formRenderData[key].forEach(trade => {
+        this.tradeNameObj[trade.tradeId] = trade.tradeNane
+      })
+    }
+    console.log(this.tradeNameObj)
+    // this.testTGStep3 = tradeGroupArray
+    // this.testTradeStep3 = tradeObject
+    this.testTGStep3 = this.testTG
+    this.testTradeStep3 = this.step2formRenderData
+    console.log('Step 3----->', this.testTGStep3)
+    console.log('Step 3----->', this.testTradeStep3)
   }
 
-  
+
 
   convertRowObjetFromStep3(data) {
     // let tradeGroupArray = []
@@ -1117,6 +1185,7 @@ export class CreateSamplingComponent implements OnInit {
         structureId: this.SelStructure,
         cycleOfInspection: this.Selcycle,
         contractorId: this.contractorId,
+        masterId: this.masterData.masterId,
         tradeId: trade,
         staffId: this.staffId,
         samplingType: this.samplingType,
@@ -1283,6 +1352,7 @@ export class CreateSamplingComponent implements OnInit {
               structureId: this.SelStructure,
               fromDate: this.reportDate,
               toDate: this.inspectionDate,
+              masterId: this.masterData.masterId,
               cycleOfInspection: this.Selcycle,
               contractorId: contractor,
               staffId: (<HTMLInputElement>staffId).value,
@@ -1332,9 +1402,9 @@ export class CreateSamplingComponent implements OnInit {
 
   goToGenerateReport() {
     console.log(this.SelProject, this.SelClientId, this.Selcycle, this.location, this.inspectionDate, this.reportDate)
-    this.clientService.generateSamplingFinalReport(this.SelClientId, this.SelProject ,this.inspectionDate, this.Selcycle,  this.reportDate, this.location)
-    .subscribe(data => {
-      console.log('report generated')
-    })
+    this.clientService.generateSamplingFinalReport(this.SelClientId, this.SelProject, this.inspectionDate, this.Selcycle, this.reportDate, this.location)
+      .subscribe(data => {
+        console.log('report generated')
+      })
   }
 }
