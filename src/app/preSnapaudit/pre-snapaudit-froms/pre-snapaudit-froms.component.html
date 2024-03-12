@@ -120,8 +120,18 @@
         </div>
       </div>
 
-      <div *ngIf="isLeader">
 
+      <div>
+        <!-- EQUIPMENT MAINTENANCE FORMAt -->
+        <div class="row pb-2 border-bottom mt-5 border-secondary">
+          <h5 class="col-md-12">Equipment Maintenance Format <span class="badge badge-warning">Pending</span></h5>
+          <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
+              data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
+
+        </div>
+      </div>
+
+      <div *ngIf="isLeader">
         <!-- OPENING/CLOSING MEETING ATTENDANCE SHEET -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Opening/Closing meeting attendance sheet <span class="badge badge-success">Filled</span>
@@ -290,7 +300,6 @@
             </div>
           </div>
         </div>
-
 
         <!-- SAMPLING  -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
@@ -605,8 +614,8 @@
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Inspector Onsite performance evalution form <span
               class="badge badge-success">Filled</span></h5>
-          <button class="btn btn-success btn-sm mx-2" 
-          data-toggle="modal" data-target="#onsiteEvalutionForm-view" (click)="getTeamUser()">Fill the from</button>
+          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view"
+            (click)="onsitePerformance()">Fill the from</button>
 
           <div class="modal fade" id="onsiteEvalutionForm-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -645,9 +654,9 @@
 
                             <div class="form-group col-md-3">
                               <label>Cycle Of Inspection</label>
-                              <select [(ngModel)]="selCycleId" class="form-control">
-                                <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
-                                  [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
+                              <select class="form-control">
+                                <option [value]="cycle.cycle_id" [selected]="masterData.cycleId == cycle.cycle_id"
+                                  *ngFor="let cycle of cycles" disabled>
                                   {{cycle.cycle_name}}</option>
                               </select>
                             </div>
@@ -694,7 +703,12 @@
                     </div>
                   </div>
 
-                  <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                  <div *ngIf="inspectionTeamLoad" class="userdeailsload">
+                    <div class="spinner-border text-warning" role="status">
+                    </div>
+                  </div>
+                  <table *ngIf="!inspectionTeamLoad" class="row-border hover inspector_list_table mt-5"
+                    style="width:100%">
                     <thead>
                       <tr>
                         <th>Sr no</th>
@@ -721,40 +735,41 @@
                           <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
                         </td>
                         <td>
-                          <input type="text" class="form-control" [id]="'activity_monitored_'+team.userId">
+                          <input type="text" class="form-control" [id]="'activity_monitored_'+team.userId"
+                            [value]="onsitePreFormData &&  onsitePreFormData[team.userId].activitiesMon">
                         </td>
                         <td>
-                          <select class="form-control col-md-12" (change)="addUserRating(team.userId, $event)" >
-                            <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                          <select class="form-control col-md-12" [id]="'qualityObservation_'+team.userId">
+                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].qualityOfObservation == rate ? 1 : ''">{{rate}}</option>
                           </select>
                         </td>
                         <td>
-                          <select class="form-control col-md-12">
-                            <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                          <select class="form-control col-md-12" [id]="'timelyComplition_'+team.userId">
+                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].timelyCompletion == rate ? 1 : ''">{{rate}}</option>
                           </select>
                         </td>
                         <td>
-                          <select class="form-control col-md-12">
-                            <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                          <select class="form-control col-md-12" [id]="'behavior_'+team.userId">
+                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].behaviourDiscipline == rate ? 1 : ''">{{rate}}</option>
                           </select>
                         </td>
                         <td>
-                          <select class="form-control col-md-12">
-                            <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                          <select class="form-control col-md-12" [id]="'interaction_'+team.userId">
+                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].interactionWithClients == rate ? 1 : ''">{{rate}}</option>
                           </select>
                         </td>
                         <td>
-                          <select class="form-control col-md-12">
-                            <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                          <select class="form-control col-md-12" [id]="'techKnowledge'+team.userId">
+                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].technicalKnowledge == rate ? 1 : ''">{{rate}}</option>
                           </select>
                         </td>
                         <td>
-                          <select class="form-control col-md-12">
-                            <option *ngFor="let rate of rating" [value]="rate">{{rate}}</option>
+                          <select class="form-control col-md-12" [id]="'nabc_'+team.userId">
+                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].reqOfNabcb == rate ? 1 : ''">{{rate}}</option>
                           </select>
                         </td>
                         <td>
-                          <textarea class="form-control"></textarea>
+                          <textarea class="form-control" [id]="'ratingRemark_'+team.userId" [value]="onsitePreFormData &&  onsitePreFormData[team.userId].remark"></textarea>
                         </td>
 
                       </tr>
@@ -763,7 +778,12 @@
                   </table>
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
+                  <button class="btn btn-sm btn-success" (click)="submitOnsitePerformanceForm()">
+                    <span *ngIf="onsiteFormLoad" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+                    <span *ngIf="!onsiteFormLoad">Save</span>
+
+                  </button>
                 </div>
               </div>
             </div>
@@ -896,14 +916,6 @@
         </div>
       </div>
 
-      <div>
-        <!-- EQUIPMENT MAINTENANCE FORMAt -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Equipment Maintenance Format <span class="badge badge-warning">Pending</span></h5>
-          <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
-              data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
 
-        </div>
-      </div>
 
       <app-footer></app-footer>

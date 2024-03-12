@@ -3,17 +3,95 @@
   <div class="container-fluid ">
     <div class="add-bg-here">
       <div class="add-container-viewcommon">
-        <div class="add-breadcrames">
+        <div class="add-breadcrames d-flex justify-content-between">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
             <li class="breadcrumb-item active">Assign Equipment</li>
           </ol>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#new-trade-user">New
+              Asset </button>
+            <button type="button" class="btn btn-outline-dark">List</button>
+            <button type="button" class="btn btn-outline-dark"><a routerLink="/assignEquipementList" class="text-dark">Manage Asset</a> </button>
+          </div>
         </div>
-        <div class="right-side-create-view">
+        <!-- <div class="right-side-create-view">
           <div class="create-content-operations">
             <button type="button"> <a routerLink="/assignEquipementList">Manage Assign Equipment</a> </button>
+          </div>
+        </div> -->
+
+        <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">New Asset</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="newAssetForm" (ngSubmit)="addNewAsset()">
+                  <div class="form-group">
+                    <label>Asset Type: </label>
+                    <select class="form-control" formControlName="assetTypeId">
+                      <option [value]="0">Please Select</option>
+                      <option [value]="asset.id" *ngFor="let asset of assets">{{asset.assetName}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Asset Name: </label>
+                    <input class="form-control" formControlName="assetName">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Asset Cost (₹): </label>
+                    <input type="number" class="form-control" formControlName="assetCost" placeholder="₹ 100">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Used by: </label>
+
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="1" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Civil
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="2" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        MEP
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="3" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Seafty
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="4" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Infra
+                      </label>
+                    </div>
+                  </div>
+                  <!--  <canvas id="signature" height="100px" width="200px" style="border: 1px solid black;"></canvas>
+                  <div id="show">
+                  </div> -->
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" type="submit">Save</button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
@@ -32,76 +110,76 @@
               <option [value]="0">Please Select</option>
               <option [value]="asset.id" *ngFor="let asset of assets">{{asset.assetName}}</option>
             </select>
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Asset Name: </label>
             <input type="text" class="form-control" formControlName="assetName">
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Description: </label>
             <input type="text" class="form-control" formControlName="description">
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Asset Serial No.: </label>
             <input type="text" class="form-control" formControlName="assetSerialNo">
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Date of calibration: </label>
             <input type="date" class="form-control" formControlName="dateOfCalibration">
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Assign To: </label>
-            <select formControlName="assignTo" class="form-control" >
+            <select formControlName="assignTo" class="form-control">
               <option [value]="0">Please Select</option>
               <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
             </select>
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Remark: </label>
             <input type="text" class="form-control" formControlName="remark">
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Assign Date: </label>
             <input type="date" class="form-control" formControlName="dateOfAssign">
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Equipment Image: </label>
-            <input type="file" class="form-control" formControlName="eImage">
-            <div  class="invalid-feedback">
+            <input type="file" class="form-control" formControlName="eImage" accept="image/png, image/gif, image/jpeg">
+            <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group">
             <label>Calibration Caertificate: </label>
             <input type="file" class="form-control" formControlName="ccImage">
-            <div  class="invalid-feedback">
+            <div class="invalid-feedback">
             </div>
           </div>
-          
+
           <div class="form-group">
             <button class="btn btn-primary">Save</button>
           </div>

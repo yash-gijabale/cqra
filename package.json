@@ -33,6 +33,7 @@
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
     "rxjs": "6.3.3",
+    "signature_pad": "^4.2.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

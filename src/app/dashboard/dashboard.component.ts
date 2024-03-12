@@ -28,20 +28,20 @@ export class DashboardComponent implements OnInit {
         datasets: [
           {
             label: "Sales",
-            data: ['467', '576', '572', '79', '92',
+            data: ['467', '576', '572', '789', '92',
               '574', '573', '576'],
-            backgroundColor: 'blue'
+            backgroundColor: '#4cc9f0'
           },
           {
             label: "Profit",
-            data: ['542', '542', '536', '327', '17',
+            data: ['542', '542', '836', '927', '17',
               '0.00', '538', '541'],
             backgroundColor: 'limegreen'
           }
         ]
       },
       options: {
-        aspectRatio: 2.5
+        aspectRatio: 1.5
       }
 
     });

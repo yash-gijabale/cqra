@@ -6,6 +6,7 @@ import { UserService } from '../service/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 
+// import SignaturePad from 'signature_pad';
 
 export class AssestView {
   constructor(
@@ -42,9 +43,13 @@ export class EquipmentView {
 export class AddEquipmentComponent implements OnInit {
 
   equipmentForm: FormGroup
+
+  newAssetForm: FormGroup
+
   users: UserView[]
   assets: AssestView
   equipmentId: number
+  signPad:any
   constructor(
     private formBuilder: FormBuilder,
     private commanService: CommonService,
@@ -65,7 +70,13 @@ export class AddEquipmentComponent implements OnInit {
       remark: ['', Validators.required],
       eImage: ['', Validators.required],
       ccImage: ['', Validators.required],
-      dateOfAssign: ['', Validators.required]
+      dateOfAssign: ['', Validators.required],
+    })
+
+    this.newAssetForm = this.formBuilder.group({
+      assetTypeId:['', Validators.required],
+      assetName: ['', Validators.required],
+      assetCost: ['', Validators.required],
     })
 
     if (this.equipmentId != -1) {
@@ -82,6 +93,9 @@ export class AddEquipmentComponent implements OnInit {
 
     this.userService.getAllAssetes()
       .subscribe(data => this.assets = data)
+
+      // let canas = document.querySelector('#signature') as HTMLCanvasElement
+      // this.signPad = new SignaturePad(canas);
   }
 
   onSubmit() {
@@ -98,4 +112,26 @@ export class AddEquipmentComponent implements OnInit {
     }
   }
 
+
+  addNewAsset(){
+    // console.log(this.signPad.toSVG())
+    // let idv = document.querySelector(`#show`) as HTMLDivElement
+    // let sign = this.signPad.toSVG()
+    // idv.innerHTML = sign
+    let usedBy = []
+    let check =  document.querySelectorAll('.usedBy')
+    check.forEach(c=> {
+      let checkbox = <HTMLInputElement>c
+      if(checkbox.checked){
+        usedBy.push(checkbox.value)
+      }
+    })
+
+    let formData = {...this.newAssetForm.value, usedBy: usedBy.toString()}
+    console.log(formData)
+    this.userService.newAsset(formData)
+    .subscribe(data => {
+      console.log('aded', data)
+    })
+  }
 }

@@ -63,69 +63,82 @@ export class InspectorTraning {
 
 
   //INSPECTION DECLARATION
-  getTrainingApprovedUser(){
+  getTrainingApprovedUser() {
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/getbyuserapprover`)
   }
 
-  assignMultipleProject(data):Observable<InspectorTraning>{
+  assignMultipleProject(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/addmuluserproject`, data)
   }
 
-  sendMailDeclaration(id){
+  sendMailDeclaration(id) {
     return this.httpClient.post<any>(`${this.REST_API_SERVER}/mulispecttradetraining/emailsend/${id}`, '')
   }
 
 
   // DTM
-  getDeclarationUserList(){
+  getDeclarationUserList() {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getall`)
   }
 
-  getUserDeclarationDetails(id){
+  getUserDeclarationDetails(id) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getallbyid/${id}`)
   }
 
-  submitDeclarationForm(data){
+  submitDeclarationForm(data) {
     return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserproject`, data)
   }
 
 
 
   //SNAPAUDIT PRE PROCCESS SERVICES
-  addInspectionTeamComposition(data):Observable<InspectorTraning>{
+  addInspectionTeamComposition(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/inspectionteammaster/save`, data)
   }
 
-  getUserEquipmentList(id){
+  getUserEquipmentList(id) {
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getequipmentbyassignto/${id}`)
   }
 
-  getMasterDetails(id, userId){
+  getMasterDetails(id, userId) {
     return this.httpClient.get<Object>(`${this.REST_API_SERVER}/inspectionTeamMasterView/getbymasterid/${id}/${userId}`)
   }
 
-  getMasterIdsByUserId(id){
+  getMasterIdsByUserId(id) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/inspectionteammaster/masteridbyuserid/${id}`)
   }
 
-  addEquipmentMaintenanceForm(data):Observable<InspectorTraning>{
+  addEquipmentMaintenanceForm(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/save`, data)
   }
 
-  checkUserDeclarationForProject(userId, projectId){
+  checkUserDeclarationForProject(userId, projectId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getUserProjectbyuseridandprojectids/${userId}/${projectId}`)
   }
 
-  addOpeningClosingForm(data):Observable<InspectorTraning>{
+  addOpeningClosingForm(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
   }
 
-  getComposedTeamByMasterId(masterId){
+  getComposedTeamByMasterId(masterId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/inspectionteammaster/getbymasterid/${masterId}`)
   }
 
-  addSupervisorL1L2Data(data):Observable<InspectorTraning> {
+  addSupervisorL1L2Data(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/supervisorForm/save`, data)
 
+  }
+
+
+  addInspectorOnsitePerformance(data): Observable<InspectorTraning> {
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/inspectorOnsitePerformanceEvaluation/save`, data)
+  }
+
+  getOnsitePerformanceFormData(masterId) {
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/inspectorOnsitePerformanceEvaluation/getviewbymasterid/${masterId}`)
+  }
+
+  updateInspectionOnsitePerformance(masterId, data) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/inspectorOnsitePerformanceEvaluation/update/${masterId}`, data)
   }
 }

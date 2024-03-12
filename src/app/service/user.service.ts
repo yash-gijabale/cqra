@@ -97,6 +97,10 @@ export class UserService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/Equipment/${id}`)
   }
 
+  newAsset(data):Observable<UserService>{
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/AssignEqu/saave`, data)
+  }
+
 
   //ASSIGN PROJECT TO USER API CALL
   getAssignedProjectByUserId(id){

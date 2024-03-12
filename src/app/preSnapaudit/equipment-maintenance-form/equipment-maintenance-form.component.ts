@@ -35,6 +35,10 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
   ngOnInit() {
     this.userId = Number(localStorage.getItem('id'))
 
+    this.masterData = JSON.parse(localStorage.getItem('mData'))
+    console.log(this.masterData)
+    this.getMasterDetails(this.masterData.masterId)
+
     this.inspectionTraining.getUserEquipmentList(this.userId)
       .subscribe(data => {
         console.log(data)
@@ -58,9 +62,9 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
   message = 'Please fill the declaration from'
   getMasterDetails(e) {
     this.loadDeclaration = true
-    console.log(e.target.value)
-    this.masterID = e.target.value
-    this.inspectionTraining.getMasterDetails(e.target.value, this.userId)
+    console.log(e)
+    this.masterID = e
+    this.inspectionTraining.getMasterDetails(e, this.userId)
       .subscribe(data => {
         console.log(data)
         this.masterData = data[0]

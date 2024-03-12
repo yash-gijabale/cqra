@@ -357,7 +357,7 @@ export class PreSnapauditFromsComponent implements OnInit {
 
 
   inspectionTeam = []
-  inspectionTeamLoad:boolean=false
+  inspectionTeamLoad: boolean = false
   getTeamUser() {
     this.inspectionTeamLoad = true
     this.inspectionTraining.getComposedTeamByMasterId(this.currentMasterId)
@@ -368,7 +368,8 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
   }
 
-  supervisorFormSubmitLoad:boolean = false
+
+  supervisorFormSubmitLoad: boolean = false
   submitSupervisorForm() {
     this.supervisorFormSubmitLoad = true
     let fromData = []
@@ -395,11 +396,81 @@ export class PreSnapauditFromsComponent implements OnInit {
     console.log(fromData)
 
     this.inspectionTraining.addSupervisorL1L2Data(fromData)
-    .subscribe(data => {
-      console.log('dara added', data)
-    this.supervisorFormSubmitLoad = false
+      .subscribe(data => {
+        console.log('dara added', data)
+        this.supervisorFormSubmitLoad = false
+
+      })
+  }
+
+
+  onsitePreFormData = null
+  onsitePerformance() {
+    this.getTeamUser()
+    this.inspectionTraining.getOnsitePerformanceFormData(this.currentMasterId)
+    .subscribe(data =>{
+      console.log(data)
+      if(data.length){
+        this.onsitePreFormData = {}
+        data.forEach(d => {
+          this.onsitePreFormData[d.userId] = d
+        })
+      }
+
+      console.log(this.onsitePreFormData)
 
     })
+
+  }
+  onsiteFormLoad: boolean = false
+  submitOnsitePerformanceForm() {
+    this.onsiteFormLoad = true
+    let formData = []
+    this.inspectionTeam.forEach(team => {
+      let activityMonitor = document.querySelector(`#activity_monitored_${team.userId}`) as HTMLInputElement
+      let qualityObs = document.querySelector(`#qualityObservation_${team.userId}`) as HTMLSelectElement
+      let timelyCopmletion = document.querySelector(`#timelyComplition_${team.userId}`) as HTMLSelectElement
+      let behavior = document.querySelector(`#behavior_${team.userId}`) as HTMLSelectElement
+      let interaction = document.querySelector(`#interaction_${team.userId}`) as HTMLSelectElement
+      let tech = document.querySelector(`#techKnowledge${team.userId}`) as HTMLSelectElement
+      let nabc = document.querySelector(`#nabc_${team.userId}`) as HTMLSelectElement
+      let remark = document.querySelector(`#ratingRemark_${team.userId}`) as HTMLSelectElement
+
+      let data = {
+        masterId: this.currentMasterId,
+        userId: team.userId,
+        activitiesMon: activityMonitor.value,
+        qualityOfObservation: qualityObs.value,
+        timelyCompletion: timelyCopmletion.value,
+        behaviourDiscipline: behavior.value,
+        interactionWithClients: interaction.value,
+        technicalKnowledge: tech.value,
+        reqOfNabcb: nabc.value,
+        remark: remark.value,
+        // trainingReq: 2,
+        // comment: "Some comment",
+        // proposedAction: "Take corrective action"
+      }
+
+      formData.push(data)
+    })
+
+    console.log(formData)
+    if(this.onsitePreFormData != null){
+      this.inspectionTraining.updateInspectionOnsitePerformance(this.currentMasterId, formData)
+      .subscribe(data =>{
+        console.log('onsite per upadetd', data)
+        this.onsiteFormLoad = false
+
+      })
+    }else{
+
+      this.inspectionTraining.addInspectorOnsitePerformance(formData)
+        .subscribe(data => {
+          this.onsiteFormLoad = false
+          console.log('onsite added', data)
+        })
+    }
   }
 
 }

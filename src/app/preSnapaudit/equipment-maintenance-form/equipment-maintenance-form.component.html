@@ -18,9 +18,9 @@
       <div class="row m-2">
         <div class="form-group col-md-12">
           <label><b>Select Matser Id:</b></label>
-          <select class="form-control col-md-3" (change)="getMasterDetails($event)">
+          <select class="form-control col-md-3" (change)="getMasterDetails($event)" disabled>
             <option [value]="''">Select Master ID</option>
-            <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
+            <option [value]="id.masterId" [selected]="masterData.masterId == id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
           </select>
         </div>
 
