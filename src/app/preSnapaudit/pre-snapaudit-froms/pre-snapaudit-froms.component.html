@@ -156,6 +156,7 @@
                       <ul class="list-group list-group-flush">
                         <li class="list-group-item bg-light">
                           <div class="row m-2">
+
                             <div class="form-group col-md-12">
                               <label><b>Matser Id:</b></label>
                               <select class="form-control col-md-3">
@@ -195,12 +196,11 @@
                               <input type="date" class="form-control" [value]="masterData.toDate" readonly>
                             </div>
 
-
-
                             <div class="form-group col-md-4">
                               <label>Meeting Location</label>
                               <input id="meeting_location" type="text" class="form-control">
                             </div>
+
 
                             <div class="form-group col-md-12">
                               <label>Agenda</label>
@@ -328,147 +328,239 @@
 
                   <div class="card bg-light mb-3" id="internalReviewMeeting" aria-hidden="true">
                     <!-- <div class="card-header">Client Feedback Form</div> -->
-                    <form>
+                    <!-- <form> -->
+                    <div class="row m-2">
 
+                      <div class="form-group col-md-12">
+                        <label><b>Matser Id:</b></label>
+                        <select class="form-control col-md-3">
+                          <option [value]="currentMasterId">{{currentMasterId}}</option>
+                        </select>
+                      </div>
 
-                      <div class="modal-body row">
-                        <div class="form-group col-md-3">
-                          <label>Client :</label>
-                          <input type="text" class="form-control">
-                        </div>
+                      <div class="form-group col-md-3">
+                        <label>Client Name</label>
+                        <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
+                          class="form-control" readonly>
+                      </div>
 
-                        <div class="form-group col-md-3">
-                          <label>Project/Site :</label>
-                          <input type="text" class="form-control">
-                        </div>
+                      <div class="form-group col-md-3">
+                        <label>Projcet Name</label>
+                        <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
+                          class="form-control" readonly>
+                      </div>
 
-                        <div class="form-group col-md-3">
-                          <label>Meeting Location :</label>
-                          <input type="text" class="form-control">
-                        </div>
-
-                        <div class="form-group col-md-3">
-                          <label>Date :</label>
-                          <input type="date" class="form-control">
-                        </div>
+                      <div class="form-group col-md-3">
+                        <label>Cycle Of Inspection</label>
+                        <select [(ngModel)]="selCycleId" class="form-control">
+                          <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
+                            [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
+                            {{cycle.cycle_name}}</option>
+                        </select>
                       </div>
 
 
-                      <!-- Attendees -->
-                      <div>
-                        <h5 class="modal-title">Attendees</h5>
-                        <table class="row-border hover inspector_list_table" style="width:100%">
-                          <thead>
-                            <tr>
-                              <th>Sr. No</th>
-                              <th>Name</th>
-                              <th>Level (L1,L2,L3)</th>
-                            </tr>
-                          </thead>
-                          <tbody id="attendeesFrom">
-                            <tr>
-                              <td>1</td>
-                              <td>
-                                <select class="form-control inspectorTeamUser" title="1" (change)="getUser($event)">
-                                  <!-- <option selected>Select user</option> -->
-                                  <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}
-                                  </option>
-                                </select>
-                              </td>
-                              <td id="userLevel-1"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="row d-flex mx-2">
-                          <button type="button" class="btn btn-sm btn-primary" (click)="addRowattendee()">Add
-                            row</button>
-                        </div>
+                      <div class="form-group col-md-3">
+                        <label>From date:</label>
+                        <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
                       </div>
 
-
-                      <!-- Facilities provided by client -->
-                      <div>
-                        <table class="row-border hover inspector_list_table mt-5" style="width:100%">
-                          <thead>
-                            <tr>
-                              <th>Sr No</th>
-                              <th>Facilities provided by client</th>
-                              <th>Adequate</th>
-                              <th>In-adequate</th>
-                              <th>Remarks</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-
-                            <tr>
-                              <td>1</td>
-                              <td>PPE's:</td>
-                              <td>
-                                <div class="radios"><input type="radio" class="radio" name="ppe" value="yppe"></div>
-                              </td>
-                              <td>
-                                <div class="radios"><input type="radio" class="radio" name="ppe" value="nppe"></div>
-                              </td>
-                              <td><input type="text" class="form-control"></td>
-                            </tr>
-
-                            <tr>
-                              <td>2</td>
-                              <td>Infrastructure(Ladder,Lift,etc.):</td>
-                              <td>
-                                <div class="radios"><input type="radio" class="radio" name="infrastructure"
-                                    value="yinfrastructure"></div>
-                              </td>
-                              <td>
-                                <div class="radios"><input type="radio" class="radio" name="infrastructure"
-                                    value="ninfrastructure"></div>
-                              </td>
-                              <td><input type="text" class="form-control"></td>
-                            </tr>
-
-
-                            <tr>
-                              <td>3</td>
-                              <td>Man-Power:</td>
-                              <td>
-                                <div class="radios"><input type="radio" class="radio" name="manpower" value="ymanpower">
-                                </div>
-                              </td>
-                              <td>
-                                <div class="radios"><input type="radio" class="radio" name="manpower" value="nmanpower">
-                                </div>
-                              </td>
-                              <td><input type="text" class="form-control"></td>
-                            </tr>
-
-                            <tr>
-                              <td>4</td>
-                              <td>Transport Facility:</td>
-                              <td>
-                                <div class="radios"><input type="radio" class="radio" name="transport"
-                                    value="ytransport"></div>
-                              </td>
-                              <td>
-                                <div class="radios"><input type="radio" class="radio" name="transport"
-                                    value="ntransport"></div>
-                              </td>
-                              <td><input type="text" class="form-control"></td>
-                            </tr>
-
-                            <tr>
-                              <td colspan="2">Tools and Instruments(Report if any issue(s) observed)e.g.</td>
-                              <td colspan="3"><input type="text" class="form-control"></td>
-                            </tr>
-
-
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="modal-footer">
-                        <button class="btn btn-sm btn-success">Submit</button>
+                      <div class="form-group col-md-3">
+                        <label>From date:</label>
+                        <input type="date" class="form-control" [value]="masterData.toDate" readonly>
                       </div>
 
-                    </form>
+                      <div class="form-group col-md-4">
+                        <label>Meeting Location</label>
+                        <input id="meetingLocation" type="text" class="form-control">
+                      </div>
+
+                      <div class="form-group col-md-3">
+                        <label>Date :</label>
+                        <input type="date" id="internalreview_date" class="form-control">
+                      </div>
+                    </div>
+
+
+                    <!-- Attendees -->
+                    <div>
+                      <h5 class="modal-title">Attendees</h5>
+                      <table class="row-border hover inspector_list_table" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>Sr. No</th>
+                            <th>Name</th>
+                            <th>Level (L1,L2,L3)</th>
+                          </tr>
+                        </thead>
+                        <tbody id="attendeesFrom">
+                          <tr>
+                            <td>1</td>
+                            <td>
+                              <select class="form-control inspectorTeamUser" title="1" (change)="getUser($event)">
+                                <!-- <option selected>Select user</option> -->
+                                <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}
+                                </option>
+                              </select>
+                            </td>
+                            <td id="userLevel-1"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div class="row d-flex mx-2">
+                        <button type="button" class="btn btn-sm btn-primary" (click)="addRowattendee()">Add
+                          row</button>
+                      </div>
+                    </div>
+
+
+                    <!-- Facilities provided by client -->
+                    <div>
+                      <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>Sr No</th>
+                            <th>Facilities provided by client</th>
+                            <th>Adequate</th>
+                            <th>In-adequate</th>
+                            <th>Remarks</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          <tr>
+                            <td>1</td>
+                            <td>PPE's:</td>
+                            <td>
+                              <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="1">
+                              </div>
+                            </td>
+                            <td>
+                              <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="0">
+                              </div>
+                            </td>
+                            <td><input type="text" id="ppe_remark" class="form-control"></td>
+                          </tr>
+
+                          <tr>
+                            <td>2</td>
+                            <td>Infrastructure(Ladder,Lift,etc.):</td>
+                            <td>
+                              <div class="radios"><input type="radio" class="radio infra_radio" name="infrastructure"
+                                  value="1"></div>
+                            </td>
+                            <td>
+                              <div class="radios"><input type="radio" class="radio infra_radio" name="infrastructure"
+                                  value="0"></div>
+                            </td>
+                            <td><input type="text" id="infrastructure_remark" class="form-control"></td>
+                          </tr>
+
+
+                          <tr>
+                            <td>3</td>
+                            <td>Man-Power:</td>
+                            <td>
+                              <div class="radios"><input type="radio" class="radio manpower_radio" name="manpower"
+                                  value="1">
+                              </div>
+                            </td>
+                            <td>
+                              <div class="radios"><input type="radio" class="radio manpower_radio" name="manpower"
+                                  value="0">
+                              </div>
+                            </td>
+                            <td><input type="text" id="manpower_remark" class="form-control"></td>
+                          </tr>
+
+                          <tr>
+                            <td>4</td>
+                            <td>Transport Facility:</td>
+                            <td>
+                              <div class="radios"><input type="radio" class="radio transport_radio" name="transport"
+                                  value="1">
+                              </div>
+                            </td>
+                            <td>
+                              <div class="radios"><input type="radio" class="radio transport_radio" name="transport"
+                                  value="0">
+                              </div>
+                            </td>
+                            <td><input type="text" id="transport_remark" class="form-control"></td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2">Tools and Instruments(Report if any issue(s) observed)e.g.</td>
+                            <td colspan="3"><input type="text" id="tools" class="form-control"></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+
+
+
+                    <!-- i -->
+                    <div>
+                      <table class="row-border hover inspector_list_table mt-12" style="width:100%">
+                        <tbody>
+
+                          <tr>
+                            <td>Outdated calibration, non-working, damage, etc.</td>
+                            <td><input type="text" id="outdatedCalibration" class="form-control"></td>
+                          </tr>
+
+                          <tr>
+                            <td>Any Other difficulty faced during inspection</td>
+                            <td><input type="text" id="anyOtherDiffFaced" class="form-control"></td>
+                          </tr>
+
+                          <tr>
+                            <td>Any good practices observed during inspection</td>
+                            <td><input type="text" id="anyGoodPracticesObserved" class="form-control"></td>
+                          </tr>
+
+                          <tr>
+                            <td>Intimidiation(Frighten/Threaten)/coercion(use of force to do unwilling things)</td>
+                            <td><label for="">Was there any intimidiation and or coercion -Yes/No(If yes-Please
+                                Specify)</label>
+                              <input type="text" id="intimidation" class="form-control">
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td>Observation on overall time spent in inspection for the day(In hours):</td>
+                            <td>
+                          <tr>
+                            <label for="">Inspection StartTime:</label>
+                            <input type="time" id="startTime" class="">
+                          </tr>
+                          <tr>
+                            <label for="">Inspection EndTime:</label>
+                            <input type="time" id="endTime" class="">
+                          </tr>
+                          </td>
+                          </tr>
+
+                          <tr>
+                            <td>Observations:</td>
+                            <td><input type="text" id="infrastructure_remark" class="form-control"></td>
+                          </tr>
+
+                          <tr>
+                            <td>Suggestion(s) for improvement/corrective actions:</td>
+                            <td><input type="text" id="suggestionsForImprovement" class="form-control"></td>
+                          </tr>
+
+
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-sm btn-success" (click)="SubmitInternalReviewMeeting()">Submit</button>
+                    </div>
+
+                    <!-- </form> -->
                   </div>
 
                 </div>
@@ -478,6 +570,7 @@
 
           </div>
         </div>
+
 
         <!-- SUPERVISOR FORM FOR L1 AND L2 -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
@@ -740,36 +833,49 @@
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'qualityObservation_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].qualityOfObservation == rate ? 1 : ''">{{rate}}</option>
+                            <option *ngFor="let rate of rating" [value]="rate"
+                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].qualityOfObservation == rate ? 1 : ''">
+                              {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'timelyComplition_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].timelyCompletion == rate ? 1 : ''">{{rate}}</option>
+                            <option *ngFor="let rate of rating" [value]="rate"
+                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].timelyCompletion == rate ? 1 : ''">
+                              {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'behavior_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].behaviourDiscipline == rate ? 1 : ''">{{rate}}</option>
+                            <option *ngFor="let rate of rating" [value]="rate"
+                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].behaviourDiscipline == rate ? 1 : ''">
+                              {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'interaction_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].interactionWithClients == rate ? 1 : ''">{{rate}}</option>
+                            <option *ngFor="let rate of rating" [value]="rate"
+                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].interactionWithClients == rate ? 1 : ''">
+                              {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'techKnowledge'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].technicalKnowledge == rate ? 1 : ''">{{rate}}</option>
+                            <option *ngFor="let rate of rating" [value]="rate"
+                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].technicalKnowledge == rate ? 1 : ''">
+                              {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'nabc_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate" [selected]="onsitePreFormData && onsitePreFormData[team.userId].reqOfNabcb == rate ? 1 : ''">{{rate}}</option>
+                            <option *ngFor="let rate of rating" [value]="rate"
+                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].reqOfNabcb == rate ? 1 : ''">
+                              {{rate}}</option>
                           </select>
                         </td>
                         <td>
-                          <textarea class="form-control" [id]="'ratingRemark_'+team.userId" [value]="onsitePreFormData &&  onsitePreFormData[team.userId].remark"></textarea>
+                          <textarea class="form-control" [id]="'ratingRemark_'+team.userId"
+                            [value]="onsitePreFormData &&  onsitePreFormData[team.userId].remark"></textarea>
                         </td>
 
                       </tr>
@@ -916,6 +1022,12 @@
         </div>
       </div>
 
+      <div>
+        <!-- EQUIPMENT MAINTENANCE FORMAt -->
+        <div class="row pb-2 border-bottom mt-5 border-secondary">
+          <h5 class="col-md-12">Equipment Maintenance Format <span class="badge badge-warning">Pending</span></h5>
+          <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
+              data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
 
 
-      <app-footer></app-footer>
+          <app-footer></app-footer>
