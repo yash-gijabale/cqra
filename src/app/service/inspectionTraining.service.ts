@@ -111,6 +111,14 @@ export class InspectorTraning {
   addEquipmentMaintenanceForm(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/save`, data)
   }
+  
+  getEquipmentForm(masterId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/getallbymasterid/${masterId}`)
+  }
+
+  updateEquipementForm(masterId, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/update/${masterId}`, data)
+  }
 
   checkUserDeclarationForProject(userId, projectId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getUserProjectbyuseridandprojectids/${userId}/${projectId}`)
@@ -120,7 +128,14 @@ export class InspectorTraning {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
   }
 
-<<<<<<< HEAD
+  getOpeningClosingForm(masterId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/OCMeetingAttandance/getbymasterid/${masterId}`)
+  }
+
+  updateOpeningClosingFrom(masterId, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/OCMeetingAttandance/update/${masterId}`, data)
+  }
+
 
   getComposedTeamByMasterId(masterId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/inspectionteammaster/getbymasterid/${masterId}`)
@@ -128,7 +143,14 @@ export class InspectorTraning {
 
   addSupervisorL1L2Data(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/supervisorForm/save`, data)
+  }
+  
+  getSupervisroFormData(masterId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/supervisorForm/getbymasterid/${masterId}`)
+  }
 
+  updateSupervisorFrom(masterId, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/supervisorForm/update/${masterId}`, data)
   }
 
 
@@ -145,13 +167,8 @@ export class InspectorTraning {
   }
 
   addInternalReviewForm(data): Observable<InspectorTraning>{
-    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/intRevMeetAtProSiteMaster/save`, data)
   }
 
 
-=======
-  addInternalReviewForm(data):Observable<InspectorTraning>{
-    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
-  }
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
 }

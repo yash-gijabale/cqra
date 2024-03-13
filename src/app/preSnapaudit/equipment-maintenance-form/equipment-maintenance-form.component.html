@@ -79,31 +79,31 @@
               <td>{{eq.assetName}}</td>
               <td>{{eq.assetSerialNo}}</td>
               <td>
-                <input [id]="'physical_condition_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'physical_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].physicalConditionOfEqu : ''">
               </td>
               <td>
-                <input [id]="'analog_condition_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'analog_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].analogTools : ''">
               </td>
               <td>
-                <input [id]="'battery_condition_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'battery_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].batteriesForDigitalTool : ''">
               </td>
               <td>
-                <input [id]="'digital_condition_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'digital_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].digitalToolsAndEqu : ''">
               </td>
               <td>
-                <input [id]="'calibration_condition_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'calibration_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].validCalibration : ''">
               </td>
               <td>
-                <input [id]="'fesible_condition_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'fesible_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].validationOfEqu : ''">
               </td>
               <td>
-                <input [id]="'hinge_condition_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'hinge_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].hingeRevertare : ''">
               </td>
               <td>
-                <input [id]="'fault_condition_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'fault_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].noFault : ''">
               </td>
               <td>
-                <input [id]="'remark_'+eq.equipmentId" type="text" class="form-control">
+                <input [id]="'remark_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].remark : ''">
               </td>
             </tr>
           </tbody>

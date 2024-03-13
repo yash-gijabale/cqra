@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InspectorTraning } from 'src/app/service/inspectionTraining.service';
 import { CommonService } from 'src/app/common.service';
 import { CycleOfInspection } from 'src/app/ncclosure-sa/ncclosure-sa.component';
+import { currentId } from 'async_hooks';
 
 @Component({
   selector: 'app-equipment-maintenance-form',
@@ -60,6 +61,8 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
   showForm: boolean = false
   loadDeclaration: boolean = false
   message = 'Please fill the declaration from'
+  isEquipementFormdata:boolean = false
+  equipmentFormData = {}
   getMasterDetails(e) {
     this.loadDeclaration = true
     console.log(e)
@@ -71,6 +74,18 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
         this.masterData.fromDate = new Date(this.masterData.fromDate).toISOString().substring(0, 10)
         this.masterData.toDate = new Date(this.masterData.toDate).toISOString().substring(0, 10)
 
+        this.inspectionTraining.getEquipmentForm(this.masterID)
+          .subscribe(data => {
+            console.log('pre', data)
+            if(data.length){
+              this.isEquipementFormdata = true
+              data.forEach(d => {
+                this.equipmentFormData[d.equipmentId] = d
+              })
+            }
+            console.log(this.equipmentFormData)
+          })
+
         this.inspectionTraining.checkUserDeclarationForProject(this.userId, this.masterData.projectId)
           .subscribe(data => {
             this.showForm = true
@@ -78,7 +93,7 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
             console.log(data)
             if (data[0].userStatus) {
               if (data[0].dtmStatus) {
-                if(data[0].dtmStatus==1){
+                if (data[0].dtmStatus == 1) {
                   this.isDeclarationFormFiled = true
                 }
 
@@ -136,10 +151,17 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
 
     console.log(formData)
 
-    this.inspectionTraining.addEquipmentMaintenanceForm(formData)
+    if(this.isEquipementFormdata){
+      this.inspectionTraining.updateEquipementForm(this.masterID, formData)
+      .subscribe(data =>{
+        console.log('updasha', data)
+      })
+    }else{ 
+      this.inspectionTraining.addEquipmentMaintenanceForm(formData)
       .subscribe(data => {
         console.log('form added-->', data)
       })
+    }
   }
 
 }

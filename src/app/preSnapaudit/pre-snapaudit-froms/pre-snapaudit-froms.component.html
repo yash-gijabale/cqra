@@ -136,8 +136,8 @@
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Opening/Closing meeting attendance sheet <span class="badge badge-success">Filled</span>
           </h5>
-          <button class="btn btn-success btn-sm mx-2" data-toggle="modal"
-            data-target="#opening-closeing-meering-view">Fill the
+          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#opening-closeing-meering-view"
+            (click)="getopeningClosingForm()">Fill the
             form</button>
 
           <div class="modal fade" id="opening-closeing-meering-view" tabindex="-1" role="dialog"
@@ -198,13 +198,17 @@
 
                             <div class="form-group col-md-4">
                               <label>Meeting Location</label>
-                              <input id="meeting_location" type="text" class="form-control">
+                              <input id="meeting_location" type="text" class="form-control"
+                                [value]="isOpeningClosingData ? openingClosingPreData.data.location : ''">
                             </div>
 
 
                             <div class="form-group col-md-12">
                               <label>Agenda</label>
-                              <textarea id="meeting_agenda" type="text" cols="10" class="form-control col-md-12">Introduction of team members, Apprising inspection process, Information to auditee about impartiality, Independence and confidentiality and information to auditee about necessity of no interference in the audit process by auditees, information to auditee about no involvement of inspectors in RCA and Corrective action process for the NCs identified
+                              <textarea id="meeting_agenda" type="text" cols="10" class="form-control col-md-12">
+                              {{isOpeningClosingData ? 
+                              openingClosingPreData.data.agenda : 
+                              'Introduction of team members, Apprising inspection process, Information to auditee about impartiality, Independence and confidentiality and information to auditee about necessity of no interference in the audit process by auditees, information to auditee about no involvement of inspectors in RCA and Corrective action process for the NCs identified'}}
                             </textarea>
                             </div>
                           </div>
@@ -216,17 +220,20 @@
                               <div class="col-md-12 d-flex g-1">
                                 <div class="form-group">
                                   <label>Date</label>
-                                  <input id="opening_meeting_date" type="date" class="form-control">
+                                  <input id="opening_meeting_date" type="date" class="form-control"
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data.oDate : '' ">
                                 </div>
 
                                 <div class="form-group">
                                   <label>Start Time</label>
-                                  <input id="opening_meeting_startTime" type="time" class="form-control">
+                                  <input id="opening_meeting_startTime" type="time" class="form-control"
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data.oStartTime : ''">
                                 </div>
 
                                 <div class="form-group">
                                   <label>End Time</label>
-                                  <input id="opening_meeting_endTime" type="time" class="form-control">
+                                  <input id="opening_meeting_endTime" type="time" class="form-control"
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data.oEndTime : ''">
                                 </div>
                               </div>
                             </div>
@@ -235,17 +242,20 @@
                               <div class="col-md-12 d-flex g-1">
                                 <div class="form-group">
                                   <label>Date</label>
-                                  <input id="closing_meeting_date" type="date" class="form-control">
+                                  <input id="closing_meeting_date" type="date" class="form-control"
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data.cDate : '' ">
                                 </div>
 
                                 <div class="form-group">
                                   <label>Start Time</label>
-                                  <input id="closing_meeting_startTime" type="time" class="form-control">
+                                  <input id="closing_meeting_startTime" type="time" class="form-control"
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data.cStartTime : ''">
                                 </div>
 
                                 <div class="form-group">
                                   <label>End Time</label>
-                                  <input id="closing_meeting_endTime" type="time" class="form-control">
+                                  <input id="closing_meeting_endTime" type="time" class="form-control"
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data.cEndTime : ''">
                                 </div>
                               </div>
                             </div>
@@ -270,8 +280,8 @@
                         <th style="border-radius: 0px;">Closing Meet</th>
                       </tr>
                     </thead>
-                    <tbody id="openingClosingForm">
-                      <tr id="">
+                    <tbody id="openingClosingForm" *ngIf="isOpeningClosingData==false">
+                      <tr >
                         <td>1</td>
                         <td><input type="text" id="1" class="opening_username form-control"></td>
                         <td><input type="text" id="opening_organization_1" class="form-control"></td>
@@ -286,7 +296,24 @@
                           <button class="btn btn-sm btn-danger" (click)="removeRow()">Remove</button>
                         </td>
                       </tr>
+                    </tbody>
 
+                    <tbody id="openingClosingForm" *ngIf="isOpeningClosingData">
+                      <tr *ngFor="let user of openingClosingPreData.users">
+                        <td>{{user.srNo}}</td>
+                        <td><input type="text" [id]="user.srNo" class="opening_username form-control" [value]="user.username_id"></td>
+                        <td><input type="text" [id]="'opening_organization_'+user.srNo" class="form-control" [value]="user.organization"></td>
+                        <td><input type="text" [id]="'designation_'+user.srNo" class="form-control" [value]="user.designation"></td>
+                        <td>
+                          <span class="badge badge-secondary" role="button">upload</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-secondary" role="button">upload</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm btn-danger" (click)="removeRow()">Remove</button>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                   <div class="row d-flex mx-2">
@@ -311,7 +338,8 @@
         <!-- Internal Review Meeting at Project Site -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Internal Review Meeting at Project Site</h5>
-          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#internalReviewMeeting">Fill the
+          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#internalReviewMeeting"
+            (click)="internalReviewMeeting()">Fill the
             from</button>
 
           <div class="modal fade" id="internalReviewMeeting" tabindex="-1" role="dialog"
@@ -394,16 +422,14 @@
                           </tr>
                         </thead>
                         <tbody id="attendeesFrom">
-                          <tr>
+                          <tr *ngFor="let team of inspectionTeam">
                             <td>1</td>
-                            <td>
-                              <select class="form-control inspectorTeamUser" title="1" (change)="getUser($event)">
-                                <!-- <option selected>Select user</option> -->
-                                <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}
-                                </option>
-                              </select>
+                            <td><input type="text" class="form-control" [value]="team.username" readonly></td>
+                            <td><span class="badge badge-secondary" *ngIf="team.l0">L0</span>
+                              <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
+                              <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
+                              <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
                             </td>
-                            <td id="userLevel-1"></td>
                           </tr>
                         </tbody>
                       </table>
@@ -542,10 +568,10 @@
                           </td>
                           </tr>
 
-                          <tr>
+                          <!-- <tr>
                             <td>Observations:</td>
                             <td><input type="text" id="infrastructure_remark" class="form-control"></td>
-                          </tr>
+                          </tr> -->
 
                           <tr>
                             <td>Suggestion(s) for improvement/corrective actions:</td>
@@ -557,7 +583,7 @@
                       </table>
                     </div>
                     <div class="modal-footer">
-                      <button class="btn btn-sm btn-success" (click)="SubmitInternalReviewMeeting()">Submit</button>
+                      <button class="btn btn-sm btn-success" (click)="submitInternalReviewMeeting()">Submit</button>
                     </div>
 
                     <!-- </form> -->
@@ -577,7 +603,7 @@
           <h5 class="col-md-12">Supervisor form for L1 and L2 <span class="badge badge-success">Filled</span>
           </h5>
           <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view"
-            (click)="getTeamUser()">Fill the
+            (click)="supervisorFormGet()">Fill the
             from</button>
 
           <div class="modal fade" id="supervisorForm-view" tabindex="-1" role="dialog"
@@ -585,7 +611,7 @@
             <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Opening/Closing meeting attendance sheet</h5>
+                  <h5 class="modal-title" id="exampleModalLongTitle">SUpervisor form for L1 and L2</h5>
                   <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -670,21 +696,26 @@
                           <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
                           <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
                         </td>
-                        <td><input type="text" [id]="'witnessLocation_'+team.userId" class="form-control"></td>
+                        <td><input type="text" [id]="'witnessLocation_'+team.userId" class="form-control"
+                            [value]="isSupervisroPreData ? supervisorPreData[team.userId].witnessedArea : ''"></td>
                         <td>
-                          <input type="text" [id]="'witnessActivity_'+team.userId" class="form-control">
+                          <input type="text" [id]="'witnessActivity_'+team.userId" class="form-control"
+                            [value]="isSupervisroPreData ? supervisorPreData[team.userId].witnessedActivities : ''">
                         </td>
                         <td>
                           <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
-                            [name]="'satisfactory'+team.userId" [value]="1">
+                            [name]="'satisfactory'+team.userId" [value]="1"
+                            [checked]="isSupervisroPreData && supervisorPreData[team.userId].satisfactory == true">
                         </td>
                         <td>
                           <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
-                            [name]="'satisfactory'+team.userId" [value]="0">
+                            [name]="'satisfactory'+team.userId" [value]="0"
+                            [checked]="isSupervisroPreData && supervisorPreData[team.userId].satisfactory == false">
                         </td>
 
                         <td>
-                          <input type="text" [id]="'remark_'+team.userId" class="form-control">
+                          <input type="text" [id]="'remark_'+team.userId" class="form-control"
+                            [value]="isSupervisroPreData ? supervisorPreData[team.userId].remark : ''">
                         </td>
                       </tr>
 
