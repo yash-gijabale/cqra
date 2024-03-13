@@ -13,8 +13,10 @@
           <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#new-trade-user">New
               Asset </button>
-            <button type="button" class="btn btn-outline-dark">List</button>
-            <button type="button" class="btn btn-outline-dark"><a routerLink="/assignEquipementList" class="text-dark">Manage Asset</a> </button>
+            <button type="button" class="btn btn-outline-dark" data-toggle="modal"
+              data-target="#trade-user-list">List</button>
+            <button type="button" class="btn btn-outline-dark"><a routerLink="/assignEquipementList"
+                class="text-dark">Manage Asset</a> </button>
           </div>
         </div>
         <!-- <div class="right-side-create-view">
@@ -94,6 +96,54 @@
             </div>
           </div>
         </div>
+
+        <!-- list model -->
+        <div class="modal fade" id="trade-user-list" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Asset List</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close"
+                  (click)="assetList()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div>
+                  <table class="row-border hover inspector_list_table" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Sr. No</th>
+                        <th>Asset Type</th>
+                        <th>Asset Name</th>
+                        <th>Asset Cost</th>
+                        <th>Used By</th>
+                      </tr>
+                    </thead>
+                    <tbody id="attendeesFrom">
+                      <tr *ngFor="let asset of allAssetlist">
+                        <td>{{asset.id}}</td>
+                        <td>{{asset.assetTypeId}}</td>
+                        <td>{{asset.assetName}}</td>
+                        <td>{{asset.cost}}</td>
+                        <td>{{asset.userBy}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="modal-footer">
+                  <button class="btn btn-sm btn-success" type="submit">Save</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
