@@ -101,6 +101,10 @@ export class UserService {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/AssignEqu/saave`, data)
   }
 
+  getAssetsList(){
+    return this.httpClient.get<AssetListView>(`${this.REST_API_SERVER}/AssignEqu/getall`)
+  }
+
 
   //ASSIGN PROJECT TO USER API CALL
   getAssignedProjectByUserId(id){

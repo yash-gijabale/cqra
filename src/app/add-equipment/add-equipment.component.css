@@ -1,0 +1,48 @@
+.inspector_list_table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    /* border: 1px solid rgb(119, 118, 118); */
+}
+
+.inspector_list_table head {
+    height: 50px !important;
+    border-radius: 10px 10px 0 0;
+}
+
+.inspector_list_table th {
+    /* border: 1px solid #36304a; */
+    padding: 10px;
+    text-align: center;
+    background-color: #36304a;
+    color: aliceblue;
+}
+
+.inspector_list_table thead th:first-child {
+    border-radius: 7px 0 0 0;
+}
+
+
+.inspector_list_table thead th:last-child {
+    border-radius: 0 7px 0 0;
+}
+
+.inspector_list_table tbody td {
+    text-align: center;
+    border: 1px solid rgb(191, 184, 184);
+    padding: 10px;
+
+}
+
+.inspector_list_table tbody td button {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.inspector_list_table tr:nth-child(even) {
+    background-color: rgb(255, 255, 255);
+}
+
+.inspector_list_table tr:nth-child(odd) {
+    background-color: rgb(234, 228, 228);
+}

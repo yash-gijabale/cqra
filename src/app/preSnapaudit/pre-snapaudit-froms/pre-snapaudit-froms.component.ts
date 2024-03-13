@@ -298,6 +298,8 @@ export class PreSnapauditFromsComponent implements OnInit {
     areaFiled.insertAdjacentHTML('beforeend', filed)
   }
 
+  
+
   SubmitInternalReviewMeeting(){
     let meetingLocation = document.querySelector('#meetingLocation') as HTMLInputElement
     let meetingdate = document.querySelector('#internalreview_date') as HTMLInputElement
@@ -313,11 +315,8 @@ export class PreSnapauditFromsComponent implements OnInit {
     let transportremark = document.querySelector('#transport_remark') as HTMLInputElement
     let tools = document.querySelector('#tools') as HTMLInputElement
 
-<<<<<<< HEAD
     // console.log(transportselection.value);
 
-=======
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
     let outdatedcalibration = document.querySelector('#outdatedCalibration') as HTMLInputElement
     let anyotherdifffaced = document.querySelector('#anyOtherDiffFaced') as HTMLInputElement
     let anygoodpracticesobserved = document.querySelector('#anyGoodPracticesObserved') as HTMLInputElement
@@ -328,28 +327,12 @@ export class PreSnapauditFromsComponent implements OnInit {
 
 
     let internalReviewMeeting = {
-<<<<<<< HEAD
       // mLocation:meetingLocation.value,
       // mDate:meetingdate.value,
       
       
       masterId: this.currentMasterId,
       // Tools:tools.value,
-=======
-      masterId: this.currentMasterId,
-      mLocation:meetingLocation.value,
-      mDate:meetingdate.value,
-      ppeSelect:ppeselection.value,
-      infraSelect:infraselection.value,
-      manpowerSelect:manpowerselection.value,
-      transportSelect:transportselection.value,
-      ppeRemark:pperemark.value,
-      infraRemark:infrastructureremark.value,
-      manpowerRemark:manpowerremark.value,
-      transportRemark:transportremark.value,
-      Tools:tools.value,
-
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
       outdatedCalibration:outdatedcalibration.value,
       anyOtherDiffFaced:anyotherdifffaced.value,
       anyGoodPracticesObserved:anygoodpracticesobserved.value,
@@ -361,101 +344,62 @@ export class PreSnapauditFromsComponent implements OnInit {
     }
     // console.log(internalReviewMeeting);
 
-<<<<<<< HEAD
     let intRevMeetAtProSiteMaster = [
       {
       "masterId": this.currentMasterId,
       "facilities": 1,
       "adequate": ppeselection.value == '1' ? 1 : 0,
       "inAdeq": ppeselection.value == '1' ? 0 : 1,
-=======
-    "intRevMeetAtProSiteMaster": [
-
-      {
-      "masterId": "ABC123",
-      "facilities": 1,
-      "adequate": 1,
-      "inAdeq": 0,
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
       "remark": pperemark.value,
       "location": meetingLocation.value,
       "meetng_date": meetingdate.value
       },
 
       {
-<<<<<<< HEAD
         "masterId": this.currentMasterId,
         "facilities": 2,
         "adequate": infraselection.value == '1' ? 1 : 0,
         "inAdeq": infraselection.value == '1' ? 0 : 1,
-=======
-        "masterId": "ABC123",
-        "facilities": 2,
-        "adequate": 1,
-        "inAdeq": 0,
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
         "remark": infrastructureremark.value,
         "location": meetingLocation.value,
         "meetng_date": meetingdate.value
         },
 
         {
-<<<<<<< HEAD
           "masterId": this.currentMasterId,
           "facilities": 3,
           "adequate": manpowerselection.value == '1' ? 1 : 0,
           "inAdeq": manpowerselection.value == '1' ? 0 : 1,
-=======
-          "masterId": "ABC123",
-          "facilities": 3,
-          "adequate": 1,
-          "inAdeq": 0,
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
           "remark": manpowerremark.value,
           "location": meetingLocation.value,
           "meetng_date": meetingdate.value
           },
 
           {
-<<<<<<< HEAD
             "masterId": this.currentMasterId,
             "facilities": 4,
             "adequate": transportselection.value == '1' ? 1 : 0,
             "inAdeq": transportselection.value == '1' ? 0 : 1,
-=======
-            "masterId": "ABC123",
-            "facilities": 4,
-            "adequate": 1,
-            "inAdeq": 0,
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
             "remark": transportremark.value,
             "location": meetingLocation.value,
             "meetng_date": meetingdate.value
             },
 
           ]
-<<<<<<< HEAD
     // console.log(intRevMeetAtProSiteMaster);
 
-=======
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
 
     let formData = [
       {
         internalReviewMeeting,
         intRevMeetAtProSiteMaster
-<<<<<<< HEAD
 
       }
       
-=======
-      }
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
     ]
     console.log(formData);
 
     
-<<<<<<< HEAD
     this.inspectionTraining.addInternalReviewForm(formData)
     .subscribe(data =>{
       console.log('Internal Review meeting form aded', data)
@@ -497,15 +441,6 @@ export class PreSnapauditFromsComponent implements OnInit {
   // })
 }
 
-=======
-    // this.inspectionTraining.addInternalReviewForm(formData)
-    // .subscribe(data =>{
-    //   console.log('Internal Review meeting form aded', data)
-    // })
-
-  }
-
->>>>>>> 6960e733c6ed4a42cdcca7922a5fd7db153a45b5
 
 
 

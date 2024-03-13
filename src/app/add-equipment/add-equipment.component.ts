@@ -17,6 +17,18 @@ export class AssestView {
   }
 }
 
+export class AssetListView{
+  constructor(
+    public id:number,
+    public assetTypeId:number,
+    public assetName: string,
+    public userBy:number,
+    public cost:number
+  ){
+
+  }
+}
+
 
 export class EquipmentView {
   constructor(
@@ -48,6 +60,7 @@ export class AddEquipmentComponent implements OnInit {
 
   users: UserView[]
   assets: AssestView
+  allAssetlist:AssetListView
   equipmentId: number
   signPad:any
   constructor(
@@ -76,7 +89,7 @@ export class AddEquipmentComponent implements OnInit {
     this.newAssetForm = this.formBuilder.group({
       assetTypeId:['', Validators.required],
       assetName: ['', Validators.required],
-      assetCost: ['', Validators.required],
+      cost: ['', Validators.required],
     })
 
     if (this.equipmentId != -1) {
@@ -127,11 +140,22 @@ export class AddEquipmentComponent implements OnInit {
       }
     })
 
-    let formData = {...this.newAssetForm.value, usedBy: usedBy.toString()}
+    let formData = {...this.newAssetForm.value, userBy: usedBy.toString()}
     console.log(formData)
     this.userService.newAsset(formData)
     .subscribe(data => {
       console.log('aded', data)
     })
+  }
+
+
+  assetList(){
+  
+    this.userService.getAssetsList()
+    .subscribe(data => {
+      this.allAssetlist = data
+      console.log(this.allAssetlist);
+    })
+
   }
 }
