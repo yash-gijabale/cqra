@@ -128,7 +128,6 @@ export class InspectorTraning {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
   }
 
-<<<<<<< HEAD
   getOpeningClosingForm(masterId){
     return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/OCMeetingAttandance/getbymasterid/${masterId}`)
   }
@@ -137,8 +136,6 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/OCMeetingAttandance/update/${masterId}`, data)
   }
 
-=======
->>>>>>> 608da2a (asset form)
 
   getComposedTeamByMasterId(masterId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/inspectionteammaster/getbymasterid/${masterId}`)
@@ -173,8 +170,5 @@ export class InspectorTraning {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/intRevMeetAtProSiteMaster/save`, data)
   }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 608da2a (asset form)
 }
