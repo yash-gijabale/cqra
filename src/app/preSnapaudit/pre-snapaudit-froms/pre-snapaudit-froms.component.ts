@@ -318,6 +318,43 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
   }
 
+  SubmitClientFeedback(){
+    let meetinglocation = document.querySelector('#meeting_Location') as HTMLInputElement
+    let openingcloprofessionally = document.querySelector('#openingCloProfessionally') as HTMLInputElement
+    let nonconfirmitiesdiscussed = document.querySelector('#nonConfirmitiesDiscussed') as  HTMLInputElement
+    let qualityOfnonconfirmative = document.querySelector('#qualityOfNonConfirmative') as HTMLInputElement
+    let qualityOfWork = document.querySelector('input[name="quality"]:checked') as HTMLInputElement
+
+    let suggestdifferently = document.querySelector('#suggestDifferently') as HTMLInputElement
+    let feedback = document.querySelector('#Feedback') as HTMLInputElement
+    let othercomments = document.querySelector('#otherComments') as HTMLInputElement
+
+    let feedbackform ={
+      masterId: this.currentMasterId,
+      // clientId:this.clientId,
+      meeting_Location:meetinglocation.value,
+      openingCloProfessionally:openingcloprofessionally.value,
+      nonConfirmitiesDiscussed:nonconfirmitiesdiscussed.value,
+      qualityOfNonConfirmative:qualityOfnonconfirmative.value,
+      workQuality:qualityOfWork.value,
+
+      suggestDifferently:suggestdifferently.value,
+      Feedback:feedback.value,
+      otherComments:othercomments.value
+    }
+
+    console.log(feedbackform);
+
+  //   this.inspectionTraining.addClientFeedbackForm(feedbackform)
+  //   .subscribe(data => {
+  //     console.log('daa added', data)
+  //   // this.supervisorFormSubmitLoad = false
+  // })
+}
+
+
+
+
   submitOpeningClosingMeetingFrom() {
     let meetingLocation = document.querySelector('#meeting_location') as HTMLInputElement
     let meetingAgenda = document.querySelector('#meeting_agenda') as HTMLInputElement
