@@ -96,6 +96,10 @@ export class InspectorTraning {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/inspectionteammaster/save`, data)
   }
 
+  updateInspectionTeamComposition(masterID, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/inspectionteammaster/updatebymasterid/${masterID}`, data)
+  }
+
   getUserEquipmentList(id) {
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getequipmentbyassignto/${id}`)
   }
@@ -111,12 +115,12 @@ export class InspectorTraning {
   addEquipmentMaintenanceForm(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/save`, data)
   }
-  
-  getEquipmentForm(masterId){
+
+  getEquipmentForm(masterId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/getallbymasterid/${masterId}`)
   }
 
-  updateEquipementForm(masterId, data){
+  updateEquipementForm(masterId, data) {
     return this.httpClient.put(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/update/${masterId}`, data)
   }
 
@@ -128,11 +132,11 @@ export class InspectorTraning {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/OCMeetingAttandance/save`, data)
   }
 
-  getOpeningClosingForm(masterId){
+  getOpeningClosingForm(masterId) {
     return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/OCMeetingAttandance/getbymasterid/${masterId}`)
   }
 
-  updateOpeningClosingFrom(masterId, data){
+  updateOpeningClosingFrom(masterId, data) {
     return this.httpClient.put(`${this.REST_API_SERVER}/OCMeetingAttandance/update/${masterId}`, data)
   }
 
@@ -144,12 +148,12 @@ export class InspectorTraning {
   addSupervisorL1L2Data(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/supervisorForm/save`, data)
   }
-  
-  getSupervisroFormData(masterId){
+
+  getSupervisroFormData(masterId) {
     return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/supervisorForm/getbymasterid/${masterId}`)
   }
 
-  updateSupervisorFrom(masterId, data){
+  updateSupervisorFrom(masterId, data) {
     return this.httpClient.put(`${this.REST_API_SERVER}/supervisorForm/update/${masterId}`, data)
   }
 
@@ -166,9 +170,15 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/inspectorOnsitePerformanceEvaluation/update/${masterId}`, data)
   }
 
-  addInternalReviewForm(data): Observable<InspectorTraning>{
+  addInternalReviewForm(data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/intRevMeetAtProSiteMaster/save`, data)
   }
 
+  getInternalReviewForm(masterID) {
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/intRevMeetAtProSiteMaster/getbymasterid/${masterID}`)
+  }
 
+  updateInternalReviewForm(masterID, data) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/intRevMeetAtProSiteMaster/update/${masterID}`, data)
+  }
 }

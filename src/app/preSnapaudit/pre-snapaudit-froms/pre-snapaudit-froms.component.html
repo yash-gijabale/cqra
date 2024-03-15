@@ -36,19 +36,37 @@
                   </button>
                 </div>
                 <div class="modal-body modal-full-body">
-
+                  <div class="row bg-light m-2 p-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                        (change)="isUpdateTeam($event)">
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Update Team
+                      </label>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <select *ngIf="updateTeamFlag" class="form-control" (change)="getMasterDetails($event)">
+                        <option selected>Select MasterId</option>
+                        <option *ngFor="let id of masterIds" [value]="id.masterId">{{id.masterId}}</option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="row">
                     <div class="form-group col-md-3">
                       <label>Client Name</label>
                       <select [(ngModel)]="selClientId" class="form-control" (change)="getProjects()">
-                        <option [value]="client.clientId" *ngFor="let client of clients">{{client.clientName}}</option>
+                        <option [value]="client.clientId" *ngFor="let client of clients"
+                          [selected]="updateTeamFlag && masterData.clientId == client.clientId ? true : false">
+                          {{client.clientName}}</option>
                       </select>
                     </div>
 
                     <div class="form-group col-md-3">
                       <label>Project Name</label>
                       <select [(ngModel)]="selProjectId" class="form-control">
-                        <option [value]="project.projectId" *ngFor="let project of projectData">{{project.projectName}}
+                        <option [value]="project.projectId" *ngFor="let project of projectData"
+                          [selected]="updateTeamFlag && masterData.projectId==project.projectId ? true :  false">
+                          {{project.projectName}}
                         </option>
                       </select>
                     </div>
@@ -56,22 +74,32 @@
                     <div class="form-group col-md-3">
                       <label>Cycle of Inspection:</label>
                       <select [(ngModel)]="selCycleId" class="form-control">
-                        <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles">{{cycle.cycle_name}}</option>
+                        <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
+                        [selected]="updateTeamFlag && masterData.cycleId==cycle.cycle_id ? true :  false">
+                        {{cycle.cycle_name}}</option>
                       </select>
                     </div>
 
                     <div class="form-group col-md-3">
                       <label>From Date</label>
-                      <input [(ngModel)]="fromDate" type="date" class="form-control" />
+                      <input [(ngModel)]="fromDate" type="date" class="form-control"
+                        [value]="updateTeamFlag ? masterData.fromDate : ''" />
                     </div>
 
                     <div class="form-group col-md-3">
                       <label>To Date</label>
-                      <input [(ngModel)]="toDate" type="date" class="form-control" />
+                      <input [(ngModel)]="toDate" type="date" class="form-control"
+                        [value]="updateTeamFlag ? masterData.toDate : ''" />
                     </div>
                   </div>
 
-                  <table class="row-border hover inspector_list_table" style="width:100%">
+                  
+                  <div *ngIf="updateTeamFlag && updateTeamLoad" class="userdeailsload row d-felx justify-content-center">
+                    <div class="spinner-border text-warning" role="status">
+                    </div>
+                  </div>
+
+                  <table class="row-border hover inspector_list_table" style="width:100%" *ngIf="!updateTeamLoad">
                     <thead>
                       <tr>
                         <th>Sr no</th>
@@ -81,7 +109,7 @@
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody id="inspectionTeamFrom">
+                    <tbody id="inspectionTeamFrom" *ngIf="!updateTeamFlag">
                       <tr id='teamRow-1'>
                         <td>1</td>
                         <td>
@@ -101,9 +129,31 @@
                         </td>
                       </tr>
                     </tbody>
+
+                    <tbody id="inspectionTeamFrom" *ngIf="updateTeamFlag && !updateTeamLoad">
+                      <tr [id]="'teamRow-'+team.srNo" *ngFor="let team of inspectionTeam">
+                        <td>{{team.srNo}}</td>
+                        <td>
+                          <select class="form-control inspectorTeamUser" [title]="team.srNo" (change)="getUser($event)">
+                            <option selected>Select User</option>
+                            <option *ngFor="let user of users" [value]="user.userId"
+                              [selected]="team.userId==user.userId">{{user.userFullName}}</option>
+                          </select>
+                        </td>
+                        <td [id]="'userLevel-'+team.srNo"></td>
+                        <td>
+                          <input class="form-check-input p-2" type="checkbox" [value]="team.userId"
+                            [id]="'userLeader-'+team.srNo" (change)="addLeader($event)" [checked]="team.leader">
+                        </td>
+                        <td>
+                          <span class="badge badge-danger" [id]="'removeRow-'+team.srNo" [title]="team.srNo"
+                            role="button" (click)="removeRow($event)">Remove</span>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                   <div class="row d-flex mx-2">
-                    <button class="btn btn-sm btn-primary" (click)="addRow()">Add row</button>
+                    <button class="btn btn-sm btn-primary" (click)="addRow()" *ngIf="!updateTeamLoad">Add row</button>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -281,7 +331,7 @@
                       </tr>
                     </thead>
                     <tbody id="openingClosingForm" *ngIf="isOpeningClosingData==false">
-                      <tr >
+                      <tr>
                         <td>1</td>
                         <td><input type="text" id="1" class="opening_username form-control"></td>
                         <td><input type="text" id="opening_organization_1" class="form-control"></td>
@@ -301,9 +351,12 @@
                     <tbody id="openingClosingForm" *ngIf="isOpeningClosingData">
                       <tr *ngFor="let user of openingClosingPreData.users">
                         <td>{{user.srNo}}</td>
-                        <td><input type="text" [id]="user.srNo" class="opening_username form-control" [value]="user.username_id"></td>
-                        <td><input type="text" [id]="'opening_organization_'+user.srNo" class="form-control" [value]="user.organization"></td>
-                        <td><input type="text" [id]="'designation_'+user.srNo" class="form-control" [value]="user.designation"></td>
+                        <td><input type="text" [id]="user.srNo" class="opening_username form-control"
+                            [value]="user.username_id"></td>
+                        <td><input type="text" [id]="'opening_organization_'+user.srNo" class="form-control"
+                            [value]="user.organization"></td>
+                        <td><input type="text" [id]="'designation_'+user.srNo" class="form-control"
+                            [value]="user.designation"></td>
                         <td>
                           <span class="badge badge-secondary" role="button">upload</span>
                         </td>
@@ -380,7 +433,7 @@
 
                       <div class="form-group col-md-3">
                         <label>Cycle Of Inspection</label>
-                        <select [(ngModel)]="selCycleId" class="form-control">
+                        <select class="form-control">
                           <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
                             [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
                             {{cycle.cycle_name}}</option>
@@ -400,12 +453,14 @@
 
                       <div class="form-group col-md-4">
                         <label>Meeting Location</label>
-                        <input id="meetingLocation" type="text" class="form-control">
+                        <input id="meetingLocation" type="text" class="form-control"
+                          [value]="isInternalReviewFormData ? internalReviewFacility[1].location : ''">
                       </div>
 
                       <div class="form-group col-md-3">
                         <label>Date :</label>
-                        <input type="date" id="internalreview_date" class="form-control">
+                        <input type="date" id="internalreview_date" class="form-control"
+                          [value]="isInternalReviewFormData ? internalReviewFacility[1].meetng_date : ''">
                       </div>
                     </div>
 
@@ -434,8 +489,8 @@
                         </tbody>
                       </table>
                       <div class="row d-flex mx-2">
-                        <button type="button" class="btn btn-sm btn-primary" (click)="addRowattendee()">Add
-                          row</button>
+                        <!-- <button type="button" class="btn btn-sm btn-primary" (click)="addRowattendee()">Add
+                          row</button> -->
                       </div>
                     </div>
 
@@ -458,14 +513,17 @@
                             <td>1</td>
                             <td>PPE's:</td>
                             <td>
-                              <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="1">
+                              <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="1"
+                                  [checked]="isInternalReviewFormData && internalReviewFacility[1].adequate == 1 ? true : false ">
                               </div>
                             </td>
                             <td>
-                              <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="0">
+                              <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="0"
+                                  [checked]="isInternalReviewFormData && internalReviewFacility[1].adequate == 0 ? true : false ">
                               </div>
                             </td>
-                            <td><input type="text" id="ppe_remark" class="form-control"></td>
+                            <td><input type="text" id="ppe_remark" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewFacility[1].remark : ''"></td>
                           </tr>
 
                           <tr>
@@ -473,13 +531,18 @@
                             <td>Infrastructure(Ladder,Lift,etc.):</td>
                             <td>
                               <div class="radios"><input type="radio" class="radio infra_radio" name="infrastructure"
-                                  value="1"></div>
+                                  value="1"
+                                  [checked]="isInternalReviewFormData && internalReviewFacility[2].adequate == 1 ? true : false ">
+                              </div>
                             </td>
                             <td>
                               <div class="radios"><input type="radio" class="radio infra_radio" name="infrastructure"
-                                  value="0"></div>
+                                  value="0"
+                                  [checked]="isInternalReviewFormData && internalReviewFacility[2].adequate == 0 ? true : false ">
+                              </div>
                             </td>
-                            <td><input type="text" id="infrastructure_remark" class="form-control"></td>
+                            <td><input type="text" id="infrastructure_remark" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewFacility[2].remark : ''"></td>
                           </tr>
 
 
@@ -488,15 +551,18 @@
                             <td>Man-Power:</td>
                             <td>
                               <div class="radios"><input type="radio" class="radio manpower_radio" name="manpower"
-                                  value="1">
+                                  value="1"
+                                  [checked]="isInternalReviewFormData && internalReviewFacility[3].adequate == 1 ? true : false ">
                               </div>
                             </td>
                             <td>
                               <div class="radios"><input type="radio" class="radio manpower_radio" name="manpower"
-                                  value="0">
+                                  value="0"
+                                  [checked]="isInternalReviewFormData && internalReviewFacility[3].adequate == 0 ? true : false ">
                               </div>
                             </td>
-                            <td><input type="text" id="manpower_remark" class="form-control"></td>
+                            <td><input type="text" id="manpower_remark" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewFacility[3].remark : ''"></td>
                           </tr>
 
                           <tr>
@@ -504,21 +570,24 @@
                             <td>Transport Facility:</td>
                             <td>
                               <div class="radios"><input type="radio" class="radio transport_radio" name="transport"
-                                  value="1">
+                                  value="1"
+                                  [checked]="isInternalReviewFormData && internalReviewFacility[4].adequate == 1 ? true : false ">
                               </div>
                             </td>
                             <td>
                               <div class="radios"><input type="radio" class="radio transport_radio" name="transport"
-                                  value="0">
+                                  value="0"
+                                  [checked]="isInternalReviewFormData && internalReviewFacility[4].adequate == 0 ? true : false ">
                               </div>
                             </td>
-                            <td><input type="text" id="transport_remark" class="form-control"></td>
+                            <td><input type="text" id="transport_remark" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewFacility[4].remark : ''"></td>
                           </tr>
 
-                          <tr>
+                          <!-- <tr>
                             <td colspan="2">Tools and Instruments(Report if any issue(s) observed)e.g.</td>
                             <td colspan="3"><input type="text" id="tools" class="form-control"></td>
-                          </tr>
+                          </tr> -->
 
                         </tbody>
                       </table>
@@ -533,24 +602,31 @@
 
                           <tr>
                             <td>Outdated calibration, non-working, damage, etc.</td>
-                            <td><input type="text" id="outdatedCalibration" class="form-control"></td>
+                            <td><input type="text" id="outdatedCalibration" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewMasterData.outdatedCalibration : ''">
+                            </td>
                           </tr>
 
                           <tr>
                             <td>Any Other difficulty faced during inspection</td>
-                            <td><input type="text" id="anyOtherDiffFaced" class="form-control"></td>
+                            <td><input type="text" id="anyOtherDiffFaced" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewMasterData.anyOtherDiffFaced : ''">
+                            </td>
                           </tr>
 
                           <tr>
                             <td>Any good practices observed during inspection</td>
-                            <td><input type="text" id="anyGoodPracticesObserved" class="form-control"></td>
+                            <td><input type="text" id="anyGoodPracticesObserved" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewMasterData.anyGoodPracticesObserved : ''">
+                            </td>
                           </tr>
 
                           <tr>
                             <td>Intimidiation(Frighten/Threaten)/coercion(use of force to do unwilling things)</td>
                             <td><label for="">Was there any intimidiation and or coercion -Yes/No(If yes-Please
                                 Specify)</label>
-                              <input type="text" id="intimidation" class="form-control">
+                              <input type="text" id="intimidation" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewMasterData.intimidation : ''">
                             </td>
                           </tr>
 
@@ -559,11 +635,13 @@
                             <td>
                           <tr>
                             <label for="">Inspection StartTime:</label>
-                            <input type="time" id="startTime" class="">
+                            <input type="time" id="startTime" class=""
+                              [value]="isInternalReviewFormData ? internalReviewMasterData.startTime : ''">
                           </tr>
                           <tr>
                             <label for="">Inspection EndTime:</label>
-                            <input type="time" id="endTime" class="">
+                            <input type="time" id="endTime" class=""
+                              [value]="isInternalReviewFormData ? internalReviewMasterData.endTime : ''">
                           </tr>
                           </td>
                           </tr>
@@ -575,7 +653,9 @@
 
                           <tr>
                             <td>Suggestion(s) for improvement/corrective actions:</td>
-                            <td><input type="text" id="suggestionsForImprovement" class="form-control"></td>
+                            <td><input type="text" id="suggestionsForImprovement" class="form-control"
+                                [value]="isInternalReviewFormData ? internalReviewMasterData.suggestionsForImprovement : ''">
+                            </td>
                           </tr>
 
 
@@ -1055,10 +1135,10 @@
 
       <div>
         <!-- EQUIPMENT MAINTENANCE FORMAt -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
+        <!-- <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Equipment Maintenance Format <span class="badge badge-warning">Pending</span></h5>
           <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
-              data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
+              data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a> -->
 
 
-          <app-footer></app-footer>
+        <app-footer></app-footer>

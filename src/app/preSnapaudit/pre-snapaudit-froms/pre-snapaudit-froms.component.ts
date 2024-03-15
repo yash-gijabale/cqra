@@ -104,11 +104,17 @@ export class PreSnapauditFromsComponent implements OnInit {
     console.log(e.target.value)
     this.currentMasterId = e.target.value
     // this.masterID = e.target.value
+    if (this.updateTeamFlag) { //FOR UPDATING LOADER ACTIVTE
+      this.updateTeamLoad = true
+    }
+
     this.inspectionTraining.getMasterDetails(e.target.value, this.userId)
       .subscribe(data => {
         console.log(data)
         this.masterData = data[0]
 
+        this.getTeamUser()//for updation
+  
         // this.commonService.setMasterData(this.masterData) //setting master data for sampling sheet
         localStorage.setItem('mData', JSON.stringify(this.masterData))//setting master data for sampling sheet
 
@@ -223,7 +229,6 @@ export class PreSnapauditFromsComponent implements OnInit {
   leaderData = {}
 
   addLeader(e) {
-    console.log(e)
     if (e.target.checked) {
       this.leaderData[String(e.target.value)] = true
     } else {
@@ -264,14 +269,34 @@ export class PreSnapauditFromsComponent implements OnInit {
 
     console.log(formData)
 
-    this.inspectionTraining.addInspectionTeamComposition(formData)
-      .subscribe(data => {
-        console.log('team added', data)
-        this.submitFormLoad = false
-      })
+    if (this.updateTeamFlag) {
+      // console.log(formData)
+      this.inspectionTraining.updateInspectionTeamComposition(this.currentMasterId, formData)
+        .subscribe(data => {
+          console.log('updated team', data)
+          this.submitFormLoad = false
+
+        })
+    } else {
+      this.inspectionTraining.addInspectionTeamComposition(formData)
+        .subscribe(data => {
+          console.log('team added', data)
+          this.submitFormLoad = false
+        })
+    }
 
   }
 
+  updateTeamFlag: boolean = false
+  updateTeamLoad: boolean = false
+  isUpdateTeam(e) {
+    if (e.target.checked) {
+      this.updateTeamFlag = true
+    } else {
+      this.updateTeamFlag = false
+    }
+
+  }
 
 
   rowOpeningClosingCount = 1
@@ -318,10 +343,10 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
   }
 
-  SubmitClientFeedback(){
+  SubmitClientFeedback() {
     let meetinglocation = document.querySelector('#meeting_Location') as HTMLInputElement
     let openingcloprofessionally = document.querySelector('#openingCloProfessionally') as HTMLInputElement
-    let nonconfirmitiesdiscussed = document.querySelector('#nonConfirmitiesDiscussed') as  HTMLInputElement
+    let nonconfirmitiesdiscussed = document.querySelector('#nonConfirmitiesDiscussed') as HTMLInputElement
     let qualityOfnonconfirmative = document.querySelector('#qualityOfNonConfirmative') as HTMLInputElement
     let qualityOfWork = document.querySelector('input[name="quality"]:checked') as HTMLInputElement
 
@@ -329,28 +354,28 @@ export class PreSnapauditFromsComponent implements OnInit {
     let feedback = document.querySelector('#Feedback') as HTMLInputElement
     let othercomments = document.querySelector('#otherComments') as HTMLInputElement
 
-    let feedbackform ={
+    let feedbackform = {
       masterId: this.currentMasterId,
       // clientId:this.clientId,
-      meeting_Location:meetinglocation.value,
-      openingCloProfessionally:openingcloprofessionally.value,
-      nonConfirmitiesDiscussed:nonconfirmitiesdiscussed.value,
-      qualityOfNonConfirmative:qualityOfnonconfirmative.value,
-      workQuality:qualityOfWork.value,
+      meeting_Location: meetinglocation.value,
+      openingCloProfessionally: openingcloprofessionally.value,
+      nonConfirmitiesDiscussed: nonconfirmitiesdiscussed.value,
+      qualityOfNonConfirmative: qualityOfnonconfirmative.value,
+      workQuality: qualityOfWork.value,
 
-      suggestDifferently:suggestdifferently.value,
-      Feedback:feedback.value,
-      otherComments:othercomments.value
+      suggestDifferently: suggestdifferently.value,
+      Feedback: feedback.value,
+      otherComments: othercomments.value
     }
 
     console.log(feedbackform);
 
-  //   this.inspectionTraining.addClientFeedbackForm(feedbackform)
-  //   .subscribe(data => {
-  //     console.log('daa added', data)
-  //   // this.supervisorFormSubmitLoad = false
-  // })
-}
+    //   this.inspectionTraining.addClientFeedbackForm(feedbackform)
+    //   .subscribe(data => {
+    //     console.log('daa added', data)
+    //   // this.supervisorFormSubmitLoad = false
+    // })
+  }
 
 
 
@@ -429,9 +454,35 @@ export class PreSnapauditFromsComponent implements OnInit {
     this.inspectionTeamLoad = true
     this.inspectionTraining.getComposedTeamByMasterId(this.currentMasterId)
       .subscribe(data => {
-        console.log(data)
-        this.inspectionTeam = data
+        let srNo = 0
+        this.inspectionTeam = data.map(d => {
+          return {
+            srNo: srNo += 1,
+            ...d
+          }
+        })
         this.inspectionTeamLoad = false
+        console.log(this.inspectionTeam)
+        //FOR UPDATE TEAM ONLY
+        if (this.updateTeamFlag) {
+          console.log(this.masterData)
+          this.rowCount = this.inspectionTeam.length
+          this.selClientId = this.masterData.clientId
+          this.selProjectId = this.masterData.projectId
+          this.selCycleId = this.masterData.cycleId
+          this.fromDate = this.masterData.fromDate
+          this.toDate = this.masterData.toDate
+
+          this.getProjects()
+
+          this.inspectionTeam.forEach(team => {
+            if (team.leader) {
+              this.leaderData[String(team.userId)] = true
+            }
+          })
+
+          this.updateTeamLoad = false
+        }
       })
   }
 
@@ -568,8 +619,26 @@ export class PreSnapauditFromsComponent implements OnInit {
   }
 
 
+
+  isInternalReviewFormData: boolean = false
+  internalReviewMasterData = {}
+  internalReviewFacility = {}
   internalReviewMeeting() {
     this.getTeamUser()
+    this.inspectionTraining.getInternalReviewForm(this.currentMasterId)
+      .subscribe(data => {
+        console.log(data)
+        if (data[0] || data[1].length) {
+          this.isInternalReviewFormData = true
+          this.internalReviewMasterData = data[0]
+          data[1].forEach(d => {
+            this.internalReviewFacility[d.facilities] = d
+          })
+
+        }
+
+        console.log(this.internalReviewFacility)
+      })
   }
 
   submitInternalReviewMeeting() {
@@ -585,11 +654,12 @@ export class PreSnapauditFromsComponent implements OnInit {
     let endTime = document.querySelector('#endTime') as HTMLInputElement
     let suggestionsForImprovement = document.querySelector('#suggestionsForImprovement') as HTMLInputElement
 
-    let intRevMeetAtProSiteMaster = []
+    let intRevMeetAtProSite = []
     let facilitiesArray = ['ppe', 'infrastructure', 'manpower', 'transport']
 
     facilitiesArray.forEach((facility, ind) => {
       let facilityData = document.querySelector(`input[name='${facility}']:checked`) as HTMLInputElement
+      let remark = document.querySelector(`#${facility}_remark`) as HTMLInputElement
       console.log(facilityData.value)
       let data = {
         masterId: this.currentMasterId,
@@ -597,13 +667,14 @@ export class PreSnapauditFromsComponent implements OnInit {
         adequate: facilityData.value == '1' ? 1 : 0,
         inAdeq: facilityData.value == '0' ? 1 : 0,
         location: meetingLocation.value,
+        remark: remark.value,
         meeting_date: meetingDate.value
       }
-      intRevMeetAtProSiteMaster.push(data)
+      intRevMeetAtProSite.push(data)
     })
 
 
-    let intRevMeetAtProSite = {
+    let intRevMeetAtProSiteMaster = {
       masterId: this.currentMasterId,
       outdatedCalibration: outdatedCalibration.value,
       anyOtherDiffFaced: anyOtherDiffFaced.value,
@@ -621,11 +692,20 @@ export class PreSnapauditFromsComponent implements OnInit {
     }
 
     console.log(formData)
-    this.inspectionTraining.addInternalReviewForm(formData)
-      .subscribe(data => {
-        console.log('inter revirew added', data)
-      })
+    if (this.isInternalReviewFormData) {
+      this.inspectionTraining.updateInternalReviewForm(this.currentMasterId, formData)
+        .subscribe(data => {
+          console.log('updted internal', data)
+        })
+    } else {
+
+      this.inspectionTraining.addInternalReviewForm(formData)
+        .subscribe(data => {
+          console.log('inter revirew added', data)
+        })
+    }
   }
+
 
 }
 

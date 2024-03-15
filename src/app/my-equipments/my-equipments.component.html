@@ -1,0 +1,200 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">My Equipment</li>
+          </ol>
+        </div>
+
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>My Equipment</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab_main">
+        <div class="tab_header">
+          <div [class]="activeTab=='assiged' ? 'tab tab_active' : 'tab'" (click)="changePannel('assiged')">Assigned
+          </div>
+          <div [class]="activeTab=='new' ? 'tab tab_active' : 'tab'" (click)="changePannel('new')">New <span class="badge badge-warning">{{newEquipments.length}}</span></div>
+        </div>
+        <div class="tab_body">
+
+
+          <div [class]="activeTab=='assiged' ? 'pannel' : 'pannel_hide'">
+            <div class="col-xl-12 col-sm-12 mb-3">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="row-border hover inspector_list_table" style="width:100%">
+                <thead>
+                  <tr>
+
+                    <th>Asset Type</th>
+                    <th>Asset Name</th>
+                    <th>Asset Number</th>
+                    <th>cost</th>
+                    <th>Assign Date</th>
+                    <th>Calibaration Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let eq of accesptedEqs">
+                    <td>{{eq.assetnameme}}</td>
+                    <td>{{eq.assettname}}</td>
+                    <td>{{eq.assetSerialNo}}</td>
+                    <td>₹ {{eq.cost}}</td>
+                    <td>{{eq.dateOfAssign}}</td>
+                    <td>{{eq.dateOfCalibration}}</td>
+                    <td>
+                      <span class="badge badge-primary" role="button">Return</span>
+                    </td>
+                  
+                </tbody>
+
+              </table>
+
+            </div>
+          </div>
+
+
+          <div [class]="activeTab=='new' ? 'pannel' : 'pannel_hide'">
+            <div class="col-xl-12 col-sm-12 mb-3">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="row-border hover inspector_list_table" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Asset Type</th>
+                    <th>Asset Name</th>
+                    <th>Asset Number</th>
+                    <th>Assigned By</th>
+                    <th>Assign Date</th>
+                    <th>Mark as recived</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let eq of newEquipments">
+                    <td>{{eq.assetnameme}}</td>
+                    <td>{{eq.assettname}}</td>
+                    <td>{{eq.assetSerialNo}}</td>
+                    <td>{{eq.assetSerialNo}}</td>
+                    <td>{{eq.dateOfAssign}}</td>
+                    <td>
+                      <span class="badge badge-primary" role="button" data-toggle="modal"
+                        [attr.data-target]="'#trade-user-list'" (click)="getEquipmentDetails(eq.equipmentId)">Mark as
+                        recived</span>
+
+
+                    </td>
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+      <!-- Example DataTables Card-->
+      <div class="modal fade" [id]="'trade-user-list'" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Tool Kit Policy:</h5>
+              <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body policy_modal">
+              <h5 class="card-title">Scope</h5>
+              <p class="card-text">
+                1. The policy is applicable to employee of CQRA or as approved by the Management.
+              </p>
+              <p class="card-text">
+                3. Employee will be responsible for the safety (like theft, mishandling, breakage etc.)
+              </p>
+              <p class="card-text">
+                4. If any items of Tool Kit lost wil be fully born by the employee.
+              </p>
+              <p class="card-text">
+                5. In case of resignation/ termination from services, Tool kit to be returned to company in
+                fully working condition. If not amount will be deducted from his salary.
+              </p>
+
+              <h5 class="card-title mt-3">Declaration</h5>
+              <p class="card-text">
+                I have read & understood the terms & conditions of Tool kit policy & I have accepted the
+                same.I have received to all the tools as per attached list.
+              </p>
+
+
+              <h5 class="card-title">Folowing are new assigned equipments:</h5>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Asset type</th>
+                    <th scope="col">Asset Name</th>
+                    <th scope="col">Serial number</th>
+                    <th scope="col">Asset cost</th>
+                    <th scope="col">Assign date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let eq of newEquipments">
+                    <td>{{eq.assetnameme}}</td>
+                    <td>{{eq.assettname}}</td>
+                    <td>{{eq.assetSerialNo}}</td>
+                    <td>₹ {{eq.cost}}</td>
+                    <td>{{eq.dateOfAssign}}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="row d-flex justify-content-between">
+                <div>
+                  <img src="https://res.cloudinary.com/dui8bnzt6/image/upload/v1710475492/f3xxslczmwfbggr0w1i9.png"
+                  height="200px">
+                  <p class="card-title mx-2">{{userData.userName}}</p>
+                </div>
+                  
+                <div>
+                  <img src="https://res.cloudinary.com/dui8bnzt6/image/upload/v1710475492/f3xxslczmwfbggr0w1i9.png"
+                  height="200px">
+                  <p class="card-title mx-2">Assigned by</p>
+                </div>
+              </div>
+
+            </div>
+            <div class="row d-flex justify-content-end mx-3 modal-footer">
+              <div class="form-check mx-2">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                  (change)="aggreStatus($event)">
+                <label class="form-check-label" for="flexCheckDefault">
+                  I accept
+                </label>
+              </div>
+              <button class="btn btn-sm btn-success" (click)="acceptPolicy()" [disabled]="aggredStatus==false">
+                <span *ngIf="submitPolicyLoad" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span *ngIf="!submitPolicyLoad">submit</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

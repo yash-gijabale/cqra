@@ -141,6 +141,8 @@ import { InspectorTrainingViewComponent } from './inspectorAuthorization/inspect
 import { InspectorDeclarationViewComponent } from './inspectorAuthorization/inspector-declaration-view/inspector-declaration-view.component';
 import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/pre-snapaudit-froms.component';
 import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-maintenance-form/equipment-maintenance-form.component';
+import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
+import { SnackBarComponent } from './loader/snack-bar/snack-bar.component';
 
 
 @NgModule({
@@ -276,6 +278,8 @@ import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-main
     InspectorDeclarationViewComponent,
     PreSnapauditFromsComponent,
     EquipmentMaintenanceFormComponent,
+    MyEquipmentsComponent,
+    SnackBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -287,7 +291,6 @@ import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-main
     DragDropModule,
     // MatFormFieldModule,
     // MatInputModule,
-    // MatFormFieldModule
   ],
  
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],

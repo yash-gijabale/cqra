@@ -14,7 +14,7 @@
             <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#new-trade-user">New
               Asset </button>
             <button type="button" class="btn btn-outline-dark" data-toggle="modal"
-              data-target="#trade-user-list">List</button>
+              data-target="#trade-user-list" (click)="assetList()">List</button>
             <button type="button" class="btn btn-outline-dark"><a routerLink="/assignEquipementList"
                 class="text-dark">Manage Asset</a> </button>
           </div>
@@ -53,7 +53,7 @@
 
                   <div class="form-group">
                     <label>Asset Cost (₹): </label>
-                    <input type="number" class="form-control" formControlName="assetCost" placeholder="₹ 100">
+                    <input type="number" class="form-control" formControlName="cost" placeholder="₹ 100">
                   </div>
 
                   <div class="form-group">
@@ -104,15 +104,18 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Asset List</h5>
-                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close"
-                  (click)="assetList()">
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
 
-                <div>
-                  <table class="row-border hover inspector_list_table" style="width:100%">
+                <div *ngIf="assetListLoad" class="userdeailsload row d-flex justify-content-center">
+                  <div class="spinner-border text-warning" role="status">
+                  </div>
+                </div>
+                <div *ngIf="!assetListLoad">
+                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="row-border hover inspector_list_table" style="width:100%">
                     <thead>
                       <tr>
                         <th>Sr. No</th>
@@ -125,10 +128,17 @@
                     <tbody id="attendeesFrom">
                       <tr *ngFor="let asset of allAssetlist">
                         <td>{{asset.id}}</td>
-                        <td>{{asset.assetTypeId}}</td>
+                        <td>{{asset.asset_type_name}}</td>
                         <td>{{asset.assetName}}</td>
                         <td>{{asset.cost}}</td>
-                        <td>{{asset.userBy}}</td>
+                        <td  class="d-flex">
+                          <div *ngFor="let usedBy of asset.userBy" class="mx-1">
+                            <span class="badge badge-warning" *ngIf="usedBy=='1'">Civil</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='2'">MEP</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='3'">Seafty</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='4'">Infra</span>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -153,10 +163,10 @@
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
+        <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()" class="row">
+          <div class="form-group col-md-4">
             <label>Asset Type: </label>
-            <select formControlName="id" class="form-control">
+            <select formControlName="id" class="form-control" (change)="getAssets($event)">
               <option [value]="0">Please Select</option>
               <option [value]="asset.id" *ngFor="let asset of assets">{{asset.assetName}}</option>
             </select>
@@ -164,76 +174,66 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group col-md-4">
             <label>Asset Name: </label>
-            <input type="text" class="form-control" formControlName="assetName">
-            <div class="invalid-feedback">
-            </div>
+            <select formControlName="assetName" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="asset.id" *ngFor="let asset of assetsData">{{asset.assetName}}</option>
+            </select>
           </div>
 
-          <div class="form-group">
+          <div class="form-group col-md-4">
             <label>Description: </label>
             <input type="text" class="form-control" formControlName="description">
             <div class="invalid-feedback">
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group col-md-4">
             <label>Asset Serial No.: </label>
             <input type="text" class="form-control" formControlName="assetSerialNo">
             <div class="invalid-feedback">
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group col-md-4">
             <label>Date of calibration: </label>
             <input type="date" class="form-control" formControlName="dateOfCalibration">
             <div class="invalid-feedback">
             </div>
           </div>
 
-          <div class="form-group">
-            <label>Assign To: </label>
-            <select formControlName="assignTo" class="form-control">
-              <option [value]="0">Please Select</option>
-              <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
-            </select>
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
+          <div class="form-group col-md-4">
             <label>Remark: </label>
             <input type="text" class="form-control" formControlName="remark">
             <div class="invalid-feedback">
             </div>
           </div>
 
-          <div class="form-group">
-            <label>Assign Date: </label>
-            <input type="date" class="form-control" formControlName="dateOfAssign">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
+          <div class="form-group col-md-4">
             <label>Equipment Image: </label>
             <input type="file" class="form-control" formControlName="eImage" accept="image/png, image/gif, image/jpeg">
             <div class="invalid-feedback">
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group col-md-4">
             <label>Calibration Caertificate: </label>
             <input type="file" class="form-control" formControlName="ccImage">
             <div class="invalid-feedback">
             </div>
           </div>
 
-          <div class="form-group">
-            <button class="btn btn-primary">Save</button>
+          <div class="form-group mt-3">
+            <button class="btn btn-primary">
+              <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" ></span>
+              <span *ngIf="!submitLoad">Save</span>
+            </button>
           </div>
+
+
         </form>
+
       </div>
     </div>
   </div>

@@ -4,7 +4,7 @@ import { UserView } from '../user-log/user-log.component';
 import { Observable } from 'rxjs';
 import { UseAllocationData } from '../create-user-allocation/create-user-allocation.component';
 import { UserAllocationView } from '../user-allocation/user-allocation.component';
-import { AssestView, EquipmentView } from '../add-equipment/add-equipment.component';
+import { AssestView, AssetListView, EquipmentView } from '../add-equipment/add-equipment.component';
 import { AssignedProjectData } from '../assign-project/assign-project.component';
 import { RoleView } from '../add-role/add-role.component';
 import { RegionView } from '../add-region/add-region.component';
@@ -78,7 +78,7 @@ export class UserService {
     return this.httpClient.get<AssestView>(`${this.REST_API_SERVER}/getAssets`)
   }
   getAllAssignEquipment() {
-    return this.httpClient.get<EquipmentView>(`${this.REST_API_SERVER}/getEquipments`)
+    return this.httpClient.get<EquipmentView>(`${this.REST_API_SERVER}/getEquipmentsjoin`)
   }
 
   addEquipment(data): Observable<UserService> {
@@ -97,12 +97,36 @@ export class UserService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/Equipment/${id}`)
   }
 
+  assignNewUserToEquipment(equipmentId, userId, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Equipmentbyidanduserid/${equipmentId}/${userId}`, data)
+  }
+
   newAsset(data):Observable<UserService>{
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/AssignEqu/saave`, data)
   }
 
   getAssetsList(){
-    return this.httpClient.get<AssetListView>(`${this.REST_API_SERVER}/AssignEqu/getall`)
+    return this.httpClient.get<Array<AssetListView>>(`${this.REST_API_SERVER}/AssignEqu/getalljoin`)
+  }
+
+  getEquipmentByAssetType(typeId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/AssignEqu/getallbyassetid/${typeId}`)
+  }
+
+  getMyEquipments(userId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/getEquipmentsjoinbyid/${userId}`)
+  }
+
+  getEqDetails(eqId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getEquipmentsjoinbyequipmentid/${eqId}`)
+  }
+
+  sendPolicyMain(userId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/sendemail/${userId}`)
+  }
+
+  acceptPolisy(data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/updatestatusandsignatyre`, data)
   }
 
 

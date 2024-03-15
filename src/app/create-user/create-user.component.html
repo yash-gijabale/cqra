@@ -74,9 +74,12 @@
               <option [value]="'t1'">T1</option>
               <option [value]="'t2'">T2</option>
             </select>
-            <div *ngIf="submitted && f.cadre.errors" class="invalid-feedback">
-              <div *ngIf="f.cadre.errors.required">CADRE is required</div>
-            </div>
+          
+          </div>
+
+          <div class="form-group" *ngIf="showCadre">
+            <label>CQRA Employee Id</label>
+            <input type="text" formControlName="employeeId" class="form-control">
           </div>
 
           <div class="form-group">

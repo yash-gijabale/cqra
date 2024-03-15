@@ -13,7 +13,35 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
+            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#sendPolicy">Send policy</button>
             <button type="button"> <a [routerLink]="'/addEquipment/-1'">Assign Eupiment</a> </button>
+
+            <div class="modal fade" [id]="'sendPolicy'" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Send Policy</h5>
+                        <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <select id="policyMailSelect" class="form-control">
+                          <option>Select user</option>
+                          <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}</option>
+                        </select>
+                        <div class="modal-footer">
+                          <button class="btn btn-sm btn-success" type="submit" (click)="sendPolicy()">
+                            <span *ngIf="sendPolicyLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span *ngIf="!sendPolicyLoad">Send</span>
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
           </div>
         </div>
       </div>
@@ -31,29 +59,36 @@
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
           <!-- Example DataTables Card-->
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  id="customers"  class="row-border hover" style="width:100%">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover inspector_list_table"
+            style="width:100%">
             <thead>
               <tr>
 
+                <th>Asset Type</th>
                 <th>Asset Name</th>
-                <th>Description</th>
                 <th>Asset Number</th>
                 <th>Remark</th>
-                <th>Assign To</th>
+                <th>Current User</th>
+                <th>Assign</th>
                 <th>Assign Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let equipment of (assignEquipment)">
-                <td>{{equipment.assetName}}</td>
-                <td>{{equipment.description}}</td>
-                <td>{{equipment.assetSerialNo}}</td>
-                <td>{{equipment.remark}}</td>
-                <td>{{equipment.assignTo}}</td>
-                <td>{{equipment.dateOfAssign}}</td>
-                <!-- <td>{{ getContractorName(client.contractorId) }}</td> -->
-                <td>
+                <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assetnameme}}</td>
+                <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assettname}}</td>
+                <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assetSerialNo}}</td>
+                <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.remark}}</td>
+                <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.username}}</td>
+                <td [class]="equipment.assignTo ? 'assign_bg' : ''">
+                  <span *ngIf="!equipment.assignTo" class="badge badge-primary" role="button" data-toggle="modal"
+                    [attr.data-target]="'#trade-user-list-'+equipment.equipmentId">Assign</span>
+                  <span *ngIf="equipment.assignTo" class="badge badge-success" role="button" data-toggle="modal"
+                    [attr.data-target]="'#trade-user-list-'+equipment.equipmentId">update</span>
+                </td>
+                <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.dateOfAssign}}</td>
+                <td [class]="equipment.assignTo ? 'assign_bg' : ''">
                   <div class="action-commonview">
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
                       data-target="#exampleModalCenter" (click)="editEquipment(equipment.equipmentId)">
@@ -61,13 +96,48 @@
                         <i class="las la-pencil-alt"></i>
                       </span>
                     </button>
-                    <button type="text" class="Delete-modal"  (click)="deActivate(equipment.equipmentId)">
+                    <button type="text" class="Delete-modal" (click)="deActivate(equipment.equipmentId)">
                       <span class="edit-tessst">
                         <i class="lar la-trash-alt"></i>
                       </span>
                     </button>
                   </div>
                 </td>
+
+
+                <div class="modal fade" [id]="'trade-user-list-'+equipment.equipmentId" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Assign Asset</h5>
+                        <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+
+                        <label  *ngIf="equipment.assignTo">Current user: </label>
+                        <label  *ngIf="!equipment.assignTo">Select user: </label>
+                        <select [id]="'newUserSelect_'+equipment.equipmentId" class="form-control">
+                          <option *ngIf="equipment.assignTo" [value]="0">Revert</option>
+                          <option *ngIf="!equipment.assignTo">Select user</option>
+                          <option *ngFor="let user of users" [value]="user.userId" [selected]="equipment.assignTo==user.userId">{{user.userFullName}}</option>
+                        </select>
+
+                        <label>Date:</label>
+                        <input class="form-control" [id]="'newUserDate_'+equipment.equipmentId" type="date" >
+                        <div class="modal-footer">
+                          <button class="btn btn-sm btn-success" type="submit" (click)="assignNewUser(equipment.equipmentId)">
+                            <span *ngIf="assignEqLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span *ngIf="!assignEqLoad">Save</span>
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
               </tr>
             </tbody>
 
@@ -78,7 +148,7 @@
 
       </div>
       <!-- Example DataTables Card-->
-
+      <app-snack-bar *ngIf="showSnack" [title]="snackTitle"  ></app-snack-bar>
     </div>
   </div>
   <app-footer></app-footer>

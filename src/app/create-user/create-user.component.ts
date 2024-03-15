@@ -96,7 +96,8 @@ export class CreateUserComponent implements OnInit {
       representingId: ['', Validators.required],
       dateOfJoining: ['', Validators.required],
       department: ['', Validators.required],
-      cadre: ['', Validators.required]
+      cadre: ['', Validators.nullValidator],
+      employeeId: ['', Validators.nullValidator]
 
 
     });

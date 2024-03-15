@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from '../common.service';
 import { UserView } from '../user-log/user-log.component';
 import { UserService } from '../service/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
+
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from "rxjs";
+
 
 // import SignaturePad from 'signature_pad';
 
@@ -17,14 +21,15 @@ export class AssestView {
   }
 }
 
-export class AssetListView{
+export class AssetListView {
   constructor(
-    public id:number,
-    public assetTypeId:number,
+    public id: number,
+    public assetTypeId: number,
     public assetName: string,
-    public userBy:number,
-    public cost:number
-  ){
+    public userBy: string,
+    public cost: number,
+    public asset_type_name : String
+  ) {
 
   }
 }
@@ -54,23 +59,40 @@ export class EquipmentView {
 })
 export class AddEquipmentComponent implements OnInit {
 
+  title = "Datatables";
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<AssetListView> = new Subject<AssetListView>();
+
   equipmentForm: FormGroup
 
   newAssetForm: FormGroup
 
   users: UserView[]
   assets: AssestView
-  allAssetlist:AssetListView
+  allAssetlist: Array<any>
   equipmentId: number
-  signPad:any
+  signPad: any
+
   constructor(
     private formBuilder: FormBuilder,
     private commanService: CommonService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+
+
   ) { }
 
   ngOnInit() {
+
+    this.dtOptions = {
+      pagingType: "full_numbers",
+      pageLength: 10,
+      lengthMenu: [10, 25, 50],
+      responsive: true,
+      scrollX: true
+    };
     this.equipmentId = this.route.snapshot.params['id']
 
     this.equipmentForm = this.formBuilder.group({
@@ -87,7 +109,7 @@ export class AddEquipmentComponent implements OnInit {
     })
 
     this.newAssetForm = this.formBuilder.group({
-      assetTypeId:['', Validators.required],
+      assetTypeId: ['', Validators.required],
       assetName: ['', Validators.required],
       cost: ['', Validators.required],
     })
@@ -107,55 +129,85 @@ export class AddEquipmentComponent implements OnInit {
     this.userService.getAllAssetes()
       .subscribe(data => this.assets = data)
 
-      // let canas = document.querySelector('#signature') as HTMLCanvasElement
-      // this.signPad = new SignaturePad(canas);
+    // let canas = document.querySelector('#signature') as HTMLCanvasElement
+    // this.signPad = new SignaturePad(canas);
   }
 
+
+
+  submitLoad = false
   onSubmit() {
     console.log(this.equipmentForm.value)
+    this.submitLoad = true
 
     if (this.equipmentId != -1) {
       this.userService.updateEquipemt(this.equipmentForm.value, this.equipmentId)
-      .subscribe(data => console.log('updated==>', data))
+        .subscribe(data => console.log('updated==>', data))
+        this.submitLoad = false
 
     } else {
 
       this.userService.addEquipment(this.equipmentForm.value)
         .subscribe(data => console.log('equipment addded-->', data))
+        this.submitLoad = false
+
     }
   }
 
 
-  addNewAsset(){
+  addNewAsset() {
     // console.log(this.signPad.toSVG())
     // let idv = document.querySelector(`#show`) as HTMLDivElement
     // let sign = this.signPad.toSVG()
     // idv.innerHTML = sign
     let usedBy = []
-    let check =  document.querySelectorAll('.usedBy')
-    check.forEach(c=> {
+    let check = document.querySelectorAll('.usedBy')
+    check.forEach(c => {
       let checkbox = <HTMLInputElement>c
-      if(checkbox.checked){
+      if (checkbox.checked) {
         usedBy.push(checkbox.value)
       }
     })
 
-    let formData = {...this.newAssetForm.value, userBy: usedBy.toString()}
+    let formData = { ...this.newAssetForm.value, userBy: usedBy.toString() }
     console.log(formData)
     this.userService.newAsset(formData)
-    .subscribe(data => {
-      console.log('aded', data)
-    })
+      .subscribe(data => {
+        console.log('aded', data)
+      })
   }
 
 
-  assetList(){
-  
+  assetListLoad = false
+  assetList() {
+    this.assetListLoad = true
     this.userService.getAssetsList()
-    .subscribe(data => {
-      this.allAssetlist = data
-      console.log(this.allAssetlist);
-    })
+      .subscribe(data => {
+        this.assetListLoad = false
+        let srNo = 0
+        this.allAssetlist = data.map(d =>{
+          srNo += 1
+          let usedBy = d.userBy ? d.userBy.split(',') : [];
+          console.log(usedBy)
+          return {
+            srNo: srNo,
+            ...d,
+            userBy: usedBy
+          }
+        })
+        console.log(this.allAssetlist);
+        this.dtTrigger.next()
+      })
 
+  }
+
+  assetsData:Array<any> = []
+  getAssets(e){
+    console.log(e.target.value)
+    this.userService.getEquipmentByAssetType(e.target.value)
+    .subscribe(data =>{
+      console.log(data)
+      this.assetsData = data
+    })
   }
 }

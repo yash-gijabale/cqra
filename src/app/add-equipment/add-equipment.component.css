@@ -46,3 +46,11 @@
 .inspector_list_table tr:nth-child(odd) {
     background-color: rgb(234, 228, 228);
 }
+
+.userdeailsload {
+    width: 100%;
+    height: 50%;
+    display: grid;
+    place-items: center;
+
+}

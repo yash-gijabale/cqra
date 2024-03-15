@@ -128,6 +128,7 @@ import { InspectorTrainingViewComponent } from './inspectorAuthorization/inspect
 import { InspectorDeclarationViewComponent } from './inspectorAuthorization/inspector-declaration-view/inspector-declaration-view.component';
 import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/pre-snapaudit-froms.component';
 import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-maintenance-form/equipment-maintenance-form.component';
+import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
 
 
 const routes: Routes = [
@@ -259,6 +260,7 @@ const routes: Routes = [
   { path: 'inspectorView', component: InspectorTrainingViewComponent },
   { path: 'preSnapAuditProccess', component: PreSnapauditFromsComponent },
   { path: 'equipmentMaintenanceFrom', component: EquipmentMaintenanceFormComponent },
+  { path: 'myEquipments', component: MyEquipmentsComponent },
 
 
 
