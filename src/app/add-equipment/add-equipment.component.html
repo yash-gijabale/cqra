@@ -123,6 +123,7 @@
                         <th>Asset Name</th>
                         <th>Asset Cost</th>
                         <th>Used By</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody id="attendeesFrom">
@@ -139,7 +140,77 @@
                             <span class="badge badge-warning" *ngIf="usedBy=='4'">Infra</span>
                           </div>
                         </td>
+                        <td>
+                          <span class="badge badge-warning" role="button" data-toggle="modal"
+                          data-target="#edit_assign_equ">Edit</span>
+                          <span class="badge badge-danger" role="button" data-toggle="modal"
+                          data-target="#trade-user-list">Delete</span>
+                        </td>
                       </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="modal-footer">
+                  <button class="btn btn-sm btn-success" type="submit">Save</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="edit_assign_equ" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Asset List</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div *ngIf="assetListLoad" class="userdeailsload row d-flex justify-content-center">
+                  <div class="spinner-border text-warning" role="status">
+                  </div>
+                </div>
+                <div *ngIf="!assetListLoad">
+                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="row-border hover inspector_list_table" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Sr. No</th>
+                        <th>Asset Type</th>
+                        <th>Asset Name</th>
+                        <th>Asset Cost</th>
+                        <th>Used By</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="attendeesFrom">
+                      <tr *ngFor="let asset of allAssetlist">
+                        <td>{{asset.id}}</td>
+                        <td>{{asset.asset_type_name}}</td>
+                        <td>{{asset.assetName}}</td>
+                        <td>{{asset.cost}}</td>
+                        <td  class="d-flex">
+                          <div *ngFor="let usedBy of asset.userBy" class="mx-1">
+                            <span class="badge badge-warning" *ngIf="usedBy=='1'">Civil</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='2'">MEP</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='3'">Seafty</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='4'">Infra</span>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge badge-warning" role="button" data-toggle="modal"
+                          data-target="#trade-user-list">Edit</span>
+                          <span class="badge badge-danger" role="button" data-toggle="modal"
+                          data-target="#trade-user-list">Delete</span>
+                        </td>
+                      </tr>
+                      
                     </tbody>
                   </table>
                 </div>
