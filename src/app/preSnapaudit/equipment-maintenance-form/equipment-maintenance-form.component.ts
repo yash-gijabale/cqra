@@ -61,7 +61,7 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
   showForm: boolean = false
   loadDeclaration: boolean = false
   message = 'Please fill the declaration from'
-  isEquipementFormdata:boolean = false
+  isEquipementFormdata: boolean = false
   equipmentFormData = {}
   getMasterDetails(e) {
     this.loadDeclaration = true
@@ -77,13 +77,14 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
         this.inspectionTraining.getEquipmentForm(this.masterID)
           .subscribe(data => {
             console.log('pre', data)
-            if(data.length){
+            if (data.length) {
               this.isEquipementFormdata = true
               data.forEach(d => {
                 this.equipmentFormData[d.equipmentId] = d
               })
             }
             console.log(this.equipmentFormData)
+            console.log(this.isEquipementFormdata)
           })
 
         this.inspectionTraining.checkUserDeclarationForProject(this.userId, this.masterData.projectId)
@@ -116,7 +117,9 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
 
   }
 
+  submitLoad: boolean = false
   submitEquipmentForm() {
+    this.submitLoad = true
     let formData = []
     this.equipementList.forEach((eq: any) => {
       let physicalCondition = document.querySelector(`#physical_condition_${eq.equipmentId}`) as HTMLInputElement
@@ -151,16 +154,19 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
 
     console.log(formData)
 
-    if(this.isEquipementFormdata){
+    if (this.isEquipementFormdata) {
       this.inspectionTraining.updateEquipementForm(this.masterID, formData)
-      .subscribe(data =>{
-        console.log('updasha', data)
-      })
-    }else{ 
+        .subscribe(data => {
+          console.log('updasha', data)
+          this.submitLoad = false
+        })
+    } else {
       this.inspectionTraining.addEquipmentMaintenanceForm(formData)
-      .subscribe(data => {
-        console.log('form added-->', data)
-      })
+        .subscribe(data => {
+          console.log('form added-->', data)
+          this.submitLoad = false
+
+        })
     }
   }
 

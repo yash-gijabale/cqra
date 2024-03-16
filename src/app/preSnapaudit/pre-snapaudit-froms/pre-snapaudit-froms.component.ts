@@ -114,7 +114,7 @@ export class PreSnapauditFromsComponent implements OnInit {
         this.masterData = data[0]
 
         this.getTeamUser()//for updation
-  
+
         // this.commonService.setMasterData(this.masterData) //setting master data for sampling sheet
         localStorage.setItem('mData', JSON.stringify(this.masterData))//setting master data for sampling sheet
 
@@ -343,44 +343,46 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
   }
 
-  SubmitClientFeedback() {
-    let meetinglocation = document.querySelector('#meeting_Location') as HTMLInputElement
-    let openingcloprofessionally = document.querySelector('#openingCloProfessionally') as HTMLInputElement
-    let nonconfirmitiesdiscussed = document.querySelector('#nonConfirmitiesDiscussed') as HTMLInputElement
-    let qualityOfnonconfirmative = document.querySelector('#qualityOfNonConfirmative') as HTMLInputElement
-    let qualityOfWork = document.querySelector('input[name="quality"]:checked') as HTMLInputElement
+  // SubmitClientFeedback() {
+  //   let meetinglocation = document.querySelector('#meeting_Location') as HTMLInputElement
+  //   let openingcloprofessionally = document.querySelector('#openingCloProfessionally') as HTMLInputElement
+  //   let nonconfirmitiesdiscussed = document.querySelector('#nonConfirmitiesDiscussed') as HTMLInputElement
+  //   let qualityOfnonconfirmative = document.querySelector('#qualityOfNonConfirmative') as HTMLInputElement
+  //   let qualityOfWork = document.querySelector('input[name="quality"]:checked') as HTMLInputElement
 
-    let suggestdifferently = document.querySelector('#suggestDifferently') as HTMLInputElement
-    let feedback = document.querySelector('#Feedback') as HTMLInputElement
-    let othercomments = document.querySelector('#otherComments') as HTMLInputElement
+  //   let suggestdifferently = document.querySelector('#suggestDifferently') as HTMLInputElement
+  //   let feedback = document.querySelector('#Feedback') as HTMLInputElement
+  //   let othercomments = document.querySelector('#otherComments') as HTMLInputElement
 
-    let feedbackform = {
-      masterId: this.currentMasterId,
-      // clientId:this.clientId,
-      meeting_Location: meetinglocation.value,
-      openingCloProfessionally: openingcloprofessionally.value,
-      nonConfirmitiesDiscussed: nonconfirmitiesdiscussed.value,
-      qualityOfNonConfirmative: qualityOfnonconfirmative.value,
-      workQuality: qualityOfWork.value,
+  //   let feedbackform = {
+  //     masterId: this.currentMasterId,
+  //     // clientId:this.clientId,
+  //     meeting_Location: meetinglocation.value,
+  //     openingCloProfessionally: openingcloprofessionally.value,
+  //     nonConfirmitiesDiscussed: nonconfirmitiesdiscussed.value,
+  //     qualityOfNonConfirmative: qualityOfnonconfirmative.value,
+  //     workQuality: qualityOfWork.value,
 
-      suggestDifferently: suggestdifferently.value,
-      Feedback: feedback.value,
-      otherComments: othercomments.value
-    }
+  //     suggestDifferently: suggestdifferently.value,
+  //     Feedback: feedback.value,
+  //     otherComments: othercomments.value
+  //   }
 
-    console.log(feedbackform);
+  //   console.log(feedbackform);
 
-    //   this.inspectionTraining.addClientFeedbackForm(feedbackform)
-    //   .subscribe(data => {
-    //     console.log('daa added', data)
-    //   // this.supervisorFormSubmitLoad = false
-    // })
-  }
-
-
+  //   //   this.inspectionTraining.addClientFeedbackForm(feedbackform)
+  //   //   .subscribe(data => {
+  //   //     console.log('daa added', data)
+  //   //   // this.supervisorFormSubmitLoad = false
+  //   // })
+  // }
 
 
+
+
+  submitOpeningCloseLoad: boolean = false
   submitOpeningClosingMeetingFrom() {
+    this.submitOpeningCloseLoad = true
     let meetingLocation = document.querySelector('#meeting_location') as HTMLInputElement
     let meetingAgenda = document.querySelector('#meeting_agenda') as HTMLInputElement
     let openingMeetingdate = document.querySelector('#opening_meeting_date') as HTMLInputElement
@@ -436,12 +438,16 @@ export class PreSnapauditFromsComponent implements OnInit {
       this.inspectionTraining.updateOpeningClosingFrom(this.currentMasterId, formData)
         .subscribe(data => {
           console.log('opening cloding upadted', data)
+          this.submitOpeningCloseLoad = false
+
         })
 
     } else {
       this.inspectionTraining.addOpeningClosingForm(formData)
         .subscribe(data => {
           console.log('opening meeting form aded', data)
+          this.submitOpeningCloseLoad = false
+
         })
     }
 
@@ -704,6 +710,48 @@ export class PreSnapauditFromsComponent implements OnInit {
           console.log('inter revirew added', data)
         })
     }
+  }
+
+  SubmitClientFeedback() {
+    let meetinglocationv = document.querySelector('#meeting_Location') as HTMLInputElement
+
+    let openingCloProfessionallyv = document.querySelector('#openingcloprofessionally') as HTMLInputElement
+    let nonConfirmitiesDiscussedv = document.querySelector('#nonconfirmitiesdiscussed') as HTMLInputElement
+    let qualityOfNonConfirmativev = document.querySelector('#qualityofnonconfirmative') as HTMLInputElement
+    let qualityOfWorkv = document.querySelector('input[name="quality"]:checked') as HTMLInputElement
+
+    let suggestDifferentlyv = document.querySelector('#suggestdifferently') as HTMLInputElement
+    let feedbackv = document.querySelector('#feedback') as HTMLInputElement
+    let otherCommentsv = document.querySelector('#othercomments') as HTMLInputElement
+
+
+    let feedbackform = {
+      masterId: this.currentMasterId,
+      clientId: this.masterData.clientId,
+      projectId: this.masterData.projectId,
+      location: meetinglocationv.value,
+
+      openingCloProfessionally: openingCloProfessionallyv.value,
+      nonConfirmitiesDiscussed: nonConfirmitiesDiscussedv.value,
+      qualityOfNonConfirmative: qualityOfNonConfirmativev.value,
+      qualityOfWork: qualityOfWorkv.value,
+
+      suggestDifferently: suggestDifferentlyv.value,
+      feedback: feedbackv.value,
+      otherComments: otherCommentsv.value
+    }
+
+    console.log(feedbackform);
+    // let formData ={
+    //   feedbackform
+    // }
+    // console.log(formData);
+
+    this.inspectionTraining.addClientFeedbackForm(feedbackform)
+      .subscribe(data => {
+        console.log('Feedback form Submited', data);
+      })
+
   }
 
 

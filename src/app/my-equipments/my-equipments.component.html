@@ -21,11 +21,16 @@
         </div>
       </div>
 
+      <div *ngIf="eqload then load"></div>
+      <ng-template #load>
+        <app-loader></app-loader>
+      </ng-template>
       <div class="tab_main">
         <div class="tab_header">
           <div [class]="activeTab=='assiged' ? 'tab tab_active' : 'tab'" (click)="changePannel('assiged')">Assigned
           </div>
-          <div [class]="activeTab=='new' ? 'tab tab_active' : 'tab'" (click)="changePannel('new')">New <span class="badge badge-warning">{{newEquipments.length}}</span></div>
+          <div [class]="activeTab=='new' ? 'tab tab_active' : 'tab'" (click)="changePannel('new')">New <span
+              class="badge badge-warning">{{newEquipments.length}}</span></div>
         </div>
         <div class="tab_body">
 
@@ -55,9 +60,10 @@
                     <td>{{eq.dateOfAssign}}</td>
                     <td>{{eq.dateOfCalibration}}</td>
                     <td>
-                      <span class="badge badge-primary" role="button">Return</span>
+                      <span class="badge badge-primary" role="button" >Return</span>
+
                     </td>
-                  
+
                 </tbody>
 
               </table>
@@ -165,15 +171,13 @@
 
               <div class="row d-flex justify-content-between">
                 <div>
-                  <img src="https://res.cloudinary.com/dui8bnzt6/image/upload/v1710475492/f3xxslczmwfbggr0w1i9.png"
-                  height="200px">
+                  <img [src]="newEquipments[0] ? newEquipments[0].sign : ''" height="200px">
                   <p class="card-title mx-2">{{userData.userName}}</p>
                 </div>
-                  
+
                 <div>
-                  <img src="https://res.cloudinary.com/dui8bnzt6/image/upload/v1710475492/f3xxslczmwfbggr0w1i9.png"
-                  height="200px">
-                  <p class="card-title mx-2">Assigned by</p>
+                  <img [src]="newEquipments[0] ? newEquipments[0].AssignedBySignature : ''" height="200px">
+                  <p class="card-title mx-2">{{newEquipments[0] ? newEquipments[0].AssignedByName : ''}}</p>
                 </div>
               </div>
 

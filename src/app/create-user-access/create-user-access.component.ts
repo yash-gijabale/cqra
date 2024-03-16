@@ -16,7 +16,7 @@ export class CreateUserAccessComponent implements OnInit {
   accessFrom: FormGroup;
   submitted = false;
   SelUser: string = "0";
-  userMenu:any = {}
+  userMenu: any = {}
   users: UserView[]
   constructor(
     private formBuilder: FormBuilder,
@@ -147,7 +147,10 @@ export class CreateUserAccessComponent implements OnInit {
   }
   get f() { return this.accessFrom.controls; }
 
+
+  userAllocationLoad: boolean = false
   onSubmit() {
+    this.userAllocationLoad = true
     console.log("Id==");
     let a = document.querySelectorAll('.form-check-input')
 
@@ -160,6 +163,8 @@ export class CreateUserAccessComponent implements OnInit {
     this.userService.setUserAccess(this.accessFrom.value)
       .subscribe(data => {
         console.log('added-->', data)
+        this.userAllocationLoad = false
+
       })
 
 

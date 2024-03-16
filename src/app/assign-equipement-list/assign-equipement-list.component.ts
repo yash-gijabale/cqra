@@ -18,9 +18,14 @@ export class AssignEquipementListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<EquipmentView> = new Subject<EquipmentView>();
 
-  assignEquipment: EquipmentView
+  assignEquipment: Array<EquipmentView>
   isLoading: boolean = false
   users: UserView[]
+
+  activeTab: String = 'activate'
+
+  eqload: boolean = false
+
   constructor(
     private userService: UserService,
     private router: Router
@@ -36,17 +41,41 @@ export class AssignEquipementListComponent implements OnInit {
       responsive: true,
       scrollX: true
     };
+
+    this.eqload = true
+    this.getAllEquipment()
+
+
+    this.userService.getAllUsers()
+      .subscribe(data => {
+        this.users = data
+      })
+  }
+
+  activateEquipment = []
+  deActivateEquipment = []
+  separateActivateAndDeactivateEquip(data) {
+    data.forEach(eq => {
+      if (eq.status) {
+        this.activateEquipment.push(eq)
+      } else {
+        this.deActivateEquipment.push(eq)
+      }
+    })
+
+    console.log(this.activateEquipment)
+    console.log(this.deActivateEquipment)
+  }
+
+  getAllEquipment() {
     this.userService.getAllAssignEquipment()
       .subscribe(data => {
         console.log(data)
         this.assignEquipment = data
         this.dtTrigger.next()
         this.isLoading = false
-      })
-
-    this.userService.getAllUsers()
-      .subscribe(data => {
-        this.users = data
+        this.separateActivateAndDeactivateEquip(data)
+        this.eqload = false
       })
   }
 
@@ -57,10 +86,10 @@ export class AssignEquipementListComponent implements OnInit {
   deActivate(id) {
     let isDelete = confirm('Are you sure want to delete ?')
     if (isDelete) {
-      this.userService.deleteAssignEqiopment(id)
+      this.userService.deleteAssignEqiopment(id, false)
         .subscribe(data => {
-          console.log('delerted')
-          location.reload()
+          console.log('delerted', data)
+          // location.reload()
         })
 
     }
@@ -84,6 +113,7 @@ export class AssignEquipementListComponent implements OnInit {
       .subscribe(data => {
         console.log('added', data)
         this.assignEqLoad = false
+        this.getAllEquipment()
 
       })
   }
@@ -114,5 +144,44 @@ export class AssignEquipementListComponent implements OnInit {
     setTimeout(() => {
       this.showSnack = false
     }, 2000);
+  }
+
+
+  returnLoad: boolean = false
+  submitReturnEquipment(equipmentId, assignTo) {
+    this.returnLoad = true
+    let reason = document.querySelector(`#returnReason${equipmentId}`) as HTMLSelectElement
+    let remark = document.querySelector(`#returnRemark${equipmentId}`) as HTMLInputElement
+    let date = document.querySelector(`#returnDate${equipmentId}`) as HTMLInputElement
+
+    let data = {
+      equipmentId: equipmentId,
+      userId: assignTo,
+      reason: Number(reason.value),
+      submissionDate: date.value,
+      remark: remark.value
+    }
+
+    console.log(data)
+
+    this.userService.returnEquipment(data)
+      .subscribe(data => {
+        console.log('returned', data)
+        this.returnLoad = false
+        this.getAllEquipment()
+      }, err => {
+        console.log(err)
+        this.returnLoad = false
+      })
+  }
+
+  changePannel(tab) {
+    this.activeTab = tab
+    // if(tab == 'activate'){
+    //   this.assignEquipment = this.activateEquipment
+    // }else{
+    //   this.assignEquipment = this.deActivateEquipment
+    // }
+
   }
 }

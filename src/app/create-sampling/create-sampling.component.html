@@ -48,13 +48,13 @@
                 {{o.structureName}}
               </option>
             </select>
-           
+
             <!-- <button (click)="goToStepThree()">step 3</button> -->
           </div>
 
           <div class="form-group col-md-4">
             <label>Cycle of inspection</label>
-            <select [(ngModel)]="Selcycle" class="form-control"(change)="getStages()">
+            <select [(ngModel)]="Selcycle" class="form-control" (change)="getStages()">
               <option [value]="0">Please Select</option>
               <option [value]="o.cycle_id" *ngFor="let o of cycleOfInspection">
                 {{o.cycle_name}}
@@ -80,6 +80,11 @@
             <label>Inspection Date</label>
             <input [(ngModel)]="inspectionDate" type="date" class="form-control" [value]="inspectionDate">
           </div>
+
+          <!-- <div *ngIf="loader; then loader"></div>
+          <ng-template #loader>
+            <app-loader></app-loader>
+          </ng-template> -->
           <div class="row m-0 main-container col-md-12">
             <nav>
               <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -428,8 +433,14 @@
                     </table>
 
                     <div class="form-group my-2">
-                      <button class="btn btn-success" (click)="submitStep3Data()">Save</button>
-                      <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">Generate Report</button>
+                      <button class="btn btn-success" (click)="submitStep3Data()">
+                        <span *ngIf="submitStep3Load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="!submitStep3Load">Save</span>
+                      </button>
+                      <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">
+                        <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="!generateLoad">Generate Report</span>
+                      </button>
 
                     </div>
                   </div>
@@ -499,8 +510,14 @@
 
                   </div>
                   <div class="form-group my-2">
-                    <button class="btn btn-success" (click)="Type2submitStep3Data()">Save</button>
-                    <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">Generate Report</button>
+                    <button class="btn btn-success" (click)="Type2submitStep3Data()">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="type2Step3submitLoad"></span>
+                      <span *ngIf="!type2Step3submitLoad">Save</span>
+                    </button>
+                    <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">
+                      <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span *ngIf="!generateLoad">Generate Report</span>
+                    </button>
 
                   </div>
                 </ng-template>

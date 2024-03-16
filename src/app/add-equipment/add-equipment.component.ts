@@ -28,7 +28,7 @@ export class AssetListView {
     public assetName: string,
     public userBy: string,
     public cost: number,
-    public asset_type_name : String
+    public asset_type_name: String
   ) {
 
   }
@@ -137,25 +137,34 @@ export class AddEquipmentComponent implements OnInit {
 
   submitLoad = false
   onSubmit() {
-    console.log(this.equipmentForm.value)
     this.submitLoad = true
+    console.log(this.equipmentForm.value)
+    let formData = { ...this.equipmentForm.value, status: true }
+    // return
 
     if (this.equipmentId != -1) {
-      this.userService.updateEquipemt(this.equipmentForm.value, this.equipmentId)
-        .subscribe(data => console.log('updated==>', data))
-        this.submitLoad = false
+      this.userService.updateEquipemt(formData, this.equipmentId)
+        .subscribe(data => {
+          console.log('updated==>', data)
+          this.submitLoad = false
+        })
 
     } else {
 
-      this.userService.addEquipment(this.equipmentForm.value)
-        .subscribe(data => console.log('equipment addded-->', data))
-        this.submitLoad = false
+      this.userService.addEquipment(formData)
+        .subscribe(data => {
+          console.log('equipment addded-->', data)
+          this.submitLoad = false
+        })
 
     }
   }
 
 
+
+  newAssetLoad: boolean = false
   addNewAsset() {
+    this.newAssetLoad = true
     // console.log(this.signPad.toSVG())
     // let idv = document.querySelector(`#show`) as HTMLDivElement
     // let sign = this.signPad.toSVG()
@@ -174,6 +183,7 @@ export class AddEquipmentComponent implements OnInit {
     this.userService.newAsset(formData)
       .subscribe(data => {
         console.log('aded', data)
+        this.newAssetLoad = false
       })
   }
 
@@ -185,7 +195,7 @@ export class AddEquipmentComponent implements OnInit {
       .subscribe(data => {
         this.assetListLoad = false
         let srNo = 0
-        this.allAssetlist = data.map(d =>{
+        this.allAssetlist = data.map(d => {
           srNo += 1
           let usedBy = d.userBy ? d.userBy.split(',') : [];
           console.log(usedBy)
@@ -201,13 +211,13 @@ export class AddEquipmentComponent implements OnInit {
 
   }
 
-  assetsData:Array<any> = []
-  getAssets(e){
+  assetsData: Array<any> = []
+  getAssets(e) {
     console.log(e.target.value)
     this.userService.getEquipmentByAssetType(e.target.value)
-    .subscribe(data =>{
-      console.log(data)
-      this.assetsData = data
-    })
+      .subscribe(data => {
+        console.log(data)
+        this.assetsData = data
+      })
   }
 }

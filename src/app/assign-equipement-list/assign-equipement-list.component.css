@@ -62,3 +62,44 @@
 .assign_bg{
   background-color: #91dfa6ba;
 }
+
+
+.tab_main{
+  width: 100%;
+  height: auto;
+  min-height: 70vh;
+  background-color: rgb(248, 248, 248);
+  /* border-radius:; */
+  padding: 10px;
+}
+.tab_header{
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.pannel{
+  display: inline;
+}
+.pannel_hide{
+  display: none;
+}
+
+.tab{
+  padding: 5px 10px;
+  background-color: rgb(230, 227, 227);
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tab_active{
+  background-color: #006699;
+  color: white;
+}
+
+.tab_body{
+  padding: 1rem;
+  background-color: transparent;
+
+}

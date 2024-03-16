@@ -153,16 +153,16 @@
             <span class="nav-link-text">Snap Audit Reports </span>
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/userLog">User Log</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/editNC">Edit NC & Conformity </a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/ncCountReportList">NC count</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/snaggingDocument">SingOff documents</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/inspectionReport">Inspection report</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/snaggingReport">Snagging report</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/ncClosureSa">NC closure (SA)</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/ncReviewerSa">NC Reviwer (SA)</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/ncApproverSa">NC Approver (SA)</a></li>
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/qualityIndexReportList">Quality Index Report</a>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/userLog">User Log</a></li>
+            <li *ngIf="userMenu.nc" class="dropdown-item"><a tabindex="-1" routerLink="/editNC">Edit NC & Conformity </a></li>
+            <li *ngIf="userMenu.ncco1" class="dropdown-item"><a tabindex="-1" routerLink="/ncCountReportList">NC count</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/snaggingDocument">SingOff documents</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/inspectionReport">Inspection report</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/snaggingReport">Snagging report</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncClosureSa">NC closure (SA)</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncReviewerSa">NC Reviwer (SA)</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncApproverSa">NC Approver (SA)</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/qualityIndexReportList">Quality Index Report</a>
             </li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation Tracker Report</a></li>
 

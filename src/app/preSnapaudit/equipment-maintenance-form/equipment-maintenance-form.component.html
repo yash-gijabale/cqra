@@ -79,7 +79,7 @@
               <td>{{eq.assetName}}</td>
               <td>{{eq.assetSerialNo}}</td>
               <td>
-                <input [id]="'physical_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].physicalConditionOfEqu : ''">
+                <input [id]="'physical_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].physicalConditionOfEqu: ''">
               </td>
               <td>
                 <input [id]="'analog_condition_'+eq.equipmentId" type="text" class="form-control" [value]="isEquipementFormdata ? equipmentFormData[eq.equipmentId].analogTools : ''">
@@ -116,7 +116,10 @@
         <div class="spinner-border text-warning" role="status">
         </div>
       </div>
-      <button *ngIf="isDeclarationFormFiled" class="btn btn-sm btn-success" (click)="submitEquipmentForm()">Submit</button>
+      <button *ngIf="isDeclarationFormFiled" class="btn btn-sm btn-success" (click)="submitEquipmentForm()">
+        <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span *ngIf="!submitLoad">Submit</span>
+      </button>
 
     </div>
   </div>

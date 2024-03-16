@@ -13,8 +13,8 @@
           <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#new-trade-user">New
               Asset </button>
-            <button type="button" class="btn btn-outline-dark" data-toggle="modal"
-              data-target="#trade-user-list" (click)="assetList()">List</button>
+            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#trade-user-list"
+              (click)="assetList()">List</button>
             <button type="button" class="btn btn-outline-dark"><a routerLink="/assignEquipementList"
                 class="text-dark">Manage Asset</a> </button>
           </div>
@@ -88,7 +88,11 @@
                   <div id="show">
                   </div> -->
                   <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" type="submit">Save</button>
+                    <button class="btn btn-sm btn-success" type="submit">
+                      <span *ngIf="newAssetLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                      <span *ngIf="!newAssetLoad">Save</span>
+                    </button>
                   </div>
                 </form>
               </div>
@@ -115,7 +119,8 @@
                   </div>
                 </div>
                 <div *ngIf="!assetListLoad">
-                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="row-border hover inspector_list_table" style="width:100%">
+                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                    class="row-border hover inspector_list_table" style="width:100%">
                     <thead>
                       <tr>
                         <th>Sr. No</th>
@@ -131,7 +136,7 @@
                         <td>{{asset.asset_type_name}}</td>
                         <td>{{asset.assetName}}</td>
                         <td>{{asset.cost}}</td>
-                        <td  class="d-flex">
+                        <td class="d-flex">
                           <div *ngFor="let usedBy of asset.userBy" class="mx-1">
                             <span class="badge badge-warning" *ngIf="usedBy=='1'">Civil</span>
                             <span class="badge badge-warning" *ngIf="usedBy=='2'">MEP</span>
@@ -225,9 +230,11 @@
           </div>
 
           <div class="form-group mt-3">
-            <button class="btn btn-primary">
-              <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" ></span>
-              <span *ngIf="!submitLoad">Save</span>
+            <button class="btn btn-primary" *ngIf="submitLoad">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-primary" *ngIf="!submitLoad">
+              <span >Save</span>
             </button>
           </div>
 

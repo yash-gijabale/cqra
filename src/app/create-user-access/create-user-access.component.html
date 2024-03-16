@@ -1022,7 +1022,10 @@
           </div>
 
           <div class="form-group mt-4">
-            <button class="btn btn-primary">Save</button>
+            <button class="btn btn-primary">
+              <span *ngIf="userAllocationLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span *ngIf="!userAllocationLoad">Save</span>
+            </button>
           </div>
         </form>
       </div>

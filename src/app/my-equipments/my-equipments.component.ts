@@ -17,6 +17,9 @@ export class MyEquipmentsComponent implements OnInit {
 
   activeTab: String = 'assiged'
   signPad: any
+
+  eqload: boolean = false
+
   constructor(
     private userService: UserService
   ) { }
@@ -33,6 +36,7 @@ export class MyEquipmentsComponent implements OnInit {
       responsive: true,
     };
 
+    this.eqload = true
     this.userService.getMyEquipments(this.userId)
       .subscribe(data => {
         console.log(data)
@@ -40,6 +44,7 @@ export class MyEquipmentsComponent implements OnInit {
         this.separateDataByRecivedStatus(data)
 
         this.dtTrigger.next()
+        this.eqload = false
       })
 
 

@@ -36,8 +36,8 @@ import { traningReportData } from './create-training/create-training.component';
   providedIn: 'root'
 })
 export class CommonService {
-  // private REST_API_SERVER = "http://18.217.108.137:9090";//working IP Address
-  private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
+  private REST_API_SERVER = "http://18.217.108.137:9090";//working IP Address
+  // private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
   //private REST_API_SERVER = "http://18.217.108.137:8080";
   constructor(private httpClient: HttpClient) { }
 

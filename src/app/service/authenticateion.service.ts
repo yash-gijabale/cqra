@@ -8,8 +8,8 @@ import { map } from 'rxjs/operators';
 export class AuthenticateionService {
 
   //private REST_API_SERVER = "http://18.217.108.137:8080";
-  // private REST_API_SERVER = "http://18.217.108.137:9090"; //working Ip
-  private REST_API_SERVER = "http://localhost:9090"; //local Ip for testing
+  private REST_API_SERVER = "http://18.217.108.137:9090"; //working Ip
+  // private REST_API_SERVER = "http://localhost:9090"; //local Ip for testing
   // private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:8080";
   // Adds CORS header to the request?
   //private httpOptions = { headers: new HttpHeaders({ 'Content-Type':'application/json','Access-Control-Allow-Origins':'*'})};

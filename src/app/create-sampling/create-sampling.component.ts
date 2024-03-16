@@ -145,6 +145,8 @@ export class CreateSamplingComponent implements OnInit {
   stageNameData = {}
 
   masterData: any
+  loader = false
+
 
   constructor(
     private commanService: CommonService,
@@ -278,7 +280,11 @@ export class CreateSamplingComponent implements OnInit {
 
   // }
 
+
   getInitialData(projectId, samplingType) {
+    this.loader = true
+    this.loader = false
+
 
     this.SelClientId = this.masterData.clientId
     this.SelProject = this.masterData.projectId,
@@ -301,6 +307,7 @@ export class CreateSamplingComponent implements OnInit {
         data => {
           console.log('trades-->', data)
           this.trades = data
+
         }
       )
 
@@ -327,6 +334,7 @@ export class CreateSamplingComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.convertRowObjet(data)
+
       })
   }
 
@@ -467,7 +475,7 @@ export class CreateSamplingComponent implements OnInit {
       let data = {
         projectId: this.SelProject,
         structureId: this.SelStructure,
-        masterId: this.masterData.masterId,
+        master_id: this.masterData.masterId,
         tradeId: item,
         status: (<HTMLSelectElement>statusValue).value,
         workAreaWithName
@@ -612,7 +620,7 @@ export class CreateSamplingComponent implements OnInit {
           let data = {
             projectId: this.SelProject,
             structureId: this.SelStructure,
-            masterId: this.masterData.masterId,
+            master_id: this.masterData.masterId,
             tradeId: item,
             status: (<HTMLSelectElement>statusValue).value,
             contractorId: contractorId,
@@ -651,7 +659,7 @@ export class CreateSamplingComponent implements OnInit {
         let data = {
           projectId: this.SelProject,
           structureId: this.SelStructure,
-          masterId: this.masterData.masterId,
+          master_id: this.masterData.masterId,
           tradeId: item,
           status: (<HTMLSelectElement>statusValue).value,
           contractorId: (<HTMLSelectElement>contractorValue).value,
@@ -1170,7 +1178,9 @@ export class CreateSamplingComponent implements OnInit {
 
   }
 
+  submitStep3Load: boolean = false
   submitStep3Data() {
+    this.submitStep3Load = true
     let stautsSelect = document.querySelectorAll('.trades')
     let tradeIds = []
     let newformData = []
@@ -1185,7 +1195,7 @@ export class CreateSamplingComponent implements OnInit {
         structureId: this.SelStructure,
         cycleOfInspection: this.Selcycle,
         contractorId: this.contractorId,
-        masterId: this.masterData.masterId,
+        master_id: this.masterData.masterId,
         tradeId: trade,
         staffId: this.staffId,
         samplingType: this.samplingType,
@@ -1237,6 +1247,7 @@ export class CreateSamplingComponent implements OnInit {
     this.clientService.submitStep3Data(newformData)
       .subscribe(data => {
         console.log('step3 Data is added-->', data)
+        this.submitStep3Load = false
       },
         err => {
           console.log(err)
@@ -1323,7 +1334,10 @@ export class CreateSamplingComponent implements OnInit {
 
   }
 
+
+  type2Step3submitLoad: boolean = false
   Type2submitStep3Data() {
+    this.type2Step3submitLoad = true
     let contractorRow = document.querySelectorAll('.contractorId')
     let contractorIds = []
     let tradeRow = document.querySelectorAll('.type2trades')
@@ -1352,7 +1366,7 @@ export class CreateSamplingComponent implements OnInit {
               structureId: this.SelStructure,
               fromDate: this.reportDate,
               toDate: this.inspectionDate,
-              masterId: this.masterData.masterId,
+              master_id: this.masterData.masterId,
               cycleOfInspection: this.Selcycle,
               contractorId: contractor,
               staffId: (<HTMLInputElement>staffId).value,
@@ -1395,16 +1409,21 @@ export class CreateSamplingComponent implements OnInit {
     this.clientService.submitStep3Data(contractorWiseData)
       .subscribe(data => {
         console.log('step 3 sub,ited-->', data)
+        this.type2Step3submitLoad = false
       })
 
   }
 
 
+  generateLoad: boolean = false
   goToGenerateReport() {
+    this.generateLoad = true
     console.log(this.SelProject, this.SelClientId, this.Selcycle, this.location, this.inspectionDate, this.reportDate)
     this.clientService.generateSamplingFinalReport(this.SelClientId, this.SelProject, this.inspectionDate, this.Selcycle, this.reportDate, this.location)
       .subscribe(data => {
         console.log('report generated')
+        this.generateLoad = false
+
       })
   }
 }

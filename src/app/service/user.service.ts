@@ -15,8 +15,8 @@ import { RegionView } from '../add-region/add-region.component';
 export class UserService {
 
   // private REST_API_SERVER = "http://18.217.108.137:8080";
-  // private REST_API_SERVER = "http://18.217.108.137:9090"; //working Ip
-  private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
+  private REST_API_SERVER = "http://18.217.108.137:9090"; //working Ip
+  // private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
 
 
   //private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
@@ -78,7 +78,7 @@ export class UserService {
     return this.httpClient.get<AssestView>(`${this.REST_API_SERVER}/getAssets`)
   }
   getAllAssignEquipment() {
-    return this.httpClient.get<EquipmentView>(`${this.REST_API_SERVER}/getEquipmentsjoin`)
+    return this.httpClient.get<Array<EquipmentView>>(`${this.REST_API_SERVER}/getEquipmentsjoin`)
   }
 
   addEquipment(data): Observable<UserService> {
@@ -93,8 +93,8 @@ export class UserService {
     return this.httpClient.put(`${this.REST_API_SERVER}/Equipment/${id}`, data)
   }
 
-  deleteAssignEqiopment(id){
-    return this.httpClient.delete(`${this.REST_API_SERVER}/Equipment/${id}`)
+  deleteAssignEqiopment(id, status){
+    return this.httpClient.put(`${this.REST_API_SERVER}/updatestatus/${id}/${status}`, '')
   }
 
   assignNewUserToEquipment(equipmentId, userId, data){
@@ -127,6 +127,10 @@ export class UserService {
 
   acceptPolisy(data){
     return this.httpClient.put(`${this.REST_API_SERVER}/updatestatusandsignatyre`, data)
+  }
+
+  returnEquipment(data):Observable<UserService>{
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/addequipmenthistory`, data)
   }
 
 
