@@ -74,7 +74,7 @@
               <option [value]="'t1'">T1</option>
               <option [value]="'t2'">T2</option>
             </select>
-          
+
           </div>
 
           <div class="form-group" *ngIf="showCadre">
@@ -119,7 +119,8 @@
             <label>Department</label>
             <select formControlName="department" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.department.errors }">
-              <option [value]="1" [selected]="true">Administrative</option>
+              <option [selected]="true">Select Department</option>
+              <option [value]="1">Administrative</option>
               <option [value]="2">Billing(QS)</option>
               <option [value]="3">Central Audit Team</option>
               <option [value]="4">Digital Marketing</option>
@@ -171,7 +172,7 @@
           <div class="form-group">
             <label>Role</label>
             <select formControlName="roleId" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }" >
+              [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
               <option [value]="role.id" *ngFor="let role of roles">{{role.name}}</option>
             </select>
             <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
@@ -266,8 +267,52 @@
 
           <div class="form-group">
             <label>Image1</label>
-            <input type="file" formControlName="userImage" class="form-control" />
+            <input type="file" id="userSign" formControlName="userImage" class="form-control" />
           </div>
+
+
+          <div class="form-group" *ngIf="!showCadre">
+            <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#new-trade-user">Assign
+              Projects</button>
+
+            <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Projects</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div *ngIf="isProjectLoad; then newTradeThen else newTradeElse"></div>
+                    <ng-template #newTradeThen>
+                      <div class="userdeailsload">
+                        <div class="spinner-border text-warning" role="status">
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template #newTradeElse>
+                      <div class="form-check col-md-12" *ngFor="let project of projects">
+                        <input class="form-check-input" (change)="addToProjectList($event)" type="checkbox"
+                          [value]="project.projectId" id="flexCheckDefault" [checked]="assignProjectObject[project.projectId] ? true: false">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          {{project.projectName}}
+                        </label>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" (click)="saveAssignProjects()">Save</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
           <div class="form-group">
             <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
             <ng-template #thenBlock>

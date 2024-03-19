@@ -61,12 +61,15 @@ export class ClientComponent implements OnInit {
     this.router.navigate(['createClient', id])
   };
 
+
   deActivateClient(id) {
     const isDelete = confirm('Are you sure want to deaactivate !');
+    this.isLoading = true
     if (isDelete) {
       this.clientService.deactivateClient(id)
         .subscribe(
           data => {
+            this.isLoading = false
             console.log('deacticated !')
             location.reload();
           },

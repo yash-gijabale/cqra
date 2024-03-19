@@ -143,6 +143,7 @@ import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/p
 import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-maintenance-form/equipment-maintenance-form.component';
 import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
 import { SnackBarComponent } from './loader/snack-bar/snack-bar.component';
+import { Global } from 'src/config/Global';
 
 
 @NgModule({
@@ -293,7 +294,7 @@ import { SnackBarComponent } from './loader/snack-bar/snack-bar.component';
     // MatInputModule,
   ],
  
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }, Global],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

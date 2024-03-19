@@ -1,4 +1,4 @@
-* {
+/* * {
     box-sizing: border-box;
   }
   
@@ -12,13 +12,7 @@
     
   }
 
-  input[type=checkbox] {
-    padding: 0;
-    height: initial;
-    width: initial;
-    margin-bottom: 0;
-    cursor: pointer;
-}
+ 
   
   label {
     width:20%;
@@ -38,4 +32,12 @@
   
   input[type=submit]:hover {
     background-color: #45a049;
-  }
+  } */
+
+  input[type=checkbox] {
+    padding: 0;
+    height: initial;
+    width: initial;
+    margin-bottom: 0;
+    cursor: pointer;
+}

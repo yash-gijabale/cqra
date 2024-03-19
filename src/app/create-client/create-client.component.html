@@ -24,6 +24,13 @@
                 </div>
             </div>
          </div>
+
+         <div *ngIf="isLoading; then thenBlock"></div>
+         <ng-template #thenBlock>
+           <app-loader></app-loader>
+         </ng-template>
+
+         
          <div class="create-viewform">
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
@@ -56,9 +63,9 @@
             </div>
             <div class="form-group">
               <label>Contact Person Phone</label>
-              <input type="text" formControlName="clientContactNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientContactNumber.errors }" />
-              <div *ngIf="submitted && f.clientContactNumber.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientContactNumber.errors.required">Contact Person is required</div>
+              <input type="text" formControlName="clientPhone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientPhone.errors }" />
+              <div *ngIf="submitted && f.clientPhone.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientPhone.errors.required">Contact Person is required</div>
               </div>
           </div>
             <div class="form-group">
@@ -70,7 +77,10 @@
               </div>
           </div>
             <div class="form-group">
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary">
+                  <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span *ngIf="!submitLoad">Save</span>
+                </button>
             </div>
         </form>
          </div>

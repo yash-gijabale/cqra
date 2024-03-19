@@ -8,9 +8,8 @@ import { ClientData } from '../client/client.component';
 import { RegionView } from '../add-region/add-region.component';
 import { RoleView } from '../add-role/add-role.component';
 import { CommonService } from '../common.service';
-import { data } from 'jquery';
-import { forEach } from '@angular/router/src/utils/collection';
-// import {FormControl} from '@angular/forms';
+
+import { InspectorTraning } from '../service/inspectionTraining.service';
 
 @Component({
   selector: 'app-create-user',
@@ -41,13 +40,25 @@ export class CreateUserComponent implements OnInit {
 
   isLoading = false
 
+  userRegions = []
+
+  projects: Array<any> = []
+
+  isProjectLoad: boolean = false
+
+  clientProjectObject = {}
+
+  assignProjectObject = {}
+
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private clientServiceService: ClientServiceService,
     private userService: UserService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private inspectionTraining: InspectorTraning
   ) { }
 
   ngOnInit() {
@@ -68,11 +79,43 @@ export class CreateUserComponent implements OnInit {
     if (this.id != -1) {
       this.userService.retriveUser(this.id)
         .pipe(first())
-        .subscribe(x => {
-          console.log(x)
-          this.registerForm.patchValue(x[0])
+        .subscribe(data => {
+          console.log(data)
+          if (data[0]) {
+
+            let userData: any = data[0]
+            this.representingType = userData.representingTypeId
+            this.getRepresentors()
+            this.userRegions = userData.region.split(",")
+            this.userRegions = this.userRegions.map(e => {
+              return Number(e)
+            })
+            console.log(this.userRegions)
+            this.registerForm.patchValue(data[0])
+            this.registerForm.patchValue({ region: this.userRegions })
+            this.registerForm.patchValue({ dateOfJoining: new Date(userData.dateOfJoining).toISOString().substring(0, 10) })
+          }
         });
+      
+      this.inspectionTraining.getUserDeclarationDetails(this.id)
+      .subscribe(data =>{
+        console.log(data)
+        data.forEach(d =>{
+          this.assignProjectList.push(d.projectId)
+          this.assignProjectObject[d.projectId] = true
+        })
+      })
     }
+
+    this.isProjectLoad = true
+    this.commonService.getAllProject()
+      .subscribe(data => {
+        console.log(data)
+        this.projects = data
+        this.isProjectLoad = false
+        this.generateClientProjectObject(data)
+
+      })
 
     this.registerForm = this.formBuilder.group({
       userFullName: ['', Validators.required],
@@ -95,7 +138,7 @@ export class CreateUserComponent implements OnInit {
       representingTypeId: ['', Validators.required],
       representingId: ['', Validators.required],
       dateOfJoining: ['', Validators.required],
-      department: ['', Validators.required],
+      department: ['', Validators.nullValidator],
       cadre: ['', Validators.nullValidator],
       employeeId: ['', Validators.nullValidator]
 
@@ -108,12 +151,16 @@ export class CreateUserComponent implements OnInit {
     this.submitted = true;
 
     this.registerForm.value.region = this.registerForm.value.region.toString()
+    let signData = document.querySelector('#userSign') as HTMLInputElement
+    let img1: File = signData.files[0]
+    console.log(img1)
+
     // console.log(this.registerForm.value)
     // return
     //UPDATING THE FORM FOR MAPPING VALUES IN BACKEND
     let formData = {
       ...this.registerForm.value,
-      status: true
+      status: true,
     }
 
     console.log(formData)
@@ -133,6 +180,17 @@ export class CreateUserComponent implements OnInit {
           data => {
             console.log('user updated-->', data)
             this.isLoading = false
+            let newUser: any = data
+            this.assignProjectForNonCQRA(newUser.id)
+
+            if (img1) {
+              this.userService.uploadUserSign(newUser.id, img1)
+                .subscribe(data => {
+                  console.log('img uploaded', data)
+                }, err => console.log(err))
+
+            }
+
           },
           err => console.log(err))
     } else {
@@ -141,15 +199,31 @@ export class CreateUserComponent implements OnInit {
       this.userService.createUser(formData)
         .subscribe(
           data => {
-            console.log('user created!--->', data),
+            console.log('user created!--->', data)
+            let newUser: any = data
             this.registerForm.reset()
+            this.assignProjectForNonCQRA(newUser.id)
             this.isLoading = false
+            if (img1) {
+              this.userService.uploadUserSign(newUser.id, img1)
+                .subscribe(data => {
+                  console.log('img uploaded', data)
+                })
+
+            }
 
           },
           err => console.log(err)
         )
     }
 
+  }
+
+
+  generateClientProjectObject(data) {
+    data.forEach(item => {
+      this.clientProjectObject[item.projectId] = item.clientId
+    })
   }
 
   getRepresentors() {
@@ -222,4 +296,44 @@ export class CreateUserComponent implements OnInit {
     })
   }
 
+
+  assignProjectList = []
+  addToProjectList(e) {
+    if (e.target.checked) {
+      this.assignProjectList.push(Number(e.target.value))
+    } else {
+      let updateTradeArray = this.assignProjectList.filter(trade => {
+        if (trade != e.target.value) {
+          return trade
+        }
+      })
+
+      this.assignProjectList = updateTradeArray
+    }
+
+    console.log(this.assignProjectList)
+  }
+
+  assignProjectForNonCQRA(userId) {
+    if (this.representingType != 1 && this.assignProjectList.length > 0) {
+      let assignData = []
+      this.assignProjectList.forEach(projectId => {
+        let data = {
+          clientId: this.clientProjectObject[projectId],
+          projectId: projectId,
+          userId: Number(userId),
+          trainingDate: new Date().toISOString().slice(0, 10),
+          dtmStatus: 1,
+          userStatus: 1
+        }
+        assignData.push(data)
+      })
+      console.log(assignData)
+      this.inspectionTraining.assignMultipleProject(assignData)
+        .subscribe(data => {
+          console.log('projexts assigned', data)
+        })
+    }
+
+  }
 }

@@ -22,17 +22,20 @@ import { data } from 'jquery';
 import { QuestionData } from './create-question/create-question.component';
 import { TradeData } from './create-tarde/create-tarde.component';
 import { allocatedChecklistData } from './project-checklist-allocation/project-checklist-allocation.component';
+import { Global } from 'src/config/Global';
 @Injectable({
   providedIn: 'root'
 })
 export class TradeMaintanceService {
   // private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
   //private REST_API_SERVER = "http://18.217.108.137:8080";
-  private REST_API_SERVER = "http://18.217.108.137:9090"; //working IP 
-  // private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
+  // private REST_API_SERVER = "http://18.217.108.137:9090"; //working IP 
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private global: Global) { }
 
+  private REST_API_SERVER = this.global.SERVER; //local IP For Testing
   getAllTradeGroups() {
     return this.httpClient.get<TradeGroup[]>(this.REST_API_SERVER + '/tradeGroup/getAllTradeGroup');
   }
@@ -99,8 +102,8 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/tradeGroup/trade/${id}`)
   }
 
-  deactivateTradeGroup(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/tradeGroup/TradeGroup/${id}/${false}`,'')
+  deactivateTradeGroup(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/tradeGroup/TradeGroup/${id}/${false}`, '')
   }
 
   // TRADE
@@ -119,8 +122,8 @@ export class TradeMaintanceService {
   deleteTrade(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/trade/trade/${id}`)
   }
-  deactivateTrade(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/trade/tradestatus/${id}/${false}`,'')
+  deactivateTrade(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/trade/tradestatus/${id}/${false}`, '')
   }
   // TRADE
 
@@ -139,8 +142,8 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/Subgroup/questionGroup/${id}`)
   }
 
-  deActivateSubgroup(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/Subgroup/Subgroup/${id}/${false}`,'')
+  deActivateSubgroup(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Subgroup/Subgroup/${id}/${false}`, '')
   }
   // SUBGROUP
 
@@ -162,8 +165,8 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`)
   }
 
-  deactivateQuestionGroup(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}/${false}`,'')
+  deactivateQuestionGroup(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}/${false}`, '')
   }
   //QUESTION GROUP
 
@@ -184,28 +187,28 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`)
   }
 
-  deactivateQuestionHeding(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/questionHeading/Questionheading/${id}/${false}`,'')
+  deactivateQuestionHeding(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/questionHeading/Questionheading/${id}/${false}`, '')
   }
   //QUESTION HEADING
 
 
   //QUESTIONS
-  createQuestions(data): Observable<TradeMaintanceService>{
+  createQuestions(data): Observable<TradeMaintanceService> {
     return this.httpClient.post<TradeMaintanceService>(`${this.REST_API_SERVER}/question/addQuestion`, data)
   }
 
-  retriveQuestion(id){
+  retriveQuestion(id) {
     return this.httpClient.get<QuestionData>(`${this.REST_API_SERVER}/question/question/${id}`)
   }
-  updateQuestion(data, id){
+  updateQuestion(data, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/question/question/${id}`, data)
   }
-  deActivateQuestion(id){
-    return this.httpClient.put(`${this.REST_API_SERVER}/question/Client/${id}/${0}`,'')
+  deActivateQuestion(id) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/question/Client/${id}/${0}`, '')
   }
   //QUESTIONS
-  
+
   //NC REPORT
   getNcsByReportId(project, trade, status, cycle, location) {
     return this.httpClient.get<NcBeanData[]>(`${this.REST_API_SERVER}/findbyidss/${project}/${trade}/${status}/${cycle}/${location}`)
@@ -229,7 +232,7 @@ export class TradeMaintanceService {
   getQuestiongroupById(id) {
     return this.httpClient.get<Question[]>(`${this.REST_API_SERVER}/findquestonbyid/${id}`)
   }
-  
+
   getQuestionById(id) {
     return this.httpClient.get<QuestionGroupView[]>(`${this.REST_API_SERVER}/findbyquestongroupid/${id}`)
   }
@@ -248,44 +251,44 @@ export class TradeMaintanceService {
   }
 
   //GET QUESTION GROUP BY SUBGROUP
-  getQuestiongroupBySubgroup(subgeoupId){
+  getQuestiongroupBySubgroup(subgeoupId) {
     return this.httpClient.get<QuestionGroupView>(`${this.REST_API_SERVER}/questionGroup/questionGroupbysubgroup/${subgeoupId}`)
   }
 
   //GET QUESTION HEADING BY QUESTION GROUP
-  getQuestionHeadingByQuestionGroup(groupId){
+  getQuestionHeadingByQuestionGroup(groupId) {
     return this.httpClient.get<QuesHeadingData>(`${this.REST_API_SERVER}/common/getquestionheadingbyQuestionGro/${groupId}`)
   }
 
 
   //GET TRADES BY TRADEGROYP ID
-  getTradeByTradegroupId(tradegroupId){
+  getTradeByTradegroupId(tradegroupId) {
     return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/trade/tradebytradegroupig/${tradegroupId}`)
   }
 
   //GET TRADES BY PROJECT ID
-  getProjectTrades(id){
+  getProjectTrades(id) {
     // return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/common/getProjectTrades/${id}`)
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getAllSchemeTradeView/${id}`)
 
   }
 
-  getProjectTradesScheme(id){
+  getProjectTradesScheme(id) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getAllSchemeTradeView/${id}`)
   }
 
   //GET QUESTION GROUP BY TRADE ID
-  getQuestionGroupBytradeId(id){
+  getQuestionGroupBytradeId(id) {
     return this.httpClient.get<QuestionGroupView>(`${this.REST_API_SERVER}/common/getQuestiongroupbytradeid/${id}`)
   }
 
   //CHECKLIST BY SUBGROUPS
-  getChecklistBySubgroupId(id){
+  getChecklistBySubgroupId(id) {
     return this.httpClient.get<CheckListView>(`${this.REST_API_SERVER}/checklist/checklistbysub/${id}`)
   }
 
 
-  getAllocatedChecklist(projectId, tradeId, subgroupId){
+  getAllocatedChecklist(projectId, tradeId, subgroupId) {
     return this.httpClient.get<allocatedChecklistData[]>(`${this.REST_API_SERVER}/getschemequestionbyprojectidtradesubgroup/${projectId}/${tradeId}/${subgroupId}`)
   }
 

@@ -8,3 +8,17 @@
   .multiple-checkbox > input{
     margin: 1rem;
   }
+
+
+  .userdeailsload{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+
+}
+
+.modal-body {
+    max-height: 300px;
+    overflow-y: auto;
+}

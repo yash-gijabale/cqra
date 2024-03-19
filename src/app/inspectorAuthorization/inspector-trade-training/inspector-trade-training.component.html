@@ -215,8 +215,9 @@
                           </td>
                           <td>
                             <div class="traning_upload row d-flex p-2">
-                              <label for="inputField" class="badge bg-secondary text-light m-0">Choosed file</label>
-                              <input type="file" id="inputField" (change)="getFile($event)" style="display: none;">
+                              <!-- <label for="inputField" class="badge bg-secondary text-light m-0">Choosed file</label>
+                              <input type="file" id="inputField" (change)="getFile($event)" style="display: none;"> -->
+                              <input type="file" id="inputField" (change)="getFile($event)">
                               <span class="badge bg-success text-light" role="button">Upload</span>
                             </div>
                             <span *ngIf="data.value.trainingAttachment"

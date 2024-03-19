@@ -434,6 +434,20 @@ export class PreSnapauditFromsComponent implements OnInit {
 
     console.log(formData)
 
+    let openingFile = document.querySelector('#opening_image') as HTMLInputElement
+    let closingFile = document.querySelector('#closing_image') as HTMLInputElement
+
+    let data = {
+      openingImg: openingFile.files[0],
+      closingImg: closingFile.files[0]
+    }
+    if(openingFile.files[0] || closingFile.files[0]){
+      this.inspectionTraining.uploadOpeningClosingImage(this.currentMasterId, data )
+      .subscribe(data =>{
+        console.log('opning image uploade', data)
+      })
+    }
+
     if (this.isOpeningClosingData) {
       this.inspectionTraining.updateOpeningClosingFrom(this.currentMasterId, formData)
         .subscribe(data => {

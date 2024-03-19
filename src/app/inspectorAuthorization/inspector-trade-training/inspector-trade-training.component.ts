@@ -206,6 +206,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
   getFile(e) {
     console.log(e)
     let file: File = e.target.files[0]
+    console.log(file)
   
     this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, file)
     .subscribe(data => console.log(data,'uploaded'),

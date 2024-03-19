@@ -9,6 +9,8 @@ import { first } from 'rxjs/operators';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 
+import { InspectorTraning } from '../service/inspectionTraining.service';
+
 
 // import SignaturePad from 'signature_pad';
 
@@ -75,11 +77,14 @@ export class AddEquipmentComponent implements OnInit {
   equipmentId: number
   signPad: any
 
+  isLoading: boolean = false
+
   constructor(
     private formBuilder: FormBuilder,
     private commanService: CommonService,
     private userService: UserService,
     private route: ActivatedRoute,
+    private inspectionTraning: InspectorTraning
 
 
   ) { }
@@ -103,8 +108,7 @@ export class AddEquipmentComponent implements OnInit {
       dateOfCalibration: ['', Validators.required],
       assignTo: ['', Validators.required],
       remark: ['', Validators.required],
-      eImage: ['', Validators.required],
-      ccImage: ['', Validators.required],
+
       dateOfAssign: ['', Validators.required],
     })
 
@@ -115,9 +119,21 @@ export class AddEquipmentComponent implements OnInit {
     })
 
     if (this.equipmentId != -1) {
+      this.isLoading = true
       this.userService.retriveEquipemnt(this.equipmentId)
         .pipe(first())
-        .subscribe(data => this.equipmentForm.patchValue(data))
+        .subscribe(data => {
+          this.isLoading = false
+          console.log(data)
+          this.userService.getEquipmentByAssetType(data.id)
+            .subscribe(x => {
+              console.log(x)
+              this.assetsData = x
+            })
+          this.equipmentForm.patchValue(data)
+          this.equipmentForm.patchValue({dateOfCalibration: new Date(data.dateOfCalibration).toISOString().substring(0,10)})
+
+        })
 
     }
 
@@ -141,12 +157,33 @@ export class AddEquipmentComponent implements OnInit {
     console.log(this.equipmentForm.value)
     let formData = { ...this.equipmentForm.value, status: true }
     // return
+    // let file: File = e.target.files[0]
+
+    // this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, file)
+    // .subscribe(data => console.log(data,'uploaded'),
+    //     err => console.log('file error-->', err))
+    let image1 = document.querySelector('#image1') as HTMLInputElement
+    let image2 = document.querySelector('#image2') as HTMLInputElement
+    // console.log(image1.files[0]) 
+    let img1: File = image1.files[0]
+    let img2: File = image2.files[0]
+
+    let fileData = {
+      img1,
+      img2
+    }
+
+    // return
 
     if (this.equipmentId != -1) {
       this.userService.updateEquipemt(formData, this.equipmentId)
         .subscribe(data => {
           console.log('updated==>', data)
           this.submitLoad = false
+          let equipment: any = data
+          this.inspectionTraning.uploadEquipment(equipment.equipmentId, fileData).subscribe(data => {
+            console.log('updaloa', data)
+          })
         })
 
     } else {
@@ -155,6 +192,10 @@ export class AddEquipmentComponent implements OnInit {
         .subscribe(data => {
           console.log('equipment addded-->', data)
           this.submitLoad = false
+          let equipment: any = data
+          this.inspectionTraning.uploadEquipment(equipment.equipmentId, fileData).subscribe(data => {
+            console.log('updaloa', data)
+          })
         })
 
     }

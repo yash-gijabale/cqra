@@ -31,7 +31,8 @@ export class CreateProjectComponent implements OnInit {
   regionalManagers: UserView[];
   tradeGroups: TradeGroup[]
   trades: Trade
-  regions:RegionView
+  regions: RegionView
+  isLoading: boolean = false
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -58,9 +59,18 @@ export class CreateProjectComponent implements OnInit {
       )
 
     if (this.id != -1) {
+      this.isLoading = true
       this.clientServiceService.retrieveProject(this.id)
         .pipe(first())
-        .subscribe(x => this.projectForm.patchValue(x));
+        .subscribe(x => {
+          this.isLoading = false
+          console.log(x)
+          let data: any = x
+          this.projectForm.patchValue(x)
+          this.projectForm.patchValue({ projectStartDate: new Date(data.projectStartDate).toISOString().substring(0, 10) })
+          this.projectForm.patchValue({ projectEndDate: new Date(data.projectEndDate).toISOString().substring(0, 10) })
+        });
+
     }
 
     this.projectForm = this.formBuilder.group({
@@ -73,7 +83,7 @@ export class CreateProjectComponent implements OnInit {
       projectKValue: ['', Validators.required],
       region: ['', Validators.required],
       projectArea: ['', Validators.required],
-      areaUnit: ['', Validators.required],
+      areaUnit: ['', Validators.nullValidator],
       projectStartDate: ['', Validators.required],
       projectEndDate: ['', Validators.required],
       projectMisNCs: ['', Validators.required],
@@ -85,8 +95,8 @@ export class CreateProjectComponent implements OnInit {
       serviceType: ['', Validators.required],
       protocolFinalized: ['', Validators.nullValidator],
       training: ['', Validators.nullValidator],
-      TradeGroupId: ['', Validators.required],
-      TradeId: ['', Validators.required],
+      TradeGroupId: ['', Validators.nullValidator],
+      TradeId: ['', Validators.nullValidator],
       noOfStructure: ['', Validators.required],
       projectType: ['', Validators.required]
     });
@@ -113,13 +123,16 @@ export class CreateProjectComponent implements OnInit {
 
   get f() { return this.projectForm.controls; }
 
+  submitLoad: boolean = false
   onSubmit() {
     this.submitted = true;
     this.id = this.route.snapshot.params['id'];
     if (this.projectForm.invalid) {
+      console.log(this.projectForm)
       return;
     }
 
+    this.submitLoad = true
     //Project form data
     let projectFormData = {
       clientId: this.projectForm.value.clientId,
@@ -146,7 +159,7 @@ export class CreateProjectComponent implements OnInit {
       training: this.projectForm.value.training ? 1 : 0,
       projectStatus: true,
       projectType: this.projectForm.value.projectType
-      
+
     }
     console.log(projectFormData)
 
@@ -161,6 +174,8 @@ export class CreateProjectComponent implements OnInit {
         .subscribe(data => {
           console.log('project created-->', data)
           createdProject = data;
+          this.submitLoad = false
+
           let tradeAllocationData = []
           let trades = this.projectForm.value.TradeId
           trades && trades.forEach(trade => {
@@ -183,6 +198,8 @@ export class CreateProjectComponent implements OnInit {
         .subscribe(
           data => {
             console.log(data)
+            this.submitLoad = false
+
             this.router.navigate(['project'])
           }
         )

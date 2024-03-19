@@ -32,15 +32,18 @@ import { MisBelowPerformanceData, MisBelowPerformanceFrom } from './MIS/mis-belo
 import { CommaExpr } from '@angular/compiler';
 import { RFIForm } from './create-rfi/create-rfi.component';
 import { traningReportData } from './create-training/create-training.component';
+import { Global } from 'src/config/Global';
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
-  private REST_API_SERVER = "http://18.217.108.137:9090";//working IP Address
-  // private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
+  // private REST_API_SERVER = "http://18.217.108.137:9090";//working IP Address
   //private REST_API_SERVER = "http://18.217.108.137:8080";
-  constructor(private httpClient: HttpClient) { }
-
+  constructor(
+    private httpClient: HttpClient,
+    private global: Global) { }
+  
+  private REST_API_SERVER = this.global.SERVER; //local IP For Testing
   getClientProject(id) {
     const userId = localStorage.getItem('id')
     // if(Number(userId) == 1){

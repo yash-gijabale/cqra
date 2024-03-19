@@ -24,6 +24,11 @@
             <button type="button"> <a routerLink="/assignEquipementList">Manage Assign Equipment</a> </button>
           </div>
         </div> -->
+        <div *ngIf="isLoading; then thenBlock"></div>
+        <ng-template #thenBlock>
+          <app-loader></app-loader>
+        </ng-template>
+
 
         <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -217,14 +222,14 @@
 
           <div class="form-group col-md-4">
             <label>Equipment Image: </label>
-            <input type="file" class="form-control" formControlName="eImage" accept="image/png, image/gif, image/jpeg">
+            <input type="file" id="image1" class="form-control" accept="image/png, image/gif, image/jpeg">
             <div class="invalid-feedback">
             </div>
           </div>
 
           <div class="form-group col-md-4">
             <label>Calibration Caertificate: </label>
-            <input type="file" class="form-control" formControlName="ccImage">
+            <input type="file" id="image2"  class="form-control" accept="image/png, image/gif, image/jpeg">
             <div class="invalid-feedback">
             </div>
           </div>

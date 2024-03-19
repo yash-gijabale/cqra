@@ -176,8 +176,11 @@
         <!-- EQUIPMENT MAINTENANCE FORMAt -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Equipment Maintenance Format <span class="badge badge-warning">Pending</span></h5>
-          <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
-              data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
+          <div class="row justify-content-between col-md-12">
+            <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
+                data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
+            <input type="file" class="form-control col-md-3">
+          </div>
 
         </div>
       </div>
@@ -187,9 +190,12 @@
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Opening/Closing meeting attendance sheet <span class="badge badge-success">Filled</span>
           </h5>
-          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#opening-closeing-meering-view"
-            (click)="getopeningClosingForm()">Fill the
-            form</button>
+          <div class="row justify-content-between col-md-12">
+            <button class="btn btn-sm btn-success mx-2" data-toggle="modal" data-target="#opening-closeing-meering-view"
+              (click)="getopeningClosingForm()">Fill the
+              form</button>
+            <input type="file" class="form-control col-md-3">
+          </div>
 
           <div class="modal fade" id="opening-closeing-meering-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -229,7 +235,7 @@
 
                             <div class="form-group col-md-3">
                               <label>Cycle Of Inspection</label>
-                              <select [(ngModel)]="selCycleId" class="form-control">
+                              <select class="form-control">
                                 <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
                                   [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
                                   {{cycle.cycle_name}}</option>
@@ -286,6 +292,11 @@
                                   <input id="opening_meeting_endTime" type="time" class="form-control"
                                     [value]="isOpeningClosingData ? openingClosingPreData.data.oEndTime : ''">
                                 </div>
+
+                              </div>
+                              <div class="form-group col-md-12">
+                                <label>Select Image</label>
+                                <input type="file" class="form-control" id="opening_image" accept="image/*">
                               </div>
                             </div>
                             <div class="col-md-6">
@@ -308,6 +319,11 @@
                                   <input id="closing_meeting_endTime" type="time" class="form-control"
                                     [value]="isOpeningClosingData ? openingClosingPreData.data.cEndTime : ''">
                                 </div>
+
+                              </div>
+                              <div class="form-group col-md-12">
+                                <label>Select Image</label>
+                                <input type="file" class="form-control" id="closing_image" accept="image/*">
                               </div>
                             </div>
                           </div>
@@ -389,16 +405,23 @@
         <!-- SAMPLING  -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Inspection Sampling</h5>
-          <a routerLink="/createSampling/-1" target="_blank"><button class="btn btn-success btn-sm mx-2">Fill the
-              from</button></a>
+          <div class="row justify-content-between col-md-12">
+            <a routerLink="/createSampling/-1" target="_blank"><button class="btn btn-success btn-sm mx-2">Fill the
+                from</button></a>
+            <input type="file" class="form-control col-md-3">
+          </div>
         </div>
 
         <!-- Internal Review Meeting at Project Site -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Internal Review Meeting at Project Site</h5>
-          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#internalReviewMeeting"
-            (click)="internalReviewMeeting()">Fill the
-            from</button>
+          <div class="row justify-content-between col-md-12">
+            <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#internalReviewMeeting"
+              (click)="internalReviewMeeting()">Fill the
+              from</button>
+
+            <input type="file" class="form-control col-md-3">
+          </div>
 
           <div class="modal fade" id="internalReviewMeeting" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -687,10 +710,13 @@
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Supervisor form for L1 and L2 <span class="badge badge-success">Filled</span>
           </h5>
-          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view"
-            (click)="supervisorFormGet()">Fill the
-            from</button>
+          <div class="row justify-content-between col-md-12">
 
+            <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view"
+              (click)="supervisorFormGet()">Fill the
+              from</button>
+            <input type="file" class="form-control col-md-3">
+          </div>
           <div class="modal fade" id="supervisorForm-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
@@ -823,9 +849,12 @@
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Inspector Onsite performance evalution form <span
               class="badge badge-success">Filled</span></h5>
-          <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view"
-            (click)="onsitePerformance()">Fill the from</button>
+          <div class="row justify-content-between col-md-12">
 
+            <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view"
+              (click)="onsitePerformance()">Fill the from</button>
+            <input type="file" class="form-control col-md-3">
+          </div>
           <div class="modal fade" id="onsiteEvalutionForm-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
@@ -1016,9 +1045,12 @@
         <!-- Client feedback Form -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Client Feedback Form</h5>
-          <button class="btn btn-success mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill the
-            from</button>
+          <div class="row justify-content-between col-md-12">
 
+            <button class="btn btn-success mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill the
+              from</button>
+            <input type="file" class="col-md-3 form-control">
+          </div>
           <div class="modal fade" id="client_feedback_form" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">

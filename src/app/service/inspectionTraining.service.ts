@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Global } from 'src/config/Global';
 
 @Injectable({
   providedIn: 'root'
@@ -8,13 +9,14 @@ import { Observable } from 'rxjs';
 export class InspectorTraning {
 
   // private REST_API_SERVER = "http://18.217.108.137:8080";
-  private REST_API_SERVER = "http://18.217.108.137:9090"; //working Ip
-  // private REST_API_SERVER = "http://localhost:9090"; //local IP For Testing
-
-
+  // private REST_API_SERVER = "http://18.217.108.137:9090"; //working Ip
+  
+  
   //private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
-  constructor(private httpClient: HttpClient) { }
-
+  constructor(private httpClient: HttpClient,
+    private global : Global) { }
+  
+  private REST_API_SERVER = this.global.SERVER; //local IP For Testing
 
   getAllUserTradeTraining() {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallinspectrade`)
@@ -36,6 +38,23 @@ export class InspectorTraning {
     let formParams = new FormData();
     formParams.append('file', file)
     return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, formParams, config)
+    // return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data, config);
+  }
+
+  uploadEquipment(id, data) {
+    let config = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
+    let formParams = new FormData();
+    formParams.append('eimage', data.img1)
+    formParams.append('ccimage', data.img2)
+    // let formData = {
+    //   eimage: data.img1,
+    //   ccimage: data.img2
+    // }
+    console.log(formParams)
+    return this.httpClient.put(`${this.REST_API_SERVER}/updateimages/${id}`, formParams, config)
     // return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data, config);
   }
 
@@ -138,6 +157,18 @@ export class InspectorTraning {
 
   updateOpeningClosingFrom(masterId, data) {
     return this.httpClient.put(`${this.REST_API_SERVER}/OCMeetingAttandance/update/${masterId}`, data)
+  }
+
+  uploadOpeningClosingImage(masterId, data){
+    let config = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
+    let formParams = new FormData();
+    formParams.append('file', data.openingImg)
+    formParams.append('file1', data.closingImg)
+    console.log(formParams)
+    return this.httpClient.put(`${this.REST_API_SERVER}/OCMeetingAttandance/images/${masterId}`, formParams, config)
   }
 
 
