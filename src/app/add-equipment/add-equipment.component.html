@@ -13,8 +13,8 @@
           <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#new-trade-user">New
               Asset </button>
-            <button type="button" class="btn btn-outline-dark" data-toggle="modal"
-              data-target="#trade-user-list" (click)="assetList()">List</button>
+            <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#trade-user-list"
+              (click)="assetList()">List</button>
             <button type="button" class="btn btn-outline-dark"><a routerLink="/assignEquipementList"
                 class="text-dark">Manage Asset</a> </button>
           </div>
@@ -25,6 +25,8 @@
           </div>
         </div> -->
 
+
+        <!-- Add new trade user Modal -->
         <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -88,7 +90,11 @@
                   <div id="show">
                   </div> -->
                   <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" type="submit">Save</button>
+                    <button class="btn btn-sm btn-success" type="submit">
+                      <span *ngIf="newAssetLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                      <span *ngIf="!newAssetLoad">Save</span>
+                    </button>
                   </div>
                 </form>
               </div>
@@ -115,29 +121,40 @@
                   </div>
                 </div>
                 <div *ngIf="!assetListLoad">
-                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="row-border hover inspector_list_table" style="width:100%">
+                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                    class="row-border hover inspector_list_table" style="width:100%">
                     <thead>
                       <tr>
-                        <th>Sr. No</th>
                         <th>Asset Type</th>
                         <th>Asset Name</th>
                         <th>Asset Cost</th>
                         <th>Used By</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody id="attendeesFrom">
                       <tr *ngFor="let asset of allAssetlist">
-                        <td>{{asset.id}}</td>
                         <td>{{asset.asset_type_name}}</td>
                         <td>{{asset.assetName}}</td>
                         <td>{{asset.cost}}</td>
-                        <td  class="d-flex">
+                        <td class="d-flex">
                           <div *ngFor="let usedBy of asset.userBy" class="mx-1">
                             <span class="badge badge-warning" *ngIf="usedBy=='1'">Civil</span>
                             <span class="badge badge-warning" *ngIf="usedBy=='2'">MEP</span>
                             <span class="badge badge-warning" *ngIf="usedBy=='3'">Seafty</span>
                             <span class="badge badge-warning" *ngIf="usedBy=='4'">Infra</span>
                           </div>
+                        </td>
+                        <td>
+                          <span role="button" class="badge btn-info" data-toggle="modal" data-target="#edit-asset-modal"
+                            (click)="assetbyIdget(asset.id)">Edit</span>
+                          <span role="button" class="badge btn-danger" (click)="deleteAsset(asset.id)">
+
+                            <span *ngIf="deleteAssetLoad" class="spinner-border spinner-border-sm" role="status"
+                              aria-hidden="true"></span>
+                            <span *ngIf="!deleteAssetLoad">Delete</span>
+                          </span>
+
                         </td>
                       </tr>
                     </tbody>
@@ -149,6 +166,81 @@
                 </div>
               </div>
 
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit asset Modal -->
+        <div class="modal fade" id="edit-asset-modal" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Asset</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="newAssetForm" (ngSubmit)="assetByIdupdate(assetByIdv,assetByIdv.id)">
+                  <div class="form-group">
+                    <label>Asset Type: </label>
+                    <select class="form-control" formControlName="assetTypeId">
+                      <option [value]="0">Please Select</option>
+                      <option [value]="asset.id" [selected]="assetByIdv.id" *ngFor="let asset of assets">
+                        {{asset.assetName}}
+                      </option>
+                    </select>
+                    <div class="invalid-feedback">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Asset Name: </label>
+                    <input class="form-control" formControlName="assetName" [value]="assetByIdv.assetName">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Asset Cost (₹): </label>
+                    <input type="number" class="form-control" formControlName="cost" [value]="assetByIdv.cost"
+                      placeholder="₹ 100">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Used by: </label>
+
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="1" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Civil
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="2" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        MEP
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="3" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Seafty
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="4" id="flexCheckChecked">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Infra
+                      </label>
+                    </div>
+                  </div>
+                  <!--  <canvas id="signature" height="100px" width="200px" style="border: 1px solid black;"></canvas>
+                  <div id="show">
+                  </div> -->
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" type="submit">Save</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -226,7 +318,7 @@
 
           <div class="form-group mt-3">
             <button class="btn btn-primary">
-              <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" ></span>
+              <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
               <span *ngIf="!submitLoad">Save</span>
             </button>
           </div>

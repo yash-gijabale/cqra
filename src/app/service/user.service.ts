@@ -105,9 +105,22 @@ export class UserService {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/AssignEqu/saave`, data)
   }
 
+
+
   getAssetsList(){
     return this.httpClient.get<Array<AssetListView>>(`${this.REST_API_SERVER}/AssignEqu/getalljoin`)
   }
+  getAssetById(id){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/AssignEqu/getallbyid/${id}`)
+  }
+  updateAssetById(data,id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/AssignEqu/update/${id}`,data)
+  }
+  deleteAssetByID(id){
+    return this.httpClient.delete(`${this.REST_API_SERVER}/AssignEqu/deletebyid/${id}`)
+  }
+
+  
 
   getEquipmentByAssetType(typeId){
     return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/AssignEqu/getallbyassetid/${typeId}`)

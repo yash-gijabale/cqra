@@ -26,67 +26,71 @@
       </div>
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Trade Name</label>
-            <input type="text" formControlName="tradeName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
-            <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
-              <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Trade Name:</label>
+              <input type="text" formControlName="tradeName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+              <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
+                <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Trade Description</label>
-            <input type="text" formControlName="discription" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.discription.errors }" />
-            <div *ngIf="submitted && f.discription.errors" class="invalid-feedback">
-              <div *ngIf="f.discription.errors.required">Trade Description is required</div>
+            <div class="form-group col-md-4">
+              <label>Trade Description:</label>
+              <input type="text" formControlName="discription" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.discription.errors }" />
+              <div *ngIf="submitted && f.discription.errors" class="invalid-feedback">
+                <div *ngIf="f.discription.errors.required">Trade Description is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <div class="row ml-2">
-              <label>Key Result Areas</label>
-              <button class="btn btn-sm btn-secondary m-1 px-1 py-0" type="button" (click)="addKeyResultField()">+</button>
+            <div class="form-group col-md-4">
+              <div class="row ml-2">
+                <label>Key Result Areas:</label>
+                <button class="btn btn-sm btn-secondary m-1 px-1 py-0" type="button"
+                  (click)="addKeyResultField()">+</button>
+              </div>
+              <div id="keyResultArea">
+                <input type="text" formControlName="keyResultArea" class="form-control keyResultArea mt-1" />
+              </div>
+              <div *ngIf="submitted && f.keyResultArea.errors" class="invalid-feedback">
+                <div *ngIf="f.keyResultArea.errors.required">Key Result Areas is required</div>
+              </div>
             </div>
-            <div id="keyResultArea">
-              <input type="text" formControlName="keyResultArea" class="form-control keyResultArea mt-1" />
+            <div class="form-group col-md-4">
+              <label>Trade Sequence:</label>
+              <input type="number" formControlName="tradeSequence" class=" form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+              <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
+                <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
+              </div>
             </div>
-            <div *ngIf="submitted && f.keyResultArea.errors" class="invalid-feedback">
-              <div *ngIf="f.keyResultArea.errors.required">Key Result Areas is required</div>
+            <div class="form-group col-md-4">
+              <label>Trade Number:</label>
+              <input type="text" formControlName="tradeNumber" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+              <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
+                <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Trade Sequence</label>
-            <input type="number" formControlName="tradeSequence" class=" form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
-            <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
-              <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Trade Number</label>
-            <input type="text" formControlName="tradeNumber" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
-            <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
-              <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Trade Group</label>
-            <!-- <select formControlName="tradegroupId" class="form-control" multiple>
+            <div class="form-group col-md-4">
+              <label>Trade Group:</label>
+              <!-- <select formControlName="tradegroupId" class="form-control" multiple>
               <option [value]="0">Please Select</option>
               <option [value]="o.tradegroupId" *ngFor="let o of tradeGroups">
                 {{o.tradeGroupName}}
               </option>
             </select> -->
-            <div class="ckechbox-select">
-              <div class="form-check" *ngFor="let o of tradeGroups">
-                <input class="form-check-input" class="tradeGroups" type="checkbox" [value]="o.tradegroupId" id="flexCheckDefault" [checked]="allocatedTradegroupObj[o.tradegroupId]" >
-                <label class="form-check-label" for="flexCheckDefault">{{o.tradeGroupName}}</label>
+              <div class="ckechbox-select">
+                <div class="form-check" *ngFor="let o of tradeGroups">
+                  <input class="form-check-input" class="tradeGroups" type="checkbox" [value]="o.tradegroupId"
+                    id="flexCheckDefault" [checked]="allocatedTradegroupObj[o.tradegroupId]">
+                  <label class="form-check-label" for="flexCheckDefault">{{o.tradeGroupName}}</label>
+                </div>
               </div>
-            </div>
 
-            <div *ngIf="submitted && f.tradegroupId.errors" class="invalid-feedback">
-              <div *ngIf="f.tradegroupId.errors.required">Trade Group is required</div>
+              <div *ngIf="submitted && f.tradegroupId.errors" class="invalid-feedback">
+                <div *ngIf="f.tradegroupId.errors.required">Trade Group is required</div>
+              </div>
             </div>
           </div>
           <div class="form-group">

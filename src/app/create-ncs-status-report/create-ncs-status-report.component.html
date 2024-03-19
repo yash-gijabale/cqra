@@ -26,77 +26,81 @@
       </div>
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Project</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="1">Both</option>
-                <option  [value]="2">Device</option>
-                <option  [value]="3">Web</option>
-            </select>
-            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Project</label>
+              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="1">Both</option>
+                <option [value]="2">Device</option>
+                <option [value]="3">Web</option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
                 <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Structure</label>
-            <select  [(ngModel)]="SelStructure" formControlName="selStructure" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="1">Both</option>
-                <option  [value]="2">Device</option>
-                <option  [value]="3">Web</option>
-            </select>
-            <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Structure</label>
+              <select [(ngModel)]="SelStructure" formControlName="selStructure" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="1">Both</option>
+                <option [value]="2">Device</option>
+                <option [value]="3">Web</option>
+              </select>
+              <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
                 <div *ngIf="f.selStructure.errors.required">Structure is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Trade</label>
-            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="1">Both</option>
-                <option  [value]="2">Device</option>
-                <option  [value]="3">Web</option>
-            </select>
-            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Trade</label>
+              <select [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="1">Both</option>
+                <option [value]="2">Device</option>
+                <option [value]="3">Web</option>
+              </select>
+              <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
                 <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Type of Status</label>
-            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="1">Open NCs</option>
-                <option  [value]="2">Close Ncs</option>
-                <option  [value]="3">Force Close</option>
-                <option  [value]="4">All</option>
-            </select>
-            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Type of Status</label>
+              <select [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="1">Open NCs</option>
+                <option [value]="2">Close Ncs</option>
+                <option [value]="3">Force Close</option>
+                <option [value]="4">All</option>
+              </select>
+              <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
                 <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Date From</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>Date TO</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>NC Address To</label>
+              <select [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="1">Both</option>
+                <option [value]="2">Device</option>
+                <option [value]="3">Web</option>
+              </select>
+              <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">NC Address To is required</div>
+              </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <label>Date From</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>Date TO</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>NC Address To</label>
-            <select  [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control" > 
-              <option  [value]="0">Please Select</option>
-              <option  [value]="1">Both</option>
-              <option  [value]="2">Device</option>
-              <option  [value]="3">Web</option>
-            </select>
-            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
-                <div *ngIf="f.selTrade.errors.required">NC Address To is required</div>
-            </div>
-          </div>
-          
           <br>
           <div class="form-group">
             <button class="btn btn-primary">View PDF Report</button>&nbsp;
@@ -108,4 +112,4 @@
       </div>
     </div>
   </div>
-<app-footer></app-footer>
+  <app-footer></app-footer>

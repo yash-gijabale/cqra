@@ -27,107 +27,109 @@
       </div>
       <div class="create-viewform">
         <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Client Name</label>
-            <select [(ngModel)]="SelClientId" formControlName="clientId">
-              <option [value]="0">Please Select</option>
-              <option [value]="o.clientId" *ngFor="let o of clients">
-                {{o.clientName}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-              <div *ngIf="f.clientId.errors.required">Client Name is required</div>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Client Name:</label>
+              <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.clientId" *ngFor="let o of clients">
+                  {{o.clientName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+                <div *ngIf="f.clientId.errors.required">Client Name is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>project Name</label>
-            <input type="text" formControlName="projectName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectName.errors }" />
-            <div *ngIf="submitted && f.projectName.errors" class="invalid-feedback">
-              <div *ngIf="f.projectName.errors.required">Project Name is required</div>
+            <div class="form-group col-md-4">
+              <label>Project Name:</label>
+              <input type="text" formControlName="projectName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectName.errors }" />
+              <div *ngIf="submitted && f.projectName.errors" class="invalid-feedback">
+                <div *ngIf="f.projectName.errors.required">Project Name is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Project Code</label>
-            <input type="text" formControlName="projectCode" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectCode.errors }" />
-            <div *ngIf="submitted && f.projectCode.errors" class="invalid-feedback">
-              <div *ngIf="f.projectCode.errors.required">Project Code is required</div>
+            <div class="form-group col-md-4">
+              <label>Project Code:</label>
+              <input type="text" formControlName="projectCode" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectCode.errors }" />
+              <div *ngIf="submitted && f.projectCode.errors" class="invalid-feedback">
+                <div *ngIf="f.projectCode.errors.required">Project Code is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Project Type</label>
-            <input type="text" formControlName="projectType" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectType.errors }" />
-            <div *ngIf="submitted && f.projectType.errors" class="invalid-feedback">
-              <div *ngIf="f.projectType.errors.required">Project Type is required</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Region</label>
-            <select formControlName="region" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.region.errors }">
-              <option [value]="region.regionId" *ngFor="let region of regions">{{region.regionName}}</option>
-            </select>
-            <div *ngIf="submitted && f.region.errors" class="invalid-feedback">
-              <div *ngIf="f.region.errors.required">Role is required</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Address</label>
-            <input type="text" formControlName="projectAddress" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectAddress.errors }" />
-            <div *ngIf="submitted && f.projectAddress.errors" class="invalid-feedback">
-              <div *ngIf="f.projectAddress.errors.required">Address is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Project City</label>
-            <input type="text" formControlName="projectCity" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectCity.errors }" />
-            <div *ngIf="submitted && f.projectCity.errors" class="invalid-feedback">
-              <div *ngIf="f.projectCity.errors.required">Project City is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>No. of Structure</label>
-            <input type="number" formControlName="noOfStructure" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.noOfStructure.errors }" />
-            <div *ngIf="submitted && f.noOfStructure.errors" class="invalid-feedback">
-              <div *ngIf="f.noOfStructure.errors.required">K value is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>K value</label>
-            <input type="number" formControlName="projectKValue" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectKValue.errors }" />
-            <div *ngIf="submitted && f.projectKValue.errors" class="invalid-feedback">
-              <div *ngIf="f.projectKValue.errors.required">K value is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Project Area</label>
-            <input type="number" formControlName="projectArea" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.projectArea.errors }" />
-            <div *ngIf="submitted && f.projectArea.errors" class="invalid-feedback">
-              <div *ngIf="f.projectArea.errors.required">Project Area is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Area Unit</label>
-            <select formControlName="areaUnit">
-              <option [value]="0" selected>Select Unit</option>
-              <option value="Sqft">Sqft</option>
-            </select>
-            <div *ngIf="submitted && f.areaUnit.errors" class="invalid-feedback">
-              <div *ngIf="f.areaUnit.errors.required">Mis is required</div>
+            <div class="form-group col-md-4">
+              <label>Project Type:</label>
+              <input type="text" formControlName="projectType" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectType.errors }" />
+              <div *ngIf="submitted && f.projectType.errors" class="invalid-feedback">
+                <div *ngIf="f.projectType.errors.required">Project Type is required</div>
+              </div>
             </div>
 
-            <div class="form-group">
-              <label>Project Regional Manager</label>
-              <select formControlName="projectRegionalManagerId">
+            <div class="form-group col-md-4">
+              <label>Region:</label>
+              <select formControlName="region" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.region.errors }">
+                <option [value]="region.regionId" *ngFor="let region of regions">{{region.regionName}}</option>
+              </select>
+              <div *ngIf="submitted && f.region.errors" class="invalid-feedback">
+                <div *ngIf="f.region.errors.required">Role is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Address:</label>
+              <input type="text" formControlName="projectAddress" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectAddress.errors }" />
+              <div *ngIf="submitted && f.projectAddress.errors" class="invalid-feedback">
+                <div *ngIf="f.projectAddress.errors.required">Address is required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Project City:</label>
+              <input type="text" formControlName="projectCity" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectCity.errors }" />
+              <div *ngIf="submitted && f.projectCity.errors" class="invalid-feedback">
+                <div *ngIf="f.projectCity.errors.required">Project City is required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>No. of Structure:</label>
+              <input type="number" formControlName="noOfStructure" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.noOfStructure.errors }" />
+              <div *ngIf="submitted && f.noOfStructure.errors" class="invalid-feedback">
+                <div *ngIf="f.noOfStructure.errors.required">K value is required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>K value:</label>
+              <input type="number" formControlName="projectKValue" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectKValue.errors }" />
+              <div *ngIf="submitted && f.projectKValue.errors" class="invalid-feedback">
+                <div *ngIf="f.projectKValue.errors.required">K value is required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Project Area:</label>
+              <input type="number" formControlName="projectArea" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.projectArea.errors }" />
+              <div *ngIf="submitted && f.projectArea.errors" class="invalid-feedback">
+                <div *ngIf="f.projectArea.errors.required">Project Area is required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Area Unit:</label>
+              <select formControlName="areaUnit" class="form-control">
+                <option [value]="0" selected>Select Unit</option>
+                <option value="Sqft">Sqft</option>
+              </select>
+              <div *ngIf="submitted && f.areaUnit.errors" class="invalid-feedback">
+                <div *ngIf="f.areaUnit.errors.required">Mis is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Project Regional Manager:</label>
+              <select formControlName="projectRegionalManagerId" class="form-control">
                 <option [value]="0">Please Select</option>
                 <option [value]="o.userId" *ngFor="let o of regionalManagers">
                   {{o.userFullName}}
@@ -138,9 +140,10 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>Trade Group</label>
-              <select [(ngModel)]="selTradeGroup" formControlName="TradeGroupId" (change)="getTrades()">
+            <div class="form-group col-md-4">
+              <label>Trade Group:</label>
+              <select [(ngModel)]="selTradeGroup" formControlName="TradeGroupId" class="form-control"
+                (change)="getTrades()">
                 <option [value]="0">Please Select</option>
                 <option [value]="o.tradegroupId" *ngFor="let o of tradeGroups">
                   {{o.tradeGroupName}}
@@ -150,9 +153,9 @@
                 <div *ngIf="f.TradeGroupId.errors.required">Trade group is required</div>
               </div>
             </div>
-            <div class="form-group">
-              <label>Trade</label>
-              <select formControlName="TradeId" multiple>
+            <div class="form-group col-md-4">
+              <label>Trade:</label>
+              <select formControlName="TradeId" class="form-control" multiple>
                 <option [value]="0">Please Select</option>
                 <option [value]="o.tardeId" *ngFor="let o of trades">
                   {{o.tradeName}}
@@ -163,8 +166,8 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>Work Order Start Date</label>
+            <div class="form-group col-md-4">
+              <label>Work Order Start Date:</label>
               <input type="date" formControlName="projectStartDate" ng-model="date" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.projectStartDate.errors }" />
               <div *ngIf="submitted && f.projectStartDate.errors" class="invalid-feedback">
@@ -172,8 +175,8 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>Work Order End Date</label>
+            <div class="form-group col-md-4">
+              <label>Work Order End Date:</label>
               <input type="date" formControlName="projectEndDate" ng-model="date" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.projectEndDate.errors }" />
               <div *ngIf="submitted && f.projectEndDate.errors" class="invalid-feedback">
@@ -181,9 +184,9 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>MIS</label>
-              <select [(ngModel)]="SelMisId" formControlName="projectMisNCs">
+            <div class="form-group col-md-4">
+              <label>MIS:</label>
+              <select [(ngModel)]="SelMisId" formControlName="projectMisNCs" class="form-control">
                 <option [value]="0">Please Select</option>
                 <option [value]="1">Mild and above</option>
                 <option [value]="2">Moderate and above</option>
@@ -196,9 +199,10 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>NC Open</label>
-              <select [(ngModel)]="SelNCId" formControlName="projectNCOpen" (change)="FillRedAlertDDL();">
+            <div class="form-group col-md-4">
+              <label>NC Open:</label>
+              <select [(ngModel)]="SelNCId" formControlName="projectNCOpen" class="form-control"
+                (change)="FillRedAlertDDL();">
                 <option [value]="0">Please Select</option>
                 <option [value]="1">Mild and above</option>
                 <option [value]="2">Moderate and above</option>
@@ -211,9 +215,9 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>Red Alert</label>
-              <select [(ngModel)]="SelRedAlert" formControlName="projectRedalert">
+            <div class="form-group col-md-4">
+              <label>Red Alert:</label>
+              <select [(ngModel)]="SelRedAlert" formControlName="projectRedalert" class="form-control">
                 <option [value]="0">Please Select</option>
                 <option [value]="o.value" *ngFor="let o of redAlerts">
                   {{o.name}}
@@ -224,8 +228,8 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>CC Email</label>
+            <div class="form-group col-md-4">
+              <label>CC Email:</label>
               <input type="text" formControlName="projectCCmails" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.projectCCmails.errors }" />
               <div *ngIf="submitted && f.projectCCmails.errors" class="invalid-feedback">
@@ -234,9 +238,10 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label>Service Type</label>
-              <select formControlName="serviceType" [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
+            <div class="form-group col-md-4">
+              <label>Service Type:</label>
+              <select formControlName="serviceType" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }">
                 <option value="1">QAQC</option>
                 <option value="2">SA</option>
                 <option value="3">Visiting</option>
@@ -246,28 +251,28 @@
                 <div *ngIf="f.serviceType.errors.required">Service Type is required</div>
               </div>
             </div>
+          </div>
 
-            <div class="form-group">
-              <label>Auto NC Open</label>
-              <input type="checkbox" formControlName="openNc" class="form-control" />
+          <div class="form-group">
+            <label>Auto NC Open</label>
+            <input type="checkbox" formControlName="openNc" class="form-control" />
 
-            </div>
-            <div class="form-group">
-              <label>Mockup Approval</label>
-              <input type="checkbox" formControlName="mockUpApproval" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Mockup Approval</label>
+            <input type="checkbox" formControlName="mockUpApproval" class="form-control" />
 
-            </div>
-            <div class="form-group">
-              <label>Traning</label>
-              <input type="checkbox" formControlName="training" class="form-control" />
-            </div>
-            <div class="form-group">
-              <label>Protocol Finalized</label>
-              <input type="checkbox" formControlName="protocolFinalized" class="form-control" />
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary">Save</button>
-            </div>
+          </div>
+          <div class="form-group">
+            <label>Traning</label>
+            <input type="checkbox" formControlName="training" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Protocol Finalized</label>
+            <input type="checkbox" formControlName="protocolFinalized" class="form-control" />
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
           </div>
         </form>
       </div>

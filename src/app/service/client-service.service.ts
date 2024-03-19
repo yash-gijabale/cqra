@@ -111,7 +111,23 @@ export class ClientServiceService {
   projectTradeallocation(data): Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/saveOrUpdate`, data)
   }
+
+  // Risk to Impartiality Form
+  
+  riskToImpartiality(data):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/RiskToImpartiality/save`,data)
+  }
+
+  updateriskToImpartiality(data,id){
+    return this.httpClient.put(`${this.REST_API_SERVER}/RiskToImpartiality/update/${id}`,data)
+  }
+
+  getriskToImpartiality(id){
+    return this.httpClient.get<ProjectData[]>(`${this.REST_API_SERVER}/RiskToImpartiality/getjoinbyid/${id}`)
+  }
   // PROJECT API CALL
+
+
 
 
   //STRUCTURE API CALL

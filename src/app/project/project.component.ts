@@ -4,6 +4,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { ClientServiceService } from '../service/client-service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { data } from 'jquery';
 
 
 export class ProjectData {
@@ -58,6 +59,8 @@ export class ProjectComponent implements OnInit {
   projects: ProjectData[];
   ProjectViews: ProjectView[];
 
+  // projectId:string =''
+
   isLoading:boolean
 
     constructor(
@@ -87,30 +90,101 @@ export class ProjectComponent implements OnInit {
       console.log('-----> err', err);
     });
 
+
+
+    // riskimpartialityForm
     this.riskimpartialityForm = this.formBuilder.group({
       developerDet: ['', Validators.required],
       Developer: ['', Validators.required],
       developerIfyes: ['', Validators.required],
+
       projectDet: ['', Validators.required],
       Project: ['', Validators.required],
       projectIfyes: ['', Validators.required],
+
       locationDet: ['', Validators.required],
+      review: ['', Validators.required],
+
       contructiondet: ['', Validators.required],
       contruction: ['', Validators.required],
       contructionIfyes: ['', Validators.required],
-      review: ['', Validators.required],
+
       signature: ['', Validators.required],
       date: ['', Validators.required],
       name: ['', Validators.required],
       designation: ['', Validators.required],
       // Project: ['', Validators.required],
-
     })
-
   }
 
+
+  databyid :any[]
+  getDataByprojectID(id){
+    this.clientService.getriskToImpartiality(id)
+    .subscribe(data=>{
+      this.databyid = data
+      console.log(this.databyid)
+    })
+    
+  }
+ 
+
   submitimpartiality(){
-    console.log(this.riskimpartialityForm.value);
+    let riskToImpartiality = [
+      {
+        projectId:1,
+        description:1,
+        details:this.riskimpartialityForm.value.developerDet,
+        relationship:this.riskimpartialityForm.value.Developer,
+        relationshipDetail:this.riskimpartialityForm.value.developerIfyes
+      },
+      {
+        projectId:1,
+        description:2,
+        details:this.riskimpartialityForm.value.projectDet,
+        relationship:this.riskimpartialityForm.value.Project,
+        relationshipDetail:this.riskimpartialityForm.value.projectIfyes
+      },
+      {
+        projectId:1,
+        description:3,
+        details:this.riskimpartialityForm.value.locationDet,
+      },
+      {
+        projectId:1,
+        description:4,
+        details:this.riskimpartialityForm.value.review,
+      }
+    ]
+
+    let riskToImpartialityConstructionContractor = [
+      {
+        rtiid:1,
+        description:1,
+        details:this.riskimpartialityForm.value.contructiondet,
+        relationship:this.riskimpartialityForm.value.contruction,
+        relationshipDetail:this.riskimpartialityForm.value.contructionIfyes
+      }
+    ]
+
+    let alldata ={
+      riskToImpartiality,
+      riskToImpartialityConstructionContractor
+    }
+    console.log(alldata);
+
+    // if(){
+    // this.clientService.updateriskToImpartiality(alldata)
+    // .subscribe(data=>{
+    //   console.log("Form Submited!",data);
+    // })
+    // }else{
+    this.clientService.riskToImpartiality(alldata)
+    .subscribe(data=>{
+      console.log("Form Submited!",data);
+    })
+
+    // }
 
   }
 

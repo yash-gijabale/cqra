@@ -7,7 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 import { DataTableDirective } from 'angular-datatables';
-import { Subject } from "rxjs";
+import { EMPTY, Subject } from "rxjs";
+import { data } from 'jquery';
 
 
 // import SignaturePad from 'signature_pad';
@@ -32,6 +33,18 @@ export class AssetListView {
   ) {
 
   }
+}
+
+export class AssetById{
+  constructor(
+    public id: number,
+    public assetTypeId: number,
+    public assetName: string,
+    public userBy: string,
+    public cost: number,
+    public asset_type_name : String,
+    public asset_id:number
+  ){}
 }
 
 
@@ -108,6 +121,7 @@ export class AddEquipmentComponent implements OnInit {
       dateOfAssign: ['', Validators.required],
     })
 
+
     this.newAssetForm = this.formBuilder.group({
       assetTypeId: ['', Validators.required],
       assetName: ['', Validators.required],
@@ -155,7 +169,9 @@ export class AddEquipmentComponent implements OnInit {
   }
 
 
+  newAssetLoad = false
   addNewAsset() {
+    this.newAssetLoad = true
     // console.log(this.signPad.toSVG())
     // let idv = document.querySelector(`#show`) as HTMLDivElement
     // let sign = this.signPad.toSVG()
@@ -174,6 +190,8 @@ export class AddEquipmentComponent implements OnInit {
     this.userService.newAsset(formData)
       .subscribe(data => {
         console.log('aded', data)
+        this.newAssetLoad =  false
+        // this.assetList()
       })
   }
 
@@ -198,8 +216,41 @@ export class AddEquipmentComponent implements OnInit {
         console.log(this.allAssetlist);
         this.dtTrigger.next()
       })
-
   }
+
+
+  assetByIdv:any = []
+  assetbyIdget(id){
+
+    this.userService.getAssetById(id).subscribe(data =>{
+      // console.log(data)
+      this.assetByIdv = data;
+      console.log(this.assetByIdv)
+    })
+    }
+
+    assetByIdupdate(asset: any, id: number){
+      this.userService.updateAssetById(asset,id).subscribe(data=>{
+        console.log('Asset Updated',data)
+      })
+
+    }
+
+
+  
+
+
+
+    // deleteAssetLoad = false
+  deleteAsset(id){
+    // this.deleteAssetLoad = true
+    this.userService.deleteAssetByID(id).subscribe(data=>{
+      // this.deleteAssetLoad = false
+      console.log('Asset Deleted Successfully!,',data)
+      this.assetList()
+    })
+  }
+
 
   assetsData:Array<any> = []
   getAssets(e){

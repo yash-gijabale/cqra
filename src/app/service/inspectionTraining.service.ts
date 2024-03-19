@@ -181,4 +181,9 @@ export class InspectorTraning {
   updateInternalReviewForm(masterID, data) {
     return this.httpClient.put(`${this.REST_API_SERVER}/intRevMeetAtProSiteMaster/update/${masterID}`, data)
   }
+
+  //feedback form
+  addClientFeedbackForm(data):Observable<InspectorTraning>{
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/ClientFeedbackForm/save`,data)
+  }
 }

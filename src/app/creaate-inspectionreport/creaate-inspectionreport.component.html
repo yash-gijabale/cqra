@@ -21,211 +21,213 @@
       <div class="create-viewform">
 
         <form [formGroup]="inspectionReporotForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Select Client</label>
-            <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
-              <option [value]="0">Please Select</option>
-              <option [value]="client.clientId" *ngFor="let client of clients">
-                {{client.clientName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Select Client</label>
+              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
+                <option [value]="0">Please Select</option>
+                <option [value]="client.clientId" *ngFor="let client of clients">
+                  {{client.clientName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Project Name</label>
-            <select [(ngModel)]="SelProject" formControlName="schemeId" class="form-control"
-              (change)="getStructures()">
-              <option [value]="0">Please Select</option>
-              <option [value]="project.projectId" *ngFor="let project of projects">
-                {{project.projectName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Project Name</label>
+              <select [(ngModel)]="SelProject" formControlName="schemeId" class="form-control"
+                (change)="getStructures()">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Structure Name</label>
-            <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control" multiple>
-              <option [value]="0">Please Select</option>
-              <option [value]="o.structureId" *ngFor="let o of structures">
-                {{o.structureName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Structure Name</label>
+              <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control" multiple>
+                <option [value]="0">Please Select</option>
+                <option [value]="o.structureId" *ngFor="let o of structures">
+                  {{o.structureName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Trade</label>
-            <select formControlName="tradeId" class="form-control" multiple>
-              <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
-                {{trade.tradeName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Trade</label>
+              <select formControlName="tradeId" class="form-control" multiple>
+                <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
+                  {{trade.tradeName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Contractor</label>
-            <select [(ngModel)]="SelContractor" formControlName="clientRep" class="form-control" multiple>
-              <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
-                {{contractor.contractorName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Contractor</label>
+              <select [(ngModel)]="SelContractor" formControlName="clientRep" class="form-control" multiple>
+                <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
+                  {{contractor.contractorName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Assessment Date</label>
-            <input type="date" class="form-control" formControlName="assessmentDate">
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Assessment Date</label>
+              <input type="date" class="form-control" formControlName="assessmentDate">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>NABC Report </label>
-            <select formControlName="nabc" class="form-control">
-              <option [value]="0" [selected]="0">Please select</option>
-              <option [value]="1">With NABCB</option>
-              <option [value]="2">Without NABCB</option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>NABC Report </label>
+              <select formControlName="nabc" class="form-control">
+                <option [value]="0" [selected]="0">Please select</option>
+                <option [value]="1">With NABCB</option>
+                <option [value]="2">Without NABCB</option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>NABC Note </label>
-            <select formControlName="nabcNote" class="form-control">
-              <option [selected]="0">Please select</option>
-              <option [value]="1">Conlusion NABL lab</option>
-              <option [value]="2">Conlusion Non NABL lab</option>
-              <option [value]="3">None/option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>NABC Note </label>
+              <select formControlName="nabcNote" class="form-control">
+                <option [selected]="0">Please select</option>
+                <option [value]="1">Conlusion NABL lab</option>
+                <option [value]="2">Conlusion Non NABL lab</option>
+                <option [value]="3">None/option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Date From:</label>
-            <input type="date" class="form-control" formControlName="fromDate">
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Date From:</label>
+              <input type="date" class="form-control" formControlName="fromDate">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Date To:</label>
-            <input type="date" class="form-control" formControlName="toDate">
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Date To:</label>
+              <input type="date" class="form-control" formControlName="toDate">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Approver: </label>
-            <select formControlName="approverId" class="form-control">
-              <option [value]="user.id" *ngFor="let user of approvers">
-                {{user.userFullName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Approver: </label>
+              <select formControlName="approverId" class="form-control">
+                <option [value]="user.id" *ngFor="let user of approvers">
+                  {{user.userFullName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Approve Design: </label>
-            <input type="text" class="form-control" formControlName="approverDesign">
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Approve Design: </label>
+              <input type="text" class="form-control" formControlName="approverDesign">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Reviewer: </label>
-            <select formControlName="reviewerId" class="form-control">
-              <option [value]="user.id" *ngFor="let user of reviwers">
-                {{user.userFullName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Reviewer: </label>
+              <select formControlName="reviewerId" class="form-control">
+                <option [value]="user.id" *ngFor="let user of reviwers">
+                  {{user.userFullName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Reviewer Design: </label>
-            <input type="text" class="form-control" formControlName="reviewerDesign">
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Reviewer Design: </label>
+              <input type="text" class="form-control" formControlName="reviewerDesign">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Creater Name: </label>
-            <select formControlName="createrId" class="form-control">
-              <option [value]="user.id" *ngFor="let user of creaters">
-                {{user.userFullName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Creater Name: </label>
+              <select formControlName="createrId" class="form-control">
+                <option [value]="user.id" *ngFor="let user of creaters">
+                  {{user.userFullName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Create Design: </label>
-            <input type="text" class="form-control" formControlName="createrName">
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Create Design: </label>
+              <input type="text" class="form-control" formControlName="createrName">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-
-
-          <div class="form-group">
-            <label>Report Header: </label>
-            <input type="text" class="form-control" formControlName="reportHeader">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Image 1: </label>
-            <input type="file" class="form-control" formControlName="image1">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Image 2: </label>
-            <input type="file" class="form-control" formControlName="image1">
-            <div class="invalid-feedback">
-            </div>
-          </div>
 
 
-          <div class="form-group">
-            <label>Cycle of Inpection: </label>
-            <select formControlName="cycleId" class="form-control">
-              <option [value]="cycle.cycle_id" *ngFor="let cycle of cycleOfInspection">
-                {{cycle.cycle_name}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Report Header: </label>
+              <input type="text" class="form-control" formControlName="reportHeader">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Type of Project: </label>
-            <input type="text" class="form-control" formControlName="typeOfReport">
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Image 1: </label>
+              <input type="file" class="form-control" formControlName="image1">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>UIC no: </label>
-            <input type="text" class="form-control" formControlName="uicNo">
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Image 2: </label>
+              <input type="file" class="form-control" formControlName="image1">
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Index: </label>
-            <input type="text" class="form-control" formControlName="saIndex">
-            <div class="invalid-feedback">
+
+            <div class="form-group col-md-4">
+              <label>Cycle of Inpection: </label>
+              <select formControlName="cycleId" class="form-control">
+                <option [value]="cycle.cycle_id" *ngFor="let cycle of cycleOfInspection">
+                  {{cycle.cycle_name}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Type of Project: </label>
+              <input type="text" class="form-control" formControlName="typeOfReport">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>UIC no: </label>
+              <input type="text" class="form-control" formControlName="uicNo">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Index: </label>
+              <input type="text" class="form-control" formControlName="saIndex">
+              <div class="invalid-feedback">
+              </div>
             </div>
           </div>
 

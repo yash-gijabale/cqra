@@ -89,7 +89,7 @@
                 </td>
                 <td>
                   <button type="text" class="btn btn-sm btn-warning" data-toggle="modal"
-                    data-target="#risktoimpartialityForm">
+                    data-target="#risktoimpartialityForm" (click)="getDataByprojectID(client.projectId)">
                     <span class="edit-tessst">
                       <i class="las la-pencil-alt"></i>
                     </span>
@@ -138,11 +138,11 @@
                       <td><input type="text" class="form-control" formControlName="developerDet"></td>
                       <td>
                         <div class="radios"><input type="radio" class="radio" name="Developer"
-                            formControlName="Developer" value="yDeveloper"></div>
+                            formControlName="Developer" value="1"></div>
                       </td>
                       <td>
                         <div class="radios"><input type="radio" class="radio" name="Developer"
-                            formControlName="Developer" value="nDeveloper"></div>
+                            formControlName="Developer" value="0"></div>
                       </td>
                       <td><input type="text" class="form-control" formControlName="developerIfyes"></td>
                     </tr>
@@ -152,11 +152,11 @@
                       <td><input type="text" class="form-control" formControlName="projectDet"></td>
                       <td>
                         <div class="radios"><input type="radio" class="radio" name="Project" formControlName="Project"
-                            value="yProject"></div>
+                            value="1"></div>
                       </td>
                       <td>
                         <div class="radios"><input type="radio" class="radio" name="Project" formControlName="Project"
-                            value="nProject"></div>
+                            value="0"></div>
                       </td>
                       <td><input type="text" class="form-control" formControlName="projectIfyes"></td>
                     </tr>
@@ -176,12 +176,12 @@
                       </td>
                       <td>
                         <div class="radios"><input type="radio" class="radio" formControlName="contruction"
-                            name="contruction" value="yContruction">
+                            name="contruction" value="1">
                         </div>
                       </td>
                       <td>
                         <div class="radios"><input type="radio" class="radio" formControlName="contruction"
-                            name="contruction" value="nContruction">
+                            name="contruction" value="0">
                         </div>
                       </td>
                       <td><input type="text" class="form-control" formControlName="contructionIfyes"></td>

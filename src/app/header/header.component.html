@@ -46,7 +46,7 @@
           </a>
         </li> -->
         <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="dropdown-item" routerLink="/wbs">
+          <a class="dropdown-item" routerLink="/dashboard">
             <span class="all-font-icons">
               <i class="las la-sitemap"></i>
             </span>
@@ -100,7 +100,7 @@
 
             <li class="dropdown-item"><a tabindex="-1" routerLink="/assignEquipementList">Assign Equipment</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/myEquipments">My Equipment</a></li>
-            
+
           </ul>
         </li>
         <li *ngIf="(userMenu.clientMenu || userMenu.schemeMenu || userMenu.buildingMenu)" class="dropdown-submenu"
@@ -194,8 +194,8 @@
 
 
         <li *ngIf="(userMenu.dtmDeclaration || userMenu.inspectorDeclaration || userMenu.newInsTraining || userMenu.underInsTraining
-        || userMenu.preSnapAuditForm)"
-          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports">
+        || userMenu.preSnapAuditForm)" class="dropdown-submenu" data-toggle="tooltip" data-placement="right"
+          title="Reports">
           <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="las la-sitemap"></i>

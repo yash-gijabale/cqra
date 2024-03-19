@@ -26,79 +26,90 @@
       </div>
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Client Name</label>
-            <select  [(ngModel)]="SelClient" formControlName="selClient"  class="form-control"> 
-                <option  [value]="0">Please Select</option>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Client Name</label>
+              <select [(ngModel)]="SelClient" formControlName="selClient" class="form-control">
+                <option [value]="0">Please Select</option>
                 <option [value]="o.selClient" *ngFor="let o of clients">
                   {{o.clientName}}
                 </option>
-            </select>
-            <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+              </select>
+              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
                 <div *ngIf="f.selClient.errors.required">Client Name is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Project Name</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="1">Both</option>
-                <option  [value]="2">Device</option>
-                <option  [value]="3">Web</option>
-            </select>
-            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Project Name</label>
+              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="1">Both</option>
+                <option [value]="2">Device</option>
+                <option [value]="3">Web</option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
                 <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Authorized Management Representative </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Authorized Management Representative  is required</div>
+            <div class="form-group col-md-4">
+              <label>Authorized Management Representative </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                <div *ngIf="f.clientName.errors.required">Authorized Management Representative is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Authorized Project Representative </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Authorized Project Representative </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Authorized Project Representative is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Kickoff Meeting Date</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Kickoff Meeting Date</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Authorized Project Representative is required</div>
+              </div>
             </div>
-          </div>
-          <hr>
-          <div class="form-group">
-            <label>Client Code</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <hr>
+            <div class="form-group col-md-4">
+              <label>Client Code</label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Client Code is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Project Code</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Project Code</label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Project Code is required</div>
+              </div>
             </div>
-          </div>
-          <hr>
-          <div class="form-group">
-            <label>Date of 1st Review Meeting with the top management</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Date of 1st Review Meeting with the top management is required</div>
+            <hr>
+            <div class="form-group col-md-4">
+              <label>Date of 1st Review Meeting with the top management</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                <div *ngIf="f.clientName.errors.required">Date of 1st Review Meeting with the top management is required
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Targeted Date for Finalization of Quality Manual</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Targeted Date for Finalization of Quality Manual is required</div>
+            <div class="form-group col-md-4">
+              <label>Targeted Date for Finalization of Quality Manual</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                <div *ngIf="f.clientName.errors.required">Targeted Date for Finalization of Quality Manual is required
+                </div>
+              </div>
             </div>
           </div>
 
@@ -110,32 +121,38 @@
           <div class="form-group">
             <label>Management Review Meeting</label>
           </div>
-          <div class="form-group">
-            <label>1st Phase Frequency </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>1st Phase Frequency </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">1st Phase Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>1st Phase Attended By </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>1st Phase Attended By </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">1st Phase Attended By is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>2nd Phase Frequency </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>2nd Phase Frequency </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">2nd Phase Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>2nd Phase Attended By </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>2nd Phase Attended By </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">2nd Phase Attended By is required</div>
+              </div>
             </div>
           </div>
 
@@ -143,32 +160,38 @@
           <div class="form-group">
             <label>Quality Review Meeting</label>
           </div>
-          <div class="form-group">
-            <label>1st Phase Frequency  </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">1st Phase Frequency  is required</div>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>1st Phase Frequency </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                <div *ngIf="f.clientName.errors.required">1st Phase Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>1st Phase Attended By </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>1st Phase Attended By </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">1st Phase Attended By is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>2nd Phase Frequency </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>2nd Phase Frequency </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">2nd Phase Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>2nd Phase Attended By </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>2nd Phase Attended By </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">2nd Phase Attended By is required</div>
+              </div>
             </div>
           </div>
 
@@ -176,51 +199,63 @@
           <div class="form-group">
             <label>Quality Circle Meeting</label>
           </div>
-          <div class="form-group">
-            <label>1st Phase Frequency  </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">1st Phase Frequency  is required</div>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>1st Phase Frequency </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                <div *ngIf="f.clientName.errors.required">1st Phase Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>1st Phase Attended By </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>1st Phase Attended By </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">1st Phase Attended By is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>2nd Phase Frequency </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>2nd Phase Frequency </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">2nd Phase Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>2nd Phase Attended By </label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>2nd Phase Attended By </label>
+              <input type="text" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">2nd Phase Attended By is required</div>
+              </div>
             </div>
           </div>
 
           <hr>
-          <div class="form-group">
-            <label>Targeted date for 1st Training  </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>Targeted Date of Orientation Meeting for Site Staff </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>Targeted Date for finalization of 1st Trade for Quality Inspection Parameters </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>Targeted Date for approval of 1st Mock Up </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Targeted date for 1st Training </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>Targeted Date of Orientation Meeting for Site Staff </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>Targeted Date for finalization of 1st Trade for Quality Inspection Parameters </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>Targeted Date for approval of 1st Mock Up </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
           </div>
 
           <hr>
@@ -230,167 +265,195 @@
           <div class="form-group">
             <label>Quality Update Reports</label>
           </div>
-          <div class="form-group">
-            <label>Frequency </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Frequency </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Addressed To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>cc To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <div class="form-group col-md-4">
+              <label>Addressed To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>cc To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
           </div>
 
           <hr>
           <div class="form-group">
             <label>Quality Review Reports</label>
           </div>
-          <div class="form-group">
-            <label>Frequency </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Frequency </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Addressed To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>cc To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <div class="form-group col-md-4">
+              <label>Addressed To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>cc To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
           </div>
 
           <hr>
           <div class="form-group">
             <label>Quality Index Reports</label>
           </div>
-          <div class="form-group">
-            <label>Frequency </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Frequency </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Addressed To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>cc To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            <div class="form-group col-md-4">
+              <label>Addressed To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>cc To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
           </div>
 
           <hr>
           <div class="form-group">
             <label>MIS Reports</label>
           </div>
-          <div class="form-group">
-            <label>Frequency </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Frequency </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
                 <div *ngIf="f.clientName.errors.required">Frequency is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Addressed To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>cc To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
+            <div class="form-group col-md-4">
+              <label>Addressed To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>cc To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
 
-          <hr>
-          <div class="form-group">
-            <label>Other CQRA Deliverable To Client</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-          <div class="form-group">
-            <label>Authority to take photographs of NCs</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="2">Yes</option>
-                <option  [value]="3">No</option>
-            </select>
-            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+            <hr>
+            <div class="form-group col-md-4">
+              <label>Other CQRA Deliverable To Client</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+            <div class="form-group col-md-4">
+              <label>Authority to take photographs of NCs</label>
+              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="2">Yes</option>
+                <option [value]="3">No</option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
                 <div *ngIf="f.selProject.errors.required">Authority to take photographs of NCs is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Authority to stop work in case of serious nonconformities</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="2">Yes</option>
-                <option  [value]="3">No</option>
-            </select>
-            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is required</div>
+            <div class="form-group col-md-4">
+              <label>Authority to stop work in case of serious nonconformities</label>
+              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="2">Yes</option>
+                <option [value]="3">No</option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is
+                  required</div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Method of approval of CQRA Bill </label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-
-          <div class="form-group">
-            <label>Red Alert Address To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
-
-          <div class="form-group">
-            <label>Green/Red Card Issue</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="2">Yes</option>
-                <option  [value]="3">No</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Allocation of table space and shelf space</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="2">Yes</option>
-                <option  [value]="3">No</option>
-            </select>
-            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-              <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is required</div>
+            <div class="form-group col-md-4">
+              <label>Method of approval of CQRA Bill </label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
-          </div>
-          <div class="form-group">
-            <label>Telephone facility for daily reportinge</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="2">Yes</option>
-                <option  [value]="3">No</option>
-            </select>
-            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-              <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is required</div>
+
+            <div class="form-group col-md-4">
+              <label>Red Alert Address To</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
-          </div>
-          <div class="form-group">
-            <label>Permission of CQRA Dress Code</label>
-            <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="2">Yes</option>
-                <option  [value]="3">No</option>
-            </select>
-          </div>
-          <hr>
-          <div class="form-group">
-            <label>Client Representative</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-          </div>
- 
-          <div class="form-group">
-            <label>CQRA Representative</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+
+            <div class="form-group col-md-4">
+              <label>Green/Red Card Issue</label>
+              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="2">Yes</option>
+                <option [value]="3">No</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Allocation of table space and shelf space</label>
+              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="2">Yes</option>
+                <option [value]="3">No</option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is
+                  required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Telephone facility for daily reportinge</label>
+              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="2">Yes</option>
+                <option [value]="3">No</option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is
+                  required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Permission of CQRA Dress Code</label>
+              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="2">Yes</option>
+                <option [value]="3">No</option>
+              </select>
+            </div>
+            <hr>
+            <div class="form-group col-md-4">
+              <label>Client Representative</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>CQRA Representative</label>
+              <input type="date" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
           </div>
           <div class="form-group">
             <button class="btn btn-primary">View PDF</button>
@@ -401,4 +464,4 @@
       </div>
     </div>
   </div>
-<app-footer></app-footer>
+  <app-footer></app-footer>

@@ -1,41 +1,39 @@
-* {
-    box-sizing: border-box;
-  }
-  
-  input , select, textarea{
-    width: 60%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-    display: inline-block;
-    
-  }
+/* input,
+select,
+textarea {
+  width: 60%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  display: inline-block;
 
-  input[type=checkbox] {
-    padding: 0;
-    height: initial;
-    width: initial;
-    margin-bottom: 0;
-    cursor: pointer;
 }
-  
-  label {
-    width:20%;
-    padding: 12px 12px 12px 0;
-    display: inline-block;
-  }
-  
-  input[type=submit] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    float: right;
-  }
-  
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
+
+label {
+  width: 20%;
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+} */
+
+input[type=checkbox] {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  cursor: pointer;
+}

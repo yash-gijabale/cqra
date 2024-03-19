@@ -75,8 +75,8 @@
                       <label>Cycle of Inspection:</label>
                       <select [(ngModel)]="selCycleId" class="form-control">
                         <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
-                        [selected]="updateTeamFlag && masterData.cycleId==cycle.cycle_id ? true :  false">
-                        {{cycle.cycle_name}}</option>
+                          [selected]="updateTeamFlag && masterData.cycleId==cycle.cycle_id ? true :  false">
+                          {{cycle.cycle_name}}</option>
                       </select>
                     </div>
 
@@ -93,8 +93,9 @@
                     </div>
                   </div>
 
-                  
-                  <div *ngIf="updateTeamFlag && updateTeamLoad" class="userdeailsload row d-felx justify-content-center">
+
+                  <div *ngIf="updateTeamFlag && updateTeamLoad"
+                    class="userdeailsload row d-felx justify-content-center">
                     <div class="spinner-border text-warning" role="status">
                     </div>
                   </div>
@@ -1013,115 +1014,130 @@
           <button class="btn btn-success mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill the
             from</button>
 
-          <!-- <div class="modal fade" id="client_feedback_form" tabindex="-1" role="dialog"
-          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Client Feedback Form</h5>
-                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body modal-full-body">
+          <div class="modal fade" id="client_feedback_form" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Client Feedback Form</h5>
+                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body modal-full-body">
 
-                <div class="card bg-light mb-3" id="client_feedback_form" aria-hidden="true">
-                  <form [formGroup]="feedbackForm" (ngSubmit)="submitfeedback()">
+                  <div class="card bg-light" id="client_feedback_form" aria-hidden="true">
+                    <!-- <form [formGroup]="feedbackForm" (ngSubmit)="submitfeedback()"> -->
 
                     <div class="card-body">
-                      <p class="card-text">CQRA Management would be greateful if you could spare some of your valuable
+                      <p class="card-text">&emsp;CQRA Management would be greateful if you could spare some of your
+                        valuable
                         time to
                         fill in the following Assessment Form and forword it to us at <a
                           href="tdcat@cqra.acts-int.com">tdcat@cqra.acts-int.com</a>,<a
                           href="maratha.f@cqra.acts-int.com">maratha.f@cqra.acts-int.com</a>.
                       </p>
 
-                      <div class="modal-body row">
-                        <div class="form-group col-md-4">
-                          <label>Name of Client :</label>
-                          <input type="text" class="form-control" formControlName="clientId" disabled>
+                      <div class="form-group d-flex">
+                        <div class="form-group col-md-3">
+                          <label><b>Matser Id:</b></label>
+                          <select class="form-control col-md-12">
+                            <option [value]="currentMasterId">{{currentMasterId}}</option>
+                          </select>
                         </div>
 
-                        <div class="form-group col-md-4">
-                          <label>Name of The Project :</label>
-                          <input type="text" class="form-control" formControlName="projectId" disabled>
+                        <div class="form-group col-md-3">
+                          <label>Client Name</label>
+                          <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
+                            class="form-control" readonly>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
+                          <label>Projcet Name</label>
+                          <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
+                            class="form-control" readonly>
+                        </div>
+
+                        <div class="form-group col-md-3">
                           <label>Location (City) :</label>
-                          <input type="text" class="form-control" formControlName="location" disabled>
-                        </div>
-                      </div>
-
-                      <div>
-                        <ol type="A">
-                          <li>Kindly rate our services on the scale of 1-5, 1 being the lowest and 5 being the highest.
-                            <ol type="1">
-                              <li>Opening and closing meeting conducted professionally<br> <input type="text"
-                                  class="form-control" formControlName="A1"></li>
-                              <li>Non-conformities discussed to your satisfaction at the end of inspection
-                                process<br><input type="text" class="form-control" formControlName="A2"></li>
-                              <li>Quality of non-conformities given in the inspection report<br><input type="text"
-                                  class="form-control" formControlName="A3"></li>
-                            </ol>
-                          </li>
-                          <li>Mark against Your Feedback
-                            <ol type="1">
-                              <li>How correctly in your opinion did our inspection report assess the quality of work?
-                                <ol type="a">
-                                  <li><input type="radio" formControlName="radio" name="radio" value="over">Over
-                                    representative</li>
-                                  <li><input type="radio" formControlName="radio" name="radio" value="under">Under
-                                    representative
-                                  </li>
-                                  <li><input type="radio" formControlName="radio" name="radio" value="correct">Correctly
-                                    Presented
-                                  </li>
-                                  <li><input type="radio" formControlName="radio" name="radio" value="mix">It's a mix
-                                  </li>
-                                </ol>
-                              </li>
-                            </ol>
-                          </li>
-                          <li>What would you suggest that we do differently?<textarea class="form-control"
-                              formControlName="suggestion"></textarea>
-                          </li>
-                          <li>Feedback on assessment team:<textarea class="form-control"
-                              formControlName="feedbackOnTeam"></textarea>
-                          </li>
-                          <li>Other comments if any to improve our services:<textarea class="form-control"
-                              formControlName="other"></textarea>
-                          </li>
-                        </ol>
-                      </div>
-
-                      <div class="">
-                        <div class="form-group col-md-4">
-                          <label> Feedback Given BY :</label>
-                          <input type="text" class="form-control">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label>Name and Signature :</label>
-                          <input type="text" class="form-control">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label>Designation :</label>
-                          <input type="text" class="form-control">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label>Date :</label>
-                          <input type="date" class="form-control">
+                          <input type="text" class="form-control" id="meeting_Location">
                         </div>
                       </div>
                     </div>
 
-                    <div class="modal-footer">
-                      <button class="btn btn-sm btn-success">Submit</button>
+                    <div>
+                      <ol type="A">
+                        <li>Kindly rate our services on the scale of 1-5, 1 being the lowest and 5 being the
+                          highest.
+                          <ol type="1">
+
+                            <li>Opening and closing meeting conducted professionally<br> <input type="number" min="1"
+                                max="5" class="form-control" id="openingcloprofessionally"></li>
+                            <li>Non-conformities discussed to your satisfaction at the end of inspection
+                              process<br><input type="number" min="1" max="5" class="form-control"
+                                id="nonconfirmitiesdiscussed"></li>
+                            <li>Quality of non-conformities given in the inspection report<br><input type="number"
+                                min="1" max="5" class="form-control" id="qualityofnonconfirmative"></li>
+
+                          </ol>
+                        </li>
+                        <li>Mark against Your Feedback
+                          <ol type="1">
+                            <li>How correctly in your opinion did our inspection report assess the quality of work?
+                              <ol type="a">
+                                <li><input type="radio" class="work_quality" name="quality" value="1">Over
+                                  representative</li>
+                                <li><input type="radio" class="work_quality" name="quality" value="2">Under
+                                  representative
+                                </li>
+                                <li><input type="radio" class="work_quality" name="quality" value="3">Correctly
+                                  Presented
+                                </li>
+                                <li><input type="radio" class="work_quality" name="quality" value="4">It's a mix
+                                </li>
+                              </ol>
+                            </li>
+                          </ol>
+                        </li>
+                        <li>What would you suggest that we do differently?<textarea class="form-control"
+                            id="suggestdifferently"></textarea>
+                        </li>
+                        <li>Feedback on assessment team:<textarea class="form-control" id="feedback"></textarea>
+                        </li>
+                        <li>Other comments if any to improve our services:<textarea class="form-control"
+                            id="othercomments"></textarea>
+                        </li>
+                      </ol>
                     </div>
-                  </form>
+
+                    <div class="fle">
+                      <div class="form-group col-md-4">
+                        <label> Feedback Given BY :</label>
+                        <input type="text" class="form-control">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label>Name and Signature :</label>
+                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" placeholder="Signature">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label>Designation :</label>
+                        <input type="text" class="form-control">
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label>Date :</label>
+                        <input type="date" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" (click)="SubmitClientFeedback()">Submit</button>
+                  </div>
+                  <!-- </form> -->
                 </div>
 
               </div>
@@ -1129,7 +1145,6 @@
             </div>
           </div>
 
-        </div> -->
         </div>
       </div>
 

@@ -1,115 +1,123 @@
 <app-header></app-header>
 <div class="content-wrapper">
-    <div class="container-fluid ">
-      <div class="add-bg-here">
-        <div class="add-container-viewcommon">
-         <div class="add-breadcrames">
-            <ol class="breadcrumb"> 
-              <li class="breadcrumb-item">
-                <a href="#">Home </a>
-              </li>
-              <li class="breadcrumb-item active">Quality Update Report</li>
-            </ol>
-         </div>
-         <div class="main-header_createview">
-            <div class="left-side-header">
-                <div class="create-content-header">
-                  <h1>Quality Update Report</h1>
-                </div>
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Quality Update Report</li>
+          </ol>
+        </div>
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1>Quality Update Report</h1>
             </div>
-         </div>
-         <div class="create-viewform">
+          </div>
+        </div>
+        <div class="create-viewform">
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <label>Client Name</label>
-              <select  [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" > 
-                  <option  [value]="0">Please Select</option>
-                  <option  [value]="1">CQRA</option>
-              </select>
-              <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label>Client Name:</label>
+                <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
+                  <option [value]="0">Please Select</option>
+                  <option [value]="1">CQRA</option>
+                </select>
+                <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
                   <div *ngIf="f.clientId.errors.required">Trade Group is required</div>
+                </div>
               </div>
-          </div>
-          <div class="form-group">
-            <label>Project Name</label>
-            <select  [(ngModel)]="SelProject" formControlName="selProject" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="1">CQRA</option>
-            </select>
-            <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Trade Group is required</div>
+              <div class="form-group col-md-4">
+                <label>Project Name:</label>
+                <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+                  <option [value]="0">Please Select</option>
+                  <option [value]="1">CQRA</option>
+                </select>
+                <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                  <div *ngIf="f.selProject.errors.required">Trade Group is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Structure Name:</label>
+                <select [(ngModel)]="SelStructure" formControlName="selStructure" class="form-control">
+                  <option [value]="0">Please Select</option>
+                  <option [value]="1">CQRA</option>
+                </select>
+                <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
+                  <div *ngIf="f.selStructure.errors.required">Trade Group is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Stage Name:</label>
+                <select [(ngModel)]="SelStage" formControlName="selStage" class="form-control" multiple>
+                  <option [value]="0">Please Select</option>
+                  <option [value]="1">CQRA</option>
+                </select>
+                <div *ngIf="submitted && f.selStage.errors" class="invalid-feedback">
+                  <div *ngIf="f.selStage.errors.required">Trade Group is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Report From:</label>
+                <input type="date" formControlName="clientName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Report To:</label>
+                <input type="date" formControlName="clientName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Approved By:</label>
+                <input type="text" formControlName="clientName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Approver Designation:</label>
+                <input type="text" formControlName="clientName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Note:</label>
+                <input type="text" formControlName="clientName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Report Header:</label>
+                <input type="text" formControlName="clientName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Structure Name</label>
-            <select  [(ngModel)]="SelStructure" formControlName="selStructure" class="form-control" > 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="1">CQRA</option>
-            </select>
-            <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
-                <div *ngIf="f.selStructure.errors.required">Trade Group is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Stage Name</label>
-            <select  [(ngModel)]="SelStage" formControlName="selStage" class="form-control" multiple> 
-                <option  [value]="0">Please Select</option>
-                <option  [value]="1">CQRA</option>
-            </select>
-            <div *ngIf="submitted && f.selStage.errors" class="invalid-feedback">
-                <div *ngIf="f.selStage.errors.required">Trade Group is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Report From</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Report To</label>
-            <input type="date" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Approved By</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Approver Designation</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Note</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Report Header</label>
-            <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-            </div>
-          </div>
-         
+
             <div class="form-group">
-                <button class="btn btn-primary">View QU Report</button>&nbsp;
-                <button class="btn btn-success">Save QU Report</button>&nbsp;
-                <button class="btn btn-danger">Reset</button>
+              <button class="btn btn-primary">View QU Report</button>&nbsp;
+              <button class="btn btn-success">Save QU Report</button>&nbsp;
+              <button class="btn btn-danger">Reset</button>
             </div>
-        </form>
-         </div>
+          </form>
+        </div>
       </div>
     </div>
-<app-footer></app-footer>
+    <app-footer></app-footer>

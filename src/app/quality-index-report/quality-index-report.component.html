@@ -26,117 +26,120 @@
       </div>
       <div class="create-viewform">
         <form [formGroup]="qualityIndexForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Select Client</label>
-            <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
-              <option [value]="0">Please Select</option>
-              <option [value]="client.clientId" *ngFor="let client of clients">
-                {{client.clientName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Select Client</label>
+              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
+                <option [value]="0">Please Select</option>
+                <option [value]="client.clientId" *ngFor="let client of clients">
+                  {{client.clientName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Project Name</label>
-            <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()">
-              <option [value]="0">Please Select</option>
-              <option [value]="project.projectId" *ngFor="let project of projects">
-                {{project.projectName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Project Name</label>
+              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control"
+                (change)="getStructure()">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Structure Name</label>
-            <select formControlName="structureId" class="form-control">
-              <option [value]="0">Please Select</option>
-              <option [value]="o.structureId" *ngFor="let o of structures">
-                {{o.structureName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Structure Name</label>
+              <select formControlName="structureId" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.structureId" *ngFor="let o of structures">
+                  {{o.structureName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Trade</label>
-            <select formControlName="tradeId" class="form-control" >
-              <option [value]="trade.tardeId" *ngFor="let trade of trades">
-                {{trade.tradeName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Trade</label>
+              <select formControlName="tradeId" class="form-control">
+                <option [value]="trade.tardeId" *ngFor="let trade of trades">
+                  {{trade.tradeName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Responsible Person</label>
-            <select formControlName="reviewBy" class="form-control" >
-              <option [value]="o.contractorId" *ngFor="let o of contractors">
-                {{o.contractorName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+            <div class="form-group col-md-4">
+              <label>Responsible Person</label>
+              <select formControlName="reviewBy" class="form-control">
+                <option [value]="o.contractorId" *ngFor="let o of contractors">
+                  {{o.contractorName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-     
-
-          <div class="form-group">
-            <label>Report From:</label>
-            <input type="date" class="form-control" formControlName="dateFrom">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Report To:</label>
-            <input type="date" class="form-control" formControlName="dateTo">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Approved By:</label>
-            <input type="text" class="form-control">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Approved Designation:</label>
-            <input type="text" class="form-control" formControlName="approveDesign">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Reviewed By:</label>
-            <input type="text" class="form-control">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Reviewer Designation:</label>
-            <input type="text" class="form-control" formControlName="reviewDesign">
-            <div class="invalid-feedback">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Report Header:</label>
-            <input type="text" class="form-control" formControlName="reportHeader">
-            <div class="invalid-feedback">
-            </div>
-          </div>
 
 
+            <div class="form-group col-md-4">
+              <label>Report From:</label>
+              <input type="date" class="form-control" formControlName="dateFrom">
+              <div class="invalid-feedback">
+              </div>
+            </div>
 
-          <div class="form-group">
-            <label>Remark:</label>
-           <textarea class="form-control" formControlName="remark"></textarea>
+            <div class="form-group col-md-4">
+              <label>Report To:</label>
+              <input type="date" class="form-control" formControlName="dateTo">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Approved By:</label>
+              <input type="text" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Approved Designation:</label>
+              <input type="text" class="form-control" formControlName="approveDesign">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Reviewed By:</label>
+              <input type="text" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Reviewer Designation:</label>
+              <input type="text" class="form-control" formControlName="reviewDesign">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Report Header:</label>
+              <input type="text" class="form-control" formControlName="reportHeader">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+
+
+            <div class="form-group col-md-4">
+              <label>Remark:</label>
+              <textarea class="form-control" formControlName="remark"></textarea>
+            </div>
           </div>
           <div class="form-group">
             <button class="btn btn-primary m-1">Subgroup Wise View</button>
@@ -145,7 +148,7 @@
             <button class="btn btn-primary m-1">Save Trade Wise</button>
             <button type="button" class="btn btn-primary m-1">Reset</button>
 
-          </div> 
+          </div>
         </form>
       </div>
     </div>
