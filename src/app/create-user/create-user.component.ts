@@ -40,7 +40,7 @@ export class CreateUserComponent implements OnInit {
 
   isLoading = false
 
-  userRegions = []
+  userRegions:Object = {}
 
   projects: Array<any> = []
 
@@ -86,13 +86,13 @@ export class CreateUserComponent implements OnInit {
             let userData: any = data[0]
             this.representingType = userData.representingTypeId
             this.getRepresentors()
-            this.userRegions = userData.region.split(",")
-            this.userRegions = this.userRegions.map(e => {
-              return Number(e)
+            let preRgion = userData.region.split(",")
+            preRgion.forEach(id =>{
+              this.userRegions[id] = true
             })
+          
             console.log(this.userRegions)
             this.registerForm.patchValue(data[0])
-            this.registerForm.patchValue({ region: this.userRegions })
             this.registerForm.patchValue({ dateOfJoining: new Date(userData.dateOfJoining).toISOString().substring(0, 10) })
           }
         });
@@ -125,7 +125,7 @@ export class CreateUserComponent implements OnInit {
       mobile: ['', [Validators.required, Validators.minLength(10)]],
       email: ['', [Validators.required, Validators.email]],
       userType: ['', Validators.required],
-      roleId: ['', Validators.required],
+      roleId: ['', Validators.nullValidator],
       userImage: ['', Validators.nullValidator],
       approverN: ['', Validators.nullValidator],
       reviewerN: ['', Validators.nullValidator],
@@ -134,25 +134,43 @@ export class CreateUserComponent implements OnInit {
       l1: ['', Validators.nullValidator],
       l2: ['', Validators.nullValidator],
       l3: ['', Validators.nullValidator],
-      region: [[], Validators.required],
+      // region: [[], Validators.required],
       representingTypeId: ['', Validators.required],
-      representingId: ['', Validators.required],
-      dateOfJoining: ['', Validators.required],
+      representingId: ['', Validators.nullValidator],
+      dateOfJoining: ['', Validators.nullValidator],
       department: ['', Validators.nullValidator],
       cadre: ['', Validators.nullValidator],
-      employeeId: ['', Validators.nullValidator]
+      empolyeeId: ['', Validators.nullValidator],
+      profile: ['', Validators.nullValidator]
 
 
     });
   }
   get f() { return this.registerForm.controls; }
 
+    
+  regionList: Array<Number> = []
+  addRegionToList(e){
+    let regionId = Number(e.target.value)
+    if(e.target.checked){
+      this.regionList.push(regionId)
+    }else{
+      this.regionList = this.regionList.filter(id =>{
+        return regionId != id
+      })
+    }
+
+    console.log(this.regionList)
+
+  }
   onSubmit() {
     this.submitted = true;
 
-    this.registerForm.value.region = this.registerForm.value.region.toString()
+    this.registerForm.value.region = this.regionList.toString()
     let signData = document.querySelector('#userSign') as HTMLInputElement
+    let profileData = document.querySelector('#profile') as HTMLInputElement
     let img1: File = signData.files[0]
+    let profile: File = profileData.files[0]
     console.log(img1)
 
     // console.log(this.registerForm.value)
@@ -164,6 +182,7 @@ export class CreateUserComponent implements OnInit {
     }
 
     console.log(formData)
+    
 
     // IF VALDATION IS FALSE THEN RETUN AND SHOW ERRORS
     if (this.registerForm.invalid) {
@@ -171,6 +190,7 @@ export class CreateUserComponent implements OnInit {
       return
     }
 
+    // return
 
     //UPDATE USER AND CREATE USER 
     if (this.id != -1) {
@@ -183,8 +203,8 @@ export class CreateUserComponent implements OnInit {
             let newUser: any = data
             this.assignProjectForNonCQRA(newUser.id)
 
-            if (img1) {
-              this.userService.uploadUserSign(newUser.id, img1)
+            if (img1 || profile) {
+              this.userService.uploadUserSign(newUser.id, img1, profile)
                 .subscribe(data => {
                   console.log('img uploaded', data)
                 }, err => console.log(err))
@@ -201,11 +221,11 @@ export class CreateUserComponent implements OnInit {
           data => {
             console.log('user created!--->', data)
             let newUser: any = data
-            this.registerForm.reset()
+            // this.registerForm.reset()
             this.assignProjectForNonCQRA(newUser.id)
             this.isLoading = false
-            if (img1) {
-              this.userService.uploadUserSign(newUser.id, img1)
+            if (img1 || profile) {
+              this.userService.uploadUserSign(newUser.id, img1, profile)
                 .subscribe(data => {
                   console.log('img uploaded', data)
                 })
@@ -336,4 +356,6 @@ export class CreateUserComponent implements OnInit {
     }
 
   }
+
+
 }

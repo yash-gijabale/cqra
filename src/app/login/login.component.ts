@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   password = ''
   errorMessage = 'Invalid Credentials'
   invalidLogin = false
+  
   constructor(private router: Router, private authenticateService: AuthenticateionService) { }
 
   ngOnInit() {
@@ -38,5 +39,18 @@ export class LoginComponent implements OnInit {
 
   }
 
+  visible:boolean = true;
+  changetype:boolean =true;
+  viewpass(){
+    this.visible = !this.visible;
+    this.changetype = !this.changetype;
+  }
+
+ 
 
 }
+
+  
+
+
+

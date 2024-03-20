@@ -51,9 +51,17 @@
                   </label>
                   <input class="mb-4" type="text" name="email" [(ngModel)]="userName" placeholder="Enter User Name">
                 </div>
-                <div class="row px-3"> <label class="mb-1">
+                <div class="row px-3">
+                  <label class="mb-1">
                     <h6 class="mb-0 text-sm">Password</h6>
-                  </label> <input type="password" name="password" [(ngModel)]="password" placeholder="Enter password">
+                  </label>
+
+                  <input [type]="changetype?'password':'text'" class="input-group" name="password"
+                    [(ngModel)]="password" placeholder="Enter password">
+                  <span class="eyeicon input-group-text" (click)="viewpass()">
+                    <i [ngClass]="visible?'fa fa-eye-slash':'fa fa-eye'"></i>
+                  </span>
+
                 </div>
                 <div class="row px-3 mb-4">
                   <div class="custom-control custom-checkbox custom-control-inline">

@@ -27,7 +27,7 @@
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="row">
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Representing Type</label>
               <select [(ngModel)]="representingType" formControlName="representingTypeId" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.representingTypeId.errors }" (change)="getRepresentors()">
@@ -42,10 +42,11 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Representor</label>
               <select formControlName="representingId" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.representingId.errors }">
+                <option [selected]="true">Select Representor</option>
                 <option [value]="user.id" *ngFor="let user of representator">
                   {{user.name}}
                 </option>
@@ -55,7 +56,7 @@
               </div>
             </div>
 
-            <div class="form-group" *ngIf="showCadre">
+            <div class="form-group col-md-4" *ngIf="showCadre">
               <label>CADRE</label>
               <select formControlName="cadre" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.cadre.errors }">
@@ -78,12 +79,12 @@
 
             </div>
 
-            <div class="form-group" *ngIf="showCadre">
+            <div class="form-group col-md-4" *ngIf="showCadre">
               <label>CQRA Employee Id</label>
-              <input type="text" formControlName="employeeId" class="form-control">
+              <input type="text" formControlName="empolyeeId" class="form-control">
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>User Name</label>
               <input type="text" formControlName="userFullName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.userFullName.errors }" />
@@ -91,7 +92,7 @@
                 <div *ngIf="f.userFullName.errors.required">User Full Name is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Login Name</label>
               <input type="text" formControlName="username" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
@@ -99,7 +100,7 @@
                 <div *ngIf="f.username.errors.required">Login Name is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Password</label>
               <input type="text" formControlName="password" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
@@ -107,7 +108,7 @@
                 <div *ngIf="f.password.errors.required">Password is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Designation</label>
               <input type="text" formControlName="designation" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.designation.errors }" />
@@ -116,7 +117,7 @@
               </div>
             </div>
 
-            <div class="form-group" *ngIf="showCadre">
+            <div class="form-group col-md-4" *ngIf="showCadre">
               <label>Department</label>
               <select formControlName="department" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.department.errors }">
@@ -140,7 +141,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Contact No.</label>
               <input type="text" formControlName="mobile" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
@@ -148,7 +149,7 @@
                 <div *ngIf="f.mobile.errors.required">Contact number is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Email ID</label>
               <input type="text" formControlName="email" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
@@ -157,7 +158,7 @@
                 <div *ngIf="f.email.errors.email">Must be email.</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>User Type</label>
               <select formControlName="userType" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
@@ -170,7 +171,7 @@
                 <div *ngIf="f.userType.errors.required">User Type is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4" *ngIf="showCadre">
               <label>Role</label>
               <select formControlName="roleId" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
@@ -181,18 +182,23 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-md-4" *ngIf="showCadre">
               <label>Region</label>
-              <select formControlName="region" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.region.errors }" multiple>
-                <option [value]="region.regionId" *ngFor="let region of regions">{{region.regionName}}</option>
-              </select>
-              <div *ngIf="submitted && f.region.errors" class="invalid-feedback">
-                <div *ngIf="f.region.errors.required">Role is required</div>
+              <div class="card col-md-12">
+                <div class="card-body" style="height: 10rem; overflow-y: auto;">
+                  <div class="form-check" *ngFor="let region of regions">
+                    <input class="form-check-input" type="checkbox" [value]="region.regionId" 
+                    [id]="'regionCheck'+region.regionId" (change)="addRegionToList($event)"
+                    [checked]="userRegions[region.regionId]">
+                    <label class="form-check-label" [for]="'regionCheck'+region.regionId">
+                      {{region.regionName}}
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-md-4" *ngIf="showCadre">
               <label>Date OF join</label>
               <input type="date" class="form-control" formControlName="dateOfJoining">
               <div *ngIf="submitted && f.dateOfJoining.errors" class="invalid-feedback">
@@ -216,62 +222,87 @@
           </mat-form-field> -->
 
 
+          <div class="row d-flex" *ngIf="showCadre">
+            <div class="form-group col-md-4">
+              <div class="card col-md-12">
+                <div class="card-body">
+                  <input type="checkbox" formControlName="approverN" [value]="0" id="approvercheck"
+                    class="form-check-input" />
+                  <label class="form-check-label" for="approvercheck">Approver</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <div class="card col-md-12" for="reviwerCheck">
+                <div class="card-body">
+                  <input type="checkbox" formControlName="reviewerN" [value]="1" class="form-check-input"
+                    id="reviwerCheck" />
+                  <label class="form-check-label" for="reviwerCheck">Reviewer</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <div class="card col-md-12">
+                <div class="card-body">
+                  <input type="checkbox" formControlName="createrN" [value]="2" class="form-check-input"
+                    id="creatorCheck" />
+                  <label class="form-check-label" for="creatorCheck">Site Admin</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row d-flex" *ngIf="showCadre">
+            <div class="form-group col-md-3">
+              <div class="card col-md-12">
+                <div class="card-body">
+                  <input type="checkbox" formControlName="l0" [value]="0" class="form-check-input" id="l0" />
+                  <label class="form-check-label" for="l0">L0</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="card col-md-12">
+                <div class="card-body">
+                  <input type="checkbox" formControlName="l1" [value]="1" class="form-check-input" id="l1" />
+                  <label class="form-check-label" for="l1">L1</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="card col-md-12">
+                <div class="card-body">
+                  <input type="checkbox" formControlName="l2" [value]="2" class="form-check-input" id="l2" />
+                  <label class="form-check-label" for="l2">L2</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="card col-md-12">
+                <div class="card-body">
+                  <input type="checkbox" formControlName="l3" [value]="3" class="form-check-input" id="l3" />
+                  <label class="form-check-label" for="l3">L3</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
           <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Approver
-                  <input type="checkbox" formControlName="approverN" [value]="0" class="form-control" /></label>
-              </div>
-            </div>
-            <!-- [(ngModel)] = "SelRole" [ngModelOptions]="{standalone: true}" [value]="0" -->
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Reviewer
-                  <input type="checkbox" formControlName="reviewerN" [value]="1" class="form-control" /></label>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Site Admin
-                  <input type="checkbox" formControlName="createrN" [value]="2" class="form-control" /></label>
-              </div>
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>L0
-                  <input type="checkbox" formControlName="l0" [value]="0" class="form-control" /></label>
-              </div>
+            <div class="form-group col-md-4">
+              <label>Signature</label>
+              <input type="file" id="userSign" formControlName="userImage" class="form-control" />
             </div>
-            <!-- [(ngModel)] = "SelRole" [ngModelOptions]="{standalone: true}" [value]="0" -->
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>L1
-                  <input type="checkbox" formControlName="l1" [value]="1" class="form-control" /></label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>L2
-                  <input type="checkbox" formControlName="l2" [value]="2" class="form-control" /></label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>L3
-                  <input type="checkbox" formControlName="l3" [value]="2" class="form-control" /></label>
-              </div>
-            </div>
-          </div>
 
-          <div class="form-group">
-            <label>Image1</label>
-            <input type="file" id="userSign" formControlName="userImage" class="form-control" />
-          </div>
+            <div class="form-group col-md-4">
+              <label>Profile</label>
+              <input type="file" id="profile" formControlName="profile" class="form-control" />
+            </div>
 
+          </div>
 
           <div class="form-group" *ngIf="!showCadre">
             <button class="btn btn-sm btn-primary" type="button" data-toggle="modal"
@@ -317,7 +348,7 @@
           </div>
 
 
-          <div class="form-group">
+          <div class="form-group col-md-4">
             <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
             <ng-template #thenBlock>
               <button class="btn btn-primary" type="button" disabled>
