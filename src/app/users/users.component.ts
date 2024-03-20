@@ -55,34 +55,58 @@ export class UsersComponent implements OnInit {
   projects: UserData[];
   users: UserView[];
   isLoading = false
+
+  activeTab: String = 'cqra'
   constructor(
     private userService: UserService,
     private router: Router,
     private tradeService: TradeMaintanceService
   ) { }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
       lengthMenu: [10, 25, 50]
     };
 
-    this.isLoading = true
-    this.userService.getAllUsers().subscribe((data) => {
-      console.log('----> office service : get all data', data);
+    // this.isLoading = true
+    // this.userService.getAllUsers().subscribe((data) => {
+    //   // console.log('----> office service : get all data', data);
+    //   this.users = data;
+    //   // console.log(this.users);
+
+    //   // ADD THIS
+    //   this.dtTrigger.next();
+    //   this.isLoading = false
+
+    // }, (err) => {
+    //   console.log('-----> err', err);
+    // });
+
+    
+    //by represenntative CQRA
+    this.userService.getUserDataByRepresentative(1)
+    .subscribe((data)=>{
       this.users = data;
-
-      // ADD THIS
-      this.dtTrigger.next();
-      this.isLoading = false
-
-    }, (err) => {
-      console.log('-----> err', err);
-    });
-
-
+      console.log("CQRA users",data)
+    })
+   
   }
+  
+  tabload:boolean = false
+  changePannel(tab,id) {
+    this.tabload = true
+    this.activeTab = tab
+    this.userService.getUserDataByRepresentative(id)
+  .subscribe((data)=>{
+    this.users = data;
+    console.log("Data",data)
+    this.tabload = false
+  })
+  }
+  
 
   editUser(id) {
     this.router.navigate(['createUser', id])

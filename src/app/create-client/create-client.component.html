@@ -1,89 +1,115 @@
 <app-header></app-header>
 <div class="content-wrapper">
-    <div class="container-fluid ">
-      <div class="add-bg-here">
-        <div class="add-container-viewcommon">
-         <div class="add-breadcrames">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a href="#">Home </a>
-              </li>
-              <li class="breadcrumb-item active">Create Client</li>
-            </ol>
-         </div>
-          <div class="right-side-create-view">
-               <div class="create-content-operations">
-                 <button type="button"> <a routerLink="/client">Manage Client </a> </button>
-               </div>
-            </div>
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Create Client</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/client">Manage Client </a> </button>
           </div>
-         <div class="main-header_createview">
-            <div class="left-side-header">
-                <div class="create-content-header">
-                  <h1> Create Client </h1>
-                </div>
-            </div>
-         </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1> Create Client </h1>
+          </div>
+        </div>
+      </div>
 
-         <div *ngIf="isLoading; then thenBlock"></div>
-         <ng-template #thenBlock>
-           <app-loader></app-loader>
-         </ng-template>
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
 
-         
-         <div class="create-viewform">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label>Client Name</label>
-                <input type="text" formControlName="clientName" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                    <div *ngIf="f.clientName.errors.required">Client Name is required</div>
-                </div>
+
+      <div class="create-viewform">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="row">
+          <div class="form-group col-md-4">
+            <label>Client Name</label>
+            <div class="input-group">
+              <input type="text" (change)="checkClientName($event)" formControlName="clientName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <span *ngIf="duplicateClientNameLoad" class="input-group-text">
+                <span class="spinner-border spinner-border-sm text-secondary" role="status" aria-hidden="true"></span>
+              </span>
             </div>
-            <div class="form-group">
-                <label>Client Code</label>
-                <input type="text" formControlName="clientCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientCode.errors }" />
-                <div *ngIf="submitted && f.clientCode.errors" class="invalid-feedback">
-                    <div *ngIf="f.clientCode.errors.required">Client Code is required</div>
-                </div>
+            <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+              <div *ngIf="f.clientName.errors.required">Client Name is required</div>
             </div>
-            <div class="form-group">
-                <label>Address</label>
-                <input type="text" formControlName="clientAddress" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientAddress.errors }" />
-                <div *ngIf="submitted && f.clientAddress.errors" class="invalid-feedback">
-                    <div *ngIf="f.clientAddress.errors.required">Address is required</div>
-                </div>
+            <div *ngIf="duplicateClientName">
+              <span class="text-danger">Client Name already exist</span>
             </div>
-            <div class="form-group">
-                <label>Contact Person</label>
-                <input type="text" formControlName="clientContactPerson" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientContactPerson.errors }" />
-                <div *ngIf="submitted && f.clientContactPerson.errors" class="invalid-feedback">
-                    <div *ngIf="f.clientContactPerson.errors.required">Contact Person is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-              <label>Contact Person Phone</label>
-              <input type="text" formControlName="clientPhone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientPhone.errors }" />
-              <div *ngIf="submitted && f.clientPhone.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientPhone.errors.required">Contact Person is required</div>
-              </div>
           </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="text" formControlName="clientEmail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.clientEmail.errors }" />
-              <div *ngIf="submitted && f.clientEmail.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientEmail.errors.required">Email is required</div>
-                  <div *ngIf="f.clientEmail.errors.email">Email must be a valid email address</div>
-              </div>
-          </div>
-            <div class="form-group">
-                <button class="btn btn-primary">
-                  <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span *ngIf="!submitLoad">Save</span>
-                </button>
+
+
+          <div class="form-group col-md-4">
+            <label>Client Code</label>
+            <div class="input-group">
+              <input type="text" (change)="checkClientCode($event)" formControlName="clientCode" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientCode.errors }" />
+              <span *ngIf="duplicateClientCodeLoad" class="input-group-text">
+                <span class="spinner-border spinner-border-sm text-secondary" role="status" aria-hidden="true"></span>
+              </span>
             </div>
+            <div *ngIf="submitted && f.clientCode.errors" class="invalid-feedback">
+              <div *ngIf="f.clientCode.errors.required">Client Code is required</div>
+            </div>
+            <div *ngIf="duplicateClientCode">
+              <span class="text-danger">Client code already exist</span>
+            </div>
+
+
+          </div>
+          <div class="form-group col-md-4">
+            <label>Address</label>
+            <input type="text" formControlName="clientAddress" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.clientAddress.errors }" />
+            <div *ngIf="submitted && f.clientAddress.errors" class="invalid-feedback">
+              <div *ngIf="f.clientAddress.errors.required">Address is required</div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Contact Person</label>
+            <input type="text" formControlName="clientContactPerson" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.clientContactPerson.errors }" />
+            <div *ngIf="submitted && f.clientContactPerson.errors" class="invalid-feedback">
+              <div *ngIf="f.clientContactPerson.errors.required">Contact Person is required</div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Contact Person Phone</label>
+            <input type="text" formControlName="clientPhone" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.clientPhone.errors }" />
+            <div *ngIf="submitted && f.clientPhone.errors" class="invalid-feedback">
+              <div *ngIf="f.clientPhone.errors.required">Contact Person is required</div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Email</label>
+            <input type="text" formControlName="clientEmail" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.clientEmail.errors }" />
+            <div *ngIf="submitted && f.clientEmail.errors" class="invalid-feedback">
+              <div *ngIf="f.clientEmail.errors.required">Email is required</div>
+              <div *ngIf="f.clientEmail.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <button class="btn btn-primary" [disabled]="duplicateClientCode || duplicateClientName">
+              <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span *ngIf="!submitLoad">Save</span>
+            </button>
+          </div>
         </form>
-         </div>
       </div>
     </div>
-<app-footer></app-footer>
+  </div>
+  <app-footer></app-footer>

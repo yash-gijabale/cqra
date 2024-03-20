@@ -221,4 +221,8 @@ export class UserService {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getuserMenubyid/${id}`)
   }
 
+  getUserDataByRepresentative(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/UserDatabyrepresentingtypeid/${id}`)
+  }
+
 }

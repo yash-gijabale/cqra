@@ -64,22 +64,33 @@
             <span class="nav-link-text"> User Management </span>
           </a>
           <ul class="dropdown-menu">
-            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/users">User</a></li>
-
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/roles">Role</a></li>
 
-            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li>
+            <li *ngIf="userMenu.clientStaffMenu" class="dropdown-item"><a tabindex="-1" routerLink="/clientStaff">Client
+                Staff</a></li>
 
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/createpmc/-1">PMC</a></li>
 
-            <li *ngIf="userMenu.manageUserAccessMenu" class="dropdown-item"><a tabindex="-1"
-                routerLink="/userAccess">Manage User Access</a></li>
+            <li *ngIf="userMenu.contractorMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/contractor">Contractor</a></li>
+
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/users">User</a></li>
+
+            <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
+                routerLink="/assign-constructor-supervisor-foreman">Assign Constructor's Supervisor & Foreman</a>
+            </li>
 
             <li *ngIf="userMenu.userAllocationMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/userAllocation">User Allocation</a></li>
 
-            <li *ngIf="userMenu.contractorMenu" class="dropdown-item"><a tabindex="-1"
-                routerLink="/contractor">Contractor</a></li>
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li>
+
+
+            <li *ngIf="userMenu.manageUserAccessMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/userAccess">Manage User Access</a></li>
+
+
+
 
             <!-- <li *ngIf="userMenu.supervisorMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/contractorSupervisor">Contractor Supervisor</a></li>
@@ -87,12 +98,9 @@
             <li *ngIf="userMenu.foremanMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/contractorForman">Contractor Forman</a></li> -->
 
-            <li *ngIf="userMenu.clientStaffMenu" class="dropdown-item"><a tabindex="-1" routerLink="/clientStaff">Client
-                Staff</a></li>
 
-            <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
-                routerLink="/assign-constructor-supervisor-foreman">Assign Constructor's Supervisor & Foreman</a>
-            </li>
+
+
             <!-- <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
                 routerLink="/assign-constructor-foreman">Assign Constructor's Foreman</a></li> -->
 
@@ -100,7 +108,7 @@
 
             <li class="dropdown-item"><a tabindex="-1" routerLink="/assignEquipementList">Assign Equipment</a></li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/myEquipments">My Equipment</a></li>
-            
+
           </ul>
         </li>
         <li *ngIf="(userMenu.clientMenu || userMenu.schemeMenu || userMenu.buildingMenu)" class="dropdown-submenu"
@@ -154,15 +162,24 @@
           </a>
           <ul class="dropdown-menu">
             <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/userLog">User Log</a></li>
-            <li *ngIf="userMenu.nc" class="dropdown-item"><a tabindex="-1" routerLink="/editNC">Edit NC & Conformity </a></li>
-            <li *ngIf="userMenu.ncco1" class="dropdown-item"><a tabindex="-1" routerLink="/ncCountReportList">NC count</a></li>
-            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/snaggingDocument">SingOff documents</a></li>
-            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/inspectionReport">Inspection report</a></li>
-            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/snaggingReport">Snagging report</a></li>
-            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncClosureSa">NC closure (SA)</a></li>
-            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncReviewerSa">NC Reviwer (SA)</a></li>
-            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncApproverSa">NC Approver (SA)</a></li>
-            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/qualityIndexReportList">Quality Index Report</a>
+            <li *ngIf="userMenu.nc" class="dropdown-item"><a tabindex="-1" routerLink="/editNC">Edit NC & Conformity
+              </a></li>
+            <li *ngIf="userMenu.ncco1" class="dropdown-item"><a tabindex="-1" routerLink="/ncCountReportList">NC
+                count</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/snaggingDocument">SingOff
+                documents</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/inspectionReport">Inspection report</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/snaggingReport">Snagging
+                report</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncClosureSa">NC closure
+                (SA)</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncReviewerSa">NC Reviwer
+                (SA)</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/ncApproverSa">NC Approver
+                (SA)</a></li>
+            <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/qualityIndexReportList">Quality Index Report</a>
             </li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation Tracker Report</a></li>
 
@@ -194,8 +211,8 @@
 
 
         <li *ngIf="(userMenu.dtmDeclaration || userMenu.inspectorDeclaration || userMenu.newInsTraining || userMenu.underInsTraining
-        || userMenu.preSnapAuditForm)"
-          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports">
+        || userMenu.preSnapAuditForm)" class="dropdown-submenu" data-toggle="tooltip" data-placement="right"
+          title="Reports">
           <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="las la-sitemap"></i>

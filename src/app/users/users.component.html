@@ -31,102 +31,183 @@
         <div class="col-xl-12 col-sm-12 mb-3">
           <!-- Example DataTables Card-->
 
+          <div class="tab_main">
 
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-            style="width:100%">
-            <thead>
-              <tr>
-                <th>Login Name</th>
-                <th>User Type</th>
-                <th>Role</th>
-                <th>Actions</th>
-                <!-- <th>Assign Project</th>
-                <th>Add Equipments</th>
-                <th>Traning Trade</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of users ">
-                <td>{{user.userName}}</td>
-                <td>--</td>
-                <td>--</td>
-                <td>
-                  <div class="action-commonview">
-                    <button type="text" (click)="editUser(user.userId)" class="edit-modal add-modal" data-toggle="modal"
-                      data-target="#exampleModalCenter">
-                      <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
-                      </span>
-                    </button>
-                    <button type="text" (click)="deactivateUser(user.userId)" class="Delete-modal">
-                      <span class="edit-tessst">
-                        <i class="lar la-trash-alt"></i>
-                      </span>
-                    </button>
+            <div class="tab_header">
+              <div [class]="activeTab=='cqra' ? 'tab tab_active' : 'tab'" (click)="changePannel('cqra',1)" selected>CQRA
+                <!-- <span class="badge badge-warning">{{users.length}}</span> -->
+
+              </div>
+              <div [class]="activeTab=='client' ? 'tab tab_active' : 'tab'" (click)="changePannel('client',2)">Client
+                <!-- <span class="badge badge-warning">{{users.length}}</span> -->
+              </div>
+
+              <div [class]="activeTab=='contractor' ? 'tab tab_active' : 'tab'" (click)="changePannel('contractor',3)">
+                Contractor
+                <!-- <span class="badge badge-warning">{{users.length}}</span> -->
+              </div>
+
+              <div [class]="activeTab=='pmc' ? 'tab tab_active' : 'tab'" (click)="changePannel('pmc',4)">PMC
+                <!-- <span class="badge badge-warning">{{users.length}}</span> -->
+              </div>
+            </div>
+
+
+            <!-- CQRA Table -->
+            <div [class]="activeTab=='cqra' ? 'pannel' : 'pannel_hide'">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+                style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users ">
+                    <td>{{user.userFullName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.mobile}}</td>
+                    <td><button (click)="editUser(user.id)">Edit</button>&nbsp;
+                      <span role="button" class="btn btn-danger" (click)="deactivateUser(user.id)">Delete</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- client Table -->
+            <div [class]="activeTab=='client' ? 'pannel' : 'pannel_hide'">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+                style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <div *ngIf="tabload" class="userdeailsload">
+                  <div class="spinner-border text-warning" role="status">
                   </div>
-                </td>
-                <!-- <td>
-                  <a [routerLink]="'/assignProject/'+user.userId">
-                    <button type="button" class="btn btn-warning"> <i class="las la-pencil-alt"></i> </button>
-                  </a>
-                </td>
-                <td> <a routerLink="/userEquipment">
-                    <button type="button" class="btn btn-warning"> <i class="las la-pencil-alt"></i> </button>
-                  </a>
-                </td>
+                </div>
+                <tbody *ngIf="!tabload">
+                  <tr *ngFor="let user of users ">
+                    <td>{{user.userFullName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.mobile}}</td>
+                    <td><button (click)="editUser(user.id)">Edit</button>&nbsp;
+                      <span role="button" class="btn btn-danger" (click)="deactivateUser(user.id)">Delete</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-                <td>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-view"
-                    (click)="getTraningTrade(user.userId)"> <i class="las la-pencil-alt"></i> </button>
-                </td> -->
-              </tr>
-            </tbody>
-          </table>
+            <!-- contractor Table -->
+            <div [class]="activeTab=='contractor' ? 'pannel' : 'pannel_hide'">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+                style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <div *ngIf="tabload" class="userdeailsload">
+                  <div class="spinner-border text-warning" role="status">
+                  </div>
+                </div>
+                <tbody *ngIf="!tabload">
+                  <tr *ngFor="let user of users ">
+                    <td>{{user.userFullName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.mobile}}</td>
+                    <td><button (click)="editUser(user.id)">Edit</button>&nbsp;
+                      <span role="button" class="btn btn-danger" (click)="deactivateUser(user.id)">Delete</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
+            <!-- pmc Table -->
+            <div [class]="activeTab=='pmc' ? 'pannel' : 'pannel_hide'">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+                style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <div *ngIf="tabload" class="userdeailsload">
+                  <div class="spinner-border text-warning" role="status">
+                  </div>
+                </div>
+                <tbody *ngIf="!tabload">
+                  <tr *ngFor="let user of users ">
+                    <td>{{user.userFullName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.mobile}}</td>
+                    <td><button (click)="editUser(user.id)">Edit</button>&nbsp;
+                      <span role="button" class="btn btn-danger" (click)="deactivateUser(user.id)">Delete</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
         </div>
 
+        <!-- Example DataTables Card-->
+        <div class=" modal fade" id="edit-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Traning Trades</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div *ngIf="isTradeLoad; then tradeLoadTrue else tradeLoadFasle"></div>
 
-      </div>
-      <!-- Example DataTables Card-->
-      <div class="modal fade" id="edit-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Traning Trades</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div *ngIf="isTradeLoad; then tradeLoadTrue else tradeLoadFasle"></div>
-
-              <ng-template #tradeLoadTrue>
-                <div class="spinner-border text-dark spinner" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-              </ng-template>
-
-              <ng-template #tradeLoadFasle>
-                <div class="row" *ngFor="let trade of traningTrades">
-                  <h5>{{trade.project}}</h5>
-                  <div class="form-check col-md-12" *ngFor="let t of trade.trades">
-                    <input class="form-check-input" type="checkbox" [value]="t.fkTradeId" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      {{t.tradeName}}
-                    </label>
+                <ng-template #tradeLoadTrue>
+                  <div class="spinner-border text-dark spinner" role="status">
+                    <span class="sr-only">Loading...</span>
                   </div>
-                </div>
-              </ng-template>
+                </ng-template>
 
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-sm btn-secondary">Save</button>
+                <ng-template #tradeLoadFasle>
+                  <div class="row" *ngFor="let trade of traningTrades">
+                    <h5>{{trade.project}}</h5>
+                    <div class="form-check col-md-12" *ngFor="let t of trade.trades">
+                      <input class="form-check-input" type="checkbox" [value]="t.fkTradeId" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        {{t.tradeName}}
+                      </label>
+                    </div>
+                  </div>
+                </ng-template>
+
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-sm btn-secondary">Save</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </div>
-  <app-footer></app-footer>
+    <app-footer></app-footer>

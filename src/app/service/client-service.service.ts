@@ -47,12 +47,18 @@ export class ClientServiceService {
   private REST_API_SERVER = this.global.SERVER; //local IP For Testing
   getAllClients() {
     const userId = localStorage.getItem('id')
-    if(Number(userId)==1){
-      return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getClients');
-    }else{
-      return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getCliebyuserid/'+userId);
-    }
+    // if(Number(userId)==1){
+    //   return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getClients');
+    // }else{
+    // }
+    return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getCliebyuserid/'+userId);
   }
+
+  getAllLatestClient(){
+    return this.httpClient.get<ClientData[]>(this.REST_API_SERVER + '/getClientslastfirst/');
+
+  }
+
   createClient(clientData: ClientData): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addClient', clientData);
   }
@@ -70,6 +76,14 @@ export class ClientServiceService {
   }
   deactivateClient(id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/Client/${id}/${false}`, '')
+  }
+
+  checkClientCode(code){
+    return this.httpClient.get<boolean>(`${this.REST_API_SERVER}/checkclientcode/${code}`)
+  }
+
+  checkClinetName(name){
+    return this.httpClient.get<boolean>(`${this.REST_API_SERVER}/checkclientname/${name}`)
   }
 
   // PROJECT API CALL
@@ -104,6 +118,10 @@ export class ClientServiceService {
 
   createTradeAllocation(data): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeTrade`, data)
+  }
+
+  updateTradeAllocation(data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/schemetrade`, data)
   }
 
   projectChecklistAlloaction(data):Observable<ClientServiceService>{

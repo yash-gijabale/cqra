@@ -11,6 +11,7 @@ import { TradeGroup } from '../trade-group/trade-group.component';
 import { Trade } from '../trade/trade.component';
 import { RegionView } from '../add-region/add-region.component';
 import { UserService } from '../service/user.service';
+import { TradeMaintanceService } from '../trade-maintance.service';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -30,9 +31,12 @@ export class CreateProjectComponent implements OnInit {
   submitted = false;
   regionalManagers: UserView[];
   tradeGroups: TradeGroup[]
-  trades: Trade
+  trades: Trade[]
   regions: RegionView
   isLoading: boolean = false
+  disacledClientName: boolean = false
+
+  preTrades: Object = {}
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,7 +44,7 @@ export class CreateProjectComponent implements OnInit {
     private formBuilder: FormBuilder,
     private commonService: CommonService,
     private tradeService: TradeMaintanceService,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
@@ -60,6 +64,7 @@ export class CreateProjectComponent implements OnInit {
 
     if (this.id != -1) {
       this.isLoading = true
+      this.disacledClientName = true
       this.clientServiceService.retrieveProject(this.id)
         .pipe(first())
         .subscribe(x => {
@@ -69,7 +74,19 @@ export class CreateProjectComponent implements OnInit {
           this.projectForm.patchValue(x)
           this.projectForm.patchValue({ projectStartDate: new Date(data.projectStartDate).toISOString().substring(0, 10) })
           this.projectForm.patchValue({ projectEndDate: new Date(data.projectEndDate).toISOString().substring(0, 10) })
+          this.projectForm.patchValue({ TradeGroupId: data.TradeGroupId })
+
         });
+
+      this.tradeService.getProjectTrades(this.id)
+        .subscribe(data => {
+          data.forEach(d => {
+            this.preTrades[d.fkTradeId] = true
+            this.selectedTrades.push(d.fkTradeId)
+          })
+
+          console.log(this.preTrades)
+        })
 
     }
 
@@ -97,7 +114,7 @@ export class CreateProjectComponent implements OnInit {
       training: ['', Validators.nullValidator],
       TradeGroupId: ['', Validators.nullValidator],
       TradeId: ['', Validators.nullValidator],
-      noOfStructure: ['', Validators.required],
+      // noOfStructure: ['', Validators.required],
       projectType: ['', Validators.required]
     });
 
@@ -152,7 +169,7 @@ export class CreateProjectComponent implements OnInit {
       projectRedalert: this.projectForm.value.projectRedalert,
       projectCCmails: this.projectForm.value.projectCCmails,
       serviceType: this.projectForm.value.serviceType,
-      noOfStructure: this.projectForm.value.noOfStructure,
+      // noOfStructure: this.projectForm.value.noOfStructure,
       mockUpApproval: this.projectForm.value.mockUpApproval ? 1 : 0,
       openNc: this.projectForm.value.openNc ? 1 : 0,
       protocolFinalized: this.projectForm.value.protocolFinalized ? 1 : 0,
@@ -175,21 +192,7 @@ export class CreateProjectComponent implements OnInit {
           console.log('project created-->', data)
           createdProject = data;
           this.submitLoad = false
-
-          let tradeAllocationData = []
-          let trades = this.projectForm.value.TradeId
-          trades && trades.forEach(trade => {
-            let tradeAllocate = {
-              fkSchemeId: createdProject && createdProject.projectId,
-              fkTradeId: trade
-            }
-            tradeAllocationData.push(tradeAllocate)
-          })
-
-          this.clientServiceService.createTradeAllocation(tradeAllocationData)
-            .subscribe(
-              data => console.log('trade allocared-->', data),
-              err => console.log(err))
+          this.tradeAllocation(createdProject.projectId, false)
         },
           err => console.log(err)
         );
@@ -199,9 +202,35 @@ export class CreateProjectComponent implements OnInit {
           data => {
             console.log(data)
             this.submitLoad = false
-
-            this.router.navigate(['project'])
+            this.tradeAllocation(this.id, true)
           }
+        )
+    }
+  }
+
+  tradeAllocation(projectId, update) {
+    let tradeAllocationData = []
+    let trades = this.selectedTrades
+    trades && trades.forEach(trade => {
+      let tradeAllocate = {
+        fkSchemeId: projectId,
+        fkTradeId: trade
+      }
+      tradeAllocationData.push(tradeAllocate)
+    })
+    console.log(tradeAllocationData)
+    // return
+    if(update){
+      this.clientServiceService.updateTradeAllocation(tradeAllocationData)
+      .subscribe(data =>{
+        console.log('updated trade', data )
+      })
+
+    }else{
+      this.clientServiceService.createTradeAllocation(tradeAllocationData)
+        .subscribe(
+          data => console.log('trade allocared-->', data), 
+          err => console.log(err)
         )
     }
   }
@@ -213,16 +242,52 @@ export class CreateProjectComponent implements OnInit {
     }
   }
 
+  tradeLoad: boolean = false
   getTrades() {
+    this.tradeLoad = true
     console.log(this.selTradeGroup);
     this.tradeService.getTradeByTradegroupId(this.selTradeGroup)
       .subscribe(
         data => {
+          this.tradeLoad = false
           console.log('trades --->', data)
           this.trades = data
         },
         err => console.log(err)
       )
+  }
+
+  selectedTrades: Array<Number> = []
+  addTradeToList(e) {
+    let id = Number(e.target.value)
+    if (e.target.checked) {
+      this.selectedTrades.push(id)
+      this.preTrades[id] = true
+    } else {
+      delete this.preTrades[id]
+      let newList = this.selectedTrades.filter(trade => {
+        return trade != id
+      })
+
+      this.selectedTrades = newList
+    }
+
+    console.log(this.selectedTrades)
+  }
+
+  selectAllTrade(e) {
+    // let tradeCheckbox = document.
+    if (e.target.checked) {
+      $('.tradeSelect').prop('checked', true)
+      this.trades.forEach(trade => {
+        this.selectedTrades.push(trade.tardeId)
+      })
+    } else {
+      $('.tradeSelect').prop('checked', false)
+      this.selectedTrades = []
+    }
+    console.log(this.selectedTrades)
+
   }
 
 }
