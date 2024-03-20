@@ -26,12 +26,14 @@
         <app-loader></app-loader>
       </ng-template>
       <div class="tab_main">
+
         <div class="tab_header">
           <div [class]="activeTab=='assiged' ? 'tab tab_active' : 'tab'" (click)="changePannel('assiged')">Assigned
           </div>
           <div [class]="activeTab=='new' ? 'tab tab_active' : 'tab'" (click)="changePannel('new')">New <span
               class="badge badge-warning">{{newEquipments.length}}</span></div>
         </div>
+
         <div class="tab_body">
 
 
@@ -60,7 +62,7 @@
                     <td>{{eq.dateOfAssign}}</td>
                     <td>{{eq.dateOfCalibration}}</td>
                     <td>
-                      <span class="badge badge-primary" role="button" >Return</span>
+                      <span class="badge badge-primary" role="button">Return</span>
 
                     </td>
 

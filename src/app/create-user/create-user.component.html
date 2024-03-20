@@ -26,176 +26,178 @@
       </div>
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Representing Type</label>
-            <select [(ngModel)]="representingType" formControlName="representingTypeId" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.representingTypeId.errors }" (change)="getRepresentors()">
-              <option [value]="1" [selected]="1">CQRA</option>
-              <option [value]="2">Client</option>
-              <option [value]="3">Contractor</option>
-              <option [value]="4">PMC</option>
-              <option [value]="5">Other</option>
-            </select>
-            <div *ngIf="submitted && f.representingTypeId.errors" class="invalid-feedback">
-              <div *ngIf="f.representingTypeId.errors.required">Representor Type is required</div>
+          <div class="row">
+            <div class="form-group">
+              <label>Representing Type</label>
+              <select [(ngModel)]="representingType" formControlName="representingTypeId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.representingTypeId.errors }" (change)="getRepresentors()">
+                <option [value]="1" [selected]="1">CQRA</option>
+                <option [value]="2">Client</option>
+                <option [value]="3">Contractor</option>
+                <option [value]="4">PMC</option>
+                <option [value]="5">Other</option>
+              </select>
+              <div *ngIf="submitted && f.representingTypeId.errors" class="invalid-feedback">
+                <div *ngIf="f.representingTypeId.errors.required">Representor Type is required</div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Representor</label>
-            <select formControlName="representingId" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.representingId.errors }">
-              <option [value]="user.id" *ngFor="let user of representator">
-                {{user.name}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.representingId.errors" class="invalid-feedback">
-              <div *ngIf="f.representingId.errors.required">Representor is required</div>
+            <div class="form-group">
+              <label>Representor</label>
+              <select formControlName="representingId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.representingId.errors }">
+                <option [value]="user.id" *ngFor="let user of representator">
+                  {{user.name}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.representingId.errors" class="invalid-feedback">
+                <div *ngIf="f.representingId.errors.required">Representor is required</div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group" *ngIf="showCadre">
-            <label>CADRE</label>
-            <select formControlName="cadre" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.cadre.errors }">
-              <option [selected]="1">Select CADRE</option>
-              <option [value]="'m1'">M1</option>
-              <option [value]="'m2'">M2</option>
-              <option [value]="'m3'">M3</option>
-              <option [value]="'m4'">M4</option>
-              <option [value]="'m5'">M5</option>
-              <option [value]="'c1'">C1</option>
-              <option [value]="'c2'">C2</option>
-              <option [value]="'c3'">C3</option>
-              <option [value]="'o1'">O1</option>
-              <option [value]="'o2'">O2</option>
-              <option [value]="'o3'">O3</option>
-              <option [value]="'o4'">O4</option>
-              <option [value]="'t1'">T1</option>
-              <option [value]="'t2'">T2</option>
-            </select>
+            <div class="form-group" *ngIf="showCadre">
+              <label>CADRE</label>
+              <select formControlName="cadre" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.cadre.errors }">
+                <option [selected]="1">Select CADRE</option>
+                <option [value]="'m1'">M1</option>
+                <option [value]="'m2'">M2</option>
+                <option [value]="'m3'">M3</option>
+                <option [value]="'m4'">M4</option>
+                <option [value]="'m5'">M5</option>
+                <option [value]="'c1'">C1</option>
+                <option [value]="'c2'">C2</option>
+                <option [value]="'c3'">C3</option>
+                <option [value]="'o1'">O1</option>
+                <option [value]="'o2'">O2</option>
+                <option [value]="'o3'">O3</option>
+                <option [value]="'o4'">O4</option>
+                <option [value]="'t1'">T1</option>
+                <option [value]="'t2'">T2</option>
+              </select>
 
-          </div>
+            </div>
 
-          <div class="form-group" *ngIf="showCadre">
-            <label>CQRA Employee Id</label>
-            <input type="text" formControlName="employeeId" class="form-control">
-          </div>
+            <div class="form-group" *ngIf="showCadre">
+              <label>CQRA Employee Id</label>
+              <input type="text" formControlName="employeeId" class="form-control">
+            </div>
 
-          <div class="form-group">
-            <label>User Name</label>
-            <input type="text" formControlName="userFullName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.userFullName.errors }" />
-            <div *ngIf="submitted && f.userFullName.errors" class="invalid-feedback">
-              <div *ngIf="f.userFullName.errors.required">User Full Name is required</div>
+            <div class="form-group">
+              <label>User Name</label>
+              <input type="text" formControlName="userFullName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.userFullName.errors }" />
+              <div *ngIf="submitted && f.userFullName.errors" class="invalid-feedback">
+                <div *ngIf="f.userFullName.errors.required">User Full Name is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Login Name</label>
-            <input type="text" formControlName="username" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-              <div *ngIf="f.username.errors.required">Login Name is required</div>
+            <div class="form-group">
+              <label>Login Name</label>
+              <input type="text" formControlName="username" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">Login Name is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="text" formControlName="password" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-              <div *ngIf="f.password.errors.required">Password is required</div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="text" formControlName="password" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Designation</label>
-            <input type="text" formControlName="designation" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.designation.errors }" />
-            <div *ngIf="submitted && f.designation.errors" class="invalid-feedback">
-              <div *ngIf="f.designation.errors.required">Designation is required</div>
+            <div class="form-group">
+              <label>Designation</label>
+              <input type="text" formControlName="designation" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.designation.errors }" />
+              <div *ngIf="submitted && f.designation.errors" class="invalid-feedback">
+                <div *ngIf="f.designation.errors.required">Designation is required</div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group" *ngIf="showCadre">
-            <label>Department</label>
-            <select formControlName="department" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.department.errors }">
-              <option [selected]="true">Select Department</option>
-              <option [value]="1">Administrative</option>
-              <option [value]="2">Billing(QS)</option>
-              <option [value]="3">Central Audit Team</option>
-              <option [value]="4">Digital Marketing</option>
-              <option [value]="5">Finance</option>
-              <option [value]="6">Human Resource</option>
-              <option [value]="7">Management & Operation</option>
-              <option [value]="8">Marketing</option>
-              <option [value]="9">MEP Operations</option>
-              <option [value]="10">Operations</option>
-              <option [value]="11">Quality Operations</option>
-              <option [value]="12">RMC Operations</option>
-              <option [value]="13">Safety</option>
-            </select>
-            <div *ngIf="submitted && f.department.errors" class="invalid-feedback">
-              <div *ngIf="f.department.errors.required">User Type is required</div>
+            <div class="form-group" *ngIf="showCadre">
+              <label>Department</label>
+              <select formControlName="department" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.department.errors }">
+                <option [selected]="true">Select Department</option>
+                <option [value]="1">Administrative</option>
+                <option [value]="2">Billing(QS)</option>
+                <option [value]="3">Central Audit Team</option>
+                <option [value]="4">Digital Marketing</option>
+                <option [value]="5">Finance</option>
+                <option [value]="6">Human Resource</option>
+                <option [value]="7">Management & Operation</option>
+                <option [value]="8">Marketing</option>
+                <option [value]="9">MEP Operations</option>
+                <option [value]="10">Operations</option>
+                <option [value]="11">Quality Operations</option>
+                <option [value]="12">RMC Operations</option>
+                <option [value]="13">Safety</option>
+              </select>
+              <div *ngIf="submitted && f.department.errors" class="invalid-feedback">
+                <div *ngIf="f.department.errors.required">User Type is required</div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Contact No.</label>
-            <input type="text" formControlName="mobile" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
-            <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
-              <div *ngIf="f.mobile.errors.required">Contact number is required</div>
+            <div class="form-group">
+              <label>Contact No.</label>
+              <input type="text" formControlName="mobile" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" />
+              <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                <div *ngIf="f.mobile.errors.required">Contact number is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Email ID</label>
-            <input type="text" formControlName="email" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-              <div *ngIf="f.email.errors.required">Email is required</div>
-              <div *ngIf="f.email.errors.email">Must be email.</div>
+            <div class="form-group">
+              <label>Email ID</label>
+              <input type="text" formControlName="email" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Must be email.</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>User Type</label>
-            <select formControlName="userType" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
-              <option [value]="'empty'">Please Select</option>
-              <option [value]="'WD'">Both</option>
-              <option [value]="'D'">Device</option>
-              <option [value]="'W'">Web</option>
-            </select>
-            <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
-              <div *ngIf="f.userType.errors.required">User Type is required</div>
+            <div class="form-group">
+              <label>User Type</label>
+              <select formControlName="userType" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.userType.errors }">
+                <option [value]="'empty'">Please Select</option>
+                <option [value]="'WD'">Both</option>
+                <option [value]="'D'">Device</option>
+                <option [value]="'W'">Web</option>
+              </select>
+              <div *ngIf="submitted && f.userType.errors" class="invalid-feedback">
+                <div *ngIf="f.userType.errors.required">User Type is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Role</label>
-            <select formControlName="roleId" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
-              <option [value]="role.id" *ngFor="let role of roles">{{role.name}}</option>
-            </select>
-            <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
-              <div *ngIf="f.roleId.errors.required">Role is required</div>
+            <div class="form-group">
+              <label>Role</label>
+              <select formControlName="roleId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
+                <option [value]="role.id" *ngFor="let role of roles">{{role.name}}</option>
+              </select>
+              <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
+                <div *ngIf="f.roleId.errors.required">Role is required</div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Region</label>
-            <select formControlName="region" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.region.errors }" multiple>
-              <option [value]="region.regionId" *ngFor="let region of regions">{{region.regionName}}</option>
-            </select>
-            <div *ngIf="submitted && f.region.errors" class="invalid-feedback">
-              <div *ngIf="f.region.errors.required">Role is required</div>
+            <div class="form-group">
+              <label>Region</label>
+              <select formControlName="region" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.region.errors }" multiple>
+                <option [value]="region.regionId" *ngFor="let region of regions">{{region.regionName}}</option>
+              </select>
+              <div *ngIf="submitted && f.region.errors" class="invalid-feedback">
+                <div *ngIf="f.region.errors.required">Role is required</div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label>Date OF join</label>
-            <input type="date" class="form-control" formControlName="dateOfJoining">
-            <div *ngIf="submitted && f.dateOfJoining.errors" class="invalid-feedback">
-              <div *ngIf="f.dateOfJoining.errors.required">Role is required</div>
+            <div class="form-group">
+              <label>Date OF join</label>
+              <input type="date" class="form-control" formControlName="dateOfJoining">
+              <div *ngIf="submitted && f.dateOfJoining.errors" class="invalid-feedback">
+                <div *ngIf="f.dateOfJoining.errors.required">Role is required</div>
+              </div>
             </div>
           </div>
 
@@ -272,7 +274,8 @@
 
 
           <div class="form-group" *ngIf="!showCadre">
-            <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#new-trade-user">Assign
+            <button class="btn btn-sm btn-primary" type="button" data-toggle="modal"
+              data-target="#new-trade-user">Assign
               Projects</button>
 
             <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
@@ -296,7 +299,8 @@
                     <ng-template #newTradeElse>
                       <div class="form-check col-md-12" *ngFor="let project of projects">
                         <input class="form-check-input" (change)="addToProjectList($event)" type="checkbox"
-                          [value]="project.projectId" id="flexCheckDefault" [checked]="assignProjectObject[project.projectId] ? true: false">
+                          [value]="project.projectId" id="flexCheckDefault"
+                          [checked]="assignProjectObject[project.projectId] ? true: false">
                         <label class="form-check-label" for="flexCheckDefault">
                           {{project.projectName}}
                         </label>
