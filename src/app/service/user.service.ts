@@ -36,13 +36,14 @@ export class UserService {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/user/adduserData`, data)
   }
 
-  uploadUserSign(id, data){
+  uploadUserSign(id, sign, profile){
     let config = {
       headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
     };
 
     let formParams = new FormData();
-    formParams.append('eimage', data)
+    formParams.append('eimage', sign)
+    formParams.append('profile', profile)
     console.log(formParams)
     return this.httpClient.put(`${this.REST_API_SERVER}/user/updatesign/${id}`, formParams, config)
   }
@@ -221,8 +222,8 @@ export class UserService {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getuserMenubyid/${id}`)
   }
 
-  getUserDataByRepresentative(id){
-    return this.httpClient.get<any>(`${this.REST_API_SERVER}/UserDatabyrepresentingtypeid/${id}`)
+  getUserDataByRepresentative(id):Observable<Array<UserView>>{
+    return this.httpClient.get<Array<UserView>>(`${this.REST_API_SERVER}/UserDatabyrepresentingtypeid/${id}`)
   }
 
 }

@@ -34,137 +34,140 @@
           <div class="tab_main">
 
             <div class="tab_header">
-              <div [class]="activeTab=='cqra' ? 'tab tab_active' : 'tab'" (click)="changePannel('cqra',1)" selected>CQRA
+              <div [class]="activeTab=='cqra' ? 'tab tab_active' : 'tab'" (click)="changePannel('cqra')" selected>CQRA
                 <!-- <span class="badge badge-warning">{{users.length}}</span> -->
 
               </div>
-              <div [class]="activeTab=='client' ? 'tab tab_active' : 'tab'" (click)="changePannel('client',2)">Client
+              <div [class]="activeTab=='client' ? 'tab tab_active' : 'tab'" (click)="changePannel('client')">Client
                 <!-- <span class="badge badge-warning">{{users.length}}</span> -->
               </div>
 
-              <div [class]="activeTab=='contractor' ? 'tab tab_active' : 'tab'" (click)="changePannel('contractor',3)">
+              <div [class]="activeTab=='contractor' ? 'tab tab_active' : 'tab'" (click)="changePannel('contractor')">
                 Contractor
                 <!-- <span class="badge badge-warning">{{users.length}}</span> -->
               </div>
 
-              <div [class]="activeTab=='pmc' ? 'tab tab_active' : 'tab'" (click)="changePannel('pmc',4)">PMC
+              <div [class]="activeTab=='pmc' ? 'tab tab_active' : 'tab'" (click)="changePannel('pmc')">PMC
                 <!-- <span class="badge badge-warning">{{users.length}}</span> -->
               </div>
             </div>
 
 
+            <div *ngIf="userLoad" class="card-body"
+              style="display: flex; align-items: center; justify-content: center;">
+              <div class="userdeailsload row d-flex justify-content-center align-middle">
+                <div class="spinner-border text-warning" role="status">
+                </div>
+              </div>
+            </div>
+
             <!-- CQRA Table -->
-            <div [class]="activeTab=='cqra' ? 'pannel' : 'pannel_hide'">
-              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-                style="width:100%">
-                <thead>
-                  <tr>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let user of users ">
-                    <td>{{user.userFullName}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.mobile}}</td>
-                    <td><button (click)="editUser(user.id)">Edit</button>&nbsp;
-                      <span role="button" class="btn btn-danger" (click)="deactivateUser(user.id)">Delete</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <div *ngIf="!userLoad" class="pannel_body">
+              <div [class]="activeTab=='cqra' ? 'pannel' : 'pannel_hide'">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggerCqra" id="customers"
+                  class="row-border hover" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Contact</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of users ">
+                      <td>{{user.userFullName}}</td>
+                      <td>{{user.email}}</td>
+                      <td>{{user.mobile}}</td>
+                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>
+                        <span role="button" class="btn btn-sm btn-danger"
+                          (click)="deactivateUser(user.id)">Delete</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-            <!-- client Table -->
-            <div [class]="activeTab=='client' ? 'pannel' : 'pannel_hide'">
-              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-                style="width:100%">
-                <thead>
-                  <tr>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <div *ngIf="tabload" class="userdeailsload">
-                  <div class="spinner-border text-warning" role="status">
-                  </div>
-                </div>
-                <tbody *ngIf="!tabload">
-                  <tr *ngFor="let user of users ">
-                    <td>{{user.userFullName}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.mobile}}</td>
-                    <td><button (click)="editUser(user.id)">Edit</button>&nbsp;
-                      <span role="button" class="btn btn-danger" (click)="deactivateUser(user.id)">Delete</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              <!-- client Table -->
+              <div [class]="activeTab=='client' ? 'pannel' : 'pannel_hide'">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggerClinet" id="customers"
+                  class="row-border hover" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Contact</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
 
-            <!-- contractor Table -->
-            <div [class]="activeTab=='contractor' ? 'pannel' : 'pannel_hide'">
-              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-                style="width:100%">
-                <thead>
-                  <tr>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <div *ngIf="tabload" class="userdeailsload">
-                  <div class="spinner-border text-warning" role="status">
-                  </div>
-                </div>
-                <tbody *ngIf="!tabload">
-                  <tr *ngFor="let user of users ">
-                    <td>{{user.userFullName}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.mobile}}</td>
-                    <td><button (click)="editUser(user.id)">Edit</button>&nbsp;
-                      <span role="button" class="btn btn-danger" (click)="deactivateUser(user.id)">Delete</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                  <tbody>
+                    <tr *ngFor="let user of clientUers ">
+                      <td>{{user.userFullName}}</td>
+                      <td>{{user.email}}</td>
+                      <td>{{user.mobile}}</td>
+                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>
+                        <span role="button" class="btn btn-sm btn-danger"
+                          (click)="deactivateUser(user.id)">Delete</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-            <!-- pmc Table -->
-            <div [class]="activeTab=='pmc' ? 'pannel' : 'pannel_hide'">
-              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-                style="width:100%">
-                <thead>
-                  <tr>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <div *ngIf="tabload" class="userdeailsload">
-                  <div class="spinner-border text-warning" role="status">
-                  </div>
-                </div>
-                <tbody *ngIf="!tabload">
-                  <tr *ngFor="let user of users ">
-                    <td>{{user.userFullName}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.mobile}}</td>
-                    <td><button (click)="editUser(user.id)">Edit</button>&nbsp;
-                      <span role="button" class="btn btn-danger" (click)="deactivateUser(user.id)">Delete</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              <!-- contractor Table -->
+              <div [class]="activeTab=='contractor' ? 'pannel' : 'pannel_hide'">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggerContractor" id="customers"
+                  class="row-border hover" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Contact</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
 
+                  <tbody>
+                    <tr *ngFor="let user of contractorUsers ">
+                      <td>{{user.userFullName}}</td>
+                      <td>{{user.email}}</td>
+                      <td>{{user.mobile}}</td>
+                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>
+                        <span role="button" class="btn btn-sm btn-danger"
+                          (click)="deactivateUser(user.id)">Delete</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- pmc Table -->
+              <div [class]="activeTab=='pmc' ? 'pannel' : 'pannel_hide'">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTriggerPmc" id="customers"
+                  class="row-border hover" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Contact</th>
+                      <th>Actions</th>
+                    </tr>
+
+                  <tbody>
+                    <tr *ngFor="let user of pmcUsers ">
+                      <td>{{user.userFullName}}</td>
+                      <td>{{user.email}}</td>
+                      <td>{{user.mobile}}</td>
+                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>
+                        <span role="button" class="btn btn-sm btn-danger"
+                          (click)="deactivateUser(user.id)">Delete</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
 

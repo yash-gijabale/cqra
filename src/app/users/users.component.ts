@@ -50,63 +50,80 @@ export class UsersComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<UserView> = new Subject();
+  dtTriggerCqra: Subject<UserView> = new Subject();
+  dtTriggerClinet: Subject<UserView> = new Subject();
+  dtTriggerContractor: Subject<UserView> = new Subject();
+  dtTriggerPmc: Subject<UserView> = new Subject();
 
   projects: UserData[];
   users: UserView[];
+  clientUers: UserView[];
+  contractorUsers: UserView[];
+  pmcUsers: UserView[];
   isLoading = false
 
   activeTab: String = 'cqra'
+  userLoad: boolean = false
   constructor(
     private userService: UserService,
     private router: Router,
     private tradeService: TradeMaintanceService
   ) { }
 
-  ngOnInit() 
-  {
+  ngOnInit() {
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
       lengthMenu: [10, 25, 50]
     };
 
-    // this.isLoading = true
-    // this.userService.getAllUsers().subscribe((data) => {
-    //   // console.log('----> office service : get all data', data);
-    //   this.users = data;
-    //   // console.log(this.users);
-
-    //   // ADD THIS
-    //   this.dtTrigger.next();
-    //   this.isLoading = false
-
-    // }, (err) => {
-    //   console.log('-----> err', err);
-    // });
-
-    
-    //by represenntative CQRA
+    // this.userLoad = true
     this.userService.getUserDataByRepresentative(1)
-    .subscribe((data)=>{
-      this.users = data;
-      console.log("CQRA users",data)
-    })
-   
+      .subscribe((data) => {
+        this.users = data;
+        // this.userLoad = false
+        console.log("CQRA users", data)
+        this.dtTriggerCqra.next()
+      })
+    this.userService.getUserDataByRepresentative(2)
+      .subscribe((data) => {
+        this.clientUers = data;
+        console.log("CQRA users", data)
+        this.dtTriggerClinet.next()
+      })
+    this.userService.getUserDataByRepresentative(3)
+      .subscribe((data) => {
+        this.contractorUsers = data;
+        console.log("CQRA users", data)
+        this.dtTriggerContractor.next()
+      })
+    this.userService.getUserDataByRepresentative(4)
+      .subscribe((data) => {
+        this.pmcUsers = data;
+        console.log("CQRA users", data)
+        this.dtTriggerPmc.next()
+      })
+
   }
-  
-  tabload:boolean = false
-  changePannel(tab,id) {
-    this.tabload = true
+
+  // tabload: boolean = false
+  changePannel(tab) {
+    // this.tabload = true
     this.activeTab = tab
-    this.userService.getUserDataByRepresentative(id)
-  .subscribe((data)=>{
-    this.users = data;
-    console.log("Data",data)
-    this.tabload = false
-  })
+
+    // this.dtTrigger.unsubscribe()
+    // this.userService.getUserDataByRepresentative(id)
+    //   .subscribe((data) => {
+    //     this.users = data;
+    //     console.log("Data", data)
+    //     this.tabload = false
+
+    //     this.dtTrigger.next()
+
+    //   })
   }
-  
+
 
   editUser(id) {
     this.router.navigate(['createUser', id])
