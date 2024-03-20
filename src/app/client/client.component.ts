@@ -42,7 +42,7 @@ export class ClientComponent implements OnInit {
       lengthMenu: [10, 25, 50]
     };
 
-    this.clientService.getAllClients().subscribe((data) => {
+    this.clientService.getAllLatestClient().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.clients = data;
       this.dtTrigger.next();

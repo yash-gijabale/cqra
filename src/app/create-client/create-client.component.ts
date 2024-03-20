@@ -84,4 +84,38 @@ export class CreateClientComponent implements OnInit {
     // console.log('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
   }
 
+  duplicateClientCode: boolean = false
+  duplicateClientCodeLoad: boolean = false
+  checkClientCode(e) {
+    this.duplicateClientCode = false
+    this.duplicateClientCodeLoad = true
+    console.log(e.target.value)
+    let code = e.target.value
+    this.clientServiceService.checkClientCode(code)
+      .subscribe(isDuplicate => {
+        console.log(isDuplicate)
+        this.duplicateClientCodeLoad = false
+        if (!isDuplicate) {
+          this.duplicateClientCode = true
+        }
+      })
+  }
+
+  duplicateClientName: boolean = false
+  duplicateClientNameLoad: boolean = false
+  checkClientName(e) {
+    this.duplicateClientName = false
+    this.duplicateClientNameLoad = true
+    console.log(e.target.value)
+    let name = e.target.value
+    this.clientServiceService.checkClinetName(name)
+      .subscribe(isDuplicate => {
+        console.log(isDuplicate)
+        this.duplicateClientNameLoad = false
+        if (!isDuplicate) {
+          this.duplicateClientName = true
+        }
+      })
+
+  }
 }

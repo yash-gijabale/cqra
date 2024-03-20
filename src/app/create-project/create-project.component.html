@@ -33,6 +33,19 @@
       <div class="create-viewform">
         <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="row">
           <div class="form-group col-md-4">
+            <label>Service Type</label>
+            <select formControlName="serviceType" [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }"
+              class="form-control">
+              <option [selected]="true">Select type</option>
+              <option value="1">QAQC</option>
+              <option value="2">SA</option>
+            </select>
+            <div *ngIf="submitted && f.serviceType.errors" class="invalid-feedback">
+              <div *ngIf="f.serviceType.errors.required">Service Type is required</div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-4">
             <label>Client Name</label>
             <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
               <option [value]="0">Please Select</option>
@@ -96,14 +109,14 @@
               <div *ngIf="f.projectCity.errors.required">Project City is required</div>
             </div>
           </div>
-          <div class="form-group col-md-4">
+          <!-- <div class="form-group col-md-4">
             <label>No. of Structure</label>
             <input type="number" formControlName="noOfStructure" class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f.noOfStructure.errors }" />
             <div *ngIf="submitted && f.noOfStructure.errors" class="invalid-feedback">
               <div *ngIf="f.noOfStructure.errors.required">K value is required</div>
             </div>
-          </div>
+          </div> -->
           <div class="form-group col-md-4">
             <label>K value</label>
             <input type="number" formControlName="projectKValue" class="form-control"
@@ -141,32 +154,6 @@
             </select>
             <div *ngIf="submitted && f.projectRegionalManagerId.errors" class="invalid-feedback">
               <div *ngIf="f.projectRegionalManagerId.errors.required">Regional Manager is required</div>
-            </div>
-          </div>
-
-          <div class="form-group col-md-4">
-            <label>Trade Group</label>
-            <select [(ngModel)]="selTradeGroup" formControlName="TradeGroupId" (change)="getTrades()"
-              class="form-control">
-              <option [value]="0">Please Select</option>
-              <option [value]="o.tradegroupId" *ngFor="let o of tradeGroups">
-                {{o.tradeGroupName}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.TradeGroupId.errors" class="invalid-feedback">
-              <div *ngIf="f.TradeGroupId.errors.required">Trade group is required</div>
-            </div>
-          </div>
-          <div class="form-group col-md-4">
-            <label>Trade</label>
-            <select formControlName="TradeId" multiple class="form-control">
-              <option [value]="0">Please Select</option>
-              <option [value]="o.tardeId" *ngFor="let o of trades">
-                {{o.tradeName}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.TradeGroupId.errors" class="invalid-feedback">
-              <div *ngIf="f.TradeGroupId.errors.required">Trade group is required</div>
             </div>
           </div>
 
@@ -243,20 +230,6 @@
           </div>
 
           <div class="form-group col-md-4">
-            <label>Service Type</label>
-            <select formControlName="serviceType" [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }"
-              class="form-control">
-              <option value="1">QAQC</option>
-              <option value="2">SA</option>
-              <option value="3">Visiting</option>
-              <option value="4">PMC</option>
-            </select>
-            <div *ngIf="submitted && f.serviceType.errors" class="invalid-feedback">
-              <div *ngIf="f.serviceType.errors.required">Service Type is required</div>
-            </div>
-          </div>
-
-          <div class="form-group col-md-4">
             <label>Auto NC Open</label>
             <input type="checkbox" formControlName="openNc" class="form-control" />
 
@@ -274,6 +247,66 @@
             <label>Protocol Finalized</label>
             <input type="checkbox" formControlName="protocolFinalized" class="form-control" />
           </div>
+
+          <div class="row col-md-12 mt-3">
+            <h5 class="card-title col-md-12">Trade Allocation:</h5>
+            <div class="form-group col-md-3">
+              <label>Trade Group</label>
+              <select [(ngModel)]="selTradeGroup" formControlName="TradeGroupId" (change)="getTrades()"
+                class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.tradegroupId" *ngFor="let o of tradeGroups">
+                  {{o.tradeGroupName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.TradeGroupId.errors" class="invalid-feedback">
+                <div *ngIf="f.TradeGroupId.errors.required">Trade group is required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label>Trade</label>
+              <!-- <select formControlName="TradeId" multiple class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.tardeId" *ngFor="let o of trades">
+                  {{o.tradeName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.TradeGroupId.errors" class="invalid-feedback">
+                <div *ngIf="f.TradeGroupId.errors.required">Trade group is required</div>
+              </div> -->
+              <div class="card" style="height: 20rem; overflow-y: auto;">
+
+                <div *ngIf="tradeLoad"  class="card-body" style="display: flex; align-items: center; justify-content: center;">
+                  <div class="userdeailsload row d-flex justify-content-center align-middle">
+                    <div class="spinner-border text-warning" role="status">
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="!tradeLoad"  class="card-body">
+                  <div class="form-check col-md-12">
+                    <input class="form-check-input" type="checkbox" value="" id="selectAllTrade" (change)="selectAllTrade($event)">
+                    <label class="form-check-label" for="selectAllTrade">
+                      Select All
+                    </label>
+                  </div>
+
+                  <div class="col-md-12" *ngFor="let o of trades">
+                    <div class="form-check col-md-12">
+                      <input class="form-check-input tradeSelect" type="checkbox" [value]="o.tardeId" 
+                      [id]="'defaultCheck'+o.tardeId" (change)="addTradeToList($event)"
+                      [checked]="preTrades[o.tardeId]">
+                      <label class="form-check-label" [for]="'defaultCheck'+o.tardeId" style="cursor: pointer;">
+                        {{o.tradeName}}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <div class="form-group col-md-12">
             <button class="btn btn-primary">
               <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

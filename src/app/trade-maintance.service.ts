@@ -263,7 +263,7 @@ export class TradeMaintanceService {
 
   //GET TRADES BY TRADEGROYP ID
   getTradeByTradegroupId(tradegroupId) {
-    return this.httpClient.get<Trade>(`${this.REST_API_SERVER}/trade/tradebytradegroupig/${tradegroupId}`)
+    return this.httpClient.get<Array<Trade>>(`${this.REST_API_SERVER}/trade/tradebytradegroupig/${tradegroupId}`)
   }
 
   //GET TRADES BY PROJECT ID
