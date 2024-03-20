@@ -128,6 +128,12 @@ export class UserService {
   acceptPolisy(data){
     return this.httpClient.put(`${this.REST_API_SERVER}/updatestatusandsignatyre`, data)
   }
+  getassetlistbyid(e){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/AssignEqu/getallbyid/${e}`)
+  }
+  updateassetlist(e,data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/AssignEqu/update/${e}`, data)
+  }
 
 
   //ASSIGN PROJECT TO USER API CALL

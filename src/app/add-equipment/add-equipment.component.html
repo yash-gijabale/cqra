@@ -142,7 +142,7 @@
                         </td>
                         <td>
                           <span class="badge badge-warning" role="button" data-toggle="modal"
-                          data-target="#edit_assign_equ">Edit</span>
+                          data-target="#edit_assign_equ" (click)="getAseetEqu(asset.id)">Edit</span>
                           <span class="badge badge-danger" role="button" data-toggle="modal"
                           data-target="#trade-user-list">Delete</span>
                         </td>
@@ -173,52 +173,63 @@
               </div>
               <div class="modal-body">
 
-                <div *ngIf="assetListLoad" class="userdeailsload row d-flex justify-content-center">
-                  <div class="spinner-border text-warning" role="status">
+                <form [formGroup]="newAssetForm" (ngSubmit)="updateassetlist()">
+                  <div class="form-group">
+                    <label>Asset Type: </label>
+                    <select class="form-control" formControlName="assetTypeId">
+                      <option [value]="0">Please Select</option>
+                      <option [value]="asset.id" *ngFor="let asset of assets" [selected]="assetbyid.assetTypeId">{{asset.assetName}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                    </div>
                   </div>
-                </div>
-                <div *ngIf="!assetListLoad">
-                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="row-border hover inspector_list_table" style="width:100%">
-                    <thead>
-                      <tr>
-                        <th>Sr. No</th>
-                        <th>Asset Type</th>
-                        <th>Asset Name</th>
-                        <th>Asset Cost</th>
-                        <th>Used By</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="attendeesFrom">
-                      <tr *ngFor="let asset of allAssetlist">
-                        <td>{{asset.id}}</td>
-                        <td>{{asset.asset_type_name}}</td>
-                        <td>{{asset.assetName}}</td>
-                        <td>{{asset.cost}}</td>
-                        <td  class="d-flex">
-                          <div *ngFor="let usedBy of asset.userBy" class="mx-1">
-                            <span class="badge badge-warning" *ngIf="usedBy=='1'">Civil</span>
-                            <span class="badge badge-warning" *ngIf="usedBy=='2'">MEP</span>
-                            <span class="badge badge-warning" *ngIf="usedBy=='3'">Seafty</span>
-                            <span class="badge badge-warning" *ngIf="usedBy=='4'">Infra</span>
-                          </div>
-                        </td>
-                        <td>
-                          <span class="badge badge-warning" role="button" data-toggle="modal"
-                          data-target="#trade-user-list">Edit</span>
-                          <span class="badge badge-danger" role="button" data-toggle="modal"
-                          data-target="#trade-user-list">Delete</span>
-                        </td>
-                      </tr>
-                      
-                    </tbody>
-                  </table>
-                </div>
+                  <div class="form-group">
+                    <label>Asset Name: </label>
+                    <input class="form-control" formControlName="assetName" [value]="assetbyid.assetName">
+                  </div>
 
-                <div class="modal-footer">
-                  <button class="btn btn-sm btn-success" type="submit">Save</button>
-                </div>
-              </div>
+                  <div class="form-group">
+                    <label>Asset Cost (₹): </label>
+                    <input type="number" class="form-control" formControlName="cost" placeholder="₹ 100" [value]="assetbyid.cost">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Used by: </label>
+
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" id="flexCheckChecked" [value]="1" [checked]="usedby[0]== 1 ? true : false">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Civil
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="2" id="flexCheckChecked " [checked]="usedby[1]== 1 ? true : false">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        MEP
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="3" id="flexCheckChecked" [checked]="usedby[2]== 1 ? true : false">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Seafty
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="4" id="flexCheckChecked"[checked]="usedby[3]== 1 ? true : false">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Infra
+                      </label>
+                    </div>
+                  </div>
+                  <!--  <canvas id="signature" height="100px" width="200px" style="border: 1px solid black;"></canvas>
+                  <div id="show">
+                  </div> -->
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" type="submit">Save</button>
+                  </div>
+                </form>
+
+                
 
             </div>
           </div>

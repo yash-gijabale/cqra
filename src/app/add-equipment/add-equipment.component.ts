@@ -210,4 +210,47 @@ export class AddEquipmentComponent implements OnInit {
       this.assetsData = data
     })
   }
+  assetbyid:any;
+  usedby = [0,0,0,0]
+  aa=[];
+  getAseetEqu(e){
+    this.userService.getassetlistbyid(e)
+    .subscribe(data =>{
+      console.log(data);
+      this.assetbyid=data;
+      this.aa = this.assetbyid.userBy.split(',')
+      console.log(this.aa);
+
+      if(this.aa.includes('1')){
+        this.usedby[0]=1;
+      }
+      else{this.usedby[0]=0}
+      console.log(this.usedby)
+      if(this.aa.includes('2')){
+        this.usedby[1]=1;
+      }
+      else{this.usedby[1]=0}
+      console.log(this.usedby)
+      if(this.aa.includes('3')){
+        this.usedby[2]=1;
+      }
+      else{this.usedby[2]=0}
+      console.log(this.usedby)
+      if(this.aa.includes('4')){
+        this.usedby[3]=1;
+      }
+      else{this.usedby[3]=0}
+      console.log(this.usedby)
+    })
+    console.log(this.usedby);
+
+
+  }
+  updatedata:any;
+  updateassetlist(e){
+    console.log(this.newAssetForm.value)
+    // this.userService.updatedata(e, data)
+  }
+
+
 }
