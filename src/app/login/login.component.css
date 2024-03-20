@@ -1,12 +1,15 @@
 body {
-    font-family: 'Roboto', sans-serif!important;
+    font-family: 'Roboto', sans-serif !important;
     padding: 0px;
     margin: 0px;
 }
+
 .card2 {
     margin: 0px 40px
 }
-.add-heightview,.global-container{
+
+.add-heightview,
+.global-container {
     height: 100vh;
 }
 
@@ -16,7 +19,7 @@ body {
 }
 
 .image {
-     max-width: 100%;
+    max-width: 100%;
     max-height: auto;
     max-height: 100%;
     min-width: auto;
@@ -80,7 +83,8 @@ body {
     font-weight: 500;
     letter-spacing: 0.4px;
 }
-.text-sm-text{
+
+.text-sm-text {
     color: #000;
     font-size: 15px;
     font-weight: 400;
@@ -95,14 +99,14 @@ body {
 }
 
 :-ms-input-placeholder {
-     color: #464646;
-      font-size: 14px;
+    color: #464646;
+    font-size: 14px;
     font-weight: 400
 }
 
 ::-ms-input-placeholder {
     color: #464646;
-     font-size: 14px;
+    font-size: 14px;
     font-weight: 400
 }
 
@@ -152,28 +156,32 @@ a {
     background-color: #000;
     cursor: pointer
 }
-.cqra-heading-text h1{
-      color: #464646;
-      font-size: 28px;
-      font-weight: 500;
-      margin: 0px;
+
+.cqra-heading-text h1 {
+    color: #464646;
+    font-size: 28px;
+    font-weight: 500;
+    margin: 0px;
 }
-.welcome-tocqra .welcome-t{
+
+.welcome-tocqra .welcome-t {
     font-weight: 400;
     color: #242424;
     font-size: 18px;
     letter-spacing: 0.3px;
-  
+
 }
-.welcome-tocqra .welcome-to-cq{
+
+.welcome-tocqra .welcome-to-cq {
     font-size: 22px;
     font-weight: 500;
     color: #005aa2;
     letter-spacing: 0.2px;
     margin-bottom: 15px;
 }
-.welcome-tocqra .welcome-to-cq .q-text-12{
-  color: #4fb151;
+
+.welcome-tocqra .welcome-to-cq .q-text-12 {
+    color: #4fb151;
 }
 
 
@@ -192,5 +200,26 @@ a {
     .card2 {
         border-top: 1px solid #EEEEEE !important;
         margin: 0px 15px
+    }
+
+    /* .form-group {
+        position: relative;
+        width: 250px;
+    } */
+
+    /* .form-group input {
+        border: 1px solid #ddd;
+        height: 40px;
+        padding: 0 15px;
+        border-radius: 5px;
+        font-size: 15px;
+        width: 100%;
+    } */
+
+    .eyeicon {
+        /* position: absolute;
+        right: -15px;
+        top: 10px; */
+        cursor: pointer;
     }
 }
