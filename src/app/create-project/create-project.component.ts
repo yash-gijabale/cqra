@@ -11,7 +11,7 @@ import { TradeGroup } from '../trade-group/trade-group.component';
 import { Trade } from '../trade/trade.component';
 import { RegionView } from '../add-region/add-region.component';
 import { UserService } from '../service/user.service';
-import { TradeMaintanceService } from '../trade-maintance.service';
+// import { TradeMaintanceService } from '../trade-maintance.service';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
