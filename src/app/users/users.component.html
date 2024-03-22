@@ -79,9 +79,12 @@
                       <td>{{user.userFullName}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
-                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>
+                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
                         <span role="button" class="btn btn-sm btn-danger"
-                          (click)="deactivateUser(user.id)">Delete</span>
+                          (click)="deactivateUser(user.id)">Delete</span>&nbsp;
+                        <a routerLink="/createUserAccess/{{user.id}}">
+                          <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
+                        </a>
                       </td>
                     </tr>
                   </tbody>
@@ -100,15 +103,17 @@
                       <th>Actions</th>
                     </tr>
                   </thead>
-
                   <tbody>
                     <tr *ngFor="let user of clientUers ">
                       <td>{{user.userFullName}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
-                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>
+                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
                         <span role="button" class="btn btn-sm btn-danger"
-                          (click)="deactivateUser(user.id)">Delete</span>
+                          (click)="deactivateUser(user.id)">Delete</span>&nbsp;
+                        <a routerLink="/createUserAccess/{{user.id}}">
+                          <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
+                        </a>
                       </td>
                     </tr>
                   </tbody>
@@ -133,9 +138,12 @@
                       <td>{{user.userFullName}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
-                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>
+                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
                         <span role="button" class="btn btn-sm btn-danger"
-                          (click)="deactivateUser(user.id)">Delete</span>
+                          (click)="deactivateUser(user.id)">Delete</span>&nbsp;
+                        <a routerLink="/createUserAccess/{{user.id}}">
+                          <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
+                        </a>
                       </td>
                     </tr>
                   </tbody>
@@ -159,9 +167,13 @@
                       <td>{{user.userFullName}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
-                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>
+                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
                         <span role="button" class="btn btn-sm btn-danger"
-                          (click)="deactivateUser(user.id)">Delete</span>
+                          (click)="deactivateUser(user.id)">Delete</span>&nbsp;
+                        <a routerLink="/createUserAccess/{{user.id}}">
+                          <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
+                        </a>
+
                       </td>
                     </tr>
                   </tbody>

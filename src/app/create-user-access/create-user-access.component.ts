@@ -18,6 +18,9 @@ export class CreateUserAccessComponent implements OnInit {
   SelUser: string = "0";
   userMenu: any = {}
   users: UserView[]
+  userId:Number
+  isLoading:boolean
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -29,10 +32,14 @@ export class CreateUserAccessComponent implements OnInit {
 
   ngOnInit() {
 
+
+    this.userId = this.route.snapshot.params['id']
+    this.getUserAccess(this.userId)
     this.commonService.getAllUsers()
       .subscribe(data => {
         this.users = data
         this.accessFrom.patchValue({ pkUserId: sessionStorage.getItem('id') })
+
 
       })
     this.accessFrom = this.formBuilder.group({
@@ -155,6 +162,7 @@ export class CreateUserAccessComponent implements OnInit {
     let a = document.querySelectorAll('.form-check-input')
 
     // console.log((<HTMLInputElement>a[0]).attributes[2].value)
+    this.accessFrom.value.pkUserId = this.userId
     a.forEach(menu => {
       this.accessFrom.value[(<HTMLInputElement>menu).attributes[2].value] = (<HTMLInputElement>menu).checked ? 1 : 0
     })
@@ -170,11 +178,18 @@ export class CreateUserAccessComponent implements OnInit {
 
   }
 
-  getUserAccess() {
-    this.userService.getUserAccess(this.SelUser)
+  getUserAccess(id) {
+    this.isLoading = true
+
+    this.userService.getUserAccess(id)
       .subscribe(data => {
-        console.log(data)
+        console.log("User Access",data)
         this.userMenu = data
+      this.isLoading = false
+
+      }, err =>{
+      this.isLoading = false
+
       })
   }
 
