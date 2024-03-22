@@ -24,15 +24,21 @@
           </div>
         </div>
       </div>
+
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+
       <div class="create-viewform">
         <form [formGroup]="accessFrom" (submit)="onSubmit()">
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Users</label>
             <select [(ngModel)]="SelUser" class="form-control" formControlName="pkUserId" (change)="getUserAccess()">
               <option [value]="1">Select user</option>
               <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
             </select>
-          </div>
+          </div> -->
           <hr>
           <div class="row ml-4 my-3">
             <input type="checkbox" class="btn-check mb-1" id="btn-check-outlined" autocomplete="off">
@@ -120,8 +126,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="supervisorMenu" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.supervisorMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="supervisorMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.supervisorMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Contractor Supervisor
                 </label>
@@ -130,8 +136,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="foremanMenu" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.foremanMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="foremanMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.foremanMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Contractor Foreman
                 </label>
@@ -140,8 +146,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="assignContractor" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.assignContractor">
+                <input class="form-check-input" type="checkbox" fromControlName="assignContractor" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.assignContractor">
                 <label class="form-check-label" for="flexCheckDefault">
                   Assign Contractor Supervisor
                 </label>
@@ -150,8 +156,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="assignContractor" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.assignContractor">
+                <input class="form-check-input" type="checkbox" fromControlName="assignContractor" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.assignContractor">
                 <label class="form-check-label" for="flexCheckDefault">
                   Assign Contractor Foreman
                 </label>
@@ -193,8 +199,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="buildingMenu" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.buildingMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="buildingMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.buildingMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Structure
                 </label>
@@ -306,8 +312,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="queView" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.queView">
+                <input class="form-check-input" type="checkbox" fromControlName="queView" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.queView">
                 <label class="form-check-label" for="flexCheckDefault">
                   Question View
                 </label>
@@ -342,8 +348,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="qpaMenu" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.qpaMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="qpaMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.qpaMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   Qaulity Procedure Ammendement
                 </label>
@@ -362,8 +368,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="logMenu" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.logMenu">
+                <input class="form-check-input" type="checkbox" fromControlName="logMenu" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.logMenu">
                 <label class="form-check-label" for="flexCheckDefault">
                   User log
                 </label>
@@ -412,8 +418,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="ncco1" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.ncco1">
+                <input class="form-check-input" type="checkbox" fromControlName="ncco1" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.ncco1">
                 <label class="form-check-label" for="flexCheckDefault">
                   NC Count and Observation Report
                 </label>
@@ -472,8 +478,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="addExt" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.addExt">
+                <input class="form-check-input" type="checkbox" fromControlName="addExt" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.addExt">
                 <label class="form-check-label" for="flexCheckDefault">
                   Add NC
                 </label>
@@ -532,8 +538,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="misLink" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.misLink">
+                <input class="form-check-input" type="checkbox" fromControlName="misLink" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.misLink">
                 <label class="form-check-label" for="flexCheckDefault">
                   MIS
                 </label>
@@ -582,8 +588,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="momlog" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.momlog">
+                <input class="form-check-input" type="checkbox" fromControlName="momlog" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.momlog">
                 <label class="form-check-label" for="flexCheckDefault">
                   MOM Log
                 </label>
@@ -642,8 +648,8 @@
 
             <div class="col-md-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" fromControlName="mirLink" [value]="1" id="flexCheckDefault"
-                  [checked]="userMenu.mirLink">
+                <input class="form-check-input" type="checkbox" fromControlName="mirLink" [value]="1"
+                  id="flexCheckDefault" [checked]="userMenu.mirLink">
                 <label class="form-check-label" for="flexCheckDefault">
                   Audit Observation report (Rheonix)
                 </label>
@@ -1023,7 +1029,8 @@
 
           <div class="form-group mt-4">
             <button class="btn btn-primary">
-              <span *ngIf="userAllocationLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span *ngIf="userAllocationLoad" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
               <span *ngIf="!userAllocationLoad">Save</span>
             </button>
           </div>

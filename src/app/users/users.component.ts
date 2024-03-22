@@ -64,6 +64,9 @@ export class UsersComponent implements OnInit {
 
   activeTab: String = 'cqra'
   userLoad: boolean = false
+
+  SelUser: string = "0";
+  userMenu: any = {}
   constructor(
     private userService: UserService,
     private router: Router,
@@ -159,6 +162,14 @@ export class UsersComponent implements OnInit {
 
         console.log(this.traningTrades)
         this.isTradeLoad = false
+      })
+  }
+
+  getUserAccess(id) {
+    this.userService.getUserAccess(id)
+      .subscribe(data => {
+        console.log("Accsess To",data)
+        this.userMenu = data
       })
   }
 
