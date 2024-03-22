@@ -175,11 +175,18 @@
       <div>
         <!-- EQUIPMENT MAINTENANCE FORMAt -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Equipment Maintenance Format <span class="badge badge-warning">Pending</span></h5>
+          <h5 class="col-md-12">Equipment Maintenance Format
+            <span class="badge badge-warning" *ngIf="formStatus.equipmentdata==false">Pending</span>
+            <span class="badge badge-success" *ngIf="formStatus.equipmentdata">Filled</span>
+          </h5>
           <div class="row justify-content-between col-md-12">
             <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
                 data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
-            <input type="file" class="form-control col-md-3">
+
+            <div class="row col-md-4">
+              <input type="file" id="equipmentForm" class="form-control col-md-9">
+              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadEuipmentForm()">Upload</button>
+            </div>
           </div>
 
         </div>
@@ -188,13 +195,18 @@
       <div *ngIf="isLeader">
         <!-- OPENING/CLOSING MEETING ATTENDANCE SHEET -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Opening/Closing meeting attendance sheet <span class="badge badge-success">Filled</span>
+          <h5 class="col-md-12">Opening/Closing meeting attendance sheet
+            <span class="badge badge-warning" *ngIf="formStatus.ocdata==false">Pending</span>
+            <span class="badge badge-success" *ngIf="formStatus.ocdata">Filled</span>
           </h5>
           <div class="row justify-content-between col-md-12">
             <button class="btn btn-sm btn-success mx-2" data-toggle="modal" data-target="#opening-closeing-meering-view"
               (click)="getopeningClosingForm()">Fill the
               form</button>
-            <input type="file" class="form-control col-md-3">
+            <div class="row col-md-4">
+              <input type="file" id="openingClosingForm" class="form-control col-md-9">
+              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadOpeningClosing()">Upload</button>
+            </div>
           </div>
 
           <div class="modal fade" id="opening-closeing-meering-view" tabindex="-1" role="dialog"
@@ -408,19 +420,24 @@
           <div class="row justify-content-between col-md-12">
             <a routerLink="/createSampling/-1" target="_blank"><button class="btn btn-success btn-sm mx-2">Fill the
                 from</button></a>
-            <input type="file" class="form-control col-md-3">
+            <!-- <input type="file" class="form-control col-md-3"> -->
           </div>
         </div>
 
         <!-- Internal Review Meeting at Project Site -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Internal Review Meeting at Project Site</h5>
+          <h5 class="col-md-12">Internal Review Meeting at Project Site
+            <span class="badge badge-warning" *ngIf="formStatus.intrevdata == false">Pending</span>
+            <span class="badge badge-success" *ngIf="formStatus.intrevdata">Filled</span>
+          </h5>
           <div class="row justify-content-between col-md-12">
             <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#internalReviewMeeting"
               (click)="internalReviewMeeting()">Fill the
               from</button>
-
-            <input type="file" class="form-control col-md-3">
+            <div class="row col-md-4">
+              <input type="file" id="internalReviewFrom" class="form-control col-md-9">
+              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadInternalReviewForm()">Upload</button>
+            </div>
           </div>
 
           <div class="modal fade" id="internalReviewMeeting" tabindex="-1" role="dialog"
@@ -708,14 +725,19 @@
 
         <!-- SUPERVISOR FORM FOR L1 AND L2 -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Supervisor form for L1 and L2 <span class="badge badge-success">Filled</span>
+          <h5 class="col-md-12">Supervisor form for L1 and L2
+            <span class="badge badge-warning" *ngIf="formStatus.supervisordata==false">Pending</span>
+            <span class="badge badge-success" *ngIf="formStatus.supervisordata">Filled</span>
           </h5>
           <div class="row justify-content-between col-md-12">
 
             <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view"
               (click)="supervisorFormGet()">Fill the
               from</button>
-            <input type="file" class="form-control col-md-3">
+            <div class="row col-md-4">
+              <input type="file" id="supervisorForm" class="form-control col-md-9">
+              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadSupervisorFrom()">Upload</button>
+            </div>
           </div>
           <div class="modal fade" id="supervisorForm-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -808,25 +830,26 @@
                           <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
                         </td>
                         <td><input type="text" [id]="'witnessLocation_'+team.userId" class="form-control"
-                            [value]="isSupervisroPreData ? supervisorPreData[team.userId].witnessedArea : ''"></td>
+                            [value]="supervisorPreData.hasOwnProperty(team.userId)? supervisorPreData[team.userId].witnessedArea : ''">
+                        </td>
                         <td>
                           <input type="text" [id]="'witnessActivity_'+team.userId" class="form-control"
-                            [value]="isSupervisroPreData ? supervisorPreData[team.userId].witnessedActivities : ''">
+                            [value]="supervisorPreData.hasOwnProperty(team.userId) ? supervisorPreData[team.userId].witnessedActivities : ''">
                         </td>
                         <td>
                           <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
                             [name]="'satisfactory'+team.userId" [value]="1"
-                            [checked]="isSupervisroPreData && supervisorPreData[team.userId].satisfactory == true">
+                            [checked]="supervisorPreData.hasOwnProperty(team.userId) && supervisorPreData[team.userId].satisfactory == true">
                         </td>
                         <td>
                           <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
                             [name]="'satisfactory'+team.userId" [value]="0"
-                            [checked]="isSupervisroPreData && supervisorPreData[team.userId].satisfactory == false">
+                            [checked]="supervisorPreData.hasOwnProperty(team.userId) && supervisorPreData[team.userId].satisfactory == false">
                         </td>
 
                         <td>
                           <input type="text" [id]="'remark_'+team.userId" class="form-control"
-                            [value]="isSupervisroPreData ? supervisorPreData[team.userId].remark : ''">
+                            [value]="supervisorPreData.hasOwnProperty(team.userId) ? supervisorPreData[team.userId].remark : ''">
                         </td>
                       </tr>
 
@@ -847,13 +870,18 @@
 
         <!-- INSPECTOR ONSITE PERFORMANCE EVALUTION FORM -->
         <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Inspector Onsite performance evalution form <span
-              class="badge badge-success">Filled</span></h5>
+          <h5 class="col-md-12">Inspector Onsite performance evalution form
+            <span class="badge badge-warning" *ngIf="formStatus.inspectoronsitedata == false">Pending</span>
+            <span class="badge badge-success" *ngIf="formStatus.inspectoronsitedata">Filled</span>
+          </h5>
           <div class="row justify-content-between col-md-12">
 
             <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view"
               (click)="onsitePerformance()">Fill the from</button>
-            <input type="file" class="form-control col-md-3">
+            <div class="row col-md-4">
+              <input type="file" id="performanceForm" class="form-control col-md-9">
+              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadPerformanceForm()">Upload</button>
+            </div>
           </div>
           <div class="modal fade" id="onsiteEvalutionForm-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -974,53 +1002,53 @@
                         </td>
                         <td>
                           <input type="text" class="form-control" [id]="'activity_monitored_'+team.userId"
-                            [value]="onsitePreFormData &&  onsitePreFormData[team.userId].activitiesMon">
+                            [value]=" onsitePreFormData.hasOwnProperty(team.userId) &&  onsitePreFormData[team.userId].activitiesMon ? onsitePreFormData[team.userId].activitiesMon : ''">
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'qualityObservation_'+team.userId">
                             <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].qualityOfObservation == rate ? 1 : ''">
+                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].qualityOfObservation == rate ? 1 : ''">
                               {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'timelyComplition_'+team.userId">
                             <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].timelyCompletion == rate ? 1 : ''">
+                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].timelyCompletion == rate ? 1 : ''">
                               {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'behavior_'+team.userId">
                             <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].behaviourDiscipline == rate ? 1 : ''">
+                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].behaviourDiscipline == rate ? 1 : ''">
                               {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'interaction_'+team.userId">
                             <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].interactionWithClients == rate ? 1 : ''">
+                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].interactionWithClients == rate ? 1 : ''">
                               {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'techKnowledge'+team.userId">
                             <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].technicalKnowledge == rate ? 1 : ''">
+                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].technicalKnowledge == rate ? 1 : ''">
                               {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <select class="form-control col-md-12" [id]="'nabc_'+team.userId">
                             <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData && onsitePreFormData[team.userId].reqOfNabcb == rate ? 1 : ''">
+                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].reqOfNabcb == rate ? 1 : ''">
                               {{rate}}</option>
                           </select>
                         </td>
                         <td>
                           <textarea class="form-control" [id]="'ratingRemark_'+team.userId"
-                            [value]="onsitePreFormData &&  onsitePreFormData[team.userId].remark"></textarea>
+                            [value]="onsitePreFormData.hasOwnProperty(team.userId) &&  onsitePreFormData[team.userId].remark ?  onsitePreFormData[team.userId].remark : ''"></textarea>
                         </td>
 
                       </tr>

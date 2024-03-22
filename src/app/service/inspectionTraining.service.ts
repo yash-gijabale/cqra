@@ -217,4 +217,67 @@ export class InspectorTraning {
   addClientFeedbackForm(data):Observable<InspectorTraning>{
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/ClientFeedbackForm/save`,data)
   }
+
+
+  // IMAGE UPLOADING FOR PRE SNAP FORM
+  uploadEquipmentMaintainenceForm(masterId, data:File){
+    let config = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
+    let formParams = new FormData();
+    formParams.append('file', data)
+    console.log(formParams)
+    return this.httpClient.put(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/updateimage/${masterId}`, formParams, config)
+  }
+
+  uploadOpeningClosingForm(masterId, data:File){
+    let config = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
+    let formParams = new FormData();
+    formParams.append('file', data)
+    console.log(formParams)
+    return this.httpClient.put(`${this.REST_API_SERVER}/OCMeetingAttandance/formimages/${masterId}`, formParams, config)
+  }
+
+
+  uploadInternalReviewForm(masterId, data:File){
+    let config = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
+    let formParams = new FormData();
+    formParams.append('file', data)
+    console.log(formParams)
+    return this.httpClient.put(`${this.REST_API_SERVER}/intRevMeetAtProSiteMaster/updateimage/${masterId}`, formParams, config)
+  }
+
+  uploadSuperVisorL1L2form(masterId, data:File){
+    let config = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
+    let formParams = new FormData();
+    formParams.append('file', data)
+    console.log(formParams)
+    return this.httpClient.put(`${this.REST_API_SERVER}/supervisorForm/updateimage/${masterId}`, formParams, config)
+  }
+
+  
+  uploadPerformanceForm(masterId, data:File){
+    let config = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
+    let formParams = new FormData();
+    formParams.append('file', data)
+    console.log(formParams)
+    return this.httpClient.put(`${this.REST_API_SERVER}/inspectorOnsitePerformanceEvaluation/updateimage/${masterId}`, formParams, config)
+  }
+
+  getAllFormStatus(masterId, userId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/SAInspectionFormStatus/getstaus/${masterId}/${userId}`)
+  }
 }

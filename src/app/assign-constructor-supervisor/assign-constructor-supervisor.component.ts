@@ -11,6 +11,7 @@ import { ContractorData } from '../contractor-forman/contractor-forman.component
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
 import { FormanData } from '../contractor-forman/contractor-forman.component';
 import { clientStaffData } from '../create-client-staff/create-client-staff.component';
+import { currentId } from 'async_hooks';
 
 
 export class AssignSupervisor {
@@ -108,11 +109,15 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       .subscribe(data => this.contractors = data)
 
   }
+
+  stageLoad: boolean = false
   getStages() {
+    this.stageLoad = true
     this.commonServices.getStages(this.SelClient, this.SelProject, this.SelStructure)
       .subscribe(data => {
         console.log(data)
         this.stages = data
+        this.stageLoad = false
       })
   }
 
@@ -148,7 +153,25 @@ export class AssignConstructorSupervisorComponent implements OnInit {
 
     }
   }
+  selectAllUnitCheckbox(e) {
+    console.log(e)
+    if (e.target.checked) {
+      $('.unitsCheckbox').prop('checked', true);
+    } else {
+      $('.unitsCheckbox').prop('checked', false);
 
+    }
+  }
+
+  selectAllSubUnitCheckbox(e) {
+    console.log(e)
+    if (e.target.checked) {
+      $('.subUnitsCheckbox').prop('checked', true);
+    } else {
+      $('.subUnitsCheckbox').prop('checked', false);
+
+    }
+  }
 
   onSubmit() {
     console.log(this.registerForm.value)
@@ -221,6 +244,58 @@ export class AssignConstructorSupervisorComponent implements OnInit {
 
         },
           err => console.log(err))
+    }
+  }
+
+
+  units: Array<Object> = []
+  currentStage: Number
+  unitLoad: boolean = false
+  selectedStates = []
+  disabledUnits : boolean = false
+  getunit(e) {
+    this.currentStage = Number(e.target.value)
+    if (e.target.checked) {
+      this.unitLoad = true
+      this.commonServices.getUnits(this.SelClient, this.SelProject, this.SelStructure, e.target.value)
+        .subscribe(data => {
+          console.log(data)
+          // this.stages = data
+          this.units = data
+          this.unitLoad = false
+        })
+
+        this.selectedStates.push(this.currentStage)
+    }else{
+      this.selectedStates = this.selectedStates.filter(stage =>{
+          return stage != this.currentStage
+      })
+      this.units = []
+      this.subunits = []
+    }
+
+    if(this.selectedStates.length > 1){
+      this.disabledUnits = true
+    }else{
+      this.disabledUnits = false
+    }
+
+  }
+
+  subunits: Array<Object> = []
+  subunitLoad: boolean = false
+  getSubunit(e) {
+    if (e.target.checked) {
+      this.subunitLoad = true
+      this.commonServices.getSubUnit(this.SelClient, this.SelProject, this.SelStructure, this.currentStage, e.target.value)
+        .subscribe(data => {
+          console.log(data)
+          // this.stages = data
+          this.subunits = data
+          this.subunitLoad = false
+        })
+    }else{
+      this.subunits = []
     }
   }
 }

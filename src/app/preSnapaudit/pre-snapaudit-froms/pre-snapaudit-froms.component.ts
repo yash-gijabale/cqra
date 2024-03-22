@@ -115,11 +115,13 @@ export class PreSnapauditFromsComponent implements OnInit {
 
         this.getTeamUser()//for updation
 
+        this.getAllFormDataForCheck(this.currentMasterId)
+
         // this.commonService.setMasterData(this.masterData) //setting master data for sampling sheet
         localStorage.setItem('mData', JSON.stringify(this.masterData))//setting master data for sampling sheet
 
-        this.masterData.fromDate = new Date(this.masterData.fromDate).toISOString().substring(0, 10)
-        this.masterData.toDate = new Date(this.masterData.toDate).toISOString().substring(0, 10)
+        this.masterData.fromDate = this.masterData.fromDate ?  new Date(this.masterData.fromDate).toISOString().substring(0, 10) : ''
+        this.masterData.toDate = this.masterData.toDate ?  new Date(this.masterData.toDate).toISOString().substring(0, 10) : ''
         this.isLeader = this.masterData.leader ? true : false
       })
   }
@@ -569,7 +571,7 @@ export class PreSnapauditFromsComponent implements OnInit {
   }
 
 
-  onsitePreFormData = null
+  onsitePreFormData = {}
   onsitePerformance() {
     this.getTeamUser()
     this.inspectionTraining.getOnsitePerformanceFormData(this.currentMasterId)
@@ -767,6 +769,69 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
 
   }
+
+
+
+  uploadEuipmentForm(){
+    let imageData = document.querySelector('#equipmentForm') as HTMLInputElement
+    let equipmentImge :File = imageData.files[0]
+    // console.log(equipmentImge)
+    this.inspectionTraining.uploadEquipmentMaintainenceForm(this.currentMasterId,equipmentImge)
+    .subscribe(data =>{
+      console.log('equipment upload', data)
+    })
+  }
+
+  uploadOpeningClosing(){
+    let imageData = document.querySelector('#openingClosingForm') as HTMLInputElement
+    let equipmentImge :File = imageData.files[0]
+    // console.log(equipmentImge)
+    this.inspectionTraining.uploadOpeningClosingForm(this.currentMasterId,  equipmentImge)
+    .subscribe(data =>{
+      console.log('OC form upload', data)
+    })
+  }
+
+  uploadInternalReviewForm(){
+    let imageData = document.querySelector('#internalReviewFrom') as HTMLInputElement
+    let Imge :File = imageData.files[0]
+    // console.log(equipmentImge)
+    this.inspectionTraining.uploadInternalReviewForm(this.currentMasterId,  Imge)
+    .subscribe(data =>{
+      console.log('internal review form upload', data)
+    })
+  }
+
+  uploadSupervisorFrom(){
+    let imageData = document.querySelector('#supervisorForm') as HTMLInputElement
+    let Imge :File = imageData.files[0]
+    // console.log(equipmentImge)
+    this.inspectionTraining.uploadSuperVisorL1L2form(this.currentMasterId,  Imge)
+    .subscribe(data =>{
+      console.log('supervisor l1 form upload', data)
+    })
+  }
+
+  uploadPerformanceForm(){
+    let imageData = document.querySelector('#performanceForm') as HTMLInputElement
+    let Imge :File = imageData.files[0]
+    // console.log(equipmentImge)
+    this.inspectionTraining.uploadPerformanceForm(this.currentMasterId,  Imge)
+    .subscribe(data =>{
+      console.log('performance from form upload', data)
+    })
+  }
+
+
+  formStatus:Object = {}
+  getAllFormDataForCheck(masterId){
+    this.inspectionTraining.getAllFormStatus(masterId, this.userId)
+    .subscribe(data =>{
+      console.log(data)
+      this.formStatus = data
+    })
+  }
+
 
 
 }

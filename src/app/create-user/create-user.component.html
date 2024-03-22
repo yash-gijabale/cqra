@@ -42,7 +42,7 @@
               </div>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4"*ngIf="!showCadre" >
               <label>Representor</label>
               <select formControlName="representingId" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.representingId.errors }">
@@ -182,7 +182,7 @@
               </div>
             </div>
 
-            <div class="form-group col-md-4" *ngIf="showCadre">
+            <div class="form-group col-md-8" *ngIf="showCadre">
               <label>Region</label>
               <div class="card col-md-12">
                 <div class="card-body" style="height: 10rem; overflow-y: auto;">
