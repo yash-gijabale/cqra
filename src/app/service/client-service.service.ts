@@ -688,6 +688,31 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeContractorForeman`, data)
   }
 
+  // getAssignDataFromContractor(projectId, structureId, contractorId ){
+  //   return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
+  // }
+
+  // getAssignDataFromClientStaff(projectId, structureId, contractorId, staffId){
+  //   return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
+  // }
+
+  getAssignDataFromSupervisor(projectId, structureId, contractorId, supervisorId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/schemeContractorSupervisor/getsupervisordatabyidssss/${projectId}/${structureId}/${contractorId}/${supervisorId}`)
+  }
+
+  updateAssignSupervisor(projectId, structureId, contractorId, supervisorId, data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/schemeContractorSupervisor/getsupervisordatabyidssss/${projectId}/${structureId}/${contractorId}/${supervisorId}`, data)
+
+  }
+
+  // getAssignDataFromForeman(projectId, structureId, contractorId, staffId, foremanId){
+  //   return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
+  // }
+
+  
+  // getAssignDataFromBoth(projectId, structureId, contractorId, staffId, supervisorId, foremanId){
+  //   return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
+  // }
 
   //PMC API CALL
   createPmc(data) :Observable<ClientServiceService>{
