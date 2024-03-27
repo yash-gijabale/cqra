@@ -48,7 +48,7 @@ export class CreateUserAllocationComponent implements OnInit {
   clients: ClientData[]
   trades: Trade
   users: UserView[]
-  projects: ProjectView[];
+  projects: ProjectData[];
   checklists: any
 
   allocationId: number
@@ -95,13 +95,14 @@ export class CreateUserAllocationComponent implements OnInit {
     this.commanService.getAllUsers()
       .subscribe(data => {
         this.users = data
+        console.log('users', data)
       })
 
-    this.clientServiceService.getAllProject()
-      .subscribe(data => {
-        console.log('projects ==>', data)
-        this.projects = data;
-      })
+    // this.clientServiceService.getAllProject()
+    //   .subscribe(data => {
+    //     console.log('projects ==>', data)
+    //     this.projects = data;
+    //   })
 
 
     this.userAllocationForm = this.formBuilder.group({
@@ -119,43 +120,81 @@ export class CreateUserAllocationComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Id==");
-    console.log(this.userAllocationForm.value)
 
-    let formData = this.userAllocationForm.value
-    let AllocationData = []
-    let checklistIds = this.userAllocationForm.value.checklistId
-    let stageId = this.userAllocationForm.value.stageId
-    checklistIds.forEach((id) => {
-      stageId.forEach((stageId) => {
+    // let data = {
+    //   userId: this.userAllocationForm.value.userId,
+    //   projectId: this.userAllocationForm.value.projectId,
+    //   structureId: this.userAllocationForm.value.structureId,
+    //   tradeId: this.userAllocationForm.value.tradeId,
+    //   stageId: stageId,
+    //   checklistId: id
+    // }
+    let allocationData = []
+    for (const key in this.selectedData) {
+      let data = {}
+      if (Object.keys(this.selectedData[key]).length) {
+        for (const unitId in this.selectedData[key]) {
+          let data = {}
+
+          if (this.selectedData[key][unitId].length) {
+
+            this.selectedData[key][unitId].forEach(subunit => {
+              let data = {}
+
+              data['stageId'] = key
+              data['unitId'] = unitId
+              data['subunitId'] = subunit
+              allocationData.push(data)
+
+            })
+
+          } else {
+            data['stageId'] = key
+            data['unitId'] = unitId
+            allocationData.push(data)
+
+          }
+
+        }
+
+      } else {
+        data['stageId'] = key
+        allocationData.push(data)
+      }
+
+    }
+
+
+
+    let formData = []
+    allocationData.forEach(aData => {
+      this.checkListData.forEach(checklist => {
         let data = {
+          ...aData,
+          checklistId: checklist,
           userId: this.userAllocationForm.value.userId,
           projectId: this.userAllocationForm.value.projectId,
           structureId: this.userAllocationForm.value.structureId,
           tradeId: this.userAllocationForm.value.tradeId,
-          stageId: stageId,
-          checklistId: id
         }
-        AllocationData.push(data)
+
+        formData.push(data)
       })
     })
 
-    let finalAllocationData = {
-      userChecklist: AllocationData,
-      userAllocation: AllocationData
-    }
+    console.log(formData)
 
-    console.log(finalAllocationData)
+    // return
+    let finalAllocationData = {
+      userChecklist: formData,
+      userAllocation: formData
+    }
     // return
     this.isbtnLoading = true
 
 
     if (this.allocationId != -1) {
-      //   let finalAllocationDataUpdate = {
-      //     userChecklists: AllocationData,
-      //     userAllocation: AllocationData
-      // }
-      // console.log(finalAllocationDataUpdate)
+
       this.userService.updateUserAllocation(finalAllocationData)
         .subscribe(data => {
           console.log('updated allocation-->', data)
@@ -214,6 +253,7 @@ export class CreateUserAllocationComponent implements OnInit {
 
         }, (err) => {
           console.log('-----> err', err);
+          this.stages = []
         })
   }
 
@@ -234,27 +274,150 @@ export class CreateUserAllocationComponent implements OnInit {
       .subscribe(data => {
         allocatedData = data
         console.log('allocation data-->', data)
-        allocatedData.forEach(item => {
-          stageMap[item.stageId] = true
-          checkListMap[item.fkChecklistId] = true
+        data.forEach(item => {
+          if (this.selectedData[item.stageId]) {
+            if (this.selectedData[item.stageId]) {
+              if (this.selectedData[item.stageId][item.unitId]) {
+                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+              } else {
+                this.selectedData[item.stageId][item.unitId] = []
+                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+
+              }
+            } else {
+              this.selectedData[item.stageId] = {}
+              if (this.selectedData[item.stageId][item.unitId]) {
+                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+              } else {
+                this.selectedData[item.stageId][item.unitId] = []
+                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+
+              }
+
+            }
+          } else {
+            this.selectedData[item.stageId] = {}
+            if (this.selectedData[item.stageId]) {
+              if (this.selectedData[item.stageId][item.unitId]) {
+                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+              } else {
+                this.selectedData[item.stageId][item.unitId] = []
+                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+
+              }
+            } else {
+              this.selectedData[item.stageId] = {}
+              if (this.selectedData[item.stageId][item.unitId]) {
+                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+              } else {
+                this.selectedData[item.stageId][item.unitId] = []
+                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+
+              }
+
+            }
+          }
+
         })
-
-        let allocatedCheckList: Array<number> = []
-        let allocatedStages: Array<Number> = []
-
-        for (const key in checkListMap) {
-          allocatedCheckList.push(Number(key))
-        }
-        for (const key in stageMap) {
-          allocatedStages.push(Number(key))
-        }
-
-        console.log(allocatedCheckList, allocatedStages)
-
-        this.userAllocationForm.patchValue({ stageId: allocatedStages })
-        this.userAllocationForm.patchValue({ checklistId: allocatedCheckList })
-
+        console.log(this.selectedData)
       })
+  }
+
+
+  getProjectByuser() {
+    this.commanService.getProjectByUserId(this.SelUser)
+      .subscribe(data => {
+        this.projects = data
+      })
+  }
+
+  currentStage: String
+  unitData = {}
+  units: Array<Object> = []
+  showunits(stageId) {
+    this.currentStage = stageId
+    // this.unitLoad = true
+    // this.activeStage = stageId
+    if (!this.unitData[String(stageId)] || this.unitData[String(stageId)].length == 0) {
+      this.commanService.getUnitByIds(this.SelProject, this.SelStructure, stageId)
+        .subscribe(data => {
+          console.log(data)
+          // this.stages = data
+          this.unitData[String(stageId)] = data
+          this.units = data
+        }, err => this.units = [])
+
+    } else {
+      this.units = this.unitData[String(stageId)]
+      // this.unitLoad = false
+    }
+  }
+
+  subunitData = {}
+  currentUnit: String
+  subunits = []
+  showSubunits(unitId) {
+    this.currentUnit = unitId
+    if (!this.subunitData[String(unitId)] || this.subunitData[String(unitId)].length == 0) {
+      this.commanService.getSubUnitByIds(this.SelProject, this.SelStructure, this.currentStage, unitId)
+        .subscribe(data => {
+          console.log(data)
+          // this.stages = data
+          this.subunitData[String(unitId)] = data
+          this.subunits = data
+        }, err => this.subunits = [])
+
+    } else {
+      this.subunits = this.subunitData[String(unitId)]
+      // this.unitLoad = false
+    }
+
+  }
+
+
+  selectedData = {}
+  addStages(e) {
+    if (e.target.checked) {
+      this.selectedData[String(String(e.target.value))] = {}
+    } else {
+      delete this.selectedData[String(e.target.value)]
+    }
+
+    console.log(this.selectedData)
+  }
+
+  addUnitToStage(e) {
+    if (e.target.checked) {
+      this.selectedData[String(this.currentStage)][e.target.value] = []
+    } else {
+      delete this.selectedData[String(this.currentStage)][e.target.value]
+    }
+    console.log(this.selectedData)
+  }
+
+  addSubunit(e) {
+    if (e.target.checked) {
+      this.selectedData[String(this.currentStage)][String(this.currentUnit)].push(Number(e.target.value))
+    } else {
+      this.selectedData[String(this.currentStage)][String(this.currentUnit)] = this.selectedData[String(this.currentStage)][String(this.currentUnit)].filter(id => {
+        return id != e.target.value
+      })
+    }
+
+    console.log(this.selectedData)
+
+  }
+
+
+  checkListData = []
+  addChecklist(e) {
+    if (e.target.checked) {
+      this.checkListData.push(Number(e.target.value))
+    } else {
+      this.checkListData = this.checkListData.filter(id => {
+        return id != e.target.value
+      })
+    }
   }
 
 }

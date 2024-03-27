@@ -9,3 +9,19 @@
     top: 50%;
     left: 0;
 }
+
+input[type=checkbox]{
+    accent-color: rgb(41, 120, 204);
+}
+
+input[id=moveStage]{
+    accent-color: rgb(86, 70, 231);
+}
+
+input[id=moveUnit]{
+    accent-color: rgb(86, 70, 231);
+}
+
+.t-bold{
+    font-weight: 700;
+}

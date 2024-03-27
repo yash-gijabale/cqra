@@ -255,29 +255,23 @@ export class CreateUserComponent implements OnInit {
     }
 
     let letter: Number = this.representingType
-    switch (Number(letter)) {
-      // console.log()
-      case 3:
-        this.commonService.getAllContractors().subscribe(data => {
-          console.log('contractors-->', data)
-          this.contractorDataToRepresentator(data)
-        })
-        break;
-
-      case 4:
-        this.clientServiceService.getAllPmcs().subscribe(data => {
-          console.log('PMC-->', data)
-          this.pmcDataToRepresentator(data)
-        })
-        break;
-
-      default:
-        this.clientServiceService.getAllClients().subscribe(data => {
-          console.log('clients-->', data)
-          this.clientDataToRepresentator(data)
-        })
-        break;
+    if(letter == 3){
+      this.commonService.getAllContractors().subscribe(data => {
+        console.log('contractors-->', data)
+        this.contractorDataToRepresentator(data)
+      })
+    }else if(letter == 4 ){
+      this.clientServiceService.getAllPmcs().subscribe(data => {
+        console.log('PMC-->', data)
+        this.pmcDataToRepresentator(data)
+      })
+    }else{
+      this.clientServiceService.getAllClients().subscribe(data => {
+        console.log('clients-->', data)
+        this.clientDataToRepresentator(data)
+      })
     }
+ 
 
     console.log(this.showCadre)
   }

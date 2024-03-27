@@ -65,6 +65,14 @@ export class CommonService {
     return this.httpClient.get<StageData[]>(this.REST_API_SERVER + `/common/getSelectedUnits/${clientId}/${projectId}/${structureId}/${stageId}`);
   }
 
+  getUnitByIds(projectId, strId, stageId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/unit/unitbypidstrstageid/${projectId}/${strId}/${stageId}`)
+  }
+
+  getSubUnitByIds(projectId, strId, stageId, unitId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/subunit/subunit/${projectId}/${strId}/${stageId}/${unitId}`)
+  }
+
   getSubUnit(clientId, projectId, structureId, stageId, unitId) {
     return this.httpClient.get<StageData[]>(this.REST_API_SERVER + `/common/getSelectedSubUnits/${clientId}/${projectId}/${structureId}/${stageId}/${unitId}`);
   }
@@ -91,7 +99,7 @@ export class CommonService {
   }
 
   getUserAllocationData(projectId, structureId, tradeId, userID) {
-    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getuserallocationchecklist/${projectId}/${structureId}/${tradeId}/${userID}`)
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/getuserallocationchecklist/${projectId}/${structureId}/${tradeId}/${userID}`)
   }
 
   getQuestionGroup(userId) {
@@ -110,6 +118,11 @@ export class CommonService {
     // }else{
     // }
     return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/project/getprojectbyuserid/${userId}`);
+  }
+
+  getProjectByUserId(userId){
+    return this.httpClient.get<ProjectData[]>(this.REST_API_SERVER + `/project/getprojectbyuserid/${userId}`);
+
   }
 
   getAllContractors() {
