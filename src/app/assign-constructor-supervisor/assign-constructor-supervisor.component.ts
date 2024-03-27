@@ -12,6 +12,7 @@ import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.c
 import { FormanData } from '../contractor-forman/contractor-forman.component';
 import { clientStaffData } from '../create-client-staff/create-client-staff.component';
 import { currentId } from 'async_hooks';
+import { PmcView } from '../pmc-list/pmc-list.component';
 
 
 export class AssignSupervisor {
@@ -37,6 +38,11 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   SelStructure: any;
   SelClient: any;
   SelContractor: any
+  selSupervisor: String
+  selForeman: String
+  Selpmc: String
+  selPmcuser: String
+  SelclientStaff: String
   projects: ProjectData[];
   submitted: boolean
   structures: StructureData[]
@@ -48,7 +54,8 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   supervisors: SupervisorData
   formans: FormanData
   isbtnLoading = false
-
+  pmc: Array<PmcView>
+  pmcUser: Array<Object>
 
   constructor(
     private commonServices: CommonService,
@@ -73,15 +80,25 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       clientId: ['', Validators.required],
       schemeId: ['', Validators.required],
       structureId: ['', Validators.required],
-      contractorId: ['', Validators.required],
-      supervisorId: ['', Validators.required],
-      foremanId: ['', Validators.required],
+      contractorId: ['', Validators.nullValidator],
+      supervisorId: ['', Validators.nullValidator],
+      foremanId: ['', Validators.nullValidator],
       tradeId: ['', Validators.required],
       stageId: ['', Validators.required],
-      clientStaffId: ['', Validators.required]
+      clientStaffId: ['', Validators.nullValidator],
+      pmcId: ['', Validators.nullValidator],
+      userId: ['', Validators.nullValidator]
     })
   }
 
+
+  allocationType: Number = 1
+  toggleAllocationType(e) {
+    this.allocationType = Number(e.target.value)
+    console.log(this.allocationType)
+
+
+  }
   getProjects() {
     console.log(this.SelClient)
     this.commonServices.getClientProject(this.SelClient).subscribe(data => this.projects = data)
@@ -105,9 +122,22 @@ export class AssignConstructorSupervisorComponent implements OnInit {
         this.clientStaffs = data
       })
 
-    this.clientService.getContractorByProjectId(this.SelProject)
-      .subscribe(data => this.contractors = data)
+    if (this.allocationType == 2) {
+      this.clientService.getPmcByprojectId(this.SelProject)
+        .subscribe(data => this.pmc = data)
+    } else {
+      this.clientService.getContractorByProjectId(this.SelProject)
+        .subscribe(data => this.contractors = data)
+    }
+  }
 
+
+  getPmcUser() {
+    this.clientService.getPmcUser(4, this.Selpmc)
+      .subscribe(data => {
+        console.log(data)
+        this.pmcUser = data
+      }, err => this.pmcUser = [])
   }
 
   stageLoad: boolean = false
@@ -119,7 +149,9 @@ export class AssignConstructorSupervisorComponent implements OnInit {
         this.stages = data
         this.stageLoad = false
       })
+
   }
+
 
   getSupervisores() {
     this.clientService.getSupervisorByContractorId(this.SelContractor)
@@ -192,178 +224,174 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isbtnLoading = true
     console.log(this.registerForm.value)
+    let allocationData = []
+    for (const key in this.selectedTrade) {
+      for (const stageId in this.selectedTrade[key]) {
+        let data = {}
+        if (Object.keys(this.selectedTrade[key][stageId]).length) {
+          for (const unitId in this.selectedTrade[key][stageId]) {
+            let data = {}
 
-    let tradeElements = document.querySelectorAll('.tradeGroups')
-    let stageElements = document.querySelectorAll('.stagesCheckbox')
-    let unitElement = document.querySelectorAll('.unitsCheckbox')
-    let subunitElement = document.querySelectorAll('.subunitCheckBox')
-    let TradeIdArray = []
-    let stageIdArray = []
-    let unitIdArray = []
-    let subunitIdArray = []
-    console.log(unitElement)
-    console.log(subunitElement)
-    tradeElements.forEach((item) => {
-      if ((<HTMLInputElement>item).checked) {
-        TradeIdArray.push(Number((<HTMLInputElement>item).value))
-      }
-    })
+            if (this.selectedTrade[key][stageId][unitId].length) {
 
-    stageElements.forEach((item) => {
-      if ((<HTMLInputElement>item).checked) {
-        stageIdArray.push(Number((<HTMLInputElement>item).value))
-      }
-    })
+              this.selectedTrade[key][stageId][unitId].forEach(subunit => {
+                let data = {}
 
-    unitElement.forEach((item) => {
-      if ((<HTMLInputElement>item).checked) {
-        unitIdArray.push(Number((<HTMLInputElement>item).value))
-      }
-    })
+                data['tradeId'] = key
+                data['stageId'] = stageId
+                data['units'] = unitId
+                data['suunits'] = subunit
+                allocationData.push(data)
 
-    subunitElement.forEach((item) => {
-      if ((<HTMLInputElement>item).checked) {
-        subunitIdArray.push(Number((<HTMLInputElement>item).value))
-      }
-    })
+              })
 
-
-    let tradeIds = TradeIdArray
-    let stageId = stageIdArray
-    let supervisorData = []
-    let foremanData = []
-    tradeIds.forEach((tradeId) => {
-      stageId.forEach((stageId) => {
-        this.allocationData[stageId].forEach(unitId => {
-          this.unitAllocationData[unitId].forEach(subunitId => {
-            let data = {
-              schemeId: this.registerForm.value.schemeId,
-              structureId: this.registerForm.value.structureId,
-              contractorId: this.registerForm.value.contractorId,
-              supervisorId: this.registerForm.value.supervisorId,
-              clientStaffId: this.registerForm.value.clientStaffId,
-              tradeId,
-              stageId,
-              units: unitId,
-              suunits: subunitId
+            } else {
+              data['tradeId'] = key
+              data['stageId'] = stageId
+              data['units'] = unitId
+              allocationData.push(data)
 
             }
 
-            let fdata = {
-              schemeId: this.registerForm.value.schemeId,
-              structureId: this.registerForm.value.structureId,
-              contractorId: this.registerForm.value.contractorId,
-              foremanId: this.registerForm.value.foremanId,
-              clientStaffId: this.registerForm.value.clientStaffId,
-              tradeId,
-              stageId,
-              units: unitId,
-              suunits: subunitId
-            }
+          }
 
-            supervisorData.push(data)
-            foremanData.push(fdata)
+        } else {
+          data['tradeId'] = key
+          data['stageId'] = stageId
+          allocationData.push(data)
+        }
+
+      }
+
+    }
+    console.log(allocationData)
+
+    if (this.allocationType == 1) {
+      let foremanData = []
+      let supervisorData = []
+      allocationData.forEach(data => {
+        if (this.registerForm.value.supervisorId) {
+          supervisorData.push({
+            schemeId: this.registerForm.value.schemeId,
+            structureId: this.registerForm.value.structureId,
+            contractorId: this.registerForm.value.contractorId,
+            supervisorId: this.registerForm.value.supervisorId,
+            clientStaffId: this.registerForm.value.clientStaffId,
+            ...data
+          })
+        }
+
+        if (this.registerForm.value.foremanId) {
+          foremanData.push({
+            schemeId: this.registerForm.value.schemeId,
+            structureId: this.registerForm.value.structureId,
+            contractorId: this.registerForm.value.contractorId,
+            foremanId: this.registerForm.value.foremanId,
+            clientStaffId: this.registerForm.value.clientStaffId,
+            ...data
+          })
+        }
+      })
+      // return
+      console.log(supervisorData)
+      console.log(foremanData)
+      if (this.registerForm.value.supervisorId) {
+        if (this.isSupervisroAllocationPresent) {
+          this.clientService.updateAssignSupervisor(this.SelProject, this.SelStructure, this.SelContractor, this.registerForm.value.supervisorId, supervisorData)
+            .subscribe(data => {
+              console.log('updated-->', data)
+              this.isbtnLoading = false
+
+            },
+              err => console.log(err))
+        } else {
+
+          this.clientService.assignContractorSupervisor(supervisorData)
+            .subscribe(data => {
+              console.log('assigned-->', data)
+              this.isbtnLoading = false
+
+            },
+              err => console.log(err))
+        }
+      }
+
+      if (this.registerForm.value.foremanId) {
+
+        if(this.isForemanAllocationUpdate){
+          this.clientService.updateAssignForeman(this.SelProject, this.SelStructure, this.SelContractor, this.registerForm.value.foremanId, foremanData)
+          .subscribe(data =>{
+            console.log('updted assign foreman-->', data)
+            this.isbtnLoading = false
           })
 
+        }else{
+
+          this.clientService.assignContractorForeman(foremanData)
+            .subscribe(data => {
+              console.log('assisned foreman-->', data)
+              this.isbtnLoading = false
+            },
+              err => console.log(err))
+        }
+      }
+
+    } else if (this.allocationType == 2) {
+      let pmcAllocation = []
+      allocationData.forEach(data => {
+
+        pmcAllocation.push({
+          schemeId: this.registerForm.value.schemeId,
+          structureId: this.registerForm.value.structureId,
+          pmcId: this.registerForm.value.pmcId,
+          clientStaffId: this.registerForm.value.clientStaffId,
+          stageId: data.stageId,
+          tradeId: data.tradeId,
+          subunits: data.suunits,
+          units: data.units,
+          userId: this.registerForm.value.userId,
         })
 
       })
-    })
 
-    let subunitUnitArray = []
-    unitIdArray.forEach(unitId => {
-      subunitIdArray.forEach(subunitId => {
-        let data = {
-          subunit: subunitId,
-          unit: unitId
-        }
-
-        subunitUnitArray.push(data)
-      })
-    })
-
-    console.log(supervisorData)
-    console.log(foremanData)
-
-    // return
-    this.isbtnLoading = true
-    if (this.registerForm.value.supervisorId) {
-      if (this.isSupervisroAllocationPresent) {
-        this.clientService.updateAssignSupervisor(this.SelProject, this.SelStructure, this.SelContractor, this.registerForm.value.supervisorId, supervisorData)
+      if (this.updatePmcAllocation) {
+        this.clientService.updatePmcAllocation(this.SelProject, this.Selpmc, this.SelclientStaff, this.selPmcuser, this.SelStructure, pmcAllocation)
           .subscribe(data => {
-            console.log('updated-->', data)
+            console.log('pmc allocation updated', data)
             this.isbtnLoading = false
 
-          },
-            err => console.log(err))
+          })
       } else {
-
-        this.clientService.assignContractorSupervisor(supervisorData)
+        this.clientService.addPmcAllocation(pmcAllocation)
           .subscribe(data => {
-            console.log('assigned-->', data)
+            console.log('pmc allocated', data)
             this.isbtnLoading = false
 
-          },
-            err => console.log(err))
+          })
       }
+      console.log(pmcAllocation)
     }
 
-    if (this.registerForm.value.foremanId) {
-      this.clientService.assignContractorForeman(foremanData)
-        .subscribe(data => {
-          console.log('assisned foreman-->', data)
-          this.isbtnLoading = false
-
-        },
-          err => console.log(err))
-    }
   }
+
 
   unitData = {}
   subUnitData = {}
-
-
   allocationData = {}
   unitAllocationData = {}
-
   units: Array<Object> = []
   currentStage: Number
   unitLoad: boolean = false
   selectedStates = []
   disabledUnits: boolean = true
-  getunit(e) {
-    this.disabledUnits = false
-    this.currentStage = Number(e.target.value)
-    if (e.target.checked) {
-
-      this.selectedStates.push(this.currentStage)
-      // this.unSelectRemaningStage(e)
-    } else {
-      this.disabledUnits = true
-
-      // if(this.allocationData[String(this.currentStage)].length == 0){
-      //   delete this.allocationData[String(this.currentStage)]
-      // }
-      this.selectedStates = this.selectedStates.filter(stage => {
-        return stage != this.currentStage
-      })
-    }
-
-    console.log(this.allocationData)
-    console.log(this.unitData)
-
-  }
-
   activeStage = 0
   showUnits(stageId) {
     this.currentStage = Number(stageId)
     this.unitLoad = true
     this.activeStage = stageId
-
     if (!this.unitData[String(stageId)] || this.unitData[String(stageId)].length == 0) {
-
-      this.allocationData[String(stageId)] = []
       this.commonServices.getUnits(this.SelClient, this.SelProject, this.SelStructure, stageId)
         .subscribe(data => {
           console.log(data)
@@ -387,50 +415,25 @@ export class AssignConstructorSupervisorComponent implements OnInit {
     //   }
     // })
   }
-  subunits: Array<Object> = []
+  subunits: Array<any> = []
   subunitLoad: boolean = false
   curentUnit: String
-  disableSubunit = true
-  getSubunit(e) {
-    this.curentUnit = e.target.value
-    this.disableSubunit = false
-
-    if (e.target.checked) {
-      if (!this.allocationData[String(this.currentStage)]) {
-        this.allocationData[String(this.currentStage)] = []
-      }
-      // this.allocationData[String(this.currentStage)] = [...this.allocationData[String(this.currentStage)]]
-      this.allocationData[String(this.currentStage)].push(Number(e.target.value))
-    } else {
-      this.disableSubunit = true
-      this.allocationData[String(this.currentStage)] = this.allocationData[String(this.currentStage)].filter(id => {
-        return id != Number(e.target.value)
-      })
-      delete this.unitAllocationData[String(this.curentUnit)]
-    }
-
-    console.log(this.allocationData)
-    console.log(this.unitAllocationData)
-  }
-
   showSubunits(unitId) {
     this.curentUnit = unitId
-
     this.subunitLoad = true
     if (!this.subUnitData[String(unitId)]) {
-      this.unitAllocationData[String(unitId)] = []
       this.commonServices.getSubUnit(this.SelClient, this.SelProject, this.SelStructure, this.currentStage, unitId)
         .subscribe(data => {
           console.log(data)
-          // this.stages = data
-          // this.subunits = data
           this.subUnitData[String(unitId)] = data
           this.subunits = data
           this.subunitLoad = false
-          this.subunits.forEach((item: any) => {
-            this.unitAllocationData[String(unitId)].push(Number(item.subunitId))
-          })
-          console.log(this.unitAllocationData)
+
+          // this.subunits.forEach(sub => {
+          //   this.selectedTrade[Number(this.currentTradeId)][Number(this.currentStage)][Number(this.curentUnit)].push(Number(sub.subunitId))
+          // })
+
+          console.log(this.selectedTrade)
 
         })
     } else {
@@ -441,32 +444,75 @@ export class AssignConstructorSupervisorComponent implements OnInit {
 
   addSubunit(e) {
     if (e.target.checked) {
-      if (!this.unitAllocationData[String(this.curentUnit)]) {
-        this.unitAllocationData[String(this.curentUnit)] = []
-      }
-      this.unitAllocationData[String(this.curentUnit)].push(Number(e.target.value))
+      this.selectedTrade[Number(this.currentTradeId)][Number(this.currentStage)][Number(this.curentUnit)].push(Number(e.target.value))
     } else {
-      this.unitAllocationData[String(this.curentUnit)] = this.unitAllocationData[String(this.curentUnit)].filter(id => {
+      this.selectedTrade[Number(this.currentTradeId)][Number(this.currentStage)][Number(this.curentUnit)] = this.selectedTrade[Number(this.currentTradeId)][Number(this.currentStage)][Number(this.curentUnit)].filter(id => {
         return id != Number(e.target.value)
       })
     }
-    console.log(this.unitAllocationData)
+    console.log(this.selectedTrade)
   }
 
 
+  getPreAllocation() {
+
+    if (this.allocationType == 1) {
+      if(this.selForeman){
+        console.log('foreman get')
+        this.getForemanData(this.SelStructure)
+
+      }
+      if(this.selSupervisor){
+        console.log('suoervisor get')
+        this.getSuprevisorData(this.SelStructure)
+      }
+    } else {
+      console.log('pmc get')
+
+      this.getPmcAllocationData()
+    }
+  }
+
   // supervisorAllocation = []
   isSupervisroAllocationPresent: boolean = false
-  getSuprevisorData(e) {
-    let supervisorId = Number(e.target.value)
-    this.clientService.getAssignDataFromSupervisor(this.SelProject, this.SelStructure, this.SelContractor, supervisorId)
+  getSuprevisorData(structureId) {
+    let structure = Number(structureId)
+    this.clientService.getAssignDataFromSupervisor(this.SelProject, structure, this.SelContractor, this.selSupervisor)
       .subscribe(data => {
         console.log(data)
         // this.supervisorAllocation = data
         if (data.length) {
           this.isSupervisroAllocationPresent = true
         }
-
         // this.selectedStates = this.supervisorAllocation['stages']
+        this.genarateAllocationData(data)
+      })
+  }
+
+  isForemanAllocationUpdate : boolean = false
+  getForemanData(structureId) {
+    let structure = Number(structureId)
+    this.clientService.getAssignDataFromForeman(this.SelProject, structure, this.SelContractor, this.selForeman)
+      .subscribe(data => {
+        console.log(data)
+        // this.supervisorAllocation = data
+        if (data.length) {
+          this.isForemanAllocationUpdate = true
+        }
+        // this.selectedStates = this.supervisorAllocation['stages']
+        this.genarateAllocationData(data)
+      })
+  }
+
+
+  updatePmcAllocation: boolean = false
+  getPmcAllocationData() {
+    this.clientService.getPmcAllocationData(this.SelProject, this.Selpmc, this.SelclientStaff, this.selPmcuser, this.SelStructure)
+      .subscribe(data => {
+        console.log('pre pmc data-->', data)
+        if (data.length) {
+          this.updatePmcAllocation = true
+        }
         this.genarateAllocationData(data)
       })
   }
@@ -474,64 +520,104 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   allocatedTrade = {}
   allocatedStructure: Object = {}
   genarateAllocationData(data) {
-
     data.forEach(item => {
-      this.allocatedTrade[item.tradeId] = true
-      if (this.allocatedStructure.hasOwnProperty(item.stageId)) {
-        if (this.allocatedStructure[item.stageId].hasOwnProperty(item.units)) {
-          if (!this.allocatedStructure[item.stageId][item.units].includes(item.suunits)) {
+      if (this.selectedTrade[item.tradeId]) {
+        if (this.selectedTrade[item.tradeId][item.stageId]) {
+          if (this.selectedTrade[item.tradeId][item.stageId][item.units]) {
+            this.selectedTrade[item.tradeId][item.stageId][item.units].push(item.suunits)
+          } else {
+            this.selectedTrade[item.tradeId][item.stageId][item.units] = []
+            this.selectedTrade[item.tradeId][item.stageId][item.units].push(item.suunits)
 
-            this.allocatedStructure[item.stageId][item.units].push(item.suunits)
           }
         } else {
-          this.allocatedStructure[item.stageId][item.units] = []
-          this.allocatedStructure[item.stageId][item.units].push(item.suunits)
-        }
+          this.selectedTrade[item.tradeId][item.stageId] = {}
+          if (this.selectedTrade[item.tradeId][item.stageId][item.units]) {
+            this.selectedTrade[item.tradeId][item.stageId][item.units].push(item.suunits)
+          } else {
+            this.selectedTrade[item.tradeId][item.stageId][item.units] = []
+            this.selectedTrade[item.tradeId][item.stageId][item.units].push(item.suunits)
 
+          }
+
+        }
       } else {
-        this.allocatedStructure[item.stageId] = {}
-        if (this.allocatedStructure[item.stageId].hasOwnProperty(item.units)) {
-          if (!this.allocatedStructure[item.stageId][item.units].includes(item.suunits)) {
-            this.allocatedStructure[item.stageId][item.units].push(item.suunits)
+        this.selectedTrade[item.tradeId] = {}
+        if (this.selectedTrade[item.tradeId][item.stageId]) {
+          if (this.selectedTrade[item.tradeId][item.stageId][item.units]) {
+            this.selectedTrade[item.tradeId][item.stageId][item.units].push(item.suunits)
+          } else {
+            this.selectedTrade[item.tradeId][item.stageId][item.units] = []
+            this.selectedTrade[item.tradeId][item.stageId][item.units].push(item.suunits)
+
           }
         } else {
-          this.allocatedStructure[item.stageId][item.units] = []
-          this.allocatedStructure[item.stageId][item.units].push(item.suunits)
+          this.selectedTrade[item.tradeId][item.stageId] = {}
+          if (this.selectedTrade[item.tradeId][item.stageId][item.units]) {
+            this.selectedTrade[item.tradeId][item.stageId][item.units].push(item.suunits)
+          } else {
+            this.selectedTrade[item.tradeId][item.stageId][item.units] = []
+            this.selectedTrade[item.tradeId][item.stageId][item.units].push(item.suunits)
+
+          }
+
         }
-      }
-
-
-
-      if (this.allocationData[item.stageId]) {
-        if (!this.allocationData[item.stageId].includes(item.units)) {
-          this.allocationData[item.stageId].push(item.units)
-        }
-      } else {
-        this.allocationData[item.stageId] = []
-        this.allocationData[item.stageId].push(item.units)
-      }
-
-      if (this.unitAllocationData[item.units]) {
-        if (!this.unitAllocationData[item.units].includes(item.suunits)) {
-          this.unitAllocationData[item.units].push(item.suunits)
-        }
-      } else {
-        this.unitAllocationData[item.units] = []
-        this.unitAllocationData[item.units].push(item.suunits)
       }
 
     })
 
-    console.log(this.allocatedStructure)
-    console.log('allocated stage', this.allocationData)
-    console.log('allocated unit', this.unitAllocationData)
-    console.log('trdeas allocated', this.allocatedTrade)
-    this.selectedStates = Object.keys(this.allocationData)
-    this.disableSubunit = false
-    this.disabledUnits = false
-
+    console.log('pre aalocation', this.selectedTrade)
   }
 
+
+
+  selectedTrade = {}
+  selectedStages = {}
+  addTrade(e) {
+    if (e.target.checked) {
+      this.selectedTrade[String(e.target.value)] = {}
+    } else {
+      delete this.selectedTrade[String(e.target.value)]
+    }
+    console.log(this.selectedTrade)
+  }
+
+  currentTradeId: String
+  changeStages(tradeId) {
+    this.currentTradeId = tradeId
+
+    //to reload stages
+    let preStages = this.stages
+    this.stages = []
+    this.stages = preStages
+    console.log('current trade', this.currentTradeId)
+  }
+
+  addStagesTotrade(e) {
+    if (e.target.checked) {
+      this.selectedTrade[Number(this.currentTradeId)][Number(e.target.value)] = {}
+      // this.selectedStages[String(e.target.value)] = []
+    } else {
+      delete this.selectedTrade[Number(this.currentTradeId)][Number(e.target.value)]
+
+    }
+
+    console.log(this.selectedTrade)
+  }
+
+  addUnitToStage(e) {
+    if (e.target.checked) {
+      this.selectedTrade[Number(this.currentTradeId)][Number(this.currentStage)][Number(e.target.value)] = []
+      // this.selectedStages[Number(this.currentStage)].push(Number(e.target.value))
+    } else {
+      delete this.selectedTrade[Number(this.currentTradeId)][Number(this.currentStage)][Number(e.target.value)]
+      // this.selectedStages[Number(this.currentStage)] = this.selectedStages[Number(this.currentStage)].filter(id =>{
+      //   return id != Number(e.target.value)
+      // })
+    }
+
+    console.log(this.selectedTrade)
+  }
 }
 
 

@@ -681,38 +681,30 @@ export class ClientServiceService {
 
   //ASSING CONTRACTOR SUPRTVISOR
   assignContractorSupervisor(data: Array<AssignSupervisor>) :Observable<ClientServiceService>{
-    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeContractorSupervisor`, data)
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/schemeContractorSupervisor/addSchemeContractorSupervisor`, data)
   }
 
   assignContractorForeman(data: Array<AssignForeman>) :Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addSchemeContractorForeman`, data)
   }
 
-  // getAssignDataFromContractor(projectId, structureId, contractorId ){
-  //   return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
-  // }
-
-  // getAssignDataFromClientStaff(projectId, structureId, contractorId, staffId){
-  //   return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
-  // }
-
   getAssignDataFromSupervisor(projectId, structureId, contractorId, supervisorId){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/schemeContractorSupervisor/getsupervisordatabyidssss/${projectId}/${structureId}/${contractorId}/${supervisorId}`)
   }
 
   updateAssignSupervisor(projectId, structureId, contractorId, supervisorId, data){
-    return this.httpClient.put<any>(`${this.REST_API_SERVER}/schemeContractorSupervisor/getsupervisordatabyidssss/${projectId}/${structureId}/${contractorId}/${supervisorId}`, data)
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/schemeContractorSupervisor/update/${projectId}/${structureId}/${contractorId}/${supervisorId}`, data)
 
   }
 
-  // getAssignDataFromForeman(projectId, structureId, contractorId, staffId, foremanId){
-  //   return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
-  // }
+  getAssignDataFromForeman(projectId, structureId, contractorId, foremanId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getforemandatabyidssssss/${projectId}/${structureId}/${contractorId}/${foremanId}`)
+  }
 
-  
-  // getAssignDataFromBoth(projectId, structureId, contractorId, staffId, supervisorId, foremanId){
-  //   return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/`)
-  // }
+  updateAssignForeman(projectId, structureId, contractorId, foremanId, data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/update/${projectId}/${structureId}/${contractorId}/${foremanId}`, data)
+  }
+
 
   //PMC API CALL
   createPmc(data) :Observable<ClientServiceService>{
@@ -733,6 +725,26 @@ export class ClientServiceService {
 
   deletePmc(id){
     return this.httpClient.delete<PmcView>(`${this.REST_API_SERVER}/Pmc/${id}`)
+  }
+
+  getPmcByprojectId(projectId){
+    return this.httpClient.get<Array<PmcView>>(`${this.REST_API_SERVER}/Pmcbyprojid/${projectId}`)
+  }
+
+  getPmcUser(typeId, pmcId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/UserDatabyrepresentingtypeidandrepid/${typeId}/${pmcId}`)
+  }
+
+  addPmcAllocation(data):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/schemePmcSubunits/save`, data)
+  }
+
+  getPmcAllocationData(projectId, pmcId, clientStaff, userId, structureId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemePmcSubunits/getallbyid/${projectId}/${pmcId}/${clientStaff}/${userId}/${structureId}`)
+  }
+
+  updatePmcAllocation(projectId, pmcId, clientStaff, userId, structureId, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/schemePmcSubunits/update/${projectId}/${pmcId}/${clientStaff}/${userId}/${structureId}`, data)
   }
   //PMC API CALL
 

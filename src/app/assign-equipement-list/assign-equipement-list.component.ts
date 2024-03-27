@@ -83,16 +83,19 @@ export class AssignEquipementListComponent implements OnInit {
     this.router.navigate(['addEquipment', id])
   }
 
+  deActivateLoad: boolean = false
   deActivate(id) {
-    let isDelete = confirm('Are you sure want to delete ?')
-    if (isDelete) {
-      this.userService.deleteAssignEqiopment(id, false)
-        .subscribe(data => {
-          console.log('delerted', data)
-          // location.reload()
-        })
+    this.deActivateLoad = true
+    // let isDelete = confirm('Are you sure want to delete ?')
+    let remark = document.querySelector(`#deactivateRemark${id}`) as HTMLInputElement
+    this.userService.deleteAssignEqiopment(id, false, { remark: remark.value })
+      .subscribe(data => {
+        console.log('delerted', data)
+        this.deActivateLoad = false
+        // location.reload()
+        this.getAllEquipment()
 
-    }
+      })
   }
 
   // newAssignUser:number

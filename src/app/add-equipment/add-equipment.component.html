@@ -30,7 +30,7 @@
         </ng-template>
 
 
-        <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
+        <div class="modal fade" id="new-trade-user" tabindex="1" role="dialog"
           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -46,14 +46,14 @@
                     <label>Asset Type: </label>
                     <select class="form-control" formControlName="assetTypeId">
                       <option [value]="0">Please Select</option>
-                      <option [value]="asset.id" *ngFor="let asset of assets">{{asset.assetName}}</option>
+                      <option [value]="asset.id" *ngFor="let asset of assets" >{{asset.assetName}}</option>
                     </select>
                     <div class="invalid-feedback">
                     </div>
                   </div>
                   <div class="form-group">
                     <label>Asset Name: </label>
-                    <input class="form-control" formControlName="assetName">
+                    <input class="form-control" formControlName="assetName" >
                   </div>
 
                   <div class="form-group">
@@ -65,27 +65,41 @@
                     <label>Used by: </label>
 
                     <div class="form-check">
-                      <input class="form-check-input usedBy" type="checkbox" [value]="1" id="flexCheckChecked">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="1" id="flexCheckChecked" [checked]="isUpdate && assetData.userBy.includes('1')">
                       <label class="form-check-label" for="flexCheckChecked">
                         Civil
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input usedBy" type="checkbox" [value]="2" id="flexCheckChecked">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="2" id="flexCheckChecked" [checked]="isUpdate && assetData.userBy.includes('2')">
                       <label class="form-check-label" for="flexCheckChecked">
                         MEP
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input usedBy" type="checkbox" [value]="3" id="flexCheckChecked">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="3" id="flexCheckChecked" [checked]="isUpdate && assetData.userBy.includes('3')">
                       <label class="form-check-label" for="flexCheckChecked">
-                        Seafty
+                        Safety
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input usedBy" type="checkbox" [value]="4" id="flexCheckChecked">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="4" id="flexCheckChecked" [checked]="isUpdate && assetData.userBy.includes('4')">
                       <label class="form-check-label" for="flexCheckChecked">
                         Infra
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="5" id="flexCheckChecked" [checked]="isUpdate && assetData.userBy.includes('5')">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Office
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <input class="form-check-input usedBy" type="checkbox" [value]="6" id="flexCheckChecked" [checked]="isUpdate && assetData.userBy.includes('6')">
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Office Staff
                       </label>
                     </div>
                   </div>
@@ -124,8 +138,7 @@
                   </div>
                 </div>
                 <div *ngIf="!assetListLoad">
-                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-                    class="row-border hover inspector_list_table" style="width:100%">
+                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover inspector_list_table" style="width:100%">
                     <thead>
                       <tr>
                         <th>Sr. No</th>
@@ -133,11 +146,12 @@
                         <th>Asset Name</th>
                         <th>Asset Cost</th>
                         <th>Used By</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody id="attendeesFrom">
                       <tr *ngFor="let asset of allAssetlist">
-                        <td>{{asset.id}}</td>
+                        <td>{{asset.srNo}}</td>
                         <td>{{asset.asset_type_name}}</td>
                         <td>{{asset.assetName}}</td>
                         <td>{{asset.cost}}</td>
@@ -145,9 +159,15 @@
                           <div *ngFor="let usedBy of asset.userBy" class="mx-1">
                             <span class="badge badge-warning" *ngIf="usedBy=='1'">Civil</span>
                             <span class="badge badge-warning" *ngIf="usedBy=='2'">MEP</span>
-                            <span class="badge badge-warning" *ngIf="usedBy=='3'">Seafty</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='3'">Safety</span>
                             <span class="badge badge-warning" *ngIf="usedBy=='4'">Infra</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='5'">Office</span>
+                            <span class="badge badge-warning" *ngIf="usedBy=='6'">Office Staff</span>
                           </div>
+                        </td>
+                        <td>
+                          <span class="badge badge-success" role="button" data-toggle="modal" data-target="#new-trade-user" (click)="getAssetData(asset.id)">Edit</span>
+                          <span class="badge badge-danger" role="button" (click)="deleteAsset(asset.id)">Delete</span>
                         </td>
                       </tr>
                     </tbody>
@@ -193,8 +213,8 @@
           </div>
 
           <div class="form-group col-md-4">
-            <label>Description: </label>
-            <input type="text" class="form-control" formControlName="description">
+            <label>CQRA Asset ID: </label>
+            <input type="text" class="form-control" formControlName="cqraAssetId">
             <div class="invalid-feedback">
             </div>
           </div>
@@ -214,8 +234,8 @@
           </div>
 
           <div class="form-group col-md-4">
-            <label>Remark: </label>
-            <input type="text" class="form-control" formControlName="remark">
+            <label>Asset Cost: </label>
+            <input type="Number" class="form-control" formControlName="cost">
             <div class="invalid-feedback">
             </div>
           </div>
@@ -223,15 +243,13 @@
           <div class="form-group col-md-4">
             <label>Equipment Image: </label>
             <input type="file" id="image1" class="form-control" accept="image/png, image/gif, image/jpeg">
-            <div class="invalid-feedback">
-            </div>
+            <div class="card-title text-danger" *ngIf="imageWarning.eimage">{{imageMessage}}</div>
           </div>
 
           <div class="form-group col-md-4">
             <label>Calibration Caertificate: </label>
             <input type="file" id="image2"  class="form-control" accept="image/png, image/gif, image/jpeg">
-            <div class="invalid-feedback">
-            </div>
+            <div class="card-title text-danger" *ngIf="imageWarning.cimage">{{imageMessage}}</div>
           </div>
 
           <div class="form-group mt-3">

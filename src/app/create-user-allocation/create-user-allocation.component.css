@@ -14,3 +14,13 @@
 .add-bg-here{
     background-color: rgb(248, 245, 245) !important;
 }
+
+.ckechbox-select{
+    height: 250px;
+    overflow: auto;
+    background-color: white;
+    border: 5px;
+}
+.t-bold{
+    font-weight: 600;
+}

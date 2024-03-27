@@ -62,10 +62,11 @@
         <div class="tab_header">
           <div [class]="activeTab=='activate' ? 'tab tab_active' : 'tab'" (click)="changePannel('activate')">Activate
           </div>
-          <div [class]="activeTab=='deactivate' ? 'tab tab_active' : 'tab'" (click)="changePannel('deactivate')">Deactivate</div>
+          <div [class]="activeTab=='deactivate' ? 'tab tab_active' : 'tab'" (click)="changePannel('deactivate')">
+            Deactivate</div>
         </div>
         <div class="tab_body">
-          
+
           <div [class]="activeTab=='activate' ? 'pannel' : 'pannel_hide'">
             <div class="row m-0">
               <div class="col-xl-12 col-sm-12 mb-3">
@@ -77,27 +78,30 @@
 
                       <th>Asset Type</th>
                       <th>Asset Name</th>
+                      <th>CQRA Id</th>
+                      <th [width]="'10%'">Cost</th>
                       <th>Asset Number</th>
-                      <th>Remark</th>
                       <th>Current User</th>
                       <th>Assign</th>
                       <th>Assign Date</th>
                       <th>Actions</th>
                       <th>Return</th>
+                      <th>Remark</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let equipment of (activateEquipment)">
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assetnameme}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assettname}}</td>
+                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.cqraAssetId}}</td>
+                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">₹ {{equipment.cost}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assetSerialNo}}</td>
-                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.remark}}</td>
-                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assignTo ? equipment.username : ''}}</td>
+                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assignTo ? equipment.username :
+                        ''}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">
                         <span *ngIf="!equipment.assignTo" class="badge badge-primary" role="button" data-toggle="modal"
                           [attr.data-target]="'#trade-user-list-'+equipment.equipmentId">Assign</span>
-                        <span *ngIf="equipment.assignTo" class="badge badge-success" role="button" data-toggle="modal"
-                          [attr.data-target]="'#trade-user-list-'+equipment.equipmentId">update</span>
+                        <span *ngIf="equipment.assignTo" class="badge badge-success">update</span>
                       </td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.dateOfAssign}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">
@@ -108,14 +112,42 @@
                               <i class="las la-pencil-alt"></i>
                             </span>
                           </button>
-                          <button type="text" class="Delete-modal" (click)="deActivate(equipment.equipmentId)">
+                          <button type="text" data-toggle="modal"
+                          [attr.data-target]="'#deactivate'+equipment.equipmentId">
                             <span class="edit-tessst">
                               <i class="lar la-trash-alt"></i>
                             </span>
                           </button>
+
+                          <div class="modal fade" [id]="'deactivate'+equipment.equipmentId" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLongTitle">Deactivate:</h5>
+                                  <button type="button" class="close" #closebutton data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <label>Remark:</label>
+                                  <input class="form-control" [id]="'deactivateRemark'+equipment.equipmentId">
+                                </div>
+                                <div class="row d-flex justify-content-end mx-3 modal-footer">
+                                  <button class="btn btn-sm btn-danger" (click)="deActivate(equipment.equipmentId)">
+                                    <span *ngIf="deActivateLoad" class="spinner-border spinner-border-sm"
+                                      aria-hidden="true"></span>
+                                    <span *ngIf="!deActivateLoad">Deactivate</span>
+                                  </button>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </td>
-                      <td>
+                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">
                         <span class="badge badge-warning" data-toggle="modal"
                           [attr.data-target]="'#returnEq'+equipment.equipmentId" role="button"
                           *ngIf="equipment.assignTo">Return</span>
@@ -150,8 +182,7 @@
                               </div>
                               <div class="row d-flex justify-content-end mx-3 modal-footer">
                                 <button class="btn btn-sm btn-success"
-                                  (click)="submitReturnEquipment(equipment.equipmentId, equipment.assignTo)"
-                                  >
+                                  (click)="submitReturnEquipment(equipment.equipmentId, equipment.assignTo)">
                                   <span *ngIf="returnLoad" class="spinner-border spinner-border-sm"
                                     aria-hidden="true"></span>
                                   <span *ngIf="!returnLoad">submit</span>
@@ -162,7 +193,7 @@
                           </div>
                         </div>
                       </td>
-
+                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.remark}}</td>
 
                       <div class="modal fade" [id]="'trade-user-list-'+equipment.equipmentId" tabindex="-1"
                         role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -235,7 +266,7 @@
                       <td>
                         <span class="badge badge-warning">Restore</span>
                       </td>
-   
+
                     </tr>
                   </tbody>
 

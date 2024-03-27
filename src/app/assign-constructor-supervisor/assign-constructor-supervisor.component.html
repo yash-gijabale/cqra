@@ -24,6 +24,26 @@
           </div>
         </div>
       </div>
+      <div class="row mb-5">
+        <div class="form-check card ml-3">
+          <div class="card-body p-1">
+            <input class="form-check-input" type="radio" value="1" (change)="toggleAllocationType($event)"
+              name="flexRadioDefault" id="flexRadioDefault1" checked>
+            <label class="form-check-label" for="flexRadioDefault1">
+              Contractor Allocation
+            </label>
+          </div>
+        </div>
+        <div class="form-check card ml-3">
+          <div class="card-body p-1">
+            <input class="form-check-input" type="radio" value="2" (change)="toggleAllocationType($event)"
+              name="flexRadioDefault" id="flexRadioDefault2">
+            <label class="form-check-label" for="flexRadioDefault2">
+              PMC Allocation
+            </label>
+          </div>
+        </div>
+      </div>
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="row">
           <div class="form-group col-md-4">
@@ -51,7 +71,7 @@
 
           <div class="form-group col-md-4">
             <label>Client Staff</label>
-            <select formControlName="clientStaffId" class="form-control">
+            <select [(ngModel)]="SelclientStaff" formControlName="clientStaffId" class="form-control">
               <option [value]="staff.clientStaffId" *ngFor="let staff of clientStaffs">
                 {{staff.clientName}}
               </option>
@@ -60,40 +80,66 @@
             </div>
           </div>
 
-        
-          <div class="form-group col-md-4">
-            <label>Contractor</label>
-            <select [(ngModel)]="SelContractor" formControlName="contractorId" class="form-control"
-              (change)="getSupervisores()">
-              <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
-                {{contractor.contractorName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+
+          <div *ngIf="allocationType==1" class="row contractorType col-md-12">
+            <div class="form-group col-md-4">
+              <label>Contractor</label>
+              <select [(ngModel)]="SelContractor" formControlName="contractorId" class="form-control"
+                (change)="getSupervisores()">
+                <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
+                  {{contractor.contractorName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Supervison</label>
+              <select [(ngModel)]="selSupervisor" formControlName="supervisorId" class="form-control">
+                <option [value]="supervisor.supervisorId" *ngFor="let supervisor of supervisors">
+                  {{supervisor.supervisorName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Foremans</label>
+              <select  [(ngModel)]="selForeman" formControlName="foremanId" class="form-control">
+                <option [value]="forman.foremanId" *ngFor="let forman of formans">
+                  {{forman.foremanName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
           </div>
 
-
-
-          <div class="form-group col-md-4">
-            <label>Supervison</label>
-            <select formControlName="supervisorId" class="form-control" (change)="getSuprevisorData($event)">
-              <option [value]="supervisor.supervisorId" *ngFor="let supervisor of supervisors">
-                {{supervisor.supervisorName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+          <div *ngIf="allocationType==2"  class="row pmcType col-md-12">
+            <div class="form-group col-md-4">
+              <label>PMC</label>
+              <select [(ngModel)]="Selpmc" formControlName="pmcId" class="form-control"
+                (change)="getPmcUser()">
+                <option [value]="p.pmcId" *ngFor="let p of pmc">
+                  {{p.pmcName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
-          </div>
-          <div class="form-group col-md-4">
-            <label>Foremans</label>
-            <select formControlName="foremanId" class="form-control">
-              <option [value]="forman.foremanId" *ngFor="let forman of formans">
-                {{forman.foremanName}}
-              </option>
-            </select>
-            <div class="invalid-feedback">
+
+            <div class="form-group col-md-4">
+              <label>PMC User</label>
+              <select [(ngModel)]="selPmcuser" formControlName="userId" class="form-control">
+                <option [value]="user.id" *ngFor="let user of pmcUser">
+                  {{user.userFullName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
             </div>
+            
           </div>
 
           <div class="form-group col-md-4">
@@ -109,6 +155,11 @@
             </div>
           </div>
 
+          <div class="form-group col-md-4">
+            <button class="btn btn-sm btn-success mt-4" type="button" (click)="getPreAllocation()">Get
+              Allocation</button>
+          </div>
+
           <div class="row col-md-12">
 
             <div class="form-group col-md-3">
@@ -121,8 +172,10 @@
                 </div>
                 <div class="form-check" *ngFor="let trade of trades">
                   <input class="form-check-input tradeGroups" type="checkbox" [value]="trade.fkTradeId"
-                    [id]="'flexCheckDefault'+trade.fkTradeId" [checked]="allocatedTrade[trade.fkTradeId]">
-                  <label class="form-check-label" [for]="'flexCheckDefault'+trade.fkTradeId">{{trade.tradeName}}</label>
+                    [id]="'flexCheckDefault'+trade.fkTradeId" [checked]="selectedTrade[trade.fkTradeId]"
+                    (change)="addTrade($event)">
+                  <label [class]="currentTradeId == trade.fkTradeId ? 'form-check-label t-bold' : 'form-check-label'"
+                    role="button" (click)="changeStages(trade.fkTradeId)">{{trade.tradeName}}</label>
                 </div>
               </div>
               <div class="invalid-feedback">
@@ -143,8 +196,8 @@
                 </div>
                 <div class="form-check" *ngFor="let o of stages">
                   <input class="form-check-input stagesCheckbox" type="checkbox" [value]="o.stageId"
-                    [id]="'stage'+o.stageId" (change)="getunit($event)"
-                    [checked]="allocationData.hasOwnProperty(o.stageId)">
+                    [id]="'stage'+o.stageId" (change)="addStagesTotrade($event)"
+                    [checked]=" selectedTrade[currentTradeId] && selectedTrade[currentTradeId].hasOwnProperty(o.stageId)">
                   <!-- <input class="form-check-input" type="checkbox" id="moveStage"> -->
 
                   <label [class]="currentStage == o.stageId ? 'form-check-label t-bold':'form-check-label'"
@@ -169,8 +222,8 @@
                 </div>
                 <div class="form-check" *ngFor="let o of units">
                   <input class="form-check-input unitsCheckbox" type="checkbox" [value]="o.unitId"
-                    [id]="'unit'+o.unitId" (change)="getSubunit($event)" [disabled]="disabledUnits"
-                    [checked]="unitAllocationData.hasOwnProperty(o.unitId)">
+                    [id]="'unit'+o.unitId" (change)="addUnitToStage($event)"
+                    [checked]="selectedTrade[currentTradeId][currentStage] && selectedTrade[currentTradeId][currentStage].hasOwnProperty(o.unitId)">
                   <!-- <input class="form-check-input" type="checkbox" id="moveUnit"> -->
                   <label [class]="curentUnit == o.unitId ? 'form-check-label t-bold':'form-check-label'"
                     (click)="showSubunits(o.unitId)" role="button">{{o.unitName}}</label>
@@ -201,7 +254,7 @@
                   <div class="form-check" *ngFor="let o of subunits">
                     <input class="form-check-input subUnitsCheckbox" type="checkbox" [value]="o.subunitId"
                       [id]="'subunit'+o.subunitId" (change)="addSubunit($event)" [disabled]="disableSubunit"
-                      [checked]="unitAllocationData.hasOwnProperty(o.unitId) && unitAllocationData[o.unitId].includes(o.subunitId)">
+                      [checked]="selectedTrade[currentTradeId][currentStage][curentUnit] && selectedTrade[currentTradeId][currentStage][curentUnit].includes(o.subunitId)">
                     <label class="form-check-label">{{o.subunitName}}</label>
                   </div>
                 </div>

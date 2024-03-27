@@ -65,7 +65,7 @@ export class AddEquipmentComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<AssetListView> = new Subject<AssetListView>();
+  dtTrigger: Subject<Array<Object>> = new Subject<Array<Object>>();
 
   equipmentForm: FormGroup
 
@@ -103,13 +103,12 @@ export class AddEquipmentComponent implements OnInit {
     this.equipmentForm = this.formBuilder.group({
       id: ['', Validators.required],
       assetName: ['', Validators.required],
-      description: ['', Validators.required],
-      assetSerialNo: ['', Validators.required],
+      cqraAssetId: ['', Validators.required],
+      assetSerialNo: ['', Validators.nullValidator],
       dateOfCalibration: ['', Validators.required],
       assignTo: ['', Validators.required],
-      remark: ['', Validators.required],
-
-      dateOfAssign: ['', Validators.required],
+      cost: ['', Validators.required],
+      // dateOfAssign: ['', Validators.required],
     })
 
     this.newAssetForm = this.formBuilder.group({
@@ -131,7 +130,7 @@ export class AddEquipmentComponent implements OnInit {
               this.assetsData = x
             })
           this.equipmentForm.patchValue(data)
-          this.equipmentForm.patchValue({dateOfCalibration: new Date(data.dateOfCalibration).toISOString().substring(0,10)})
+          this.equipmentForm.patchValue({ dateOfCalibration: new Date(data.dateOfCalibration).toISOString().substring(0, 10) })
 
         })
 
@@ -152,21 +151,34 @@ export class AddEquipmentComponent implements OnInit {
 
 
   submitLoad = false
+  imageToLarge: boolean = false
+  imageWarning = {
+    eimage: false,
+    cimage: false
+  }
+  imageMessage = 'File size must less than 1MB !'
   onSubmit() {
     this.submitLoad = true
+    this.imageWarning.eimage = false
+    this.imageWarning.cimage = false
     console.log(this.equipmentForm.value)
     let formData = { ...this.equipmentForm.value, status: true }
-    // return
-    // let file: File = e.target.files[0]
-
-    // this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, file)
-    // .subscribe(data => console.log(data,'uploaded'),
-    //     err => console.log('file error-->', err))
     let image1 = document.querySelector('#image1') as HTMLInputElement
     let image2 = document.querySelector('#image2') as HTMLInputElement
-    // console.log(image1.files[0]) 
     let img1: File = image1.files[0]
     let img2: File = image2.files[0]
+
+    if (img1 && img1.size > 1048576) {
+      this.imageWarning.eimage = true
+      this.submitLoad = false
+      return
+    }
+
+    if (img2 && img2.size > 1048576) {
+      this.imageWarning.cimage = true
+      this.submitLoad = false
+      return
+    }
 
     let fileData = {
       img1,
@@ -206,10 +218,6 @@ export class AddEquipmentComponent implements OnInit {
   newAssetLoad: boolean = false
   addNewAsset() {
     this.newAssetLoad = true
-    // console.log(this.signPad.toSVG())
-    // let idv = document.querySelector(`#show`) as HTMLDivElement
-    // let sign = this.signPad.toSVG()
-    // idv.innerHTML = sign
     let usedBy = []
     let check = document.querySelectorAll('.usedBy')
     check.forEach(c => {
@@ -221,19 +229,46 @@ export class AddEquipmentComponent implements OnInit {
 
     let formData = { ...this.newAssetForm.value, userBy: usedBy.toString() }
     console.log(formData)
-    this.userService.newAsset(formData)
-      .subscribe(data => {
-        console.log('aded', data)
-        this.newAssetLoad = false
-      })
+    // return
+    if (this.isUpdate) {
+      this.userService.updateAsset(this.assetId, formData)
+        .subscribe(data => {
+          console.log('data updated', data)
+          this.newAssetLoad = false
+
+        })
+    } else {
+      this.userService.newAsset(formData)
+        .subscribe(data => {
+          console.log('aded', data)
+          this.newAssetLoad = false
+        })
+    }
   }
 
+  assetData: any = {}
+  isUpdate: boolean = false
+  assetId: number
+  getAssetData(assetId) {
+    this.assetId = assetId
+    this.userService.getAssetById(assetId)
+      .subscribe(data => {
+        this.isUpdate = true
+        data.userBy = data.userBy.split(',')
+        this.assetData = data
+        // this.assetData.userBy = this.assetData.userBy.split(',')
+        console.log(this.assetData)
+        this.newAssetForm.patchValue(this.assetData)
+      })
+  }
 
   assetListLoad = false
   assetList() {
     this.assetListLoad = true
     this.userService.getAssetsList()
       .subscribe(data => {
+        // this.dtTrigger.next()
+
         this.assetListLoad = false
         let srNo = 0
         this.allAssetlist = data.map(d => {
@@ -252,6 +287,16 @@ export class AddEquipmentComponent implements OnInit {
 
   }
 
+  deleteAsset(assetId) {
+    let isDelete = confirm('Are you sure want to delete ?')
+    if (isDelete) {
+      this.userService.deleteAsset(assetId)
+        .subscribe(data => {
+          console.log('deleted')
+          this.assetList()
+        })
+    }
+  }
   assetsData: Array<any> = []
   getAssets(e) {
     console.log(e.target.value)
@@ -261,4 +306,5 @@ export class AddEquipmentComponent implements OnInit {
         this.assetsData = data
       })
   }
+
 }

@@ -111,9 +111,10 @@ export class UserService {
     return this.httpClient.put(`${this.REST_API_SERVER}/Equipment/${id}`, data)
   }
 
-  deleteAssignEqiopment(id, status){
-    return this.httpClient.put(`${this.REST_API_SERVER}/updatestatus/${id}/${status}`, '')
+  deleteAssignEqiopment(id, status, remark){
+    return this.httpClient.put(`${this.REST_API_SERVER}/updatestatus/${id}/${status}`, remark)
   }
+
 
   assignNewUserToEquipment(equipmentId, userId, data){
     return this.httpClient.put(`${this.REST_API_SERVER}/Equipmentbyidanduserid/${equipmentId}/${userId}`, data)
@@ -125,6 +126,17 @@ export class UserService {
 
   getAssetsList(){
     return this.httpClient.get<Array<AssetListView>>(`${this.REST_API_SERVER}/AssignEqu/getalljoin`)
+  }
+
+  updateAsset(id, data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/AssignEqu/update/${id}`, data)
+  }
+
+  getAssetById(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/AssignEqu/getallbyid/${id}`)
+  }
+  deleteAsset(id){
+    return this.httpClient.delete(`${this.REST_API_SERVER}/AssignEqu/deletebyid/${id}`)
   }
 
   getEquipmentByAssetType(typeId){
