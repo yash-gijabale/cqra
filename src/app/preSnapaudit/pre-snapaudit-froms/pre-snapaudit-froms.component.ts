@@ -823,7 +823,7 @@ export class PreSnapauditFromsComponent implements OnInit {
   }
 
 
-  formStatus:Object = {}
+  formStatus:any = {}
   getAllFormDataForCheck(masterId){
     this.inspectionTraining.getAllFormStatus(masterId, this.userId)
     .subscribe(data =>{

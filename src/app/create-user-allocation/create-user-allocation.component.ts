@@ -53,6 +53,11 @@ export class CreateUserAllocationComponent implements OnInit {
 
   allocationId: number
 
+  stageLoad:boolean = false
+  unitLoad:boolean = false
+  subunitLoad:boolean = false
+
+
 
   isbtnLoading = false
   // allocatedCheckList: Array<number> = []
