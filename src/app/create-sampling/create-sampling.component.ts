@@ -475,7 +475,7 @@ export class CreateSamplingComponent implements OnInit {
       let data = {
         projectId: this.SelProject,
         structureId: this.SelStructure,
-        master_id: this.masterData.masterId,
+        masterId: this.masterData.masterId,
         tradeId: item,
         status: (<HTMLSelectElement>statusValue).value,
         workAreaWithName
@@ -620,7 +620,7 @@ export class CreateSamplingComponent implements OnInit {
           let data = {
             projectId: this.SelProject,
             structureId: this.SelStructure,
-            master_id: this.masterData.masterId,
+            masterId: this.masterData.masterId,
             tradeId: item,
             status: (<HTMLSelectElement>statusValue).value,
             contractorId: contractorId,
@@ -659,7 +659,7 @@ export class CreateSamplingComponent implements OnInit {
         let data = {
           projectId: this.SelProject,
           structureId: this.SelStructure,
-          master_id: this.masterData.masterId,
+          masterId: this.masterData.masterId,
           tradeId: item,
           status: (<HTMLSelectElement>statusValue).value,
           contractorId: (<HTMLSelectElement>contractorValue).value,
@@ -1195,7 +1195,7 @@ export class CreateSamplingComponent implements OnInit {
         structureId: this.SelStructure,
         cycleOfInspection: this.Selcycle,
         contractorId: this.contractorId,
-        master_id: this.masterData.masterId,
+        masterId: this.masterData.masterId,
         tradeId: trade,
         staffId: this.staffId,
         samplingType: this.samplingType,
@@ -1366,7 +1366,7 @@ export class CreateSamplingComponent implements OnInit {
               structureId: this.SelStructure,
               fromDate: this.reportDate,
               toDate: this.inspectionDate,
-              master_id: this.masterData.masterId,
+              masterId: this.masterData.masterId,
               cycleOfInspection: this.Selcycle,
               contractorId: contractor,
               staffId: (<HTMLInputElement>staffId).value,

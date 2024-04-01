@@ -12,6 +12,7 @@ import { CycleOfInspection } from '../ncclosure-sa/ncclosure-sa.component';
 import { UserService } from '../service/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { InspectorTraning } from '../service/inspectionTraining.service';
 
 export class InspectionReportSnappAudit {
   constructor(
@@ -76,6 +77,9 @@ export class CreaateInspectionreportComponent implements OnInit {
 
   inspectionReporotForm: FormGroup
   inspectionReportId: number
+
+  masterIds: Array<any>
+  userId: number = Number(localStorage.getItem('id'))
   constructor(
     private clientServiceService: ClientServiceService,
     private commonService: CommonService,
@@ -83,7 +87,8 @@ export class CreaateInspectionreportComponent implements OnInit {
     private router: Router,
     private tradeService: TradeMaintanceService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private inspectionTraining: InspectorTraning
   ) { }
 
   ngOnInit() {
@@ -94,6 +99,13 @@ export class CreaateInspectionreportComponent implements OnInit {
       this.clients = data;
     }, (err) => {
       console.log('-----> err', err);
+    })
+
+    this.inspectionTraining.getMasterIdsByUserId(this.userId)
+    .subscribe(data => {
+      console.log(data)
+      this.masterIds = data
+
     })
 
     // this.commonService.getAllContractors().subscribe(data => this.contractors = data)
@@ -160,7 +172,8 @@ export class CreaateInspectionreportComponent implements OnInit {
       cycleId: ['', Validators.required],
       typeOfReport: ['', Validators.required],
       uicNo: ['', Validators.required],
-      saIndex: ['', Validators.required]
+      saIndex: ['', Validators.required],
+      masterId: ['', Validators.required]
     })
 
   }

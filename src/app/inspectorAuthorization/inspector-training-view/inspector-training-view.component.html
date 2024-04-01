@@ -56,7 +56,8 @@
                   <td>
 
                     <div *ngIf="data.passorfail == null || data.passorfail == -1">
-                      <span *ngIf="data.qStatus === 0" class="badge bg-light text-dark mx-2 border border-dark">Not Available</span>
+                      <span *ngIf="data.qStatus === 0" class="badge bg-light text-dark mx-2 border border-dark">Not
+                        Available</span>
 
                       <span *ngIf="data.qStatus === 1" class="badge bg-warning text-dark mx-2" data-toggle="modal"
                         data-target="#inspector_qoestion_papar" role="button"
@@ -124,7 +125,13 @@
                         <form>
                           <div class="question-box" *ngFor="let question of questionPaper |keyvalue">
                             <span>{{question.value}}</span>
-                            <textarea class="question-ans" [id]="question.key" type="text" placeholder="Answer"
+                            <textarea class="question-ans my-1" [id]="question.key" type="text" placeholder="Work Instructions"
+                              required></textarea>
+
+                            <textarea class="question-ans my-1" [id]="question.key" type="text" placeholder="Impact Of NC"
+                              required></textarea>
+
+                            <textarea class="question-ans my-1" [id]="question.key" type="text" placeholder="NC Rectification"
                               required></textarea>
                           </div>
 

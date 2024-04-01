@@ -24,6 +24,8 @@ export class InspectorDeclarationComponent implements OnInit {
   isProjectLoad: boolean = false
   userList = []
 
+  projectSearchData : ProjectView[]
+
   declarationUserList = []
 
   clientProjectObject = {}
@@ -53,6 +55,7 @@ export class InspectorDeclarationComponent implements OnInit {
     this.cleintService.getAllProject()
       .subscribe(data => {
         console.log(data)
+        this.projectSearchData = data
         this.products = data
         this.isProjectLoad = false
 
@@ -73,6 +76,16 @@ export class InspectorDeclarationComponent implements OnInit {
       })
   }
 
+
+  searchProjcets(e){
+    let filteredPprojcet = this.projectSearchData.filter(project =>{
+        if(project.projectName.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())){
+          return project
+        }
+    })
+
+    this.products = filteredPprojcet
+  }
 
   generateClientProjectObject(data) {
     data.forEach(item => {
@@ -197,4 +210,6 @@ export class InspectorDeclarationComponent implements OnInit {
     })
 
   }
+
+  
 }

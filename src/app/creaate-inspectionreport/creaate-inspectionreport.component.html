@@ -21,6 +21,15 @@
       <div class="create-viewform">
 
         <form [formGroup]="inspectionReporotForm" (ngSubmit)="onSubmit()">
+
+          <div class="form-group">
+            <label>Select MasterId</label>
+            <select class="form-control col-md-12" formControlName="masterId" >
+              <option [value]="''">Select Master ID</option>
+              <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
+            </select>
+          </div>
+
           <div class="form-group">
             <label>Select Client</label>
             <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">

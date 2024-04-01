@@ -48,9 +48,13 @@
                       </div>
                     </ng-template>
                     <ng-template #newTradeElse>
+                      <div class="form-group col-md-6 mb-6">
+                        <input type="search" class="form-control col-md-12" (input)="searchProjcets($event)"
+                          placeholder="Search projects">
+                      </div>
                       <div class="form-check col-md-12" *ngFor="let project of products">
                         <input class="form-check-input" (change)="addToProjectList($event)" type="checkbox"
-                          [value]="project.projectId" id="flexCheckDefault">
+                          [value]="project.projectId" id="flexCheckDefault" [checked]="assignProjectList.includes(project.projectId)">
                         <label class="form-check-label" for="flexCheckDefault">
                           {{project.projectName}}
                         </label>
