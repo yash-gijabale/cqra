@@ -29,7 +29,7 @@
             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#new-trade-user">Trade</button>
             <div class="modal fade" id="new-trade-user" tabindex="-1" role="dialog"
               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">New Trades</h5>
@@ -45,9 +45,13 @@
                       </div>
                     </ng-template>
                     <ng-template #newTradeElse>
-                      <div class="form-check col-md-12" *ngFor="let trade of tradeData">
+                      <div class="form-group col-md-6 mb-6">
+                        <input type="search" class="form-control col-md-12" (input)="searchTrade($event)"
+                          placeholder="Search trades">
+                      </div>
+                      <div class="form-check col-md-12" *ngFor="let trade of searchTradeData">
                         <input class="form-check-input" (change)="addToNewUserTraining($event)" type="checkbox"
-                          [value]="trade.tardeId" id="flexCheckDefault">
+                          [value]="trade.tardeId" id="flexCheckDefault" [checked]="newUserTrainingTrde.includes(trade.tardeId)">
                         <label class="form-check-label" for="flexCheckDefault">
                           {{trade.tradeName}}
                         </label>
