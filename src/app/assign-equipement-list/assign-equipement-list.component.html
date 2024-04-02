@@ -18,7 +18,7 @@
 
             <div class="modal fade" [id]="'sendPolicy'" tabindex="-1" role="dialog"
               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Send Policy</h5>
@@ -27,10 +27,30 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <select id="policyMailSelect" class="form-control">
-                      <option>Select user</option>
-                      <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}</option>
-                    </select>
+
+                    <div class="form-group">
+                      <label>Select User:</label>
+                      <select id="policyMailSelect" class="form-control">
+                        <option>Select User</option>
+                        <option *ngFor="let user of users" [value]="user.userId">{{user.userFullName}}</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Email: </label>
+                      <input type="email" id="email" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                      <label>CC Mail: </label>
+                      <input type="email" id="cc_mail" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                      <label>Mail Body: </label>
+                      <textarea name="email_body" class="form-control" id="email_body" cols="30" rows="10"></textarea>
+                    </div>
+
                     <div class="modal-footer">
                       <button class="btn btn-sm btn-success" type="submit" (click)="sendPolicy()">
                         <span *ngIf="sendPolicyLoad" class="spinner-border spinner-border-sm" role="status"
@@ -101,7 +121,7 @@
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">
                         <span *ngIf="!equipment.assignTo" class="badge badge-primary" role="button" data-toggle="modal"
                           [attr.data-target]="'#trade-user-list-'+equipment.equipmentId">Assign</span>
-                        <span *ngIf="equipment.assignTo" class="badge badge-success">update</span>
+                        <span *ngIf="equipment.assignTo" class="badge badge-success">Assigned</span>
                       </td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.dateOfAssign}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">
@@ -113,7 +133,7 @@
                             </span>
                           </button>
                           <button type="text" data-toggle="modal"
-                          [attr.data-target]="'#deactivate'+equipment.equipmentId">
+                            [attr.data-target]="'#deactivate'+equipment.equipmentId">
                             <span class="edit-tessst">
                               <i class="lar la-trash-alt"></i>
                             </span>
@@ -121,7 +141,7 @@
 
                           <div class="modal fade" [id]="'deactivate'+equipment.equipmentId" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
                                   <h5 class="modal-title" id="exampleModalLongTitle">Deactivate:</h5>
@@ -135,7 +155,8 @@
                                   <input class="form-control" [id]="'deactivateRemark'+equipment.equipmentId">
                                 </div>
                                 <div class="row d-flex justify-content-end mx-3 modal-footer">
-                                  <button class="btn btn-sm btn-danger" (click)="deActivate(equipment.equipmentId)">
+                                  <button class="btn btn-danger deactivate_btn"
+                                    (click)="deActivate(equipment.equipmentId)">
                                     <span *ngIf="deActivateLoad" class="spinner-border spinner-border-sm"
                                       aria-hidden="true"></span>
                                     <span *ngIf="!deActivateLoad">Deactivate</span>
@@ -153,7 +174,7 @@
                           *ngIf="equipment.assignTo">Return</span>
                         <div class="modal fade" [id]="'returnEq'+equipment.equipmentId" tabindex="-1" role="dialog"
                           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLongTitle">Return Equipment:</h5>
@@ -197,7 +218,7 @@
 
                       <div class="modal fade" [id]="'trade-user-list-'+equipment.equipmentId" tabindex="-1"
                         role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 class="modal-title" id="exampleModalLongTitle">Assign Asset</h5>
@@ -264,7 +285,8 @@
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assetSerialNo}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.remark}}</td>
                       <td>
-                        <span class="badge badge-warning">Restore</span>
+                        <span class="badge badge-warning" role="button"
+                          (click)="restore(equipment.equipmentId)">Restore</span>
                       </td>
 
                     </tr>

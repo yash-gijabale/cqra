@@ -5,6 +5,7 @@ import { Subject } from "rxjs";
 import { Router } from '@angular/router';
 import { EquipmentView } from '../add-equipment/add-equipment.component';
 import { UserView } from '../user-equipment/user-equipment.component';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-assign-equipement-list',
@@ -94,7 +95,6 @@ export class AssignEquipementListComponent implements OnInit {
         this.deActivateLoad = false
         // location.reload()
         this.getAllEquipment()
-
       })
   }
 
@@ -121,10 +121,37 @@ export class AssignEquipementListComponent implements OnInit {
       })
   }
 
+  // sendPolicyLoad: boolean = false
+  // sendPolicy() {
+  //   this.sendPolicyLoad = true
+  //   let userId = document.querySelector('#policyMailSelect') as HTMLInputElement
+  //   this.userService.sendPolicyMain(userId.value)
+  //     .subscribe(data => {
+  //       console.log(data)
+  //       if (data) {
+  //         this.showSnackBar('Email send successfully')
+  //       } else {
+  //         this.showSnackBar('Something wrong')
+  //       }
+  //       this.sendPolicyLoad = false
+  //     })
+
+  // }
+
   sendPolicyLoad: boolean = false
   sendPolicy() {
     this.sendPolicyLoad = true
     let userId = document.querySelector('#policyMailSelect') as HTMLInputElement
+    let email = document.querySelector('#email') as HTMLInputElement
+    let cc_mail = document.querySelector('#cc_mail') as HTMLInputElement
+    let email_body = document.querySelector('#email_body') as HTMLInputElement
+    console.log(userId)
+    let data ={
+      Email :email.value,
+      CC_mail:cc_mail.value,
+      Email_body:email_body.value
+    }
+    console.log(data)
     this.userService.sendPolicyMain(userId.value)
       .subscribe(data => {
         console.log(data)
@@ -187,4 +214,28 @@ export class AssignEquipementListComponent implements OnInit {
     // }
 
   }
+
+  restore(equipmentId){
+    const confirmed = confirm("Are You sure to Restore this equipment?");
+    this.deActivateEquipment
+    if(confirmed){
+      const equipmentToRestore = this.deActivateEquipment.find(eq => eq.equipmentId === equipmentId);
+    if (equipmentToRestore) {
+      equipmentToRestore.status = true;
+    //   console.log(`Equipment with ID ${equipmentId} restored.`);
+    // } else {
+    //   console.log(`Equipment with ID ${equipmentId} not found in deActivateEquipment.`);
+    // }
+    // let remark = document.querySelector(`#deactivateRemark${equipmentId}`) as HTMLInputElement
+      this.userService.deleteAssignEqiopment(equipmentId, true, { remark: '' })
+        .subscribe(data => {
+          console.log('Equipment Restored', data)
+          // location.reload()
+          this.getAllEquipment()
+        })
+      }
+    }
+  }
 }
+
+
