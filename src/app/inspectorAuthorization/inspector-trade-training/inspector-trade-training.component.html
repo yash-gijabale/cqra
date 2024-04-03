@@ -194,34 +194,35 @@
                     </div>
                   </ng-template>
                   <ng-template #elseUserDetails>
-                    <table class="row-border hover inspector_list_table inspector_list_details_table"
+                    <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover inspector_list_table inspector_list_details_table"
                       style="width:100%">
                       <thead>
                         <tr>
                           <th>Sr no</th>
                           <th style="width: 25%;">Trade</th>
-                          <th>Traning Attch</th>
+                          <th style="width: 9%;">Traning Attch</th>
                           <th>Date</th>
                           <th>Question Attch</th>
                           <th style="width: 9%;">Marks</th>
                           <th>Report1</th>
                           <th>Report2</th>
                           <th>Report3</th>
+                          <th>Status</th>
                           <th>Approve</th>
                         </tr>
                       </thead>
                       <tbody>
                         <!-- {{let count = 0}} -->
                         <tr *ngFor="let data of usertradeDetailsData.trades | keyvalue">
-                          <td>{{data.key}}</td>
+                          <td>{{data.value.srNo}}</td>
                           <td style="width: 25%;" class="pl-2">
                             <span class="row mb-2 ml-2">{{data.value.tradeName}}</span>
                           </td>
                           <td>
-                            <div class="traning_upload row d-flex p-2">
+                            <div class="traning_upload row d-flex p-2" style="display: flex;flex-direction: column;">
                               <!-- <label for="inputField" class="badge bg-secondary text-light m-0">Choosed file</label>
                               <input type="file" id="inputField" (change)="getFile($event)" style="display: none;"> -->
-                              <input type="file" id="inputField" (change)="getFile($event)">
+                              <input type="file" id="inputField" style="width: 100%;" (change)="getFile($event)">
                               <span class="badge bg-success text-light" role="button">Upload</span>
                             </div>
                             <span *ngIf="data.value.trainingAttachment"
@@ -252,7 +253,7 @@
                           <td>
                             <div
                               *ngIf="data.value.qStatus!==0 && data.value.passorfail === null || data.value.passorfail == -1"
-                              class="traning_upload row d-flex p-2">
+                              class="traning_q row d-flex p-2">
 
                               <span *ngIf="data.value.qStatus===2" class="badge bg-secondary text-light" role="button"
                                 data-toggle="modal" data-target="#question-answer-modal"
@@ -266,7 +267,7 @@
 
                             </div>
 
-                            <div *ngIf="data.value.passorfail != null" class="traning_upload row d-flex p-2">
+                            <div *ngIf="data.value.passorfail != null" class="traning_q row d-flex p-2">
 
                               <span *ngIf="data.value.passorfail===0" class="badge bg-danger text-light">
                                 Fail
@@ -292,13 +293,12 @@
 
                           <td>
                             <input type="text" style="width: 50%;" (input)="getMark($event)" [value]="data.value.marks">
-                            <span class="badge bg-warning text-dark mx-2 border border-dark" role="button"
+                            <!-- <span class="badge bg-warning text-dark mx-2 border border-dark" role="button"
                               (click)="updateMark(usertradeDetailsData.userId, data.value.tradeId)">
                               <div *ngIf="markLoader" class="spinner-border badge-spinner text-dark" role="status">
-                                <!-- <span class="visually-hidden">Loading...</span> -->
                               </div>
                               <span *ngIf="!markLoader">Save</span>
-                            </span>
+                            </span> -->
 
                           </td>
 
@@ -315,12 +315,17 @@
                           <td>
                             <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
                             <span class="badge bg-success text-light">Approve</span>
+                          </td>
+
+                          <td>
+                            <span *ngIf="data.value.status == 0 || data.value.status==null" class="badge bg-danger text-light">Not Approved</span>
+                            <span *ngIf="data.value.status == 1" class="badge bg-success text-light">Approved</span>
                           </td>
                           <td>
                             <button class="badge bg-primary text-light border-none"><i
-                                class="las la-check"></i></button>
+                                class="las la-check" (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 1)"></i></button>
                             <button class="badge bg-danger text-light border-none mx-2"><i
-                                class="las la-times"></i></button>
+                                class="las la-times" (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 0)"></i></button>
                           </td>
                         </tr>
 

@@ -19,12 +19,16 @@ export class InspectorDeclarationComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
+  dtElement2: DataTableDirective;
+  dtOptions2: DataTables.Settings = {};
+  dtTrigger2: Subject<any> = new Subject<any>();
+
   SelUserId: String
   products: ProjectView[]
   isProjectLoad: boolean = false
   userList = []
 
-  projectSearchData : ProjectView[]
+  projectSearchData: ProjectView[]
 
   declarationUserList = []
 
@@ -44,6 +48,12 @@ export class InspectorDeclarationComponent implements OnInit {
       responsive: true,
     };
 
+    this.dtOptions2 = {
+      pagingType: "full_numbers",
+      pageLength: 10,
+      lengthMenu: [10, 25, 50],
+      responsive: true,
+    };
 
     this.inspectionTraining.getTrainingApprovedUser()
       .subscribe(data => {
@@ -70,6 +80,14 @@ export class InspectorDeclarationComponent implements OnInit {
             return item
           }
         })
+        let srNo = 0
+        list = list.map(user =>{
+          srNo += 1
+          return {
+            srNo: srNo,
+            ...user
+          }
+        })
         this.declarationUserList = list
         console.log(this.declarationUserList)
         this.dtTrigger.next()
@@ -77,11 +95,11 @@ export class InspectorDeclarationComponent implements OnInit {
   }
 
 
-  searchProjcets(e){
-    let filteredPprojcet = this.projectSearchData.filter(project =>{
-        if(project.projectName.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())){
-          return project
-        }
+  searchProjcets(e) {
+    let filteredPprojcet = this.projectSearchData.filter(project => {
+      if (project.projectName.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())) {
+        return project
+      }
     })
 
     this.products = filteredPprojcet
@@ -167,16 +185,55 @@ export class InspectorDeclarationComponent implements OnInit {
     this.userDetailsLoad = true
     this.inspectionTraining.getUserDeclarationDetails(userId)
       .subscribe(data => {
-        console.log(data)
-        this.userDeclaration = data
+        let srNo = 0
+        this.userDeclaration = data.map(d => {
+          srNo += 1
+          return {
+            ...d,
+            srNo: srNo,
+            trainingDate: new Date(d.trainingDate).toISOString().substring(0, 10),
+          }
+        })
+        console.log(this.userDeclaration)
         this.userDetailsLoad = false
+        this.dtTrigger2.next()
       })
   }
 
   approvedProjectData = {}
-  addToApproveProject(projectId, status) {
-    this.approvedProjectData[projectId] = status
-    console.log(this.approvedProjectData)
+  approveLoad: boolean = false
+  declineLoad: boolean = false
+  addToApproveProject(projectId, status, userId) {
+    let isComfirm;
+    if (status === 1) {
+      isComfirm = confirm('Are you sure want to approve this project')
+      if (isComfirm) {
+        this.approveLoad = true
+      }
+    } else if (status === 2) {
+      isComfirm = confirm('Are you sure want to decline this project')
+      if (isComfirm) {
+        this.declineLoad = true
+      }
+
+    }
+    if (isComfirm) {
+      this.approvedProjectData[projectId] = status
+      console.log(this.approvedProjectData)
+      let data = {
+        dtmStatus: Number(status)
+      }
+
+      this.inspectionTraining.updateDtmStatus(projectId, userId, data)
+        .subscribe(data => {
+          console.log('updated status', data)
+          this.declineLoad = false
+          this.approveLoad = false
+          this.getUserDetails(userId)
+
+        })
+
+    }
   }
 
   submitDTMStatus() {
@@ -196,20 +253,32 @@ export class InspectorDeclarationComponent implements OnInit {
         }
 
         return data
-      }else{
+      } else {
         return item
       }
 
-      
+
     })
     console.log(newData)
-    
+
     this.inspectionTraining.submitDeclarationForm(newData)
-    .subscribe(data =>{
-      console.log('declaration updated', data)
-    })
+      .subscribe(data => {
+        console.log('declaration updated', data)
+      })
 
   }
 
+  preAllocatedProjects = {}
+  getUSerProjects() {
+    this.inspectionTraining.getUserDeclarationDetails(this.SelUserId)
+    .subscribe(data =>{
+      console.log(data)
+      data.forEach(d =>{
+        this.preAllocatedProjects[d.projectId] = true
+      })
+    })
   
+  }
+
+
 }

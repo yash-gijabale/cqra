@@ -130,7 +130,7 @@ export class CreateUserComponent implements OnInit {
       approverN: ['', Validators.nullValidator],
       reviewerN: ['', Validators.nullValidator],
       createrN: ['', Validators.nullValidator],
-      l0: ['', Validators.nullValidator],
+      // l0: ['', Validators.nullValidator],
       l1: ['', Validators.nullValidator],
       l2: ['', Validators.nullValidator],
       l3: ['', Validators.nullValidator],

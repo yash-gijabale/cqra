@@ -101,7 +101,10 @@ export class InspectorTrainingViewComponent implements OnInit {
     this.questionLoad = true
     this.inspectorService.getUserTradeQuestion(this.currentUser, tradeId)
       .subscribe(data => {
+        let srNo = 0
+        let a = data
         this.questionPaper = data
+        console.log(this.questionPaper)
         this.questionLoad = false
       })
   }
@@ -115,18 +118,25 @@ export class InspectorTrainingViewComponent implements OnInit {
 
     this.ansSubmitLoad = true
     let ansFinalData = []
-    ansData.forEach(ans => {
-      let data = {
-        userId: this.currentUser,
-        tradeId: this.currentTrade,
-        questionId: (<HTMLTextAreaElement>ans).id,
-        answer: (<HTMLTextAreaElement>ans).value,
-        answeredDate: new Date().toISOString().slice(0, 10)
-      }
-      ansFinalData.push(data)
-    })
-
+    for (const key in this.questionPaper) {
+    let InstructionAns = document.querySelector(`#instruction${key}`) as HTMLInputElement
+    let impactAns = document.querySelector(`#impact${key}`) as HTMLInputElement
+    let rectificationAns = document.querySelector(`#rectification${key}`) as HTMLInputElement
+    let data = {
+      userId: this.currentUser,
+      tradeId: this.currentTrade,
+      questionId: key,
+      answer: InstructionAns.value,
+      answerImpact: impactAns.value,
+      answerRectification: rectificationAns.value,
+      answeredDate: new Date().toISOString().slice(0, 10)
+    }
+    ansFinalData.push(data)
+     
+    }
+   
     console.log(ansFinalData)
+    // return
     this.inspectorService.submitTradeAnswer(this.currentUser, this.currentTrade, ansFinalData)
       .subscribe(data => {
         console.log('Question submitted-->', data)

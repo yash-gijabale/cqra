@@ -47,6 +47,7 @@ export class EquipmentView {
     public remark: string,
     public dateOfCalibration: string,
     public assignTo: number,
+    public assignedBy:number,
     public dateOfAssign: string,
     public status: boolean,
     public eImage: string,
@@ -107,6 +108,7 @@ export class AddEquipmentComponent implements OnInit {
       assetSerialNo: ['', Validators.nullValidator],
       dateOfCalibration: ['', Validators.required],
       assignTo: ['', Validators.required],
+      assignedBy:['',Validators.required],
       cost: ['', Validators.required],
       // dateOfAssign: ['', Validators.required],
     })
