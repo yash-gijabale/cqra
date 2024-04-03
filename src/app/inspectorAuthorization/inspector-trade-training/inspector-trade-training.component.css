@@ -97,11 +97,23 @@
 .traning_upload{
     width: auto;
     display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap;
+
+}
+
+.traning_q{
+    width: auto;
+    display: flex !important;
     flex-direction: row !important;
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
 
+}
+
+.traning_q span{
+    width: 70% !important;
 }
 .traning_upload input::file-selector-button{
     width: 40px !important;

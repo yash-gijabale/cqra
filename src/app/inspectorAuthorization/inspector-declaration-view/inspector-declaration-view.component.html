@@ -15,11 +15,10 @@
       </div>
 
       <div class="main-view">
-        <h4>{{userDetails[0] ? userDetails[0].username : ''}}</h4>
+        <h4>{{userData.userFullName}}</h4>
 
         <div class="inspector-list mt-5">
-          <table id="customers"
-            class="row-border hover inspector_list_table" style="width:100%">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover inspector_list_table" style="width:100%">
             <thead>
               <tr>
                 <th>Sr no</th>
@@ -32,22 +31,22 @@
             </thead>
             <tbody>
               <tr *ngFor="let user of userDetails">
-                <td>1</td>
+                <td>{{user.srNo}}</td>
                 <td>{{user.projectName}}</td>
                 <td>
-                  <span *ngIf="user.userStatus == null" class="badge badge-primary">New</span>
+                  <span *ngIf="user.userStatus == null || user.userStatus == 0" class="badge badge-primary">New</span>
                   <span *ngIf="user.userStatus == 1" class="badge badge-success">Accepted</span>
-                  <span *ngIf="user.userStatus == 0" class="badge badge-danger">Declined</span>
+                  <span *ngIf="user.userStatus == 2" class="badge badge-danger">Declined</span>
                 </td>
                 <td>
-                  <span *ngIf="user.dtmStatus == null" class="badge badge-warning">Pending</span>
+                  <span *ngIf="user.dtmStatus == null || user.dtmStatus == 0" class="badge badge-warning">Pending</span>
                   <span *ngIf="user.dtmStatus == 1" class="badge badge-success">Accepted</span>
-                  <span *ngIf="user.dtmStatus == 0" class="badge badge-danger">Declined</span>
+                  <span *ngIf="user.dtmStatus == 2" class="badge badge-danger">Declined</span>
                 </td>
                 <td>{{user.trainingDate ? user.trainingDate : ''}}</td>
                 <td>
                   <button class="btn btn-sm btn-dark m-0" data-toggle="modal" data-target="#declaration-view"
-                    (click)="getUserDetails(user.userId)">View</button>
+                    (click)="getUserDetails(user.userId, user.projectId)">View</button>
                 </td>
               </tr>
             </tbody>
@@ -66,7 +65,7 @@
     <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Declaration (USer name)</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Declaration {{userData.userFullName}}</h5>
           <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -93,7 +92,7 @@
                 </div>
 
                 <div class="form-heading mt-2">
-                  <h5>User Name: {{userDeclaration[0] ? userDeclaration[0].username : ''}}</h5>
+                  <h5>User Name: {{userData.userFullName}}</h5>
                 </div>
 
                 <div class="mt-2">
@@ -137,11 +136,25 @@
                       <td>{{userDetail.projectName}}</td>
                       <td>
                         <div>
-                          <span class="badge badge-secondary mx-1" [title]="1" role="button"
+
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" [title]="1"
+                              id="inlineRadio1" value="option1"
+                              (change)="toggleComment(userDetail.projectId,'show', $event)">
+                            <label class="form-check-label" for="inlineRadio1">Accept</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" [title]="2"
+                              id="inlineRadio2" value="option2"
+                              (change)="toggleComment(userDetail.projectId,'show', $event)">
+                            <label class="form-check-label" for="inlineRadio2">Decline</label>
+                          </div>
+
+                          <!-- <span class="badge badge-secondary mx-1" [title]="1" role="button"
                             (click)="toggleComment(userDetail.projectId,'show', $event)">Accept</span>
 
-                          <span class="badge badge-secondary mx-1" [title]="0" role="button"
-                            (click)="toggleComment(userDetail.projectId,'show', $event)">Decline</span>
+                          <span class="badge badge-secondary mx-1" [title]="2" role="button"
+                            (click)="toggleComment(userDetail.projectId,'show', $event)">Decline</span> -->
 
                           <div [class]="'comment-box comment-box-hide comment-box-'+userDetail.projectId">
                             <input type="text" [class]="'comment-'+userDetail.projectId" placeholder="comment..">
@@ -150,9 +163,11 @@
                           </div>
                         </div>
                       </td>
-                      <td>@mdo</td>
+                      <td>
+                        <img [src]="userData.sign" height="100px" width="100px" alt="Signature">
+                      </td>
                     </tr>
-                    
+
                   </tbody>
                 </table>
 
@@ -179,7 +194,10 @@
           </div>
         </ng-template>
         <div class="modal-footer">
-          <button class="btn btn-sm btn-success" (click)="submitDeclarationFromInspector()">Save</button>
+          <button class="btn btn-sm btn-success" (click)="submitDeclarationFromInspector()">
+            <div *ngIf="declarationLoad" class="spinner-border spinner-border-sm" role="status"></div>
+            <span  *ngIf="!declarationLoad">Save</span>
+          </button>
         </div>
       </div>
     </div>

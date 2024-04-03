@@ -124,14 +124,14 @@
                         <h5 class="mb-3">All Question Are Nessessory.</h5>
                         <form>
                           <div class="question-box" *ngFor="let question of questionPaper |keyvalue">
-                            <span>{{question.value}}</span>
-                            <textarea class="question-ans my-1" [id]="question.key" type="text" placeholder="Work Instructions"
+                            <span>{{question.srNo}}. {{question.value}}</span>
+                            <textarea class="question-ans my-1" [id]="'instruction'+question.key" type="text" placeholder="Work Instructions"
                               required></textarea>
 
-                            <textarea class="question-ans my-1" [id]="question.key" type="text" placeholder="Impact Of NC"
+                            <textarea class="question-ans my-1" [id]="'impact'+question.key" type="text" placeholder="Impact Of NC"
                               required></textarea>
 
-                            <textarea class="question-ans my-1" [id]="question.key" type="text" placeholder="NC Rectification"
+                            <textarea class="question-ans my-1" [id]="'rectification'+question.key" type="text" placeholder="NC Rectification"
                               required></textarea>
                           </div>
 

@@ -67,7 +67,7 @@ export class InspectorTraning {
   }
 
   getUserTradeQuestion(userId, tradeId) {
-    return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallbyuserandtradeid/${userId}/${tradeId}`)
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/mulispecttradetraining/getallbyuserandtradeid/${userId}/${tradeId}`)
   }
   submitTradeAnswer(userId, tradeId, data): Observable<InspectorTraning> {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/mulispecttradetraining/addanswerstoque/${userId}/${tradeId}`, data)
@@ -80,6 +80,10 @@ export class InspectorTraning {
     return this.httpClient.put<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/updatestatus`, data)
   }
 
+  updateUserTradeStatus(userId, tradeId, status){
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updateuserapprover/${userId}/${tradeId}/${status}`,'')
+
+  }
 
   //INSPECTION DECLARATION
   getTrainingApprovedUser() {
@@ -108,6 +112,14 @@ export class InspectorTraning {
     return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserproject`, data)
   }
 
+  updateDtmStatus(projectId, UserId, data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserprojectdtmstatus/${UserId}/${projectId}`, data)
+  }
+
+  getUserDeclarationByuserAndProject(userId, projectId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getallbyuserandpid/${userId}/${projectId}`)
+
+  }
 
 
   //SNAPAUDIT PRE PROCCESS SERVICES

@@ -9,7 +9,7 @@
             <li class="breadcrumb-item">
               <a href="#">Home homrr</a>
             </li>
-            <li class="breadcrumb-item active">Inspector Declaration1 343</li>
+            <li class="breadcrumb-item active">Inspector Declaration</li>
           </ol>
         </div>
       </div>
@@ -20,7 +20,7 @@
         <div class="new-inspector row mt-5">
           <div class="form-group col-md-3">
             <label>New User: </label>
-            <select [(ngModel)]="SelUserId" class="form-control col-md-12">
+            <select [(ngModel)]="SelUserId" class="form-control col-md-12"  (change)="getUSerProjects()">
               <option [value]="1">Select user</option>
               <option [value]="user.id" *ngFor="let user of userList">{{user.userFullName}}</option>
             </select>
@@ -54,7 +54,9 @@
                       </div>
                       <div class="form-check col-md-12" *ngFor="let project of products">
                         <input class="form-check-input" (change)="addToProjectList($event)" type="checkbox"
-                          [value]="project.projectId" id="flexCheckDefault" [checked]="assignProjectList.includes(project.projectId)">
+                          [value]="project.projectId" id="flexCheckDefault"
+                          [checked]="assignProjectList.includes(project.projectId)"
+                          [disabled]="preAllocatedProjects[project.projectId]">
                         <label class="form-check-label" for="flexCheckDefault">
                           {{project.projectName}}
                         </label>
@@ -78,22 +80,22 @@
               <tr>
                 <th>Sr no</th>
                 <th>User Name</th>
-                <th>Status</th>
-                <th>Date</th>
+                <!-- <th>Status</th>
+                <th>Date</th> -->
                 <th>Declaration</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let user of declarationUserList">
-                <td>1</td>
+                <td>{{user.srNo}}</td>
                 <td>{{user.username ? user.username : ''}}</td>
-                <td>
+                <!-- <td>
                   <span class="badge badge-primary">New</span>
                 </td>
-                <td>{{user.trainingDate ? user.trainingDate : 'not specified'}}</td>
+                <td>{{user.trainingDate ? user.trainingDate : 'not specified'}}</td> -->
                 <td>
                   <button class="btn btn-sm btn-dark m-0" data-toggle="modal" data-target="#declaration-view"
-                    (click)="getUserDetails(user.userId)">View D</button>
+                    (click)="getUserDetails(user.userId)">Details</button>
                 </td>
               </tr>
             </tbody>
@@ -119,7 +121,7 @@
         </div>
         <div class="modal-body modal-full-body">
 
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
+          <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" id="customers"
             class="row-border hover inspector_list_table" style="width:100%">
             <thead>
               <tr>
@@ -129,12 +131,13 @@
                 <th>User Status</th>
                 <th>Comment</th>
                 <th>Date</th>
+                <th>Status</th>
                 <th>Approve</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let user of userDeclaration">
-                <td>1</td>
+                <td>{{user.srNo}}</td>
                 <td>
                   {{user.clientName}}
                 </td>
@@ -143,7 +146,8 @@
                 </td>
                 <td>
                   <span class="badge badge-success" *ngIf="user.userStatus == 1">Accepted</span>
-                  <span class="badge badge-danger" *ngIf="user.userStatus == 0">Declined</span>
+                  <span class="badge badge-danger" *ngIf="user.userStatus == 2">Declined</span>
+                  <span class="badge badge-warning" *ngIf="user.userStatus == null || user.userStatus == 0">Pending</span>
                 </td>
                 <td>
                   {{user.comment}}
@@ -151,16 +155,25 @@
                 <td>{{user.trainingDate ? user.trainingDate: 'not specified'}}</td>
 
                 <td>
-                  <div *ngIf="user.dtmStatus === null">
-                    <span class="badge badge-success" (click)="addToApproveProject(user.projectId, 1)"
-                      role="button">Approve</span>
-                    <span class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2)"
-                      role="button">Decline</span>
-                  </div>
                   <div *ngIf="user.dtmStatus != null">
-                    <span class="badge badge-success" *ngIf="user.dtmStatus == 1">User Approved</span>
-                    <span class="badge badge-danger" *ngIf="user.dtmStatus == 0">User Not Approved</span>
+                    <span class="badge badge-success" *ngIf="user.dtmStatus == 1">Approved</span>
+                    <span class="badge badge-danger" *ngIf="user.dtmStatus == 2">Declined</span>
                   </div>
+                  <div *ngIf="user.dtmStatus == null || user.dtmStatus == 0">
+                    <span class="badge badge-warning">Pending</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge badge-success" (click)="addToApproveProject(user.projectId, 1, user.userId)"
+                    role="button">
+                    <div *ngIf="approveLoad" class="spinner-border spinner-border-sm" role="status"></div>
+                    <span *ngIf="!approveLoad">Approve</span>
+                  </span>
+                  <span class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2, user.userId)"
+                    role="button">
+                    <div *ngIf="declineLoad" class="spinner-border spinner-border-sm" role="status"></div>
+                    <span *ngIf="!declineLoad" >Decline</span>
+                  </span>
                 </td>
               </tr>
             </tbody>

@@ -23,6 +23,10 @@ export class InspectorTradeTrainingComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
+  dtElement2: DataTableDirective;
+  dtOptions2: DataTables.Settings = {};
+  dtTrigger2: Subject<any> = new Subject<any>();
+
   tradeData: Trade[] = []
   searchTradeData = []
   users: UserView[]
@@ -45,6 +49,14 @@ export class InspectorTradeTrainingComponent implements OnInit {
   ngOnInit() {
 
     this.dtOptions = {
+      pagingType: "full_numbers",
+      pageLength: 10,
+      lengthMenu: [10, 25, 50],
+      responsive: true,
+      scrollX: true
+    };
+
+    this.dtOptions2 = {
       pagingType: "full_numbers",
       pageLength: 10,
       lengthMenu: [10, 25, 50],
@@ -94,8 +106,9 @@ export class InspectorTradeTrainingComponent implements OnInit {
           marks: item.marks,
           qStatus: item.status ? item.status : 0,
           passorfail: item.passorfail,
-          trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false
-
+          trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false,
+          userApprover: item.userApprover,
+          status: item.status
 
         })
         srNo2++
@@ -199,6 +212,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
         this.usertradeDetailsData = generatedData[userId]
         console.log(this.usertradeDetailsData)
         this.userDetailsLoad = false
+        this.dtTrigger2.next()
 
       })
   }
@@ -419,6 +433,23 @@ export class InspectorTradeTrainingComponent implements OnInit {
     }else{
       return 0
     }
+  }
+
+
+  updateTradeStatus(userId, tradeId, status){
+    let isConfirm;
+    if(status == 0){
+      isConfirm = confirm('Are you sure want to deactivate this trade !')
+    }
+    if(status == 1){
+      isConfirm = confirm('Are you sure want to activate this trade !')
+    }
+
+    console.log(userId, tradeId, status)
+    this.inspectionTraining.updateUserTradeStatus(userId, tradeId, status)
+    .subscribe(data =>{
+      console.log('status updated', data)
+    })
   }
 
 
