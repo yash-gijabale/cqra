@@ -43,7 +43,14 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
     this.inspectionTraining.getUserEquipmentList(this.userId)
       .subscribe(data => {
         console.log(data)
-        this.equipementList = data
+        let srNo = 0
+        this.equipementList = data.map(d =>{
+          srNo += 1
+          return {
+            ...d,
+            srNo
+          }
+        })
       })
 
     this.inspectionTraining.getMasterIdsByUserId(this.userId)
@@ -74,7 +81,7 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
         this.masterData.fromDate = new Date(this.masterData.fromDate).toISOString().substring(0, 10)
         this.masterData.toDate = new Date(this.masterData.toDate).toISOString().substring(0, 10)
 
-        this.inspectionTraining.getEquipmentForm(this.masterID)
+        this.inspectionTraining.getEquipmentForm(this.masterID, this.userId)
           .subscribe(data => {
             console.log('pre', data)
             if (data.length) {
@@ -155,7 +162,7 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
     console.log(formData)
 
     if (this.isEquipementFormdata) {
-      this.inspectionTraining.updateEquipementForm(this.masterID, formData)
+      this.inspectionTraining.updateEquipementForm(this.masterID, this.userId, formData)
         .subscribe(data => {
           console.log('updasha', data)
           this.submitLoad = false

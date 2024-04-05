@@ -461,7 +461,7 @@ export class CreateSamplingComponent implements OnInit {
     })
     console.log(this.tradeIds)
     this.tradeIds.forEach((item) => {
-      let statusValue = document.querySelector(`.tradeStatusSelect_${item}`)
+      // let statusValue = document.querySelector(`.tradeStatusSelect_${item}`)
       // console.log()
       let workAreaWithName = []
       this.workArea[item] && this.workArea[item].forEach(stage => {
@@ -477,7 +477,7 @@ export class CreateSamplingComponent implements OnInit {
         structureId: this.SelStructure,
         masterId: this.masterData.masterId,
         tradeId: item,
-        status: (<HTMLSelectElement>statusValue).value,
+        // status: (<HTMLSelectElement>statusValue).value,
         workAreaWithName
       }
 
@@ -554,9 +554,78 @@ export class CreateSamplingComponent implements OnInit {
     }
   }
 
+  //03-04-2024 changes by yg
+  completedStages = {}
+  addCompletedStages(e, tradeId, stageId) {
+    if (e.target.value == 1) {
+      if (this.completedStages[tradeId]) {
+        let isExist = this.completedStages[tradeId].find(stage => {
+          return stage == stageId ? true : false
+        })
+        if (!isExist) {
+          this.completedStages[tradeId].push(Number(stageId))
+        }
+
+      } else {
+        this.completedStages[tradeId] = []
+        this.completedStages[tradeId].push(Number(stageId))
+      }
+    } else {
+      if (this.completedStages[tradeId]) {
+        this.completedStages[tradeId] = this.completedStages[tradeId].filter(stage => {
+          return stage != stageId
+        })
+      }
+    }
+
+    console.log(this.completedStages)
+  }
+
+
+  contractorAssignedStages = {}
+  getAssignStagesByContractor(tradeId, contractorId) {
+    if (!this.contractorAssignedStages[contractorId]) {
+      this.contractorAssignedStages[contractorId] = {}
+      if (!this.contractorAssignedStages[contractorId][tradeId]) {
+        this.contractorAssignedStages[contractorId][tradeId] = []
+        this.getAssignedStages(contractorId, tradeId)
+      }
+
+    }else{
+      if (!this.contractorAssignedStages[contractorId][tradeId]) {
+        this.contractorAssignedStages[contractorId][tradeId] = []
+        this.getAssignedStages(contractorId, tradeId)
+      }
+    }
+
+  }
+
+  getAssignedStages(contractorId, tradeId){
+    this.clientService.getContratorAssignedStages(this.SelProject, this.SelStructure, contractorId, tradeId)
+          .subscribe(data => {
+            this.contractorAssignedStages[contractorId][tradeId] = data
+            if (!this.step2workArea[tradeId]) {
+              this.step2workArea[tradeId] = {}
+            }
+            if (!this.step2workArea[tradeId].hasOwnProperty(contractorId)) {
+              this.step2workArea[tradeId][contractorId] = []
+            }
+
+            data.forEach(stage => {
+              if (this.completedStages[tradeId].includes(stage)) {
+                this.step2workArea[tradeId][contractorId].push(stage)
+              }
+
+            })
+
+            console.log(this.contractorAssignedStages)
+            console.log(this.step2workArea)
+          })
+  }
 
   generateDataForStep2(step1Data) {
     this.step2formRenderData
+    console.log(step1Data)
     step1Data.forEach(data => {
       if (data.status != 'notStarted' && data.status != 'na') {
         this.step2StatusData[data.tradeId] = {
@@ -574,7 +643,7 @@ export class CreateSamplingComponent implements OnInit {
 
       this.step2formRenderData[key] = []
       for (const trade of this.testTrade[key]) {
-        if (this.step2StatusData[trade.tradeId]) {
+        if (this.completedStages[trade.tradeId]) {
           this.step2formRenderData[key].push({
             tradeId: trade.tradeId,
             tradeNane: trade.tradeNane
@@ -601,7 +670,7 @@ export class CreateSamplingComponent implements OnInit {
     if (this.samplingType != 1) {
 
       this.tradeIds.forEach((item) => {
-        let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
+        // let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
         let contractorValue = document.querySelectorAll(`.step2ContractorSelect_${item}`)
         console.log(contractorValue)
         let staffValue = document.querySelector(`.step2StaffSelect_${item}`)
@@ -622,7 +691,7 @@ export class CreateSamplingComponent implements OnInit {
             structureId: this.SelStructure,
             masterId: this.masterData.masterId,
             tradeId: item,
-            status: (<HTMLSelectElement>statusValue).value,
+            // status: (<HTMLSelectElement>statusValue).value,
             contractorId: contractorId,
             contractor: contractorId,
             contractorName: (<HTMLSelectElement>contractor).value,
@@ -643,7 +712,7 @@ export class CreateSamplingComponent implements OnInit {
       })
     } else {
       this.tradeIds.forEach((item) => {
-        let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
+        // let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
         let contractorValue = document.querySelector(`.step2ContractorSelect_${item}`)
         let staffValue = document.querySelector(`.step2StaffSelect_${item}`)
         // console.log()
@@ -661,7 +730,7 @@ export class CreateSamplingComponent implements OnInit {
           structureId: this.SelStructure,
           masterId: this.masterData.masterId,
           tradeId: item,
-          status: (<HTMLSelectElement>statusValue).value,
+          // status: (<HTMLSelectElement>statusValue).value,
           contractorId: (<HTMLSelectElement>contractorValue).value,
           contractor: (<HTMLSelectElement>contractorValue).value,
           contractorName: (<HTMLSelectElement>contractorValue).title,

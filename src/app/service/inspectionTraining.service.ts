@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from 'src/config/Global';
+import { ApprovedTrade } from '../create-user-allocation/create-user-allocation.component';
 
 @Injectable({
   providedIn: 'root'
@@ -147,12 +148,12 @@ export class InspectorTraning {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/save`, data)
   }
 
-  getEquipmentForm(masterId) {
-    return this.httpClient.get<any>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/getallbymasterid/${masterId}`)
+  getEquipmentForm(masterId, userId) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/getallbymasterid/${masterId}/${userId}`)
   }
 
-  updateEquipementForm(masterId, data) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/update/${masterId}`, data)
+  updateEquipementForm(masterId, userId, data) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/update/${masterId}/${userId}`, data)
   }
 
   checkUserDeclarationForProject(userId, projectId) {
@@ -291,5 +292,11 @@ export class InspectorTraning {
 
   getAllFormStatus(masterId, userId){
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/SAInspectionFormStatus/getstaus/${masterId}/${userId}`)
+  }
+
+
+
+  getApprovedTradeByuserandProject(projectId, userId){
+    return this.httpClient.get<Array<ApprovedTrade>>(`${this.REST_API_SERVER}/mulispecttradetraining/getbyprojectidtradeswhicharepass/${projectId}/${userId}`)
   }
 }

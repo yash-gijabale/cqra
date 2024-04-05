@@ -120,8 +120,8 @@ export class PreSnapauditFromsComponent implements OnInit {
         // this.commonService.setMasterData(this.masterData) //setting master data for sampling sheet
         localStorage.setItem('mData', JSON.stringify(this.masterData))//setting master data for sampling sheet
 
-        this.masterData.fromDate = this.masterData.fromDate ?  new Date(this.masterData.fromDate).toISOString().substring(0, 10) : ''
-        this.masterData.toDate = this.masterData.toDate ?  new Date(this.masterData.toDate).toISOString().substring(0, 10) : ''
+        this.masterData.fromDate = this.masterData.fromDate ? new Date(this.masterData.fromDate).toISOString().substring(0, 10) : ''
+        this.masterData.toDate = this.masterData.toDate ? new Date(this.masterData.toDate).toISOString().substring(0, 10) : ''
         this.isLeader = this.masterData.leader ? true : false
       })
   }
@@ -303,28 +303,31 @@ export class PreSnapauditFromsComponent implements OnInit {
 
   rowOpeningClosingCount = 1
   addOpeningClosingRow() {
-    console.log('btn clicked');
-    this.rowOpeningClosingCount++;
-    let filed = `<tr id="row-${this.rowOpeningClosingCount}">
+
+    this.rowOpeningClosingCount++
+    // this
+    let filed = `<tr id="removeOpeningRow${this.rowOpeningClosingCount}">
                 <td class='text-center p-1 border border-secondary'>${this.rowOpeningClosingCount}</td>
                 <td><input type="text" class='opening_username form-control' id='${this.rowOpeningClosingCount}'></td>
                 <td><input type="text" id='opening_organization_${this.rowOpeningClosingCount}' class='form-control'></td>
                 <td><input type="text" id='designation_${this.rowOpeningClosingCount}' class='form-control'></td>
                 <td class='text-center p-1 border border-secondary'>
-                  <span class="badge badge-secondary" role="button">upload</span>
+                  <button class="btn btn-sm btn-danger" id="${this.rowOpeningClosingCount}" >Remove</button>
                 </td>
-                <td class='text-center p-1 border border-secondary'>
-                  <span class="badge badge-secondary" role="button">upload</span>
-                </td>
-                <td class='text-center p-1 border border-secondary'>
-                  <button class="btn btn-sm btn-danger">Remove</button>
-                </td>
-              </tr>`;
-    let areaFiled = <HTMLTableElement>document.getElementById('openingClosingFormTbody')
+
+              </tr>`
+    let areaFiled = <HTMLTableElement>document.querySelector('#openingClosingFormTable')
+    console.log(areaFiled)
     areaFiled.insertAdjacentHTML('beforeend', filed)
-    // console.log(filed)
+
+    let removeRow = <HTMLTableElement>document.querySelector(`#removeOpeningRow-${this.rowCount}`)
+    removeRow.addEventListener('click', (ev: Event) => this.removeOpeningClosingRow(ev))
   }
 
+  removeOpeningClosingRow(e) {
+    let row = document.querySelector(`#removeOpeningRow${e.target.id}`) as HTMLTableElement
+    row.remove()
+  }
 
   isOpeningClosingData = false
   openingClosingPreData = {}
@@ -336,7 +339,8 @@ export class PreSnapauditFromsComponent implements OnInit {
           this.openingClosingPreData['data'] = data[0]
           let srNo = 0
           this.openingClosingPreData['users'] = data[1].map(d => {
-            return { srNo: srNo + 1, ...d }
+            srNo += 1
+            return { srNo: srNo, ...d }
           })
           this.rowOpeningClosingCount = data[1].length
           console.log(this.openingClosingPreData)
@@ -440,22 +444,23 @@ export class PreSnapauditFromsComponent implements OnInit {
     let openingFile = document.querySelector('#opening_image') as HTMLInputElement
     let closingFile = document.querySelector('#closing_image') as HTMLInputElement
 
-    let data = {
+    let Imgdata = {
       openingImg: openingFile.files[0],
       closingImg: closingFile.files[0]
     }
-    if(openingFile.files[0] || closingFile.files[0]){
-      this.inspectionTraining.uploadOpeningClosingImage(this.currentMasterId, data )
-      .subscribe(data =>{
-        console.log('opning image uploade', data)
-      })
-    }
+
 
     if (this.isOpeningClosingData) {
       this.inspectionTraining.updateOpeningClosingFrom(this.currentMasterId, formData)
         .subscribe(data => {
           console.log('opening cloding upadted', data)
           this.submitOpeningCloseLoad = false
+          if (openingFile.files[0] || closingFile.files[0]) {
+            this.inspectionTraining.uploadOpeningClosingImage(this.currentMasterId, Imgdata)
+              .subscribe(img => {
+                console.log('opning image uploade', img)
+              })
+          }
 
         })
 
@@ -464,7 +469,12 @@ export class PreSnapauditFromsComponent implements OnInit {
         .subscribe(data => {
           console.log('opening meeting form aded', data)
           this.submitOpeningCloseLoad = false
-
+          if (openingFile.files[0] || closingFile.files[0]) {
+            this.inspectionTraining.uploadOpeningClosingImage(this.currentMasterId, Imgdata)
+              .subscribe(img => {
+                console.log('opning image uploade', img)
+              })
+          }
         })
     }
 
@@ -664,7 +674,11 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
   }
 
+  interReviewMeetingLoad: boolean = false
   submitInternalReviewMeeting() {
+
+
+    this.interReviewMeetingLoad = true
 
     let meetinglocation = document.querySelector('#meetingLocation') as HTMLInputElement
     let meetingDate = document.querySelector('#internalreview_date') as HTMLInputElement
@@ -718,12 +732,16 @@ export class PreSnapauditFromsComponent implements OnInit {
       this.inspectionTraining.updateInternalReviewForm(this.currentMasterId, formData)
         .subscribe(data => {
           console.log('updted internal', data)
+          this.interReviewMeetingLoad = false
+
         })
     } else {
 
       this.inspectionTraining.addInternalReviewForm(formData)
         .subscribe(data => {
           console.log('inter revirew added', data)
+          this.interReviewMeetingLoad = false
+
         })
     }
   }
@@ -772,64 +790,64 @@ export class PreSnapauditFromsComponent implements OnInit {
 
 
 
-  uploadEuipmentForm(){
+  uploadEuipmentForm() {
     let imageData = document.querySelector('#equipmentForm') as HTMLInputElement
-    let equipmentImge :File = imageData.files[0]
+    let equipmentImge: File = imageData.files[0]
     // console.log(equipmentImge)
-    this.inspectionTraining.uploadEquipmentMaintainenceForm(this.currentMasterId,equipmentImge)
-    .subscribe(data =>{
-      console.log('equipment upload', data)
-    })
+    this.inspectionTraining.uploadEquipmentMaintainenceForm(this.currentMasterId, equipmentImge)
+      .subscribe(data => {
+        console.log('equipment upload', data)
+      })
   }
 
-  uploadOpeningClosing(){
+  uploadOpeningClosing() {
     let imageData = document.querySelector('#openingClosingForm') as HTMLInputElement
-    let equipmentImge :File = imageData.files[0]
+    let equipmentImge: File = imageData.files[0]
     // console.log(equipmentImge)
-    this.inspectionTraining.uploadOpeningClosingForm(this.currentMasterId,  equipmentImge)
-    .subscribe(data =>{
-      console.log('OC form upload', data)
-    })
+    this.inspectionTraining.uploadOpeningClosingForm(this.currentMasterId, equipmentImge)
+      .subscribe(data => {
+        console.log('OC form upload', data)
+      })
   }
 
-  uploadInternalReviewForm(){
+  uploadInternalReviewForm() {
     let imageData = document.querySelector('#internalReviewFrom') as HTMLInputElement
-    let Imge :File = imageData.files[0]
+    let Imge: File = imageData.files[0]
     // console.log(equipmentImge)
-    this.inspectionTraining.uploadInternalReviewForm(this.currentMasterId,  Imge)
-    .subscribe(data =>{
-      console.log('internal review form upload', data)
-    })
+    this.inspectionTraining.uploadInternalReviewForm(this.currentMasterId, Imge)
+      .subscribe(data => {
+        console.log('internal review form upload', data)
+      })
   }
 
-  uploadSupervisorFrom(){
+  uploadSupervisorFrom() {
     let imageData = document.querySelector('#supervisorForm') as HTMLInputElement
-    let Imge :File = imageData.files[0]
+    let Imge: File = imageData.files[0]
     // console.log(equipmentImge)
-    this.inspectionTraining.uploadSuperVisorL1L2form(this.currentMasterId,  Imge)
-    .subscribe(data =>{
-      console.log('supervisor l1 form upload', data)
-    })
+    this.inspectionTraining.uploadSuperVisorL1L2form(this.currentMasterId, Imge)
+      .subscribe(data => {
+        console.log('supervisor l1 form upload', data)
+      })
   }
 
-  uploadPerformanceForm(){
+  uploadPerformanceForm() {
     let imageData = document.querySelector('#performanceForm') as HTMLInputElement
-    let Imge :File = imageData.files[0]
+    let Imge: File = imageData.files[0]
     // console.log(equipmentImge)
-    this.inspectionTraining.uploadPerformanceForm(this.currentMasterId,  Imge)
-    .subscribe(data =>{
-      console.log('performance from form upload', data)
-    })
+    this.inspectionTraining.uploadPerformanceForm(this.currentMasterId, Imge)
+      .subscribe(data => {
+        console.log('performance from form upload', data)
+      })
   }
 
 
-  formStatus:any = {}
-  getAllFormDataForCheck(masterId){
+  formStatus: any = {}
+  getAllFormDataForCheck(masterId) {
     this.inspectionTraining.getAllFormStatus(masterId, this.userId)
-    .subscribe(data =>{
-      console.log(data)
-      this.formStatus = data
-    })
+      .subscribe(data => {
+        console.log(data)
+        this.formStatus = data
+      })
   }
 
 
