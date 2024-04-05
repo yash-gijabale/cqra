@@ -29,7 +29,7 @@
           <div class="form-group col-md-6">
             <label>User</label>
             <select [(ngModel)]="SelUser" formControlName="userId" class="form-control" (change)="getProjectByuser()">
-              <option [value]="o.userId" *ngFor="let o of users">
+              <option [value]="o.userId" *ngFor="let o of userList">
                 {{o.userFullName}}
               </option>
             </select>
@@ -66,7 +66,7 @@
           <div class="form-group col-md-6">
             <label>Trade Name</label>
             <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()">
-              <option [value]="o.fkTradeId" *ngFor="let o of trades">
+              <option [value]="o.tradeId"*ngFor="let o of approvedTrades">
                 {{o.tradeName}}
               </option>
             </select>

@@ -27,7 +27,11 @@ thead, th, tr, td{
     border: 1px solid black;
 }
 table{
-    width: 70vw;
+    width: 80vw;
+}
+
+tbody{
+    background-color: white;
 }
 
 td span{
@@ -36,7 +40,7 @@ td span{
     width: 100%;
     padding: 7px 0;
     border-bottom: 1px solid black;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .type1-table td span{
@@ -83,8 +87,10 @@ td .add-stages{
 }
 
 thead th{
-    background-color: lightgray;
+    background-color: #006699;
     padding: 5px;
+    color: white;
+
 }
 .btn{
     margin-bottom: 2px;
@@ -97,4 +103,8 @@ thead th{
 
 .nav-tabs[_ngcontent-c1]{
     margin-bottom: 1rem;
+}
+
+.innerTable{
+    width: 100% !important;
 }

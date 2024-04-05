@@ -13,6 +13,10 @@
         </div>
         <div class="form-group row">
           <div class="form-group col-md-4">
+            <label>Location</label>
+            <input [value]="masterData.masterId" type="text" class="form-control" readonly>
+          </div>
+          <div class="form-group col-md-4">
             <label>Sampling Type</label>
             <select [(ngModel)]="samplingType" class="form-control" (change)="getSamplingInitialData($event)">
               <option [value]="1" [selected]="true">Client wise</option>
@@ -54,7 +58,7 @@
 
           <div class="form-group col-md-4">
             <label>Cycle of inspection</label>
-            <select [(ngModel)]="Selcycle" class="form-control" (change)="getStages()">
+            <select [(ngModel)]="Selcycle" class="form-control" (change)="getStages()" readonly>
               <option [value]="0">Please Select</option>
               <option [value]="o.cycle_id" *ngFor="let o of cycleOfInspection">
                 {{o.cycle_name}}
@@ -63,22 +67,15 @@
             <!-- <button (click)="goToStepThree()">step 3</button> -->
           </div>
 
-
-          <div class="form-group col-md-4">
-            <label>Location</label>
-            <input [(ngModel)]="location" type="text" class="form-control">
-          </div>
-
-
           <div class="form-group col-md-4">
             <label>Report Date</label>
-            <input [(ngModel)]="reportDate" type="date" class="form-control" [value]="reportDate">
+            <input [(ngModel)]="reportDate" type="date" class="form-control" [value]="reportDate" readonly>
           </div>
 
 
           <div class="form-group col-md-4">
             <label>Inspection Date</label>
-            <input [(ngModel)]="inspectionDate" type="date" class="form-control" [value]="inspectionDate">
+            <input [(ngModel)]="inspectionDate" type="date" class="form-control" [value]="inspectionDate" readonly>
           </div>
 
           <!-- <div *ngIf="loader; then loader"></div>
@@ -105,9 +102,9 @@
                       <th>Srno</th>
                       <th>TradeGroup</th>
                       <th>Trade</th>
-                      <th>Work complete status</th>
-                      <th>Floor Before</th>
-                      <th>Allocated Area</th>
+                      <!-- <th>Work complete status</th> -->
+                      <th>Add Applicable Area</th>
+                      <th>Applicable Units</th>
                     </thead>
                     <tbody>
                       <tr *ngFor="let tg of testTG">
@@ -120,12 +117,12 @@
                           </span>
                         </td>
 
-                        <td>
+                        <!-- <td>
                           <select [class]="'tradeStatusSelect_'+t.tradeId" *ngFor="let t of testTrade[tg.id]">
                             <option [value]="status.id" *ngFor="let status of statusData"
                               [selected]="status.id === 'notStarted'">{{status.name}}</option>
                           </select>
-                        </td>
+                        </td> -->
 
                         <td>
                           <div *ngFor="let t of testTrade[tg.id]">
@@ -134,7 +131,7 @@
                             <!-- <span></span> -->
                             <div class="modal fade" [id]="'step1-add-stage_'+t.tradeId" tabindex="-1" role="dialog"
                               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLongTitle">Add Stage</h5>
@@ -147,12 +144,45 @@
                                     <input class="form-check" type="checkbox"
                                       (change)="step1SelectAll($event,t.tradeId)">
                                     <label class="form-check-label" for="flexCheckDefault">Select All</label>
-                                    <div class="form-check" *ngFor="let o of stages">
+                                    <table class="innerTable">
+                                      <thead>
+                                        <th>Applicable for</th>
+                                        <th>Work Status</th>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let o of stages">
+                                          <td>
+                                            <div class="form-check">
+                                              <input class="form-check-input" [class]="'step2StagesCheckbox_'+t.tradeId"
+                                                type="checkbox" [value]="o.stageId"
+                                                [id]="'flexCheckDefault'+t.tradeId+o.stageId"
+                                                (change)="addStep1WorkArea($event, t.tradeId)"
+                                                [checked]="workArea[t.tradeId] && workArea[t.tradeId].includes(o.stageId)">
+                                              <label class="form-check-label"
+                                                [for]="'flexCheckDefault'+t.tradeId+o.stageId">{{o.stageName}}</label>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <select class="form-control"
+                                              (change)="addCompletedStages($event, t.tradeId, o.stageId)">
+                                              <option selected>Select Status</option>
+                                              <option value="0">Not started</option>
+                                              <option value="0">In progress</option>
+                                              <option value="1"
+                                                [selected]="completedStages[t.tradeId] && completedStages[t.tradeId].includes(o.stageId)">
+                                                Completed</option>
+                                            </select>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+
+                                    <!-- <div class="form-check" *ngFor="let o of stages">
                                       <input class="form-check-input" [class]="'step2StagesCheckbox_'+t.tradeId"
                                         type="checkbox" [value]="o.stageId" id="flexCheckDefault"
                                         (change)="addStep1WorkArea($event, t.tradeId)">
                                       <label class="form-check-label" for="flexCheckDefault">{{o.stageName}}</label>
-                                    </div>
+                                    </div> -->
                                   </div>
 
                                 </div>
@@ -168,7 +198,6 @@
                         </td>
 
                       </tr>
-
                     </tbody>
                   </table>
                   <div class="form-group my-2">
@@ -210,12 +239,12 @@
 
                           <td *ngIf="step2formRenderData[tg.id].length">
                             <!-- step2TradeStatusSelect_ -->
-                            <select [class]="'step2TradeStatusSelect_'+t.tradeId"
+                            <!-- <select [class]="'step2TradeStatusSelect_'+t.tradeId"
                               *ngFor="let t of step2formRenderData[tg.id]">
                               <option [value]="status.id" *ngFor="let status of statusData"
                                 [selected]="step2StatusData[t.tradeId].id === status.id">{{status.name}}</option>
                               >
-                            </select>
+                            </select> -->
                           </td>
 
                           <!-- Check for sampling type -->
@@ -271,7 +300,8 @@
                                   {{step2workArea[t.tradeId] ? step2workArea[t.tradeId][contractor.contractorId] ?
                                   step2workArea[t.tradeId][contractor.contractorId].length:0 : 0}}
                                   <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
-                                    [attr.data-target]="'#step2Add-stage_'+t.tradeId+'_'+contractor.contractorId">+</button>
+                                    [attr.data-target]="'#step2Add-stage_'+t.tradeId+'_'+contractor.contractorId"
+                                    (click)="getAssignStagesByContractor(t.tradeId,contractor.contractorId)">+</button>
 
                                   <div class="modal fade" [id]="'step2Add-stage_'+t.tradeId+'_'+contractor.contractorId"
                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -290,11 +320,12 @@
                                             (change)="step2SelectAll($event,t.tradeId)">
                                           <label class="form-check-label" for="flexCheckDefault">Select All</label>
                                           <div class="form-check" *ngFor="let o of stages">
-                                            <input *ngIf="workArea[t.tradeId].includes(o.stageId)"
+                                            <input *ngIf="completedStages[t.tradeId].includes(o.stageId)"
                                               class="form-check-input" [class]="'step2StagesCheckbox_'+t.tradeId"
                                               type="checkbox" [value]="o.stageId" id="flexCheckDefault"
-                                              (change)="addStep2WorkArea($event, t.tradeId, contractor.contractorId)">
-                                            <label *ngIf="workArea[t.tradeId].includes(o.stageId)"
+                                              (change)="addStep2WorkArea($event, t.tradeId, contractor.contractorId)"
+                                              [checked]="step2workArea.hasOwnProperty(t.tradeId) && step2workArea[t.tradeId].hasOwnProperty(contractor.contractorId) && step2workArea[t.tradeId][contractor.contractorId].includes(o.stageId)">
+                                            <label *ngIf="completedStages[t.tradeId].includes(o.stageId)"
                                               class="form-check-label" for="flexCheckDefault">{{o.stageName}}</label>
                                           </div>
                                         </div>
@@ -327,11 +358,11 @@
                                       </div>
                                       <div class="modal-body">
                                         <div class="form-check" *ngFor="let o of stages">
-                                          <input *ngIf="workArea[t.tradeId].includes(o.stageId)"
+                                          <input *ngIf="completedStages[t.tradeId].includes(o.stageId)"
                                             class="form-check-input" [class]="'step2StagesCheckbox_'+t.tradeId"
                                             type="checkbox" [value]="o.stageId" id="flexCheckDefault"
                                             (change)="addStep2type1WorkArea($event, t.tradeId)">
-                                          <label *ngIf="workArea[t.tradeId].includes(o.stageId)"
+                                          <label *ngIf="completedStages[t.tradeId].includes(o.stageId)"
                                             class="form-check-label" for="flexCheckDefault">{{o.stageName}}</label>
                                         </div>
                                       </div>
@@ -369,9 +400,9 @@
                       <thead>
                         <th>Group Name</th>
                         <th>trades</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Allocate Area</th>
+                        <th>Offred Area</th>
+                        <!-- <th>To</th> -->
+                        <th>Offred Unit</th>
                         <th>Sampled unit</th>
                         <th>Add</th>
                         <th>No of Sampled unit</th>
@@ -387,13 +418,16 @@
                               [attr.title]="trade.tradeId">{{trade.tradeNane}}</span>
                           </td>
                           <td>
-                            <span *ngFor="let trade of testTradeStep3[t.id]">{{stageData[trade.tradeId] &&
-                              stageData[trade.tradeId][0].stageName}}</span>
+                            <span *ngFor="let trade of testTradeStep3[t.id]" class="m-0 p-0">
+                            <!-- {{stageData[trade.tradeId] &&
+                              stageData[trade.tradeId][0].stageName}} -->
+                              <span *ngFor="let stage of stageData[trade.tradeId]" class="badge badge-primary p-0 m-0">{{stage.stageName}}</span>
+                              </span>
                           </td>
-                          <td>
+                          <!-- <td>
                             <span *ngFor="let trade of testTradeStep3[t.id]">{{stageData[trade.tradeId] &&
                               stageData[trade.tradeId][stageData[trade.tradeId].length- 1].stageName}}</span>
-                          </td>
+                          </td> -->
                           <td>
                             <span *ngFor="let trade of testTradeStep3[t.id]" class="btn-span">
                               {{stageData[trade.tradeId].length}}
@@ -434,11 +468,13 @@
 
                     <div class="form-group my-2">
                       <button class="btn btn-success" (click)="submitStep3Data()">
-                        <span *ngIf="submitStep3Load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="submitStep3Load" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
                         <span *ngIf="!submitStep3Load">Save</span>
                       </button>
                       <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">
-                        <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
                         <span *ngIf="!generateLoad">Generate Report</span>
                       </button>
 
@@ -455,9 +491,8 @@
                       <thead>
                         <!-- <th>Group Name</th> -->
                         <th>trades</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>More</th>
+                        <th>Offred Area</th>
+                        <th>Offred Unit</th>
                         <th>Sampled unit</th>
                         <th>Add</th>
                         <th>No of Sampled unit</th>
@@ -471,11 +506,10 @@
                             <td style="width: 30%;" class="type2trades" [attr.title]="t.key">{{tradeNameObj[t.key]}}
                             </td>
                             <td>
-                              {{type2StageData[data.key][t.key][0].stageName}}
+                              <!-- {{type2StageData[data.key][t.key][0].stageName}} -->
+                              <span class="badge badge-primary" *ngFor="let stage of type2StageData[data.key][t.key]">{{stage.stageName}}</span>
                             </td>
-                            <td>
-                              {{type2StageData[data.key][t.key][type2StageData[data.key][t.key].length -1 ].stageName}}
-                            </td>
+                            
                             <td>
                               {{type2StageData[data.key][t.key].length}}
                             </td>
@@ -511,11 +545,13 @@
                   </div>
                   <div class="form-group my-2">
                     <button class="btn btn-success" (click)="Type2submitStep3Data()">
-                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="type2Step3submitLoad"></span>
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="type2Step3submitLoad"></span>
                       <span *ngIf="!type2Step3submitLoad">Save</span>
                     </button>
                     <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">
-                      <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
                       <span *ngIf="!generateLoad">Generate Report</span>
                     </button>
 

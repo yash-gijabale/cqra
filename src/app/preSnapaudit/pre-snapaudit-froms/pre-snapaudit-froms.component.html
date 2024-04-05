@@ -351,34 +351,34 @@
                         <th rowspan="2">Name</th>
                         <th rowspan="2">Organization</th>
                         <th rowspan="2">Designation</th>
-                        <th colspan="2">signature</th>
+                        <!-- <th colspan="2">signature</th> -->
                         <th rowspan="2">Action</th>
                       </tr>
-                      <tr>
+                      <!-- <tr>
                         <th style="border-radius: 0px;">Opening Meet</th>
                         <th style="border-radius: 0px;">Closing Meet</th>
-                      </tr>
+                      </tr> -->
                     </thead>
-                    <tbody id="openingClosingForm" *ngIf="isOpeningClosingData==false">
-                      <tr>
+                    <tbody id="openingClosingFormTable" *ngIf="isOpeningClosingData==false">
+                      <tr id="removeOpeningRow1">
                         <td>1</td>
                         <td><input type="text" id="1" class="opening_username form-control"></td>
                         <td><input type="text" id="opening_organization_1" class="form-control"></td>
                         <td><input type="text" id="designation_1" class="form-control"></td>
-                        <td>
+                        <!-- <td>
                           <span class="badge badge-secondary" role="button">upload</span>
                         </td>
                         <td>
                           <span class="badge badge-secondary" role="button">upload</span>
-                        </td>
+                        </td> -->
                         <td>
-                          <button class="btn btn-sm btn-danger" (click)="removeRow()">Remove</button>
+                          <button class="btn btn-sm btn-danger" id="1" (click)="removeOpeningClosingRow($event)">Remove</button>
                         </td>
                       </tr>
                     </tbody>
 
-                    <tbody id="openingClosingForm" *ngIf="isOpeningClosingData">
-                      <tr *ngFor="let user of openingClosingPreData.users">
+                    <tbody id="openingClosingFormTable" *ngIf="isOpeningClosingData">
+                      <tr *ngFor="let user of openingClosingPreData.users" [id]="'removeOpeningRow'+user.srNo">
                         <td>{{user.srNo}}</td>
                         <td><input type="text" [id]="user.srNo" class="opening_username form-control"
                             [value]="user.username_id"></td>
@@ -386,14 +386,14 @@
                             [value]="user.organization"></td>
                         <td><input type="text" [id]="'designation_'+user.srNo" class="form-control"
                             [value]="user.designation"></td>
-                        <td>
+                        <!-- <td>
                           <span class="badge badge-secondary" role="button">upload</span>
                         </td>
                         <td>
                           <span class="badge badge-secondary" role="button">upload</span>
-                        </td>
+                        </td> -->
                         <td>
-                          <button class="btn btn-sm btn-danger" (click)="removeRow()">Remove</button>
+                          <button class="btn btn-sm btn-danger"  [id]="user.srNo" (click)="removeOpeningClosingRow($event)">Remove</button>
                         </td>
                       </tr>
                     </tbody>
@@ -708,7 +708,10 @@
                       </table>
                     </div>
                     <div class="modal-footer">
-                      <button class="btn btn-sm btn-success" (click)="submitInternalReviewMeeting()">Submit</button>
+                      <button class="btn btn-sm btn-success" (click)="submitInternalReviewMeeting()">
+                        <span *ngIf="interReviewMeetingLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="!interReviewMeetingLoad">Submit</span>
+                      </button>
                     </div>
 
                     <!-- </form> -->
