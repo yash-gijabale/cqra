@@ -12,6 +12,7 @@ import { UserView } from "../user-log/user-log.component";
 import { CheckListView } from "../edit-non-conf/edit-non-conf.component";
 import { UserService } from "../service/user.service";
 import { first } from "rxjs/operators";
+import { InspectorTraning } from "../service/inspectionTraining.service";
 
 export class UseAllocationData {
   constructor(
@@ -24,6 +25,18 @@ export class UseAllocationData {
     public subunitId: number,
     public tradeId: number,
     public status: boolean
+  ) { }
+}
+
+export class ApprovedTrade {
+  constructor(
+    public id: number,
+    public passorfail: number,
+    public projectId: number,
+    public status: number,
+    public tradeId: number,
+    public tradeName: String,
+    public userId: number,
   ) { }
 }
 
@@ -47,22 +60,23 @@ export class CreateUserAllocationComponent implements OnInit {
 
   clients: ClientData[]
   trades: Trade
+  approvedTrades: Array<ApprovedTrade>
   users: UserView[]
   projects: ProjectData[];
   checklists: any
 
   allocationId: number
 
-  stageLoad:boolean = false
-  unitLoad:boolean = false
-  subunitLoad:boolean = false
+  stageLoad: boolean = false
+  unitLoad: boolean = false
+  subunitLoad: boolean = false
 
 
 
   isbtnLoading = false
   // allocatedCheckList: Array<number> = []
   // allocatedStages: Array<number> = []
-
+  userList: Array<any>
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -70,7 +84,8 @@ export class CreateUserAllocationComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private commanService: CommonService,
     private tradeMaintance: TradeMaintanceService,
-    private userService: UserService
+    private userService: UserService,
+    private inspectorTraining: InspectorTraning
   ) { }
 
   ngOnInit() {
@@ -101,6 +116,13 @@ export class CreateUserAllocationComponent implements OnInit {
       .subscribe(data => {
         this.users = data
         console.log('users', data)
+      })
+
+      
+      this.inspectorTraining.getTrainingApprovedUser()
+      .subscribe(data => {
+        console.log(data)
+        this.userList = data
       })
 
     // this.clientServiceService.getAllProject()
@@ -245,6 +267,12 @@ export class CreateUserAllocationComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         this.trades = data
+      })
+
+    this.inspectorTraining.getApprovedTradeByuserandProject(this.SelProject, this.SelUser)
+      .subscribe(data => {
+        console.log(data)
+        this.approvedTrades = data
       })
   }
 

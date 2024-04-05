@@ -49,6 +49,7 @@ export class EquipmentView {
     public assignTo: number,
     public assignedBy:number,
     public dateOfAssign: string,
+    public cqraAssetId:string,
     public status: boolean,
     public eImage: string,
     public ccImage: string
@@ -104,12 +105,12 @@ export class AddEquipmentComponent implements OnInit {
     this.equipmentForm = this.formBuilder.group({
       id: ['', Validators.required],
       assetName: ['', Validators.required],
-      cqraAssetId: ['', Validators.required],
       assetSerialNo: ['', Validators.nullValidator],
       dateOfCalibration: ['', Validators.required],
       assignTo: ['', Validators.required],
       assignedBy:['',Validators.required],
-      cost: ['', Validators.required],
+      cqraAssetId: ['', Validators.required],
+      cost: ['', Validators.required]
       // dateOfAssign: ['', Validators.required],
     })
 
@@ -117,6 +118,7 @@ export class AddEquipmentComponent implements OnInit {
       assetTypeId: ['', Validators.required],
       assetName: ['', Validators.required],
       cost: ['', Validators.required],
+
     })
 
     if (this.equipmentId != -1) {

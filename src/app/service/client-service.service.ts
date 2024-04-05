@@ -422,6 +422,10 @@ export class ClientServiceService {
     return this.httpClient.get<ContractorDataForSamplingStep>(`${this.REST_API_SERVER}/getconbypid/${projectId}`)
   }
 
+  getContratorAssignedStages(projectId, structureId, contractorId, tradeId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemeContractorSupervisor/getsupervisorstagesbyidss/${projectId}/${structureId}/${contractorId}/${tradeId}`)
+  }
+
   getClientByProjectId(projectId){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/clientbyproject/${projectId}`)
   }
