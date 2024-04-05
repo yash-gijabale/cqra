@@ -42,7 +42,7 @@
               </div>
             </div>
 
-            <div class="form-group col-md-4"*ngIf="!showCadre" >
+            <div class="form-group col-md-4" *ngIf="!showCadre">
               <label>Representor</label>
               <select formControlName="representingId" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.representingId.errors }">
@@ -187,9 +187,9 @@
               <div class="card col-md-12">
                 <div class="card-body" style="height: 10rem; overflow-y: auto;">
                   <div class="form-check" *ngFor="let region of regions">
-                    <input class="form-check-input" type="checkbox" [value]="region.regionId" 
-                    [id]="'regionCheck'+region.regionId" (change)="addRegionToList($event)"
-                    [checked]="userRegions[region.regionId]">
+                    <input class="form-check-input" type="checkbox" [value]="region.regionId"
+                      [id]="'regionCheck'+region.regionId" (change)="addRegionToList($event)"
+                      [checked]="userRegions[region.regionId]">
                     <label class="form-check-label" [for]="'regionCheck'+region.regionId">
                       {{region.regionName}}
                     </label>
@@ -263,7 +263,7 @@
                 </div>
               </div>
             </div> -->
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
               <div class="card col-md-12">
                 <div class="card-body">
                   <input type="checkbox" formControlName="l1" [value]="1" class="form-check-input" id="l1" />
@@ -271,7 +271,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
               <div class="card col-md-12">
                 <div class="card-body">
                   <input type="checkbox" formControlName="l2" [value]="2" class="form-check-input" id="l2" />
@@ -279,7 +279,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
               <div class="card col-md-12">
                 <div class="card-body">
                   <input type="checkbox" formControlName="l3" [value]="3" class="form-check-input" id="l3" />
@@ -290,8 +290,8 @@
             <div class="form-group col-md-3">
               <div class="card col-md-12">
                 <div class="card-body">
-                  <input type="checkbox" [value]="3" class="form-check-input" id="l3" />
-                  <label class="form-check-label" for="l3">MEP</label>
+                  <input type="checkbox" formControlName="mep" [value]="1" class="form-check-input" id="mepCheck" />
+                  <label class="form-check-label" for="mepCheck">MEP</label>
                 </div>
               </div>
             </div>
@@ -299,8 +299,8 @@
             <div class="form-group col-md-3">
               <div class="card col-md-12">
                 <div class="card-body">
-                  <input type="checkbox" [value]="3" class="form-check-input" id="l3" />
-                  <label class="form-check-label" for="l3">Infra</label>
+                  <input type="checkbox" formControlName="infra" [value]="2" class="form-check-input" id="infraCheck" />
+                  <label class="form-check-label" for="infraCheck">Infra</label>
                 </div>
               </div>
             </div>
@@ -308,8 +308,9 @@
             <div class="form-group col-md-3">
               <div class="card col-md-12">
                 <div class="card-body">
-                  <input type="checkbox" [value]="3" class="form-check-input" id="l3" />
-                  <label class="form-check-label" for="l3">Fire Safety</label>
+                  <input type="checkbox" formControlName="fireSafety" [value]="3" class="form-check-input"
+                    id="fire_safetyCheck" />
+                  <label class="form-check-label" for="fire_safetyCheck">Fire Safety</label>
                 </div>
               </div>
             </div>
@@ -317,8 +318,9 @@
             <div class="form-group col-md-3">
               <div class="card col-md-12">
                 <div class="card-body">
-                  <input type="checkbox" [value]="3" class="form-check-input" id="l3" />
-                  <label class="form-check-label" for="l3">Construction Safety</label>
+                  <input type="checkbox" formControlName="constructionSafety" [value]="4" class="form-check-input"
+                    id="construction_safetyCheck" />
+                  <label class="form-check-label" for="construction_safetyCheck">Construction Safety</label>
                 </div>
               </div>
             </div>
@@ -329,12 +331,18 @@
 
             <div class="form-group col-md-4">
               <label>Signature</label>
-              <input type="file" id="userSign" formControlName="userImage" class="form-control" />
+              <input type="file" accept="image/png, image/jpg, image/jpeg" id="userSign" formControlName="userImage"
+                class="form-control" />
+              <div class="card-title text-danger" *ngIf="imageWarning.simage">{{imageMessage}}</div>
+
             </div>
 
             <div class="form-group col-md-4">
               <label>Profile</label>
-              <input type="file" id="profile" formControlName="profile" class="form-control" />
+              <input type="file" accept="image/png, image/jpg, image/jpeg" id="profile" formControlName="profile"
+                class="form-control" />
+              <div class="card-title text-danger" *ngIf="imageWarning.pimage">{{imageMessage}}</div>
+
             </div>
 
           </div>

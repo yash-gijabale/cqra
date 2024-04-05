@@ -18,7 +18,8 @@
         <h4>{{userData.userFullName}}</h4>
 
         <div class="inspector-list mt-5">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover inspector_list_table" style="width:100%">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover inspector_list_table"
+            style="width:100%">
             <thead>
               <tr>
                 <th>Sr no</th>
@@ -196,7 +197,7 @@
         <div class="modal-footer">
           <button class="btn btn-sm btn-success" (click)="submitDeclarationFromInspector()">
             <div *ngIf="declarationLoad" class="spinner-border spinner-border-sm" role="status"></div>
-            <span  *ngIf="!declarationLoad">Save</span>
+            <span *ngIf="!declarationLoad">Save</span>
           </button>
         </div>
       </div>

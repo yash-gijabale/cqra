@@ -200,8 +200,13 @@
                       <tbody>
                         <tr *ngFor="let tg of testTG" class="step-2">
                           <!-- <td>1</td> -->
-                          <td *ngIf="step2formRenderData[tg.id].length">{{tg.tradegroupName}}</td>
-                          <td *ngIf="step2formRenderData[tg.id].length">
+                          <td
+                            [attr.rowspan]="step2formRenderData[tg.id].length ? step2formRenderData[tg.id].length : 1">
+                            {{tg.tradegroupName}}</td>
+                          <!-- <td *ngIf="step2formRenderData[tg.id].length">{{tg.tradegroupName}}</td> -->
+
+                          <td rowspan="2">
+                            <!-- <td *ngIf="step2formRenderData[tg.id].length"> -->
                             <span class="step2Tradename" *ngFor="let t of step2formRenderData[tg.id]"
                               [attr.title]="t.tradeId">
                               {{t.tradeNane}}
@@ -341,6 +346,7 @@
                                 </div>
                               </span>
                             </td>
+
                           </ng-template>
                         </tr>
 
@@ -434,11 +440,13 @@
 
                     <div class="form-group my-2">
                       <button class="btn btn-success" (click)="submitStep3Data()">
-                        <span *ngIf="submitStep3Load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="submitStep3Load" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
                         <span *ngIf="!submitStep3Load">Save</span>
                       </button>
                       <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">
-                        <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
                         <span *ngIf="!generateLoad">Generate Report</span>
                       </button>
 
@@ -511,11 +519,13 @@
                   </div>
                   <div class="form-group my-2">
                     <button class="btn btn-success" (click)="Type2submitStep3Data()">
-                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="type2Step3submitLoad"></span>
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="type2Step3submitLoad"></span>
                       <span *ngIf="!type2Step3submitLoad">Save</span>
                     </button>
                     <button class="btn btn-primary mx-2" (click)="goToGenerateReport()">
-                      <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span *ngIf="generateLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
                       <span *ngIf="!generateLoad">Generate Report</span>
                     </button>
 
