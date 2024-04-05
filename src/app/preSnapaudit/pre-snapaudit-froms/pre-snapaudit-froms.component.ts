@@ -303,16 +303,18 @@ export class PreSnapauditFromsComponent implements OnInit {
 
   rowOpeningClosingCount = 1
   addOpeningClosingRow() {
+
     this.rowOpeningClosingCount++
     // this
     let filed = `<tr id="removeOpeningRow${this.rowOpeningClosingCount}">
                 <td class='text-center p-1 border border-secondary'>${this.rowOpeningClosingCount}</td>
-                <td><input type="text" class='opening_username' id='${this.rowOpeningClosingCount}' form-control'></td>
+                <td><input type="text" class='opening_username form-control' id='${this.rowOpeningClosingCount}'></td>
                 <td><input type="text" id='opening_organization_${this.rowOpeningClosingCount}' class='form-control'></td>
                 <td><input type="text" id='designation_${this.rowOpeningClosingCount}' class='form-control'></td>
                 <td class='text-center p-1 border border-secondary'>
                   <button class="btn btn-sm btn-danger" id="${this.rowOpeningClosingCount}" >Remove</button>
                 </td>
+
               </tr>`
     let areaFiled = <HTMLTableElement>document.querySelector('#openingClosingFormTable')
     console.log(areaFiled)
@@ -658,7 +660,7 @@ export class PreSnapauditFromsComponent implements OnInit {
     this.getTeamUser()
     this.inspectionTraining.getInternalReviewForm(this.currentMasterId)
       .subscribe(data => {
-        console.log(data)
+        console.log("all data of internal review",data)
         if (data[0] || data[1].length) {
           this.isInternalReviewFormData = true
           this.internalReviewMasterData = data[0]
@@ -675,9 +677,10 @@ export class PreSnapauditFromsComponent implements OnInit {
   interReviewMeetingLoad: boolean = false
   submitInternalReviewMeeting() {
 
+
     this.interReviewMeetingLoad = true
 
-    let meetingLocation = document.querySelector('#meetingLocation') as HTMLInputElement
+    let meetinglocation = document.querySelector('#meetingLocation') as HTMLInputElement
     let meetingDate = document.querySelector('#internalreview_date') as HTMLInputElement
 
     let outdatedCalibration = document.querySelector('#outdatedCalibration') as HTMLInputElement
@@ -700,13 +703,12 @@ export class PreSnapauditFromsComponent implements OnInit {
         facilities: ind + 1,
         adequate: facilityData.value == '1' ? 1 : 0,
         inAdeq: facilityData.value == '0' ? 1 : 0,
-        location: meetingLocation.value,
+        location: meetinglocation.value,
         remark: remark.value,
         meeting_date: meetingDate.value
       }
       intRevMeetAtProSite.push(data)
     })
-
 
     let intRevMeetAtProSiteMaster = {
       masterId: this.currentMasterId,
@@ -725,7 +727,7 @@ export class PreSnapauditFromsComponent implements OnInit {
       intRevMeetAtProSite
     }
 
-    console.log(formData)
+    console.log("final obj",formData)
     if (this.isInternalReviewFormData) {
       this.inspectionTraining.updateInternalReviewForm(this.currentMasterId, formData)
         .subscribe(data => {

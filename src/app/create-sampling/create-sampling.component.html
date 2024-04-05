@@ -229,8 +229,13 @@
                       <tbody>
                         <tr *ngFor="let tg of testTG" class="step-2">
                           <!-- <td>1</td> -->
-                          <td *ngIf="step2formRenderData[tg.id].length">{{tg.tradegroupName}}</td>
-                          <td *ngIf="step2formRenderData[tg.id].length">
+                          <td
+                            [attr.rowspan]="step2formRenderData[tg.id].length ? step2formRenderData[tg.id].length : 1">
+                            {{tg.tradegroupName}}</td>
+                          <!-- <td *ngIf="step2formRenderData[tg.id].length">{{tg.tradegroupName}}</td> -->
+
+                          <td rowspan="2">
+                            <!-- <td *ngIf="step2formRenderData[tg.id].length"> -->
                             <span class="step2Tradename" *ngFor="let t of step2formRenderData[tg.id]"
                               [attr.title]="t.tradeId">
                               {{t.tradeNane}}
@@ -372,6 +377,7 @@
                                 </div>
                               </span>
                             </td>
+
                           </ng-template>
                         </tr>
 

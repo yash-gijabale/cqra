@@ -125,14 +125,14 @@
                         <form>
                           <div class="question-box" *ngFor="let question of questionPaper |keyvalue">
                             <span>{{question.srNo}}. {{question.value}}</span>
-                            <textarea class="question-ans my-1" [id]="'instruction'+question.key" type="text" placeholder="Work Instructions"
-                              required></textarea>
+                            <textarea class="question-ans my-1" [id]="'instruction'+question.key" type="text"
+                              placeholder="Work Instructions" required></textarea>
 
-                            <textarea class="question-ans my-1" [id]="'impact'+question.key" type="text" placeholder="Impact Of NC"
-                              required></textarea>
+                            <textarea class="question-ans my-1" [id]="'impact'+question.key" type="text"
+                              placeholder="Impact Of NC" required></textarea>
 
-                            <textarea class="question-ans my-1" [id]="'rectification'+question.key" type="text" placeholder="NC Rectification"
-                              required></textarea>
+                            <textarea class="question-ans my-1" [id]="'rectification'+question.key" type="text"
+                              placeholder="NC Rectification" required></textarea>
                           </div>
 
                           <button class="btn btn-sm btn-success" type="button" (click)="submitQuestionPaper()"

@@ -135,6 +135,10 @@ export class CreateUserComponent implements OnInit {
       l2: ['', Validators.nullValidator],
       l3: ['', Validators.nullValidator],
       // region: [[], Validators.required],
+      mep:['',Validators.nullValidator],
+      infra:['',Validators.nullValidator],
+      fireSafety:['',Validators.nullValidator],
+      constructionSafety:['',Validators.nullValidator],
       representingTypeId: ['', Validators.required],
       representingId: ['', Validators.nullValidator],
       dateOfJoining: ['', Validators.nullValidator],
@@ -163,14 +167,37 @@ export class CreateUserComponent implements OnInit {
     console.log(this.regionList)
 
   }
+
+
+  submitLoad = false
+  imageToLarge: boolean = false
+  imageWarning={
+    simage:false,
+    pimage:false
+  }
+  imageMessage = 'File size must less than 1MB !'
   onSubmit() {
-    this.submitted = true;
+    this.submitted = true
+    this.imageWarning.simage = false
+    this.imageWarning.pimage = false
 
     this.registerForm.value.region = this.regionList.toString()
     let signData = document.querySelector('#userSign') as HTMLInputElement
     let profileData = document.querySelector('#profile') as HTMLInputElement
     let img1: File = signData.files[0]
     let profile: File = profileData.files[0]
+
+    if (img1 && img1.size > 1048576) {
+      this.imageWarning.simage = true
+      this.submitLoad = false
+      return
+    }
+
+    if (profile && profile.size > 1048576) {
+      this.imageWarning.pimage = true
+      this.submitLoad = false
+      return
+    }
     console.log(img1)
 
     // console.log(this.registerForm.value)

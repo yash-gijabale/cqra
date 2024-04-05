@@ -379,6 +379,7 @@
 
                     <tbody id="openingClosingFormTable" *ngIf="isOpeningClosingData">
                       <tr *ngFor="let user of openingClosingPreData.users" [id]="'removeOpeningRow'+user.srNo">
+
                         <td>{{user.srNo}}</td>
                         <td><input type="text" [id]="user.srNo" class="opening_username form-control"
                             [value]="user.username_id"></td>
