@@ -221,7 +221,7 @@
                         <!-- <th>Srno</th> -->
                         <th>TradeGroup</th>
                         <th>Trade</th>
-                        <th>Work Complete Status</th>
+                        <!-- <th>Work Complete Status</th> -->
                         <th>Representative</th>
                         <th>Contractor <a [routerLink]="'/createContractor/-1'">+</a></th>
                         <th>Work Area</th>
@@ -229,67 +229,79 @@
                       <tbody>
                         <tr *ngFor="let tg of testTG" class="step-2">
                           <!-- <td>1</td> -->
-                          <td
-                            [attr.rowspan]="step2formRenderData[tg.id].length ? step2formRenderData[tg.id].length : 1">
-                            {{tg.tradegroupName}}</td>
-                          <!-- <td *ngIf="step2formRenderData[tg.id].length">{{tg.tradegroupName}}</td> -->
-
-                          <td rowspan="2">
-                            <!-- <td *ngIf="step2formRenderData[tg.id].length"> -->
+                          <td *ngIf="step2formRenderData[tg.id].length">{{tg.tradegroupName}}</td>
+                          <td *ngIf="step2formRenderData[tg.id].length">
                             <span class="step2Tradename" *ngFor="let t of step2formRenderData[tg.id]"
-                              [attr.title]="t.tradeId">
+                              [attr.title]="t.tradeId" [ngStyle]="{'height':+tradeHeigth[t.tradeId]+'px'}">
                               {{t.tradeNane}}
                             </span>
                           </td>
 
-                          <td *ngIf="step2formRenderData[tg.id].length">
-                            <!-- step2TradeStatusSelect_ -->
-                            <!-- <select [class]="'step2TradeStatusSelect_'+t.tradeId"
+                          <!-- <td *ngIf="step2formRenderData[tg.id].length"> -->
+                          <!-- step2TradeStatusSelect_ -->
+                          <!-- <select [class]="'step2TradeStatusSelect_'+t.tradeId"
                               *ngFor="let t of step2formRenderData[tg.id]">
                               <option [value]="status.id" *ngFor="let status of statusData"
                                 [selected]="step2StatusData[t.tradeId].id === status.id">{{status.name}}</option>
                               >
                             </select> -->
-                          </td>
+                          <!-- </td> -->
 
                           <!-- Check for sampling type -->
                           <div *ngIf="samplingType != 1; then thenBlock else elseBolck"></div>
                           <ng-template #thenBlock>
                             <td *ngIf="step2formRenderData[tg.id].length">
-                              <select [class]="'step2StaffSelect_'+t.tradeId"
-                                *ngFor="let t of step2formRenderData[tg.id]">
-                                <option [value]="staff.clientStaffId" *ngFor="let staff of staffData">
-                                  {{staff.clientName}}
-                                </option>
+                              <span *ngFor="let t of step2formRenderData[tg.id]"
+                                [ngStyle]="{'height':+tradeHeigth[t.tradeId]+'px'}">
+                                <select [class]="'step2StaffSelect_'+t.tradeId">
+                                  <option [value]="staff.clientStaffId" *ngFor="let staff of staffData">
+                                    {{staff.clientName}}
+                                  </option>
 
-                              </select>
+                                </select>
+                              </span>
+
                             </td>
                             <td *ngIf="step2formRenderData[tg.id].length">
 
-                              <div *ngFor="let t of step2formRenderData[tg.id]"
-                                style="margin-bottom: 10px; display: flex; flex-direction: column;">
-                                <input [class]="'step2ContractorSelect_'+t.tradeId" [value]="contractor.contractorName"
+                              <span *ngFor="let t of step2formRenderData[tg.id]"
+                                [ngStyle]="{'height':+tradeHeigth[t.tradeId]+'px', 'margin-bottom': '10px', 'display': 'flex', 'flex-direction': 'column !important'}">
+                                <!-- <input [class]="'step2ContractorSelect_'+t.tradeId" [value]="contractor.contractorName"
                                   [attr.title]="contractor.contractorId"
+                                  *ngFor="let contractor of contractorDataTradeWise[t.tradeId]"> -->
+                                  <!-- <select [class]="'step2ContractorSelect_'+t.tradeId" [attr.title]="contractor.contractorId"  *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
+                                    <option [value]="contractor.contractorId">
+                                      {{contractor.contractorName}}
+                                    </option>
+  
+                                  </select> -->
+                                <p [class]="'step2ContractorSelect_'+t.tradeId" [attr.title]="contractor.contractorId"
                                   *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
-                              </div>
+                                  {{contractor.contractorName}}</p>
+                              </span>
                             </td>
                           </ng-template>
                           <ng-template #elseBolck>
                             <td *ngIf="step2formRenderData[tg.id].length">
-                              <select [class]="'step2ContractorSelect_'+t.tradeId"
-                                *ngFor="let t of step2formRenderData[tg.id]">
-                                <option [value]="client.clientId" *ngFor="let client of clients"
-                                  [attr.title]="client.clientName">
-                                  {{client.clientName}}</option>
-                              </select>
+                              <span *ngFor="let t of step2formRenderData[tg.id]">
+                                <select [class]="'step2ContractorSelect_'+t.tradeId">
+                                  <option [value]="client.clientId" *ngFor="let client of clients"
+                                    [attr.title]="client.clientName">
+                                    {{client.clientName}}</option>
+                                </select>
+                              </span>
+
                             </td>
 
                             <td *ngIf="step2formRenderData[tg.id].length">
-                              <select [class]="'step2StaffSelect_'+t.tradeId"
-                                *ngFor="let t of step2formRenderData[tg.id]">
-                                <option [value]="client.clientId" *ngFor="let client of clients">
-                                  {{client.clientName}}</option>
-                              </select>
+                              <span>
+                                <select [class]="'step2StaffSelect_'+t.tradeId"
+                                  *ngFor="let t of step2formRenderData[tg.id]">
+                                  <option [value]="client.clientId" *ngFor="let client of clients">
+                                    {{client.clientName}}</option>
+                                </select>
+                              </span>
+
                             </td>
                           </ng-template>
 
@@ -300,7 +312,7 @@
                             <td *ngIf="step2formRenderData[tg.id].length">
 
                               <span class="add-stages" *ngFor="let t of step2formRenderData[tg.id]"
-                                style="display: flex; flex-direction: column !important;">
+                                [ngStyle]="{'height':tradeHeigth[t.tradeId]+'px', 'display': 'flex', 'flex-direction': 'column !important'}">
                                 <div *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
                                   {{step2workArea[t.tradeId] ? step2workArea[t.tradeId][contractor.contractorId] ?
                                   step2workArea[t.tradeId][contractor.contractorId].length:0 : 0}}
@@ -377,7 +389,6 @@
                                 </div>
                               </span>
                             </td>
-
                           </ng-template>
                         </tr>
 
@@ -425,10 +436,11 @@
                           </td>
                           <td>
                             <span *ngFor="let trade of testTradeStep3[t.id]" class="m-0 p-0">
-                            <!-- {{stageData[trade.tradeId] &&
+                              <!-- {{stageData[trade.tradeId] &&
                               stageData[trade.tradeId][0].stageName}} -->
-                              <span *ngFor="let stage of stageData[trade.tradeId]" class="badge badge-primary p-0 m-0">{{stage.stageName}}</span>
-                              </span>
+                              <span *ngFor="let stage of stageData[trade.tradeId]"
+                                class="badge badge-primary p-0 m-0">{{stage.stageName}}</span>
+                            </span>
                           </td>
                           <!-- <td>
                             <span *ngFor="let trade of testTradeStep3[t.id]">{{stageData[trade.tradeId] &&
@@ -513,9 +525,10 @@
                             </td>
                             <td>
                               <!-- {{type2StageData[data.key][t.key][0].stageName}} -->
-                              <span class="badge badge-primary" *ngFor="let stage of type2StageData[data.key][t.key]">{{stage.stageName}}</span>
+                              <span class="badge badge-primary"
+                                *ngFor="let stage of type2StageData[data.key][t.key]">{{stage.stageName}}</span>
                             </td>
-                            
+
                             <td>
                               {{type2StageData[data.key][t.key].length}}
                             </td>
