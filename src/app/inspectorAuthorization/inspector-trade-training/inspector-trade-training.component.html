@@ -19,7 +19,7 @@
 
         <div class="new-inspector row mt-5">
           <div class="form-group col-md-3">
-            <label>New User: </label>
+            <label>CQRA User: </label>
             <select [(ngModel)]="SelUserId" class="form-control col-md-12">
               <option [value]="1">Select user</option>
               <option [value]="user.userId" *ngFor="let user of users">{{user.userFullName}}</option>
@@ -73,18 +73,19 @@
             class="row-border hover inspector_list_table" style="width:100%">
             <thead>
               <tr>
-                <th>Sr no</th>
-                <th style="width: 9%;">New Traning</th>
+                <th>Sr No</th>
                 <th>User Name</th>
-                <th>Trades</th>
-                <th>Traning Attchment</th>
-                <th>Date</th>
+                <th style="width: 9%;">Assign Trades</th>
+                <th>Authorised Trades</th>
+                <!-- <th>Traning Attchment</th> -->
+                <!-- <th>Date</th> -->
                 <th>Details</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let data of userTradeTrainingData | keyvalue">
                 <td>{{data.value.srNo}}</td>
+                <td [title]="data.value.userId">{{data.value.userName}}</td>
                 <td>
                   <button class="btn btn-sm btn-warning" data-toggle="modal"
                     [attr.data-target]="'#new-trade-'+data.key">+</button>
@@ -124,7 +125,6 @@
                   </div>
 
                 </td>
-                <td [title]="data.value.userId">{{data.value.userName}}</td>
                 <td>
                   <button class="btn btn-sm btn-warning p-1" data-toggle="modal"
                     [attr.data-target]="'#traning-trade-'+data.key">View
@@ -135,15 +135,17 @@
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Allocated Trades</h5>
+                          <h5 class="modal-title" id="exampleModalLongTitle">Authorised Trades</h5>
                           <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
-                          <div class="row mb-2" *ngFor="let trade of data.value.trades">
-                            <span class="ml-2">{{trade.tradeName}}</span>
-                          </div>
+                          <ng-container *ngFor="let trade of data.value.trades">
+                            <div class="row ml-2 pb-2 border-bottom" *ngIf="trade.status == 1">
+                              <span>{{trade.tradeName}}</span>
+                            </div>
+                          </ng-container>
                         </div>
 
                       </div>
@@ -152,7 +154,7 @@
 
 
                 </td>
-                <td>
+                <!-- <td>
                   <div *ngIf="data.value.trainingAttachment; then thenTraining else elseTraining"></div>
                   <ng-template #thenTraining>
                     <span class="badge bg-success text-light">Available</span>
@@ -160,10 +162,10 @@
                   </ng-template>
                   <ng-template #elseTraining>
                     <span class="badge bg-danger text-light">Not Available</span>
-                    <!-- <span class="badge bg-light text-dark mx-2 border border-dark">view</span> -->
+                    <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
                   </ng-template>
-                </td>
-                <td>{{data.value.trainingData}}</td>
+                </td> -->
+                <!-- <td>{{data.value.trainingData}}</td> -->
                 <td>
                   <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#user-details-1"
                     (click)="getUserTradeDetails(data.key)">Deatils</button>
@@ -200,13 +202,13 @@
                         <tr>
                           <th>Sr no</th>
                           <th style="width: 25%;">Trade</th>
-                          <th style="width: 9%;">Traning Attch</th>
+                          <th style="width: 9%;">Traning Attendence</th>
                           <th>Date</th>
-                          <th>Question Attch</th>
+                          <th>Question Paper</th>
                           <th style="width: 9%;">Marks</th>
-                          <th>Report1</th>
-                          <th>Report2</th>
-                          <th>Report3</th>
+                          <th>Under Training  Report1</th>
+                          <th>Under Training  Report2</th>
+                          <th>Under Training  Report3</th>
                           <th>Status</th>
                           <th>Approve</th>
                         </tr>

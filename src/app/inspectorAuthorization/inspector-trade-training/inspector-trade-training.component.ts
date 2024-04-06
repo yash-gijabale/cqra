@@ -148,6 +148,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
     });
 
     console.log(this.allocatedtrade)
+    console.log(ListArray)
     return ListArray
   }
 

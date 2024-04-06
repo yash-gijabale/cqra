@@ -375,6 +375,8 @@ export class CreateSamplingComponent implements OnInit {
 
   }
 
+  tradeHeigth = {}
+
   convertContractorRowObjet(data) {
     let contractorObject = {}
     data.forEach(item => {
@@ -401,6 +403,12 @@ export class CreateSamplingComponent implements OnInit {
 
     console.log(contractorObject)
     this.contractorDataTradeWise = contractorObject
+    
+    for (const key in contractorObject) {
+      this.tradeHeigth[key] = 10 * contractorObject[key].length + 80
+    }
+
+    console.log(this.tradeHeigth)
 
   }
 
