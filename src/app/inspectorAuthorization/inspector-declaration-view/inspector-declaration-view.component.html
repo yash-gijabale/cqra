@@ -33,7 +33,7 @@
             <tbody>
               <tr *ngFor="let user of userDetails">
                 <td>{{user.srNo}}</td>
-                <td>{{user.projectName}}</td>
+                <td style="text-align: left;">{{user.projectName}}</td>
                 <td>
                   <span *ngIf="user.userStatus == null || user.userStatus == 0" class="badge badge-primary">New</span>
                   <span *ngIf="user.userStatus == 1" class="badge badge-success">Accepted</span>

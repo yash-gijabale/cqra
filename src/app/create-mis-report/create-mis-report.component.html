@@ -1,96 +1,103 @@
 <app-header></app-header>
 <div class="content-wrapper">
-    <div class="container-fluid ">
-      <div class="add-bg-here">
-        <div class="add-container-viewcommon">
-         <div class="add-breadcrames">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a href="#">Home </a>
-              </li> 
-              <li class="breadcrumb-item active">Create MIS</li>
-            </ol>
-         </div>
-          <div class="right-side-create-view">
-               <div class="create-content-operations">
-                 <button type="button"> <a routerLink="/misReport">Manage MIS</a></button>
-               </div>
-            </div>
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <li class="breadcrumb-item active">Create MIS</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/misReport">Manage MIS</a></button>
           </div>
-         <div class="main-header_createview">
-            <div class="left-side-header">
-                <div class="create-content-header">
-                  <h1>Create MIS</h1>
-                </div>
-            </div>
-         </div>
-         <div class="create-viewform">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Create MIS</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="form-group col-md-4">
               <label>Client Name</label>
-              <select  [(ngModel)]="SelClientId" class="form-control" formControlName="clientId" (change)="getProject()" > 
-                <option  [value]="0">Please Select client</option>
+              <select [(ngModel)]="SelClientId" class="form-control" formControlName="clientId" (change)="getProject()">
+                <option [value]="0">Please Select client</option>
                 <option [value]="o.clientId" *ngFor="let o of clients">
-                   {{o.clientName}}
+                  {{o.clientName}}
                 </option>
-            </select>
+              </select>
               <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientId.errors.required">Client Name is required</div>
+                <div *ngIf="f.clientId.errors.required">Client Name is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Project Name</label>
-              <select class="form-control" formControlName="schemeId"  > 
-                <option  [value]="0">Please Select</option>
+              <select class="form-control" formControlName="schemeId">
+                <option [value]="0">Please Select</option>
                 <option [value]="project.projectId" *ngFor="let project of projects">
-                   {{project.projectName}}
+                  {{project.projectName}}
                 </option>
-            </select>
+              </select>
               <div *ngIf="submitted && f.schemeId.errors" class="invalid-feedback">
-                  <div *ngIf="f.schemeId.errors.required">Project is required</div>
+                <div *ngIf="f.schemeId.errors.required">Project is required</div>
               </div>
             </div>
-            <div class="form-group">
-                <label>Month</label>
-                <input type="month" formControlName="month" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.month.errors }" />
-                <div *ngIf="submitted && f.month.errors" class="invalid-feedback">
-                    <div *ngIf="f.month.errors.required">Month is required</div>
-                </div>
+            <div class="form-group col-md-4">
+              <label>Month</label>
+              <input type="month" formControlName="month" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.month.errors }" />
+              <div *ngIf="submitted && f.month.errors" class="invalid-feedback">
+                <div *ngIf="f.month.errors.required">Month is required</div>
+              </div>
             </div>
-            <div class="form-group">
-                <label>Index(Out of 10) </label>
-                <input type="text" formControlName="value" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.value.errors }" />
-                <div *ngIf="submitted && f.value.errors" class="invalid-feedback">
-                    <div *ngIf="f.value.errors.required">Index is required</div>
-                </div>
+            <div class="form-group col-md-4">
+              <label>Index(Out of 10) </label>
+              <input type="text" formControlName="value" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.value.errors }" />
+              <div *ngIf="submitted && f.value.errors" class="invalid-feedback">
+                <div *ngIf="f.value.errors.required">Index is required</div>
+              </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Review of Work</label>
-              <input type="text" formControlName="qualityOfWork" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.qualityOfWork.errors }" />
+              <input type="text" formControlName="qualityOfWork" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.qualityOfWork.errors }" />
               <div *ngIf="submitted && f.qualityOfWork.errors" class="invalid-feedback">
-                  <div *ngIf="f.qualityOfWork.errors.required">Project City is required</div>
+                <div *ngIf="f.qualityOfWork.errors.required">Project City is required</div>
               </div>
-          </div>
-            <div class="form-group">
-                <label>Project Image1</label>
-                <input type="file" formControlName="image1" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.image1.errors }" />
-                <div *ngIf="submitted && f.image1.errors" class="invalid-feedback">
-                    <div *ngIf="f.image1.errors.required">K value is required</div>
-                </div>
             </div>
-            <div class="form-group">
-              <label>Project Image2</label>
-              <input type="file" formControlName="image2" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.image2.errors }" />
-              <div *ngIf="submitted && f.image2.errors" class="invalid-feedback">
-                  <div *ngIf="f.image2.errors.required">Regional Manager is required</div>
+            <div class="form-group col-md-4">
+              <label>Project Image1</label>
+              <input type="file" formControlName="image1" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.image1.errors }" />
+              <div *ngIf="submitted && f.image1.errors" class="invalid-feedback">
+                <div *ngIf="f.image1.errors.required">K value is required</div>
               </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Project Image2</label>
+              <input type="file" formControlName="image2" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.image2.errors }" />
+              <div *ngIf="submitted && f.image2.errors" class="invalid-feedback">
+                <div *ngIf="f.image2.errors.required">Regional Manager is required</div>
+              </div>
+            </div>
           </div>
-          
+
           <div class="form-group">
-              <button class="btn btn-primary">Save</button>
+            <button class="btn btn-primary">Save</button>
           </div>
         </form>
-         </div>
       </div>
     </div>
-<app-footer></app-footer>
+  </div>
+  <app-footer></app-footer>

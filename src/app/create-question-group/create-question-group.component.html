@@ -26,36 +26,40 @@
       </div>
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Select Trade</label>
-            <select [(ngModel)]="SelTrade" formControlName="tardeId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }" (change)="getSubgroups()">
-              <option [value]="0">Please Select</option>
-              <option [value]="o.tardeId" *ngFor="let o of trades">
-                {{o.tradeName}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.tardeId.errors" class="invalid-feedback">
-              <div *ngIf="f.tardeId.errors.required">Trade is required</div>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Select Trade</label>
+              <select [(ngModel)]="SelTrade" formControlName="tardeId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }" (change)="getSubgroups()">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.tardeId" *ngFor="let o of trades">
+                  {{o.tradeName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.tardeId.errors" class="invalid-feedback">
+                <div *ngIf="f.tardeId.errors.required">Trade is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
+            <div class="form-group col-md-4">
               <label>Select Subgroup</label>
-              <select  formControlName="subgroupId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.subgroupId.errors }"> 
-                  <option  [value]="0">Please Select</option>
-                  <option [value]="o.subgroupId" *ngFor="let o of subgroups">
-                    {{o.subgroupName}}
-                  </option>
+              <select formControlName="subgroupId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.subgroupId.errors }">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.subgroupId" *ngFor="let o of subgroups">
+                  {{o.subgroupName}}
+                </option>
               </select>
               <div *ngIf="submitted && f.subgroupId.errors" class="invalid-feedback">
-                  <div *ngIf="f.subgroupId.errors.required">Subgroup is required</div>
+                <div *ngIf="f.subgroupId.errors.required">Subgroup is required</div>
               </div>
-          </div>
-          <div class="form-group">
-            <label>Question Group Name</label>
-            <input type="text" formControlName="questionGroupText" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.questionGroupText.errors }" />
-            <div *ngIf="submitted && f.questionGroupText.errors" class="invalid-feedback">
-              <div *ngIf="f.questionGroupText.errors.required">Question Group Name is required</div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>Question Group Name</label>
+              <input type="text" formControlName="questionGroupText" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.questionGroupText.errors }" />
+              <div *ngIf="submitted && f.questionGroupText.errors" class="invalid-feedback">
+                <div *ngIf="f.questionGroupText.errors.required">Question Group Name is required</div>
+              </div>
             </div>
           </div>
           <!-- <div class="form-group">

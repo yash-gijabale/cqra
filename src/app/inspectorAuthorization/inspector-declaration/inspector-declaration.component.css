@@ -22,8 +22,8 @@
     /* border: 1px solid #36304a; */
     padding: 10px;
     text-align: center;
-    background-color: #36304a;
-    color: aliceblue;
+    background-color: #2d5a91;
+    color: white;
 }
 
 .inspector_list_table thead th:first-child {
@@ -37,7 +37,7 @@
 
 .inspector_list_table tbody td {
     text-align: center;
-    border: 1px solid rgb(191, 184, 184);
+    border: 1px solid #ddd;
     padding: 10px;
 
 }
@@ -48,14 +48,15 @@
 }
 
 .inspector_list_table tr:nth-child(even) {
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255); */
+    background-color: #f2f2f2;
 }
 
 .inspector_list_table tr:nth-child(odd) {
-    background-color: rgb(234, 228, 228);
+    background-color: white;
 }
 
-.userdeailsload{
+.userdeailsload {
     width: 100%;
     height: 100%;
     display: grid;
@@ -74,11 +75,11 @@
     margin-bottom: 10px !important;
 }
 
-.modal-full .modal-content{
+.modal-full .modal-content {
     height: 100% !important;
 }
 
-.modal-full-body{
+.modal-full-body {
     height: 100% !important;
     max-height: 100vh;
 }
@@ -113,7 +114,7 @@
     justify-content: space-between;
 }
 
-.comment-box{
+.comment-box {
     width: 200px;
     height: 70px;
     background-color: rgb(196, 197, 198);
@@ -123,6 +124,6 @@
     position: absolute;
 }
 
-.comment-box-hide{
+.comment-box-hide {
     display: none;
 }
