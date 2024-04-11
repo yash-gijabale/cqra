@@ -51,7 +51,8 @@
                       </div>
                       <div class="form-check col-md-12" *ngFor="let trade of searchTradeData">
                         <input class="form-check-input" (change)="addToNewUserTraining($event)" type="checkbox"
-                          [value]="trade.tardeId" id="flexCheckDefault" [checked]="newUserTrainingTrde.includes(trade.tardeId)">
+                          [value]="trade.tardeId" id="flexCheckDefault"
+                          [checked]="newUserTrainingTrde.includes(trade.tardeId)">
                         <label class="form-check-label" for="flexCheckDefault">
                           {{trade.tradeName}}
                         </label>
@@ -196,8 +197,8 @@
                     </div>
                   </ng-template>
                   <ng-template #elseUserDetails>
-                    <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" class="row-border hover inspector_list_table inspector_list_details_table"
-                      style="width:100%">
+                    <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2"
+                      class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
                       <thead>
                         <tr>
                           <th>Sr no</th>
@@ -206,9 +207,9 @@
                           <th>Date</th>
                           <th>Question Paper</th>
                           <th style="width: 9%;">Marks</th>
-                          <th>Under Training  Report1</th>
-                          <th>Under Training  Report2</th>
-                          <th>Under Training  Report3</th>
+                          <th>Under Training Report1</th>
+                          <th>Under Training Report2</th>
+                          <th>Under Training Report3</th>
                           <th>Status</th>
                           <th>Approve</th>
                         </tr>
@@ -228,11 +229,11 @@
                               <span class="badge bg-success text-light" role="button">Upload</span>
                             </div>
                             <span *ngIf="data.value.trainingAttachment"
-                              class="badge bg-light text-dark mx-2 border border-dark" role="button"
-                              data-toggle="modal" [attr.data-target]="'#training-attach-'+data.value.tradeId">view</span>
+                              class="badge bg-light text-dark mx-2 border border-dark" role="button" data-toggle="modal"
+                              [attr.data-target]="'#training-attach-'+data.value.tradeId">view</span>
                             <!-- Training Modal -->
-                            <div class="modal fade" [id]="'training-attach-'+data.value.tradeId" tabindex="-1" role="dialog"
-                              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade" [id]="'training-attach-'+data.value.tradeId" tabindex="-1"
+                              role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                               <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -243,7 +244,8 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                      <img src="https://m.media-amazon.com/images/G/31/img21/shoes/2023/SS23/Kids/SBCs/Sneakerb._CB603477575_.png" />
+                                    <img
+                                      src="https://m.media-amazon.com/images/G/31/img21/shoes/2023/SS23/Kids/SBCs/Sneakerb._CB603477575_.png" />
                                   </div>
                                 </div>
                               </div>
@@ -320,14 +322,17 @@
                           </td>
 
                           <td>
-                            <span *ngIf="data.value.status == 0 || data.value.status==null" class="badge bg-danger text-light">Not Approved</span>
+                            <span *ngIf="data.value.status == 0 || data.value.status==null"
+                              class="badge bg-danger text-light">Not Approved</span>
                             <span *ngIf="data.value.status == 1" class="badge bg-success text-light">Approved</span>
                           </td>
                           <td>
-                            <button class="badge bg-primary text-light border-none"><i
-                                class="las la-check" (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 1)"></i></button>
-                            <button class="badge bg-danger text-light border-none mx-2"><i
-                                class="las la-times" (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 0)"></i></button>
+                            <button *ngIf="data.value.status != 1 || data.value.status==null"
+                              class="badge bg-primary text-light border-none"><i class="las la-check"
+                                (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 1)"></i></button>
+                            <button *ngIf="data.value.status == 1"
+                              class="badge bg-danger text-light border-none mx-2"><i class="las la-times"
+                                (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 0)"></i></button>
                           </td>
                         </tr>
 
@@ -398,7 +403,8 @@
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Question Evaluation ({{usertradeDetailsData.userName}})
+                  <h5 class="modal-title" id="exampleModalLongTitle">Question Evaluation
+                    ({{usertradeDetailsData.userName}})
                   </h5>
                   <span class="badge badge-secondary modal-title">Questions: {{totalQuestionsAns}}</span>
                   <span class="badge badge-secondary modal-title mx-1">Rigth: {{rigthAns}}</span>

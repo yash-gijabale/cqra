@@ -266,18 +266,18 @@
 
                               <span *ngFor="let t of step2formRenderData[tg.id]"
                                 [ngStyle]="{'height':+tradeHeigth[t.tradeId]+'px', 'margin-bottom': '10px', 'display': 'flex', 'flex-direction': 'column !important'}">
-                                <!-- <input [class]="'step2ContractorSelect_'+t.tradeId" [value]="contractor.contractorName"
+                                <input [class]="'step2ContractorSelect_'+t.tradeId" [value]="contractor.contractorName"
                                   [attr.title]="contractor.contractorId"
-                                  *ngFor="let contractor of contractorDataTradeWise[t.tradeId]"> -->
+                                  *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
                                   <!-- <select [class]="'step2ContractorSelect_'+t.tradeId" [attr.title]="contractor.contractorId"  *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
                                     <option [value]="contractor.contractorId">
                                       {{contractor.contractorName}}
                                     </option>
   
                                   </select> -->
-                                <p [class]="'step2ContractorSelect_'+t.tradeId" [attr.title]="contractor.contractorId"
+                                <!-- <p [class]="'step2ContractorSelect_'+t.tradeId" [attr.title]="contractor.contractorId"
                                   *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
-                                  {{contractor.contractorName}}</p>
+                                  {{contractor.contractorName}}</p> -->
                               </span>
                             </td>
                           </ng-template>
@@ -438,7 +438,7 @@
                             <span *ngFor="let trade of testTradeStep3[t.id]" class="m-0 p-0">
                               <!-- {{stageData[trade.tradeId] &&
                               stageData[trade.tradeId][0].stageName}} -->
-                              <span *ngFor="let stage of stageData[trade.tradeId]"
+                              <span *ngFor="let stage of stageData[trade.tradeId]" style="height: 15px !important; min-height: 26px !important;"
                                 class="badge badge-primary p-0 m-0">{{stage.stageName}}</span>
                             </span>
                           </td>
@@ -525,7 +525,7 @@
                             </td>
                             <td>
                               <!-- {{type2StageData[data.key][t.key][0].stageName}} -->
-                              <span class="badge badge-primary"
+                              <span class="badge badge-primary" style="height: 15px !important; min-height: 26px !important;"
                                 *ngFor="let stage of type2StageData[data.key][t.key]">{{stage.stageName}}</span>
                             </td>
 
