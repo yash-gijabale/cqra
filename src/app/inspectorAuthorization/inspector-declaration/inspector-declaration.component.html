@@ -20,7 +20,7 @@
         <div class="new-inspector row mt-5">
           <div class="form-group col-md-3">
             <label>New User: </label>
-            <select [(ngModel)]="SelUserId" class="form-control col-md-12"  (change)="getUSerProjects()">
+            <select [(ngModel)]="SelUserId" class="form-control col-md-12" (change)="getUSerProjects()">
               <option [value]="1">Select user</option>
               <option [value]="user.id" *ngFor="let user of userList">{{user.userFullName}}</option>
             </select>
@@ -87,8 +87,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let user of declarationUserList">
-                <td>{{user.srNo}}</td>
-                <td>{{user.username ? user.username : ''}}</td>
+                <td style="text-align: left;">{{user.srNo}}</td>
+                <td style="text-align: left;">{{user.username ? user.username : ''}}</td>
                 <!-- <td>
                   <span class="badge badge-primary">New</span>
                 </td>
@@ -138,16 +138,17 @@
             <tbody>
               <tr *ngFor="let user of userDeclaration">
                 <td>{{user.srNo}}</td>
-                <td>
+                <td style="text-align: left;">
                   {{user.clientName}}
                 </td>
-                <td>
+                <td style="text-align: left;">
                   {{user.projectName}}
                 </td>
                 <td>
                   <span class="badge badge-success" *ngIf="user.userStatus == 1">Accepted</span>
                   <span class="badge badge-danger" *ngIf="user.userStatus == 2">Declined</span>
-                  <span class="badge badge-warning" *ngIf="user.userStatus == null || user.userStatus == 0">Pending</span>
+                  <span class="badge badge-warning"
+                    *ngIf="user.userStatus == null || user.userStatus == 0">Pending</span>
                 </td>
                 <td>
                   {{user.comment}}
@@ -172,7 +173,7 @@
                   <span class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2, user.userId)"
                     role="button">
                     <div *ngIf="declineLoad" class="spinner-border spinner-border-sm" role="status"></div>
-                    <span *ngIf="!declineLoad" >Decline</span>
+                    <span *ngIf="!declineLoad">Decline</span>
                   </span>
                 </td>
               </tr>
