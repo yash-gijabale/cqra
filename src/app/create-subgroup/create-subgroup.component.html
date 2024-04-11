@@ -26,24 +26,27 @@
       </div>
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Select Trade</label>
-            <select formControlName="tardeId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }">
-              <option [value]="0">Please Select</option>
-              <option [value]="o.tardeId" *ngFor="let o of trades">
-                {{o.tradeName}}
-              </option>
-            </select>
-            <div *ngIf="submitted && f.tardeId.errors" class="invalid-feedback">
-              <div *ngIf="f.tardeId.errors.required">Trade is required</div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>Select Trade</label>
+              <select formControlName="tardeId" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tardeId.errors }">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.tardeId" *ngFor="let o of trades">
+                  {{o.tradeName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.tardeId.errors" class="invalid-feedback">
+                <div *ngIf="f.tardeId.errors.required">Trade is required</div>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Name</label>
-            <input type="text" formControlName="subgroupName" class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.subgroupName.errors }" />
-            <div *ngIf="submitted && f.subgroupName.errors" class="invalid-feedback">
-              <div *ngIf="f.subgroupName.errors.required">subgroup name is required</div>
+            <div class="form-group col-md-6">
+              <label>Name</label>
+              <input type="text" formControlName="subgroupName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.subgroupName.errors }" />
+              <div *ngIf="submitted && f.subgroupName.errors" class="invalid-feedback">
+                <div *ngIf="f.subgroupName.errors.required">subgroup name is required</div>
+              </div>
             </div>
           </div>
           <!-- <div class="form-group">

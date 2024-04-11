@@ -22,8 +22,8 @@
     /* border: 1px solid #36304a; */
     padding: 10px;
     text-align: center;
-    background-color: #36304a;
-    color: aliceblue;
+    background-color: #2d5a91;
+    color: white;
 }
 
 .inspector_list_table thead th:first-child {
@@ -37,7 +37,7 @@
 
 .inspector_list_table tbody td {
     text-align: center;
-    border: 1px solid rgb(191, 184, 184);
+    border: 1px solid #ddd;
     padding: 10px;
 
 }
@@ -48,11 +48,13 @@
 }
 
 .inspector_list_table tr:nth-child(even) {
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255); */
+    background-color: #f2f2f2;
 }
 
 .inspector_list_table tr:nth-child(odd) {
-    background-color: rgb(234, 228, 228);
+    /* background-color: rgb(234, 228, 228); */
+    background-color: white;
 }
 
 .modal-body {
@@ -74,11 +76,11 @@
 
 
 
-.modal-full .modal-content{
+.modal-full .modal-content {
     height: 100% !important;
 }
 
-.modal-full-body{
+.modal-full-body {
     height: 100% !important;
     max-height: 100vh;
 }
@@ -91,10 +93,11 @@
     }
 }
 
-.hide{
+.hide {
     display: none;
 }
-.traning_upload{
+
+.traning_upload {
     width: auto;
     display: flex !important;
     flex-direction: column !important;
@@ -102,7 +105,7 @@
 
 }
 
-.traning_q{
+.traning_q {
     width: auto;
     display: flex !important;
     flex-direction: row !important;
@@ -112,10 +115,11 @@
 
 }
 
-.traning_q span{
+.traning_q span {
     width: 70% !important;
 }
-.traning_upload input::file-selector-button{
+
+.traning_upload input::file-selector-button {
     width: 40px !important;
     height: 20px !important;
     background-color: rgb(133, 135, 134);
@@ -123,29 +127,30 @@
     color: #fff;
 }
 
-.traning_upload input::file-selector-button::after{
+.traning_upload input::file-selector-button::after {
     content: 'upload';
 }
 
-.userdeailsload{
+.userdeailsload {
     width: 100%;
     height: 100%;
     display: grid;
     place-items: center;
 
 }
-.badge-spinner{
+
+.badge-spinner {
     width: 10px !important;
     height: 10px !important;
     border: 2px solid black;
     border-right-color: transparent !important;
 }
 
-.question-paper-main{
+.question-paper-main {
     width: 100%;
 }
 
-.question-box{
+.question-box {
     width: 100%;
     margin: auto;
     display: flex;
@@ -153,7 +158,7 @@
     margin-bottom: 2rem;
 }
 
-.question-box .question-ans{
+.question-box .question-ans {
     width: 100%;
     border: 1px solid rgb(202, 200, 200);
     border-radius: 5px;
@@ -162,6 +167,6 @@
     background-color: #f4f4f4;
 }
 
-.question-box .question-ans:focus{
+.question-box .question-ans:focus {
     outline: none;
 }
