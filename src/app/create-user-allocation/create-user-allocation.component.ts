@@ -48,7 +48,7 @@ export class ApprovedTrade {
 export class CreateUserAllocationComponent implements OnInit {
   userAllocationForm: FormGroup;
   submitted = false;
-  SelUser: string = "0";
+  SelUser: String = "0";
   SelProject: string = "0";
   SelStructure: string = "0";
   SelChecklist: string = "0";
@@ -118,8 +118,8 @@ export class CreateUserAllocationComponent implements OnInit {
         console.log('users', data)
       })
 
-      
-      this.inspectorTraining.getTrainingApprovedUser()
+
+    this.inspectorTraining.getTrainingApprovedUser()
       .subscribe(data => {
         console.log(data)
         this.userList = data
@@ -290,7 +290,10 @@ export class CreateUserAllocationComponent implements OnInit {
         })
   }
 
+  checkListMap = {}
+
   getChecklist() {
+    this.selectedData = {}
     console.log(this.SelTrade)
     this.commanService.getChecklistsByTrade(this.SelTrade)
       .subscribe(
@@ -301,7 +304,6 @@ export class CreateUserAllocationComponent implements OnInit {
       )
 
     let stageMap = {}
-    let checkListMap = {}
     let allocatedData
     this.commanService.getUserAllocationData(this.SelProject, this.SelStructure, this.SelTrade, this.SelUser)
       .subscribe(data => {
@@ -311,19 +313,19 @@ export class CreateUserAllocationComponent implements OnInit {
           if (this.selectedData[item.stageId]) {
             if (this.selectedData[item.stageId]) {
               if (this.selectedData[item.stageId][item.unitId]) {
-                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+                if (item.subunitId && !this.selectedData[item.stageId][item.unitId].includes(item.subunitId)) this.selectedData[item.stageId][item.unitId].push(item.subunitId)
               } else {
-                this.selectedData[item.stageId][item.unitId] = []
-                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+                if (item.unitId) this.selectedData[item.stageId][item.unitId] = []
+                if (item.subunitId && !this.selectedData[item.stageId][item.unitId].includes(item.subunitId)) this.selectedData[item.stageId][item.unitId].push(item.subunitId)
 
               }
             } else {
               this.selectedData[item.stageId] = {}
               if (this.selectedData[item.stageId][item.unitId]) {
-                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+                if (item.subunitId && !this.selectedData[item.stageId][item.unitId].includes(item.subunitId)) this.selectedData[item.stageId][item.unitId].push(item.subunitId)
               } else {
-                this.selectedData[item.stageId][item.unitId] = []
-                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+                if (item.unitId) this.selectedData[item.stageId][item.unitId] = []
+                if (item.subunitId && !this.selectedData[item.stageId][item.unitId].includes(item.subunitId)) this.selectedData[item.stageId][item.unitId].push(item.subunitId)
 
               }
 
@@ -332,33 +334,43 @@ export class CreateUserAllocationComponent implements OnInit {
             this.selectedData[item.stageId] = {}
             if (this.selectedData[item.stageId]) {
               if (this.selectedData[item.stageId][item.unitId]) {
-                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+                if (item.subunitId && !this.selectedData[item.stageId][item.unitId].includes(item.subunitId)) this.selectedData[item.stageId][item.unitId].push(item.subunitId)
               } else {
-                this.selectedData[item.stageId][item.unitId] = []
-                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+                if (item.unitId) this.selectedData[item.stageId][item.unitId] = []
+                if (item.subunitId && !this.selectedData[item.stageId][item.unitId].includes(item.subunitId)) this.selectedData[item.stageId][item.unitId].push(item.subunitId)
 
               }
             } else {
               this.selectedData[item.stageId] = {}
               if (this.selectedData[item.stageId][item.unitId]) {
-                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+                if (item.subunitId && !this.selectedData[item.stageId][item.unitId].includes(item.subunitId)) this.selectedData[item.stageId][item.unitId].push(item.subunitId)
               } else {
-                this.selectedData[item.stageId][item.unitId] = []
-                this.selectedData[item.stageId][item.unitId].push(item.subunitId)
+                if (item.unitId) this.selectedData[item.stageId][item.unitId] = []
+                if (item.subunitId && !this.selectedData[item.stageId][item.unitId].includes(item.subunitId)) this.selectedData[item.stageId][item.unitId].push(item.subunitId)
 
               }
 
             }
           }
 
+          this.checkListMap[item.checklistId] = true
+
         })
         console.log(this.selectedData)
+        console.log(this.checkListMap)
+
+        //ADD PRE CHECKLIST TO CHECKLIST DATA
+        for (const key in this.checkListMap) {
+          this.checkListData.push(key)
+        }
       })
   }
 
 
-  getProjectByuser() {
-    this.commanService.getProjectByUserId(this.SelUser)
+  getProjectByuser(e) {
+    console.log(e)
+    console.log(this.SelUser)
+    this.commanService.getProjectByUserId(e.target.value)
       .subscribe(data => {
         this.projects = data
       })

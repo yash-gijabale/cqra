@@ -189,8 +189,8 @@ export class CommonService {
 
 
   //USer log
-  getUserLogData(id) {
-    return this.httpClient.get<UserLogDataView[]>(`${this.REST_API_SERVER}/getCountViews/${id}`)
+  getUserLogData(pid, uid, fromDate, toDate) {
+    return this.httpClient.get<UserLogDataView[]>(`${this.REST_API_SERVER}/getCountViewsbyidssss/${pid}/${uid}/${fromDate}/${toDate}`)
 
   }
 

@@ -469,7 +469,7 @@ export class CreateSamplingComponent implements OnInit {
     })
     console.log(this.tradeIds)
     this.tradeIds.forEach((item) => {
-      // let statusValue = document.querySelector(`.tradeStatusSelect_${item}`)
+      // let statusValue = document.querySelector(.tradeStatusSelect_${item})
       // console.log()
       let workAreaWithName = []
       this.workArea[item] && this.workArea[item].forEach(stage => {
@@ -678,7 +678,7 @@ export class CreateSamplingComponent implements OnInit {
     if (this.samplingType != 1) {
 
       this.tradeIds.forEach((item) => {
-        // let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
+        // let statusValue = document.querySelector(.step2TradeStatusSelect_${item})
         let contractorValue = document.querySelectorAll(`.step2ContractorSelect_${item}`)
         console.log(contractorValue)
         let staffValue = document.querySelector(`.step2StaffSelect_${item}`)
@@ -720,7 +720,7 @@ export class CreateSamplingComponent implements OnInit {
       })
     } else {
       this.tradeIds.forEach((item) => {
-        // let statusValue = document.querySelector(`.step2TradeStatusSelect_${item}`)
+        // let statusValue = document.querySelector(.step2TradeStatusSelect_${item})
         let contractorValue = document.querySelector(`.step2ContractorSelect_${item}`)
         let staffValue = document.querySelector(`.step2StaffSelect_${item}`)
         // console.log()

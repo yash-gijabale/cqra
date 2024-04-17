@@ -46,7 +46,7 @@
 
             <div class="form-group col-md-4">
               <label for="fname" class="col-form-label">Project</label>
-              <select [(ngModel)]="SelProjectId" multiple class="form-control">
+              <select [(ngModel)]="SelProjectId"  class="form-control">
                 <option [value]="o.projectId" *ngFor="let o of rProjects">
                   {{o.projectName}}
                 </option>
@@ -55,7 +55,7 @@
 
             <div class="form-group col-md-4">
               <label for="fname" class="col-form-label">Users</label>
-              <select [(ngModel)]="SelRuserId" multiple class="form-control">
+              <select [(ngModel)]="SelRuserId" class="form-control">
                 <option [value]="o.userId" *ngFor="let o of users">
                   {{o.userFullName}}
                 </option>
@@ -63,8 +63,11 @@
             </div>
 
 
-            <div class="form-group mt-5">
-              <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+            <div class="form-group col-md-12">
+              <button class="btn btn-primary" (click)="onSubmit()">
+                <div *ngIf="loadUserLog" class="spinner-border spinner-border-sm" role="status"></div>
+                <span *ngIf="!loadUserLog">Submit</span>
+              </button>
             </div>
 
           </div>
@@ -101,8 +104,8 @@
                   <td>{{userLog.c}}</td>
                   <td>
                     <div class="action-commonview">
-                      <button type="text" (click)="getList(userLog.pkAnswerIdU)"
-                        class="edit-modal add-modal" data-toggle="modal" data-target="#exampleModalCenter">
+                      <button type="text" (click)="getList(userLog.pkAnswerIdU)" class="edit-modal add-modal"
+                        data-toggle="modal" data-target="#exampleModalCenter">
                         <span class="edit-tessst">
                           <i class="fa fa-search" aria-hidden="true"></i>
                         </span>

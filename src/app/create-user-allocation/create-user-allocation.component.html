@@ -28,8 +28,8 @@
         <form [formGroup]="userAllocationForm" (ngSubmit)="onSubmit()" class="row">
           <div class="form-group col-md-6">
             <label>User</label>
-            <select [(ngModel)]="SelUser" formControlName="userId" class="form-control" (change)="getProjectByuser()">
-              <option [value]="o.userId" *ngFor="let o of userList">
+            <select [(ngModel)]="SelUser" formControlName="userId" class="form-control" (change)="getProjectByuser($event)">
+              <option [value]="o.id" *ngFor="let o of userList">
                 {{o.userFullName}}
               </option>
             </select>
@@ -169,7 +169,7 @@
                   <div class="col-md-12">
                     <div class="form-check col-md-12" *ngFor="let o of checklists">
                       <input class="form-check-input subUnitsCheckbox" 
-                      [id]="'checklist'+o.checkistIdChecklist" type="checkbox" [value]="o.checkistIdChecklist" (change)="addChecklist($event)">
+                      [id]="'checklist'+o.checkistIdChecklist" type="checkbox" [value]="o.checkistIdChecklist" (change)="addChecklist($event)" [checked]="checkListMap[o.checkistIdChecklist]">
                       <label class="form-check-label" [for]="'checklist'+o.checkistIdChecklist">{{o.checklistNameChecklist}}</label>
                     </div>
                   </div>
