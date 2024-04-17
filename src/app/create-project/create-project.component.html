@@ -37,8 +37,8 @@
             <select formControlName="serviceType" [ngClass]="{ 'is-invalid': submitted && f.serviceType.errors }"
               class="form-control">
               <option [selected]="true">Select type</option>
-              <option value="1">QAQC</option>
-              <option value="2">SA</option>
+              <option [value]="1">QAQC</option>
+              <option [value]="2">SA</option>
             </select>
             <div *ngIf="submitted && f.serviceType.errors" class="invalid-feedback">
               <div *ngIf="f.serviceType.errors.required">Service Type is required</div>

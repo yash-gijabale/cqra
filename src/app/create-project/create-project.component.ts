@@ -80,6 +80,7 @@ export class CreateProjectComponent implements OnInit {
 
       this.tradeService.getProjectTrades(this.id)
         .subscribe(data => {
+          console.log(data)
           data.forEach(d => {
             this.preTrades[d.fkTradeId] = true
             this.selectedTrades.push(d.fkTradeId)
@@ -159,16 +160,16 @@ export class CreateProjectComponent implements OnInit {
       projectAddress: this.projectForm.value.projectAddress,
       projectCity: this.projectForm.value.projectCity,
       projectKValue: this.projectForm.value.projectKValue,
-      region: this.projectForm.value.region,
+      region: Number(this.projectForm.value.region),
       projectArea: this.projectForm.value.projectArea,
-      areaUnit: this.projectForm.value.areaUnit,
+      areaUnit: this.projectForm.value.areaUnit || "SqtFt",
       projectStartDate: this.projectForm.value.projectStartDate,
       projectEndDate: this.projectForm.value.projectEndDate,
-      projectMisNCs: this.projectForm.value.projectMisNCs,
-      projectNCOpen: this.projectForm.value.projectNCOpen,
-      projectRedalert: this.projectForm.value.projectRedalert,
+      projectMisNCs: Number(this.projectForm.value.projectMisNCs),
+      projectNCOpen: Number(this.projectForm.value.projectNCOpen),
+      projectRedalert: Number(this.projectForm.value.projectRedalert),
       projectCCmails: this.projectForm.value.projectCCmails,
-      serviceType: this.projectForm.value.serviceType,
+      serviceType: Number(this.projectForm.value.serviceType),
       // noOfStructure: this.projectForm.value.noOfStructure,
       mockUpApproval: this.projectForm.value.mockUpApproval ? 1 : 0,
       openNc: this.projectForm.value.openNc ? 1 : 0,

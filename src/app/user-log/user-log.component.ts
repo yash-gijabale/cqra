@@ -14,7 +14,7 @@ export class UserView {
     public userName: string,
     public userFullName: string,
     public email: string
-  ) {}
+  ) { }
 }
 
 export class UserLogDataView {
@@ -29,11 +29,11 @@ export class UserLogDataView {
     public tradeNameU: string,
     public structureNameU: string,
     public c: number
-  ) {}
+  ) { }
 }
 
 export class navState {
-  constructor(public state: string) {}
+  constructor(public state: string) { }
 }
 
 @Component({
@@ -50,7 +50,7 @@ export class UserLogComponent implements OnInit {
   users: UserView[];
   reginalmanagerUsers: UserView[];
   projectForm: FormGroup;
-  rProjects: ProjectView[];
+  rProjects: ProjectData[];
 
   userLogDetails: UserLogDataView[];
 
@@ -67,7 +67,7 @@ export class UserLogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private clientService: ClientServiceService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -104,7 +104,7 @@ export class UserLogComponent implements OnInit {
   }
   getProjects() {
     alert(this.SelClientId);
-    this.commonService.getProjects(this.SelClientId).subscribe(
+    this.commonService.getAllProject().subscribe(
       (data) => {
         console.log("Project Data==", data);
         this.rProjects = data;
@@ -118,24 +118,33 @@ export class UserLogComponent implements OnInit {
   get f() {
     return this.projectForm.controls;
   }
+
+  loadUserLog: boolean = false
   onSubmit() {
     alert(
       this.SelProjectId +
-        " TO " +
-        this.SelRuserId +
-        " Date " +
-        this.fromDate +
-        "To" +
-        this.toDdate
+      " TO " +
+      this.SelRuserId +
+      " Date " +
+      this.fromDate +
+      "To" +
+      this.toDdate
     );
 
-    this.commonService.getUserLogData(this.SelProjectId).subscribe(
+    this.loadUserLog = true
+
+    this.commonService.getUserLogData(this.SelProjectId, this.SelRuserId, this.fromDate, this.toDdate).subscribe(
       (data) => {
         // console.log(data)
         this.userLogDetails = data;
         this.dtTrigger.next();
+        this.loadUserLog = false
       },
-      (err) => console.log(err)
+      (err) => {
+        console.log(err)
+        this.loadUserLog = false
+
+      }
     );
   }
 

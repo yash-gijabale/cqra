@@ -97,9 +97,9 @@
               <div class="tab-pane fade mb-3 show active" id="step1" role="tabpanel" aria-labelledby="nav-home-tab">
                 <!-- SAMPLING STEP 1 -->
                 <div id="samplingStep1 mt-3">
-                  <table>
+                  <table class="step1_table">
                     <thead>
-                      <th>Srno</th>
+                      <!-- <th>Srno</th> -->
                       <th>TradeGroup</th>
                       <th>Trade</th>
                       <!-- <th>Work complete status</th> -->
@@ -108,7 +108,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let tg of testTG">
-                        <td>1</td>
+                        <!-- <td>1</td> -->
                         <td>{{tg.tradegroupName}}</td>
                         <td>
                           <span class="tradename" *ngFor="let t of testTrade[tg.id]" [attr.title]="t.tradeId">
@@ -223,7 +223,8 @@
                         <th>Trade</th>
                         <!-- <th>Work Complete Status</th> -->
                         <th>Representative</th>
-                        <th>Contractor <a [routerLink]="'/createContractor/-1'">+</a></th>
+                        <th *ngIf="samplingType != 1">Contractor <a [routerLink]="'/createContractor/-1'">+</a></th>
+                        <th *ngIf="samplingType == 1">Client</th>
                         <th>Work Area</th>
                       </thead>
                       <tbody>
@@ -438,8 +439,7 @@
                             <span *ngFor="let trade of testTradeStep3[t.id]" class="m-0 p-0">
                               <!-- {{stageData[trade.tradeId] &&
                               stageData[trade.tradeId][0].stageName}} -->
-                              <span *ngFor="let stage of stageData[trade.tradeId]" style="height: 15px !important; min-height: 26px !important;"
-                                class="badge badge-primary p-0 m-0">{{stage.stageName}}</span>
+                              <span *ngFor="let stage of stageData[trade.tradeId]">{{stage.stageName}}, </span>
                             </span>
                           </td>
                           <!-- <td>
