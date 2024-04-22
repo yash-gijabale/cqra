@@ -135,7 +135,7 @@ export class UserLogComponent implements OnInit {
 
     this.commonService.getUserLogData(this.SelProjectId, this.SelRuserId, this.fromDate, this.toDdate).subscribe(
       (data) => {
-        // console.log(data)
+        console.log(data)
         this.userLogDetails = data;
         this.dtTrigger.next();
         this.loadUserLog = false

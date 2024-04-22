@@ -21,10 +21,32 @@
         </div>
         <div class="create-viewform">
           <div class="row">
-            <h5 class="col-md-12">User Name:</h5>
-            <h5 class="col-md-12">Project Name:</h5>
-            <h5 class="col-md-12">Structure Name:</h5>
-            <h5 class="col-md-12">Trade Name:</h5>
+            <div class="card col-md-3 p-0">
+              <h5 class="card-header">User Name</h5>
+              <div class="card-body">
+                <h5 class="card-title">{{pkAnswerData[0] && pkAnswerData[0].usernameU}}</h5>
+              </div>
+            </div>
+            <div class="card col-md-3 p-0">
+              <h5 class="card-header">Project Name</h5>
+              <div class="card-body">
+                <h5 class="card-title">{{pkAnswerData[0] && pkAnswerData[0].projectNameU}}</h5>
+              </div>
+            </div>
+            <div class="card col-md-3 p-0">
+              <h5 class="card-header">Structure Name</h5>
+              <div class="card-body">
+                <h5 class="card-title">{{pkAnswerData[0] && pkAnswerData[0].structureNameU}}</h5>
+              </div>
+            </div>
+
+            <div class="card col-md-3 p-0">
+              <h5 class="card-header">Trade Name</h5>
+              <div class="card-body">
+                <h5 class="card-title">{{pkAnswerData[0] && pkAnswerData[0].tradeNameU}}</h5>
+              </div>
+            </div>
+
           </div>
         </div>
 

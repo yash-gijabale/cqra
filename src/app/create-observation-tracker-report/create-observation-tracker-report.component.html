@@ -8,20 +8,21 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active" *ngIf="typeId == 2">Observation Tracker Report</li>
+            <li class="breadcrumb-item active" *ngIf="typeId == 1">Observation Tracker Report</li>
             <li class="breadcrumb-item active" *ngIf="typeId == 0">SignOff Report</li>
           </ol>
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/OTRList">Manage OTR</a> </button>
+            <button  *ngIf="typeId == 1" type="button"> <a routerLink="/OTRList" style="color: white;">Manage OTR</a> </button>
+            <button  *ngIf="typeId == 0" type="button"> <a routerLink="/snaggingDocument" style="color: white;">Manage SignOff Document</a> </button>
           </div>
         </div>
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1 *ngIf="typeId == 2"> Create Observation Tracker Report </h1>
+            <h1 *ngIf="typeId == 1"> Create Observation Tracker Report </h1>
             <h1 *ngIf="typeId == 0"> Create SignOff Report</h1>
           </div>
         </div>
@@ -64,7 +65,7 @@
               <div class="invalid-feedback">
               </div>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>Select Stages</label>
               <select formControlName="obstraStage" class="form-control" multiple>
                 <option [value]="0">Please Select</option>
@@ -76,7 +77,7 @@
               </div>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>Trade</label>
               <select formControlName="obstraTrade" class="form-control" multiple>
                 <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
@@ -125,14 +126,25 @@
 
             <div class="form-group col-md-4">
               <label>Oth Person:</label>
-              <input type="text" formControlName="othPerson" class="form-control">
+              <input type="text" formControlName="otherPerson" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Report Name:</label>
+              <input type="text" formControlName="reportName" class="form-control">
               <div class="invalid-feedback">
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary">Save</button>
+
+            <button class="btn btn-primary">
+              <div *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status"></div>
+              <span *ngIf="!submitLoad">Save</span>
+            </button>
           </div>
         </form>
       </div>

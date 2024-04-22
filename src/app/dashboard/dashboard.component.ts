@@ -47,4 +47,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  handleClick(e){
+  const a = this.chart.getElementAtEvent(e)
+  console.log(a)
+  }
 }

@@ -15,6 +15,7 @@ import { DataTablesModule } from 'angular-datatables';
 
 // import {MatFormFieldModule} from '@angular/material/form-field';
 
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProjectComponent } from './project/project.component';
 import { WbsComponent } from './wbs/wbs.component';
@@ -144,6 +145,7 @@ import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-main
 import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
 import { SnackBarComponent } from './loader/snack-bar/snack-bar.component';
 import { Global } from 'src/config/Global';
+import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-sampling.component';
 
 
 @NgModule({
@@ -281,6 +283,7 @@ import { Global } from 'src/config/Global';
     EquipmentMaintenanceFormComponent,
     MyEquipmentsComponent,
     SnackBarComponent,
+    TestNewSamplingComponent,
   ],
   imports: [
     BrowserModule,

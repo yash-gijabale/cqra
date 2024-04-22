@@ -38,7 +38,7 @@ export class AnswerView {
 export class UserlogReportViewComponent implements OnInit {
   data: string;
   pkAnswedIdJson: string;
-  pkAnswerData : any
+  pkAnswerData : any = []
 
   title = "datatables";
   @ViewChild(DataTableDirective)

@@ -16,6 +16,7 @@ import { clientStaffData } from '../create-client-staff/create-client-staff.comp
 import { forEach } from '@angular/router/src/utils/collection';
 import { CycleOfInspection } from '../ncclosure-sa/ncclosure-sa.component';
 import { log } from 'console';
+import { offerdAreaData } from '../manualIndexCalulator/create-offred-area/create-offred-area.component';
 
 
 export class TradeRowDataForSamplingStep {
@@ -403,7 +404,7 @@ export class CreateSamplingComponent implements OnInit {
 
     console.log(contractorObject)
     this.contractorDataTradeWise = contractorObject
-    
+
     for (const key in contractorObject) {
       this.tradeHeigth[key] = 10 * contractorObject[key].length + 80
     }
@@ -599,7 +600,7 @@ export class CreateSamplingComponent implements OnInit {
         this.getAssignedStages(contractorId, tradeId)
       }
 
-    }else{
+    } else {
       if (!this.contractorAssignedStages[contractorId][tradeId]) {
         this.contractorAssignedStages[contractorId][tradeId] = []
         this.getAssignedStages(contractorId, tradeId)
@@ -608,27 +609,27 @@ export class CreateSamplingComponent implements OnInit {
 
   }
 
-  getAssignedStages(contractorId, tradeId){
+  getAssignedStages(contractorId, tradeId) {
     this.clientService.getContratorAssignedStages(this.SelProject, this.SelStructure, contractorId, tradeId)
-          .subscribe(data => {
-            this.contractorAssignedStages[contractorId][tradeId] = data
-            if (!this.step2workArea[tradeId]) {
-              this.step2workArea[tradeId] = {}
-            }
-            if (!this.step2workArea[tradeId].hasOwnProperty(contractorId)) {
-              this.step2workArea[tradeId][contractorId] = []
-            }
+      .subscribe(data => {
+        this.contractorAssignedStages[contractorId][tradeId] = data
+        if (!this.step2workArea[tradeId]) {
+          this.step2workArea[tradeId] = {}
+        }
+        if (!this.step2workArea[tradeId].hasOwnProperty(contractorId)) {
+          this.step2workArea[tradeId][contractorId] = []
+        }
 
-            data.forEach(stage => {
-              if (this.completedStages[tradeId].includes(stage)) {
-                this.step2workArea[tradeId][contractorId].push(stage)
-              }
+        data.forEach(stage => {
+          if (this.completedStages[tradeId].includes(stage)) {
+            this.step2workArea[tradeId][contractorId].push(stage)
+          }
 
-            })
+        })
 
-            console.log(this.contractorAssignedStages)
-            console.log(this.step2workArea)
-          })
+        console.log(this.contractorAssignedStages)
+        console.log(this.step2workArea)
+      })
   }
 
   generateDataForStep2(step1Data) {
@@ -663,6 +664,15 @@ export class CreateSamplingComponent implements OnInit {
     console.log('step 2 render-->', this.step2formRenderData)
     console.log(this.step2StatusData)
 
+  }
+
+  notOfferdArea = {}
+  setNotOfferedArea(e, tradeId) {
+    if (e.target.checked) {
+      this.notOfferdArea[tradeId] = true
+    }else{
+      delete this.notOfferdArea[tradeId]
+    }
   }
 
   samplingStepSeceondSubmit() {
@@ -705,7 +715,8 @@ export class CreateSamplingComponent implements OnInit {
             contractorName: (<HTMLSelectElement>contractor).value,
             staff: (<HTMLSelectElement>staffValue).value,
             workAreaWithName,
-            allocatedArea: workAreaWithName
+            allocatedArea: workAreaWithName,
+            offerStatus: this.notOfferdArea[item] ? false: true
 
           }
 
@@ -744,7 +755,9 @@ export class CreateSamplingComponent implements OnInit {
           contractorName: (<HTMLSelectElement>contractorValue).title,
           staff: (<HTMLSelectElement>staffValue).value,
           workAreaWithName,
-          allocatedArea: workAreaWithName
+          allocatedArea: workAreaWithName,
+          offerStatus: this.notOfferdArea[item] ? false: true
+
         }
 
         newformData.push({

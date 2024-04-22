@@ -129,6 +129,7 @@ import { InspectorDeclarationViewComponent } from './inspectorAuthorization/insp
 import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/pre-snapaudit-froms.component';
 import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-maintenance-form/equipment-maintenance-form.component';
 import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
+import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-sampling.component';
 
 
 const routes: Routes = [
@@ -261,6 +262,7 @@ const routes: Routes = [
   { path: 'preSnapAuditProccess', component: PreSnapauditFromsComponent },
   { path: 'equipmentMaintenanceFrom', component: EquipmentMaintenanceFormComponent },
   { path: 'myEquipments', component: MyEquipmentsComponent },
+  { path: 'testSampling', component: TestNewSamplingComponent },
 
 
 

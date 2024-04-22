@@ -80,6 +80,8 @@ export class CreateObservationTrackerReportComponent implements OnInit {
           this.registerForm.patchValue(data.observationtracker)
           this.registerForm.patchValue({ obstraTrade: data.trade })
           this.registerForm.patchValue({ obstraStage: data.stages })
+          this.registerForm.patchValue({ fromDate: new Date(data.observationtracker.fromDate).toISOString().substring(0,10) })
+          this.registerForm.patchValue({ toDate: new Date(data.observationtracker.toDate).toISOString().substring(0,10) })
         })
 
     }
@@ -95,7 +97,8 @@ export class CreateObservationTrackerReportComponent implements OnInit {
       clientRep: ['', Validators.required],
       cqraRep: ['', Validators.required],
       reportHeader: ['', Validators.required],
-      othPerson: ['', Validators.required],
+      otherPerson: ['', Validators.required],
+      reportName: ['', Validators.required]
     })
   }
 
@@ -128,9 +131,11 @@ export class CreateObservationTrackerReportComponent implements OnInit {
 
   get f() { return this.registerForm.controls }
 
+  submitLoad: boolean = false
   onSubmit() {
+    this.submitLoad = true
     let formData = {
-      inspectReport: {...this.registerForm.value, type:this.typeId},
+      inspectReport: { ...this.registerForm.value, type: this.typeId },
       obstraTrade: this.registerForm.value.obstraTrade,
       obstraStage: this.registerForm.value.obstraStage
     }
@@ -139,18 +144,31 @@ export class CreateObservationTrackerReportComponent implements OnInit {
 
     if (this.otrId != -1) {
       this.commonServices.updateOtr(formData, this.otrId)
-      .subscribe(data =>{
-        console.log('updated', data)
-      })
+        .subscribe(data => {
+          console.log('updated', data)
+          this.submitLoad = false
+        }, err => {
+          this.submitLoad = false
+
+        })
 
     } else {
 
       this.commonServices.createObservationTrackerReport(formData)
-        .subscribe(data => console.log(data))
+        .subscribe(
+          data => {
+            console.log(data)
+            this.submitLoad = false
+
+          },
+          err => {
+            this.submitLoad = false
+
+          })
     }
   }
 
-  edit(id){
+  edit(id) {
     this.router.navigate(['createOTR', id])
   }
 }

@@ -13,7 +13,7 @@
         </div>
         <div class="form-group row">
           <div class="form-group col-md-4">
-            <label>Location</label>
+            <label>Master ID</label>
             <input [value]="masterData.masterId" type="text" class="form-control" readonly>
           </div>
           <div class="form-group col-md-4">
@@ -226,6 +226,7 @@
                         <th *ngIf="samplingType != 1">Contractor <a [routerLink]="'/createContractor/-1'">+</a></th>
                         <th *ngIf="samplingType == 1">Client</th>
                         <th>Work Area</th>
+                        <th>Not Offere</th>
                       </thead>
                       <tbody>
                         <tr *ngFor="let tg of testTG" class="step-2">
@@ -270,7 +271,7 @@
                                 <input [class]="'step2ContractorSelect_'+t.tradeId" [value]="contractor.contractorName"
                                   [attr.title]="contractor.contractorId"
                                   *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
-                                  <!-- <select [class]="'step2ContractorSelect_'+t.tradeId" [attr.title]="contractor.contractorId"  *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
+                                <!-- <select [class]="'step2ContractorSelect_'+t.tradeId" [attr.title]="contractor.contractorId"  *ngFor="let contractor of contractorDataTradeWise[t.tradeId]">
                                     <option [value]="contractor.contractorId">
                                       {{contractor.contractorName}}
                                     </option>
@@ -391,6 +392,13 @@
                               </span>
                             </td>
                           </ng-template>
+                          <td *ngIf="step2formRenderData[tg.id].length">
+                            <span *ngFor="let t of step2formRenderData[tg.id]" [ngStyle]="{'height':+tradeHeigth[t.tradeId]+'px', 'alignItem':'center','display': 'flex',
+                              'align-items': 'center',
+                              'justify-content': 'center'}">
+                              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="setNotOfferedArea($event, t.tradeId )">
+                            </span>
+                          </td>
                         </tr>
 
                       </tbody>
@@ -525,7 +533,8 @@
                             </td>
                             <td>
                               <!-- {{type2StageData[data.key][t.key][0].stageName}} -->
-                              <span class="badge badge-primary" style="height: 15px !important; min-height: 26px !important;"
+                              <span class="badge badge-primary"
+                                style="height: 15px !important; min-height: 26px !important;"
                                 *ngFor="let stage of type2StageData[data.key][t.key]">{{stage.stageName}}</span>
                             </td>
 

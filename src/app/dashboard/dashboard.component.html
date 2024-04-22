@@ -79,7 +79,7 @@
             <div class="row">
               <div class="col-sm-8 my-auto">
                 <div class="chart-container">
-                  <canvas id="MyChart">{{ chart }}</canvas>
+                  <canvas id="MyChart" (click)="handleClick($event)">{{ chart }}</canvas>
                 </div>
               </div>
               <div class="col-sm-4 text-center my-auto">
