@@ -10,6 +10,7 @@ import { data } from "jquery";
 import { QuestionGroupView } from "../question-group/question-group.component";
 import { QuestionHeadingView } from "../question-heading/question-heading.component";
 import { first } from "rxjs/operators";
+import { error } from "console";
 
 
 export class QuestionData {
@@ -86,121 +87,151 @@ export class CreateQuestionComponent implements OnInit {
           questionData = data
           this.tradeMaintanceService.getSubgroupsByTrades(questionData.tradeId).subscribe(data => this.subgroups = data)
           this.tradeMaintanceService.getQuestiongroupBySubgroup(questionData.subgroupId).subscribe(data => this.questionGroups = data)
-          this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(questionData.questionGroupId).subscribe(data =>this.questionHeading = data)
+          this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(questionData.questionGroupId).subscribe(data => this.questionHeading = data)
           console.log(data)
           this.questionFrom.patchValue(data)
+          if (questionData.questionType == 2) {
+            this.isOptionShow = true
+          }
         })
-  }
-    this.tradeMaintanceService.getAllTrades().subscribe(
-    (data) => {
-      console.log("----> office service : TRADE", data);
-      this.trades = data;
-    },
-    (err) => {
-      console.log("-----> err", err);
     }
-  );
+    this.tradeMaintanceService.getAllTrades().subscribe(
+      (data) => {
+        console.log("----> office service : TRADE", data);
+        this.trades = data;
+      },
+      (err) => {
+        console.log("-----> err", err);
+      }
+    );
 
-this.clientServiceService.getAllClients().subscribe(
-  (data) => {
-    console.log("----> office service : get all data", data);
-    this.clients = data;
-  },
-  (err) => {
-    console.log("-----> err", err);
-  }
-);
+    this.clientServiceService.getAllClients().subscribe(
+      (data) => {
+        console.log("----> office service : get all data", data);
+        this.clients = data;
+      },
+      (err) => {
+        console.log("-----> err", err);
+      }
+    );
 
 
-this.questionFrom = this.formBuilder.group({
-  tradeId: ['', Validators.required],
-  subgroupId: ['', Validators.required],
-  questionGroupId: ['', Validators.required],
-  questionType: ['', Validators.required],
-  questionHeadingId: ['', Validators.required],
-  questionText: ['', Validators.required],
-  ncDescription: ['', Validators.required],
-  reference: ['', Validators.required],
-  typeOfCheck: ['', Validators.required],
-  workInstruction: ['', Validators.required],
-  sampleSize: ['', Validators.required],
-  sampleUnit: ['', Validators.required],
-  tolerance: ['', Validators.required],
-  minimumobservation: ['', Validators.required],
-  impactOnQuality: ['', Validators.required],
-  ncRectification: ['', Validators.required],
-  subSection: ['', Validators.required],
-  category: ['', Validators.required],
-  goodImage1: ['', Validators.required],
-  goodImage2: ['', Validators.required],
-  ncImage1: ['', Validators.required],
-  ncImage2: ['', Validators.required],
-  dataToBeCaptured: ['', Validators.required],
-  option1: ['', Validators.nullValidator],
-  option2: ['', Validators.nullValidator],
-  option3: ['', Validators.nullValidator],
-  option4: ['', Validators.nullValidator],
-  option5: ['', Validators.nullValidator],
-  option6: ['', Validators.nullValidator],
-  mandatory: ['', Validators.nullValidator],
-  unitOfMeasurement: ['', Validators.nullValidator],
-})
+    this.questionFrom = this.formBuilder.group({
+      tradeId: ['', Validators.required],
+      subgroupId: ['', Validators.required],
+      questionGroupId: ['', Validators.required],
+      questionType: ['', Validators.required],
+      questionHeadingId: ['', Validators.nullValidator],
+      questionText: ['', Validators.required],
+      ncDescription: ['', Validators.required],
+      refStdPract: ['', Validators.required],
+      typeOfCheck: ['', Validators.required],
+      workInstruction: ['', Validators.required],
+      sampleSize: ['', Validators.required],
+      sampleUnit: ['', Validators.required],
+      tolerance: ['', Validators.required],
+      minimumobservation: ['', Validators.required],
+      impactOnQuality: ['', Validators.required],
+      ncRectification: ['', Validators.required],
+      subSection: ['', Validators.required],
+      category: ['', Validators.required],
+      goodImage1: ['', Validators.nullValidator],
+      goodImage2: ['', Validators.nullValidator],
+      ncImage1: ['', Validators.nullValidator],
+      ncImage2: ['', Validators.nullValidator],
+      dataToBeCaptured: ['', Validators.required],
+      option1: ['', Validators.nullValidator],
+      option2: ['', Validators.nullValidator],
+      option3: ['', Validators.nullValidator],
+      option4: ['', Validators.nullValidator],
+      option5: ['', Validators.nullValidator],
+      option6: ['', Validators.nullValidator],
+      mandatory: ['', Validators.nullValidator],
+      unitOfMeasurement: ['', Validators.nullValidator],
+      nil: ['', Validators.nullValidator],
+      mild: ['', Validators.nullValidator],
+      modrate: ['', Validators.nullValidator],
+      severe: ['', Validators.nullValidator],
+      verySevere: ['', Validators.nullValidator],
+      critical: ['', Validators.nullValidator]
+    })
   }
 
   get f() {
-  return this.questionFrom.controls;
-}
+    return this.questionFrom.controls;
+  }
 
 
-getSubgroups() {
-  this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
-    .subscribe(
-      data => {
+  getSubgroups() {
+    this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
+      .subscribe(
+        data => {
+          console.log(data)
+          this.subgroups = data
+        }
+
+      )
+  }
+
+  getQuestionGroup() {
+    this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
+      .subscribe(data => this.questionGroups = data)
+  }
+
+  getQuestionHeading() {
+    this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(this.SelQuestionGroup)
+      .subscribe(data => {
         console.log(data)
-        this.subgroups = data
-      }
-
-    )
-}
-
-getQuestionGroup() {
-  this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
-    .subscribe(data => this.questionGroups = data)
-}
-
-getQuestionHeading() {
-  this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(this.SelQuestionGroup)
-    .subscribe(data => {
-      console.log(data)
-      this.questionHeading = data
-    })
-}
-
-showOptions() {
-  if (this.selQuestionType == 2) {
-    this.isOptionShow = true
-  } else {
-    this.isOptionShow = false
+        this.questionHeading = data
+      })
   }
-}
+
+  showOptions() {
+    if (this.selQuestionType == 2) {
+      this.isOptionShow = true
+    } else {
+      this.isOptionShow = false
+    }
+  }
 
 
-onSubmit() {
-  console.log("Id==");
-  console.log(this.questionFrom.value)
-  let formData = {
-    ...this.questionFrom.value,
-    isActive:1
+  submitLoad: boolean = false
+  onSubmit() {
+
+    this.submitted = true
+    // IF VALDATION IS FALSE THEN RETUN AND SHOW ERRORS
+    if (this.questionFrom.invalid) {
+      console.log(this.questionFrom)
+      return
+    }
+    this.submitLoad = true
+
+    console.log("Id==");
+    console.log(this.questionFrom.value)
+    let formData = {
+      ...this.questionFrom.value,
+      isActive: 1
+    }
+    if (this.questionId != -1) {
+      console.log(this.questionId)
+      this.tradeMaintanceService.updateQuestion(formData, this.questionId)
+        .subscribe(data => {
+          console.log('q updated-->', data)
+          this.submitLoad = false
+        }, error => {
+          console.log('-->', error)
+          this.submitLoad = false
+
+        })
+    } else {
+      this.tradeMaintanceService.createQuestions(formData)
+        .subscribe(data => console.log(data),
+          err => {
+            console.log(err)
+            this.submitLoad = false
+
+          }
+        )
+    }
   }
-  if(this.questionId != -1){
-    console.log(this.questionId)
-    this.tradeMaintanceService.updateQuestion(formData, this.questionId)
-    .subscribe(data =>{
-      console.log('q updated-->', data)
-    })
-  }else{
-    this.tradeMaintanceService.createQuestions(formData)
-    .subscribe(data => console.log(data))
-  }
-}
 }

@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.createChart();
+    this.pieChart()
   }
 
   createChart() {
@@ -23,20 +24,12 @@ export class DashboardComponent implements OnInit {
       type: 'bar', //this denotes tha type of chart
 
       data: {// values on X-Axis
-        labels: ['2022-05-10', '2022-05-11', '2022-05-12', '2022-05-13',
-          '2022-05-14', '2022-05-15', '2022-05-16', '2022-05-17',],
+        labels: ['33 keshvkunj', 'Anant One', 'Cyberthunk', 'CQRA', 'Pride city'],
         datasets: [
           {
-            label: "Sales",
-            data: ['467', '576', '572', '789', '92',
-              '574', '573', '576'],
-            backgroundColor: '#4cc9f0'
-          },
-          {
-            label: "Profit",
-            data: ['542', '542', '836', '927', '17',
-              '0.00', '538', '541'],
-            backgroundColor: 'limegreen'
+            label: "Completed Work (%)",
+            data: [67, 50, 78, 45, 39],
+            backgroundColor: '#007bff'
           }
         ]
       },
@@ -47,8 +40,30 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  handleClick(e){
-  const a = this.chart.getElementAtEvent(e)
-  console.log(a)
+  pieChart() {
+
+    this.chart = new Chart("myPieChart", {
+      type: 'pie', //this denotes tha type of chart
+
+      data: {// values on X-Axis
+        labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+        datasets: [
+          {
+            label: 'Dataset 1',
+            data: [10, 20, 30, 40, 60],
+            backgroundColor: ['#dc3545', 'orange', '#ffc107', '#28a745', '#007bff'],
+          }
+        ]
+      },
+      options: {
+        aspectRatio: 1.5
+      }
+
+    });
+  }
+
+  handleClick(e) {
+    const a = this.chart.getElementAtEvent(e)
+    console.log(a)
   }
 }

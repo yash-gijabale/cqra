@@ -54,10 +54,23 @@
 
             <div class="form-group col-md-6">
               <label>Select Subgroup</label>
-              <select (ngModel)="SelClientId" formControlName="fkSubgroupId" class="form-control">
+              <select [(ngModel)]="SelSubgroup" formControlName="fkSubgroupId" class="form-control"  (change)="getQuestionGroup()">
                 <option [value]="0" selected>Please Select</option>
                 <option [value]="o.subgroupId" *ngFor="let o of subgroups">
                   {{o.subgroupName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
+                <div *ngIf="f.clientId.errors.required">Sub Trade is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Select Question Group</label>
+              <select formControlName="questionGroup" class="form-control">
+                <option [value]="0" selected>Please Select</option>
+                <option [value]="o.questionGroupId" *ngFor="let o of questionGroups">
+                  {{o.questionGroupText}}
                 </option>
               </select>
               <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">

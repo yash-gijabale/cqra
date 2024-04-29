@@ -213,9 +213,9 @@
                   <th>
                     Trade
                   </th>
-                  <th>
+                  <!-- <th>
                     Representative
-                  </th>
+                  </th> -->
 
                   <th>
                     Not Offer
@@ -243,7 +243,7 @@
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td></td>
+                      <!-- <td></td> -->
                     </tr>
 
                     <ng-container *ngFor="let trade of tg.value">
@@ -251,16 +251,16 @@
                         <td class="step2Tarde" [title]="trade.tradeId"
                           [attr.rowspan]="contractorDataTradeWise[trade.tradeId] && contractorDataTradeWise[trade.tradeId].length +1">
                           {{trade.tradeNane}}</td>
-                        <td
+                        <!-- <td
                           [attr.rowspan]="contractorDataTradeWise[trade.tradeId] && contractorDataTradeWise[trade.tradeId].length +1">
-                          Representative</td>
+                          Representative</td> -->
                         <td style="text-align: center;"
                           [attr.rowspan]="contractorDataTradeWise[trade.tradeId] && contractorDataTradeWise[trade.tradeId].length +1">
                           <input type="checkbox" (change)="setNotOfferedArea($event, trade.tradeId)"
                             [checked]="notOfferdArea[trade.tradeId]">
                         </td>
                         <td></td>
-                        <td></td>
+                        <!-- <td></td> -->
                       </tr>
                       <tr *ngFor="let contractor of contractorDataTradeWise[trade.tradeId]">
                         <td [class]="'step2Contractor_'+contractor.contractorId">{{contractor.contractorName}}</td>
@@ -312,15 +312,15 @@
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td></td>
+                      <!-- <td></td> -->
                     </tr>
 
                     <ng-container *ngFor="let trade of tg.value">
                       <tr>
                         <td class="step2Tarde" [title]="trade.tradeId">
                           {{trade.tradeNane}}</td>
-                        <td>
-                          Representative</td>
+                        <!-- <td>
+                          Representative</td> -->
                         <td style="text-align: center;">
                           <input type="checkbox" (change)="setNotOfferedArea($event, trade.tradeId)">
                         </td>
