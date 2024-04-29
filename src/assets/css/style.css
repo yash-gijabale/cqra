@@ -3,6 +3,10 @@ html {
   min-height: 100%;
 }
 
+html, body{
+  height: auto !important;
+}
+
 body {
   overflow-x: hidden;
   font-family: 'Roboto', sans-serif!important;
@@ -546,7 +550,8 @@ table.table-bordered.dataTable th{
     text-align: center;
 }
 .add-bg-here{
-  background: #d8eaff!important;
+  background: #f6f4f4!important;
+  /* background: #d8eaff!important; */
   min-height: calc(100vh - 87px - 56px);
   padding: 15px;
   border-radius: 5px;

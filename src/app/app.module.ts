@@ -15,6 +15,10 @@ import { DataTablesModule } from 'angular-datatables';
 
 // import {MatFormFieldModule} from '@angular/material/form-field';
 
+import {MatStepperModule} from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProjectComponent } from './project/project.component';
@@ -293,6 +297,10 @@ import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-samp
     DataTablesModule,
     HttpClientModule,
     DragDropModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule
     // MatFormFieldModule,
     // MatInputModule,
   ],

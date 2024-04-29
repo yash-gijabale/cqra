@@ -66,13 +66,15 @@ export class CreateChecklistComponent implements OnInit {
   id: number;
   checklistForm: FormGroup;
   getListFormData: checklistFormTemp[];
-  questionList: Question[];
-  questionList2: Question[];
-  finalQuestion: Array<Object>;
-  tempQuestions: Question[];
+  questionList: any;
+  questionList2: any;
+  finalQuestion: Array<any>;
+  tempQuestions: any;
   q: Question[];
   questionGroup: QuestionGroup[];
   qList: Qlist[];
+  SelSubgroup: any
+  questionGroups: any
 
   // finalCheckList = FinalCheckList[];
   submitted = false;
@@ -103,6 +105,7 @@ export class CreateChecklistComponent implements OnInit {
       this.finalQuestion.push(q);
     });
     this.tempQuestions = [];
+    console.log('final list', this.finalQuestion)
   }
   removeFromCheckList() {
     this.tempQuestions.forEach((q) => {
@@ -164,22 +167,26 @@ export class CreateChecklistComponent implements OnInit {
           let formData = {
             fkTradeId: data.tradeId,
             fkSubgroupId: data.subgroupId,
-            checklistName: data.checklistName
+            checklistName: data.checklistName,
+            questionGroup:  data.questionGroup
           }
           this.tradeMaintanceService.getSubgroupsByTrades(data.tradeId).subscribe(data => this.subgroups = data)
 
           this.commonService.getQuestionByTrade(data.tradeId, data.subgroupId).subscribe(data => this.renderQuestions(data));
+          this.tradeMaintanceService.getQuestiongroupBySubgroup(data.subgroupId).subscribe(
+            data => this.questionGroups = data
+          )
           this.registerForm.patchValue(formData)
         })
 
       this.commonService.getAllocatedQuestion(this.checkListId)
-      .subscribe(data =>{
-        let allocatedQ = data
-        console.log(data)
-        allocatedQ.forEach(item =>{
-          this.finalQuestion.push(item)
+        .subscribe(data => {
+          let allocatedQ = data
+          console.log(data)
+          allocatedQ.forEach(item => {
+            this.finalQuestion.push(item)
+          })
         })
-      })
 
     }
 
@@ -197,6 +204,7 @@ export class CreateChecklistComponent implements OnInit {
       fkTradeId: ["", Validators.required],
       checklistName: ["", Validators.required],
       fkSubgroupId: ["", Validators.required],
+      questionGroup: ["", Validators.required]
     });
 
     // console.log(this.formData);
@@ -243,14 +251,16 @@ export class CreateChecklistComponent implements OnInit {
         formDataList: [{
           fkTradeId: this.registerForm.value.fkTradeId,
           fkSubgroupId: this.registerForm.value.fkSubgroupId,
-          checklistName: this.registerForm.value.checklistName
+          checklistName: this.registerForm.value.checklistName,
+          questionGroup: this.registerForm.value.questionGroup
+
         }],
         checklistQuestionDataList: this.finalQuestion,
       }
       this.commonService.updateChecklist(finalCheckList, this.checkListId)
-      .subscribe(data => {
-        console.log('checklist updated', data)
-      })
+        .subscribe(data => {
+          console.log('checklist updated', data)
+        })
     } else {
 
       this.commonService.addCheckList(finalCheckList)
@@ -275,6 +285,7 @@ export class CreateChecklistComponent implements OnInit {
               {
                 questionId: this.questionList2[0].questionId,
                 questionText: this.questionList2[0].questionText,
+                questionGroup: this.questionList2[0].questionGroupId
               },
             ],
           };
@@ -288,6 +299,7 @@ export class CreateChecklistComponent implements OnInit {
           let neqQ = {
             questionId: question.questionId,
             questionText: question.questionText,
+            questionGroup: question.questionGroupId,
           };
           found.questions.push(neqQ);
         } else {
@@ -297,6 +309,8 @@ export class CreateChecklistComponent implements OnInit {
               {
                 questionId: question.questionId,
                 questionText: question.questionText,
+                questionGroup: question.questionGroupId,
+
               },
             ],
           };
@@ -304,5 +318,13 @@ export class CreateChecklistComponent implements OnInit {
         }
       }
     });
+
+    console.log(this.questionGroup)
   }
+
+  getQuestionGroup() {
+    this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
+      .subscribe(data => this.questionGroups = data)
+  }
+
 }

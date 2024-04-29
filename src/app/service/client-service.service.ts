@@ -441,6 +441,10 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulstep1`, data)
   }
 
+  getSamplingStep1Data (masterId, projectId,  structureId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getdatabymasterId/${masterId}/${projectId}/${structureId}`)
+  }
+
   addSamplingStepSecond(data) :Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulstep2`, data)
   }

@@ -11,6 +11,7 @@ import { ContractorData } from '../contractor-forman/contractor-forman.component
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InspectionReport } from '../creaate-inspectionreport/creaate-inspectionreport.component';
+import { InspectorTraning } from '../service/inspectionTraining.service';
 
 
 
@@ -45,13 +46,17 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   supervisors: SupervisorData
   otrId: Number
   typeId: Number
+  masterIds:any
+  userId: number = Number(localStorage.getItem('id'))
+
   constructor(
     private commonServices: CommonService,
     private clientService: ClientServiceService,
     private formBuilder: FormBuilder,
     private tradeService: TradeMaintanceService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private imspectorTraining: InspectorTraning
   ) { }
 
   ngOnInit() {
@@ -98,8 +103,17 @@ export class CreateObservationTrackerReportComponent implements OnInit {
       cqraRep: ['', Validators.required],
       reportHeader: ['', Validators.required],
       otherPerson: ['', Validators.required],
-      reportName: ['', Validators.required]
+      reportName: ['', Validators.required],
+      masterId : ['', Validators.required]
     })
+
+
+    this.imspectorTraining.getMasterIdsByUserId(this.userId)
+      .subscribe(data => {
+        console.log(data)
+        this.masterIds = data
+
+      })
   }
 
 

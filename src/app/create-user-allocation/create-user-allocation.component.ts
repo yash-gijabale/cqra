@@ -293,6 +293,8 @@ export class CreateUserAllocationComponent implements OnInit {
   checkListMap = {}
 
   getChecklist() {
+    this.checkListMap = {}
+    this.checkListData = []
     this.selectedData = {}
     console.log(this.SelTrade)
     this.commanService.getChecklistsByTrade(this.SelTrade)

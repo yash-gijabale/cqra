@@ -222,9 +222,9 @@ export class InspectorTradeTrainingComponent implements OnInit {
     console.log(e)
     let file: File = e.target.files[0]
     console.log(file)
-  
+
     this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, file)
-    .subscribe(data => console.log(data,'uploaded'),
+      .subscribe(data => console.log(data, 'uploaded'),
         err => console.log('file error-->', err))
     // console.log(data)
   }
@@ -259,7 +259,17 @@ export class InspectorTradeTrainingComponent implements OnInit {
     this.commonService.getQuestionByTradeId(tradeId)
       .subscribe(data => {
         console.log(data)
-        this.questionData = data
+        let subgroupWise = {}
+        data.forEach(question => {
+          if (subgroupWise[question.subgroupId]) {
+            subgroupWise[question.subgroupId].push(question)
+          } else {
+            subgroupWise[question.subgroupId] = []
+            subgroupWise[question.subgroupId].push(question)
+          }
+        })
+        console.log(subgroupWise)
+        // this.questionData = data
         this.questionLoad = false
 
       })
@@ -385,31 +395,31 @@ export class InspectorTradeTrainingComponent implements OnInit {
 
   submitQuestionPaperResult(userId, tradeId) {
     console.log(this.questionResult)
- 
+
     let finalResult = []
     for (const result in this.questionResult) {
-        let data = {
-          'inspectTradeAnswerId': result,
-          'ansstatus': this.questionResult[result]
-        }
+      let data = {
+        'inspectTradeAnswerId': result,
+        'ansstatus': this.questionResult[result]
+      }
 
-        finalResult.push(data)
+      finalResult.push(data)
     }
     let marks = this.calculateMarks(this.questionResult).totalMarks
     console.log(finalResult)
     console.log(marks)
     this.inspectionTraining.submitUserExamResult(finalResult)
-    .subscribe(data =>{
-      console.log('Exam result added-->', data)
-    })
+      .subscribe(data => {
+        console.log('Exam result added-->', data)
+      })
 
     let passOrFail = this.checkPassOrFali(this.totalQuestionsAns, marks)
-    console.log('pass or fail-->',passOrFail)
+    console.log('pass or fail-->', passOrFail)
     this.inspectionTraining.updateTrainingMark(userId, tradeId, marks, passOrFail)
-    .subscribe(data =>{
-      console.log('mark updated-->', data)
-    },
-    err => console.log(err))
+      .subscribe(data => {
+        console.log('mark updated-->', data)
+      },
+        err => console.log(err))
   }
 
   calculateMarks(resultData) {
@@ -427,30 +437,30 @@ export class InspectorTradeTrainingComponent implements OnInit {
     }
   }
 
-  checkPassOrFali(totalQuestion, marks){
-    let minMarks = Math.round(totalQuestion*35/100)
-    if(marks >= minMarks){
+  checkPassOrFali(totalQuestion, marks) {
+    let minMarks = Math.round(totalQuestion * 35 / 100)
+    if (marks >= minMarks) {
       return 1
-    }else{
+    } else {
       return 0
     }
   }
 
 
-  updateTradeStatus(userId, tradeId, status){
+  updateTradeStatus(userId, tradeId, status) {
     let isConfirm;
-    if(status == 0){
+    if (status == 0) {
       isConfirm = confirm('Are you sure want to deactivate this trade !')
     }
-    if(status == 1){
+    if (status == 1) {
       isConfirm = confirm('Are you sure want to activate this trade !')
     }
 
     console.log(userId, tradeId, status)
     this.inspectionTraining.updateUserTradeStatus(userId, tradeId, status)
-    .subscribe(data =>{
-      console.log('status updated', data)
-    })
+      .subscribe(data => {
+        console.log('status updated', data)
+      })
   }
 
 

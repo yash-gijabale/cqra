@@ -69,5 +69,17 @@
 .dropdown-item {
     padding-left: 1.5vw !important;
     padding-top: 1vw;
+    padding-top: 1vw;
     /* background-color: red; */
+}
+
+ul{
+    gap: 10px;
+}
+
+.active_tab{
+    background: #e9ecef;
+    border-radius: 5px;
+    width: 99%;
+    margin: auto;
 }

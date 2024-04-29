@@ -142,7 +142,7 @@
                 <div>
                   <div class="form-check" *ngFor="let o of subunits">
                     <input class="form-check-input subUnitsCheckbox" type="checkbox" [value]="o.subunitId"
-                          [id]="'subunit'+o.subunitId" (change)="addSubunit($event)" [checked]="this.selectedData[currentStage][currentUnit] && this.selectedData[currentStage][currentUnit].includes(o.subunitId)">
+                          [id]="'subunit'+o.subunitId" (change)="addSubunit($event)" [checked]="this.selectedData[currentStage] && this.selectedData[currentStage][[currentUnit]] && this.selectedData[currentStage][currentUnit].includes(o.subunitId)">
                     <label class="form-check-label">{{o.subunitName}}</label>
                   </div>
                 </div>

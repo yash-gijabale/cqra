@@ -165,12 +165,12 @@
                   </div>
                 </td>
                 <td>
-                  <span class="badge badge-success" (click)="addToApproveProject(user.projectId, 1, user.userId)"
+                  <span *ngIf="user.dtmStatus != 1" class="badge badge-success" (click)="addToApproveProject(user.projectId, 1, user.userId)"
                     role="button">
                     <div *ngIf="approveLoad" class="spinner-border spinner-border-sm" role="status"></div>
                     <span *ngIf="!approveLoad">Approve</span>
                   </span>
-                  <span class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2, user.userId)"
+                  <span *ngIf="user.dtmStatus == 1"  class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2, user.userId)"
                     role="button">
                     <div *ngIf="declineLoad" class="spinner-border spinner-border-sm" role="status"></div>
                     <span *ngIf="!declineLoad">Decline</span>
@@ -181,7 +181,7 @@
           </table>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button>
+          <!-- <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button> -->
         </div>
       </div>
     </div>

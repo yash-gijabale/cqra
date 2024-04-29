@@ -205,7 +205,7 @@ export class CommonService {
   }
 
   getCheckList(id) {
-    return this.httpClient.get<ChecklistData>(`${this.REST_API_SERVER}/checklist/checklist/${id}`)
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/checklist/checklist/${id}`)
   }
 
   updateChecklist(data, id) {
