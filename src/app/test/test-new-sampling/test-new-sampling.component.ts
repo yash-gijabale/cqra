@@ -39,7 +39,7 @@ export class TestNewSamplingComponent implements OnInit {
   pannel = 1
 
   tradeNameData: any = {}
-
+  cycleOfInspection:any = []
   ngOnInit() {
     this.masterData = JSON.parse(localStorage.getItem('mData'))
     console.log(this.masterData)

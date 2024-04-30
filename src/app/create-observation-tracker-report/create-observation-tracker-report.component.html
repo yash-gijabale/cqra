@@ -31,7 +31,7 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="row">
             <div class="col-md-12 mb-3">
-              <label><b>Select Matser Id:</b></label> <span *ngIf="isLeader" class="badge badge-primary mx-3">Leader</span>
+              <!-- <label><b>Select Matser Id:</b></label> <span *ngIf="isLeader" class="badge badge-primary mx-3">Leader</span> -->
               <select class="form-control col-md-4" formControlName="masterId">
                 <option [value]="''">Select Master ID</option>
                 <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
