@@ -64,11 +64,13 @@ export class CreateSubgroupComponent implements OnInit {
     return this.registerForm.controls;
   }
 
+  isload: boolean = false
   onSubmit() {
     this.submitted = true
-    if (this.registerForm.invalid) { 
+    if (this.registerForm.invalid) {
       return;
     }
+    this.isload = true
     console.log("Id==");
     console.log(this.registerForm.value);
 
@@ -77,19 +79,21 @@ export class CreateSubgroupComponent implements OnInit {
         subgroupId: this.subgroupId,
         tardeId: this.registerForm.value.tardeId,
         subgroupName: this.registerForm.value.subgroupName,
-        status:true
+        status: true
       };
       this.tradeMaintanceService
         .updateSubgroup(updatedData, this.subgroupId)
         .subscribe((data) => {
           console.log("updated--->", data);
+          this.isload = false
         });
     } else {
       this.tradeMaintanceService
-        .createSubgroup({...this.registerForm.value, status:true})
+        .createSubgroup({ ...this.registerForm.value, status: true })
         .subscribe(
           (data) => {
             console.log(data);
+            this.isload = false
           },
           (err) => console.log(err)
         );

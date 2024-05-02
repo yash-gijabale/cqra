@@ -39,7 +39,7 @@ export class TestNewSamplingComponent implements OnInit {
   pannel = 1
 
   tradeNameData: any = {}
-  cycleOfInspection:any = []
+  cycleOfInspection: any = []
   ngOnInit() {
     this.masterData = JSON.parse(localStorage.getItem('mData'))
     console.log(this.masterData)
@@ -231,28 +231,168 @@ export class TestNewSamplingComponent implements OnInit {
 
 
     this.clientService.getSamplingStep1Data(this.masterData.masterId, this.SelProject, this.SelStructure)
-    .subscribe(data =>{
-      this.preStep1Data ={}
-      this.applicabaleArea ={}
-      console.log(data)
-      for(const trade in data){
-        if(data[trade].length){
-          let stages = {}
-          this.applicabaleArea[trade] =[]
-          data[trade].forEach(stage =>{
-            stages[stage.stageId] = true
-            this.applicabaleArea[trade].push(stage.stageId)
-          })
-          this.preStep1Data[trade] = stages
+      .subscribe(data => {
+        this.preStep1Data = {}
+        this.applicabaleArea = {}
+        console.log(data)
+        for (const trade in data) {
+          if (data[trade].length) {
+            let stages = {}
+            this.applicabaleArea[trade] = []
+            data[trade].forEach(stage => {
+              stages[stage.stageId] = true
+              this.applicabaleArea[trade].push(stage.stageId)
+            })
+            this.preStep1Data[trade] = stages
+          }
         }
-      }
 
-      console.log(this.preStep1Data)
-      console.log(this.applicabaleArea)
+        console.log(this.preStep1Data)
+        console.log(this.applicabaleArea)
 
-    })
+      })
+
+    this.clientService.getPreSamplingStep2Data(this.masterData.masterId, this.SelProject, this.SelStructure)
+      .subscribe(data => {
+        console.log("pre step2 data-->", data)
+        if (data.length) {
+
+          this.samplingType = Number(data[0].samplingType)
+          this.getInitialData(this.SelProject, this.samplingType)
+          this.generateStep2PreData(data)
+        }
+      }, err => {
+        console.log(err)
+      })
+
+    this.clientService.getPreSamplingStep3Data(this.masterData.masterId, this.SelProject, this.SelStructure)
+      .subscribe(data => {
+        console.log("pre step 3 data-->", data)
+        if (data.length) {
+
+          this.samplingType = Number(data[0].samplingType)
+          this.generateStep3PreData(data)
+        }
+      }, err => {
+        console.log(err)
+      })
   }
 
+  generateStep2PreData(data) {
+    let preStep2Area = {}
+    let preCompletedArea = {}
+
+    // console.log()
+    //For Step 2 work area
+    console.log(data)
+    if (data[0].samplingType != 1 ) {
+      data.forEach(item => {
+        if (preStep2Area[item.tradeId]) {
+          if (preStep2Area[item.tradeId][item.contractorId]) {
+            preStep2Area[item.tradeId][item.contractorId].push(item.stageId)
+          } else {
+            preStep2Area[item.tradeId][item.contractorId] = []
+            preStep2Area[item.tradeId][item.contractorId].push(item.stageId)
+          }
+        } else {
+          preStep2Area[item.tradeId] = {}
+          preStep2Area[item.tradeId][item.contractorId] = []
+          preStep2Area[item.tradeId][item.contractorId].push(item.stageId)
+        }
+      })
+    } else {
+      data.forEach(item => {
+        if (preStep2Area[item.tradeId]) {
+          preStep2Area[item.tradeId].push(item.stageId)
+        } else {
+          preStep2Area[item.tradeId] = []
+          preStep2Area[item.tradeId].push(item.stageId)
+
+        }
+      })
+    }
+
+    //For step 1 completed area
+    data.forEach(item => {
+      if (preCompletedArea[item.tradeId]) {
+        preCompletedArea[item.tradeId].push(item.stageId)
+      } else {
+        preCompletedArea[item.tradeId] = []
+        preCompletedArea[item.tradeId].push(item.stageId)
+
+      }
+    })
+
+    console.log("pre step 2 area -->", preStep2Area)
+    console.log("pre step 1 complted  -->", preCompletedArea)
+    this.step2workArea = preStep2Area
+    this.completedStages = preCompletedArea
+
+  }
+
+  preSampledUnitnumber = {}
+  preSampledUnitPersentage = {}
+  generateStep3PreData(data) {
+    //Generating random pre data
+    let randomPreData = {}
+    data.forEach(item => {
+      let stage = {
+        stageId: item.stageid,
+        stageName: item.stagename
+      }
+
+      if (randomPreData[item.contractorid]) {
+
+        if (randomPreData[item.contractorid][item.tradeid]) {
+          randomPreData[item.contractorid][item.tradeid].push(stage)
+        } else {
+          randomPreData[item.contractorid][item.tradeid] = []
+          randomPreData[item.contractorid][item.tradeid].push(stage)
+
+        }
+      } else {
+        randomPreData[item.contractorid] = {}
+        randomPreData[item.contractorid][item.tradeid] = []
+        randomPreData[item.contractorid][item.tradeid].push(stage)
+      }
+    })
+
+    console.log('pre stape 3 random', randomPreData)
+    this.type2RandomSampledArea = randomPreData
+
+    //Generating Sample Unit Number
+    let preSampleUnitNumber = {}
+    data.forEach(item => {
+
+      if (preSampleUnitNumber[item.contractorid]) {
+        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber
+
+      } else {
+        preSampleUnitNumber[item.contractorid] = {}
+        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber
+      }
+    })
+    console.log('pre stape 3 sample unit number', preSampleUnitNumber)
+    this.preSampledUnitnumber = preSampleUnitNumber
+
+    //Generating Sample unit persentage
+    let prePersentage  = {}
+    data.forEach(item => {
+
+      if (prePersentage[item.contractorid]) {
+        prePersentage[item.contractorid][item.tradeid] = item.samplUnitPersentage
+
+      } else {
+        prePersentage[item.contractorid] = {}
+        prePersentage[item.contractorid][item.tradeid] = item.samplUnitPersentage
+      }
+    })
+    console.log('pre stape 3 sample unit percentage', prePersentage)
+    // this.persentageData = prePersentage
+    this.preSampledUnitPersentage = prePersentage
+
+
+  }
   applicabaleArea: any = {}
   addApplicableArea(e, tradeId) {
     if (!e.target.checked) {
@@ -443,7 +583,7 @@ export class TestNewSamplingComponent implements OnInit {
   addStep2type1WorkArea(e, tradeId) {
     if (!e.target.checked) {
       //FOR REMOVE STAGE FROM AREA
-      let stageId = e.target.value
+      let stageId = Number(e.target.value)
       let isExist = this.step2workArea[tradeId] && this.step2workArea[tradeId].find(stage => {
         return stage === stageId ? true : false
       })
@@ -457,7 +597,7 @@ export class TestNewSamplingComponent implements OnInit {
       }
     } else {
       //FOR ADD STAGE FROM AREA
-      let stageId = e.target.value
+      let stageId = Number(e.target.value)
       let isExist = this.step2workArea[tradeId] && this.step2workArea[tradeId].find(stage => {
         return stage === stageId ? true : false
       })
@@ -557,7 +697,7 @@ export class TestNewSamplingComponent implements OnInit {
             contractor: contractorId,
             contractorName: contractor.contractorName,
             workAreaWithName,
-            staff:0,
+            staff: 0,
             // allocatedArea: workAreaWithName,
             offerStatus: this.notOfferdArea[tradeId] ? false : true
 
@@ -593,7 +733,7 @@ export class TestNewSamplingComponent implements OnInit {
           contractor: contractorId,
           contractorName: this.clients[0].clientName,
           workAreaWithName,
-          staff:0,
+          staff: 0,
           // allocatedArea: workAreaWithName,
           offerStatus: this.notOfferdArea[tradeId] ? false : true
 
@@ -632,6 +772,8 @@ export class TestNewSamplingComponent implements OnInit {
   type2RandomSampledArea = {}
   genarateDataForStep3(step2Data) {
     // let tempData = {}
+    this.step3RenderData = {}
+    console.log('sdfsdfsd-->', step2Data)
     step2Data.forEach(data => {
       if (data.workAreaWithName.length && data.offerStatus == true) {
         if (this.step3RenderData[data.contractorId]) {
@@ -663,13 +805,13 @@ export class TestNewSamplingComponent implements OnInit {
           let contractorId = data.contractorId
           let tradeId = data.tradeId
           if (this.persentageData[contractorId]) {
-            this.persentageData[contractorId][tradeId] = 5
+            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] ? this.preSampledUnitPersentage[contractorId][tradeId] : 5
 
             this.step3Stages[contractorId][tradeId] = data.workAreaWithName
 
           } else {
             this.persentageData[contractorId] = {}
-            this.persentageData[contractorId][tradeId] = 5
+            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] ? this.preSampledUnitPersentage[contractorId][tradeId] : 5
 
             this.step3Stages[contractorId] = {}
             this.step3Stages[contractorId][tradeId] = data.workAreaWithName
@@ -690,11 +832,11 @@ export class TestNewSamplingComponent implements OnInit {
           units < 1 ? units = 1 : units = Math.round(units)
 
           if (this.sampledUnitnumber[contractorId]) {
-            this.sampledUnitnumber[contractorId][tradeId] = units
+            this.sampledUnitnumber[contractorId][tradeId] = this.preSampledUnitnumber[contractorId] ? this.preSampledUnitnumber[contractorId][tradeId] : units
 
           } else {
             this.sampledUnitnumber[contractorId] = {}
-            this.sampledUnitnumber[contractorId][tradeId] = units
+            this.sampledUnitnumber[contractorId][tradeId] = this.preSampledUnitnumber[contractorId] ? this.preSampledUnitnumber[contractorId][tradeId] :  units
           }
         }
       }
@@ -800,7 +942,7 @@ export class TestNewSamplingComponent implements OnInit {
 
     console.log(finalData)
     this.allStepData['step3'] = finalData
-    console.log('all data ->',this.allStepData)
+    console.log('all data ->', this.allStepData)
 
     this.clientService.addSamplingStepFirst(this.allStepData['step1'])
       .subscribe(data => {
@@ -808,15 +950,15 @@ export class TestNewSamplingComponent implements OnInit {
       })
 
     this.clientService.addSamplingStepSecond(this.allStepData['step2'])
-    .subscribe(data => {
-      console.log('Step 2 data Added-->', data)
-    })
+      .subscribe(data => {
+        console.log('Step 2 data Added-->', data)
+      })
 
-  this.clientService.submitStep3Data(finalData)
-    .subscribe(data => {
-      console.log('step 3 sub,ited-->', data)
-      // this.type2Step3submitLoad = false
-    })
+    this.clientService.submitStep3Data(finalData)
+      .subscribe(data => {
+        console.log('step 3 sub,ited-->', data)
+        // this.type2Step3submitLoad = false
+      })
   }
 
 }

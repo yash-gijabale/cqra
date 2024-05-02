@@ -41,27 +41,34 @@ export class CreateTradeGroupComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
+  isLoad: boolean = false
   onSubmit() {
     this.submitted = true
     console.log("Id==");
     console.log(this.registerForm.value)
-    if(this.registerForm.invalid){
+    if (this.registerForm.invalid) {
       return;
     }
-    let formData = {...this.registerForm.value, tradegroupId: this.tradeGroupId}
+
+    this.isLoad = true
+    let formData = { ...this.registerForm.value, tradegroupId: this.tradeGroupId , status: true}
 
     if (this.tradeGroupId != -1) {
       this.tradeService.updateTradeGroup(formData, this.tradeGroupId)
         .subscribe(data => {
           console.log('updates')
+          this.isLoad = false
+
 
         })
 
     } else {
 
-      this.tradeService.createTradeGroup(this.registerForm.value)
+      this.tradeService.createTradeGroup({...this.registerForm.value,  status: true})
         .subscribe(data => {
           console.log(data)
+          this.isLoad = false
+
         })
     }
 

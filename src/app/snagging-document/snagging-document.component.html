@@ -52,7 +52,7 @@
           <a [routerLink]="'/createOTR/'+client.id+'/0'">
           <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
             <span class="edit-tessst"> 
-             <i class="las la-pencil-alt"></i>
+              <i class="fa fa-pencil-square" aria-hidden="true"></i>
             </span> 
           </button>
           </a>
@@ -62,18 +62,28 @@
         <div class="action-commonview"> 
           <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
             <span class="edit-tessst"> 
-             <i class="las la-pencil-alt"></i>
+              <i class="fa fa-plus-square" aria-hidden="true"></i>
             </span> 
           </button>
+          
         </div>
       </td>
       <td> 
-        <div class="action-commonview"> 
-          <button type="text" (click) = "editProject(client.projectId)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+        <div class="action-commonview" style="display: flex; flex-direction: column;" [id]="'sareport-'+client.id"> 
+          <button *ngIf="!loader[client.id]" type="text" (click)="donwloadReport(client.id)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
             <span class="edit-tessst"> 
-             <i class="las la-pencil-alt"></i>
+              <i class="fa fa-download" aria-hidden="true"></i>
             </span> 
           </button>
+
+          <div *ngIf="loader[client.id]" class="text-center">
+            <div class="spinner-border text-warning" role="status">
+            </div>
+          </div>
+
+          <div *ngIf="errorInDownload[client.id]" class="text-center">
+            <span class="badge badge-danger">Failed</span>
+          </div>
         </div>
       </td>
       <td> 

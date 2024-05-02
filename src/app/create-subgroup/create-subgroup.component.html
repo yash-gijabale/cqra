@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/subgroup">Manage Subgroup</a></button>
+            <button type="button"> <a routerLink="/subgroup" style="color: white; text-decoration: none;">Manage Subgroup</a></button>
           </div>
         </div>
       </div>
@@ -57,7 +57,11 @@
               </div>
             </div> -->
           <div class="form-group">
-            <button class="btn btn-primary">Save</button>
+            <button class="btn btn-primary">
+              <div *ngIf="isload" class="spinner-border spinner-border-sm" role="status">
+              </div>
+              <span *ngIf="!isload">Submit</span>
+            </button>
           </div>
         </form>
       </div>

@@ -449,16 +449,22 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulstep2`, data)
   }
 
+  getPreSamplingStep2Data(masterId, projectId, structureId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/findByMasterId/${masterId}/${projectId}/${structureId}`)
+  }
 
   getSamplingStep2Data(projectid, structureId){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/findByProjectAndStructure/${projectid}/${structureId}`)
   }
-
+  
 
   submitStep3Data(data):Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulclientwise`, data)
   }
 
+  getPreSamplingStep3Data(masterId, projectId, structureId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getstep3databymasterid/${masterId}/${projectId}/${structureId}`)
+  }
 
   getDataFromGenearteSamplingStep4(id){
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getclientwisebyprojectid/${id}`)

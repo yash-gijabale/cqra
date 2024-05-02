@@ -263,7 +263,7 @@
                         <!-- <td></td> -->
                       </tr>
                       <tr *ngFor="let contractor of contractorDataTradeWise[trade.tradeId]">
-                        <td [class]="'step2Contractor_'+contractor.contractorId">{{contractor.contractorName}}</td>
+                        <td [class]="'step2Contractor_'+contractor.contractorId" [title]="contractor.contractorId">{{contractor.contractorName}}</td>
                         <td>
                           <button data-toggle="modal" class="btn btn-sm btn-success"
                             [attr.data-target]="'#step2Add-stage_'+trade.tradeId+'_'+contractor.contractorId"
@@ -349,7 +349,8 @@
                                     <input *ngIf="completedStages[trade.tradeId].includes(o.stageId)"
                                       class="form-check-input" [class]="'step2StagesCheckbox_'+trade.tradeId"
                                       type="checkbox" [value]="o.stageId" id="flexCheckDefault"
-                                      (change)="addStep2type1WorkArea($event, trade.tradeId)">
+                                      (change)="addStep2type1WorkArea($event, trade.tradeId)"
+                                      [checked]="step2workArea.hasOwnProperty(trade.tradeId) &&  step2workArea[trade.tradeId].includes(o.stageId)">
                                     <label *ngIf="completedStages[trade.tradeId].includes(o.stageId)"
                                       class="form-check-label" for="flexCheckDefault">{{o.stageName}}</label>
                                   </div>

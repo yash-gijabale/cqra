@@ -86,7 +86,7 @@ export class CreateUserComponent implements OnInit {
             let userData: any = data[0]
             this.representingType = userData.representingTypeId
             this.getRepresentors()
-            let preRgion = userData.region.split(",")
+            let preRgion = userData.region ? userData.region.split(",") : []
             preRgion.forEach(id =>{
               this.userRegions[id] = true
             })
