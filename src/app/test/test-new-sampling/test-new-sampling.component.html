@@ -70,6 +70,13 @@
 
         </div>
 
+        <div class="col-md-12 d-flex justify-content-center">
+          <span *ngIf="isPreDataLoad" class="badge badge-warning p-2 text-light" style="background-color: #006699 !important;">
+            {{preLoadTitle}}
+          </span>
+
+        </div>
+
         <div class="step_wrapper">
           <div class="step_container">
             <div class="step_box">
@@ -263,7 +270,8 @@
                         <!-- <td></td> -->
                       </tr>
                       <tr *ngFor="let contractor of contractorDataTradeWise[trade.tradeId]">
-                        <td [class]="'step2Contractor_'+contractor.contractorId" [title]="contractor.contractorId">{{contractor.contractorName}}</td>
+                        <td [class]="'step2Contractor_'+contractor.contractorId" [title]="contractor.contractorId">
+                          {{contractor.contractorName}}</td>
                         <td>
                           <button data-toggle="modal" class="btn btn-sm btn-success"
                             [attr.data-target]="'#step2Add-stage_'+trade.tradeId+'_'+contractor.contractorId"

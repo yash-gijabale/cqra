@@ -195,6 +195,15 @@ export class TestNewSamplingComponent implements OnInit {
 
   preStep1Data = {}
 
+  isPreDataLoad: boolean = false
+  preLoadTitle: String = `<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span>Loading...`
+
+  samplingUpdate = {
+    step1: false,
+    step2: false,
+    step3: false
+  }
+
   getStages() {
     this.statusData = [
       {
@@ -211,6 +220,8 @@ export class TestNewSamplingComponent implements OnInit {
       }
 
     ]
+    this.isPreDataLoad = true
+
     this.commanService.getStagesByStructureId(this.SelStructure)
       .subscribe(
         data => {
@@ -249,14 +260,24 @@ export class TestNewSamplingComponent implements OnInit {
 
         console.log(this.preStep1Data)
         console.log(this.applicabaleArea)
+        if (Object.keys(data).length) {
+          this.preLoadTitle = "Sampling Data Found"
+          this.isPreDataLoad = false
+          this.samplingUpdate.step1 = true
+        } else {
+          this.preLoadTitle = "No Data Found"
+          this.isPreDataLoad = false
+        }
 
+      }, err => {
+        console.log(err)
       })
 
     this.clientService.getPreSamplingStep2Data(this.masterData.masterId, this.SelProject, this.SelStructure)
       .subscribe(data => {
         console.log("pre step2 data-->", data)
         if (data.length) {
-
+          this.samplingUpdate.step2 = true
           this.samplingType = Number(data[0].samplingType)
           this.getInitialData(this.SelProject, this.samplingType)
           this.generateStep2PreData(data)
@@ -269,7 +290,7 @@ export class TestNewSamplingComponent implements OnInit {
       .subscribe(data => {
         console.log("pre step 3 data-->", data)
         if (data.length) {
-
+          this.samplingUpdate.step3 = true
           this.samplingType = Number(data[0].samplingType)
           this.generateStep3PreData(data)
         }
@@ -285,7 +306,7 @@ export class TestNewSamplingComponent implements OnInit {
     // console.log()
     //For Step 2 work area
     console.log(data)
-    if (data[0].samplingType != 1 ) {
+    if (data[0].samplingType != 1) {
       data.forEach(item => {
         if (preStep2Area[item.tradeId]) {
           if (preStep2Area[item.tradeId][item.contractorId]) {
@@ -376,7 +397,7 @@ export class TestNewSamplingComponent implements OnInit {
     this.preSampledUnitnumber = preSampleUnitNumber
 
     //Generating Sample unit persentage
-    let prePersentage  = {}
+    let prePersentage = {}
     data.forEach(item => {
 
       if (prePersentage[item.contractorid]) {
@@ -836,7 +857,7 @@ export class TestNewSamplingComponent implements OnInit {
 
           } else {
             this.sampledUnitnumber[contractorId] = {}
-            this.sampledUnitnumber[contractorId][tradeId] = this.preSampledUnitnumber[contractorId] ? this.preSampledUnitnumber[contractorId][tradeId] :  units
+            this.sampledUnitnumber[contractorId][tradeId] = this.preSampledUnitnumber[contractorId] ? this.preSampledUnitnumber[contractorId][tradeId] : units
           }
         }
       }
@@ -944,21 +965,52 @@ export class TestNewSamplingComponent implements OnInit {
     this.allStepData['step3'] = finalData
     console.log('all data ->', this.allStepData)
 
-    this.clientService.addSamplingStepFirst(this.allStepData['step1'])
-      .subscribe(data => {
-        console.log('Step 1 data Added-->', data)
-      })
+    if (this.samplingUpdate.step1) {
+      this.clientService.upadteSamplingStep1(this.masterData.masterId, this.SelProject, this.SelStructure, this.allStepData['step1'])
+        .subscribe(data => {
+          console.log('step 1 update-->', data)
+        }, err => {
+          console.log(err)
+        })
 
-    this.clientService.addSamplingStepSecond(this.allStepData['step2'])
-      .subscribe(data => {
-        console.log('Step 2 data Added-->', data)
-      })
+    } else {
+      this.clientService.addSamplingStepFirst(this.allStepData['step1'])
+        .subscribe(data => {
+          console.log('Step 1 data Added-->', data)
+        })
+    }
 
-    this.clientService.submitStep3Data(finalData)
-      .subscribe(data => {
-        console.log('step 3 sub,ited-->', data)
-        // this.type2Step3submitLoad = false
-      })
+
+    if (this.samplingUpdate.step2) {
+      this.clientService.upadteSamplingStep2(this.SelProject, this.SelStructure, this.masterData.masterId, this.allStepData['step2'])
+        .subscribe(data => {
+          console.log('step 2 update-->', data)
+        }, err => {
+          console.log(err)
+        })
+    } else {
+
+      this.clientService.addSamplingStepSecond(this.allStepData['step2'])
+        .subscribe(data => {
+          console.log('Step 2 data Added-->', data)
+        })
+    }
+
+
+    if (this.samplingUpdate.step3) {
+      this.clientService.upadteSamplingStep3(this.masterData.masterId, this.SelProject, this.SelStructure, finalData)
+        .subscribe(data => {
+          console.log('step 3 update-->', data)
+        }, err => {
+          console.log(err)
+        })
+    } else {
+      this.clientService.submitStep3Data(finalData)
+        .subscribe(data => {
+          console.log('step 3 sub,ited-->', data)
+          // this.type2Step3submitLoad = false
+        })
+    }
   }
 
 }

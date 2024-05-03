@@ -445,6 +445,11 @@ export class ClientServiceService {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getdatabymasterId/${masterId}/${projectId}/${structureId}`)
   }
 
+  upadteSamplingStep1(masterId, projectId,  structureId, data){
+    return this.httpClient.post<any>(`${this.REST_API_SERVER}/updatedatabymasterId/${masterId}/${projectId}/${structureId}`, data)
+  }
+
+
   addSamplingStepSecond(data) :Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addmulstep2`, data)
   }
@@ -453,6 +458,11 @@ export class ClientServiceService {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/findByMasterId/${masterId}/${projectId}/${structureId}`)
   }
 
+  upadteSamplingStep2(projectId, structureId, masterId, data){
+    return this.httpClient.post<any>(`${this.REST_API_SERVER}/addmulstep2/${projectId}/${structureId}/${masterId}`, data)
+  }
+
+  //test don't delete
   getSamplingStep2Data(projectid, structureId){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/findByProjectAndStructure/${projectid}/${structureId}`)
   }
@@ -464,6 +474,10 @@ export class ClientServiceService {
 
   getPreSamplingStep3Data(masterId, projectId, structureId){
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/getstep3databymasterid/${masterId}/${projectId}/${structureId}`)
+  }
+
+  upadteSamplingStep3(masterId, projectId,  structureId, data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updatemulclientwise/${masterId}/${structureId}/${projectId}`, data)
   }
 
   getDataFromGenearteSamplingStep4(id){
