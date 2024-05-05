@@ -6,13 +6,14 @@ import { ClientServiceService } from '../service/client-service.service';
 import { first } from 'rxjs/operators';
 import { CommonService } from '../common.service';
 import { ProjectData } from '../project/project.component';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 export class PmcData {
   constructor(
     public pmcName: string,
     public pmcAddress: string,
     public pmcEmail: string,
-    public pmcPhone: string
+    public pmcPhone: string,
   ) {
 
   }
@@ -38,7 +39,8 @@ export class CreatePmcComponent implements OnInit {
     private router: Router,
     private clientServiceService: ClientServiceService,
     private formBuilder: FormBuilder,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private snackBar: SnackBarComponent
   ) { }
 
 
@@ -85,12 +87,21 @@ export class CreatePmcComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm.value)
+
+    if(this.registerForm.invalid){
+      return
+    }
+
     this.isbtnLoading = true
     if (this.pmcId != -1) {
       this.clientServiceService.updatePmc(this.registerForm.value, this.pmcId)
         .subscribe(data => {
           console.log('updated-->', data)
           this.isbtnLoading = false
+          this.snackBar.showSuccess('PMC Updated')
+        }, err => {
+          this.isbtnLoading = false
+          this.snackBar.showSnackError()
         })
 
 
@@ -99,7 +110,10 @@ export class CreatePmcComponent implements OnInit {
         .subscribe(data => {
           console.log('pmc aded-->', data)
           this.isbtnLoading = false
-
+          this.snackBar.showSuccess('PMC Added')
+        }, err =>{
+          this.isbtnLoading = false
+          this.snackBar.showSnackError()
         })
     }
   }

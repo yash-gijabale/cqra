@@ -49,7 +49,7 @@
 
           <div class="form-group col-md-4">
             <label>Cycle of inspection</label>
-            <select [(ngModel)]="Selcycle" class="form-control" (change)="getStages()" readonly>
+            <select [(ngModel)]="Selcycle" class="form-control" disabled>
               <option [value]="0">Please Select</option>
               <option [value]="o.cycle_id" *ngFor="let o of cycleOfInspection">
                 {{o.cycle_name}}

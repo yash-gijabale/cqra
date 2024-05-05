@@ -705,7 +705,7 @@ export class PreSnapauditFromsComponent implements OnInit {
         inAdeq: facilityData.value == '0' ? 1 : 0,
         location: meetinglocation.value,
         remark: remark.value,
-        meeting_date: meetingDate.value
+        meetng_date: meetingDate.value
       }
       intRevMeetAtProSite.push(data)
     })

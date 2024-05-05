@@ -263,7 +263,7 @@ export class ClientServiceService {
   }
 
   retrieveContractor(id) {
-    return this.httpClient.get<ContractorData[]>(`${this.REST_API_SERVER}/contractor/${id}`)
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/contractor/${id}`)
   }
 
   updateContractor(contactorDAta: ContractorData, id) {

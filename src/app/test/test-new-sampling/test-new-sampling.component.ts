@@ -45,7 +45,14 @@ export class TestNewSamplingComponent implements OnInit {
     console.log(this.masterData)
     this.getInitialData(this.masterData.projectId, this.samplingType)
 
+    this.commanService.getAllCycleOfInspection()
+      .subscribe(data => {
+        console.log('cycle of inspection', data)
+        this.cycleOfInspection = data
+      })
   }
+
+  
 
   changePannel(type) {
     this.pannel = type

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClientServiceService } from '../service/client-service.service';
 import { CommonService } from '../common.service'; import { UserView } from '../user-log/user-log.component';
 import { UserService } from '../service/user.service';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-create-user-access',
@@ -27,7 +28,8 @@ export class CreateUserAccessComponent implements OnInit {
     private router: Router,
     private clientServiceService: ClientServiceService,
     private commonService: CommonService,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -171,8 +173,12 @@ export class CreateUserAccessComponent implements OnInit {
     this.userService.setUserAccess(this.accessFrom.value)
       .subscribe(data => {
         console.log('added-->', data)
+        this.snackBar.showSuccess('Allocation added successfully')
         this.userAllocationLoad = false
 
+      }, err =>{
+        this.snackBar.showSnackError('Something is wrong !')
+        this.userAllocationLoad = false
       })
 
 

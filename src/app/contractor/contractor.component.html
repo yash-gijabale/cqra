@@ -107,7 +107,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn-primary">Save</button>
+                  <button class="btn btn-primary">
+                    <span *ngIf="issupervisorLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span *ngIf="!issupervisorLoad" >Save</span>
+                  </button>
 
                 </div>
               </form>
@@ -194,7 +197,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn-primary">Save</button>
+                  <button class="btn btn-primary">
+                    <span *ngIf="issupervisorLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span *ngIf="!issupervisorLoad" >Save</span>
+                  </button>
                 </div>
               </form>
             </div>
