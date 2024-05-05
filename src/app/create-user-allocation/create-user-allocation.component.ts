@@ -291,17 +291,24 @@ export class CreateUserAllocationComponent implements OnInit {
   }
 
   checkListMap = {}
+  tradeCheckListArray = [] //--> to avoid getting previous trade checklist  
 
+  showStatus: boolean = false
+  isFound: boolean = false
   getChecklist() {
     this.checkListMap = {}
     this.checkListData = []
     this.selectedData = {}
+    this.tradeCheckListArray = []
     console.log(this.SelTrade)
     this.commanService.getChecklistsByTrade(this.SelTrade)
       .subscribe(
         data => {
           console.log('checklist-->', data)
           this.checklists = data
+          this.checklists.forEach(checklist =>{
+            this.tradeCheckListArray.push(checklist.checkistIdChecklist)
+          })
         }
       )
 
@@ -311,6 +318,8 @@ export class CreateUserAllocationComponent implements OnInit {
       .subscribe(data => {
         allocatedData = data
         console.log('allocation data-->', data)
+        this.showStatus = true
+        this.isFound = true
         data.forEach(item => {
           if (this.selectedData[item.stageId]) {
             if (this.selectedData[item.stageId]) {
@@ -355,7 +364,9 @@ export class CreateUserAllocationComponent implements OnInit {
             }
           }
 
-          this.checkListMap[item.checklistId] = true
+          if(this.tradeCheckListArray.includes(Number(item.checklistId))){
+            this.checkListMap[item.checklistId] = true
+          }
 
         })
         console.log(this.selectedData)
@@ -365,6 +376,18 @@ export class CreateUserAllocationComponent implements OnInit {
         for (const key in this.checkListMap) {
           this.checkListData.push(key)
         }
+
+        setTimeout(() =>{
+          this.showStatus = false
+          }, 2000)
+      }, err =>{
+        this.showStatus = true
+        this.isFound = false
+
+        setTimeout(() =>{
+        this.showStatus = false
+
+        }, 2000)
       })
   }
 

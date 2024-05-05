@@ -53,29 +53,38 @@ export class CreateAccessorNameComponent implements OnInit {
     return this.assessorForm.controls;
   }
 
+  isLoad: boolean = false
   onSubmit() {
     this.submitted = true
     if (this.assessorForm.invalid) {
       return
     }
+    this.isLoad = true
     let formData = {
       snapAuditId: this.snapAuditId,
       assessordName: this.assessorForm.value.assessordName
     }
     console.log(formData)
 
-    if(this.assessorId != -1)
-    {
+    if (this.assessorId != -1) {
       this.cleintService.updateAssessorName(formData, this.assessorId)
-      .subscribe(data => {
-        console.log('updates')
-      })
-    }else{
+        .subscribe(data => {
+          console.log('updates')
+          this.isLoad = false
+
+        })
+    } else {
       this.cleintService.createAssessor(formData)
-      .subscribe(
-        data => console.log('creared--->', data),
-        err => console.log(err)
-      )
+        .subscribe(
+          data => {
+            console.log('creared--->', data)
+            this.isLoad = false
+          },
+          err => {
+            console.log(err)
+            this.isLoad = false
+          }
+        )
     }
   }
 }

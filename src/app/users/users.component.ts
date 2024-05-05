@@ -132,11 +132,17 @@ export class UsersComponent implements OnInit {
     this.router.navigate(['createUser', id])
   }
 
+  deleteLoad: boolean = false
   deactivateUser(id) {
     let idDeactivate = confirm('Are you sure want to deactivate ?')
     if (idDeactivate) {
+      this.deleteLoad = true
       this.userService.deactivateUser(id)
-        .subscribe(data => console.log('deactivated...', data))
+        .subscribe(data => {
+          console.log('deactivated...', data)
+          this.deleteLoad = false
+          location.reload()
+        })
     }
   }
 
@@ -168,7 +174,7 @@ export class UsersComponent implements OnInit {
   getUserAccess(id) {
     this.userService.getUserAccess(id)
       .subscribe(data => {
-        console.log("Accsess To",data)
+        console.log("Accsess To", data)
         this.userMenu = data
       })
   }

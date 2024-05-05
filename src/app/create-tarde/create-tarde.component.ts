@@ -54,9 +54,9 @@ export class CreateTardeComponent implements OnInit {
         .subscribe(data => {
           console.log(data)
           this.registerForm.patchValue(data.trade)
-          
+
           this.allocatedTradegroup = data.tradeTradeGroupId
-          this.allocatedTradegroup.forEach(item =>{
+          this.allocatedTradegroup.forEach(item => {
             this.allocatedTradegroupObj[item] = true
           })
 
@@ -74,7 +74,7 @@ export class CreateTardeComponent implements OnInit {
     this.tradeService.getAllTradeGroups().subscribe(
       (data) => {
         console.log("----> office service : get all data", data);
-        
+
 
         this.tradeGroups = data;
       },
@@ -85,9 +85,9 @@ export class CreateTardeComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       tradeName: ["", Validators.required],
-      discription: ["", Validators.required],
-      keyResultArea: [[], Validators.required],
-      tradegroupId: ["", Validators.required],
+      discription: ["", Validators.nullValidator],
+      keyResultArea: [[], Validators.nullValidator],
+      tradegroupId: ["", Validators.nullValidator],
       tradeSequence: ['', Validators.required],
       tradeNumber: ['', Validators.required],
     });
@@ -97,15 +97,21 @@ export class CreateTardeComponent implements OnInit {
     return this.registerForm.controls;
   }
 
+  isLoad: boolean = false
   onSubmit() {
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      console.log(this.registerForm)
+      return;
+    }
 
     let keyResultAreaElement = document.querySelectorAll('.keyResultArea')
 
     let tradegroupIdElement = document.querySelectorAll('.tradeGroups')
-    
+
     let tradegroupIds = []
     tradegroupIdElement.forEach(item => {
-      if((<HTMLInputElement>item).checked){
+      if ((<HTMLInputElement>item).checked) {
         tradegroupIds.push((<HTMLInputElement>item).value)
       }
     })
@@ -120,14 +126,16 @@ export class CreateTardeComponent implements OnInit {
         tradeName: this.registerForm.value.tradeName,
         discription: this.registerForm.value.discription,
         tradeSequence: this.registerForm.value.tradeSequence,
-        tradeNumber: this.registerForm.value.tradeNumber
+        tradeNumber: this.registerForm.value.tradeNumber,
+        status: true
       },
       tradeKey: keyResultArea,
       tradeTradeGroupId: tradegroupIds
     }
     // console.log(formData)
     // return
-    this.submitted = true;
+   
+    this.isLoad = true
 
     console.log(formData);
     // return
@@ -135,6 +143,8 @@ export class CreateTardeComponent implements OnInit {
       this.tradeService.updateTrade(formData, this.tradeId)
         .subscribe(data => {
           console.log('data updated')
+          this.isLoad = false
+
         }, (err) => console.log(err))
       // console.log(formData)
 
@@ -142,6 +152,8 @@ export class CreateTardeComponent implements OnInit {
       this.tradeService.createTrade(formData)
         .subscribe(data => {
           console.log(data)
+          this.isLoad = false
+
         })
     }
 

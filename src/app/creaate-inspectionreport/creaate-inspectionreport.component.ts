@@ -102,11 +102,11 @@ export class CreaateInspectionreportComponent implements OnInit {
     })
 
     this.inspectionTraining.getMasterIdsByUserId(this.userId)
-    .subscribe(data => {
-      console.log(data)
-      this.masterIds = data
+      .subscribe(data => {
+        console.log(data)
+        this.masterIds = data
 
-    })
+      })
 
     // this.commonService.getAllContractors().subscribe(data => this.contractors = data)
 
@@ -130,8 +130,8 @@ export class CreaateInspectionreportComponent implements OnInit {
           this.tradeService.getProjectTrades(retrivedData.snapAudit.schemeId).subscribe(data => this.trades = data)
 
           this.clientServiceService.getContractorByProjectId(retrivedData.snapAudit.schemeId).subscribe(data => {
-              this.contractors = data
-            })
+            this.contractors = data
+          })
           this.inspectionReporotForm.patchValue(retrivedData.snapAudit)
           let tradeIds = retrivedData.inspectTradeList.map((items) => {
             return items.tradeId
@@ -192,6 +192,33 @@ export class CreaateInspectionreportComponent implements OnInit {
         })
   }
 
+  fetchProject(id) {
+    this.commonService.getClientProject(id)
+      .subscribe(
+        (data) => {
+          this.projects = data;
+        }, (err) => {
+          console.log('-----> err', err);
+        })
+  }
+
+  getMasterDetails(e) {
+    this.inspectionTraining.getMasterDetails(e.target.value, this.userId)
+      .subscribe(data => {
+        console.log('master Data', data)
+        let mData = data
+        this.inspectionReporotForm.patchValue({ clientId: data[0].clientId })
+        this.commonService.getClientProject(data[0].clientId)
+          .subscribe(
+            (data) => {
+              this.projects = data;
+              this.inspectionReporotForm.patchValue({ projectId: mData[0].projectId })
+            })
+        this.inspectionReporotForm.patchValue({ fromDate: new Date(data[0].fromDate).toISOString().substring(0, 10) })
+        this.inspectionReporotForm.patchValue({ toDate: new Date(data[0].toDate).toISOString().substring(0, 10) })
+        this.inspectionReporotForm.patchValue({ cycleId: data[0].cycleId })
+      })
+  }
   getStructures() {
     this.commonService.getStructures(this.SelClient, this.SelProject)
       .subscribe(

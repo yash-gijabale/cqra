@@ -82,11 +82,11 @@ export class ContractorComponent implements OnInit {
 
   }
 
-  get f(){
+  get f() {
     return this.foremanForm.controls
   }
 
-  get s(){
+  get s() {
     return this.supervisorForm.controls
   }
   editContractor(id) {
@@ -111,13 +111,23 @@ export class ContractorComponent implements OnInit {
   changeContractorId(id) {
     this.contractorId = id
   }
+
+  issupervisorLoad: boolean = false
   addSupervisor() {
     this.submitted = true
+    this.issupervisorLoad = true
     this.supervisorForm.value.contractorId = this.contractorId
     this.supervisorForm.value.isActive = true
 
     this.clientService.createSupervisor(this.supervisorForm.value)
-      .subscribe(data => console.log('added--->', data))
+      .subscribe(data => {
+        console.log('added--->', data)
+        this.issupervisorLoad = false
+      }, err => {
+        this.issupervisorLoad = false
+
+      })
+
     // console.log(data)
   }
 
@@ -147,8 +157,15 @@ export class ContractorComponent implements OnInit {
     this.foremanForm.value.contractorId = this.contractorId
     this.foremanForm.value.active = true
 
+    this.issupervisorLoad = true
+
+
     this.clientService.createFormeman(this.foremanForm.value)
-      .subscribe(data => console.log('foreman added--->', data))
+      .subscribe(data => {
+        console.log('foreman added--->', data)
+        this.issupervisorLoad = false
+
+      })
   }
 
   getForemans(contractorId) {

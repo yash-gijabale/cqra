@@ -46,8 +46,9 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   supervisors: SupervisorData
   otrId: Number
   typeId: Number
-  masterIds:any
+  masterIds: any
   userId: number = Number(localStorage.getItem('id'))
+  cycle: any
 
   constructor(
     private commonServices: CommonService,
@@ -72,6 +73,11 @@ export class CreateObservationTrackerReportComponent implements OnInit {
     //     this.contractors = data
     //   })
 
+    this.commonServices.getAllCycleOfInspection()
+      .subscribe(data => {
+        this.cycle = data
+      })
+
     if (this.otrId != -1) {
       this.commonServices.getOTRReport(this.otrId)
         .subscribe(data => {
@@ -85,8 +91,8 @@ export class CreateObservationTrackerReportComponent implements OnInit {
           this.registerForm.patchValue(data.observationtracker)
           this.registerForm.patchValue({ obstraTrade: data.trade })
           this.registerForm.patchValue({ obstraStage: data.stages })
-          this.registerForm.patchValue({ fromDate: new Date(data.observationtracker.fromDate).toISOString().substring(0,10) })
-          this.registerForm.patchValue({ toDate: new Date(data.observationtracker.toDate).toISOString().substring(0,10) })
+          this.registerForm.patchValue({ fromDate: new Date(data.observationtracker.fromDate).toISOString().substring(0, 10) })
+          this.registerForm.patchValue({ toDate: new Date(data.observationtracker.toDate).toISOString().substring(0, 10) })
         })
 
     }
@@ -104,7 +110,8 @@ export class CreateObservationTrackerReportComponent implements OnInit {
       reportHeader: ['', Validators.required],
       otherPerson: ['', Validators.required],
       reportName: ['', Validators.required],
-      masterId : ['', Validators.required]
+      masterId: ['', Validators.required],
+      cycleOfInspection: ['', Validators.required]
     })
 
 
@@ -113,6 +120,21 @@ export class CreateObservationTrackerReportComponent implements OnInit {
         console.log(data)
         this.masterIds = data
 
+      })
+  }
+
+
+  getMasterData(e) {
+    this.imspectorTraining.getMasterDetails(e.target.value, this.userId)
+      .subscribe(data => {
+        console.log('master data', data)
+        this.commonServices.getClientProject(data[0].clientId).subscribe(data => this.projects = data)
+        this.commonServices.getStructures(data[0].clientId, data[0].projectId).subscribe(data => {this.structures = data})
+        this.registerForm.patchValue({ clientId: data[0].clientId })
+        this.registerForm.patchValue({ cycleOfInspection: data[0].cycleId })
+        this.registerForm.patchValue({ projectId: data[0].projectId })
+        this.registerForm.patchValue({ fromDate: new Date(data[0].fromDate).toISOString().substring(0, 10) })
+        this.registerForm.patchValue({ toDate: new Date(data[0].toDate).toISOString().substring(0, 10) })
       })
   }
 
@@ -156,7 +178,9 @@ export class CreateObservationTrackerReportComponent implements OnInit {
 
     console.log(formData)
 
+    return
     if (this.otrId != -1) {
+      console.log('updateting...')
       this.commonServices.updateOtr(formData, this.otrId)
         .subscribe(data => {
           console.log('updated', data)

@@ -1,0 +1,9 @@
+.form-check-label {
+    user-select: none;
+}
+
+.form-check-input,
+.form-check-label {
+    cursor: pointer;
+
+}

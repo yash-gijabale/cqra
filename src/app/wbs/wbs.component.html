@@ -16,32 +16,27 @@
         <app-loader></app-loader>
       </ng-template>
       <div class="main-header_createview">
-        <div class="col-sm-9 px-0">
-          <div class="form-group row">
-            <label for="fname" class="col-sm-3 col-form-label">Client</label>
-            <div class="col-sm-8 common-ul-li-drop">
-              <div class="form-group px-0">
-                <select [(ngModel)]="SelClientId" #clientId (change)="getProjects();">
-                  <option [value]="0">Please Select</option>
-                  <option [value]="o.clientId" *ngFor="let o of clients">
-                    {{o.clientName}}
-                  </option>
-                </select>
-              </div>
-            </div>
+        <div class="row">
+
+          <div class="form-group col-md-4">
+            <label for="fname" class="col-md-12 col-form-label">Client</label>
+            <select  class="form-select col-md-12" [(ngModel)]="SelClientId" #clientId (change)="getProjects();">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.clientId" *ngFor="let o of clients">
+                {{o.clientName}}
+              </option>
+            </select>
           </div>
-          <div class="form-group row">
-            <label for="fname" class="col-sm-3 col-form-label">Project</label>
-            <div class="col-sm-8 common-ul-li-drop">
-              <div class="form-group px-0">
-                <select [(ngModel)]="SelProjectId" #projectId (change)="getStructures();">
-                  <option [value]="0">Please Select</option>
-                  <option [value]="o.projectId" *ngFor="let o of projects">
-                    {{o.projectName}}
-                  </option>
-                </select>
-              </div>
-            </div>
+
+
+          <div class="form-group col-md-4">
+            <label for="fname" class="col-md-12 col-form-label">Project</label>
+            <select class="form-select col-md-12" [(ngModel)]="SelProjectId" #projectId (change)="getStructures();"> 
+              <option [value]="0">Please Select</option>
+              <option [value]="o.projectId" *ngFor="let o of projects">
+                {{o.projectName}}
+              </option>
+            </select>
           </div>
         </div>
       </div>
@@ -81,7 +76,8 @@
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
                 <button class="common-bnts delete-view" [disabled]="!isChecked" (click)="deleteStructure()">
-                  <span *ngIf="deleteStructureLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span *ngIf="deleteStructureLoad" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
                   <i *ngIf="!deleteStructureLoad" class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </div>
@@ -117,7 +113,8 @@
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
                 <span class="common-bnts delete-view" (click)="deleteStage()">
-                  <span *ngIf="deleteStageLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span *ngIf="deleteStageLoad" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
                   <i *ngIf="!deleteStageLoad" class="fa fa-trash-o" aria-hidden="true"></i>
                 </span>
               </div>
@@ -153,8 +150,9 @@
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </span>
                 <span class="common-bnts delete-view" (click)="deleteUnit()">
-                  <span *ngIf="deleteUnitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <i *ngIf="!deleteUnitLoad"  class="fa fa-trash-o" aria-hidden="true"></i>
+                  <span *ngIf="deleteUnitLoad" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                  <i *ngIf="!deleteUnitLoad" class="fa fa-trash-o" aria-hidden="true"></i>
                 </span>
               </div>
             </div>

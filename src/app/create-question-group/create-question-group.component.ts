@@ -73,11 +73,13 @@ export class CreateQuestionGroupComponent implements OnInit {
     return this.registerForm.controls;
   }
 
+  isload: boolean = false
   onSubmit() {
     this.submitted = true
     if (this.registerForm.invalid) {
       return
     }
+    this.isload = true
     console.log("Id==");
     console.log(this.registerForm.value);
 
@@ -87,18 +89,24 @@ export class CreateQuestionGroupComponent implements OnInit {
         tardeId: this.registerForm.value.tardeId,
         subgroupId: this.registerForm.value.subgroupId,
         questionGroupText: this.registerForm.value.questionGroupText,
+        status: true,
       };
 
       this.tradeMaintanceService.updateQuestionGroup(formData, this.questionGroupId)
         .subscribe(data => {
           console.log('updated-->', data)
+          this.isload = false
         }, err => console.log(err))
 
     } else {
       this.tradeMaintanceService
-        .createQuestionGroup(this.registerForm.value)
+        .createQuestionGroup({ ...this.registerForm.value, status: true })
         .subscribe(
-          (data) => console.log(data),
+          (data) => {
+            console.log(data)
+            this.isload = false
+
+          },
           (err) => console.log(err)
         );
     }

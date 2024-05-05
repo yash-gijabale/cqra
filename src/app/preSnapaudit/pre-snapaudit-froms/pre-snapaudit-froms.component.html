@@ -181,7 +181,7 @@
           </h5>
           <div class="row justify-content-between col-md-12">
             <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
-                data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the from</button></a>
+                data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the form</button></a>
 
             <div class="row col-md-4">
               <input type="file" id="equipmentForm" class="form-control col-md-9">
@@ -268,7 +268,7 @@
                             <div class="form-group col-md-4">
                               <label>Meeting Location</label>
                               <input id="meeting_location" type="text" class="form-control"
-                                [value]="isOpeningClosingData ? openingClosingPreData.data.location : ''">
+                                [value]="isOpeningClosingData ? openingClosingPreData.data[0].location : ''">
                             </div>
 
 
@@ -276,7 +276,7 @@
                               <label>Agenda</label>
                               <textarea id="meeting_agenda" type="text" cols="10" class="form-control col-md-12">
                               {{isOpeningClosingData ? 
-                              openingClosingPreData.data.agenda : 
+                              openingClosingPreData.data[0].agenda : 
                               'Introduction of team members, Apprising inspection process, Information to auditee about impartiality, Independence and confidentiality and information to auditee about necessity of no interference in the audit process by auditees, information to auditee about no involvement of inspectors in RCA and Corrective action process for the NCs identified'}}
                             </textarea>
                             </div>
@@ -290,19 +290,19 @@
                                 <div class="form-group">
                                   <label>Date</label>
                                   <input id="opening_meeting_date" type="date" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data.oDate : '' ">
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].oDate : '' ">
                                 </div>
 
                                 <div class="form-group">
                                   <label>Start Time</label>
                                   <input id="opening_meeting_startTime" type="time" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data.oStartTime : ''">
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].oStartTime : ''">
                                 </div>
 
                                 <div class="form-group">
                                   <label>End Time</label>
                                   <input id="opening_meeting_endTime" type="time" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data.oEndTime : ''">
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].oEndTime : ''">
                                 </div>
 
                               </div>
@@ -317,19 +317,19 @@
                                 <div class="form-group">
                                   <label>Date</label>
                                   <input id="closing_meeting_date" type="date" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data.cDate : '' ">
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].cDate : '' ">
                                 </div>
 
                                 <div class="form-group">
                                   <label>Start Time</label>
                                   <input id="closing_meeting_startTime" type="time" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data.cStartTime : ''">
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].cStartTime : ''">
                                 </div>
 
                                 <div class="form-group">
                                   <label>End Time</label>
                                   <input id="closing_meeting_endTime" type="time" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data.cEndTime : ''">
+                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].cEndTime : ''">
                                 </div>
 
                               </div>
@@ -419,8 +419,8 @@
         <div class="row pb-2 border-bottom mt-5 border-secondary">
           <h5 class="col-md-12">Inspection Sampling</h5>
           <div class="row justify-content-between col-md-12">
-            <a routerLink="/createSampling/-1" target="_blank"><button class="btn btn-success btn-sm mx-2">Fill the
-                from</button></a>
+            <a routerLink="/testSampling" target="_blank"><button class="btn btn-success btn-sm mx-2">Fill the
+                form</button></a>
             <!-- <input type="file" class="form-control col-md-3"> -->
           </div>
         </div>
@@ -434,7 +434,7 @@
           <div class="row justify-content-between col-md-12">
             <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#internalReviewMeeting"
               (click)="internalReviewMeeting()">Fill the
-              from</button>
+              form</button>
             <div class="row col-md-4">
               <input type="file" id="internalReviewFrom" class="form-control col-md-9">
               <button class="btn btn-sm btn-primary col-md-3" (click)="uploadInternalReviewForm()">Upload</button>
@@ -737,7 +737,7 @@
 
             <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view"
               (click)="supervisorFormGet()">Fill the
-              from</button>
+              form</button>
             <div class="row col-md-4">
               <input type="file" id="supervisorForm" class="form-control col-md-9">
               <button class="btn btn-sm btn-primary col-md-3" (click)="uploadSupervisorFrom()">Upload</button>
@@ -881,7 +881,7 @@
           <div class="row justify-content-between col-md-12">
 
             <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view"
-              (click)="onsitePerformance()">Fill the from</button>
+              (click)="onsitePerformance()">Fill the form</button>
             <div class="row col-md-4">
               <input type="file" id="performanceForm" class="form-control col-md-9">
               <button class="btn btn-sm btn-primary col-md-3" (click)="uploadPerformanceForm()">Upload</button>
@@ -1079,8 +1079,8 @@
           <h5 class="col-md-12">Client Feedback Form</h5>
           <div class="row justify-content-between col-md-12">
 
-            <button class="btn btn-success mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill the
-              from</button>
+            <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill the
+              form</button>
             <input type="file" class="col-md-3 form-control">
           </div>
           <div class="modal fade" id="client_feedback_form" tabindex="-1" role="dialog"

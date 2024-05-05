@@ -25,7 +25,7 @@
 
             <div class="form-group col-md-4">
               <label>Select MasterId</label>
-              <select class="form-control col-md-12" formControlName="masterId">
+              <select class="form-control col-md-12" formControlName="masterId" (change)="getMasterDetails($event)">
                 <option [value]="''">Select Master ID</option>
                 <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
               </select>

@@ -6,6 +6,7 @@ import { ClientServiceService } from '../service/client-service.service';
 import { first } from 'rxjs/operators';
 import { CommonService } from '../common.service';
 import { ProjectData } from '../project/project.component';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-create-contractor',
@@ -28,7 +29,8 @@ export class CreateContractorComponent implements OnInit {
     private router: Router,
     private clientServiceService: ClientServiceService,
     private formBuilder: FormBuilder,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private snackBar: SnackBarComponent
   ) { }
 
 
@@ -40,7 +42,13 @@ export class CreateContractorComponent implements OnInit {
       this.clientServiceService.retrieveContractor(this.contractorId)
         .pipe(first())
         .subscribe(
-          data => this.registerForm.patchValue(data),
+          data => {
+            let conData = data
+            console.log(conData)
+            this.commonService.getClientProject(conData.clientId).subscribe(data => this.projects = data)
+            this.registerForm.patchValue(data)
+
+          },
           err => console.log(err)
         )
     }
@@ -90,9 +98,13 @@ export class CreateContractorComponent implements OnInit {
             console.log('updated !')
             console.log(data)
             this.isBtnLoading = false
+            this.snackBar.showSuccess('Contractor Updated')
 
           },
-          err => console.log(err)
+          err => {
+            console.log(err)
+            this.snackBar.showSnackError()
+          }
         )
 
     } else {
@@ -102,6 +114,9 @@ export class CreateContractorComponent implements OnInit {
           console.log('data adedd', data)
           this.isBtnLoading = false
           this.registerForm.reset()
+          this.snackBar.showSuccess('Contractor Created')
+        }, err => {
+          this.snackBar.showSnackError()
         })
     }
 

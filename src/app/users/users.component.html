@@ -80,8 +80,11 @@
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
                       <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
-                        <span role="button" class="btn btn-sm btn-danger"
-                          (click)="deactivateUser(user.id)">Delete</span>&nbsp;
+                        <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                          <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"></span>
+                          <span *ngIf="!deleteLoad">Delete</span>
+                        </span>&nbsp;
                         <a routerLink="/createUserAccess/{{user.id}}">
                           <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
                         </a>
@@ -109,8 +112,10 @@
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
                       <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
-                        <span role="button" class="btn btn-sm btn-danger"
-                          (click)="deactivateUser(user.id)">Delete</span>&nbsp;
+                        <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                          <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"></span>
+                          <span *ngIf="!deleteLoad">Delete</span></span>&nbsp;
                         <a routerLink="/createUserAccess/{{user.id}}">
                           <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
                         </a>
@@ -139,8 +144,11 @@
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
                       <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
-                        <span role="button" class="btn btn-sm btn-danger"
-                          (click)="deactivateUser(user.id)">Delete</span>&nbsp;
+                        <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                          <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"></span>
+                          <span *ngIf="!deleteLoad">Delete</span>
+                        </span>&nbsp;
                         <a routerLink="/createUserAccess/{{user.id}}">
                           <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
                         </a>
@@ -168,8 +176,11 @@
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
                       <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
-                        <span role="button" class="btn btn-sm btn-danger"
-                          (click)="deactivateUser(user.id)">Delete</span>&nbsp;
+                        <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                          <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"></span>
+                          <span *ngIf="!deleteLoad">Delete</span>
+                        </span>&nbsp;
                         <a routerLink="/createUserAccess/{{user.id}}">
                           <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
                         </a>

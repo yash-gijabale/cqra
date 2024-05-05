@@ -4,6 +4,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { saveAs } from 'file-saver';
 import { TradeMaintanceService } from '../trade-maintance.service';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 export class InspectionView {
   constructor(
@@ -33,7 +34,14 @@ export class InspectionReportComponent implements OnInit {
   reports: InspectionView[];
   snapAuditId: number;
   isLoading: boolean
-  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
+
+  drawingForm: FormGroup
+
+  constructor(
+    private router: Router, 
+    private tradeMaintanceService: TradeMaintanceService,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
 
@@ -55,6 +63,14 @@ export class InspectionReportComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     })
+
+
+    this.drawingForm = this.formBuilder.group({
+      tradeId: ["", Validators.required],
+      details: ["", Validators.required],
+      number: ["", Validators.required],
+      revision: ["", Validators.required],
+    });
   }
 
   editReport(id) {
@@ -122,8 +138,15 @@ export class InspectionReportComponent implements OnInit {
 
   }
 
-  preSnapAuditProcess(id){
+  preSnapAuditProcess(id) {
     this.router.navigate(['preSnapAuditProccess', id])
+
+  }
+
+  currentSAId: Number
+  setSnapId(id) {
+
+    this.currentSAId = Number(id)
 
   }
 }

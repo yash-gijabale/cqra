@@ -75,6 +75,11 @@
             </div>
           </div>
 
+          <div class="form-group row col-md-12 ml-2">
+            <span class="badge badge-danger" *ngIf="showStatus && !isFound">No Allocation Found</span>
+            <span class="badge badge-success" *ngIf="showStatus && isFound">Allocation Found</span>
+          </div>
+
           <div class="row col-md-12">
 
             <div class="form-group col-md-3">

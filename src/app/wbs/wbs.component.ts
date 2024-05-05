@@ -166,7 +166,7 @@ export class WbsComponent implements OnInit {
     console.log(this.isUpdate)
   }
   getProjects() {
-    alert(this.SelClientId);
+    // alert(this.SelClientId);
     this.commonService.getClientProject(this.SelClientId)
       .subscribe(
         (data) => {
@@ -196,10 +196,10 @@ export class WbsComponent implements OnInit {
 
   loadStages = false
   isChangeLimitAccessToggle(event, id: string) {
-    this.loadStages = true
     this.isChecked = event.target.checked;//!this.isChecked;
     this.isCheckedName = event.target.name;
-    if (this.structureSel != id) {
+    if (this.structureSel != id && this.isChecked) {
+      this.loadStages = true
       this.structureSel = id;
       this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel)
         .subscribe(
@@ -223,8 +223,10 @@ export class WbsComponent implements OnInit {
 
   loadUnit = false
   isstageSelectionchange(event, id: string) {
-    this.loadUnit = true
-    if (this.stageSel != id) {
+    let isChecked = event.target.checked
+    console.log(isChecked)
+    if (this.stageSel != id && isChecked) {
+      this.loadUnit = true
       this.stageSel = id;
       this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel)
         .subscribe(
@@ -248,8 +250,10 @@ export class WbsComponent implements OnInit {
 
   loadSubunit = false
   isUnitSelectionchange(event, id: string) {
-    this.loadSubunit = true
-    if (this.unitSel != id) {
+    let isChecked = event.target.checked
+    
+    if (this.unitSel != id && isChecked) {
+      this.loadSubunit = true
       console.log("Unit Id" + id)
       this.unitSel = id;
       this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel)

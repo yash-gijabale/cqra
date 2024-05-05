@@ -10,6 +10,7 @@ import { RoleView } from '../add-role/add-role.component';
 import { CommonService } from '../common.service';
 
 import { InspectorTraning } from '../service/inspectionTraining.service';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-create-user',
@@ -40,7 +41,7 @@ export class CreateUserComponent implements OnInit {
 
   isLoading = false
 
-  userRegions:Object = {}
+  userRegions: Object = {}
 
   projects: Array<any> = []
 
@@ -58,7 +59,8 @@ export class CreateUserComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private userService: UserService,
     private commonService: CommonService,
-    private inspectionTraining: InspectorTraning
+    private inspectionTraining: InspectorTraning,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -86,25 +88,25 @@ export class CreateUserComponent implements OnInit {
             let userData: any = data[0]
             this.representingType = userData.representingTypeId
             this.getRepresentors()
-            let preRgion = userData.region.split(",")
-            preRgion.forEach(id =>{
+            let preRgion = userData.region ? userData.region.split(",") : []
+            preRgion.forEach(id => {
               this.userRegions[id] = true
             })
-          
+
             console.log(this.userRegions)
             this.registerForm.patchValue(data[0])
             this.registerForm.patchValue({ dateOfJoining: new Date(userData.dateOfJoining).toISOString().substring(0, 10) })
           }
         });
-      
+
       this.inspectionTraining.getUserDeclarationDetails(this.id)
-      .subscribe(data =>{
-        console.log(data)
-        data.forEach(d =>{
-          this.assignProjectList.push(d.projectId)
-          this.assignProjectObject[d.projectId] = true
+        .subscribe(data => {
+          console.log(data)
+          data.forEach(d => {
+            this.assignProjectList.push(d.projectId)
+            this.assignProjectObject[d.projectId] = true
+          })
         })
-      })
     }
 
     this.isProjectLoad = true
@@ -135,10 +137,10 @@ export class CreateUserComponent implements OnInit {
       l2: ['', Validators.nullValidator],
       l3: ['', Validators.nullValidator],
       // region: [[], Validators.required],
-      mep:['',Validators.nullValidator],
-      infra:['',Validators.nullValidator],
-      fireSafety:['',Validators.nullValidator],
-      constructionSafety:['',Validators.nullValidator],
+      mep: ['', Validators.nullValidator],
+      infra: ['', Validators.nullValidator],
+      fireSafety: ['', Validators.nullValidator],
+      constructionSafety: ['', Validators.nullValidator],
       representingTypeId: ['', Validators.required],
       representingId: ['', Validators.nullValidator],
       dateOfJoining: ['', Validators.nullValidator],
@@ -152,14 +154,14 @@ export class CreateUserComponent implements OnInit {
   }
   get f() { return this.registerForm.controls; }
 
-    
+
   regionList: Array<Number> = []
-  addRegionToList(e){
+  addRegionToList(e) {
     let regionId = Number(e.target.value)
-    if(e.target.checked){
+    if (e.target.checked) {
       this.regionList.push(regionId)
-    }else{
-      this.regionList = this.regionList.filter(id =>{
+    } else {
+      this.regionList = this.regionList.filter(id => {
         return regionId != id
       })
     }
@@ -171,11 +173,13 @@ export class CreateUserComponent implements OnInit {
 
   submitLoad = false
   imageToLarge: boolean = false
-  imageWarning={
-    simage:false,
-    pimage:false
+  imageWarning = {
+    simage: false,
+    pimage: false
   }
   imageMessage = 'File size must less than 1MB !'
+
+
   onSubmit() {
     this.submitted = true
     this.imageWarning.simage = false
@@ -209,7 +213,7 @@ export class CreateUserComponent implements OnInit {
     }
 
     console.log(formData)
-    
+
 
     // IF VALDATION IS FALSE THEN RETUN AND SHOW ERRORS
     if (this.registerForm.invalid) {
@@ -227,6 +231,7 @@ export class CreateUserComponent implements OnInit {
           data => {
             console.log('user updated-->', data)
             this.isLoading = false
+            this.snackBar.showSuccess('User Updated')
             let newUser: any = data
             this.assignProjectForNonCQRA(newUser.id)
 
@@ -239,7 +244,10 @@ export class CreateUserComponent implements OnInit {
             }
 
           },
-          err => console.log(err))
+          err => {
+            console.log(err)
+            this.snackBar.showSnackError()
+          })
     } else {
 
       this.isLoading = true
@@ -251,6 +259,9 @@ export class CreateUserComponent implements OnInit {
             // this.registerForm.reset()
             this.assignProjectForNonCQRA(newUser.id)
             this.isLoading = false
+            this.snackBar.showSuccess('User created')
+
+
             if (img1 || profile) {
               this.userService.uploadUserSign(newUser.id, img1, profile)
                 .subscribe(data => {
@@ -260,7 +271,10 @@ export class CreateUserComponent implements OnInit {
             }
 
           },
-          err => console.log(err)
+          err => {
+            console.log(err)
+            this.snackBar.showSnackError()
+          }
         )
     }
 
@@ -282,23 +296,23 @@ export class CreateUserComponent implements OnInit {
     }
 
     let letter: Number = this.representingType
-    if(letter == 3){
+    if (letter == 3) {
       this.commonService.getAllContractors().subscribe(data => {
         console.log('contractors-->', data)
         this.contractorDataToRepresentator(data)
       })
-    }else if(letter == 4 ){
+    } else if (letter == 4) {
       this.clientServiceService.getAllPmcs().subscribe(data => {
         console.log('PMC-->', data)
         this.pmcDataToRepresentator(data)
       })
-    }else{
+    } else {
       this.clientServiceService.getAllClients().subscribe(data => {
         console.log('clients-->', data)
         this.clientDataToRepresentator(data)
       })
     }
- 
+
 
     console.log(this.showCadre)
   }

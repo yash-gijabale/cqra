@@ -7,6 +7,7 @@ import { ProjectData } from "../project/project.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { data } from "jquery";
 import { first } from 'rxjs/operators';
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 
 export class clientStaffData {
@@ -18,7 +19,7 @@ export class clientStaffData {
     public email: string,
     public phone: string,
     public level: number
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -32,7 +33,7 @@ export class CreateClientStaffComponent implements OnInit {
   SelClientId: string;
   projects: ProjectData[];
   id: number;
-  submitted=false
+  submitted = false
   isbtnLoading = false
 
   constructor(
@@ -40,15 +41,24 @@ export class CreateClientStaffComponent implements OnInit {
     private formBuilder: FormBuilder,
     private commonService: CommonService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private snackBar: SnackBarComponent
+  ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    if(this.id != -1){
+    if (this.id != -1) {
       this.clientServiceService.retrieveClientStaff(this.id)
-      .pipe(first())
-      .subscribe(x => this.clientStaffForm.patchValue(x));
+        .pipe(first())
+        .subscribe(x => { 
+          console.log(x)
+          this.commonService.getClientProject(x.clientId).subscribe(
+            (data) => {
+              this.projects = data;
+            }
+          );
+          this.clientStaffForm.patchValue(x) 
+        });
     }
 
     this.clientServiceService.getAllClients().subscribe(
@@ -78,34 +88,38 @@ export class CreateClientStaffComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if(this.clientStaffForm.invalid)
-    {
+    if (this.clientStaffForm.invalid) {
       return;
     }
     this.isbtnLoading = true
     console.log(this.clientStaffForm.value);
-    if(this.id == -1){
-      this.clientServiceService.createClientStaff(this.clientStaffForm.value)
-      .subscribe(data => {
-        console.log('data added', data)
-        this.isbtnLoading = false
-      },
-      (err)=>{
-        console.log(err)
-      })
-    }else{
-      this.clientServiceService.updateClientStaff(this.clientStaffForm.value, this.id)
-      .subscribe(data => {
-        console.log('updated-->', data)
-        this.isbtnLoading = false
+    if (this.id == -1) {
+      this.clientServiceService.createClientStaff({ ...this.clientStaffForm.value, isActive: 1 })
+        .subscribe(data => {
+          console.log('data added', data)
+          this.isbtnLoading = false
+          this.snackBar.showSuccess('Client Staff Added')
+        },
+          (err) => {
+            console.log(err)
+            this.snackBar.showSnackError()
+          })
+    } else {
+      this.clientServiceService.updateClientStaff({ ...this.clientStaffForm.value, isActive: 1 }, this.id)
+        .subscribe(data => {
+          console.log('updated-->', data)
+          this.isbtnLoading = false
+          this.snackBar.showSuccess('Client Staff Updated')
 
-      },
-      (err) => {
-        console.log('update err---->', err)
-      })
+        },
+          (err) => {
+            console.log('update err---->', err)
+            this.snackBar.showSnackError()
+
+          })
 
     }
-   
+
   }
 
   getProjects() {

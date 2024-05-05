@@ -4,6 +4,7 @@ import { UserService } from '../service/user.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 import { first } from 'rxjs/operators';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 
 export class RoleView {
@@ -35,7 +36,8 @@ export class AddRoleComponent implements OnInit {
   submitted:boolean = false
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar : SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -80,6 +82,10 @@ export class AddRoleComponent implements OnInit {
           this.isUpdate = false
           this.isbtnLoading = false
           this.roleForm.reset()
+          this.snackBar.showSuccess('Role Updated Successfully')
+        }, err =>{
+          this.isbtnLoading = false
+          this.snackBar.showSnackError('Something is wrong!')
         })
 
     } else {
@@ -90,7 +96,11 @@ export class AddRoleComponent implements OnInit {
           this.userService.getAllRoles().subscribe(data => this.roles = data)
           this.isbtnLoading = false
           this.roleForm.reset()
+          this.snackBar.showSuccess('Role Added Successfully')
 
+        },err =>{
+          this.isbtnLoading = false
+          this.snackBar.showSnackError('Something is wrong!')
         })
     }
   }

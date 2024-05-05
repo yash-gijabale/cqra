@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/trade">Manage Trade</a></button>
+            <button type="button"> <a routerLink="/trade" style="color: white; text-decoration: none;">Manage Trade</a></button>
           </div>
         </div>
       </div>
@@ -27,7 +27,7 @@
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label>Trade Name</label>
               <input type="text" formControlName="tradeName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
@@ -35,7 +35,7 @@
                 <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
               </div>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label>Trade Description</label>
               <input type="text" formControlName="discription" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.discription.errors }" />
@@ -43,7 +43,26 @@
                 <div *ngIf="f.discription.errors.required">Trade Description is required</div>
               </div>
             </div>
-            <div class="form-group col-md-4">
+
+            <div class="form-group col-md-3">
+              <label>Trade Sequence</label>
+              <input type="number" formControlName="tradeSequence" class=" form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+              <div *ngIf="submitted && f.tradeSequence.errors" class="invalid-feedback">
+                <div *ngIf="f.tradeSequence.errors.required">Trade Sequence is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label>Trade Number</label>
+              <input type="text" formControlName="tradeNumber" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
+              <div *ngIf="submitted && f.tradeNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.tradeNumber.errors.required">Trade Number is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
               <div class="row ml-2">
                 <label>Key Result Areas</label>
                 <button class="btn btn-sm btn-secondary m-1 px-1 py-0" type="button"
@@ -56,23 +75,9 @@
                 <div *ngIf="f.keyResultArea.errors.required">Key Result Areas is required</div>
               </div>
             </div>
-            <div class="form-group col-md-4">
-              <label>Trade Sequence</label>
-              <input type="number" formControlName="tradeSequence" class=" form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
-              <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
-                <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
-              </div>
-            </div>
-            <div class="form-group col-md-4">
-              <label>Trade Number</label>
-              <input type="text" formControlName="tradeNumber" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.tradeName.errors }" />
-              <div *ngIf="submitted && f.tradeName.errors" class="invalid-feedback">
-                <div *ngIf="f.tradeName.errors.required">Trade Name is required</div>
-              </div>
-            </div>
-            <div class="form-group col-md-4">
+
+           
+            <div class="form-group col-md-6">
               <label>Trade Group</label>
               <!-- <select formControlName="tradegroupId" class="form-control" multiple>
               <option [value]="0">Please Select</option>
@@ -94,7 +99,11 @@
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-primary">Save</button>
+            <button class="btn btn-primary">
+              <div *ngIf="isLoad" class="spinner-border spinner-border-sm" role="status">
+              </div>
+              <span *ngIf="!isLoad" >Submit</span>
+            </button>
           </div>
         </form>
       </div>

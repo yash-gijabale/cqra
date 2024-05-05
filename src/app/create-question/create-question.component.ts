@@ -225,7 +225,11 @@ export class CreateQuestionComponent implements OnInit {
         })
     } else {
       this.tradeMaintanceService.createQuestions(formData)
-        .subscribe(data => console.log(data),
+        .subscribe(data => {
+          console.log(data)
+          this.submitLoad = false
+
+        },
           err => {
             console.log(err)
             this.submitLoad = false

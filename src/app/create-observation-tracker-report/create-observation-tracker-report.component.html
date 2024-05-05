@@ -32,7 +32,7 @@
           <div class="row">
             <div class="col-md-12 mb-3">
               <!-- <label><b>Select Matser Id:</b></label> <span *ngIf="isLeader" class="badge badge-primary mx-3">Leader</span> -->
-              <select class="form-control col-md-4" formControlName="masterId">
+              <select class="form-control col-md-4" formControlName="masterId" (change)="getMasterData($event)">
                 <option [value]="''">Select Master ID</option>
                 <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
               </select>
@@ -109,6 +109,16 @@
               <input type="date" formControlName="toDate" class="form-control">
               <div class="invalid-feedback">
               </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Cycle of inspection</label>
+              <select formControlName="cycleOfInspection" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="o.cycle_id" *ngFor="let o of cycle">
+                  {{o.cycle_name}}
+                </option>
+              </select>
             </div>
 
             <div class="form-group col-md-4">

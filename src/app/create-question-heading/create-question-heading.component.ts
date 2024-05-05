@@ -84,12 +84,14 @@ export class CreateQuestionHeadingComponent implements OnInit {
     return this.registerForm.controls;
   }
 
+  isLoad: boolean = false
   onSubmit() {
 
     this.submitted = true
     if (this.registerForm.invalid) {
       return
     }
+    this.isLoad = true
     console.log("Id==");
 
     console.log(this.registerForm.value);
@@ -102,20 +104,26 @@ export class CreateQuestionHeadingComponent implements OnInit {
         questionGroupId: this.registerForm.value.questionGroupId,
         subgroupId: this.registerForm.value.subgroupId,
         tardeId: this.registerForm.value.tardeId,
-        status:true
+        status: true
       };
 
       this.tradeMaintanceService.updateQuestionHeading(formData, this.questionHeadingId)
         .subscribe(
-          data => console.log('updated', data),
+          data => {
+            console.log('updated', data)
+            this.isLoad = false
+          },
           err => console.log(err)
         )
 
     } else {
       this.tradeMaintanceService
-        .createQuestionHeading({...this.registerForm.value, status:true})
+        .createQuestionHeading({ ...this.registerForm.value, status: true })
         .subscribe(
-          (data) => console.log("heading created-->", data),
+          (data) => {
+            console.log("heading created-->", data)
+            this.isLoad = false
+          },
           (err) => console.log(err)
         );
     }

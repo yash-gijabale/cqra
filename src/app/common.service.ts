@@ -661,4 +661,9 @@ export class CommonService {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/question/getQuestionbytrade/${tradeId}`)
   }
 
+
+  //Signoff report download
+  downloadSignOffReport(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloaddSaallocation/${id}`)
+  }
 }
