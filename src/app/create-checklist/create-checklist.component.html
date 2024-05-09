@@ -108,9 +108,9 @@
                   <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="questionList2"
                      class="example-list" (cdkDropListDropped)="drop($event)"
                     class="card-body kamban-card-body" id="all_structure">
-                    <div *ngFor="let qgroup of questionGroup">
-                      <span><b>{{qgroup.subgroupId}}</b></span>
-                      <ul *ngFor=" let q of qgroup.questions" class="card question-list-primary" cdkDrag>
+                    <div *ngFor="let qgroup of questionGroup2 | keyvalue">
+                      <span><b>{{qgroup.value.questionGroup}}</b></span>
+                      <ul *ngFor=" let q of qgroup.value.questions" class="card question-list-primary" cdkDrag>
                         <li class="d-flex justify-content-between">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" (change)="onMoveCheck(q, $event.target.checked)"

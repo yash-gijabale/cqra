@@ -150,6 +150,7 @@ import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
 import { SnackBarComponent } from './loader/snack-bar/snack-bar.component';
 import { Global } from 'src/config/Global';
 import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-sampling.component';
+import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
 
 
 @NgModule({
@@ -288,6 +289,7 @@ import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-samp
     MyEquipmentsComponent,
     SnackBarComponent,
     TestNewSamplingComponent,
+    AssignContractorPmcComponent,
   ],
   imports: [
     BrowserModule,

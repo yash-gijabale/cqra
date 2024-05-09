@@ -52,7 +52,7 @@ export class TestNewSamplingComponent implements OnInit {
       })
   }
 
-  
+
 
   changePannel(type) {
     this.pannel = type
@@ -351,6 +351,14 @@ export class TestNewSamplingComponent implements OnInit {
       }
     })
 
+    //Not Offerd area
+    data.forEach(item => {
+      if(item.offerStatus == false){
+        this.notOfferdArea[item.tradeId] = true
+      }
+    })
+
+    console.log('not offred', this.notOfferdArea)
     console.log("pre step 2 area -->", preStep2Area)
     console.log("pre step 1 complted  -->", preCompletedArea)
     this.step2workArea = preStep2Area
@@ -653,19 +661,22 @@ export class TestNewSamplingComponent implements OnInit {
 
   contractorAssignedStages = {}
   getAssignStagesByContractor(tradeId, contractorId) {
-    if (!this.contractorAssignedStages[contractorId]) {
-      this.contractorAssignedStages[contractorId] = {}
-      if (!this.contractorAssignedStages[contractorId][tradeId]) {
-        this.contractorAssignedStages[contractorId][tradeId] = []
-        this.getAssignedStages(contractorId, tradeId)
-      }
+    if (!this.samplingUpdate.step2) {
+      if (!this.contractorAssignedStages[contractorId]) {
+        this.contractorAssignedStages[contractorId] = {}
+        if (!this.contractorAssignedStages[contractorId][tradeId]) {
+          this.contractorAssignedStages[contractorId][tradeId] = []
+          this.getAssignedStages(contractorId, tradeId)
+        }
 
-    } else {
-      if (!this.contractorAssignedStages[contractorId][tradeId]) {
-        this.contractorAssignedStages[contractorId][tradeId] = []
-        this.getAssignedStages(contractorId, tradeId)
+      } else {
+        if (!this.contractorAssignedStages[contractorId][tradeId]) {
+          this.contractorAssignedStages[contractorId][tradeId] = []
+          this.getAssignedStages(contractorId, tradeId)
+        }
       }
     }
+
 
   }
 

@@ -81,7 +81,7 @@ export class ProjectChecklistAllocationComponent implements OnInit {
         allocatedData.forEach(item => {
           allocatedChecklist.push(item.checklistId)
         })
-        this.configureForm.patchValue({checklistId: allocatedChecklist})
+        this.configureForm.patchValue({ checklistId: allocatedChecklist })
         console.log('---->', data, allocatedChecklist)
 
       })
@@ -99,7 +99,80 @@ export class ProjectChecklistAllocationComponent implements OnInit {
     })
 
     console.log(finalArray)
+    this.clientService.getChecklistQuestions(this.configureForm.value.pkTradeId, this.configureForm.value.pkSubgroupId, { 'intlist': checklistIds })
+      .subscribe(data => {
+        console.log(data)
+        this.generatDataForConfigure(data)
+      })
+    return
     this.clientService.projectChecklistAlloaction(finalArray)
       .subscribe(data => console.log('checklist Aloocated-->', data))
   }
+
+  configureData = {}
+  checklistName = {}
+  questionGroupName = {}
+  generatDataForConfigure(data) {
+    let generedData = {}
+    data.forEach(item => {
+      if (generedData[item.checklistId]) {
+        if (generedData[item.checklistId][item.questionGroup]) {
+          generedData[item.checklistId][item.questionGroup]['data'].push(item)
+        } else {
+          generedData[item.checklistId][item.questionGroup] = {}
+          generedData[item.checklistId][item.questionGroup]['data'] = []
+          generedData[item.checklistId][item.questionGroup]['data'].push(item)
+        }
+      } else {
+        generedData[item.checklistId] = {}
+        generedData[item.checklistId][item.questionGroup] = {}
+        generedData[item.checklistId][item.questionGroup]['data'] = []
+        generedData[item.checklistId][item.questionGroup]['data'].push(item)
+      }
+    })
+
+    data.forEach(d => {
+      if (!this.checklistName[d.checklistId]) {
+        this.checklistName[d.checklistId] = d.checklistname
+      }
+    })
+
+    data.forEach(d => {
+      if (!this.questionGroupName[d.questionGroup]) {
+        this.questionGroupName[d.questionGroup] = d.questionGroupname
+      }
+    })
+
+
+    console.log(generedData)
+    console.log(this.questionGroupName)
+    console.log(this.checklistName)
+    this.configureData = generedData
+  }
+
+  questionData = {}
+  addQuestion(e, checkListId, qgId, qId) {
+    if (e.target.checked) {
+      if (this.questionData[checkListId]) {
+        if (this.questionData[checkListId][qgId]) {
+          this.questionData[checkListId][qgId].push(qId)
+        } else {
+          this.questionData[checkListId][qgId] = []
+          this.questionData[checkListId][qgId].push(qId)
+        }
+      } else {
+        this.questionData[checkListId] = {}
+        this.questionData[checkListId][qgId] = []
+        this.questionData[checkListId][qgId].push(qId)
+      }
+    }else{
+      this.questionData[checkListId][qgId] = this.questionData[checkListId][qgId].filter(q =>{
+        return q != qId
+      })
+    }
+    console.log(this.questionData)
+  }
+
+
 }
+

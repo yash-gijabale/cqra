@@ -6,22 +6,31 @@
       <div class="add-container-viewcommon">
         <div class="add-breadcrames">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="#">Home </a>
+            <li class="breadcrumb-item active">
+              <a routerLink="/project" class="breadcrumb-item active" style="text-decoration: none;"><i class="fa fa-chevron-left" aria-hidden="true"></i> Master maintenance</a>
             </li>
             <li class="breadcrumb-item active">Create Project</li>
           </ol>
         </div>
-        <div class="right-side-create-view">
+        <!-- <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/project">Manage Project </a> </button>
+            <button type="button"> <a routerLink="/project" style="color: white; text-decoration: none;">Manage Project </a> </button>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="main-header_createview">
+
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1> Create Project </h1>
+            <h1>  Create Project </h1>
+          </div>
+        </div>
+
+        <div class="right-side-create-view ">
+          <div class="create-content-operations">
+            <a routerLink="/project">
+              <button type="button">Manage Project </button>
+            </a>
           </div>
         </div>
       </div>
@@ -225,7 +234,6 @@
               [ngClass]="{ 'is-invalid': submitted && f.projectCCmails.errors }" />
             <div *ngIf="submitted && f.projectCCmails.errors" class="invalid-feedback">
               <div *ngIf="f.projectCCmails.errors.required">Project CC list is required</div>
-              <div *ngIf="f.projectCCmails.errors.email">Must be email required</div>
             </div>
           </div>
 
@@ -316,4 +324,6 @@
         </form>
       </div>
     </div>
+
+    <app-snack-bar></app-snack-bar>
     <app-footer></app-footer>

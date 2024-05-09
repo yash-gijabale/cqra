@@ -70,6 +70,25 @@
             <button class="btn btn-primary">Save</button>
           </div>
         </form>
+
+        <div class="row col-md-12">
+          <label>Configure Questions</label>
+          <div class="col-md-12" *ngFor="let checklist of configureData | keyvalue">
+            <h4 class="card-title">{{checklistName[checklist.key]}}</h4>
+            <div class="col-md-12" *ngFor="let qg of checklist.value | keyvalue">
+              <h3 class="card-title">{{questionGroupName[qg.key]}}</h3>
+              <div class="form-check" *ngFor="let q of qg.value.data">
+                <input class="form-check-input" (change)="addQuestion($event, checklist.key, qg.key, q.questionId)"
+                  type="checkbox" [value]="q.questionId" [id]="'flexCheckDefault'+q.questionId">
+                <label class="form-check-label" [for]="'flexCheckDefault'+q.questionId">
+                  {{q.questionText}}
+                  
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

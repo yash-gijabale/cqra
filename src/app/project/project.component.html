@@ -4,6 +4,15 @@
     <div class="add-bg-here">
 
       <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active">
+              <a routerLink="/project" class="breadcrumb-item active" style="text-decoration: none;"><i
+                  class="fa fa-chevron-left" aria-hidden="true"></i> Master maintenance</a>
+            </li>
+            <li class="breadcrumb-item active">Create Project</li>
+          </ol>
+        </div>
         <div class="main-header_createview">
           <div class="left-side-header">
             <div class="create-content-header">
@@ -34,7 +43,6 @@
             <thead>
               <tr>
                 <th>Project Name</th>
-
                 <th>Client Name</th>
                 <th>City</th>
                 <th>Actions</th>
@@ -47,7 +55,7 @@
             <tbody>
               <tr *ngFor="let client of ProjectViews">
                 <td>{{ client.projectName }}</td>
-                <td>{{ client.clientName }}</td>
+                <td>{{ client.client_name }}</td>
                 <td>{{ client.projectCity }}</td>
                 <td>
                   <div class="action-commonview">

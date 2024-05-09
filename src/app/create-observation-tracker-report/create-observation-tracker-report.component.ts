@@ -178,7 +178,7 @@ export class CreateObservationTrackerReportComponent implements OnInit {
 
     console.log(formData)
 
-    return
+    // return
     if (this.otrId != -1) {
       console.log('updateting...')
       this.commonServices.updateOtr(formData, this.otrId)

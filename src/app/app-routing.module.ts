@@ -130,6 +130,7 @@ import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/p
 import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-maintenance-form/equipment-maintenance-form.component';
 import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
 import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-sampling.component';
+import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
 
 
 const routes: Routes = [
@@ -263,6 +264,7 @@ const routes: Routes = [
   { path: 'equipmentMaintenanceFrom', component: EquipmentMaintenanceFormComponent },
   { path: 'myEquipments', component: MyEquipmentsComponent },
   { path: 'testSampling', component: TestNewSamplingComponent },
+  { path: 'assign-contractor-pmc', component: AssignContractorPmcComponent },
 
 
 

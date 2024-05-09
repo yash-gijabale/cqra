@@ -226,6 +226,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
   onSubmit() {
     this.isbtnLoading = true
     console.log(this.registerForm.value)
+    console.log('data-->', this.selectedTrade)
     let allocationData = []
     for (const key in this.selectedTrade) {
       for (const stageId in this.selectedTrade[key]) {
@@ -267,6 +268,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
 
     }
     console.log(allocationData)
+    // return
 
     if (this.allocationType == 1) {
       let foremanData = []
@@ -357,7 +359,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       })
 
       if (this.updatePmcAllocation) {
-        this.clientService.updatePmcAllocation(this.SelProject, this.Selpmc, this.SelclientStaff, this.selPmcuser, this.SelStructure, pmcAllocation)
+        this.clientService.updatePmcAllocation(this.SelProject, this.Selpmc, this.SelclientStaff, this.SelStructure, pmcAllocation)
           .subscribe(data => {
             console.log('pmc allocation updated', data)
             this.isbtnLoading = false
@@ -507,19 +509,20 @@ export class AssignConstructorSupervisorComponent implements OnInit {
 
   updatePmcAllocation: boolean = false
   getPmcAllocationData() {
-    this.clientService.getPmcAllocationData(this.SelProject, this.Selpmc, this.SelclientStaff, this.selPmcuser, this.SelStructure)
-      .subscribe(data => {
-        console.log('pre pmc data-->', data)
-        if (data.length) {
-          this.updatePmcAllocation = true
-        }
-        this.genarateAllocationData(data)
-      })
+    // this.clientService.getPmcAllocationData(this.SelProject, this.Selpmc, this.SelclientStaff, this.selPmcuser, this.SelStructure)
+    //   .subscribe(data => {
+    //     console.log('pre pmc data-->', data)
+    //     if (data.length) {
+    //       this.updatePmcAllocation = true
+    //     }
+    //     this.genarateAllocationData(data)
+    //   })
   }
 
   allocatedTrade = {}
   allocatedStructure: Object = {}
   genarateAllocationData(data) {
+    this.selectedTrade = {}
     data.forEach(item => {
       if (this.selectedTrade[item.tradeId]) {
         if (this.selectedTrade[item.tradeId][item.stageId]) {

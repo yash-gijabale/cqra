@@ -11,6 +11,7 @@ import { TradeGroup } from '../trade-group/trade-group.component';
 import { Trade } from '../trade/trade.component';
 import { RegionView } from '../add-region/add-region.component';
 import { UserService } from '../service/user.service';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 // import { TradeMaintanceService } from '../trade-maintance.service';
 @Component({
   selector: 'app-create-project',
@@ -45,6 +46,7 @@ export class CreateProjectComponent implements OnInit {
     private commonService: CommonService,
     private tradeService: TradeMaintanceService,
     private userService: UserService,
+    private sanckBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -107,7 +109,7 @@ export class CreateProjectComponent implements OnInit {
       projectMisNCs: ['', Validators.required],
       projectNCOpen: ['', Validators.required],
       projectRedalert: ['', Validators.required],
-      projectCCmails: ['', [Validators.required, Validators.email]],
+      projectCCmails: ['', [Validators.required, Validators.required]],
       mockUpApproval: ['', Validators.nullValidator],
       openNc: ['', Validators.nullValidator],
       serviceType: ['', Validators.required],
@@ -136,6 +138,13 @@ export class CreateProjectComponent implements OnInit {
         err => console.log(err)
       )
 
+
+    this.redAlerts = [
+      { value: "2", name: "Moderate and above" },
+      { value: "3", name: "Severe and above" },
+      { value: "4", name: "Very severe and above" },
+      { value: "5", name: "Critical" }
+    ]
 
   }
 
@@ -194,8 +203,14 @@ export class CreateProjectComponent implements OnInit {
           createdProject = data;
           this.submitLoad = false
           this.tradeAllocation(createdProject.projectId, false)
+          this.sanckBar.showSuccess('Project created')
         },
-          err => console.log(err)
+          err => {
+            console.log(err)
+            this.submitLoad = false
+            this.sanckBar.showSnackError()
+          }
+
         );
     } else {
       this.clientServiceService.updateProject(this.projectForm.value, this.id)
@@ -204,6 +219,13 @@ export class CreateProjectComponent implements OnInit {
             console.log(data)
             this.submitLoad = false
             this.tradeAllocation(this.id, true)
+            this.sanckBar.showSuccess('Project updated')
+
+          },
+
+          err =>{
+            this.submitLoad = false
+            this.sanckBar.showSnackError()
           }
         )
     }
@@ -221,23 +243,23 @@ export class CreateProjectComponent implements OnInit {
     })
     console.log(tradeAllocationData)
     // return
-    if(update){
+    if (update) {
       this.clientServiceService.updateTradeAllocation(tradeAllocationData)
-      .subscribe(data =>{
-        console.log('updated trade', data )
-      })
+        .subscribe(data => {
+          console.log('updated trade', data)
+        })
 
-    }else{
+    } else {
       this.clientServiceService.createTradeAllocation(tradeAllocationData)
         .subscribe(
-          data => console.log('trade allocared-->', data), 
+          data => console.log('trade allocared-->', data),
           err => console.log(err)
         )
     }
   }
 
   FillRedAlertDDL() {
-    alert(this.SelNCId);
+    // alert(this.SelNCId);
     if (this.SelNCId == "1") {
       this.redAlerts = [{ value: "2", name: "Moderate and above" }, { value: "3", name: "Severe and above" }, { value: "4", name: "Very severe and above" }, { value: "5", name: "Critical" }]
     }

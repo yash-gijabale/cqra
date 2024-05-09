@@ -71,7 +71,7 @@ export class CreateChecklistComponent implements OnInit {
   finalQuestion: Array<any>;
   tempQuestions: any;
   q: Question[];
-  questionGroup: QuestionGroup[];
+  questionGroup: any[];
   qList: Qlist[];
   SelSubgroup: any
   questionGroups: any
@@ -168,11 +168,11 @@ export class CreateChecklistComponent implements OnInit {
             fkTradeId: data.tradeId,
             fkSubgroupId: data.subgroupId,
             checklistName: data.checklistName,
-            questionGroup:  data.questionGroup
+            questionGroup: data.questionGroup
           }
           this.tradeMaintanceService.getSubgroupsByTrades(data.tradeId).subscribe(data => this.subgroups = data)
 
-          this.commonService.getQuestionByTrade(data.tradeId, data.subgroupId).subscribe(data => this.renderQuestions(data));
+          this.commonService.getQuestionByTrade(data.tradeId, data.subgroupId).subscribe(data => { this.renderQuestions2(data) });
           this.tradeMaintanceService.getQuestiongroupBySubgroup(data.subgroupId).subscribe(
             data => this.questionGroups = data
           )
@@ -232,6 +232,7 @@ export class CreateChecklistComponent implements OnInit {
       // this.commonService.getQuestionByTrade(118, 222).subscribe(
       (data) => {
         this.renderQuestions(data)
+        this.renderQuestions2(data)
       },
       (err) => {
         console.log("-----> err", err);
@@ -246,6 +247,7 @@ export class CreateChecklistComponent implements OnInit {
     }
     console.log(finalCheckList)
     // console.log(JSON.stringify(finalCheckList));
+    // return
     if (this.checkListId != -1) {
       let finalCheckList = {
         formDataList: [{
@@ -278,23 +280,23 @@ export class CreateChecklistComponent implements OnInit {
 
     this.questionList2.forEach((question) => {
       if (this.questionGroup.length == 0) {
-        if (this.questionList2.length != 0) {
-          let newArr = {
-            subgroupId: this.questionList2[0].subgroupId,
-            questions: [
-              {
-                questionId: this.questionList2[0].questionId,
-                questionText: this.questionList2[0].questionText,
-                questionGroup: this.questionList2[0].questionGroupId
-              },
-            ],
-          };
-          this.questionGroup.push(newArr);
-        }
+        let newArr = {
+          subgroupId: this.questionList2[0].questionGroupId,
+          questions: [
+            {
+              questionId: this.questionList2[0].questionId,
+              questionText: this.questionList2[0].questionText,
+              questionGroup: this.questionList2[0].questionGroupId
+            },
+          ],
+        };
+        this.questionGroup.push(newArr);
       } else {
         let found = this.questionGroup.find(function (element) {
-          return element.subgroupId == question.subgroupId;
+          if (element.subgroupId == question.questionGroupId) return element;
         });
+
+        console.log('found', found)
         if (found) {
           let neqQ = {
             questionId: question.questionId,
@@ -302,9 +304,10 @@ export class CreateChecklistComponent implements OnInit {
             questionGroup: question.questionGroupId,
           };
           found.questions.push(neqQ);
+          this.questionGroup = [...this.questionGroup, found]
         } else {
           let newG = {
-            subgroupId: question.subgroupId,
+            subgroupId: question.questionGroupId,
             questions: [
               {
                 questionId: question.questionId,
@@ -320,6 +323,33 @@ export class CreateChecklistComponent implements OnInit {
     });
 
     console.log(this.questionGroup)
+  }
+
+  questionGroup2 = {}
+  renderQuestions2(data) {
+
+    data.forEach(question => {
+      if (this.questionGroup2[question.questionGroupId]) {
+        this.questionGroup2[question.questionGroupId]['questions'].push({
+          questionId: question.questionId,
+          questionText: question.questionText,
+          questionGroup: question.questionGroupId
+        })
+      } else {
+        this.questionGroup2[question.questionGroupId] = {}
+        this.questionGroup2[question.questionGroupId]['questionGroup'] = question.questionGroupId
+        this.questionGroup2[question.questionGroupId]['questions'] = []
+        this.questionGroup2[question.questionGroupId]['questions'].push(
+          {
+            questionId: question.questionId,
+            questionText: question.questionText,
+            questionGroup: question.questionGroupId
+          })
+
+      }
+    })
+
+    console.log(this.questionGroup2)
   }
 
   getQuestionGroup() {
