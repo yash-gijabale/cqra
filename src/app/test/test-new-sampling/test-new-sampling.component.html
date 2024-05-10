@@ -444,7 +444,10 @@
                   </tbody>
                 </table>
               </div>
-              <button class="btn btn-sm btn-primary" (click)="submitStep3Data()">Submit</button>
+              <button class="btn btn-sm btn-primary" (click)="submitStep3Data()">
+                <span *ngIf="step3loadbtn" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span *ngIf="!step3loadbtn">Submit</span>
+              </button>
             </div>
           </div>
 
@@ -452,4 +455,6 @@
 
 
       </div>
+
+      <app-snack-bar></app-snack-bar>
       <app-footer></app-footer>

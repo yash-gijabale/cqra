@@ -122,7 +122,7 @@ export class WbsComponent implements OnInit {
     this.strctureForm = this.formBuilder.group({
       structureName: ['', Validators.required],
       structureCode: ['', Validators.required],
-      structureArea: ['', Validators.required]
+      area: ['', Validators.required]
     })
 
     this.stageForm = this.formBuilder.group({
@@ -135,7 +135,7 @@ export class WbsComponent implements OnInit {
 
     this.unitForm = this.formBuilder.group({
       unitName: ['', Validators.required],
-      unitArea: ['', Validators.required],
+      area: ['', Validators.required],
       unitFrom: ['', Validators.nullValidator],
       unitTo: ['', Validators.nullValidator],
 
@@ -158,6 +158,9 @@ export class WbsComponent implements OnInit {
     if (id === 1) {
       //clear privious form values
       this.strctureForm.reset()
+      this.stageForm.reset()
+      this.unitForm.reset()
+      this.subunitForm.reset()
       this.isUpdate = false
     } else {
       this.isUpdate = true
@@ -198,7 +201,7 @@ export class WbsComponent implements OnInit {
   isChangeLimitAccessToggle(event, id: string) {
     this.isChecked = event.target.checked;//!this.isChecked;
     this.isCheckedName = event.target.name;
-    if (this.structureSel != id && this.isChecked) {
+    if (this.isChecked) {
       this.loadStages = true
       this.structureSel = id;
       this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel)
@@ -217,15 +220,25 @@ export class WbsComponent implements OnInit {
       this.clientServiceService.retrieveStructure(this.structureSel)
         .pipe(first())
         .subscribe(data => this.strctureForm.patchValue(data))
+    } else {
+      this.stages = []
+      this.units = []
+      this.subunits = []
+      this.stageChecked = false
+      this.unitChecked = false
     }
     console.log(event.target.checked + "==" + id);
   }
 
   loadUnit = false
+  currentStage: Number
+  stageChecked: boolean
   isstageSelectionchange(event, id: string) {
     let isChecked = event.target.checked
+    this.currentStage = Number(id)
+    this.stageChecked = event.target.checked
     console.log(isChecked)
-    if (this.stageSel != id && isChecked) {
+    if (isChecked) {
       this.loadUnit = true
       this.stageSel = id;
       this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel)
@@ -245,14 +258,19 @@ export class WbsComponent implements OnInit {
           data => this.stageForm.patchValue(data),
           err => console.log(err)
         )
+    } else {
+      this.units = []
+      this.subunits = []
     }
   }
 
   loadSubunit = false
+  currentUnit: Number
+  unitChecked: boolean
   isUnitSelectionchange(event, id: string) {
-    let isChecked = event.target.checked
-    
-    if (this.unitSel != id && isChecked) {
+    this.unitChecked = event.target.checked
+    this.currentUnit = Number(id)
+    if (this.unitChecked) {
       this.loadSubunit = true
       console.log("Unit Id" + id)
       this.unitSel = id;
@@ -272,6 +290,8 @@ export class WbsComponent implements OnInit {
           data => this.unitForm.patchValue(data),
           err => console.log(err)
         )
+    } else {
+      this.subunits = []
     }
   }
 
@@ -313,7 +333,7 @@ export class WbsComponent implements OnInit {
       structureName: this.strctureForm.value.structureName,
       clientId: this.SelClientId,
       structureCode: this.strctureForm.value.structureCode,
-      structureArea: this.strctureForm.value.structureArea
+      area: this.strctureForm.value.area
     }
     // console.log(formData)
     if (this.isUpdate) {
@@ -386,6 +406,8 @@ export class WbsComponent implements OnInit {
             this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
             this.stageForm.reset()
             this.loadStageSubmit = false
+            this.stageChecked = false
+
 
           },
           err => console.log(err)
@@ -402,7 +424,7 @@ export class WbsComponent implements OnInit {
             projectId: this.SelProjectId,
             clientId: this.SelClientId,
             structureId: Number(this.structureSel),
-            stageName: `${addFrom} ${floorName}`,
+            stageName: `${floorName} ${addFrom}`,
             stageArea: this.stageForm.value.stageArea
           }
 
@@ -417,6 +439,7 @@ export class WbsComponent implements OnInit {
               this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
               this.stageForm.reset()
               this.loadStageSubmit = false
+              this.stageChecked = false
 
             },
             err => console.log(err)
@@ -430,8 +453,7 @@ export class WbsComponent implements OnInit {
               this.commonService.getStages(this.SelClientId, this.SelProjectId, this.structureSel).subscribe(data => this.stages = data)
               this.stageForm.reset()
               this.loadStageSubmit = false
-
-
+              this.stageChecked = false
             },
             err => console.log(err)
           )
@@ -454,6 +476,8 @@ export class WbsComponent implements OnInit {
                 (data) => {
                   this.stages = data;
                   this.deleteStageLoad = false
+                  this.stageChecked = false
+
                 }, (err) => {
                   console.log('-----> err', err);
                 })
@@ -474,7 +498,7 @@ export class WbsComponent implements OnInit {
       structureId: this.structureSel,
       stageId: this.stageSel,
       unitName: this.unitForm.value.unitName,
-      unitArea: this.unitForm.value.unitArea
+      area: this.unitForm.value.area
     }
     console.log('Normal-->', formData);
     if (this.isUpdate) {
@@ -487,6 +511,7 @@ export class WbsComponent implements OnInit {
             this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel).subscribe(data => this.units = data)
             this.unitForm.reset()
             this.loadUnitSubmit = false
+            this.unitChecked = false
 
           },
           err => console.log(err)
@@ -519,6 +544,8 @@ export class WbsComponent implements OnInit {
               this.commonService.getUnits(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel).subscribe((data) => this.units = data)
               this.unitForm.reset()
               this.loadUnitSubmit = false
+              this.unitChecked = false
+
 
             },
             err => console.log(err)
@@ -558,8 +585,11 @@ export class WbsComponent implements OnInit {
                   // console.log('client Data==', data)
                   this.units = data;
                   this.deleteUnitLoad = false
+                  this.unitChecked = false
+
                 }, (err) => {
                   console.log('-----> err', err);
+
                 })
           },
           err => console.log(err)
@@ -591,7 +621,6 @@ export class WbsComponent implements OnInit {
             this.commonService.getSubUnit(this.SelClientId, this.SelProjectId, this.structureSel, this.stageSel, this.unitSel).subscribe(data => this.subunits = data)
             this.subunitForm.reset()
             this.loadSubunitSubmit = false
-
           },
           err => {
             console.log(err)

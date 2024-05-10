@@ -149,4 +149,8 @@ export class InspectionReportComponent implements OnInit {
     this.currentSAId = Number(id)
 
   }
+
+  drawingSubmit(){
+    
+  }
 }

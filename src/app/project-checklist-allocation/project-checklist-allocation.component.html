@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/project">Manage Projects</a></button>
+            <button type="button"> <a routerLink="/project" style="color: white; text-decoration: none;">Manage Projects</a></button>
           </div>
         </div>
       </div>
@@ -67,10 +67,46 @@
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary">Save</button>
+            <button class="btn btn-primary">
+              <span *ngIf="configLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span *ngIf="!configLoad">Configure</span>
+            </button>
           </div>
         </form>
+
+        <div class="row col-md-12 configure_box">
+          <label style="font-weight: 700;">Configure Questions</label>
+          <div class="col-md-12 mt-2" *ngFor="let checklist of configureData | keyvalue">
+            <h6 class="card-title mt-2" style="font-weight: 700;">{{checklistName[checklist.key]}}</h6>
+            <div class="col-md-12" *ngFor="let qg of checklist.value | keyvalue">
+              <h6 class="card-title">
+                <input class="form-check-input" type="checkbox"
+                  (change)="addAllByQuestionGroup($event, checklist.key, qg.key)">
+                {{questionGroupName[qg.key]}}
+              </h6>
+              <div class="form-check" *ngFor="let q of qg.value.data">
+                <input class="form-check-input" (change)="addQuestion($event, checklist.key, qg.key, q.questionId)"
+                  type="checkbox" [value]="q.questionId" [id]="'flexCheckDefault'+q.questionId"
+                  [checked]="questionData[checklist.key] && questionData[checklist.key][qg.key] && questionData[checklist.key][qg.key].includes(q.questionId)">
+                <label class="form-check-label" [for]="'flexCheckDefault'+q.questionId">
+                  {{q.questionText}}
+
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="row col-md-12">
+          <button class="btn btn-primary" (click)="saveConfiguration()">
+            <span *ngIf="saveLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span *ngIf="!saveLoad">Save</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

@@ -152,6 +152,7 @@ import { Global } from 'src/config/Global';
 import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-sampling.component';
 import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master/checklist-master.component';
 import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-group-master/checklist-group-master.component';
+import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
 
 
 @NgModule({
@@ -292,6 +293,7 @@ import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-g
     TestNewSamplingComponent,
     ChecklistMasterComponent,
     ChecklistGroupMasterComponent,
+    AssignContractorPmcComponent,
   ],
   imports: [
     BrowserModule,

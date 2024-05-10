@@ -1,0 +1,6 @@
+.configure_box{
+    height: 60vh;
+    border-radius: 5px;
+    background-color: #fff;
+    overflow-y: auto;
+}

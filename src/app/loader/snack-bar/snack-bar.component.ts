@@ -42,7 +42,7 @@ export class SnackBarComponent implements OnInit {
     snackBar.innerHTML = `<span>${message}<span>`
     setTimeout(() => {
       snackBar.style.display='none';
-    }, 1000000); // Adjust the timeout as needed
+    }, 3000); // Adjust the timeout as needed
   }
 
 }

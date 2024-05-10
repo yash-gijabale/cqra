@@ -106,7 +106,7 @@
             </div>
             <div class="form-group col-md-4">
               <label>Foremans</label>
-              <select  [(ngModel)]="selForeman" formControlName="foremanId" class="form-control">
+              <select [(ngModel)]="selForeman" formControlName="foremanId" class="form-control">
                 <option [value]="forman.foremanId" *ngFor="let forman of formans">
                   {{forman.foremanName}}
                 </option>
@@ -116,11 +116,10 @@
             </div>
           </div>
 
-          <div *ngIf="allocationType==2"  class="row pmcType col-md-12">
+          <div *ngIf="allocationType==2" class="row pmcType col-md-12">
             <div class="form-group col-md-4">
               <label>PMC</label>
-              <select [(ngModel)]="Selpmc" formControlName="pmcId" class="form-control"
-                (change)="getPmcUser()">
+              <select [(ngModel)]="Selpmc" formControlName="pmcId" class="form-control" (change)="getPmcUser()">
                 <option [value]="p.pmcId" *ngFor="let p of pmc">
                   {{p.pmcName}}
                 </option>
@@ -139,7 +138,7 @@
               <div class="invalid-feedback">
               </div>
             </div>
-            
+
           </div>
 
           <div class="form-group col-md-4">
@@ -268,17 +267,12 @@
 
 
           <div class="form-group col-md-3">
-            <div *ngIf="isbtnLoading; then btnthenBlock else elsebtnBlock"></div>
-            <ng-template #btnthenBlock>
-              <button class="btn btn-primary" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...
-              </button>
-            </ng-template>
-            <ng-template #elsebtnBlock>
-              <button type="submit" class="btn btn-primary">Save</button>
-            </ng-template>
 
+            <button type="submit" class="btn btn-primary">
+              <span *ngIf="isbtnLoading" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
+              <span *ngIf="!isbtnLoading">save</span>
+            </button>
           </div>
         </form>
       </div>
