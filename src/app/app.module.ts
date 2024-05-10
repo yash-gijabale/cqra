@@ -150,6 +150,8 @@ import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
 import { SnackBarComponent } from './loader/snack-bar/snack-bar.component';
 import { Global } from 'src/config/Global';
 import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-sampling.component';
+import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master/checklist-master.component';
+import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-group-master/checklist-group-master.component';
 import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
 
 
@@ -289,6 +291,8 @@ import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-con
     MyEquipmentsComponent,
     SnackBarComponent,
     TestNewSamplingComponent,
+    ChecklistMasterComponent,
+    ChecklistGroupMasterComponent,
     AssignContractorPmcComponent,
   ],
   imports: [

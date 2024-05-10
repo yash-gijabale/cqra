@@ -64,26 +64,26 @@
             <span class="nav-link-text"> User Management </span>
           </a>
           <ul class="dropdown-menu">
-            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/roles">Role</a></li>
+            <!-- <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/roles">Role</a></li> -->
 
             <li *ngIf="userMenu.clientStaffMenu" class="dropdown-item"><a tabindex="-1" routerLink="/clientStaff">Client
-                Staff</a></li>
+                Engineer</a></li>
 
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/createpmc/-1">PMC</a></li>
 
             <li *ngIf="userMenu.contractorMenu" class="dropdown-item"><a tabindex="-1"
-                routerLink="/contractor">Contractor</a></li>
+                routerLink="/contractor">Contractor (Supervisor & Foreman)</a></li>
 
-            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/users">User</a></li>
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/users">Users</a></li>
 
             <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
-                routerLink="/assign-constructor-supervisor-foreman">Assign Constructor's Supervisor & Foreman</a>
+                routerLink="/assign-constructor-supervisor-foreman">Assign Contractor/ PMC/ Client</a>
             </li>
 
             <li *ngIf="userMenu.userAllocationMenu" class="dropdown-item"><a tabindex="-1"
-                routerLink="/userAllocation">User Allocation</a></li>
+                routerLink="/userAllocation">CQRA User Allocation</a></li>
 
-            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li>
+            <!-- <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li> -->
 
 
             <li *ngIf="userMenu.manageUserAccessMenu" class="dropdown-item"><a tabindex="-1"
@@ -119,6 +119,10 @@
             <span class="nav-link-text"> Master Maintance </span>
           </a>
           <ul class="dropdown-menu">
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/roles">Role</a></li>
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li>
+
+
             <li *ngIf="userMenu.clientMenu" class="dropdown-item"><a tabindex="-1" routerLink="/client">Client</a></li>
             <li *ngIf="userMenu.schemeMenu" class="dropdown-item"><a tabindex="-1" routerLink="/project">Project </a>
             </li>
@@ -165,22 +169,27 @@
               </a></li>
             <li *ngIf="userMenu.ncco1" class="dropdown-item"><a tabindex="-1" routerLink="/ncCountReportList">NC
                 count</a></li>
-            <li *ngIf="userMenu.aHomeInspect1" class="dropdown-item"><a tabindex="-1" routerLink="/snaggingDocument">SingOff
+            <li *ngIf="userMenu.aHomeInspect1" class="dropdown-item"><a tabindex="-1"
+                routerLink="/snaggingDocument">SingOff
                 documents</a></li>
             <li *ngIf="userMenu.aInspectReport" class="dropdown-item"><a tabindex="-1"
                 routerLink="/inspectionReport">Inspection report</a></li>
             <li *ngIf="userMenu.logMenu" class="dropdown-item"><a tabindex="-1" routerLink="/snaggingReport">Snagging
                 report</a></li>
-            <li *ngIf="userMenu.ncBeanCreater" class="dropdown-item"><a tabindex="-1" routerLink="/ncClosureSa">NC closure
+            <li *ngIf="userMenu.ncBeanCreater" class="dropdown-item"><a tabindex="-1" routerLink="/ncClosureSa">NC
+                closure
                 (SA)</a></li>
-            <li *ngIf="userMenu.ncBeanReviewer" class="dropdown-item"><a tabindex="-1" routerLink="/ncReviewerSa">NC Reviwer
+            <li *ngIf="userMenu.ncBeanReviewer" class="dropdown-item"><a tabindex="-1" routerLink="/ncReviewerSa">NC
+                Reviwer
                 (SA)</a></li>
-            <li *ngIf="userMenu.ncBeanApprover" class="dropdown-item"><a tabindex="-1" routerLink="/ncApproverSa">NC Approver
+            <li *ngIf="userMenu.ncBeanApprover" class="dropdown-item"><a tabindex="-1" routerLink="/ncApproverSa">NC
+                Approver
                 (SA)</a></li>
             <li *ngIf="userMenu.aQualityIndex" class="dropdown-item"><a tabindex="-1"
                 routerLink="/qualityIndexReportList">Quality Index Report</a>
             </li>
-            <li *ngIf="userMenu.aorReport"  class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation Tracker Report</a></li>
+            <li *ngIf="userMenu.aorReport" class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
+                Tracker Report</a></li>
 
 
           </ul>
@@ -193,18 +202,27 @@
             <span class="nav-link-text">Reports </span>
           </a>
           <ul class="dropdown-menu">
-            <li *ngIf="userMenu.qur"  class="dropdown-item"><a tabindex="-1" href="/qualityUpdateReport">Quality Update Report </a></li>
-            <li *ngIf="userMenu.qrr" class="dropdown-item"><a tabindex="-1" href="/qualityReviewReport">Quality Review Report </a></li>
+            <li *ngIf="userMenu.qur" class="dropdown-item"><a tabindex="-1" href="/qualityUpdateReport">Quality Update
+                Report </a></li>
+            <li *ngIf="userMenu.qrr" class="dropdown-item"><a tabindex="-1" href="/qualityReviewReport">Quality Review
+                Report </a></li>
             <li *ngIf="userMenu.misLink" class="dropdown-item"><a tabindex="-1" href="/misReport">MIS Report</a></li>
-            <li *ngIf="userMenu.kickoffMenu" class="dropdown-item"><a tabindex="-1" href="/createKickoff/-1">Kickoff Report</a></li>
-            <li *ngIf="userMenu.trainingMenu" class="dropdown-item"><a tabindex="-1" href="/createTraining/-1">Training Conducted Report</a></li>
-            <li *ngIf="userMenu.ncco1" class="dropdown-item"><a tabindex="-1" href="/createNcObservationCount/-1">NC and observation Count</a>
+            <li *ngIf="userMenu.kickoffMenu" class="dropdown-item"><a tabindex="-1" href="/createKickoff/-1">Kickoff
+                Report</a></li>
+            <li *ngIf="userMenu.trainingMenu" class="dropdown-item"><a tabindex="-1" href="/createTraining/-1">Training
+                Conducted Report</a></li>
+            <li *ngIf="userMenu.ncco1" class="dropdown-item"><a tabindex="-1" href="/createNcObservationCount/-1">NC and
+                observation Count</a>
             </li>
-            <li *ngIf="userMenu.qi" class="dropdown-item"><a tabindex="-1" href="/createQualityIndexReport/-1">Quality Index Report</a></li>
-            <li *ngIf="userMenu.ncStatusMenu" class="dropdown-item"><a tabindex="-1" href="/createNcsStatusReport/-1">NCs Status Report</a></li>
-            <li *ngIf="userMenu.nccloseHistory" class="dropdown-item"><a tabindex="-1" href="/createNCClosureHistoryReport/-1">NC Closure History</a>
+            <li *ngIf="userMenu.qi" class="dropdown-item"><a tabindex="-1" href="/createQualityIndexReport/-1">Quality
+                Index Report</a></li>
+            <li *ngIf="userMenu.ncStatusMenu" class="dropdown-item"><a tabindex="-1"
+                href="/createNcsStatusReport/-1">NCs Status Report</a></li>
+            <li *ngIf="userMenu.nccloseHistory" class="dropdown-item"><a tabindex="-1"
+                href="/createNCClosureHistoryReport/-1">NC Closure History</a>
             </li>
-            <li *ngIf="userMenu.nclogMenu" class="dropdown-item"><a tabindex="-1" href="/createNcLogReport/-1">NC Log Report</a></li>
+            <li *ngIf="userMenu.nclogMenu" class="dropdown-item"><a tabindex="-1" href="/createNcLogReport/-1">NC Log
+                Report</a></li>
           </ul>
         </li>
 
@@ -227,7 +245,6 @@
 
             <li *ngIf="userMenu.preSnapAuditForm" class="dropdown-item"><a tabindex="-1"
                 routerLink="/preSnapAuditProccess">Pre Snapaudit From</a></li>
-
           </ul>
         </li>
 
@@ -246,6 +263,31 @@
                 routerLink="/inspectorView">Inspector Traning</a></li>
           </ul>
         </li>
+
+
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="RFI">
+          <a class="dropdown-item">
+            <span class="all-font-icons">
+              <i class="fa fa-tasks"></i>
+            </span>
+            <span class="nav-link-text">RFI Management</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/checklist-group-master">Checklist Group Master</a>
+            </li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/checklist-master">Checklist Master</a></li>
+            <!-- <li class="dropdown-item"><a tabindex="-1" routerLink="/create-rfi">Checklist Master</a></li> -->
+          </ul>
+        </li>
+
+
+
+
+
+
+
+
+
         <!-- <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
           <a class="dropdown-item" routerLink="/wbs">
             <span class="all-font-icons"> 

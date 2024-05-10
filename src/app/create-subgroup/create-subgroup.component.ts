@@ -4,6 +4,7 @@ import { Trade } from "../trade/trade.component";
 import { TradeMaintanceService } from "../trade-maintance.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 export class SubgroupData {
   constructor(
@@ -29,7 +30,8 @@ export class CreateSubgroupComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private tradeMaintanceService: TradeMaintanceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackbar:SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -86,7 +88,12 @@ export class CreateSubgroupComponent implements OnInit {
         .subscribe((data) => {
           console.log("updated--->", data);
           this.isload = false
+          this.snackbar.showSuccess('Subgroup Updated!')
+        }, err => {
+          this.isload = false
+          this.snackbar.showSnackError()
         });
+
     } else {
       this.tradeMaintanceService
         .createSubgroup({ ...this.registerForm.value, status: true })
@@ -94,9 +101,15 @@ export class CreateSubgroupComponent implements OnInit {
           (data) => {
             console.log(data);
             this.isload = false
-          },
-          (err) => console.log(err)
-        );
+            this.snackbar.showSuccess('Subgroup Added!')
+          }, err => {
+            this.isload = false
+            this.snackbar.showSnackError()
+          });
+
+        //   },
+        //   (err) => console.log(err)
+        // );
     }
   }
 }
