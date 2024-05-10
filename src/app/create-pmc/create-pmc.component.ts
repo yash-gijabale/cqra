@@ -98,7 +98,7 @@ export class CreatePmcComponent implements OnInit {
         .subscribe(data => {
           console.log('updated-->', data)
           this.isbtnLoading = false
-          this.snackBar.showSuccess('PMC Updated')
+          this.snackBar.showSuccess('PMC Updated!')
         }, err => {
           this.isbtnLoading = false
           this.snackBar.showSnackError()
@@ -110,7 +110,7 @@ export class CreatePmcComponent implements OnInit {
         .subscribe(data => {
           console.log('pmc aded-->', data)
           this.isbtnLoading = false
-          this.snackBar.showSuccess('PMC Added')
+          this.snackBar.showSuccess('PMC Added!')
         }, err =>{
           this.isbtnLoading = false
           this.snackBar.showSnackError()

@@ -130,6 +130,8 @@ import { PreSnapauditFromsComponent } from './preSnapaudit/pre-snapaudit-froms/p
 import { EquipmentMaintenanceFormComponent } from './preSnapaudit/equipment-maintenance-form/equipment-maintenance-form.component';
 import { MyEquipmentsComponent } from './my-equipments/my-equipments.component';
 import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-sampling.component';
+import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-group-master/checklist-group-master.component';
+import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master/checklist-master.component';
 
 
 const routes: Routes = [
@@ -263,6 +265,9 @@ const routes: Routes = [
   { path: 'equipmentMaintenanceFrom', component: EquipmentMaintenanceFormComponent },
   { path: 'myEquipments', component: MyEquipmentsComponent },
   { path: 'testSampling', component: TestNewSamplingComponent },
+  { path: 'checklist-group-master',component:ChecklistGroupMasterComponent},
+  { path: 'checklist-master',component:ChecklistMasterComponent},
+  { path: 'create-rfi',component:CreateRfiComponent}
 
 
 
