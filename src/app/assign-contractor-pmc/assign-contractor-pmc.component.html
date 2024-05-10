@@ -13,7 +13,7 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/client">Manage Client </a> </button>
+            <button type="button"> <a routerLink="/client" style="color: white; text-decoration: none;">Manage Client </a> </button>
           </div>
         </div>
       </div>
@@ -43,6 +43,17 @@
             </label>
           </div>
         </div>
+
+        <div class="form-check card ml-3">
+          <div class="card-body p-1">
+            <input class="form-check-input" type="radio" value="3" (change)="toggleAllocationType($event)"
+              name="flexRadioDefault" id="flexRadioDefault3">
+            <label class="form-check-label" for="flexRadioDefault3">
+              Client Allocation
+            </label>
+          </div>
+        </div>
+
       </div>
       <div class="create-viewform">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="row">
@@ -82,7 +93,7 @@
             </div>
           </div>
 
-          <div class="form-group col-md-4">
+          <!-- <div class="form-group col-md-4">
             <label>Client Staff</label>
             <select [(ngModel)]="SelclientStaff" formControlName="clientStaffId" class="form-control">
               <option [value]="staff.clientStaffId" *ngFor="let staff of clientStaffs">
@@ -91,7 +102,7 @@
             </select>
             <div class="invalid-feedback">
             </div>
-          </div>
+          </div> -->
 
 
           <div *ngIf="allocationType==1" class="form-group col-md-4">
@@ -137,7 +148,7 @@
 
           <div class="row col-md-12">
             <div class="form-group col-md-4">
-              <label>Select Stages</label>
+              <label style="font-weight: 600;">Select Stages</label>
               <div *ngIf="stageLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
                 <div class="spinner-border text-warning" role="status">
                 </div>
@@ -160,7 +171,7 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label>Select Unit</label>
+              <label style="font-weight: 600;">Select Unit</label>
               <div *ngIf="unitLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
                 <div class="spinner-border text-warning" role="status">
                 </div>
@@ -185,7 +196,7 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label>Select Subunit</label>
+              <label style="font-weight: 600;">Select Subunit</label>
 
               <div *ngIf="subunitLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
                 <div class="spinner-border text-warning" role="status">
@@ -216,7 +227,7 @@
 
           <div *ngIf="allocationType==1" class="row col-md-12">
             <div class="form-group col-md-4">
-              <label>Supervisors</label>
+              <label style="font-weight: 600;">Supervisors</label>
               <div *ngIf="stageLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
                 <div class="spinner-border text-warning" role="status">
                 </div>
@@ -241,7 +252,7 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label>Formans</label>
+              <label style="font-weight: 600;">Formans</label>
               <div *ngIf="!unitLoad" class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
                   <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
@@ -262,7 +273,7 @@
 
           <div *ngIf="allocationType==2" class="row col-md-12">
             <div class="form-group col-md-4">
-              <label>PMC User</label>
+              <label style="font-weight: 600;">PMC User</label>
               <div *ngIf="stageLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
                 <div class="spinner-border text-warning" role="status">
                 </div>
@@ -287,6 +298,32 @@
             </div>
           </div>
 
+          <div *ngIf="allocationType==3" class="row col-md-12">
+            <div class="form-group col-md-4">
+              <label  style="font-weight: 600;">Client Staff</label>
+              <div *ngIf="stageLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
+                <div class="spinner-border text-warning" role="status">
+                </div>
+              </div>
+              <div *ngIf="!stageLoad" class="ckechbox-select">
+                <div class="form-check" *ngIf="stages">
+                  <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
+                    (change)="selectAllStageCheckbox($event)">
+                  <label class="form-check-label" for="flexCheckDefault">Select All</label>
+                </div>
+                <div class="form-check" *ngFor="let user of pmcUser">
+                  <input class="form-check-input stagesCheckbox" type="checkbox" [value]="user.id"
+                    [id]="'stage'+user.id" (change)="addPMCUser($event)"
+                    [checked]="pmcUserData.includes(user.id)">
+                  <!-- <input class="form-check-input" type="checkbox" id="moveStage"> -->
+                  <label class="form-check-label" [for]="'stage'+user.id">{{user.userFullName}}</label>
+
+                </div>
+              </div>
+              <div class="invalid-feedback">
+              </div>
+            </div>
+          </div>
 
           <div class="form-group col-md-3">
 

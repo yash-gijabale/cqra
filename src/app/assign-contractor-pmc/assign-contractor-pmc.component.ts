@@ -87,7 +87,7 @@ export class AssignContractorPmcComponent implements OnInit {
       foremanId: ['', Validators.nullValidator],
       tradeId: ['', Validators.required],
       stageId: ['', Validators.required],
-      clientStaffId: ['', Validators.nullValidator],
+      // clientStaffId: ['', Validators.nullValidator],
       pmcId: ['', Validators.nullValidator],
       userId: ['', Validators.nullValidator],
     })
@@ -99,8 +99,6 @@ export class AssignContractorPmcComponent implements OnInit {
     this.allocationType = Number(e.target.value)
     console.log(this.allocationType)
     this.selectedTrade = {}
-
-
   }
   getProjects() {
     console.log(this.SelClient)
@@ -620,7 +618,7 @@ export class AssignContractorPmcComponent implements OnInit {
           schemeId: this.registerForm.value.schemeId,
           structureId: this.registerForm.value.structureId,
           pmcId: this.registerForm.value.pmcId,
-          clientStaffId: this.registerForm.value.clientStaffId,
+          // clientStaffId: this.registerForm.value.clientStaffId,
           stageId: data.stageId ? data.stageId : null,
           tradeId: this.registerForm.value.tradeId,
           subunits: data.suunits ? data.suunits : null,
