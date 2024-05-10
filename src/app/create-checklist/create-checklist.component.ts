@@ -16,6 +16,7 @@ import {
 } from "@angular/cdk/drag-drop";
 import { CommonService } from "../common.service";
 import { first } from "rxjs/operators";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 
 export class ChecklistData {
@@ -88,7 +89,8 @@ export class CreateChecklistComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private commonService: CommonService,
     private tradeMaintanceService: TradeMaintanceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: SnackBarComponent
   ) {
     this.finalQuestion = [];
     this.getListFormData = [];
@@ -224,21 +226,26 @@ export class CreateChecklistComponent implements OnInit {
       })
   }
 
+  listLoad: boolean = false
   onGetListSubmit() {
     let getForm = this.registerForm.value;
     this.getListFormData = getForm;
     console.log(getForm)
+    this.listLoad = true
     this.commonService.getQuestionByTrade(getForm.fkTradeId, getForm.fkSubgroupId).subscribe(
       // this.commonService.getQuestionByTrade(118, 222).subscribe(
       (data) => {
         this.renderQuestions(data)
         this.renderQuestions2(data)
+        this.listLoad = false
       },
       (err) => {
         console.log("-----> err", err);
       }
     );
   }
+
+  submitLoad: boolean = false
   sendCheckList() {
     // this.finalQuestion.length ? console.log(this.finalQuestion) : "";
     let finalCheckList = {
@@ -248,6 +255,7 @@ export class CreateChecklistComponent implements OnInit {
     console.log(finalCheckList)
     // console.log(JSON.stringify(finalCheckList));
     // return
+    this.submitLoad = true
     if (this.checkListId != -1) {
       let finalCheckList = {
         formDataList: [{
@@ -262,13 +270,26 @@ export class CreateChecklistComponent implements OnInit {
       this.commonService.updateChecklist(finalCheckList, this.checkListId)
         .subscribe(data => {
           console.log('checklist updated', data)
+          this.submitLoad = false
+          this.snackBar.showSuccess('Checklist updated')
+
+        }, err => {
+          this.submitLoad = false
+          this.snackBar.showSnackError()
         })
     } else {
 
       this.commonService.addCheckList(finalCheckList)
         .subscribe(
-          data => console.log(data),
-          err => console.log(err)
+          data => { 
+            console.log(data)
+            this.submitLoad = false
+            this.snackBar.showSuccess('Checklist updated')
+           },
+          err => {
+            this.submitLoad = false
+            this.snackBar.showSnackError()
+          }
         )
     }
 
