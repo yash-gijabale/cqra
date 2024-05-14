@@ -87,6 +87,7 @@ export class CreateQuestionComponent implements OnInit {
       this.tradeMaintanceService.retriveQuestion(this.questionId)
         .pipe(first())
         .subscribe(data => {
+          console.log(data);
           questionData = data
           this.tradeMaintanceService.getSubgroupsByTrades(questionData.tradeId).subscribe(data => this.subgroups = data)
           this.tradeMaintanceService.getQuestiongroupBySubgroup(questionData.subgroupId).subscribe(data => this.questionGroups = data)
@@ -239,6 +240,8 @@ export class CreateQuestionComponent implements OnInit {
           this.submitLoad = false
           this.snackbar.showSnackError()
         });
-    }
+        
+      }
+      this.router.navigate(['/question']);
   }
 }
