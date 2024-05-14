@@ -185,6 +185,7 @@ export class InspectorDeclarationComponent implements OnInit {
     this.userDetailsLoad = true
     this.inspectionTraining.getUserDeclarationDetails(userId)
       .subscribe(data => {
+        console.log(data);
         let srNo = 0
         this.userDeclaration = data.map(d => {
           srNo += 1

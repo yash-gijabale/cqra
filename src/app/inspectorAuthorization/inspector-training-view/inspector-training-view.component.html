@@ -123,8 +123,9 @@
                       <div class="question-paper-body">
                         <h5 class="mb-3">All Question Are Nessessory.</h5>
                         <form>
-                          <div class="question-box" *ngFor="let question of questionPaper |keyvalue">
-                            <span>{{question.srNo}}. {{question.value}}</span>
+                          <div class="question-box" *ngFor="let question of questionPaper |keyvalue let i = index">
+                            <span>{{i + 1}}. {{question.value}}</span>
+                            <!-- <span>{{question.srNo}}. {{question.value}}</span> -->
                             <textarea class="question-ans my-1" [id]="'instruction'+question.key" type="text"
                               placeholder="Work Instructions" required></textarea>
 

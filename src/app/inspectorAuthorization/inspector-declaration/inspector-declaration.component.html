@@ -22,7 +22,15 @@
             <label>New User: </label>
             <select [(ngModel)]="SelUserId" class="form-control col-md-12" (change)="getUSerProjects()">
               <option [value]="1">Select user</option>
-              <option [value]="user.id" *ngFor="let user of userList">{{user.userFullName}}</option>
+              <option [value]="user.id" *ngFor="let user of userList">{{user.userFullName}}
+                <span
+                  *ngIf="user.l1 || user.l2 || user.l3 || user.infra || user.hep || user.fireSafety || user.constructionSafety">
+                  ({{ user.l1 ? 'L1' : '' }} {{ user.l2 ? 'L2' : '' }} {{ user.l3 ? 'L3' : '' }} {{ user.infra ?
+                  'Infra' : '' }}
+                  {{ user.hep ? 'HEP' : '' }} {{ user.fireSafety ? 'Fire_Safety' : '' }} {{ user.constructionSafety ?
+                  'Construction_Safety' : '' }})
+                </span>
+              </option>
             </select>
           </div>
           <div class="form-group col-md-1 mt-4 pt-2 pr-0">
@@ -129,10 +137,10 @@
                 <th>Client Name</th>
                 <th>Project Name</th>
                 <th>User Status</th>
-                <th>Comment</th>
-                <th>Date</th>
+                <th>User Comment</th>
+                <th>Action</th>
+                <th>Declaration Date</th>
                 <th>Status</th>
-                <th>Approve</th>
               </tr>
             </thead>
             <tbody>
@@ -153,6 +161,27 @@
                 <td>
                   {{user.comment}}
                 </td>
+
+                <!-- <td>
+                  <span *ngIf="user.dtmStatus != 1" class="badge badge-success"
+                    (click)="addToApproveProject(user.projectId, 1, user.userId)" role="button">
+                    <div *ngIf="approveLoad" class="spinner-border spinner-border-sm" role="status"></div>
+                    <span *ngIf="!approveLoad">Approve</span>
+                  </span>
+                  <span *ngIf="user.dtmStatus == 1" class="badge badge-danger"
+                    (click)="addToApproveProject(user.projectId, 2, user.userId)" role="button">
+                    <div *ngIf="declineLoad" class="spinner-border spinner-border-sm" role="status"></div>
+                    <span *ngIf="!declineLoad">Decline</span>
+                  </span>
+                </td> -->
+
+                <td>
+                  <button *ngIf="user.dtmStatus != 1" class="badge bg-primary text-light border-none"><i
+                      class="las la-check" (click)="addToApproveProject(user.projectId, 1, user.userId)"></i></button>
+                  <button *ngIf="user.dtmStatus == 1" class="badge bg-danger text-light border-none mx-2"><i
+                      class="las la-times" (click)="addToApproveProject(user.projectId, 2, user.userId)"></i></button>
+                </td>
+
                 <td>{{user.trainingDate ? user.trainingDate: 'not specified'}}</td>
 
                 <td>
@@ -164,18 +193,7 @@
                     <span class="badge badge-warning">Pending</span>
                   </div>
                 </td>
-                <td>
-                  <span *ngIf="user.dtmStatus != 1" class="badge badge-success" (click)="addToApproveProject(user.projectId, 1, user.userId)"
-                    role="button">
-                    <div *ngIf="approveLoad" class="spinner-border spinner-border-sm" role="status"></div>
-                    <span *ngIf="!approveLoad">Approve</span>
-                  </span>
-                  <span *ngIf="user.dtmStatus == 1"  class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2, user.userId)"
-                    role="button">
-                    <div *ngIf="declineLoad" class="spinner-border spinner-border-sm" role="status"></div>
-                    <span *ngIf="!declineLoad">Decline</span>
-                  </span>
-                </td>
+
               </tr>
             </tbody>
           </table>
