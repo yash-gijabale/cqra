@@ -28,8 +28,10 @@
         <form [formGroup]="userAllocationForm" (ngSubmit)="onSubmit()" class="row">
           <div class="form-group col-md-6">
             <label>User</label>
-            <select [(ngModel)]="SelUser" formControlName="userId" class="form-control" (change)="getProjectByuser($event)">
-              <option [value]="o.id" *ngFor="let o of userList">
+            <!-- <select [(ngModel)]="SelUser" formControlName="userId" class="form-control" (change)="getProjectByuser($event)"> AUTHO -->
+              <select [(ngModel)]="SelUser" formControlName="userId" class="form-control">
+              <!-- <option [value]="o.id" *ngFor="let o of users"> -->
+              <option [value]="o.userId" *ngFor="let o of users">
                 {{o.userFullName}}
               </option>
             </select>
@@ -66,7 +68,7 @@
           <div class="form-group col-md-6">
             <label>Trade Name</label>
             <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()">
-              <option [value]="o.tradeId"*ngFor="let o of approvedTrades">
+              <option [value]="o.fkTradeId"*ngFor="let o of trades">
                 {{o.tradeName}}
               </option>
             </select>
@@ -91,7 +93,7 @@
               <div class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
                   <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox">
-                  <label class="form-check-label" for="flexCheckDefault">Select All</label>
+                  <label class="form-check-label" for="flexCheckDefault" (change)="addAllStage($event)">Select All</label>
                 </div>
                 <div class="form-check" *ngFor="let o of stages">
                   <input class="form-check-input stagesCheckbox" type="checkbox" [value]="o.stageId"
@@ -202,4 +204,6 @@
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

@@ -259,6 +259,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
     this.commonService.getQuestionByTradeId(tradeId)
       .subscribe(data => {
         console.log(data)
+        this.questionData = data
         let subgroupWise = {}
         data.forEach(question => {
           if (subgroupWise[question.subgroupId]) {

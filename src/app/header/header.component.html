@@ -76,9 +76,12 @@
 
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/users">Users</a></li>
 
-            <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
+            <!-- <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
                 routerLink="/assign-constructor-supervisor-foreman">Assign Contractor/ PMC/ Client</a>
-            </li>
+            </li> -->
+            <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
+              routerLink="/assign-contractor-pmc">Assign Contractor/ PMC/ Client</a>
+          </li>
 
             <li *ngIf="userMenu.userAllocationMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/userAllocation">CQRA User Allocation</a></li>
@@ -265,7 +268,7 @@
         </li>
 
 
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="RFI">
+        <!-- <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="RFI">
           <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="fa fa-tasks"></i>
@@ -276,9 +279,8 @@
             <li class="dropdown-item"><a tabindex="-1" routerLink="/checklist-group-master">Checklist Group Master</a>
             </li>
             <li class="dropdown-item"><a tabindex="-1" routerLink="/checklist-master">Checklist Master</a></li>
-            <!-- <li class="dropdown-item"><a tabindex="-1" routerLink="/create-rfi">Checklist Master</a></li> -->
           </ul>
-        </li>
+        </li> -->
 
 
 

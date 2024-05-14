@@ -16,6 +16,7 @@ import {
 } from "@angular/cdk/drag-drop";
 import { CommonService } from "../common.service";
 import { first } from "rxjs/operators";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 
 export class ChecklistData {
@@ -71,7 +72,7 @@ export class CreateChecklistComponent implements OnInit {
   finalQuestion: Array<any>;
   tempQuestions: any;
   q: Question[];
-  questionGroup: QuestionGroup[];
+  questionGroup: any[];
   qList: Qlist[];
   SelSubgroup: any
   questionGroups: any
@@ -88,7 +89,8 @@ export class CreateChecklistComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private commonService: CommonService,
     private tradeMaintanceService: TradeMaintanceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: SnackBarComponent
   ) {
     this.finalQuestion = [];
     this.getListFormData = [];
@@ -125,6 +127,8 @@ export class CreateChecklistComponent implements OnInit {
       let index = this.tempQuestions.indexOf(removed[0]);
       this.tempQuestions.splice(index, 1);
     }
+
+    console.log('added',this.tempQuestions)
   }
 
   onRemoveCheck(question: Question, isChecked: boolean) {
@@ -168,11 +172,11 @@ export class CreateChecklistComponent implements OnInit {
             fkTradeId: data.tradeId,
             fkSubgroupId: data.subgroupId,
             checklistName: data.checklistName,
-            questionGroup:  data.questionGroup
+            questionGroup: data.questionGroup
           }
           this.tradeMaintanceService.getSubgroupsByTrades(data.tradeId).subscribe(data => this.subgroups = data)
 
-          this.commonService.getQuestionByTrade(data.tradeId, data.subgroupId).subscribe(data => this.renderQuestions(data));
+          this.commonService.getQuestionByTrade(data.tradeId, data.subgroupId).subscribe(data => { this.renderQuestions2(data) });
           this.tradeMaintanceService.getQuestiongroupBySubgroup(data.subgroupId).subscribe(
             data => this.questionGroups = data
           )
@@ -224,20 +228,26 @@ export class CreateChecklistComponent implements OnInit {
       })
   }
 
+  listLoad: boolean = false
   onGetListSubmit() {
     let getForm = this.registerForm.value;
     this.getListFormData = getForm;
     console.log(getForm)
+    this.listLoad = true
     this.commonService.getQuestionByTrade(getForm.fkTradeId, getForm.fkSubgroupId).subscribe(
       // this.commonService.getQuestionByTrade(118, 222).subscribe(
       (data) => {
-        this.renderQuestions(data)
+        // this.renderQuestions(data)
+        this.renderQuestions2(data)
+        this.listLoad = false
       },
       (err) => {
         console.log("-----> err", err);
       }
     );
   }
+
+  submitLoad: boolean = false
   sendCheckList() {
     // this.finalQuestion.length ? console.log(this.finalQuestion) : "";
     let finalCheckList = {
@@ -246,6 +256,8 @@ export class CreateChecklistComponent implements OnInit {
     }
     console.log(finalCheckList)
     // console.log(JSON.stringify(finalCheckList));
+    // return
+    this.submitLoad = true
     if (this.checkListId != -1) {
       let finalCheckList = {
         formDataList: [{
@@ -260,71 +272,135 @@ export class CreateChecklistComponent implements OnInit {
       this.commonService.updateChecklist(finalCheckList, this.checkListId)
         .subscribe(data => {
           console.log('checklist updated', data)
+          this.submitLoad = false
+          this.snackBar.showSuccess('Checklist updated')
+
+        }, err => {
+          this.submitLoad = false
+          this.snackBar.showSnackError()
         })
     } else {
 
       this.commonService.addCheckList(finalCheckList)
         .subscribe(
-          data => console.log(data),
-          err => console.log(err)
+          data => {
+            console.log(data)
+            this.submitLoad = false
+            this.snackBar.showSuccess('Checklist updated')
+          },
+          err => {
+            this.submitLoad = false
+            this.snackBar.showSnackError()
+          }
         )
     }
 
   }
 
-  renderQuestions(data) {
-    this.questionList2 = data;
-    console.log(data)
+  // renderQuestions(data) {
+  //   this.questionList2 = data;
+  //   console.log(data)
 
-    this.questionList2.forEach((question) => {
-      if (this.questionGroup.length == 0) {
-        if (this.questionList2.length != 0) {
-          let newArr = {
-            subgroupId: this.questionList2[0].subgroupId,
-            questions: [
-              {
-                questionId: this.questionList2[0].questionId,
-                questionText: this.questionList2[0].questionText,
-                questionGroup: this.questionList2[0].questionGroupId
-              },
-            ],
-          };
-          this.questionGroup.push(newArr);
+  //   this.questionList2.forEach((question) => {
+  //     if (this.questionGroup.length == 0) {
+  //       let newArr = {
+  //         subgroupId: this.questionList2[0].questionGroupId,
+  //         questions: [
+  //           {
+  //             questionId: this.questionList2[0].questionId,
+  //             questionText: this.questionList2[0].questionText,
+  //             questionGroup: this.questionList2[0].questionGroupId
+  //           },
+  //         ],
+  //       };
+  //       this.questionGroup.push(newArr);
+  //     } else {
+  //       let found = this.questionGroup.find(function (element) {
+  //         if (element.subgroupId == question.questionGroupId) return element;
+  //       });
+
+  //       // console.log('found', found)
+  //       if (found) {
+  //         let neqQ = {
+  //           questionId: question.questionId,
+  //           questionText: question.questionText,
+  //           questionGroup: question.questionGroupId,
+  //         };
+  //         found.questions.push(neqQ);
+  //         this.questionGroup = [...this.questionGroup, found]
+  //       } else {
+  //         let newG = {
+  //           subgroupId: question.questionGroupId,
+  //           questions: [
+  //             {
+  //               questionId: question.questionId,
+  //               questionText: question.questionText,
+  //               questionGroup: question.questionGroupId,
+
+  //             },
+  //           ],
+  //         };
+  //         this.questionGroup.push(newG);
+  //       }
+  //     }
+  //   });
+
+  //   console.log(this.questionGroup)
+  // }
+
+  questionGroup2 = {}
+  renderQuestions2(data) {
+    console.log(data)
+    data.forEach(question => {
+      if (this.questionGroup2[question.questionGroupId]) {
+        if (!this.questionGroup2[question.questionGroupId][question.questionHeadingId]) {
+
+          this.questionGroup2[question.questionGroupId][question.questionHeadingId] = {}
+          this.questionGroup2[question.questionGroupId][question.questionHeadingId]['heading'] = question.questionHeadingId
+          this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'] = []
+        } else {
+          
+          this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'].push(
+            {
+              questionId: question.questionId,
+              questionText: question.questionText,
+              questionGroup: question.questionGroupId
+            })
+
         }
+
       } else {
-        let found = this.questionGroup.find(function (element) {
-          return element.subgroupId == question.subgroupId;
-        });
-        if (found) {
-          let neqQ = {
+        this.questionGroup2[question.questionGroupId] = {}
+        this.questionGroup2[question.questionGroupId]['questionGroup'] = question.questionGroupId
+
+        this.questionGroup2[question.questionGroupId][question.questionHeadingId] = {}
+        this.questionGroup2[question.questionGroupId][question.questionHeadingId]['heading'] = question.questionHeadingId
+        this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'] = []
+        this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'].push(
+          {
             questionId: question.questionId,
             questionText: question.questionText,
-            questionGroup: question.questionGroupId,
-          };
-          found.questions.push(neqQ);
-        } else {
-          let newG = {
-            subgroupId: question.subgroupId,
-            questions: [
-              {
-                questionId: question.questionId,
-                questionText: question.questionText,
-                questionGroup: question.questionGroupId,
+            questionGroup: question.questionGroupId
+          })
 
-              },
-            ],
-          };
-          this.questionGroup.push(newG);
-        }
       }
-    });
+    })
 
-    console.log(this.questionGroup)
+    console.log('headingwise', this.questionGroup2)
   }
 
   getQuestionGroup() {
     this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
       .subscribe(data => this.questionGroups = data)
+  }
+
+
+
+  addAllGroupQuestion(groupId){
+    let headingQuestion = this.questionGroup2[groupId]
+    // for (const key in object) {
+      
+    // }
   }
 
 }

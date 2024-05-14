@@ -71,7 +71,8 @@
         </div>
 
         <div class="col-md-12 d-flex justify-content-center">
-          <span *ngIf="isPreDataLoad" class="badge badge-warning p-2 text-light" style="background-color: #006699 !important;">
+          <span *ngIf="isPreDataLoad" class="badge badge-warning p-2 text-light"
+            style="background-color: #006699 !important;">
             {{preLoadTitle}}
           </span>
 
@@ -263,7 +264,7 @@
                           Representative</td> -->
                         <td style="text-align: center;"
                           [attr.rowspan]="contractorDataTradeWise[trade.tradeId] && contractorDataTradeWise[trade.tradeId].length +1">
-                          <input type="checkbox" (change)="setNotOfferedArea($event, trade.tradeId)"
+                          <input type="checkbox" (change)="setNotOfferedArea($event, trade.tradeId)" [title]="trade.tradeId"
                             [checked]="notOfferdArea[trade.tradeId]">
                         </td>
                         <td></td>
@@ -330,7 +331,7 @@
                         <!-- <td>
                           Representative</td> -->
                         <td style="text-align: center;">
-                          <input type="checkbox" (change)="setNotOfferedArea($event, trade.tradeId)">
+                          <input type="checkbox" (change)="setNotOfferedArea($event, trade.tradeId)" [checked]="notOfferdArea[trade.tradeId]">
                         </td>
                         <td>
                           <select [class]="'step2Contractor_'+trade.tradeId">
@@ -419,7 +420,7 @@
                       <td>{{tradeNameData[trade.key]}}</td>
                       <td>
                         <ng-container *ngFor="let stage of step3Stages[data.value.contractorId][trade.key]">
-                          <span class="badge badge-primary mx-1">{{stage.stageName}}</span>
+                          <span class="badge badge-primary mx-1">{{stage.stageName}} <span><i class="fa fa-plus" aria-hidden="true"></i></span></span>
                         </ng-container>
                       </td>
                       <td>{{step3Stages[data.value.contractorId][trade.key].length}}</td>
@@ -437,14 +438,18 @@
                         <ng-container
                           *ngIf="type2RandomSampledArea[data.value.contractorId] && type2RandomSampledArea[data.value.contractorId][trade.key]">
                           <span class="badge badge-warning mx-1"
-                            *ngFor="let stage of type2RandomSampledArea[data.value.contractorId][trade.key]">{{stage.stageName}}</span>
+                            *ngFor="let stage of type2RandomSampledArea[data.value.contractorId][trade.key]">{{stage.stageName}} <span role="button"><i class="fa fa-times" aria-hidden="true"></i></span></span>
                         </ng-container>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <button class="btn btn-sm btn-primary" (click)="submitStep3Data()">Submit</button>
+              <button class="btn btn-sm btn-primary" (click)="submitStep3Data()">
+                <span *ngIf="step3loadbtn" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
+                <span *ngIf="!step3loadbtn">Submit</span>
+              </button>
             </div>
           </div>
 
@@ -452,4 +457,6 @@
 
 
       </div>
+
+      <app-snack-bar></app-snack-bar>
       <app-footer></app-footer>

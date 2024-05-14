@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { generate } from 'rxjs';
 import { CommonService } from 'src/app/common.service';
+import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
 import { ClientServiceService } from 'src/app/service/client-service.service';
 import { TradeMaintanceService } from 'src/app/trade-maintance.service';
 @Component({
@@ -16,7 +17,8 @@ export class TestNewSamplingComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private commanService: CommonService,
     private tradeService: TradeMaintanceService,
-    private clientService: ClientServiceService
+    private clientService: ClientServiceService,
+    private snackBar : SnackBarComponent
 
   ) { }
 
@@ -52,7 +54,7 @@ export class TestNewSamplingComponent implements OnInit {
       })
   }
 
-  
+
 
   changePannel(type) {
     this.pannel = type
@@ -250,9 +252,10 @@ export class TestNewSamplingComponent implements OnInit {
 
     this.clientService.getSamplingStep1Data(this.masterData.masterId, this.SelProject, this.SelStructure)
       .subscribe(data => {
+
         this.preStep1Data = {}
         this.applicabaleArea = {}
-        console.log(data)
+        console.log('pre step 1 data',data)
         for (const trade in data) {
           if (data[trade].length) {
             let stages = {}
@@ -351,6 +354,14 @@ export class TestNewSamplingComponent implements OnInit {
       }
     })
 
+    //Not Offerd area
+    data.forEach(item => {
+      if(item.offerStatus == false){
+        this.notOfferdArea[item.tradeId] = true
+      }
+    })
+
+    console.log('not offred', this.notOfferdArea)
     console.log("pre step 2 area -->", preStep2Area)
     console.log("pre step 1 complted  -->", preCompletedArea)
     this.step2workArea = preStep2Area
@@ -393,11 +404,11 @@ export class TestNewSamplingComponent implements OnInit {
     data.forEach(item => {
 
       if (preSampleUnitNumber[item.contractorid]) {
-        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber
+        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber ? item.sampledUnitNumber : 0
 
       } else {
         preSampleUnitNumber[item.contractorid] = {}
-        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber
+        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber ? item.sampledUnitNumber : 0
       }
     })
     console.log('pre stape 3 sample unit number', preSampleUnitNumber)
@@ -653,19 +664,22 @@ export class TestNewSamplingComponent implements OnInit {
 
   contractorAssignedStages = {}
   getAssignStagesByContractor(tradeId, contractorId) {
-    if (!this.contractorAssignedStages[contractorId]) {
-      this.contractorAssignedStages[contractorId] = {}
-      if (!this.contractorAssignedStages[contractorId][tradeId]) {
-        this.contractorAssignedStages[contractorId][tradeId] = []
-        this.getAssignedStages(contractorId, tradeId)
-      }
+    if (!this.samplingUpdate.step2) {
+      if (!this.contractorAssignedStages[contractorId]) {
+        this.contractorAssignedStages[contractorId] = {}
+        if (!this.contractorAssignedStages[contractorId][tradeId]) {
+          this.contractorAssignedStages[contractorId][tradeId] = []
+          this.getAssignedStages(contractorId, tradeId)
+        }
 
-    } else {
-      if (!this.contractorAssignedStages[contractorId][tradeId]) {
-        this.contractorAssignedStages[contractorId][tradeId] = []
-        this.getAssignedStages(contractorId, tradeId)
+      } else {
+        if (!this.contractorAssignedStages[contractorId][tradeId]) {
+          this.contractorAssignedStages[contractorId][tradeId] = []
+          this.getAssignedStages(contractorId, tradeId)
+        }
       }
     }
+
 
   }
 
@@ -787,6 +801,8 @@ export class TestNewSamplingComponent implements OnInit {
     } else {
       delete this.notOfferdArea[tradeId]
     }
+
+    console.log(this.notOfferdArea)
   }
 
 
@@ -833,13 +849,13 @@ export class TestNewSamplingComponent implements OnInit {
           let contractorId = data.contractorId
           let tradeId = data.tradeId
           if (this.persentageData[contractorId]) {
-            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] ? this.preSampledUnitPersentage[contractorId][tradeId] : 5
+            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] && this.preSampledUnitPersentage[contractorId][tradeId] || 5
 
             this.step3Stages[contractorId][tradeId] = data.workAreaWithName
 
           } else {
             this.persentageData[contractorId] = {}
-            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] ? this.preSampledUnitPersentage[contractorId][tradeId] : 5
+            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] && this.preSampledUnitPersentage[contractorId][tradeId] || 5
 
             this.step3Stages[contractorId] = {}
             this.step3Stages[contractorId][tradeId] = data.workAreaWithName
@@ -889,7 +905,7 @@ export class TestNewSamplingComponent implements OnInit {
 
       let units = this.persentageData[contractorId][trade] * this.step3Stages[contractorId][trade].length / 100
       units < 1 ? units = 1 : units = Math.round(units)
-      this.sampledUnitnumber[contractorId][trade] = units
+      this.sampledUnitnumber[contractorId][trade] = units ? units : 0
     }
 
     console.log(this.sampledUnitnumber)
@@ -940,9 +956,11 @@ export class TestNewSamplingComponent implements OnInit {
   }
 
 
+  step3loadbtn: boolean = false
   submitStep3Data() {
     let finalData = []
 
+    this.step3loadbtn = true
     for (const contractor in this.step3RenderData) {
 
       for (const trade in this.step3RenderData[contractor].samplingData) {
@@ -1008,14 +1026,24 @@ export class TestNewSamplingComponent implements OnInit {
       this.clientService.upadteSamplingStep3(this.masterData.masterId, this.SelProject, this.SelStructure, finalData)
         .subscribe(data => {
           console.log('step 3 update-->', data)
+          this.step3loadbtn = false
+          this.snackBar.showSuccess('Sampling updated')
         }, err => {
           console.log(err)
+          this.step3loadbtn = false
+          this.snackBar.showSnackError()
+
         })
     } else {
       this.clientService.submitStep3Data(finalData)
         .subscribe(data => {
           console.log('step 3 sub,ited-->', data)
+          this.step3loadbtn = false
+          this.snackBar.showSuccess('Sampling created')
           // this.type2Step3submitLoad = false
+        },err =>{
+          this.step3loadbtn = false
+          this.snackBar.showSnackError()
         })
     }
   }

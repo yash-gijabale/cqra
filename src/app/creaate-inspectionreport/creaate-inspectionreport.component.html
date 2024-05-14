@@ -243,7 +243,10 @@
 
 
           <div class="form-group">
-            <button class="btn btn-primary">Save</button>
+            <button class="btn btn-primary">
+              <span *ngIf="loadBtn" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span *ngIf="!loadBtn" >Save</span>
+            </button>
           </div>
         </form>
       </div>
@@ -252,4 +255,6 @@
 </div>
 
 <!-- add Popup design -->
+<app-snack-bar></app-snack-bar>
+
 <app-footer></app-footer>

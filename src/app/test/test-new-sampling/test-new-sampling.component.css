@@ -98,3 +98,7 @@
 .step3_table thead{
     height: 30px !important;
 }
+
+span{
+    user-select: none;
+}

@@ -76,6 +76,7 @@ export class TradeMaintanceService {
     return this.httpClient.get<InspectionView[]>(this.REST_API_SERVER + '/SAReports/inspectionReports');
   }
 
+
   getAllNCsforSA() {
     return this.httpClient.get<NcBeanSAView[]>(this.REST_API_SERVER + '/SAReports/SANCs');
   }
@@ -290,6 +291,13 @@ export class TradeMaintanceService {
 
   getAllocatedChecklist(projectId, tradeId, subgroupId) {
     return this.httpClient.get<allocatedChecklistData[]>(`${this.REST_API_SERVER}/getschemequestionbyprojectidtradesubgroup/${projectId}/${tradeId}/${subgroupId}`)
+  }
+
+
+
+  //INSPECTION
+  generateReport(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadinspectionreportsampledformat/${id}`)
   }
 
 }

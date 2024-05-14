@@ -178,10 +178,11 @@
 
                 <td>
                   <div class="action-commonview">
-                    <a routerLink="/firstNote"><button type="text" class="edit-modal add-modal" data-toggle="modal"
-                        data-target="#exampleModalCenter">
-                        <img src="assets/images/edit.png" height="20px" width="20px">
-                      </button></a>
+                    <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter" (click)="generateReport(client.id)">
+                      <div *ngIf="loader[client.id] && loader[client.id].load" class="spinner-border text-warning" role="status"></div>
+                      <img *ngIf="!loader[client.id] || !loader[client.id].load" src="assets/images/edit.png" height="20px" width="20px">
+                    </button>
                   </div>
                 </td>
                 <td>
@@ -302,4 +303,5 @@
       </div>
     </div>
   </div>
+
   <app-footer></app-footer>

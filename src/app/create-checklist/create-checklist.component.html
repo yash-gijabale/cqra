@@ -91,7 +91,10 @@
             </div> -->
           </div>
           <div class="form-group mx-3">
-            <button class="btn btn-primary" (click)="onGetListSubmit()">Get List</button>
+            <button class="btn btn-primary" (click)="onGetListSubmit()">
+              <span *ngIf="listLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span *ngIf="!listLoad">Get List</span>
+            </button>
           </div>
 
 
@@ -108,19 +111,22 @@
                   <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="questionList2"
                      class="example-list" (cdkDropListDropped)="drop($event)"
                     class="card-body kamban-card-body" id="all_structure">
-                    <div *ngFor="let qgroup of questionGroup">
-                      <span><b>{{qgroup.subgroupId}}</b></span>
-                      <ul *ngFor=" let q of qgroup.questions" class="card question-list-primary" cdkDrag>
-                        <li class="d-flex justify-content-between">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" (change)="onMoveCheck(q, $event.target.checked)"
-                              id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                              {{q.questionText}}
-                            </label>
-                          </div>
-                        </li>
-                      </ul>
+                    <div *ngFor="let qgroup of questionGroup2 | keyvalue">
+                      <input type="checkbox" (change)="addAllGroupQuestion(qgroup.value.questionGroup)"><span><b>{{qgroup.value.questionGroup}}</b></span>
+                      <div *ngFor="let heading of qgroup.value | keyvalue">
+                        <span class="ml-2"><b>{{heading.value.heading}}</b></span>
+                        <ul *ngFor="let q of heading.value.questions" class="card question-list-primary ml-2" cdkDrag>
+                          <li class="d-flex justify-content-between">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" (change)="onMoveCheck(q, $event.target.checked)"
+                                id="flexCheckDefault">
+                              <label class="form-check-label" for="flexCheckDefault">
+                                {{q.questionText}}
+                              </label>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <!-- <ul *ngFor="let q of questionList2" class="card question-list-success" cdkDrag>
                       <li class="d-flex justify-content-between">
@@ -174,7 +180,10 @@
                     </ul>
                   </div>
                   <div class="card-footer">
-                    <button class="btn btn-primary" (click)="sendCheckList()">Save</button>
+                    <button class="btn btn-primary" (click)="sendCheckList()">
+                      <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span *ngIf="!submitLoad">Submit</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -190,4 +199,6 @@
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>
