@@ -793,6 +793,19 @@ export class ClientServiceService {
   updatePmcAllocation(projectId,structureId, pmcId, tradeId, data){
     return this.httpClient.put(`${this.REST_API_SERVER}/schemePmcSubunits/update/${projectId}/${structureId}/${pmcId}/${tradeId}`, data)
   }
+
+  // CLIENT ALLOCATION
+  addClientAllocation(data):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/schemeclientallocation/save`, data)
+  }
+
+  getClientAllocationData(projectId, structureId, clientId, tradeId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemeclientallocation/getallbyid/${projectId}/${structureId}/${clientId}/${tradeId}`)
+  }
+
+  updateClientAllocation(projectId, structureId, clientId, tradeId , data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/schemeclientallocation/update/${projectId}/${structureId}/${clientId}/${tradeId}`, data)
+  }
   //PMC API CALL
 
   

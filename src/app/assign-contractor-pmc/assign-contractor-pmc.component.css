@@ -3,6 +3,7 @@
     overflow: auto;
     background-color: white;
     border: 5px;
+    padding: 5px;
 }
 .spinner-border{
     position: relative;

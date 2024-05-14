@@ -13,6 +13,7 @@ import { UserService } from '../service/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { InspectorTraning } from '../service/inspectionTraining.service';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 export class InspectionReportSnappAudit {
   constructor(
@@ -88,7 +89,8 @@ export class CreaateInspectionreportComponent implements OnInit {
     private tradeService: TradeMaintanceService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private inspectionTraining: InspectorTraning
+    private inspectionTraining: InspectorTraning,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -242,7 +244,9 @@ export class CreaateInspectionreportComponent implements OnInit {
       })
   }
 
+  loadBtn: boolean = false
   onSubmit() {
+    this.loadBtn = true
     let tradeIds = this.inspectionReporotForm.value.tradeId
     let structureIds = this.inspectionReporotForm.value.structureId
     let contractors = this.inspectionReporotForm.value.clientRep
@@ -260,12 +264,28 @@ export class CreaateInspectionreportComponent implements OnInit {
     // return
     if (this.inspectionReportId != -1) {
       this.commonService.updateInspectionReport(data, this.inspectionReportId)
-        .subscribe(data => console.log('Updated inpection-->', data))
+        .subscribe(data => {
+          console.log('Updated inpection-->', data)
+          this.loadBtn = false
+          this.snackBar.showSuccess('Inspection updated')
+
+        }, err =>{
+          this.loadBtn = false
+          this.snackBar.showSnackError()
+        })
 
     } else {
 
       this.commonService.createInspectionReport(data)
-        .subscribe(data => console.log('created inpection-->', data))
+        .subscribe(data => {
+          console.log('created inpection-->', data)
+          this.loadBtn = false
+          this.snackBar.showSuccess('Inspection created')
+
+        }, err =>{
+          this.loadBtn = false
+          this.snackBar.showSnackError()
+        })
     }
   }
 

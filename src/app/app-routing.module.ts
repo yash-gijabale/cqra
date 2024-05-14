@@ -269,7 +269,7 @@ const routes: Routes = [
   { path: 'testSampling', component: TestNewSamplingComponent },
   { path: 'checklist-group-master',component:ChecklistGroupMasterComponent},
   { path: 'checklist-master',component:ChecklistMasterComponent},
-  { path: 'create-rfi',component:CreateRfiComponent}
+  { path: 'create-rfi',component:CreateRfiComponent},
   { path: 'assign-contractor-pmc', component: AssignContractorPmcComponent },
 
 

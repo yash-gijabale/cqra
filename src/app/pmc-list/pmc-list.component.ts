@@ -41,6 +41,7 @@ export class PmcListComponent implements OnInit {
     this.isLoading = true
     this.clientService.getAllPmcs()
       .subscribe(data => {
+        console.log(data)
         this.pmcs = data
         this.isLoading = false
         this.dtTrigger.next()

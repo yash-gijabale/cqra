@@ -153,4 +153,24 @@ export class InspectionReportComponent implements OnInit {
   drawingSubmit(){
     
   }
+
+  loader = {
+
+  }
+  generateReport(id){
+    this.loader[id] = {
+      load:true,
+      error: false
+    }
+    this.tradeMaintanceService.generateReport(id)
+    .subscribe(data =>{
+      console.log('repoer  gen', data)
+      this.loader[id].load = false
+    }, err =>{
+      console.log(err)
+      this.loader[id].load = false
+      this.loader[id].error = true
+
+    })
+  }
 }

@@ -287,10 +287,12 @@ export class AssignContractorPmcComponent implements OnInit {
 
       console.log('suoervisor get')
       this.getSuprevisorData()
-    } else {
+    } else if(this.allocationType == 2) {
       console.log('pmc get')
-
       this.getPmcAllocationData()
+    }else if(this.allocationType == 3){
+      console.log('client get')
+      this.getClientAllocationData()
     }
   }
 
@@ -350,6 +352,21 @@ export class AssignContractorPmcComponent implements OnInit {
       })
   }
 
+  updateClientAllocation: boolean = false
+  getClientAllocationData() {
+    this.clientService.getClientAllocationData(this.SelProject, this.SelStructure, this.SelClient, this.SelTrade)
+      .subscribe(data => {
+        console.log('pre client data-->', data)
+        if (data.length) {
+          this.updateClientAllocation = true
+        }else{
+          this.clientUser = []
+          this.selectedTrade = {}
+        }
+        this.genarateAllocationData(data, 'client')
+      })
+  }
+
   allocatedTrade = {}
   allocatedStructure: Object = {}
   genarateAllocationData(data, type) {
@@ -393,6 +410,15 @@ export class AssignContractorPmcComponent implements OnInit {
       data.forEach(item => {
         if (!this.pmcUserData.includes(item.userId)) {
           this.pmcUserData.push(item.userId)
+        }
+
+      })
+    }
+
+    if (type == 'client') {
+      data.forEach(item => {
+        if (!this.clientUser.includes(item.clientStaffId)) {
+          this.clientUser.push(item.clientStaffId)
         }
 
       })
@@ -489,6 +515,18 @@ export class AssignContractorPmcComponent implements OnInit {
     console.log(this.pmcUserData)
   }
 
+  clientUser = []
+  addClientUser(e){
+    let id = Number(e.target.value)
+    if (e.target.checked) {
+      this.clientUser.push(id)
+    } else {
+      this.clientUser = this.clientUser.filter(item => {
+        return item != id
+      })
+    }
+    console.log('client -->',this.clientUser)
+  }
 
   onSubmit() {
     let allocationData = []
@@ -605,12 +643,13 @@ export class AssignContractorPmcComponent implements OnInit {
       }
     } else if (this.allocationType == 2) {
       this.handlePmcAllocation(allocationData)
+    }else if(this.allocationType == 3){
+      this.handleClientAllocation(allocationData)
     }
   }
 
 
   handlePmcAllocation(data) {
-
     let pmcAllocation = []
     data.forEach(data => {
       this.pmcUserData.forEach(pmcuser => {
@@ -622,7 +661,7 @@ export class AssignContractorPmcComponent implements OnInit {
           stageId: data.stageId ? data.stageId : null,
           tradeId: this.registerForm.value.tradeId,
           subunits: data.suunits ? data.suunits : null,
-          units: data.units,
+          units: data.units ? data.units : null,
           userId: pmcuser,
         }
 
@@ -648,6 +687,46 @@ export class AssignContractorPmcComponent implements OnInit {
         })
     }
 
+
+  }
+
+  handleClientAllocation(data){
+    let clientAllocation = []
+    data.forEach(data => {
+      this.clientUser.forEach(user => {
+        let supData = {
+          schemeId: this.registerForm.value.schemeId,
+          structureId: this.registerForm.value.structureId,
+          clientId: this.registerForm.value.clientId,
+          stageId: data.stageId ? data.stageId : null,
+          tradeId: this.registerForm.value.tradeId,
+          subunits: data.suunits ? data.suunits : null,
+          units: data.units  ? data.units : null,
+          clientStaffId: user,
+        }
+
+        clientAllocation.push(supData)
+      })
+    })
+
+    console.log('client Alloca', clientAllocation)
+
+    if (this.updatePmcAllocation) {
+      this.clientService.updateClientAllocation(this.SelProject, this.SelStructure, this.SelClient, this.SelTrade, clientAllocation)
+      .subscribe(data =>{
+        console.log('client updtaed', data)
+      }, err =>{
+        console.log(err)
+      })
+
+    } else {
+      this.clientService.addClientAllocation(clientAllocation)
+        .subscribe(data => {
+          console.log('client allocated-->', data)
+        }, err => {
+          console.log(err)
+        })
+    }
 
   }
 }

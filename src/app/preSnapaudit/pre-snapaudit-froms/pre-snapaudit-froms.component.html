@@ -25,6 +25,10 @@
         <div class="col-md-4 d-flex justify-content-end">
           <button class="btn btn-sm btn-primary h-20 p-2 m-0" style="height: 35px;" data-toggle="modal"
             data-target="#declaration-view">Create New Team</button>
+
+          <button class="btn btn-sm btn-primary h-20 p-2 ml-2" style="height: 35px;" data-toggle="modal"
+            data-target="#download-view">Download Samplings</button>
+
           <div class="modal fade" id="declaration-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
@@ -163,6 +167,76 @@
                     <div *ngIf="submitFormLoad" class="spinner-border text-light" role="status">
                     </div>
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="download-view" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Sampling List</h5>
+                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body modal-full-body donload_data_modal_body">
+                  <table class="row-border hover inspector_list_table" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Master Id</th>
+                        <th>Client Name</th>
+                        <th>Project Name</th>
+                        <th>From Date</th>
+                        <th>To date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="inspectionTeamFrom" *ngIf="!updateTeamFlag">
+                      <tr>
+                        <td>
+                          <span>CQRA2024QA44</span>
+                        </td>
+                        <td>
+                          Logic sync pvt
+                        </td>
+                        <td>
+                         Logicsync
+                        </td>
+                        <td>
+                          10-05-2024
+                        </td>
+                        <td>
+                          13-05-2024
+                        </td>
+                        <td>
+                          <button class="btn btn-sm btn-success"><i class="fa fa-download" aria-hidden="true"></i> Download</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span>CQRA2024QA44</span>
+                        </td>
+                        <td>
+                          Logic sync pvt
+                        </td>
+                        <td>
+                         Logicsync
+                        </td>
+                        <td>
+                          10-05-2024
+                        </td>
+                        <td>
+                          13-05-2024
+                        </td>
+                        <td>
+                          <button class="btn btn-sm btn-success"><i class="fa fa-download" aria-hidden="true"></i> Download</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -372,7 +446,8 @@
                           <span class="badge badge-secondary" role="button">upload</span>
                         </td> -->
                         <td>
-                          <button class="btn btn-sm btn-danger" id="1" (click)="removeOpeningClosingRow($event)">Remove</button>
+                          <button class="btn btn-sm btn-danger" id="1"
+                            (click)="removeOpeningClosingRow($event)">Remove</button>
                         </td>
                       </tr>
                     </tbody>
@@ -394,7 +469,8 @@
                           <span class="badge badge-secondary" role="button">upload</span>
                         </td> -->
                         <td>
-                          <button class="btn btn-sm btn-danger"  [id]="user.srNo" (click)="removeOpeningClosingRow($event)">Remove</button>
+                          <button class="btn btn-sm btn-danger" [id]="user.srNo"
+                            (click)="removeOpeningClosingRow($event)">Remove</button>
                         </td>
                       </tr>
                     </tbody>
@@ -710,7 +786,8 @@
                     </div>
                     <div class="modal-footer">
                       <button class="btn btn-sm btn-success" (click)="submitInternalReviewMeeting()">
-                        <span *ngIf="interReviewMeetingLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="interReviewMeetingLoad" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
                         <span *ngIf="!interReviewMeetingLoad">Submit</span>
                       </button>
                     </div>

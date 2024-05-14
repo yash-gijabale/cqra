@@ -252,9 +252,10 @@ export class TestNewSamplingComponent implements OnInit {
 
     this.clientService.getSamplingStep1Data(this.masterData.masterId, this.SelProject, this.SelStructure)
       .subscribe(data => {
+
         this.preStep1Data = {}
         this.applicabaleArea = {}
-        console.log(data)
+        console.log('pre step 1 data',data)
         for (const trade in data) {
           if (data[trade].length) {
             let stages = {}
@@ -403,11 +404,11 @@ export class TestNewSamplingComponent implements OnInit {
     data.forEach(item => {
 
       if (preSampleUnitNumber[item.contractorid]) {
-        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber
+        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber ? item.sampledUnitNumber : 0
 
       } else {
         preSampleUnitNumber[item.contractorid] = {}
-        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber
+        preSampleUnitNumber[item.contractorid][item.tradeid] = item.sampledUnitNumber ? item.sampledUnitNumber : 0
       }
     })
     console.log('pre stape 3 sample unit number', preSampleUnitNumber)
@@ -800,6 +801,8 @@ export class TestNewSamplingComponent implements OnInit {
     } else {
       delete this.notOfferdArea[tradeId]
     }
+
+    console.log(this.notOfferdArea)
   }
 
 
@@ -846,13 +849,13 @@ export class TestNewSamplingComponent implements OnInit {
           let contractorId = data.contractorId
           let tradeId = data.tradeId
           if (this.persentageData[contractorId]) {
-            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] ? this.preSampledUnitPersentage[contractorId][tradeId] : 5
+            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] && this.preSampledUnitPersentage[contractorId][tradeId] || 5
 
             this.step3Stages[contractorId][tradeId] = data.workAreaWithName
 
           } else {
             this.persentageData[contractorId] = {}
-            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] ? this.preSampledUnitPersentage[contractorId][tradeId] : 5
+            this.persentageData[contractorId][tradeId] = this.preSampledUnitPersentage[contractorId] && this.preSampledUnitPersentage[contractorId][tradeId] || 5
 
             this.step3Stages[contractorId] = {}
             this.step3Stages[contractorId][tradeId] = data.workAreaWithName
@@ -902,7 +905,7 @@ export class TestNewSamplingComponent implements OnInit {
 
       let units = this.persentageData[contractorId][trade] * this.step3Stages[contractorId][trade].length / 100
       units < 1 ? units = 1 : units = Math.round(units)
-      this.sampledUnitnumber[contractorId][trade] = units
+      this.sampledUnitnumber[contractorId][trade] = units ? units : 0
     }
 
     console.log(this.sampledUnitnumber)

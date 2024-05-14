@@ -8,7 +8,7 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Assign Constructor's Supervison</li>
+            <li class="breadcrumb-item active">Assign Contractor/PMC/Client</li>
           </ol>
         </div>
         <div class="right-side-create-view">
@@ -20,7 +20,7 @@
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1> Create Client </h1>
+            <h1>Assign Contractor/PMC/Client</h1>
           </div>
         </div>
       </div>
@@ -311,13 +311,11 @@
                     (change)="selectAllStageCheckbox($event)">
                   <label class="form-check-label" for="flexCheckDefault">Select All</label>
                 </div>
-                <div class="form-check" *ngFor="let user of pmcUser">
-                  <input class="form-check-input stagesCheckbox" type="checkbox" [value]="user.id"
-                    [id]="'stage'+user.id" (change)="addPMCUser($event)"
-                    [checked]="pmcUserData.includes(user.id)">
-                  <!-- <input class="form-check-input" type="checkbox" id="moveStage"> -->
-                  <label class="form-check-label" [for]="'stage'+user.id">{{user.userFullName}}</label>
-
+                <div class="form-check" *ngFor="let user of clientStaffs">
+                  <input class="form-check-input stagesCheckbox" type="checkbox" [value]="user.clientStaffId"
+                    [id]="'stage'+user.clientStaffId" (change)="addClientUser($event)"
+                    [checked]="clientUser.includes(user.clientStaffId)">
+                  <label class="form-check-label" [for]="'stage'+user.clientStaffId">{{user.clientName}}</label>
                 </div>
               </div>
               <div class="invalid-feedback">
