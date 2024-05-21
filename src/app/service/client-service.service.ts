@@ -786,12 +786,21 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/schemePmcSubunits/save`, data)
   }
 
-  getPmcAllocationData(projectId, structureId, pmcId, tradeId){
-    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemePmcSubunits/getallbyid/${projectId}/${structureId}/${pmcId}/${tradeId}`)
+
+  // getPmcAllocationData(projectId, structureId, pmcId, tradeId){
+  //   return this.httpClient.get<Array<any>>(${this.REST_API_SERVER}/schemePmcSubunits/getallbyid/${projectId}/${structureId}/${pmcId}/${tradeId})
+  // }
+
+  getPmcAllocationData(projectId, structureId, pmcId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemePmcSubunits/getallbypmcid/${projectId}/${structureId}/${pmcId}`)
   }
 
-  updatePmcAllocation(projectId,structureId, pmcId, tradeId, data){
-    return this.httpClient.put(`${this.REST_API_SERVER}/schemePmcSubunits/update/${projectId}/${structureId}/${pmcId}/${tradeId}`, data)
+  // updatePmcAllocation(projectId,structureId, pmcId, tradeId, data){
+  //   return this.httpClient.put(${this.REST_API_SERVER}/schemePmcSubunits/update/${projectId}/${structureId}/${pmcId}/${tradeId}, data)
+  // }
+
+  updatePmcAllocation(projectId,structureId, pmcId, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/schemePmcSubunits/updatebyprojectstructureandpmcid/${projectId}/${structureId}/${pmcId}`, data)
   }
 
   // CLIENT ALLOCATION
@@ -799,13 +808,23 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/schemeclientallocation/save`, data)
   }
 
-  getClientAllocationData(projectId, structureId, clientId, tradeId){
-    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemeclientallocation/getallbyid/${projectId}/${structureId}/${clientId}/${tradeId}`)
+  // getClientAllocationData(projectId, structureId, clientId, tradeId){
+  //   return this.httpClient.get<Array<any>>(${this.REST_API_SERVER}/schemeclientallocation/getallbyid/${projectId}/${structureId}/${clientId}/${tradeId})
+  // }
+
+  getClientAllocationData(projectId, structureId, clientId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemeclientallocation/getallclientsbyid/${projectId}/${structureId}/${clientId}`)
   }
 
-  updateClientAllocation(projectId, structureId, clientId, tradeId , data){
-    return this.httpClient.put(`${this.REST_API_SERVER}/schemeclientallocation/update/${projectId}/${structureId}/${clientId}/${tradeId}`, data)
+  // updateClientAllocation(projectId, structureId, clientId, tradeId , data){
+  //   return this.httpClient.put(${this.REST_API_SERVER}/schemeclientallocation/update/${projectId}/${structureId}/${clientId}/${tradeId}, data)
+  // }
+
+  updateClientAllocation(projectId, structureId, clientId,data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/schemeclientallocation/updateclientbyid/${projectId}/${structureId}/${clientId}`, data)
   }
+
+
   //PMC API CALL
 
   

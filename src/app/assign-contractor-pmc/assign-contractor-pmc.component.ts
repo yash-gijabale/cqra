@@ -13,6 +13,7 @@ import { FormanData } from '../contractor-forman/contractor-forman.component';
 import { clientStaffData } from '../create-client-staff/create-client-staff.component';
 import { currentId } from 'async_hooks';
 import { PmcView } from '../pmc-list/pmc-list.component';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 
 export class AssignSupervisor {
@@ -23,6 +24,7 @@ export class AssignSupervisor {
     public supervisorId: Number,
     public tradeId: number,
     public stageId: number,
+
   ) { }
 }
 
@@ -49,7 +51,8 @@ export class AssignContractorPmcComponent implements OnInit {
   stages: StageData[]
   clients: ClientData[]
   trades: Trade
-  clientStaffs: clientStaffData
+  // clientStaffs: clientStaffData
+  clientStaffs: any
   contractors: ContractorData
   supervisors: SupervisorData
   formans: FormanData
@@ -59,11 +62,16 @@ export class AssignContractorPmcComponent implements OnInit {
 
   SelTrade: any
 
+
+
+
   constructor(
     private commonServices: CommonService,
     private clientService: ClientServiceService,
     private formBuilder: FormBuilder,
-    private tradeService: TradeMaintanceService
+    private tradeService: TradeMaintanceService,
+    private snackbar: SnackBarComponent
+
   ) { }
 
   ngOnInit() {
@@ -105,6 +113,10 @@ export class AssignContractorPmcComponent implements OnInit {
     this.commonServices.getClientProject(this.SelClient).subscribe(data => this.projects = data)
   }
   getStructure() {
+
+    this.pmc = [];
+    // this.contractors = [];
+
     this.commonServices.getStructures(this.SelClient, this.SelProject)
       .subscribe(data => {
         console.log(data)
@@ -117,15 +129,27 @@ export class AssignContractorPmcComponent implements OnInit {
         this.trades = data
       })
 
-    this.clientService.getClientStaffByProjectId(this.SelProject)
-      .subscribe(data => {
-        console.log(data)
-        this.clientStaffs = data
-      })
+    if (this.allocationType == 3) {
+      this.clientService.getClientStaffByProjectId(this.SelProject)
+        .subscribe(data => {
+          console.log(data)
+          this.clientStaffs = data
+        })
+    } else {
+      console.log('ClientStaff Not Found')
+    }
 
     if (this.allocationType == 2) {
       this.clientService.getPmcByprojectId(this.SelProject)
-        .subscribe(data => this.pmc = data)
+        .subscribe(data => {
+          if (data.length) {
+            console.log('All Present PMC in project-->', data);
+            this.pmc = data
+          } else {
+            console.log('Pmc Not Found');
+            this.pmc = [];
+          }
+        })
     } else {
       this.clientService.getContractorByProjectId(this.SelProject)
         .subscribe(data => this.contractors = data)
@@ -139,6 +163,7 @@ export class AssignContractorPmcComponent implements OnInit {
         console.log(data)
         this.pmcUser = data
       }, err => this.pmcUser = [])
+    this.getPmcAllocationData()
   }
 
   stageLoad: boolean = false
@@ -149,9 +174,71 @@ export class AssignContractorPmcComponent implements OnInit {
         console.log(data)
         this.stages = data
         this.stageLoad = false
-      })
-
+      });
   }
+
+
+  showStatus: boolean = false
+  isFound: boolean = false
+  stageLoad1: boolean = false
+  getStages1() {
+    this.stageLoad = true
+    this.commonServices.getStages(this.SelClient, this.SelProject, this.SelStructure)
+      .subscribe(data => {
+        console.log('stages data', data)
+        this.stages = data
+        this.stageLoad = false
+      })
+    this.getClientAllocationData();
+    this.stages = [];
+  }
+
+
+  updatePmcAllocation: boolean = false
+  getPmcAllocationData() {
+    this.clientService.getPmcAllocationData(this.SelProject, this.SelStructure, this.Selpmc)
+      .subscribe(data => {
+        if (data.length) {
+          console.log('pre pmc data-->', data)
+          this.showStatus = true
+          this.isFound = true
+          this.updatePmcAllocation = true
+          this.generatepmcAllocation(data);
+        } else {
+          console.log('No data found')
+          this.isFound = false
+          this.pmcUserData = []
+          this.selectedTrade = {}
+          this.selectedStages = {}
+        }
+      })
+  }
+
+
+  updateClientAllocation: boolean = false
+  getClientAllocationData() {
+    this.clientService.getClientAllocationData(this.SelProject, this.SelStructure, this.SelClient)
+      .subscribe(data => {
+        if (data.length) {
+          console.log('pre client data-->', data);
+          console.table(data);
+          this.showStatus = true
+          this.isFound = true
+          this.updateClientAllocation = true
+          this.generateclientAllocation(data);
+        } else {
+          console.log('No data found')
+          this.clientUser = []
+          this.selectedTrade = {}
+          this.selectedStages = {}
+          this.isFound = false
+
+
+        }
+        // this.genarateAllocationData(data, 'client')
+      })
+  }
+
 
 
   getSupervisores() {
@@ -177,16 +264,76 @@ export class AssignContractorPmcComponent implements OnInit {
     }
   }
 
+  selectAllTradesCheckbox(e) {
+    console.log(e)
+    if (e.target.checked) {
+      $('.tradesCheckbox').prop('checked', true);
+    } else {
+      $('.tradesCheckbox').prop('checked', false);
+    }
+  }
+
+
   selectAllStageCheckbox(e) {
     console.log(e)
     if (e.target.checked) {
       $('.stagesCheckbox').prop('checked', true);
-
     } else {
       $('.stagesCheckbox').prop('checked', false);
 
     }
   }
+
+
+  //new for all stages
+  selectAllStages(e) {
+    const checked = e.target.checked;
+    if (checked) {
+      this.stages.forEach(stage => {
+        if (!this.selectedStages[this.currentTrade]) {
+          this.selectedStages[this.currentTrade] = [];
+        }
+        if (!this.selectedStages[this.currentTrade].includes(stage.stageId)) {
+          this.selectedStages[this.currentTrade].push(stage.stageId);
+        }
+      });
+    } else {
+      if (this.selectedStages[this.currentTrade]) {
+        this.selectedStages[this.currentTrade] = [];
+      }
+    }
+    console.log(this.selectedStages);
+  }
+
+
+
+
+
+
+
+
+
+
+  //new for select all checkboxes
+  // selectAllStageCheckboxes(e){
+  //   console.log(e)
+  //   if(e.target.checked){
+  //     $('.stagesCheckboxx').prop('checked',true);
+  //     let stageElem = document.querySelectorAll('.stagesCheckboxx')
+  //     let stagesId = []
+  //     stageElem.forEach(item=>{
+  //       let id = Number((<HTMLInputElement>item).value)
+  //       stagesId.push(id)
+  //     })
+  //     this.selectedStages[Number(this.currentTrade)] = stagesId
+  //     console.log('with all checkboxes',this.selectedStages)
+  //   }else{
+  //     $('stagesCheckboxx').prop('checked',false);
+  //     this.selectedStages[Number(this.currentTrade)] = []
+  //   }
+  // }
+
+
   selectAllUnitCheckbox(e) {
     console.log(e)
     if (e.target.checked) {
@@ -225,12 +372,15 @@ export class AssignContractorPmcComponent implements OnInit {
   }
 
 
+  stageData = {}
+  tradeData = []
   unitData = {}
   subUnitData = {}
   allocationData = {}
   unitAllocationData = {}
   units: Array<Object> = []
   currentStage: Number
+  currentTrade: any
   unitLoad: boolean = false
   selectedStates = []
   disabledUnits: boolean = true
@@ -280,21 +430,24 @@ export class AssignContractorPmcComponent implements OnInit {
 
 
   getPreAllocation() {
-
-    if (this.allocationType == 1) {
+    if (this.allocationType === 1) {
       console.log('foreman get')
       this.getForemanData()
-
       console.log('suoervisor get')
       this.getSuprevisorData()
-    } else if(this.allocationType == 2) {
+
+    } else if (this.allocationType === 2) {
       console.log('pmc get')
       this.getPmcAllocationData()
-    }else if(this.allocationType == 3){
+      console.log('pmc data')
+
+    } else if (this.allocationType === 3) {
       console.log('client get')
       this.getClientAllocationData()
     }
   }
+
+
 
   // supervisorAllocation = []
   isSupervisroAllocationPresent: boolean = false
@@ -329,6 +482,7 @@ export class AssignContractorPmcComponent implements OnInit {
 
         } else {
           this.isForemanAllocationUpdate = false
+
           this.formanData = []
           this.selectedTrade = {}
 
@@ -339,42 +493,93 @@ export class AssignContractorPmcComponent implements OnInit {
   }
 
 
-  updatePmcAllocation: boolean = false
-  getPmcAllocationData() {
-    this.clientService.getPmcAllocationData(this.SelProject, this.SelStructure, this.Selpmc, this.SelTrade)
-      .subscribe(data => {
-        console.log('pre pmc data-->', data)
-        if (data.length) {
-          this.updatePmcAllocation = true
-        }else{
-          this.updatePmcAllocation = false
-          this.pmcUserData = []
-          this.selectedTrade = {}
-        }
-        this.genarateAllocationData(data, 'pmc')
-      })
+  // updatePmcAllocation: boolean = false
+  // getPmcAllocationData() {
+  //   this.clientService.getPmcAllocationData(this.SelProject, this.SelStructure, this.Selpmc, this.SelTrade)
+  //     .subscribe(data => {
+  //       console.log('pre pmc data-->', data)
+  //       if (data.length) {
+  //         this.updatePmcAllocation = true
+  //       }else{
+  //         this.pmcUserData = []
+  //         this.selectedTrade = {}
+  //       }
+  //       this.genarateAllocationData(data, 'pmc')
+  //     })
+  // }
+
+
+
+
+
+
+
+
+
+
+
+
+  //new pmc allocation
+  //selectedTrade
+  generatepmcAllocation(data) {
+    this.selectedStages = {};
+    data.forEach(item => {
+      if (!this.selectedStages[item.tradeId]) {
+        this.selectedStages[item.tradeId] = [];
+      }
+
+      if (!this.selectedStages[item.tradeId].includes(item.stageId)) {
+        this.selectedStages[item.tradeId].push(item.stageId);
+      }
+    });
+    console.log('pmc pre arr', this.selectedStages);
+
+    data.forEach(item => {
+      if (!this.pmcUserData.includes(item.userId)) {
+        this.pmcUserData.push(item.userId)
+      }
+
+    });
+    console.log('pmc user-->', this.pmcUserData);
+
   }
 
-  updateClientAllocation: boolean = false
-  getClientAllocationData() {
-    this.clientService.getClientAllocationData(this.SelProject, this.SelStructure, this.SelClient, this.SelTrade)
-      .subscribe(data => {
-        console.log('pre client data-->', data)
-        if (data.length) {
-          this.updateClientAllocation = true
-        }else{
-          this.updateClientAllocation = false
-          this.clientUser = []
-          this.selectedTrade = {}
-        }
-        this.genarateAllocationData(data, 'client')
-      })
+
+
+  generateclientAllocation(data) {
+    this.selectedStages = {};
+    data.forEach(item => {
+      if (!this.selectedStages[item.tradeId]) {
+        this.selectedStages[item.tradeId] = [];
+      }
+
+      if (!this.selectedStages[item.tradeId].includes(item.stageId)) {
+        this.selectedStages[item.tradeId].push(item.stageId);
+      }
+    });
+    console.log('client pre arr', this.selectedStages);
+    // console.table(this.selectedStages);
+
+    data.forEach(item => {
+      if (!this.clientUser.includes(item.clientStaffId)) {
+        this.clientUser.push(item.clientStaffId)
+      }
+
+    });
+    console.log('client user-->', this.clientUser);
   }
+
+
+
+
+
+
+
+
 
   allocatedTrade = {}
   allocatedStructure: Object = {}
   genarateAllocationData(data, type) {
- 
     this.selectedTrade = {}
     data.forEach(item => {
       if (this.selectedTrade[item.stageId]) {
@@ -444,7 +649,7 @@ export class AssignContractorPmcComponent implements OnInit {
     if (!this.unitData[String(stageId)] || this.unitData[String(stageId)].length == 0) {
       this.commonServices.getUnits(this.SelClient, this.SelProject, this.SelStructure, stageId)
         .subscribe(data => {
-          console.log(data)
+          // console.log(data)
           // this.stages = data
           this.unitData[String(stageId)] = data
           this.units = data
@@ -457,6 +662,22 @@ export class AssignContractorPmcComponent implements OnInit {
     }
   }
 
+  showstage(tradeId) {
+    this.currentTrade = Number(tradeId)
+    if (!this.stageData[String(tradeId)] || this.stageData[String(tradeId)].length == 0) {
+      // this.commonServices.getStages(this.SelClient,)
+      this.commonServices.getStages(this.SelClient, this.SelProject, this.SelStructure)
+        .subscribe(data => {
+          // console.log(data)
+          this.stageData[String(tradeId)] = data
+          this.stages = data
+        })
+    } else {
+      this.stages = this.stageData[String(tradeId)]
+    }
+  }
+
+
   addStagesTotrade(e) {
     this.currentStage = Number(e.target.value)
     if (e.target.checked) {
@@ -468,6 +689,48 @@ export class AssignContractorPmcComponent implements OnInit {
     console.log(this.selectedTrade)
   }
 
+
+
+  //for allocationType 2 and 3
+  addStagesTotrade1(e) {
+    const stageId = Number(e.target.value);
+    if (e.target.checked) {
+      if (!this.selectedStages[this.currentTrade]) {
+        this.selectedStages[this.currentTrade] = [];
+      }
+      this.selectedStages[this.currentTrade].push(stageId);
+    } else {
+      const index = this.selectedStages[this.currentTrade].indexOf(stageId);
+      if (index !== -1) {
+        this.selectedStages[this.currentTrade].splice(index, 1);
+      }
+    }
+    console.log(this.selectedStages);
+  }
+
+
+
+
+  //new for trades
+  addtradesTostages(e) {
+    this.currentTrade = Number(e.target.value);
+    console.log("Current Trade ID: ", this.currentTrade);
+    // this.addStagesTotrade(e)
+    if (e.target.checked) {
+      this.showstage(this.currentTrade);
+      this.selectedStages[Number(this.currentTrade)] = []
+    } else {
+      delete this.selectedStages[Number(this.currentTrade)]
+    }
+    console.log(this.selectedStages)
+  }
+
+
+
+
+
+
+
   addUnitToStage(e) {
     this.currentUnit = Number(e.target.value)
     if (e.target.checked) {
@@ -477,6 +740,20 @@ export class AssignContractorPmcComponent implements OnInit {
       delete this.selectedTrade[Number(this.currentStage)][Number(e.target.value)]
     }
     console.log(this.selectedTrade)
+  }
+
+
+  // tradeData=[]
+  tradeselect(e) {
+    let id = Number(e.target.value)
+    if (e.target.checked) {
+      this.tradeData.push(id)
+    } else {
+      this.tradeData = this.tradeData.filter(item => {
+        return item != id
+      })
+    }
+    console.log(this.tradeData)
   }
 
 
@@ -521,7 +798,7 @@ export class AssignContractorPmcComponent implements OnInit {
   }
 
   clientUser = []
-  addClientUser(e){
+  addClientUser(e) {
     let id = Number(e.target.value)
     if (e.target.checked) {
       this.clientUser.push(id)
@@ -530,7 +807,18 @@ export class AssignContractorPmcComponent implements OnInit {
         return item != id
       })
     }
-    console.log('client -->',this.clientUser)
+    console.log('client staff -->', this.clientUser)
+  }
+
+  //new for select all clientstaffs
+  selectAllClientStaff(e) {
+    const checked = e.target.checked;
+    if (checked) {
+      this.clientUser = this.clientStaffs.map(staff => staff.clientStaffId);
+    } else {
+      this.clientUser = [];
+    }
+    console.log('client -->', this.clientUser);
   }
 
   onSubmit() {
@@ -550,23 +838,19 @@ export class AssignContractorPmcComponent implements OnInit {
               data['units'] = unitId
               data['suunits'] = subunit
               allocationData.push(data)
-
             })
 
           } else {
             data['stageId'] = stageId
             data['units'] = unitId
             allocationData.push(data)
-
           }
-
         }
 
       } else {
         data['stageId'] = stageId
         allocationData.push(data)
       }
-
     }
     console.log(allocationData)
     if (this.allocationType == 1) {
@@ -582,31 +866,29 @@ export class AssignContractorPmcComponent implements OnInit {
               tradeId: this.registerForm.value.tradeId,
               supervisorId: supId,
             }
-
             supervisorArray.push(supData)
           })
         })
-
         console.log(supervisorArray)
-
         if (this.isSupervisroAllocationPresent) {
           this.clientService.updateAssignSupervisorByTrade(this.SelProject, this.SelStructure, this.SelContractor, this.SelTrade, supervisorArray)
             .subscribe(data => {
               console.log('supervisro updated-->', data)
               this.isbtnLoading = false
+              this.snackbar.showSuccess('Contractor Allocation Updated')
             }, err => {
-
+              this.snackbar.showSnackError()
             })
         } else {
-
           this.clientService.assignContractorSupervisor(supervisorArray)
             .subscribe(data => {
               console.log('super assigned-->', data)
               this.isbtnLoading = false
+              this.snackbar.showSuccess('Contractor Allocated!')
             },
-              err => console.log(err))
+              err => console.log(err));
+          this.snackbar.showSnackError()
         }
-
       }
 
       if (this.formanData.length) {
@@ -633,110 +915,233 @@ export class AssignContractorPmcComponent implements OnInit {
             .subscribe(data => {
               console.log('foreman updated', data)
               this.isbtnLoading = false
+              this.snackbar.showSuccess('Contractor Allocation Updated!')
             }, err => {
               console.log(err)
+              this.snackbar.showSnackError()
             })
 
         } else {
           this.clientService.assignContractorForeman(formanArray)
             .subscribe(data => {
               console.log('assisned foreman-->', data)
+              this.snackbar.showSuccess('Contractor Allocated!')
               this.isbtnLoading = false
             },
               err => console.log(err))
+          this.snackbar.showSnackError()
         }
       }
     } else if (this.allocationType == 2) {
-      this.handlePmcAllocation(allocationData)
-    }else if(this.allocationType == 3){
-      this.handleClientAllocation(allocationData)
+      this.handlePmcAllocation1(allocationData)
+    } else if (this.allocationType == 3) {
+      this.handleClientAllocation1(allocationData)
     }
   }
 
 
-  handlePmcAllocation(data) {
-    let pmcAllocation = []
-    data.forEach(data => {
-      this.pmcUserData.forEach(pmcuser => {
-        let supData = {
-          schemeId: this.registerForm.value.schemeId,
-          structureId: this.registerForm.value.structureId,
-          pmcId: this.registerForm.value.pmcId,
-          // clientStaffId: this.registerForm.value.clientStaffId,
-          stageId: data.stageId ? data.stageId : null,
-          tradeId: this.registerForm.value.tradeId,
-          subunits: data.suunits ? data.suunits : null,
-          units: data.units ? data.units : null,
-          userId: pmcuser,
-        }
-
-        pmcAllocation.push(supData)
-      })
-    })
-
-    console.log('pmc allo data', pmcAllocation)
-    if (this.updatePmcAllocation) {
-      this.clientService.updatePmcAllocation(this.SelProject, this.SelStructure, this.Selpmc, this.SelTrade, pmcAllocation)
-      .subscribe(data =>{
-        console.log('pmc updtaed', data)
-      }, err =>{
-        console.log(err)
-      })
-
-    } else {
-      this.clientService.addPmcAllocation(pmcAllocation)
-        .subscribe(data => {
-          console.log('pmc allocated-->', data)
-        }, err => {
-          console.log(err)
+  handleClientAllocation1(data) {
+    let clientAllocation = [];
+    for (const tradeId in this.selectedStages) {
+      if (this.selectedStages[tradeId].length) {
+        this.selectedStages[tradeId].forEach(stageId => {
+          let data = {};
+          data['tradeId'] = tradeId;
+          data['stageId'] = stageId;
+          clientAllocation.push(data);
         })
+      } else { }
     }
-
-
-  }
-
-  handleClientAllocation(data){
-    let clientAllocation = []
-    data.forEach(data => {
-      this.clientUser.forEach(user => {
-        let supData = {
-          schemeId: this.registerForm.value.schemeId,
-          structureId: this.registerForm.value.structureId,
-          clientId: this.registerForm.value.clientId,
-          stageId: data.stageId ? data.stageId : null,
-          tradeId: this.registerForm.value.tradeId,
-          subunits: data.suunits ? data.suunits : null,
-          units: data.units  ? data.units : null,
-          clientStaffId: user,
-        }
-
-        clientAllocation.push(supData)
-      })
-    })
-
-    console.log('client Alloca', clientAllocation)
-
-    if (this.updatePmcAllocation) {
-      this.clientService.updateClientAllocation(this.SelProject, this.SelStructure, this.SelClient, this.SelTrade, clientAllocation)
-      .subscribe(data =>{
-        console.log('client updtaed', data)
-      }, err =>{
-        console.log(err)
-      })
-
-    } else {
-      this.clientService.addClientAllocation(clientAllocation)
-        .subscribe(data => {
-          console.log('client allocated-->', data)
-        }, err => {
-          console.log(err)
+    console.log(clientAllocation);
+    if (this.allocationType == 3) {
+      if (this.clientUser.length) {
+        console.log(this.clientUser);
+        let clientarray = []
+        clientAllocation.forEach(data => {
+          this.clientUser.forEach(cliUser => {
+            let clientData = {
+              ...data,
+              schemeId: this.registerForm.value.schemeId,
+              structureId: this.registerForm.value.structureId,
+              clientId: this.registerForm.value.clientId,
+              // pmcId:this.registerForm.value.pmcId,
+              subunits: data.suunits ? data.suunits : null,
+              units: data.units ? data.units : null,
+              clientStaffId: cliUser,
+            }
+            clientarray.push(clientData)
+          })
         })
+        console.log(clientarray);
+        if (this.updateClientAllocation) {
+          this.clientService.updateClientAllocation(this.SelProject, this.SelStructure, this.SelClient, clientarray)
+            .subscribe(data => {
+              console.log('client updtaed', data)
+              this.snackbar.showSuccess('Client Allocation Updated!')
+            }, err => {
+              console.log(err)
+              this.snackbar.showSnackError()
+            })
+        } else {
+          this.clientService.addClientAllocation(clientarray)
+            .subscribe(data => {
+              console.log('client allocated-->', data)
+              this.snackbar.showSuccess('Client Allocated!')
+            }, err => {
+              console.log(err)
+              this.snackbar.showSnackError()
+            })
+        }
+      }
     }
 
   }
+
+
+  handlePmcAllocation1(data) {
+    let pmcAllocation = [];
+    for (const tradeId in this.selectedStages) {
+      if (this.selectedStages[tradeId].length) {
+        this.selectedStages[tradeId].forEach(stageId => {
+          let data = {};
+          data['tradeId'] = tradeId;
+          data['stageId'] = stageId;
+          pmcAllocation.push(data);
+        });
+      } else {
+
+      }
+    }
+    console.log(pmcAllocation);
+    // return pmcAllocation;
+    if (this.allocationType == 2) {
+      if (this.pmcUserData.length) {
+        console.log(this.pmcUserData);
+        let pmcarray = []
+        pmcAllocation.forEach(data => {
+          this.pmcUserData.forEach(pmcuser => {
+            let pmcData = {
+              ...data,
+              schemeId: this.registerForm.value.schemeId,
+              structureId: this.registerForm.value.structureId,
+              pmcId: this.registerForm.value.pmcId,
+              subunits: data.suunits ? data.suunits : null,
+              units: data.units ? data.units : null,
+              userId: pmcuser,
+            }
+            pmcarray.push(pmcData)
+          })
+        })
+        console.log(pmcarray);
+        if (this.updatePmcAllocation) {
+          this.clientService.updatePmcAllocation(this.SelProject, this.SelStructure, this.Selpmc, pmcarray)
+            .subscribe(data => {
+              console.log('pmc updated', data)
+              this.snackbar.showSuccess('PMC Allocation Updated!')
+            }, err => {
+              console.log(err)
+              this.snackbar.showSnackError()
+            })
+        } else {
+          this.clientService.addPmcAllocation(pmcarray)
+            .subscribe(data => {
+              console.log('pmc allocated-->', data)
+              this.snackbar.showSuccess('PMC Allocated!')
+            }, err => {
+              console.log(err)
+              this.snackbar.showSnackError()
+            })
+        }
+      }
+
+    }
+  }
+
+
+
+
+
+  // handlePmcAllocation(data) {
+  //   let pmcAllocation = []
+  //   data.forEach(data => {
+  //     this.pmcUserData.forEach(pmcuser => {
+  //       let supData = {
+  //         schemeId: this.registerForm.value.schemeId,
+  //         structureId: this.registerForm.value.structureId,
+  //         pmcId: this.registerForm.value.pmcId,
+  //         // clientStaffId: this.registerForm.value.clientStaffId,
+  //         stageId: data.stageId ? data.stageId : null,
+  //         tradeId: this.registerForm.value.tradeId,
+  //         subunits: data.suunits ? data.suunits : null,
+  //         units: data.units ? data.units : null,
+  //         userId: pmcuser,
+  //       }
+
+  //       pmcAllocation.push(supData)
+  //     })
+  //   })
+
+  //   console.log('pmc allo data', pmcAllocation)
+  //   if (this.updatePmcAllocation) {
+  //     this.clientService.updatePmcAllocation(this.SelProject, this.SelStructure, this.Selpmc, this.SelTrade, pmcAllocation)
+  //     .subscribe(data =>{
+  //       console.log('pmc updtaed', data)
+  //     }, err =>{
+  //       console.log(err)
+  //     })
+
+  //   } else {
+  //     this.clientService.addPmcAllocation(pmcAllocation)
+  //       .subscribe(data => {
+  //         console.log('pmc allocated-->', data)
+  //       }, err => {
+  //         console.log(err)
+  //       })
+  //   }
+  // }
+
+
+
+  // handleClientAllocation(data){
+  //   let clientAllocation = []
+  //   data.forEach(data => {
+  //     this.clientUser.forEach(user => {
+  //       let supData = {
+  //         schemeId: this.registerForm.value.schemeId,
+  //         structureId: this.registerForm.value.structureId,
+  //         clientId: this.registerForm.value.clientId,
+  //         stageId: data.stageId ? data.stageId : null,
+  //         tradeId: this.registerForm.value.tradeId,
+  //         subunits: data.suunits ? data.suunits : null,
+  //         units: data.units  ? data.units : null,
+  //         clientStaffId: user,
+  //       }
+
+  //       clientAllocation.push(supData)
+  //     })
+  //   })
+
+  //   console.log('client Alloca', clientAllocation)
+
+  //   if (this.updatePmcAllocation) {
+  //     this.clientService.updateClientAllocation(this.SelProject, this.SelStructure, this.SelClient, this.SelTrade, clientAllocation)
+  //     .subscribe(data =>{
+  //       console.log('client updtaed', data)
+  //     }, err =>{
+  //       console.log(err)
+  //     })
+
+  //   } else {
+  //     this.clientService.addClientAllocation(clientAllocation)
+  //       .subscribe(data => {
+  //         console.log('client allocated-->', data)
+  //       }, err => {
+  //         console.log(err)
+  //       })
+  //   }
+
+  // }
+
+
+
 }
-
-
-
-
-

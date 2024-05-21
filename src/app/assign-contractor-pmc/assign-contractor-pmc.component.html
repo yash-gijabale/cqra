@@ -13,7 +13,8 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/client" style="color: white; text-decoration: none;">Manage Client </a> </button>
+            <button type="button"> <a routerLink="/client" style="color: white; text-decoration: none;">Manage Client
+              </a> </button>
           </div>
         </div>
       </div>
@@ -80,7 +81,7 @@
             </div>
           </div>
 
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-4" *ngIf="allocationType==1 || allocationType==2">
             <label>Structure Name</label>
             <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control"
               (change)="getStages()">
@@ -92,6 +93,21 @@
             <div class="invalid-feedback">
             </div>
           </div>
+
+          <div *ngIf="allocationType==3" class="form-group col-md-4">
+            <label>Structure Name</label>
+            <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control"
+              (change)="getStages1()">
+              <option [value]="0">Please Select</option>
+              <option [value]="o.structureId" *ngFor="let o of structures">
+                {{o.structureName}}
+              </option>
+            </select>
+            <div class="invalid-feedback">
+            </div>
+          </div>
+
+
 
           <!-- <div class="form-group col-md-4">
             <label>Client Staff</label>
@@ -128,7 +144,7 @@
             </div>
           </div>
 
-          <div class="form-group col-md-4">
+          <div class="form-group col-md-4" *ngIf="allocationType==1">
             <label>Select Trade</label>
             <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getPreAllocation()">
               <option [value]="0">Please Select</option>
@@ -140,13 +156,51 @@
             </div>
           </div>
 
+          <div class="form-group row col-md-12 ml-2">
+            <span class="badge badge-danger" *ngIf="showStatus && !isFound">No Allocation Found</span>
+            <span class="badge badge-success" *ngIf="showStatus && isFound">Allocation Found</span>
+          </div>
+
 
           <!-- <div class="form-group col-md-4">
             <button class="btn btn-sm btn-success mt-4" type="button" (click)="getPreAllocation()">Get
               Allocation</button>
           </div> -->
 
+
+
+
+
           <div class="row col-md-12">
+
+            <!-- select trade -->
+            <div class="form-group col-md-4" *ngIf="allocationType==2 || allocationType==3">
+              <label style="font-weight: 600;">Select Trade</label>
+              <div *ngIf="tradeload" class="userdeailsload row d-flex justify-content-center ckechbox-select">
+                <div class="spinner-border text-warning" role="status">
+                </div>
+              </div>
+              <div *ngIf="!tradeload" class="ckechbox-select">
+                <!-- <div class="form-check" *ngIf="trades">
+                  <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
+                    (change)="selectAllTradesCheckbox($event)">
+                  <label class="form-check-label" for="flexCheckDefault">Select All</label>
+                </div> -->
+                <div class="form-check" *ngFor="let o of trades">
+                  <input class="form-check-input tradesCheckbox" type="checkbox" [value]="o.fkTradeId"
+                    [id]="'trade'+o.fkTradeId" (change)="addtradesTostages($event)"
+                    [checked]="selectedStages[o.fkTradeId]">
+                  <label [class]="currentTrade == o.fkTradeId? 'form-check-label t-bold':'form-check-label'"
+                    (click)="showstage(o.fkTradeId)" role="button">{{o.tradeName}}</label>
+                </div>
+              </div>
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+
+
+            <!-- select stage -->
             <div class="form-group col-md-4">
               <label style="font-weight: 600;">Select Stages</label>
               <div *ngIf="stageLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
@@ -155,22 +209,37 @@
               </div>
               <div *ngIf="!stageLoad" class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
-                  <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
+                  <input *ngIf="allocationType===1" class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
                     (change)="selectAllStageCheckbox($event)">
+
+                  <input *ngIf="allocationType===2 || allocationType === 3" class="form-check-input" type="checkbox"
+                    id="selectAllTradeCheckbox" (change)="selectAllStages($event)">
                   <label class="form-check-label" for="flexCheckDefault">Select All</label>
                 </div>
+
                 <div class="form-check" *ngFor="let o of stages">
-                  <input class="form-check-input stagesCheckbox" type="checkbox" [value]="o.stageId"
-                    [id]="'stage'+o.stageId" (change)="addStagesTotrade($event)" [checked]=" selectedTrade[o.stageId]">
-                  <label [class]="currentStage == o.stageId ? 'form-check-label t-bold':'form-check-label'"
+                  <input *ngIf="allocationType===1" class="form-check-input stagesCheckbox" type="checkbox"
+                    [value]="o.stageId" [id]="'stage'+o.stageId" (change)="addStagesTotrade($event)"
+                    [checked]=" selectedTrade[o.stageId]">
+                  <label *ngIf="allocationType===1"
+                    [class]="currentStage == o.stageId ? 'form-check-label t-bold':'form-check-label'"
                     (click)="showUnits(o.stageId)" role="button">{{o.stageName}}</label>
+
+                  <input *ngIf="allocationType===2 || allocationType===3" class="form-check-input stagesCheckboxx"
+                    type="checkbox" [value]="o.stageId" [id]="'stage'+o.stageId" (change)="addStagesTotrade1($event)"
+                    [checked]=" selectedStages[currentTrade] && selectedStages[currentTrade].includes(o.stageId)">
+                  <label *ngIf="allocationType===2 || allocationType===3"
+                    [class]="currentStage == o.stageId ? 'form-check-label t-bold':'form-check-label'"
+                    role="button">{{o.stageName}}</label>
                 </div>
               </div>
               <div class="invalid-feedback">
               </div>
             </div>
 
-            <div class="form-group col-md-4">
+
+            <!-- select Unit -->
+            <div class="form-group col-md-4" *ngIf="allocationType == 1">
               <label style="font-weight: 600;">Select Unit</label>
               <div *ngIf="unitLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
                 <div class="spinner-border text-warning" role="status">
@@ -195,9 +264,10 @@
               </div>
             </div>
 
-            <div class="form-group col-md-4">
-              <label style="font-weight: 600;">Select Subunit</label>
 
+            <!-- select subunit -->
+            <div class="form-group col-md-4" *ngIf="allocationType==1">
+              <label style="font-weight: 600;">Select Subunit</label>
               <div *ngIf="subunitLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
                 <div class="spinner-border text-warning" role="status">
                 </div>
@@ -286,8 +356,7 @@
                 </div>
                 <div class="form-check" *ngFor="let user of pmcUser">
                   <input class="form-check-input stagesCheckbox" type="checkbox" [value]="user.id"
-                    [id]="'stage'+user.id" (change)="addPMCUser($event)"
-                    [checked]="pmcUserData.includes(user.id)">
+                    [id]="'stage'+user.id" (change)="addPMCUser($event)" [checked]="pmcUserData.includes(user.id)">
                   <!-- <input class="form-check-input" type="checkbox" id="moveStage"> -->
                   <label class="form-check-label" [for]="'stage'+user.id">{{user.userFullName}}</label>
 
@@ -300,7 +369,7 @@
 
           <div *ngIf="allocationType==3" class="row col-md-12">
             <div class="form-group col-md-4">
-              <label  style="font-weight: 600;">Client Staff</label>
+              <label style="font-weight: 600;">Client Staff</label>
               <div *ngIf="stageLoad" class="userdeailsload row d-flex justify-content-center ckechbox-select">
                 <div class="spinner-border text-warning" role="status">
                 </div>
@@ -308,7 +377,7 @@
               <div *ngIf="!stageLoad" class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
                   <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
-                    (change)="selectAllStageCheckbox($event)">
+                    (change)="selectAllClientStaff($event)">
                   <label class="form-check-label" for="flexCheckDefault">Select All</label>
                 </div>
                 <div class="form-check" *ngFor="let user of clientStaffs">
@@ -335,4 +404,5 @@
       </div>
     </div>
   </div>
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>
