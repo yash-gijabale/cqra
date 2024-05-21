@@ -104,7 +104,7 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/project/addProject/`, project);
   }
 
-  updateProject(clientData: ProjectData, id) {
+  updateProject(clientData: any, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/project/project/${id}`, clientData);
   }
 

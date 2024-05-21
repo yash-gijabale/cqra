@@ -118,7 +118,8 @@ export class CreateProjectComponent implements OnInit {
       TradeGroupId: ['', Validators.nullValidator],
       TradeId: ['', Validators.nullValidator],
       // noOfStructure: ['', Validators.required],
-      projectType: ['', Validators.required]
+      projectType: ['', Validators.required],
+      showOnReport: [1, Validators.nullValidator]
     });
 
     this.clientServiceService.getAllClients().subscribe((data) => {
@@ -213,17 +214,17 @@ export class CreateProjectComponent implements OnInit {
 
         );
     } else {
-      this.clientServiceService.updateProject(this.projectForm.value, this.id)
+      this.clientServiceService.updateProject(projectFormData, this.id)
         .subscribe(
           data => {
-            console.log(data)
+            console.log('updated', data)
             this.submitLoad = false
             this.tradeAllocation(this.id, true)
             this.sanckBar.showSuccess('Project updated')
 
           },
 
-          err =>{
+          err => {
             this.submitLoad = false
             this.sanckBar.showSnackError()
           }

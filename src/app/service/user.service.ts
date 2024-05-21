@@ -163,6 +163,10 @@ export class UserService {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/addequipmenthistory`, data)
   }
 
+  donloadToolkitPolicy(equipmentId, userId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadtookitpolicyreport/${userId}/${equipmentId}`)
+  }
+
 
   //ASSIGN PROJECT TO USER API CALL
   getAssignedProjectByUserId(id){

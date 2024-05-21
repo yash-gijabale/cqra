@@ -11,6 +11,7 @@ import { UserService } from '../service/user.service';
 import { TradeMaintanceService } from '../trade-maintance.service';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { InspectorTraning } from '../service/inspectionTraining.service';
 
 
 export class SnaggingReportView {
@@ -53,6 +54,8 @@ export class CreateSnaggingDocumentComponent implements OnInit {
   snaggingReportFrom: FormGroup
   snaggingReportId: Number
 
+  userId = Number(localStorage.getItem('id'))
+  masterIds:any
 
   constructor(
     private clientServiceService: ClientServiceService,
@@ -61,7 +64,8 @@ export class CreateSnaggingDocumentComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private tradeService: TradeMaintanceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private inspectionTraining: InspectorTraning
   ) { }
 
   ngOnInit() {
@@ -99,6 +103,14 @@ export class CreateSnaggingDocumentComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     })
+
+    this.inspectionTraining.getMasterIdsByUserId(this.userId)
+      .subscribe(data => {
+        console.log(data)
+        this.masterIds = data
+
+      })
+
 
     if (this.snaggingReportId != -1) {
       let retrivedData;
@@ -142,6 +154,24 @@ export class CreateSnaggingDocumentComponent implements OnInit {
     })
     this.userService.getReviewverList().subscribe(data => this.reviwers = data)
     this.userService.getCreaterList().subscribe(data => this.creaters = data)
+  }
+
+  getMasterDetails(e) {
+    this.inspectionTraining.getMasterDetails(e.target.value, this.userId)
+      .subscribe(data => {
+        console.log('master Data', data)
+        let mData = data
+        this.snaggingReportFrom.patchValue({ clientId: data[0].clientId })
+        this.commonService.getClientProject(data[0].clientId)
+          .subscribe(
+            (data) => {
+              this.projects = data;
+              this.snaggingReportFrom.patchValue({ projectId: mData[0].projectId })
+            })
+        this.snaggingReportFrom.patchValue({ fromDate: new Date(data[0].fromDate).toISOString().substring(0, 10) })
+        this.snaggingReportFrom.patchValue({ toDate: new Date(data[0].toDate).toISOString().substring(0, 10) })
+        this.snaggingReportFrom.patchValue({ cycleId: data[0].cycleId })
+      })
   }
 
   getProjects() {

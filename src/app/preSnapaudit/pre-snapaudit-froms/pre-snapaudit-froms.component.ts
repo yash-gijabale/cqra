@@ -99,8 +99,9 @@ export class PreSnapauditFromsComponent implements OnInit {
   masterData: any = []
   currentMasterId: String = ''
   isLeader: boolean
+  masterDataLoad: boolean = false
   getMasterDetails(e) {
-    // this.loadDeclaration = true
+    this.masterDataLoad = true
     console.log(e.target.value)
     this.currentMasterId = e.target.value
     // this.masterID = e.target.value
@@ -123,6 +124,8 @@ export class PreSnapauditFromsComponent implements OnInit {
         this.masterData.fromDate = this.masterData.fromDate ? new Date(this.masterData.fromDate).toISOString().substring(0, 10) : ''
         this.masterData.toDate = this.masterData.toDate ? new Date(this.masterData.toDate).toISOString().substring(0, 10) : ''
         this.isLeader = this.masterData.leader ? true : false
+        this.masterDataLoad = false
+
       })
   }
 
@@ -397,7 +400,7 @@ export class PreSnapauditFromsComponent implements OnInit {
     let openingStartTime = document.querySelector('#opening_meeting_startTime') as HTMLInputElement
     let openingEndTime = document.querySelector('#opening_meeting_endTime') as HTMLInputElement
     let closingStartTime = document.querySelector('#closing_meeting_startTime') as HTMLInputElement
-    let closingEndTime = document.querySelector('#opening_meeting_endTime') as HTMLInputElement
+    let closingEndTime = document.querySelector('#closing_meeting_endTime') as HTMLInputElement
 
     let oCMeetingAttandance = {
       masterId: this.currentMasterId,
@@ -660,7 +663,7 @@ export class PreSnapauditFromsComponent implements OnInit {
     this.getTeamUser()
     this.inspectionTraining.getInternalReviewForm(this.currentMasterId)
       .subscribe(data => {
-        console.log("all data of internal review",data)
+        console.log("all data of internal review", data)
         if (data[0] || data[1].length) {
           this.isInternalReviewFormData = true
           this.internalReviewMasterData = data[0]
@@ -727,7 +730,7 @@ export class PreSnapauditFromsComponent implements OnInit {
       intRevMeetAtProSite
     }
 
-    console.log("final obj",formData)
+    console.log("final obj", formData)
     if (this.isInternalReviewFormData) {
       this.inspectionTraining.updateInternalReviewForm(this.currentMasterId, formData)
         .subscribe(data => {
@@ -850,6 +853,174 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
   }
 
+
+
+  masterViewData = []
+  getMasterDataForDownload() {
+    this.inspectionTraining.getAllMasterDataView(this.userId)
+      .subscribe(data => {
+        console.log(data)
+        this.masterViewData = data.map(d => {
+          d.fromDate = new Date(d.fromDate).toISOString().substring(0, 10)
+          d.toDate = new Date(d.toDate).toISOString().substring(0, 10)
+          return d
+        })
+
+      }, err => {
+        console.log(err)
+      })
+
+  }
+
+  genLoad = {
+
+  }
+  downloadSampling(data) {
+    let mData = data
+    this.genLoad[mData.masterId] = {}
+    this.genLoad[mData.masterId]['load'] = true
+    this.genLoad[mData.masterId]['error'] = false
+    this.genLoad[mData.masterId]['url'] = ''
+    console.log(mData)
+    this.clientService.generateSamplingFinalReport(mData.clientId, mData.projectId, mData.fromDate, mData.cycleId, mData.toDate, 'pune')
+      .subscribe(data => {
+        console.log('report geneated', data)
+        this.genLoad[mData.masterId].load = false
+        this.genLoad[mData.masterId].error = false
+        this.genLoad[mData.masterId]['url'] = 'hello'
+      }, err => {
+        console.log('err')
+        this.genLoad[mData.masterId].load = false
+        this.genLoad[mData.masterId].error = true
+      })
+  }
+
+  performanceFormload = {
+    load: false,
+    error: false,
+    url: ''
+  }
+  downloadPerformanceForm() {
+    this.performanceFormload.load = true
+    this.inspectionTraining.downloadOnsitePerformanceForm(this.currentMasterId)
+      .subscribe(data => {
+        console.log(data)
+        this.performanceFormload.load = false
+        this.performanceFormload.url = data.url
+
+      }, err => {
+        console.log(err)
+        this.performanceFormload.load = false
+        this.performanceFormload.error = false
+
+      })
+  }
+
+  supervisionForm = {
+    load: false,
+    error: false,
+    url: ''
+  }
+  downloadUpervisionL1L2() {
+    this.supervisionForm.load = true
+    this.inspectionTraining.downloadSupervisionL1L2(this.currentMasterId)
+      .subscribe(data => {
+        console.log(data)
+        this.supervisionForm.load = false
+        this.supervisionForm.url = data.url
+
+      }, err => {
+        console.log(err)
+        this.supervisionForm.load = false
+        this.supervisionForm.error = false
+
+      })
+  }
+
+  openingClosingForm = {
+    load: false,
+    error: false,
+    url: ''
+  }
+  downloadOpeningClosingForm() {
+    this.openingClosingForm.load = true
+    this.inspectionTraining.downloadOpeningClosingMeeting(this.currentMasterId)
+      .subscribe(data => {
+        console.log(data)
+        this.openingClosingForm.load = false
+        this.openingClosingForm.url = data.url
+
+      }, err => {
+        console.log(err)
+        this.openingClosingForm.load = false
+        this.openingClosingForm.error = false
+
+      })
+  }
+
+  internalReviewMeetingForm = {
+    load: false,
+    error: false,
+    url: ''
+  }
+  downloadInternalReviewMeeting() {
+    this.internalReviewMeetingForm.load = true
+    this.inspectionTraining.downloadInternelReviewMeeting(this.currentMasterId)
+      .subscribe(data => {
+        console.log(data)
+        this.internalReviewMeetingForm.load = false
+        this.internalReviewMeetingForm.url = data.url
+
+      }, err => {
+        console.log(err)
+        this.internalReviewMeetingForm.load = false
+        this.internalReviewMeetingForm.error = false
+
+      })
+  }
+
+  teamInspectionForm = {
+    load: false,
+    error: false,
+    url: ''
+  }
+  downloadTeamInspectionForm(){
+    this.teamInspectionForm.load = true
+    this.inspectionTraining.downloadTeamInspectionForm(this.currentMasterId)
+      .subscribe(data => {
+        console.log(data)
+        this.teamInspectionForm.load = false
+        this.teamInspectionForm.url = data.url
+
+      }, err => {
+        console.log(err)
+        this.teamInspectionForm.load = false
+        this.teamInspectionForm.error = false
+
+      })
+  }
+
+  myequipmentFormLoad = {
+    load: false,
+    error: false,
+    url: ''
+  }
+  downloadEquipmentForm(){
+    console.log('generating')
+    this.myequipmentFormLoad.load = true
+    this.inspectionTraining.downloadEquipmentForm(this.currentMasterId, this.userId)
+      .subscribe(data => {
+        console.log(data)
+        this.myequipmentFormLoad.load = false
+        this.myequipmentFormLoad.url = data.url
+
+      }, err => {
+        console.log(err)
+        this.myequipmentFormLoad.load = false
+        this.myequipmentFormLoad.error = false
+
+      })
+  }
 
 
 }

@@ -83,6 +83,8 @@ export class CreateChecklistComponent implements OnInit {
 
   checkListId: Number
 
+  checkedQuestionObj = {}
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -100,64 +102,6 @@ export class CreateChecklistComponent implements OnInit {
     // this.finalCheckList = [];
   }
 
-  addToCheckList() {
-    this.tempQuestions.forEach((q) => {
-      let index = this.questionList2.indexOf(q);
-      this.questionList2.splice(index, 1);
-      this.finalQuestion.push(q);
-    });
-    this.tempQuestions = [];
-    console.log('final list', this.finalQuestion)
-  }
-  removeFromCheckList() {
-    this.tempQuestions.forEach((q) => {
-      let index = this.finalQuestion.indexOf(q);
-      this.finalQuestion.splice(index, 1);
-      this.questionList2.push(q);
-    });
-    this.tempQuestions = [];
-  }
-  onMoveCheck(question: Question, isChecked: boolean) {
-    if (isChecked) {
-      this.tempQuestions.push(question);
-    } else {
-      let removed = this.tempQuestions.filter((q, ind) => {
-        return q.questionId === question.questionId ? ind : "";
-      });
-      let index = this.tempQuestions.indexOf(removed[0]);
-      this.tempQuestions.splice(index, 1);
-    }
-
-    console.log('added',this.tempQuestions)
-  }
-
-  onRemoveCheck(question: Question, isChecked: boolean) {
-    if (isChecked) {
-      this.tempQuestions.push(question);
-    } else {
-      let removed = this.tempQuestions.filter((q, ind) => {
-        return q.questionId === question.questionId ? ind : "";
-      });
-      let index = this.tempQuestions.indexOf(removed[0]);
-      this.tempQuestions.splice(index, 1);
-    }
-  }
-  drop(event: CdkDragDrop<object[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-  }
 
   ngOnInit() {
 
@@ -186,10 +130,25 @@ export class CreateChecklistComponent implements OnInit {
       this.commonService.getAllocatedQuestion(this.checkListId)
         .subscribe(data => {
           let allocatedQ = data
-          console.log(data)
+          console.log('pre-->', data)
+          let e = {
+            target: {
+              checked: true
+            }
+          }
           allocatedQ.forEach(item => {
-            this.finalQuestion.push(item)
+            this.onMoveCheck(item.questionGroup, e, item)
+
+            if (this.checkedQuestionObj[item.questionGroup]) {
+              this.checkedQuestionObj[item.questionGroup][item.questionId] = true
+            }else{
+              this.checkedQuestionObj[item.questionGroup] = {}
+              this.checkedQuestionObj[item.questionGroup][item.questionId] = true
+            }
           })
+
+          this.assignQuestions = this.selectedQuestions
+          console.log(this.checkedQuestionObj)
         })
 
     }
@@ -208,13 +167,147 @@ export class CreateChecklistComponent implements OnInit {
       fkTradeId: ["", Validators.required],
       checklistName: ["", Validators.required],
       fkSubgroupId: ["", Validators.required],
-      questionGroup: ["", Validators.required]
+      // questionGroup: ["", Validators.required]
     });
 
     // console.log(this.formData);
 
 
   }
+
+  // addToCheckList() {
+  //   this.tempQuestions.forEach((q) => {
+  //     let index = this.questionList2.indexOf(q);
+  //     this.questionList2.splice(index, 1);
+  //     this.finalQuestion.push(q);
+  //   });
+  //   this.tempQuestions = [];
+  //   console.log('final list', this.finalQuestion)
+  // }
+
+  assignQuestions = {}
+  addToCheckList() {
+    this.assignQuestions = this.selectedQuestions
+  }
+
+  removeFromCheckList() {
+    // this.tempQuestions.forEach((q) => {
+    //   let index = this.finalQuestion.indexOf(q);
+    //   this.finalQuestion.splice(index, 1);
+    //   this.questionList2.push(q);
+    // });
+    // this.tempQuestions = [];
+    for (const key in this.deSelect) {
+      this.deSelect[key].forEach(q => {
+
+        delete this.checkedQuestionObj[key][q]
+
+        this.assignQuestions[key] = this.assignQuestions[key].filter(aq => {
+          return q != aq.questionId
+        })
+      })
+    }
+
+    this.deSelect = {}
+  }
+
+  //OLD
+  // onMoveCheck(question: Question, isChecked: boolean) {
+  //   if (isChecked) {
+  //     this.tempQuestions.push(question);
+  //   } else {
+  //     let removed = this.tempQuestions.filter((q, ind) => {
+  //       return q.questionId === question.questionId ? ind : "";
+  //     });
+  //     let index = this.tempQuestions.indexOf(removed[0]);
+  //     this.tempQuestions.splice(index, 1);
+  //   }
+
+  //   console.log('added', this.tempQuestions)
+  // }
+
+  // NEW
+  onMoveCheck(groupId, e, q) {
+    if (e.target.checked) {
+      if (this.selectedQuestions[groupId]) {
+        this.selectedQuestions[groupId].push(q)
+
+      } else {
+        this.selectedQuestions[groupId] = []
+        this.selectedQuestions[groupId].push(q)
+      }
+
+      if (this.checkedQuestionObj[q.questionGroup]) {
+        this.checkedQuestionObj[q.questionGroup][q.questionId] = true
+      }else{
+        this.checkedQuestionObj[q.questionGroup] = {}
+        this.checkedQuestionObj[q.questionGroup][q.questionId] = true
+      }
+
+    } else {
+
+      this.selectedQuestions[groupId] = this.selectedQuestions[groupId].filter(quetion => {
+        return quetion.questionId != q.questionId
+      })
+
+      delete this.checkedQuestionObj[q.questionGroup][q.questionId]
+    }
+
+    console.log(this.selectedQuestions)
+  }
+
+  // onRemoveCheck(question: Question, isChecked: boolean) {
+  //   if (isChecked) {
+  //     this.tempQuestions.push(question);
+  //   } else {
+  //     let removed = this.tempQuestions.filter((q, ind) => {
+  //       return q.questionId === question.questionId ? ind : "";
+  //     });
+  //     let index = this.tempQuestions.indexOf(removed[0]);
+  //     this.tempQuestions.splice(index, 1);
+  //   }
+  // }
+
+  deSelect = {}
+  onRemoveCheck(groupId, e, q) {
+    if (e.target.checked) {
+      if (this.deSelect[groupId]) {
+        this.deSelect[groupId].push(q.questionId)
+      } else {
+        this.deSelect[groupId] = []
+        this.deSelect[groupId].push(q.questionId)
+      }
+    } else {
+      this.deSelect[groupId] = this.deSelect[groupId].filter(qu => {
+        return qu != q.questionId
+      })
+
+      if(this.deSelect[groupId].length === 0){
+        delete this.deSelect[groupId]
+      }
+
+    }
+
+    console.log(this.deSelect)
+  }
+  drop(event: CdkDragDrop<object[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
+
+
 
   get f() {
     return this.registerForm.controls;
@@ -250,11 +343,17 @@ export class CreateChecklistComponent implements OnInit {
   submitLoad: boolean = false
   sendCheckList() {
     // this.finalQuestion.length ? console.log(this.finalQuestion) : "";
+    let questionlist = []
+    for (const key in this.assignQuestions) {
+      questionlist = [...questionlist, ...this.assignQuestions[key]]
+    }
     let finalCheckList = {
       formDataList: [this.getListFormData],
-      checklistQuestionDataList: this.finalQuestion,
+      // checklistQuestionDataList: this.finalQuestion,
+      checklistQuestionDataList: questionlist,
     }
-    console.log(finalCheckList)
+    console.log(questionlist)
+    // return
     // console.log(JSON.stringify(finalCheckList));
     // return
     this.submitLoad = true
@@ -264,11 +363,13 @@ export class CreateChecklistComponent implements OnInit {
           fkTradeId: this.registerForm.value.fkTradeId,
           fkSubgroupId: this.registerForm.value.fkSubgroupId,
           checklistName: this.registerForm.value.checklistName,
-          questionGroup: this.registerForm.value.questionGroup
+          // questionGroup: this.registerForm.value.questionGroup
 
         }],
-        checklistQuestionDataList: this.finalQuestion,
+        checklistQuestionDataList: questionlist,
       }
+
+      console.log(finalCheckList)
       this.commonService.updateChecklist(finalCheckList, this.checkListId)
         .subscribe(data => {
           console.log('checklist updated', data)
@@ -359,7 +460,7 @@ export class CreateChecklistComponent implements OnInit {
           this.questionGroup2[question.questionGroupId][question.questionHeadingId]['heading'] = question.questionHeadingId
           this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'] = []
         } else {
-          
+
           this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'].push(
             {
               questionId: question.questionId,
@@ -396,11 +497,43 @@ export class CreateChecklistComponent implements OnInit {
 
 
 
-  addAllGroupQuestion(groupId){
-    let headingQuestion = this.questionGroup2[groupId]
-    // for (const key in object) {
+  selectedQuestions = {}
+  addAllGroupQuestion(e, groupId) {
+    if (e.target.checked) {
+
+      let headingQuestion = this.questionGroup2[groupId]
+      this.selectedQuestions[groupId] = headingQuestion.questions
+      // console.log(headingQuestion)
+      this.selectedQuestions[groupId] = []
+      for (const key in headingQuestion) {
+        if (headingQuestion[key]['questions']) {
+          this.selectedQuestions[groupId].push(...headingQuestion[key]['questions'])
+        }
+      }
+
+      $(`.question${groupId}`).prop('checked', true)
+
+
+      for (const key in this.selectedQuestions) {
+        let question = this.selectedQuestions[key]
+        question.forEach(q =>{
+          if (this.checkedQuestionObj[key]) {
+            this.checkedQuestionObj[key][q.questionId] = true
+          }else{
+            this.checkedQuestionObj[key] = {}
+            this.checkedQuestionObj[key][q.questionId] = true
+          }
+        })
+      }
       
-    // }
+    } else {
+      delete this.selectedQuestions[groupId]
+
+      $(`.question${groupId}`).prop('checked', false)
+    }
+    console.log(this.selectedQuestions)
+    console.log(this.checkedQuestionObj)
+
   }
 
 }

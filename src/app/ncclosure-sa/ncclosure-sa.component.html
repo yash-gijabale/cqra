@@ -18,7 +18,7 @@
           <label for="fname" class="col-form-label">Region</label>
           <select class="form-control col-md-12" [(ngModel)]="selRegion">
             <option [value]="0">Please Select</option>
-            <option [value]="o.regionName" *ngFor="let o of regions">
+            <option [value]="o.regionId" *ngFor="let o of regions">
               {{o.regionName}}
             </option>
           </select>

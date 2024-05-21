@@ -12,6 +12,7 @@ import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.c
 import { ActivatedRoute, Router } from '@angular/router';
 import { InspectionReport } from '../creaate-inspectionreport/creaate-inspectionreport.component';
 import { InspectorTraning } from '../service/inspectionTraining.service';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 
 
@@ -57,7 +58,8 @@ export class CreateObservationTrackerReportComponent implements OnInit {
     private tradeService: TradeMaintanceService,
     private route: ActivatedRoute,
     private router: Router,
-    private imspectorTraining: InspectorTraning
+    private imspectorTraining: InspectorTraning,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -185,8 +187,10 @@ export class CreateObservationTrackerReportComponent implements OnInit {
         .subscribe(data => {
           console.log('updated', data)
           this.submitLoad = false
+          this.snackBar.showSuccess('Report Updated')
         }, err => {
           this.submitLoad = false
+          this.snackBar.showSnackError()
 
         })
 
@@ -197,11 +201,11 @@ export class CreateObservationTrackerReportComponent implements OnInit {
           data => {
             console.log(data)
             this.submitLoad = false
-
+            this.snackBar.showSuccess('Report Created')
           },
           err => {
             this.submitLoad = false
-
+            this.snackBar.showSnackError()
           })
     }
   }

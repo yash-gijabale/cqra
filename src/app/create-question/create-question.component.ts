@@ -69,7 +69,7 @@ export class CreateQuestionComponent implements OnInit {
   clients: ClientData[];
   submitted = false;
   isOptionShow = false;
-  questionHeadingId :number;
+  questionHeadingId: number;
   questionId: number
   constructor(
     private route: ActivatedRoute,
@@ -77,7 +77,7 @@ export class CreateQuestionComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private tradeMaintanceService: TradeMaintanceService,
     private formBuilder: FormBuilder,
-    private snackbar:SnackBarComponent
+    private snackbar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -130,8 +130,8 @@ export class CreateQuestionComponent implements OnInit {
       ncDescription: ['', Validators.required],
       refStdPract: ['', Validators.required],
       typeOfCheck: ['', Validators.required],
-      workInstruction: ['', Validators.required],
-      sampleSize: ['', Validators.required],
+      workInstruction: ['', Validators.nullValidator],
+      sampleSize: ['', Validators.nullValidator],
       sampleUnit: ['', Validators.nullValidator],
       tolerance: ['', Validators.required],
       minimumobservation: ['', Validators.required],
@@ -210,13 +210,13 @@ export class CreateQuestionComponent implements OnInit {
     }
     this.submitLoad = true
 
-  
+
 
     console.log("Id==");
     console.log(this.questionFrom.value)
     let formData = {
       ...this.questionFrom.value,
-      questionHeadingId:this.questionFrom.value.questionHeadingId ? this.questionFrom.value.questionHeadingId : 0,
+      questionHeadingId: this.questionFrom.value.questionHeadingId ? this.questionFrom.value.questionHeadingId : 0,
       isActive: 1
     }
     if (this.questionId != -1) {
@@ -226,6 +226,8 @@ export class CreateQuestionComponent implements OnInit {
           console.log('q updated-->', data)
           this.submitLoad = false
           this.snackbar.showSuccess('Question Updated!')
+          this.router.navigate(['/question']);
+
         }, err => {
           this.submitLoad = false
           this.snackbar.showSnackError()
@@ -236,12 +238,13 @@ export class CreateQuestionComponent implements OnInit {
           console.log(data)
           this.submitLoad = false
           this.snackbar.showSuccess('Question Added!')
+          // this.router.navigate(['/question']);
+
         }, err => {
           this.submitLoad = false
           this.snackbar.showSnackError()
         });
-        
-      }
-      this.router.navigate(['/question']);
+
+    }
   }
 }

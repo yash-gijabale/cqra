@@ -307,6 +307,7 @@ export class AssignContractorPmcComponent implements OnInit {
           this.isSupervisroAllocationPresent = true
           this.genarateAllocationData(data, 'supervisor')
         } else {
+          this.isSupervisroAllocationPresent = false
           this.supervisorData = []
           this.selectedTrade = {}
 
@@ -327,6 +328,7 @@ export class AssignContractorPmcComponent implements OnInit {
           this.genarateAllocationData(data, 'forman')
 
         } else {
+          this.isForemanAllocationUpdate = false
           this.formanData = []
           this.selectedTrade = {}
 
@@ -345,6 +347,7 @@ export class AssignContractorPmcComponent implements OnInit {
         if (data.length) {
           this.updatePmcAllocation = true
         }else{
+          this.updatePmcAllocation = false
           this.pmcUserData = []
           this.selectedTrade = {}
         }
@@ -360,6 +363,7 @@ export class AssignContractorPmcComponent implements OnInit {
         if (data.length) {
           this.updateClientAllocation = true
         }else{
+          this.updateClientAllocation = false
           this.clientUser = []
           this.selectedTrade = {}
         }
@@ -370,6 +374,7 @@ export class AssignContractorPmcComponent implements OnInit {
   allocatedTrade = {}
   allocatedStructure: Object = {}
   genarateAllocationData(data, type) {
+ 
     this.selectedTrade = {}
     data.forEach(item => {
       if (this.selectedTrade[item.stageId]) {

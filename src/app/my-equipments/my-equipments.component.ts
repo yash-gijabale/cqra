@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-my-equipments',
@@ -21,7 +22,8 @@ export class MyEquipmentsComponent implements OnInit {
   eqload: boolean = false
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: SnackBarComponent
   ) { }
 
   userId = Number(localStorage.getItem('id'))
@@ -105,12 +107,14 @@ export class MyEquipmentsComponent implements OnInit {
       .subscribe(data => {
         console.log('accepted', data)
         this.submitPolicyLoad = false
+        this.snackBar.showSuccess('Policy Submmitted')
 
       },
-      err => {
-        console.log(err)
-        this.submitPolicyLoad = false
-      }
+        err => {
+          console.log(err)
+          this.submitPolicyLoad = false
+          this.snackBar.showSnackError()
+        }
       )
   }
 
@@ -119,6 +123,31 @@ export class MyEquipmentsComponent implements OnInit {
 
     this.aggredStatus = e.target.checked
 
+  }
+
+  loadObj = {
+
+  }
+  donloadPolicy(epId) {
+    this.aggredStatus = true
+    this.loadObj[epId] = {
+      load: true,
+      url: '',
+      error: false
+    }
+    this.userService.donloadToolkitPolicy(epId, this.userId)
+      .subscribe(data => {
+        console.log(data)
+        this.loadObj[epId].load = false
+        this.loadObj[epId].error = false
+        this.loadObj[epId].url = data.url
+
+      }, err => {
+        console.log(err)
+        this.loadObj[epId].load = false
+        this.loadObj[epId].error = true
+      })
+    console.log(this.loadObj)
   }
 
 }

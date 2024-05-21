@@ -52,7 +52,8 @@
                       <div class="form-check col-md-12" *ngFor="let trade of searchTradeData">
                         <input class="form-check-input" (change)="addToNewUserTraining($event)" type="checkbox"
                           [value]="trade.tardeId" id="flexCheckDefault"
-                          [checked]="newUserTrainingTrde.includes(trade.tardeId)">
+                          [checked]="newUserTrainingTrde.includes(trade.tardeId)"
+                          [disabled]="SelUserId && allocatedtrade[SelUserId] ? allocatedtrade[SelUserId].includes(trade.tardeId) : false">
                         <label class="form-check-label" for="flexCheckDefault">
                           {{trade.tradeName}}
                         </label>
@@ -60,7 +61,11 @@
                     </ng-template>
                   </div>
                   <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining()">Save</button>
+                    <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining()">
+                      <span *ngIf="newTradeLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                      <span *ngIf="!newTradeLoad">Save</span>
+                    </button>
                   </div>
 
                 </div>
@@ -77,16 +82,23 @@
                 <th>Sr No</th>
                 <th>User Name</th>
                 <th style="width: 9%;">Assign Trades</th>
-                <th>Authorised Trades</th>
+                <th style="width: 20%;">Authorised Trades</th>
                 <!-- <th>Traning Attchment</th> -->
                 <!-- <th>Date</th> -->
                 <th>Details</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of userTradeTrainingData | keyvalue">
-                <td>{{data.value.srNo}}</td>
-                <td [title]="data.value.userId">{{data.value.userName}}</td>
+             
+              <tr *ngFor="let data of userTradeTrainingData | keyvalue; index as i">
+                <td>{{i + 1}}</td>
+                <td [title]="data.value.userId">
+                  <div style="display: flex;flex-direction: column; text-align: left;">
+                    <b>{{data.value.userName}}</b>
+                    <span class="text-secondary">{{data.value.mobile}}</span>
+                    <span class="text-secondary">{{data.value.email}}</span>
+                  </div>
+                </td>
                 <td>
                   <button class="btn btn-sm btn-warning" data-toggle="modal"
                     [attr.data-target]="'#new-trade-'+data.key">+</button>
@@ -118,7 +130,11 @@
                           </div>
                         </div>
                         <div class="modal-footer">
-                          <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining(data.key)">Save</button>
+                          <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining(data.key)">
+                            <span *ngIf="newTradeLoad" class="spinner-border spinner-border-sm" role="status"
+                              aria-hidden="true"></span>
+                            <span *ngIf="!newTradeLoad">Save</span>
+                          </button>
                         </div>
 
                       </div>
@@ -216,8 +232,8 @@
                       </thead>
                       <tbody>
                         <!-- {{let count = 0}} -->
-                        <tr *ngFor="let data of usertradeDetailsData.trades | keyvalue">
-                          <td>{{data.value.srNo}}</td>
+                        <tr *ngFor="let data of usertradeDetailsData.trades | keyvalue; index as i">
+                          <td>{{i+1}}</td>
                           <td style="width: 25%;" class="pl-2">
                             <span class="row mb-2 ml-2">{{data.value.tradeName}}</span>
                           </td>
@@ -291,7 +307,7 @@
 
                             <span class="badge bg-light text-dark mx-2 border border-dark" data-toggle="modal"
                               data-target="#add-view" role="button" (click)="getQuestionByTrade(data.value.tradeId)">
-                              Add Questions
+                              Set Questions
                             </span>
                           </td>
 
@@ -327,12 +343,20 @@
                             <span *ngIf="data.value.status == 1" class="badge bg-success text-light">Approved</span>
                           </td>
                           <td>
-                            <button *ngIf="data.value.status != 1 || data.value.status==null"
-                              class="badge bg-primary text-light border-none"><i class="las la-check"
-                                (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 1)"></i></button>
+                            <button *ngIf="data.value.status != 1 || data.value.status==null || data.value.status==0"
+                              (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 1)"
+                              class="badge bg-primary text-light border-none">
+                              <i *ngIf="!statusLoad[data.value.tradeId]" class="las la-check"></i>
+                              <span *ngIf="statusLoad[data.value.tradeId] && statusLoad[data.value.tradeId].load"
+                                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            </button>
                             <button *ngIf="data.value.status == 1"
-                              class="badge bg-danger text-light border-none mx-2"><i class="las la-times"
-                                (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 0)"></i></button>
+                              (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 0)"
+                              class="badge bg-danger text-light border-none mx-2">
+                              <i *ngIf="!statusLoad[data.value.tradeId]" class="las la-times"></i>
+                              <span *ngIf="statusLoad[data.value.tradeId] && statusLoad[data.value.tradeId].load"
+                                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            </button>
                           </td>
                         </tr>
 
@@ -379,13 +403,24 @@
                       <button class="btn btn-sm btn-secondary p-0" (click)="pickRandomQuestion()">Random</button>
                     </div>
 
-                    <div class="form-check col-md-12 newTrade" *ngFor="let question of questionData">
-                      <input class="form-check-input" type="checkbox" [value]="question.questionId"
-                        id="flexCheckDefault" (change)="pickQuestion($event)"
-                        [checked]="pickedQuestion.includes(question.questionId)">
-                      <label class="form-check-label" for="flexCheckDefault" [title]="question.questionId">
-                        {{question.questionText}}
-                      </label>
+                    <div class="col-md-12 newTrade" *ngFor="let subgroup of subgroupWiseData | keyvalue">
+                      <span><b>subgroup: {{subgroup.key}}</b></span>
+                      <div class="ml-1" *ngFor="let queGroup of subgroup.value | keyvalue">
+                        <span class="text-secondary"><b>Question group:{{queGroup.key}}</b></span>
+                        <div class="ml-1" *ngFor="let heading of queGroup.value | keyvalue">
+                          <span class="text-secondary"><b>Heading:{{heading.key}}</b></span>
+                          <div class="form-check ml-1" *ngFor="let question of heading.value">
+                            <input class="form-check-input" type="checkbox" [value]="question.questionId"
+                              id="flexCheckDefault" (change)="pickQuestion($event)"
+                              [checked]="pickedQuestion.includes(question.questionId)">
+                            <label class="form-check-label" for="flexCheckDefault" [title]="question.questionId">
+                              {{question.questionText}}
+                            </label>
+                          </div>
+                        </div>
+
+                      </div>
+
                     </div>
                   </ng-template>
                 </div>
@@ -425,22 +460,64 @@
 
                   <ng-template #elseQuestionAns>
                     <div class="question-box" *ngFor="let ansData of questionAnsData">
-                      <span>{{ansData.questionText}}</span>
-                      <textarea class="question-ans answes" [id]="ansData.instradeAnswerId" type="text"
-                        readonly>{{ansData.answer}}</textarea>
-                      <div class="form-check form-check-inline row ml-2">
-                        <div class="mx-1">
-                          <input class="form-check-input" type="radio" [name]="'ansData-'+ansData.instradeAnswerId"
-                            [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event)">
-                          <label class="form-check-label" for="inlineRadio1">Rigth</label>
-                        </div>
+                      <span style="font-weight: bold;">{{ansData.questionText}}</span>
+                      <div>
+                        <span class="text-secondary">Work Instruction</span>
+                        <textarea class="question-ans answes" [id]="ansData.instradeAnswerId" type="text"
+                          readonly>{{ansData.answer}}</textarea>
+                        <div class="form-check form-check-inline row ml-2">
+                          <div class="mx-1">
+                            <input class="form-check-input" type="radio" [name]="'ansData1-'+ansData.instradeAnswerId"
+                              [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 1)">
+                            <label class="form-check-label" for="inlineRadio1">Rigth</label>
+                          </div>
 
-                        <div class="mx-1">
-                          <input class="form-check-input" type="radio" [name]="'ansData-'+ansData.instradeAnswerId"
-                            [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event)">
-                          <label class="form-check-label text-danger">Wrong</label>
+                          <div class="mx-1">
+                            <input class="form-check-input" type="radio" [name]="'ansData1-'+ansData.instradeAnswerId"
+                              [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 1)">
+                            <label class="form-check-label text-danger">Wrong</label>
+                          </div>
                         </div>
                       </div>
+
+                      <div>
+                        <span class="text-secondary">Impack Of NC</span>
+                        <textarea class="question-ans answes" [id]="ansData.answerImpact" type="text"
+                          readonly>{{ansData.answer}}</textarea>
+                        <div class="form-check form-check-inline row ml-2">
+                          <div class="mx-1">
+                            <input class="form-check-input" type="radio" [name]="'ansData2-'+ansData.instradeAnswerId"
+                              [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 2)">
+                            <label class="form-check-label" for="inlineRadio1">Rigth</label>
+                          </div>
+
+                          <div class="mx-1">
+                            <input class="form-check-input" type="radio" [name]="'ansData2-'+ansData.instradeAnswerId"
+                              [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 2)">
+                            <label class="form-check-label text-danger">Wrong</label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span class="text-secondary">NC Rectification</span>
+                        <textarea class="question-ans answes" [id]="ansData.answerRectification" type="text"
+                          readonly>{{ansData.answer}}</textarea>
+                        <div class="form-check form-check-inline row ml-2">
+                          <div class="mx-1">
+                            <input class="form-check-input" type="radio" [name]="'ansData3-'+ansData.instradeAnswerId"
+                              [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 3)">
+                            <label class="form-check-label" for="inlineRadio1">Rigth</label>
+                          </div>
+
+                          <div class="mx-1">
+                            <input class="form-check-input" type="radio" [name]="'ansData3-'+ansData.instradeAnswerId"
+                              [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 3)">
+                            <label class="form-check-label text-danger">Wrong</label>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </ng-template>
                 </div>

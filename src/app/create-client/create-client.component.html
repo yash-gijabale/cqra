@@ -100,10 +100,21 @@
               <div *ngIf="f.clientEmail.errors.email">Email must be a valid email address</div>
             </div>
           </div>
+
+          <div class="form-group col-md-4">
+            <label>Show on Report</label>
+            <select formControlName="showOnReport" class="form-control">
+              <option [value]="1" [selected]="1">Project code</option>
+              <option [value]="2">Project Name</option>
+
+            </select>
+          </div>
+
+
           <div class="form-group col-md-12">
             <button class="btn btn-primary" [disabled]="duplicateClientCode || duplicateClientName">
               <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              <span *ngIf="!submitLoad">Save</span>
+              <span *ngIf="submitLoad==false">Save</span>
             </button>
           </div>
         </form>
