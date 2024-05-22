@@ -104,7 +104,7 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/project/addProject/`, project);
   }
 
-  updateProject(clientData: ProjectData, id) {
+  updateProject(clientData: any, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/project/project/${id}`, clientData);
   }
 
@@ -127,6 +127,10 @@ export class ClientServiceService {
   projectChecklistAlloaction(data):Observable<ClientServiceService>{
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/addschemeque`, data)
 
+  }
+
+  getChecklistQuestions(tradeId, subgroupId, data){
+    return this.httpClient.post(`${this.REST_API_SERVER}/checklist/questiondatabychecklistid/${tradeId}/${subgroupId}`, data)
   }
 
   projectTradeallocation(data): Observable<ClientServiceService>{
@@ -720,19 +724,34 @@ export class ClientServiceService {
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/schemeContractorSupervisor/getsupervisordatabyidssss/${projectId}/${structureId}/${contractorId}/${supervisorId}`)
   }
 
+  getAssignDataFromSupervisorByTrade(projectId, structureId, contractorId, tradeId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/schemeContractorSupervisor/getsupervisordataForUpdate/${projectId}/${structureId}/${contractorId}/${tradeId}`)
+
+  }
+
   updateAssignSupervisor(projectId, structureId, contractorId, supervisorId, data){
     return this.httpClient.put<any>(`${this.REST_API_SERVER}/schemeContractorSupervisor/update/${projectId}/${structureId}/${contractorId}/${supervisorId}`, data)
+  }
 
+  updateAssignSupervisorByTrade(projectId, structureId, contractorId, tradeId, data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/schemeContractorSupervisor/updatesupervidor/${projectId}/${structureId}/${contractorId}/${tradeId}`, data)
   }
 
   getAssignDataFromForeman(projectId, structureId, contractorId, foremanId){
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getforemandatabyidssssss/${projectId}/${structureId}/${contractorId}/${foremanId}`)
   }
 
+  getAssignDataFromForemanByTrade(projectId, structureId, contractorId, tradeId){
+    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/getforemandataForUpdate/${projectId}/${structureId}/${contractorId}/${tradeId}`)
+  }
+
   updateAssignForeman(projectId, structureId, contractorId, foremanId, data){
     return this.httpClient.put<any>(`${this.REST_API_SERVER}/update/${projectId}/${structureId}/${contractorId}/${foremanId}`, data)
   }
 
+  updateAssignForemanByTrade(projectId, structureId, contractorId, tradeId, data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateforeman/${projectId}/${structureId}/${contractorId}/${tradeId}`, data)
+  }
 
   //PMC API CALL
   createPmc(data) :Observable<ClientServiceService>{
@@ -767,13 +786,45 @@ export class ClientServiceService {
     return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/schemePmcSubunits/save`, data)
   }
 
-  getPmcAllocationData(projectId, pmcId, clientStaff, userId, structureId){
-    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemePmcSubunits/getallbyid/${projectId}/${pmcId}/${clientStaff}/${userId}/${structureId}`)
+
+  // getPmcAllocationData(projectId, structureId, pmcId, tradeId){
+  //   return this.httpClient.get<Array<any>>(${this.REST_API_SERVER}/schemePmcSubunits/getallbyid/${projectId}/${structureId}/${pmcId}/${tradeId})
+  // }
+
+  getPmcAllocationData(projectId, structureId, pmcId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemePmcSubunits/getallbypmcid/${projectId}/${structureId}/${pmcId}`)
   }
 
-  updatePmcAllocation(projectId, pmcId, clientStaff, userId, structureId, data){
-    return this.httpClient.put(`${this.REST_API_SERVER}/schemePmcSubunits/update/${projectId}/${pmcId}/${clientStaff}/${userId}/${structureId}`, data)
+  // updatePmcAllocation(projectId,structureId, pmcId, tradeId, data){
+  //   return this.httpClient.put(${this.REST_API_SERVER}/schemePmcSubunits/update/${projectId}/${structureId}/${pmcId}/${tradeId}, data)
+  // }
+
+  updatePmcAllocation(projectId,structureId, pmcId, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/schemePmcSubunits/updatebyprojectstructureandpmcid/${projectId}/${structureId}/${pmcId}`, data)
   }
+
+  // CLIENT ALLOCATION
+  addClientAllocation(data):Observable<ClientServiceService>{
+    return this.httpClient.post<ClientServiceService>(`${this.REST_API_SERVER}/schemeclientallocation/save`, data)
+  }
+
+  // getClientAllocationData(projectId, structureId, clientId, tradeId){
+  //   return this.httpClient.get<Array<any>>(${this.REST_API_SERVER}/schemeclientallocation/getallbyid/${projectId}/${structureId}/${clientId}/${tradeId})
+  // }
+
+  getClientAllocationData(projectId, structureId, clientId){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/schemeclientallocation/getallclientsbyid/${projectId}/${structureId}/${clientId}`)
+  }
+
+  // updateClientAllocation(projectId, structureId, clientId, tradeId , data){
+  //   return this.httpClient.put(${this.REST_API_SERVER}/schemeclientallocation/update/${projectId}/${structureId}/${clientId}/${tradeId}, data)
+  // }
+
+  updateClientAllocation(projectId, structureId, clientId,data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/schemeclientallocation/updateclientbyid/${projectId}/${structureId}/${clientId}`, data)
+  }
+
+
   //PMC API CALL
 
   

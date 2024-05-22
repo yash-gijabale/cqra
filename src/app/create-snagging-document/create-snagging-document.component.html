@@ -22,6 +22,15 @@
 
         <form [formGroup]="snaggingReportFrom" (ngSubmit)="onSubmit()">
           <div class="row">
+
+            <div class="form-group col-md-4">
+              <label>Select MasterId</label>
+              <select class="form-control col-md-12" formControlName="masterId" (change)="getMasterDetails($event)">
+                <option [value]="''">Select Master ID</option>
+                <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
+              </select>
+            </div>
+            
             <div class="form-group col-md-4">
               <label>Select Client</label>
               <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control"

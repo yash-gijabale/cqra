@@ -1,0 +1,100 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> Checklist Group </h1>
+            </div>
+          </div>
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <!-- <a routerLink="/createTradegroup/-1"> -->
+              <button type="button" data-toggle="modal" data-target="#exampleModalCenter"> Create Checklist Group
+              </button>
+              <!-- </a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+
+      <div class="inspector-list mt-5">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover inspector_list_table"
+          style="width:100%">
+          <thead>
+            <tr>
+              <th>Checklist Group Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of userDetails">
+              <td>{{user.srNo}}</td>
+              <td style="text-align: left;">{{user.projectName}}</td>
+              <td>
+                <span *ngIf="user.userStatus == null || user.userStatus == 0" class="badge badge-primary">New</span>
+                <span *ngIf="user.userStatus == 1" class="badge badge-success">Accepted</span>
+                <span *ngIf="user.userStatus == 2" class="badge badge-danger">Declined</span>
+              </td>
+              <td>
+                <span *ngIf="user.dtmStatus == null || user.dtmStatus == 0" class="badge badge-warning">Pending</span>
+                <span *ngIf="user.dtmStatus == 1" class="badge badge-success">Accepted</span>
+                <span *ngIf="user.dtmStatus == 2" class="badge badge-danger">Declined</span>
+              </td>
+              <td>{{user.trainingDate ? user.trainingDate : ''}}</td>
+              <td>
+                <button class="btn btn-sm btn-dark m-0" data-toggle="modal" data-target="#declaration-view"
+                  (click)="getUserDetails(user.userId, user.projectId)">View</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- modal -->
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Add New Checklist Group</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div>
+                <div class="form-group">
+                  <label for="">Checklist Group Name:</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="">Sequence:</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="">Percentage Of Cost(%):</label>
+                  <input type="number" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Exit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

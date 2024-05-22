@@ -22,7 +22,15 @@
             <label>New User: </label>
             <select [(ngModel)]="SelUserId" class="form-control col-md-12" (change)="getUSerProjects()">
               <option [value]="1">Select user</option>
-              <option [value]="user.id" *ngFor="let user of userList">{{user.userFullName}}</option>
+              <option [value]="user.id" *ngFor="let user of userList">{{user.userFullName}}
+                <span
+                  *ngIf="user.l1 || user.l2 || user.l3 || user.infra || user.hep || user.fireSafety || user.constructionSafety">
+                  ({{ user.l1 ? 'L1' : '' }} {{ user.l2 ? 'L2' : '' }} {{ user.l3 ? 'L3' : '' }} {{ user.infra ?
+                  'Infra' : '' }}
+                  {{ user.hep ? 'HEP' : '' }} {{ user.fireSafety ? 'Fire_Safety' : '' }} {{ user.constructionSafety ?
+                  'Construction_Safety' : '' }})
+                </span>
+              </option>
             </select>
           </div>
           <div class="form-group col-md-1 mt-4 pt-2 pr-0">
@@ -64,7 +72,11 @@
                     </ng-template>
                   </div>
                   <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" (click)="saveAssignProjects()">Save</button>
+                    <button class="btn btn-sm btn-success" (click)="saveAssignProjects()">
+                      <span *ngIf="!assignLoad">Save</span>
+                      <span *ngIf="assignLoad"><span class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span></span>
+                    </button>
                   </div>
 
                 </div>
@@ -80,19 +92,37 @@
               <tr>
                 <th>Sr no</th>
                 <th>User Name</th>
-                <!-- <th>Status</th>
-                <th>Date</th> -->
+                <th>Email</th>
+                <th>Contact</th>
                 <th>Declaration</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of declarationUserList">
-                <td style="text-align: left;">{{user.srNo}}</td>
-                <td style="text-align: left;">{{user.username ? user.username : ''}}</td>
-                <!-- <td>
-                  <span class="badge badge-primary">New</span>
+              <tr *ngFor="let user of declarationUserList; index as i">
+                <td style="text-align: left;">{{i+1}}</td>
+                <td style="text-align: left;">
+                  <div style="display: flex; flex-direction: column;">
+                    <span>
+                      <b>{{user.userFullName ? user.userFullName : ''}}</b>
+                    </span>
+                    <span class="text-secondary">
+                      <b>Level:</b> <span
+                        *ngIf="user.l1 || user.l2 || user.l3 || user.infra || user.hep || user.fireSafety || user.constructionSafety">
+                        ({{ user.l1 ? 'L1' : '' }} {{ user.l2 ? 'L2' : '' }} {{ user.l3 ? 'L3' : '' }} {{ user.infra ?
+                        'Infra' : '' }}
+                        {{ user.hep ? 'HEP' : '' }} {{ user.fireSafety ? 'Fire_Safety' : '' }} {{
+                        user.constructionSafety
+                        ?
+                        'Construction_Safety' : '' }})</span>
+                    </span>
+                  </div>
                 </td>
-                <td>{{user.trainingDate ? user.trainingDate : 'not specified'}}</td> -->
+                <td>
+                  <span>{{user.email}}</span>
+                </td>
+                <td>
+                  <span>{{user.mobile}}</span>
+                </td>
                 <td>
                   <button class="btn btn-sm btn-dark m-0" data-toggle="modal" data-target="#declaration-view"
                     (click)="getUserDetails(user.userId)">Details</button>
@@ -114,71 +144,106 @@
     <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Declaration</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Declaration - {{userDeclaration[0] ?
+            userDeclaration[0].userFullName : ''}}</h5>
           <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body modal-full-body">
+          <div *ngIf="userDetailsLoad then thenUserDetails else elseUserDetails"></div>
+          <ng-template #thenUserDetails>
+            <div class="userdeailsload">
+              <div class="spinner-border text-warning" role="status">
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #elseUserDetails>
+            <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" id="customers"
+              class="row-border hover inspector_list_table" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Sr no</th>
+                  <th>Client Name</th>
+                  <th>Project Name</th>
+                  <th>User Status</th>
+                  <th>User Comment</th>
+                  <th>Action</th>
+                  <th>Declaration Date</th>
+                  <th>Status</th>
+                  <th>Download</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of userDeclaration; index as i">
+                  <td>{{i+1}}</td>
+                  <td style="text-align: left;">
+                    {{user.clientName}}
+                  </td>
+                  <td style="text-align: left;">
+                    {{user.projectName}}
+                  </td>
+                  <td>
+                    <span class="badge badge-success" *ngIf="user.userStatus == 1">Accepted</span>
+                    <span class="badge badge-danger" *ngIf="user.userStatus == 2">Declined</span>
+                    <span class="badge badge-warning"
+                      *ngIf="user.userStatus == null || user.userStatus == 0">Pending</span>
+                  </td>
+                  <td>
+                    {{user.comment}}
+                  </td>
 
-          <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2" id="customers"
-            class="row-border hover inspector_list_table" style="width:100%">
-            <thead>
-              <tr>
-                <th>Sr no</th>
-                <th>Client Name</th>
-                <th>Project Name</th>
-                <th>User Status</th>
-                <th>Comment</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Approve</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of userDeclaration">
-                <td>{{user.srNo}}</td>
-                <td style="text-align: left;">
-                  {{user.clientName}}
-                </td>
-                <td style="text-align: left;">
-                  {{user.projectName}}
-                </td>
-                <td>
-                  <span class="badge badge-success" *ngIf="user.userStatus == 1">Accepted</span>
-                  <span class="badge badge-danger" *ngIf="user.userStatus == 2">Declined</span>
-                  <span class="badge badge-warning"
-                    *ngIf="user.userStatus == null || user.userStatus == 0">Pending</span>
-                </td>
-                <td>
-                  {{user.comment}}
-                </td>
-                <td>{{user.trainingDate ? user.trainingDate: 'not specified'}}</td>
-
-                <td>
-                  <div *ngIf="user.dtmStatus != null">
-                    <span class="badge badge-success" *ngIf="user.dtmStatus == 1">Approved</span>
-                    <span class="badge badge-danger" *ngIf="user.dtmStatus == 2">Declined</span>
-                  </div>
-                  <div *ngIf="user.dtmStatus == null || user.dtmStatus == 0">
-                    <span class="badge badge-warning">Pending</span>
-                  </div>
-                </td>
-                <td>
-                  <span *ngIf="user.dtmStatus != 1" class="badge badge-success" (click)="addToApproveProject(user.projectId, 1, user.userId)"
-                    role="button">
+                  <!-- <td>
+                  <span *ngIf="user.dtmStatus != 1" class="badge badge-success"
+                    (click)="addToApproveProject(user.projectId, 1, user.userId)" role="button">
                     <div *ngIf="approveLoad" class="spinner-border spinner-border-sm" role="status"></div>
                     <span *ngIf="!approveLoad">Approve</span>
                   </span>
-                  <span *ngIf="user.dtmStatus == 1"  class="badge badge-danger" (click)="addToApproveProject(user.projectId, 2, user.userId)"
-                    role="button">
+                  <span *ngIf="user.dtmStatus == 1" class="badge badge-danger"
+                    (click)="addToApproveProject(user.projectId, 2, user.userId)" role="button">
                     <div *ngIf="declineLoad" class="spinner-border spinner-border-sm" role="status"></div>
                     <span *ngIf="!declineLoad">Decline</span>
                   </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </td> -->
+
+                  <td>
+                    <button title="Allocate" *ngIf="user.dtmStatus != 1" class="badge bg-primary text-light border-none"
+                      (click)="addToApproveProject(user.projectId, 1, user.userId)">
+                      <i *ngIf="!approveBtnLoad[user.projectId]" class="las la-check"></i>
+                      <span *ngIf="approveBtnLoad[user.projectId] && approveBtnLoad[user.projectId].load"
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                    <button title="De-allocate" *ngIf="user.dtmStatus == 1"
+                      class="badge bg-danger text-light border-none mx-2"
+                      (click)="addToApproveProject(user.projectId, 2, user.userId)">
+                      <i *ngIf="!approveBtnLoad[user.projectId]" class="las la-times"></i>
+                      <span *ngIf="approveBtnLoad[user.projectId] && approveBtnLoad[user.projectId].load"
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                  </td>
+
+                  <td>{{user.trainingDate ? user.trainingDate: '-'}}</td>
+
+                  <td>
+                    <div *ngIf="user.dtmStatus != null">
+                      <span class="badge badge-success" *ngIf="user.dtmStatus == 1">Approved</span>
+                      <span class="badge badge-danger" *ngIf="user.dtmStatus == 2">Declined</span>
+                    </div>
+                    <div *ngIf="user.dtmStatus == null || user.dtmStatus == 0">
+                      <span class="badge badge-warning">Pending</span>
+                    </div>
+                  </td>
+
+                  <td>
+                    <button title="Donwload and view" class="btn btn-sm btn-secondary">
+                      <i class="fa fa-download" aria-hidden="true"></i>
+                    </button>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </ng-template>
         </div>
         <div class="modal-footer">
           <!-- <button class="btn btn-sm btn-success" (click)="submitDTMStatus()">Save</button> -->
@@ -188,5 +253,5 @@
   </div>
 
 
-
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

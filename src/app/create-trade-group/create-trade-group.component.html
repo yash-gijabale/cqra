@@ -13,7 +13,8 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/tradegroup" style="color: white; text-decoration: none;" >Manage Trade Group </a> </button>
+            <button type="button"> <a routerLink="/tradegroup" style="color: white; text-decoration: none;">Manage Trade
+                Group </a> </button>
           </div>
         </div>
       </div>
@@ -36,33 +37,34 @@
               </div>
             </div>
 
-            <div class="form-group col-md-4">
+            <!-- <div class="form-group col-md-4">
               <label>Trade Group Number</label>
               <input type="text" formControlName="tradeGroupNumber" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.tradeGroupNumber.errors }" />
               <div *ngIf="submitted && f.tradeGroupNumber.errors" class="invalid-feedback">
                 <div *ngIf="f.tradeGroupNumber.errors.required">TradeGroup number is required</div>
               </div>
-            </div>
+            </div> -->
 
-            <div class="form-group col-md-4">
+            <!-- <div class="form-group col-md-4">
               <label>Trade Sequence</label>
               <input type="number" formControlName="tradeGroupSequence" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.tradeGroupSequence.errors }" />
               <div *ngIf="submitted && f.tradeGroupSequence.errors" class="invalid-feedback">
                 <div *ngIf="f.tradeGroupSequence.errors.required">TradeGroup sequence is required</div>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="form-group">
             <button class="btn btn-primary">
               <div *ngIf="isLoad" class="spinner-border spinner-border-sm" role="status">
               </div>
-              <span *ngIf="!isLoad" >Submit</span>
+              <span *ngIf="!isLoad">Submit</span>
             </button>
           </div>
         </form>
       </div>
     </div>
   </div>
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

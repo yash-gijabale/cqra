@@ -11,12 +11,12 @@ export class InspectorTraning {
 
   // private REST_API_SERVER = "http://18.217.108.137:8080";
   // private REST_API_SERVER = "http://18.217.108.137:9090"; //working Ip
-  
-  
+
+
   //private REST_API_SERVER = "http://ec2-3-142-240-133.us-east-2.compute.amazonaws.com:9090";
   constructor(private httpClient: HttpClient,
-    private global : Global) { }
-  
+    private global: Global) { }
+
   private REST_API_SERVER = this.global.SERVER; //local IP For Testing
 
   getAllUserTradeTraining() {
@@ -81,8 +81,8 @@ export class InspectorTraning {
     return this.httpClient.put<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/updatestatus`, data)
   }
 
-  updateUserTradeStatus(userId, tradeId, status){
-    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updateuserapprover/${userId}/${tradeId}/${status}`,'')
+  updateUserTradeStatus(userId, tradeId, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updateuserapprover/${userId}/${tradeId}/${status}`, '')
 
   }
 
@@ -113,11 +113,11 @@ export class InspectorTraning {
     return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserproject`, data)
   }
 
-  updateDtmStatus(projectId, UserId, data){
+  updateDtmStatus(projectId, UserId, data) {
     return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserprojectdtmstatus/${UserId}/${projectId}`, data)
   }
 
-  getUserDeclarationByuserAndProject(userId, projectId){
+  getUserDeclarationByuserAndProject(userId, projectId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getallbyuserandpid/${userId}/${projectId}`)
 
   }
@@ -128,7 +128,7 @@ export class InspectorTraning {
     return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/inspectionteammaster/save`, data)
   }
 
-  updateInspectionTeamComposition(masterID, data){
+  updateInspectionTeamComposition(masterID, data) {
     return this.httpClient.put(`${this.REST_API_SERVER}/inspectionteammaster/updatebymasterid/${masterID}`, data)
   }
 
@@ -172,7 +172,7 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/OCMeetingAttandance/update/${masterId}`, data)
   }
 
-  uploadOpeningClosingImage(masterId, data){
+  uploadOpeningClosingImage(masterId, data) {
     let config = {
       headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
     };
@@ -227,13 +227,13 @@ export class InspectorTraning {
   }
 
   //feedback form
-  addClientFeedbackForm(data):Observable<InspectorTraning>{
-    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/ClientFeedbackForm/save`,data)
+  addClientFeedbackForm(data): Observable<InspectorTraning> {
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/ClientFeedbackForm/save`, data)
   }
 
 
   // IMAGE UPLOADING FOR PRE SNAP FORM
-  uploadEquipmentMaintainenceForm(masterId, data:File){
+  uploadEquipmentMaintainenceForm(masterId, data: File) {
     let config = {
       headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
     };
@@ -244,7 +244,7 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/equipmentMaintenanceFormat/updateimage/${masterId}`, formParams, config)
   }
 
-  uploadOpeningClosingForm(masterId, data:File){
+  uploadOpeningClosingForm(masterId, data: File) {
     let config = {
       headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
     };
@@ -256,7 +256,7 @@ export class InspectorTraning {
   }
 
 
-  uploadInternalReviewForm(masterId, data:File){
+  uploadInternalReviewForm(masterId, data: File) {
     let config = {
       headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
     };
@@ -267,7 +267,7 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/intRevMeetAtProSiteMaster/updateimage/${masterId}`, formParams, config)
   }
 
-  uploadSuperVisorL1L2form(masterId, data:File){
+  uploadSuperVisorL1L2form(masterId, data: File) {
     let config = {
       headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
     };
@@ -278,8 +278,8 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/supervisorForm/updateimage/${masterId}`, formParams, config)
   }
 
-  
-  uploadPerformanceForm(masterId, data:File){
+
+  uploadPerformanceForm(masterId, data: File) {
     let config = {
       headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
     };
@@ -290,13 +290,42 @@ export class InspectorTraning {
     return this.httpClient.put(`${this.REST_API_SERVER}/inspectorOnsitePerformanceEvaluation/updateimage/${masterId}`, formParams, config)
   }
 
-  getAllFormStatus(masterId, userId){
+  getAllFormStatus(masterId, userId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/SAInspectionFormStatus/getstaus/${masterId}/${userId}`)
   }
 
+  getAllMasterDataView(userId) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/inspectionTeamMasterView/getbyuserid/${userId}`)
+  }
 
 
-  getApprovedTradeByuserandProject(projectId, userId){
+  getApprovedTradeByuserandProject(projectId, userId) {
     return this.httpClient.get<Array<ApprovedTrade>>(`${this.REST_API_SERVER}/mulispecttradetraining/getbyprojectidtradeswhicharepass/${projectId}/${userId}`)
   }
+
+
+  downloadOnsitePerformanceForm(masterId) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadinspectoronsiteperformanceevaluation/${masterId}`)
+  }
+
+  downloadSupervisionL1L2(masterID) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadsupervisorformforl1andl2/${masterID}`)
+  }
+
+  downloadOpeningClosingMeeting(masterId) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadopeningclossingmeetingattendancesheet/${masterId}`)
+  }
+
+  downloadInternelReviewMeeting(masterId) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadinternalreviewmeeting/${masterId}`)
+  }
+  
+  downloadTeamInspectionForm(masterId) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadinspectionteamcomposition/${masterId}`)
+  }
+
+  downloadEquipmentForm(masterId,userId) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadequipmentmaintenanceformat/${masterId}/${userId}`)
+  }
+  
 }

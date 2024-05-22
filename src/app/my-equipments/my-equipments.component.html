@@ -62,8 +62,12 @@
                     <td>{{eq.dateOfAssign}}</td>
                     <td>{{eq.dateOfCalibration}}</td>
                     <td>
-                      <span class="badge badge-primary" role="button">Return</span>
-
+                      <!-- <span class="badge badge-primary" role="button">Return</span> -->
+                      <span class="badge badge-secondary mx-2" role="button" (click)="donloadPolicy(eq.equipmentId)">
+                        <span *ngIf="!loadObj[eq.equipmentId]"><i class="fa fa-download" aria-hidden="true"></i> Policy</span>
+                        <span *ngIf="loadObj[eq.equipmentId] && loadObj[eq.equipmentId].load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      </span>
+                      <a *ngIf="loadObj[eq.equipmentId] && !loadObj[eq.equipmentId].load" [href]="loadObj[eq.equipmentId].url" class="badge badge-success mx-2" [download]="true" target="_blank">View</a>
                     </td>
 
                 </tbody>
@@ -173,12 +177,12 @@
 
               <div class="row d-flex justify-content-between">
                 <div>
-                  <img [src]="newEquipments[0] ? newEquipments[0].sign : ''" height="200px">
+                  <img [src]="newEquipments[0] ? 'https://kia-1.s3.us-east-2.amazonaws.com/UserSign/'+newEquipments[0].sign : ''" height="200px">
                   <p class="card-title mx-2">{{userData.userName}}</p>
                 </div>
 
                 <div>
-                  <img [src]="newEquipments[0] ? newEquipments[0].AssignedBySignature : ''" height="200px">
+                  <img [src]="newEquipments[0] ? 'https://kia-1.s3.us-east-2.amazonaws.com/UserSign/'+newEquipments[0].AssignedBySignature : ''" height="200px">
                   <p class="card-title mx-2">{{newEquipments[0] ? newEquipments[0].AssignedByName : ''}}</p>
                 </div>
               </div>
@@ -203,4 +207,6 @@
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

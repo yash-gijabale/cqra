@@ -98,53 +98,56 @@ export class InspectorTradeTrainingComponent implements OnInit {
     let srNo = 1
     let srNo2 = 1
     data.forEach(item => {
-      if (ListArray[item.userId]) {
-        ListArray[item.userId].trades.push({
-          srNo: srNo2,
-          tradeId: item.tradeId,
-          tradeName: item.tradeName,
-          marks: item.marks,
-          qStatus: item.status ? item.status : 0,
-          passorfail: item.passorfail,
-          trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false,
-          userApprover: item.userApprover,
-          status: item.status
+      if (item.userId != 0) {
+        if (ListArray[item.userId]) {
+          ListArray[item.userId].trades.push({
+            srNo: srNo2,
+            tradeId: item.tradeId,
+            tradeName: item.tradeName,
+            marks: item.marks,
+            qStatus: item.status ? item.status : 0,
+            passorfail: item.passorfail,
+            trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false,
+            userApprover: item.userApprover,
+            status: item.status
 
-        })
-        srNo2++
-      } else {
-        let userData = {
-          srNo: srNo,
-          userId: item.userId,
-          userName: item.username,
-          trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false,
-          trainingData: new Date(item.trainingDate).toISOString().slice(0, 10),
-          trades: []
+          })
+          srNo2++
+        } else {
+          let userData = {
+            srNo: srNo,
+            userId: item.userId,
+            userName: item.username,
+            email: item.email,
+            mobile: item.mobile,
+            trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false,
+            trainingData: new Date(item.trainingDate).toISOString().slice(0, 10),
+            trades: []
+          }
+          userData.trades.push({
+            srNo: srNo2,
+            tradeId: item.tradeId,
+            tradeName: item.tradeName,
+            marks: item.marks,
+            qStatus: item.status ? item.status : 0,
+            passorfail: item.passorfail,
+            trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false
+
+          })
+
+          ListArray[item.userId] = userData
+          srNo++
+          srNo2++
         }
-        userData.trades.push({
-          srNo: srNo2,
-          tradeId: item.tradeId,
-          tradeName: item.tradeName,
-          marks: item.marks,
-          qStatus: item.status ? item.status : 0,
-          passorfail: item.passorfail,
-          trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false
 
-        })
+        if (this.allocatedtrade[item.userId]) {
+          this.allocatedtrade[item.userId].push(item.tradeId)
 
-        ListArray[item.userId] = userData
-        srNo++
-        srNo2++
+        } else {
+          this.allocatedtrade[item.userId] = []
+          this.allocatedtrade[item.userId].push(item.tradeId)
+        }
       }
-
-      if (this.allocatedtrade[item.userId]) {
-        this.allocatedtrade[item.userId].push(item.tradeId)
-
-      } else {
-        this.allocatedtrade[item.userId] = []
-        this.allocatedtrade[item.userId].push(item.tradeId)
-      }
-
     });
 
     console.log(this.allocatedtrade)
@@ -170,7 +173,9 @@ export class InspectorTradeTrainingComponent implements OnInit {
     console.log(this.newUserTrainingTrde)
   }
 
+  newTradeLoad:boolean = false
   saveNewTradeTraining(userId = false) {
+    this.newTradeLoad = true
     let todayDate = new Date().toISOString().slice(0, 10);
     let formData = {
       inspectorTradeTraining: {
@@ -184,6 +189,9 @@ export class InspectorTradeTrainingComponent implements OnInit {
       .subscribe(data => {
         console.log('trade traning added', data)
         this.getUserTraningData()
+        this.newTradeLoad = false
+      }, err =>{
+        this.newTradeLoad = false
       })
     console.log(formData)
 
@@ -250,7 +258,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
   questionData = []
   questionLoad: boolean = false
   currentSelectedTrade: Number
-
+  subgroupWiseData = {}
   getQuestionByTrade(tradeId) {
     this.questionData = []
     this.pickedQuestion = [] //TO clear previewd selection
@@ -259,16 +267,39 @@ export class InspectorTradeTrainingComponent implements OnInit {
     this.commonService.getQuestionByTradeId(tradeId)
       .subscribe(data => {
         console.log(data)
+        this.questionData = data
         let subgroupWise = {}
         data.forEach(question => {
           if (subgroupWise[question.subgroupId]) {
-            subgroupWise[question.subgroupId].push(question)
+            if (subgroupWise[question.subgroupId][question.questionGroupId]) {
+              // subgroupWise[question.subgroupId][question.questionGroupId] = {}
+              if (subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId]) {
+                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+              } else {
+                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId] = []
+                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+              }
+            } else {
+              subgroupWise[question.subgroupId][question.questionGroupId] = {}
+              if (subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId]) {
+                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+              } else {
+                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId] = []
+                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+              }
+            }
+            // subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+
           } else {
-            subgroupWise[question.subgroupId] = []
-            subgroupWise[question.subgroupId].push(question)
+            subgroupWise[question.subgroupId] = {}
+            subgroupWise[question.subgroupId][question.questionGroupId] = {}
+            subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId] = []
+            subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+
           }
         })
         console.log(subgroupWise)
+        this.subgroupWiseData = subgroupWise
         // this.questionData = data
         this.questionLoad = false
 
@@ -367,23 +398,33 @@ export class InspectorTradeTrainingComponent implements OnInit {
 
   rigthAns = 0
   wrongAns = 0
-  addAnswer(answerId, e) {
+  addAnswer(answerId, e, type) {
     console.log(e.target.value)
-    this.questionResult[answerId] = Number(e.target.value)
+    if (!this.questionResult[answerId]) {
+      this.questionResult[answerId] = {}
+      this.questionResult[answerId][type] = Number(e.target.value)
+    } else {
+      this.questionResult[answerId][type] = Number(e.target.value)
+    }
+
     this.rigthAns = this.calculateRigthAndWrongQuestion(this.questionResult).rigthQuestions
     this.wrongAns = this.calculateRigthAndWrongQuestion(this.questionResult).wrongQuestions
-
+    console.log(this.questionResult)
+    console.log(this.rigthAns)
+    console.log(this.wrongAns)
   }
 
   calculateRigthAndWrongQuestion(data) {
     let rigthQuestions = 0
     let wrongQuestions = 0
     for (const key in data) {
-      if (data[key] === 1) {
-        rigthQuestions += 1
-      }
-      if (data[key] === 0) {
-        wrongQuestions += 1
+      for (const subQ in data[key]) {
+        if (data[key][subQ] === 1) {
+          rigthQuestions += 1
+        }
+        if (data[key][subQ] === 0) {
+          wrongQuestions += 1
+        }
       }
     }
 
@@ -396,24 +437,31 @@ export class InspectorTradeTrainingComponent implements OnInit {
   submitQuestionPaperResult(userId, tradeId) {
     console.log(this.questionResult)
 
+
+    let result = this.calculateMarks(this.questionResult)
+    let marks = result.totalMarks
+    console.log(marks)
+    console.log(result.questionWiseResult)
     let finalResult = []
-    for (const result in this.questionResult) {
+    for (const resultAns in result.questionWiseResult) {
       let data = {
-        'inspectTradeAnswerId': result,
-        'ansstatus': this.questionResult[result]
+        'inspectTradeAnswerId': resultAns,
+        'ansstatus': result.questionWiseResult[resultAns] == 0 ? 0 : 1
       }
 
       finalResult.push(data)
     }
-    let marks = this.calculateMarks(this.questionResult).totalMarks
+    let passOrFail = this.checkPassOrFali((this.totalQuestionsAns * 3), marks)
+
+    console.log(passOrFail)
     console.log(finalResult)
-    console.log(marks)
+
+    // return
     this.inspectionTraining.submitUserExamResult(finalResult)
       .subscribe(data => {
         console.log('Exam result added-->', data)
       })
 
-    let passOrFail = this.checkPassOrFali(this.totalQuestionsAns, marks)
     console.log('pass or fail-->', passOrFail)
     this.inspectionTraining.updateTrainingMark(userId, tradeId, marks, passOrFail)
       .subscribe(data => {
@@ -425,15 +473,21 @@ export class InspectorTradeTrainingComponent implements OnInit {
   calculateMarks(resultData) {
     let totalQuestion = Object.keys(resultData).length
     let totalMarks = 0
+    let questionWiseResult = {}
 
     for (const result in resultData) {
-      if (resultData[result]) {
-        totalMarks += 1
+      questionWiseResult[result] = 0
+      for (const subQ in resultData[result]) {
+        questionWiseResult[result] += resultData[result][subQ]
+        if (resultData[result][subQ]) {
+          totalMarks += 1
+        }
       }
     }
     return {
       totalQuestion,
-      totalMarks
+      totalMarks,
+      questionWiseResult
     }
   }
 
@@ -447,7 +501,12 @@ export class InspectorTradeTrainingComponent implements OnInit {
   }
 
 
+  statusLoad = {}
   updateTradeStatus(userId, tradeId, status) {
+    this.statusLoad[tradeId] = {
+      load:true,
+      error:false
+    }
     let isConfirm;
     if (status == 0) {
       isConfirm = confirm('Are you sure want to deactivate this trade !')
@@ -459,7 +518,10 @@ export class InspectorTradeTrainingComponent implements OnInit {
     console.log(userId, tradeId, status)
     this.inspectionTraining.updateUserTradeStatus(userId, tradeId, status)
       .subscribe(data => {
+        this.statusLoad[tradeId].load = false
         console.log('status updated', data)
+      }, err =>{
+        this.statusLoad[tradeId].error = true
       })
   }
 

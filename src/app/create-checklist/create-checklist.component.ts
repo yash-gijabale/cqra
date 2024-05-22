@@ -16,6 +16,7 @@ import {
 } from "@angular/cdk/drag-drop";
 import { CommonService } from "../common.service";
 import { first } from "rxjs/operators";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 
 export class ChecklistData {
@@ -71,7 +72,7 @@ export class CreateChecklistComponent implements OnInit {
   finalQuestion: Array<any>;
   tempQuestions: any;
   q: Question[];
-  questionGroup: QuestionGroup[];
+  questionGroup: any[];
   qList: Qlist[];
   SelSubgroup: any
   questionGroups: any
@@ -82,13 +83,16 @@ export class CreateChecklistComponent implements OnInit {
 
   checkListId: Number
 
+  checkedQuestionObj = {}
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientServiceService: ClientServiceService,
     private commonService: CommonService,
     private tradeMaintanceService: TradeMaintanceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: SnackBarComponent
   ) {
     this.finalQuestion = [];
     this.getListFormData = [];
@@ -98,62 +102,6 @@ export class CreateChecklistComponent implements OnInit {
     // this.finalCheckList = [];
   }
 
-  addToCheckList() {
-    this.tempQuestions.forEach((q) => {
-      let index = this.questionList2.indexOf(q);
-      this.questionList2.splice(index, 1);
-      this.finalQuestion.push(q);
-    });
-    this.tempQuestions = [];
-    console.log('final list', this.finalQuestion)
-  }
-  removeFromCheckList() {
-    this.tempQuestions.forEach((q) => {
-      let index = this.finalQuestion.indexOf(q);
-      this.finalQuestion.splice(index, 1);
-      this.questionList2.push(q);
-    });
-    this.tempQuestions = [];
-  }
-  onMoveCheck(question: Question, isChecked: boolean) {
-    if (isChecked) {
-      this.tempQuestions.push(question);
-    } else {
-      let removed = this.tempQuestions.filter((q, ind) => {
-        return q.questionId === question.questionId ? ind : "";
-      });
-      let index = this.tempQuestions.indexOf(removed[0]);
-      this.tempQuestions.splice(index, 1);
-    }
-  }
-
-  onRemoveCheck(question: Question, isChecked: boolean) {
-    if (isChecked) {
-      this.tempQuestions.push(question);
-    } else {
-      let removed = this.tempQuestions.filter((q, ind) => {
-        return q.questionId === question.questionId ? ind : "";
-      });
-      let index = this.tempQuestions.indexOf(removed[0]);
-      this.tempQuestions.splice(index, 1);
-    }
-  }
-  drop(event: CdkDragDrop<object[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-  }
 
   ngOnInit() {
 
@@ -168,11 +116,11 @@ export class CreateChecklistComponent implements OnInit {
             fkTradeId: data.tradeId,
             fkSubgroupId: data.subgroupId,
             checklistName: data.checklistName,
-            questionGroup:  data.questionGroup
+            questionGroup: data.questionGroup
           }
           this.tradeMaintanceService.getSubgroupsByTrades(data.tradeId).subscribe(data => this.subgroups = data)
 
-          this.commonService.getQuestionByTrade(data.tradeId, data.subgroupId).subscribe(data => this.renderQuestions(data));
+          this.commonService.getQuestionByTrade(data.tradeId, data.subgroupId).subscribe(data => { this.renderQuestions2(data) });
           this.tradeMaintanceService.getQuestiongroupBySubgroup(data.subgroupId).subscribe(
             data => this.questionGroups = data
           )
@@ -182,10 +130,25 @@ export class CreateChecklistComponent implements OnInit {
       this.commonService.getAllocatedQuestion(this.checkListId)
         .subscribe(data => {
           let allocatedQ = data
-          console.log(data)
+          console.log('pre-->', data)
+          let e = {
+            target: {
+              checked: true
+            }
+          }
           allocatedQ.forEach(item => {
-            this.finalQuestion.push(item)
+            this.onMoveCheck(item.questionGroup, e, item)
+
+            if (this.checkedQuestionObj[item.questionGroup]) {
+              this.checkedQuestionObj[item.questionGroup][item.questionId] = true
+            }else{
+              this.checkedQuestionObj[item.questionGroup] = {}
+              this.checkedQuestionObj[item.questionGroup][item.questionId] = true
+            }
           })
+
+          this.assignQuestions = this.selectedQuestions
+          console.log(this.checkedQuestionObj)
         })
 
     }
@@ -204,13 +167,147 @@ export class CreateChecklistComponent implements OnInit {
       fkTradeId: ["", Validators.required],
       checklistName: ["", Validators.required],
       fkSubgroupId: ["", Validators.required],
-      questionGroup: ["", Validators.required]
+      // questionGroup: ["", Validators.required]
     });
 
     // console.log(this.formData);
 
 
   }
+
+  // addToCheckList() {
+  //   this.tempQuestions.forEach((q) => {
+  //     let index = this.questionList2.indexOf(q);
+  //     this.questionList2.splice(index, 1);
+  //     this.finalQuestion.push(q);
+  //   });
+  //   this.tempQuestions = [];
+  //   console.log('final list', this.finalQuestion)
+  // }
+
+  assignQuestions = {}
+  addToCheckList() {
+    this.assignQuestions = this.selectedQuestions
+  }
+
+  removeFromCheckList() {
+    // this.tempQuestions.forEach((q) => {
+    //   let index = this.finalQuestion.indexOf(q);
+    //   this.finalQuestion.splice(index, 1);
+    //   this.questionList2.push(q);
+    // });
+    // this.tempQuestions = [];
+    for (const key in this.deSelect) {
+      this.deSelect[key].forEach(q => {
+
+        delete this.checkedQuestionObj[key][q]
+
+        this.assignQuestions[key] = this.assignQuestions[key].filter(aq => {
+          return q != aq.questionId
+        })
+      })
+    }
+
+    this.deSelect = {}
+  }
+
+  //OLD
+  // onMoveCheck(question: Question, isChecked: boolean) {
+  //   if (isChecked) {
+  //     this.tempQuestions.push(question);
+  //   } else {
+  //     let removed = this.tempQuestions.filter((q, ind) => {
+  //       return q.questionId === question.questionId ? ind : "";
+  //     });
+  //     let index = this.tempQuestions.indexOf(removed[0]);
+  //     this.tempQuestions.splice(index, 1);
+  //   }
+
+  //   console.log('added', this.tempQuestions)
+  // }
+
+  // NEW
+  onMoveCheck(groupId, e, q) {
+    if (e.target.checked) {
+      if (this.selectedQuestions[groupId]) {
+        this.selectedQuestions[groupId].push(q)
+
+      } else {
+        this.selectedQuestions[groupId] = []
+        this.selectedQuestions[groupId].push(q)
+      }
+
+      if (this.checkedQuestionObj[q.questionGroup]) {
+        this.checkedQuestionObj[q.questionGroup][q.questionId] = true
+      }else{
+        this.checkedQuestionObj[q.questionGroup] = {}
+        this.checkedQuestionObj[q.questionGroup][q.questionId] = true
+      }
+
+    } else {
+
+      this.selectedQuestions[groupId] = this.selectedQuestions[groupId].filter(quetion => {
+        return quetion.questionId != q.questionId
+      })
+
+      delete this.checkedQuestionObj[q.questionGroup][q.questionId]
+    }
+
+    console.log(this.selectedQuestions)
+  }
+
+  // onRemoveCheck(question: Question, isChecked: boolean) {
+  //   if (isChecked) {
+  //     this.tempQuestions.push(question);
+  //   } else {
+  //     let removed = this.tempQuestions.filter((q, ind) => {
+  //       return q.questionId === question.questionId ? ind : "";
+  //     });
+  //     let index = this.tempQuestions.indexOf(removed[0]);
+  //     this.tempQuestions.splice(index, 1);
+  //   }
+  // }
+
+  deSelect = {}
+  onRemoveCheck(groupId, e, q) {
+    if (e.target.checked) {
+      if (this.deSelect[groupId]) {
+        this.deSelect[groupId].push(q.questionId)
+      } else {
+        this.deSelect[groupId] = []
+        this.deSelect[groupId].push(q.questionId)
+      }
+    } else {
+      this.deSelect[groupId] = this.deSelect[groupId].filter(qu => {
+        return qu != q.questionId
+      })
+
+      if(this.deSelect[groupId].length === 0){
+        delete this.deSelect[groupId]
+      }
+
+    }
+
+    console.log(this.deSelect)
+  }
+  drop(event: CdkDragDrop<object[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
+
+
 
   get f() {
     return this.registerForm.controls;
@@ -224,107 +321,219 @@ export class CreateChecklistComponent implements OnInit {
       })
   }
 
+  listLoad: boolean = false
   onGetListSubmit() {
     let getForm = this.registerForm.value;
     this.getListFormData = getForm;
     console.log(getForm)
+    this.listLoad = true
     this.commonService.getQuestionByTrade(getForm.fkTradeId, getForm.fkSubgroupId).subscribe(
       // this.commonService.getQuestionByTrade(118, 222).subscribe(
       (data) => {
-        this.renderQuestions(data)
+        // this.renderQuestions(data)
+        this.renderQuestions2(data)
+        this.listLoad = false
       },
       (err) => {
         console.log("-----> err", err);
       }
     );
   }
+
+  submitLoad: boolean = false
   sendCheckList() {
     // this.finalQuestion.length ? console.log(this.finalQuestion) : "";
+    let questionlist = []
+    for (const key in this.assignQuestions) {
+      questionlist = [...questionlist, ...this.assignQuestions[key]]
+    }
     let finalCheckList = {
       formDataList: [this.getListFormData],
-      checklistQuestionDataList: this.finalQuestion,
+      // checklistQuestionDataList: this.finalQuestion,
+      checklistQuestionDataList: questionlist,
     }
-    console.log(finalCheckList)
+    console.log(questionlist)
+    // return
     // console.log(JSON.stringify(finalCheckList));
+    // return
+    this.submitLoad = true
     if (this.checkListId != -1) {
       let finalCheckList = {
         formDataList: [{
           fkTradeId: this.registerForm.value.fkTradeId,
           fkSubgroupId: this.registerForm.value.fkSubgroupId,
           checklistName: this.registerForm.value.checklistName,
-          questionGroup: this.registerForm.value.questionGroup
+          // questionGroup: this.registerForm.value.questionGroup
 
         }],
-        checklistQuestionDataList: this.finalQuestion,
+        checklistQuestionDataList: questionlist,
       }
+
+      console.log(finalCheckList)
       this.commonService.updateChecklist(finalCheckList, this.checkListId)
         .subscribe(data => {
           console.log('checklist updated', data)
+          this.submitLoad = false
+          this.snackBar.showSuccess('Checklist updated')
+
+        }, err => {
+          this.submitLoad = false
+          this.snackBar.showSnackError()
         })
     } else {
 
       this.commonService.addCheckList(finalCheckList)
         .subscribe(
-          data => console.log(data),
-          err => console.log(err)
+          data => {
+            console.log(data)
+            this.submitLoad = false
+            this.snackBar.showSuccess('Checklist updated')
+          },
+          err => {
+            this.submitLoad = false
+            this.snackBar.showSnackError()
+          }
         )
     }
 
   }
 
-  renderQuestions(data) {
-    this.questionList2 = data;
-    console.log(data)
+  // renderQuestions(data) {
+  //   this.questionList2 = data;
+  //   console.log(data)
 
-    this.questionList2.forEach((question) => {
-      if (this.questionGroup.length == 0) {
-        if (this.questionList2.length != 0) {
-          let newArr = {
-            subgroupId: this.questionList2[0].subgroupId,
-            questions: [
-              {
-                questionId: this.questionList2[0].questionId,
-                questionText: this.questionList2[0].questionText,
-                questionGroup: this.questionList2[0].questionGroupId
-              },
-            ],
-          };
-          this.questionGroup.push(newArr);
+  //   this.questionList2.forEach((question) => {
+  //     if (this.questionGroup.length == 0) {
+  //       let newArr = {
+  //         subgroupId: this.questionList2[0].questionGroupId,
+  //         questions: [
+  //           {
+  //             questionId: this.questionList2[0].questionId,
+  //             questionText: this.questionList2[0].questionText,
+  //             questionGroup: this.questionList2[0].questionGroupId
+  //           },
+  //         ],
+  //       };
+  //       this.questionGroup.push(newArr);
+  //     } else {
+  //       let found = this.questionGroup.find(function (element) {
+  //         if (element.subgroupId == question.questionGroupId) return element;
+  //       });
+
+  //       // console.log('found', found)
+  //       if (found) {
+  //         let neqQ = {
+  //           questionId: question.questionId,
+  //           questionText: question.questionText,
+  //           questionGroup: question.questionGroupId,
+  //         };
+  //         found.questions.push(neqQ);
+  //         this.questionGroup = [...this.questionGroup, found]
+  //       } else {
+  //         let newG = {
+  //           subgroupId: question.questionGroupId,
+  //           questions: [
+  //             {
+  //               questionId: question.questionId,
+  //               questionText: question.questionText,
+  //               questionGroup: question.questionGroupId,
+
+  //             },
+  //           ],
+  //         };
+  //         this.questionGroup.push(newG);
+  //       }
+  //     }
+  //   });
+
+  //   console.log(this.questionGroup)
+  // }
+
+  questionGroup2 = {}
+  renderQuestions2(data) {
+    console.log(data)
+    data.forEach(question => {
+      if (this.questionGroup2[question.questionGroupId]) {
+        if (!this.questionGroup2[question.questionGroupId][question.questionHeadingId]) {
+
+          this.questionGroup2[question.questionGroupId][question.questionHeadingId] = {}
+          this.questionGroup2[question.questionGroupId][question.questionHeadingId]['heading'] = question.questionHeadingId
+          this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'] = []
+        } else {
+
+          this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'].push(
+            {
+              questionId: question.questionId,
+              questionText: question.questionText,
+              questionGroup: question.questionGroupId
+            })
+
         }
+
       } else {
-        let found = this.questionGroup.find(function (element) {
-          return element.subgroupId == question.subgroupId;
-        });
-        if (found) {
-          let neqQ = {
+        this.questionGroup2[question.questionGroupId] = {}
+        this.questionGroup2[question.questionGroupId]['questionGroup'] = question.questionGroupId
+
+        this.questionGroup2[question.questionGroupId][question.questionHeadingId] = {}
+        this.questionGroup2[question.questionGroupId][question.questionHeadingId]['heading'] = question.questionHeadingId
+        this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'] = []
+        this.questionGroup2[question.questionGroupId][question.questionHeadingId]['questions'].push(
+          {
             questionId: question.questionId,
             questionText: question.questionText,
-            questionGroup: question.questionGroupId,
-          };
-          found.questions.push(neqQ);
-        } else {
-          let newG = {
-            subgroupId: question.subgroupId,
-            questions: [
-              {
-                questionId: question.questionId,
-                questionText: question.questionText,
-                questionGroup: question.questionGroupId,
+            questionGroup: question.questionGroupId
+          })
 
-              },
-            ],
-          };
-          this.questionGroup.push(newG);
-        }
       }
-    });
+    })
 
-    console.log(this.questionGroup)
+    console.log('headingwise', this.questionGroup2)
   }
 
   getQuestionGroup() {
     this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
       .subscribe(data => this.questionGroups = data)
+  }
+
+
+
+  selectedQuestions = {}
+  addAllGroupQuestion(e, groupId) {
+    if (e.target.checked) {
+
+      let headingQuestion = this.questionGroup2[groupId]
+      this.selectedQuestions[groupId] = headingQuestion.questions
+      // console.log(headingQuestion)
+      this.selectedQuestions[groupId] = []
+      for (const key in headingQuestion) {
+        if (headingQuestion[key]['questions']) {
+          this.selectedQuestions[groupId].push(...headingQuestion[key]['questions'])
+        }
+      }
+
+      $(`.question${groupId}`).prop('checked', true)
+
+
+      for (const key in this.selectedQuestions) {
+        let question = this.selectedQuestions[key]
+        question.forEach(q =>{
+          if (this.checkedQuestionObj[key]) {
+            this.checkedQuestionObj[key][q.questionId] = true
+          }else{
+            this.checkedQuestionObj[key] = {}
+            this.checkedQuestionObj[key][q.questionId] = true
+          }
+        })
+      }
+      
+    } else {
+      delete this.selectedQuestions[groupId]
+
+      $(`.question${groupId}`).prop('checked', false)
+    }
+    console.log(this.selectedQuestions)
+    console.log(this.checkedQuestionObj)
+
   }
 
 }

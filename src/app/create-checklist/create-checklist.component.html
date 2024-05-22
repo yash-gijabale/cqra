@@ -32,7 +32,7 @@
             <div class="form-group col-md-6">
               <label>Select Trade</label>
               <select [(ngModel)]="tradeId" formControlName="fkTradeId" class="form-control" (change)="getSubgroups()">
-                <option [value]="0" selected >Please Select</option>
+                <option [value]="0" selected>Please Select</option>
                 <option [value]="o.tardeId" *ngFor="let o of trades">
                   {{o.tradeName}}
                 </option>
@@ -54,7 +54,8 @@
 
             <div class="form-group col-md-6">
               <label>Select Subgroup</label>
-              <select [(ngModel)]="SelSubgroup" formControlName="fkSubgroupId" class="form-control"  (change)="getQuestionGroup()">
+              <select [(ngModel)]="SelSubgroup" formControlName="fkSubgroupId" class="form-control"
+                (change)="getQuestionGroup()">
                 <option [value]="0" selected>Please Select</option>
                 <option [value]="o.subgroupId" *ngFor="let o of subgroups">
                   {{o.subgroupName}}
@@ -65,7 +66,7 @@
               </div>
             </div>
 
-            <div class="form-group col-md-6">
+            <!-- <div class="form-group col-md-6">
               <label>Select Question Group</label>
               <select formControlName="questionGroup" class="form-control">
                 <option [value]="0" selected>Please Select</option>
@@ -76,7 +77,7 @@
               <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
                 <div *ngIf="f.clientId.errors.required">Sub Trade is required</div>
               </div>
-            </div>
+            </div> -->
             <!-- <div class="form-group col-md-6">
               <label>Select Question Group</label>
               <select (ngModel)="SelClientId" formControlName="groupId" class="form-control">
@@ -91,7 +92,10 @@
             </div> -->
           </div>
           <div class="form-group mx-3">
-            <button class="btn btn-primary" (click)="onGetListSubmit()">Get List</button>
+            <button class="btn btn-primary" (click)="onGetListSubmit()">
+              <span *ngIf="listLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span *ngIf="!listLoad">Get List</span>
+            </button>
           </div>
 
 
@@ -105,22 +109,27 @@
                     </h5>
                   </div>
                   <!-- <form [formGroup]="checklistForm" (ngSubmit)="onSubmit()"> -->
-                  <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="questionList2"
-                     class="example-list" (cdkDropListDropped)="drop($event)"
-                    class="card-body kamban-card-body" id="all_structure">
-                    <div *ngFor="let qgroup of questionGroup">
-                      <span><b>{{qgroup.subgroupId}}</b></span>
-                      <ul *ngFor=" let q of qgroup.questions" class="card question-list-primary" cdkDrag>
-                        <li class="d-flex justify-content-between">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" (change)="onMoveCheck(q, $event.target.checked)"
-                              id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                              {{q.questionText}}
-                            </label>
-                          </div>
-                        </li>
-                      </ul>
+                  <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="questionList2" class="example-list"
+                    (cdkDropListDropped)="drop($event)" class="card-body kamban-card-body" id="all_structure">
+                    <div *ngFor="let qgroup of questionGroup2 | keyvalue">
+                      <input type="checkbox"
+                        (change)="addAllGroupQuestion($event, qgroup.value.questionGroup)"><span><b>{{qgroup.value.questionGroup}}</b></span>
+                      <div *ngFor="let heading of qgroup.value | keyvalue">
+                        <span class="ml-2"><b>{{heading.value.heading}}</b></span>
+                        <ul *ngFor="let q of heading.value.questions" class="card question-list-primary ml-2" cdkDrag>
+                          <li class="d-flex justify-content-between">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox"
+                                [className]="'question'+qgroup.value.questionGroup"
+                                (change)="onMoveCheck(qgroup.key,$event, q)" [id]="'question'+q.questionId"
+                                [checked]="checkedQuestionObj[qgroup.key] && checkedQuestionObj[qgroup.key][q.questionId]">
+                              <label class="form-check-label" for="flexCheckDefault">
+                                {{q.questionText}}
+                              </label>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                     <!-- <ul *ngFor="let q of questionList2" class="card question-list-success" cdkDrag>
                       <li class="d-flex justify-content-between">
@@ -133,23 +142,23 @@
                         </div>
                       </li>
                     </ul> -->
-          
+
                   </div>
-          
+
                   <!-- </form> -->
                 </div>
               </div>
             </section>
-          
+
             <section class="col-md-1">
               <div class="row">
-                <button class="btn btn-sm btn-primary col-md-12 m-1" (click)='addToCheckList()'><i class="fa fa-chevron-right"
-                    aria-hidden="true"></i></button>
-                <button class="btn btn-sm btn-success m-1 col-md-12" (click)="removeFromCheckList()"><i class="fa fa-chevron-left"
-                    aria-hidden="true"></i></button>
+                <button class="btn btn-sm btn-primary col-md-12 m-1" (click)='addToCheckList()'><i
+                    class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                <button class="btn btn-sm btn-success m-1 col-md-12" (click)="removeFromCheckList()"><i
+                    class="fa fa-chevron-left" aria-hidden="true"></i></button>
               </div>
             </section>
-          
+
             <section class="content pb-3 col-md-5">
               <div class="container-fluid">
                 <div class="card card-row p-0">
@@ -158,30 +167,48 @@
                       Checked Questions
                     </h5>
                   </div>
-                  <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="finalQuestion"
-                     class="example-list" (cdkDropListDropped)="drop($event)"
-                    class="card-body kamban-card-body" id="all_stages">
-                    <ul *ngFor="let q of finalQuestion" class="card question-list-success" cdkDrag>
+                  <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="finalQuestion" class="example-list"
+                    (cdkDropListDropped)="drop($event)" class="card-body kamban-card-body" id="all_stages">
+                    <!-- <ul *ngFor="let q of finalQuestion" class="card question-list-success" cdkDrag>
                       <li class="d-flex justify-content-between">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" (change)="onRemoveCheck(q, $event.target.checked)"
-                            value="" id="flexCheckDefault">
+                          <input class="form-check-input" type="checkbox"
+                            (change)="onRemoveCheck(q, $event.target.checked)" value="" id="flexCheckDefault">
                           <label class="form-check-label" for="flexCheckDefault">
                             {{q.questionText}}
                           </label>
                         </div>
                       </li>
-                    </ul>
+                    </ul> -->
+
+                    <div *ngFor="let qgroup of assignQuestions | keyvalue">
+                      <span class="ml-2"><b>{{qgroup.key}}</b></span>
+                      <ul *ngFor="let q of qgroup.value" class="card question-list-success ml-2" cdkDrag>
+                        <li class="d-flex justify-content-between">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox"
+                              (change)="onRemoveCheck(qgroup.key, $event, q)" [id]="'question'+q.questionId">
+                            <label class="form-check-label" for="flexCheckDefault">
+                              {{q.questionText}}
+                            </label>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                   <div class="card-footer">
-                    <button class="btn btn-primary" (click)="sendCheckList()">Save</button>
+                    <button class="btn btn-primary" (click)="sendCheckList()">
+                      <span *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                      <span *ngIf="!submitLoad">Submit</span>
+                    </button>
                   </div>
                 </div>
               </div>
             </section>
           </div>
 
-         
+
         </form>
         <!-- Check list Card -->
         <!-- /Check list Card -->
@@ -190,4 +217,6 @@
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

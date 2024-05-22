@@ -4,6 +4,7 @@ import { TradeMaintanceService } from "../trade-maintance.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { first } from "rxjs/operators";
 import { Trade } from "../trade/trade.component";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 // import { error } from "console";
 export class NcReportDetails {
   constructor(
@@ -81,7 +82,7 @@ export class NcReportDetails {
     public frq: string,
     public projectName: string,
     public tradeName: string
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -93,14 +94,15 @@ export class NcCloserViewReportComponent implements OnInit {
   ncReportId: number;
   ncReportForm: FormGroup;
   trades: Trade[];
-  submitted:boolean
+  submitted: boolean
 
   nscReport: NcReportDetails[];
   constructor(
     private route: ActivatedRoute,
     private tradeService: TradeMaintanceService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private snackBar: SnackBarComponent
+  ) { }
 
   ngOnInit() {
     this.ncReportId = this.route.snapshot.params["id"];
@@ -154,7 +156,10 @@ export class NcCloserViewReportComponent implements OnInit {
   get f() {
     return this.ncReportForm.controls;
   }
+
+  submitLoad: boolean = false
   onSubmit() {
+    this.submitLoad = true
     console.log(this.ncReportId);
     let id = this.ncReportId;
     let form = { ...this.ncReportForm.value, id: Number };
@@ -189,8 +194,16 @@ export class NcCloserViewReportComponent implements OnInit {
     console.log(form);
 
     this.tradeService.updateNcReport(form, this.ncReportId).subscribe(
-      (data) => console.log("updaeted->>>", data),
-      (err) => console.log(err)
+      (data) => {
+        console.log("updaeted->>>", data)
+        this.submitLoad = false
+        this.snackBar.showSuccess('Nc Updated')
+      },
+      (err) => {
+        console.log(err)
+        this.submitLoad = false
+        this.snackBar.showSnackError()
+      }
     );
   }
 }

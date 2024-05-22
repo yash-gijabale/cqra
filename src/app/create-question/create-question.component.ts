@@ -11,6 +11,7 @@ import { QuestionGroupView } from "../question-group/question-group.component";
 import { QuestionHeadingView } from "../question-heading/question-heading.component";
 import { first } from "rxjs/operators";
 import { error } from "console";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 
 export class QuestionData {
@@ -38,12 +39,12 @@ export class QuestionData {
     public ncImage1: string,
     public ncImage2: string,
     public dataToBeCaptured: number,
-    public option1: string,
-    public option2: string,
-    public option3: string,
-    public option4: string,
-    public option5: string,
-    public option6: string,
+    // public option1: string,
+    // public option2: string,
+    // public option3: string,
+    // public option4: string,
+    // public option5: string,
+    // public option6: string,
     public mandatory: boolean,
     public unitOfMeasurement: string,
   ) { }
@@ -68,13 +69,15 @@ export class CreateQuestionComponent implements OnInit {
   clients: ClientData[];
   submitted = false;
   isOptionShow = false;
+  questionHeadingId: number;
   questionId: number
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientServiceService: ClientServiceService,
     private tradeMaintanceService: TradeMaintanceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackbar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -84,6 +87,7 @@ export class CreateQuestionComponent implements OnInit {
       this.tradeMaintanceService.retriveQuestion(this.questionId)
         .pipe(first())
         .subscribe(data => {
+          console.log(data);
           questionData = data
           this.tradeMaintanceService.getSubgroupsByTrades(questionData.tradeId).subscribe(data => this.subgroups = data)
           this.tradeMaintanceService.getQuestiongroupBySubgroup(questionData.subgroupId).subscribe(data => this.questionGroups = data)
@@ -126,9 +130,9 @@ export class CreateQuestionComponent implements OnInit {
       ncDescription: ['', Validators.required],
       refStdPract: ['', Validators.required],
       typeOfCheck: ['', Validators.required],
-      workInstruction: ['', Validators.required],
-      sampleSize: ['', Validators.required],
-      sampleUnit: ['', Validators.required],
+      workInstruction: ['', Validators.nullValidator],
+      sampleSize: ['', Validators.nullValidator],
+      sampleUnit: ['', Validators.nullValidator],
       tolerance: ['', Validators.required],
       minimumobservation: ['', Validators.required],
       impactOnQuality: ['', Validators.required],
@@ -140,12 +144,12 @@ export class CreateQuestionComponent implements OnInit {
       ncImage1: ['', Validators.nullValidator],
       ncImage2: ['', Validators.nullValidator],
       dataToBeCaptured: ['', Validators.required],
-      option1: ['', Validators.nullValidator],
-      option2: ['', Validators.nullValidator],
-      option3: ['', Validators.nullValidator],
-      option4: ['', Validators.nullValidator],
-      option5: ['', Validators.nullValidator],
-      option6: ['', Validators.nullValidator],
+      // option1: ['', Validators.nullValidator],
+      // option2: ['', Validators.nullValidator],
+      // option3: ['', Validators.nullValidator],
+      // option4: ['', Validators.nullValidator],
+      // option5: ['', Validators.nullValidator],
+      // option6: ['', Validators.nullValidator],
       mandatory: ['', Validators.nullValidator],
       unitOfMeasurement: ['', Validators.nullValidator],
       nil: ['', Validators.nullValidator],
@@ -206,10 +210,13 @@ export class CreateQuestionComponent implements OnInit {
     }
     this.submitLoad = true
 
+
+
     console.log("Id==");
     console.log(this.questionFrom.value)
     let formData = {
       ...this.questionFrom.value,
+      questionHeadingId: this.questionFrom.value.questionHeadingId ? this.questionFrom.value.questionHeadingId : 0,
       isActive: 1
     }
     if (this.questionId != -1) {
@@ -218,24 +225,26 @@ export class CreateQuestionComponent implements OnInit {
         .subscribe(data => {
           console.log('q updated-->', data)
           this.submitLoad = false
-        }, error => {
-          console.log('-->', error)
-          this.submitLoad = false
+          this.snackbar.showSuccess('Question Updated!')
+          this.router.navigate(['/question']);
 
-        })
+        }, err => {
+          this.submitLoad = false
+          this.snackbar.showSnackError()
+        });
     } else {
       this.tradeMaintanceService.createQuestions(formData)
         .subscribe(data => {
           console.log(data)
           this.submitLoad = false
+          this.snackbar.showSuccess('Question Added!')
+          // this.router.navigate(['/question']);
 
-        },
-          err => {
-            console.log(err)
-            this.submitLoad = false
+        }, err => {
+          this.submitLoad = false
+          this.snackbar.showSnackError()
+        });
 
-          }
-        )
     }
   }
 }

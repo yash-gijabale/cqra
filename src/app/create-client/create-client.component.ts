@@ -38,7 +38,8 @@ export class CreateClientComponent implements OnInit {
       clientEmail: ['', [Validators.required, Validators.email]],
       clientAddress: ['', [Validators.required, Validators.minLength(6)]],
       clientContactPerson: ['', [Validators.required]],
-      clientPhone: ['', Validators.required]
+      clientPhone: ['', Validators.required],
+      showOnReport:[1, Validators.nullValidator]
 
     });
   }

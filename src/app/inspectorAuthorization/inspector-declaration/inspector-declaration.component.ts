@@ -5,6 +5,7 @@ import { ProjectData, ProjectView } from 'src/app/project/project.component';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 import { forEach } from '@angular/router/src/utils/collection';
+import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-inspector-declaration',
@@ -36,7 +37,8 @@ export class InspectorDeclarationComponent implements OnInit {
 
   constructor(
     private inspectionTraining: InspectorTraning,
-    private cleintService: ClientServiceService
+    private cleintService: ClientServiceService,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -75,19 +77,23 @@ export class InspectorDeclarationComponent implements OnInit {
     this.inspectionTraining.getDeclarationUserList()
       .subscribe(data => {
         // this.declarationUserList = data
+        let useobjcheck = {}
         let list = data.filter(item => {
           if (item != null) {
-            return item
+            if (!useobjcheck[item.userId]) {
+              useobjcheck[item.userId] = true
+              return item
+            }
           }
         })
-        let srNo = 0
-        list = list.map(user =>{
-          srNo += 1
-          return {
-            srNo: srNo,
-            ...user
-          }
-        })
+        // let srNo = 0
+        // list = list.map(user => {
+        //   srNo += 1
+        //   return {
+        //     srNo: srNo,
+        //     ...user
+        //   }
+        // })
         this.declarationUserList = list
         console.log(this.declarationUserList)
         this.dtTrigger.next()
@@ -129,30 +135,38 @@ export class InspectorDeclarationComponent implements OnInit {
   }
 
 
+  assignLoad = false
   saveAssignProjects() {
     let date = new Date().toISOString().slice(0, 10)
+    this.assignLoad = true
     let assignProjectData = []
     this.assignProjectList.forEach(projectId => {
       let data = {
         clientId: this.clientProjectObject[projectId],
         projectId: projectId,
         userId: Number(this.SelUserId),
-        trainingDate: date
+        // trainingDate: date
       }
       assignProjectData.push(data)
     })
 
     console.log(assignProjectData)
     console.log(Number(this.SelUserId))
+    // return
 
     this.inspectionTraining.assignMultipleProject(assignProjectData)
       .subscribe(data => {
         console.log('project asigbed', data)
-
         this.inspectionTraining.sendMailDeclaration(Number(this.SelUserId))
           .subscribe(data => {
             console.log('email send', data)
           })
+
+        this.snackBar.showSuccess('Project Assign Successfuly !')
+        this.assignLoad = false
+      }, err =>{
+        console.log(err)
+        this.snackBar.showSnackError()
       })
   }
 
@@ -185,13 +199,14 @@ export class InspectorDeclarationComponent implements OnInit {
     this.userDetailsLoad = true
     this.inspectionTraining.getUserDeclarationDetails(userId)
       .subscribe(data => {
+        console.log(data);
         let srNo = 0
         this.userDeclaration = data.map(d => {
           srNo += 1
           return {
             ...d,
             srNo: srNo,
-            trainingDate: new Date(d.trainingDate).toISOString().substring(0, 10),
+            trainingDate: d.trainingDate && new Date(d.trainingDate).toISOString().substring(0, 10),
           }
         })
         console.log(this.userDeclaration)
@@ -203,17 +218,24 @@ export class InspectorDeclarationComponent implements OnInit {
   approvedProjectData = {}
   approveLoad: boolean = false
   declineLoad: boolean = false
+  approveBtnLoad = {}
   addToApproveProject(projectId, status, userId) {
     let isComfirm;
     if (status === 1) {
       isComfirm = confirm('Are you sure want to approve this project')
       if (isComfirm) {
         this.approveLoad = true
+        this.approveBtnLoad[projectId] = {
+          load:true
+        }
       }
     } else if (status === 2) {
       isComfirm = confirm('Are you sure want to decline this project')
       if (isComfirm) {
         this.declineLoad = true
+        this.approveBtnLoad[projectId] = {
+          load:true
+        }
       }
 
     }
@@ -229,6 +251,9 @@ export class InspectorDeclarationComponent implements OnInit {
           console.log('updated status', data)
           this.declineLoad = false
           this.approveLoad = false
+          this.approveBtnLoad[projectId] = {
+            load:false
+          }
           this.getUserDetails(userId)
 
         })
@@ -271,13 +296,13 @@ export class InspectorDeclarationComponent implements OnInit {
   preAllocatedProjects = {}
   getUSerProjects() {
     this.inspectionTraining.getUserDeclarationDetails(this.SelUserId)
-    .subscribe(data =>{
-      console.log(data)
-      data.forEach(d =>{
-        this.preAllocatedProjects[d.projectId] = true
+      .subscribe(data => {
+        console.log(data)
+        data.forEach(d => {
+          this.preAllocatedProjects[d.projectId] = true
+        })
       })
-    })
-  
+
   }
 
 

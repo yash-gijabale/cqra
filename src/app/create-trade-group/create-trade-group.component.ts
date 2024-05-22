@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TradeMaintanceService } from '../trade-maintance.service';
 import { ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs/operators'
+import { first } from 'rxjs/operators';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-create-trade-group',
@@ -18,7 +19,9 @@ export class CreateTradeGroupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private tradeService: TradeMaintanceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: SnackBarComponent
+
   ) { }
 
   ngOnInit() {
@@ -34,8 +37,8 @@ export class CreateTradeGroupComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       tradeGroupName: ['', Validators.required],
-      tradeGroupNumber: ['', Validators.required],
-      tradeGroupSequence: ['', Validators.required]
+      // tradeGroupNumber: ['', Validators.required],
+      // tradeGroupSequence: ['', Validators.required]
     })
   }
 
@@ -58,9 +61,12 @@ export class CreateTradeGroupComponent implements OnInit {
         .subscribe(data => {
           console.log('updates')
           this.isLoad = false
-
-
+          this.snackBar.showSuccess('Trade-Group Updated!')
+        }, err => {
+          this.isLoad = false
+          this.snackBar.showSnackError()
         })
+
 
     } else {
 
@@ -68,8 +74,13 @@ export class CreateTradeGroupComponent implements OnInit {
         .subscribe(data => {
           console.log(data)
           this.isLoad = false
-
+          this.snackBar.showSuccess('Trade-Group Added!')
+        }, err =>{
+          this.isLoad = false
+          this.snackBar.showSnackError()
         })
+
+        
     }
 
   }

@@ -51,6 +51,7 @@ export class EquipmentMaintenanceFormComponent implements OnInit {
             srNo
           }
         })
+        
       })
 
     this.inspectionTraining.getMasterIdsByUserId(this.userId)

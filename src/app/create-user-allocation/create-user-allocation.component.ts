@@ -13,6 +13,7 @@ import { CheckListView } from "../edit-non-conf/edit-non-conf.component";
 import { UserService } from "../service/user.service";
 import { first } from "rxjs/operators";
 import { InspectorTraning } from "../service/inspectionTraining.service";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 export class UseAllocationData {
   constructor(
@@ -62,7 +63,7 @@ export class CreateUserAllocationComponent implements OnInit {
   trades: Trade
   approvedTrades: Array<ApprovedTrade>
   users: UserView[]
-  projects: ProjectData[];
+  projects: any[];
   checklists: any
 
   allocationId: number
@@ -85,7 +86,8 @@ export class CreateUserAllocationComponent implements OnInit {
     private commanService: CommonService,
     private tradeMaintance: TradeMaintanceService,
     private userService: UserService,
-    private inspectorTraining: InspectorTraning
+    private inspectorTraining: InspectorTraning,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -125,11 +127,11 @@ export class CreateUserAllocationComponent implements OnInit {
         this.userList = data
       })
 
-    // this.clientServiceService.getAllProject()
-    //   .subscribe(data => {
-    //     console.log('projects ==>', data)
-    //     this.projects = data;
-    //   })
+    this.clientServiceService.getAllProject()
+      .subscribe(data => {
+        console.log('projects ==>', data)
+        this.projects = data;
+      })
 
 
     this.userAllocationForm = this.formBuilder.group({
@@ -226,6 +228,10 @@ export class CreateUserAllocationComponent implements OnInit {
         .subscribe(data => {
           console.log('updated allocation-->', data)
           this.isbtnLoading = false
+          this.snackBar.showSuccess('Allocation updated')
+        }, err => {
+          this.isbtnLoading = false
+          this.snackBar.showSnackError()
         })
     } else {
 
@@ -233,7 +239,10 @@ export class CreateUserAllocationComponent implements OnInit {
         .subscribe(data => {
           console.log('allocated -->', data)
           this.isbtnLoading = false
-
+          this.snackBar.showSuccess('Allocation created')
+        }, err => {
+          this.isbtnLoading = false
+          this.snackBar.showSnackError()
         })
     }
   }
@@ -306,7 +315,7 @@ export class CreateUserAllocationComponent implements OnInit {
         data => {
           console.log('checklist-->', data)
           this.checklists = data
-          this.checklists.forEach(checklist =>{
+          this.checklists.forEach(checklist => {
             this.tradeCheckListArray.push(checklist.checkistIdChecklist)
           })
         }
@@ -364,7 +373,7 @@ export class CreateUserAllocationComponent implements OnInit {
             }
           }
 
-          if(this.tradeCheckListArray.includes(Number(item.checklistId))){
+          if (this.tradeCheckListArray.includes(Number(item.checklistId))) {
             this.checkListMap[item.checklistId] = true
           }
 
@@ -377,15 +386,15 @@ export class CreateUserAllocationComponent implements OnInit {
           this.checkListData.push(key)
         }
 
-        setTimeout(() =>{
+        setTimeout(() => {
           this.showStatus = false
-          }, 2000)
-      }, err =>{
+        }, 2000)
+      }, err => {
         this.showStatus = true
         this.isFound = false
 
-        setTimeout(() =>{
-        this.showStatus = false
+        setTimeout(() => {
+          this.showStatus = false
 
         }, 2000)
       })
@@ -446,24 +455,56 @@ export class CreateUserAllocationComponent implements OnInit {
 
 
   selectedData = {}
-  addStages(e) {
-    if (e.target.checked) {
-      this.selectedData[String(String(e.target.value))] = {}
-    } else {
-      delete this.selectedData[String(e.target.value)]
-    }
+  // addStages(e) {
+  //   // this.selectedData = [String(e.target.value)]
+  //   if (e.target.checked) {
+  //     this.selectedData[String(String(e.target.value))] = {}
+  //   } else {
+  //     delete this.selectedData[String(e.target.value)]
+  //   }
 
+  //   console.log(this.selectedData)
+  // }
+
+
+
+  addStages(e) {
+    const stageId = String(e.target.value);
+    if (e.target.checked) {
+      this.selectedData[stageId] = {};
+      this.showunits(stageId);
+    } else {
+      delete this.selectedData[stageId];
+    }
+    console.log(this.selectedData);
+  }
+
+  addAllStage(e) {
+    if (e.target.checked) {
+      this.stages.forEach(stage => {
+        if (!this.selectedData[Number(stage)]) {
+          this.selectedData[Number(stage)] = {}
+        }
+      })
+    } else {
+      this.stages.forEach(stage => {
+        delete this.selectedData[Number(stage)]
+      })
+    }
     console.log(this.selectedData)
   }
 
   addUnitToStage(e) {
+    const currentStage = String(e.target.value)
     if (e.target.checked) {
       this.selectedData[String(this.currentStage)][e.target.value] = []
+      this.showSubunits(currentStage)
     } else {
       delete this.selectedData[String(this.currentStage)][e.target.value]
     }
     console.log(this.selectedData)
   }
+
 
   addSubunit(e) {
     if (e.target.checked) {

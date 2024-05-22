@@ -40,7 +40,7 @@ export class InspectorDeclarationViewComponent implements OnInit {
           return {
             ...d,
             srNo: srNo,
-            trainingDate: new Date(d.trainingDate).toISOString().substring(0, 10),
+            trainingDate: d.trainingDate && new Date(d.trainingDate).toISOString().substring(0, 10),
           }
         })
         console.log(this.userDetails)

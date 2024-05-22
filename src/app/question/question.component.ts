@@ -92,6 +92,11 @@ export class QuestionComponent implements OnInit {
     this.router.navigate(['createQuestion', id])
   }
 
+  // editforQuestion(id,){
+  //   this.router.navigate(['createQuestion',id])
+  // }
+
+
 
   deActivateQuestion(id){
     let isDeactivate = confirm('Are you sure want to deactivate?')

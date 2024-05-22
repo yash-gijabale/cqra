@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { EquipmentView } from '../add-equipment/add-equipment.component';
 import { UserView } from '../user-equipment/user-equipment.component';
 import { forEach } from '@angular/router/src/utils/collection';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-assign-equipement-list',
@@ -17,7 +18,7 @@ export class AssignEquipementListComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<EquipmentView> = new Subject<EquipmentView>();
+  dtTrigger: Subject<any> = new Subject<any>();
 
   assignEquipment: Array<EquipmentView>
   isLoading: boolean = false
@@ -29,7 +30,8 @@ export class AssignEquipementListComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -116,8 +118,12 @@ export class AssignEquipementListComponent implements OnInit {
       .subscribe(data => {
         console.log('added', data)
         this.assignEqLoad = false
+        this.snackBar.showSuccess('Equipment Assigned')
+        this.dtTrigger;
         this.getAllEquipment()
-
+      }, err =>{
+        this.assignEqLoad = false
+        this.snackBar.showSnackError()
       })
   }
 
@@ -235,6 +241,25 @@ export class AssignEquipementListComponent implements OnInit {
         })
       }
     }
+  }
+
+  policyLoad = {
+
+  }
+  downloadPolicy(eqId, userId){
+    this.policyLoad[eqId] = {
+      load:true,
+      url:'',
+      error:false
+    }
+    this.userService.donloadToolkitPolicy(eqId, userId)
+    .subscribe(data =>{
+      this.policyLoad[eqId].load = false
+      this.policyLoad[eqId].url = data.url
+    },err =>{
+      this.policyLoad[eqId].error = true
+
+    })
   }
 }
 

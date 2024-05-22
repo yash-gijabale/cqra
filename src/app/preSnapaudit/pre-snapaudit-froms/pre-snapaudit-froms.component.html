@@ -25,6 +25,11 @@
         <div class="col-md-4 d-flex justify-content-end">
           <button class="btn btn-sm btn-primary h-20 p-2 m-0" style="height: 35px;" data-toggle="modal"
             data-target="#declaration-view">Create New Team</button>
+
+          <button *ngIf="isLeader" class="btn btn-sm btn-primary h-20 p-2 ml-2" style="height: 35px;"
+            data-toggle="modal" data-target="#download-view" (click)="getMasterDataForDownload()">Download
+            Samplings</button>
+
           <div class="modal fade" id="declaration-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
@@ -168,949 +173,427 @@
             </div>
           </div>
 
-        </div>
-      </div>
-
-
-      <div>
-        <!-- EQUIPMENT MAINTENANCE FORMAt -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Equipment Maintenance Format
-            <span class="badge badge-warning" *ngIf="formStatus.equipmentdata==false">Pending</span>
-            <span class="badge badge-success" *ngIf="formStatus.equipmentdata">Filled</span>
-          </h5>
-          <div class="row justify-content-between col-md-12">
-            <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
-                data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the form</button></a>
-
-            <div class="row col-md-4">
-              <input type="file" id="equipmentForm" class="form-control col-md-9">
-              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadEuipmentForm()">Upload</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div *ngIf="isLeader">
-        <!-- OPENING/CLOSING MEETING ATTENDANCE SHEET -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Opening/Closing meeting attendance sheet
-            <span class="badge badge-warning" *ngIf="formStatus.ocdata==false">Pending</span>
-            <span class="badge badge-success" *ngIf="formStatus.ocdata">Filled</span>
-          </h5>
-          <div class="row justify-content-between col-md-12">
-            <button class="btn btn-sm btn-success mx-2" data-toggle="modal" data-target="#opening-closeing-meering-view"
-              (click)="getopeningClosingForm()">Fill the
-              form</button>
-            <div class="row col-md-4">
-              <input type="file" id="openingClosingForm" class="form-control col-md-9">
-              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadOpeningClosing()">Upload</button>
-            </div>
-          </div>
-
-          <div class="modal fade" id="opening-closeing-meering-view" tabindex="-1" role="dialog"
+          <div class="modal fade" id="download-view" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+            <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Opening/Closing meeting attendance sheet</h5>
+                  <h5 class="modal-title" id="exampleModalLongTitle">Sampling List</h5>
                   <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body modal-full-body">
-                  <div class="card">
-                    <div class="card-body bg-light">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-light">
-                          <div class="row m-2">
+                <div class="modal-body modal-full-body donload_data_modal_body">
+                  <table class="row-border hover inspector_list_table" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Master Id</th>
+                        <th>Client Name</th>
+                        <th>Project Name</th>
+                        <th width="10%">From Date</th>
+                        <th width="10%">To date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="inspectionTeamFrom" *ngIf="!updateTeamFlag">
+                      <tr *ngFor="let data of masterViewData">
+                        <td>
+                          <span>{{data.masterId}}</span>
+                        </td>
+                        <td>
+                          {{data.clientName}}
+                        </td>
+                        <td>
+                          {{data.projectName}}
+                        </td>
+                        <td>
+                          {{data.fromDate}}
+                        </td>
+                        <td>
+                          {{data.toDate}}
+                        </td>
+                        <td>
+                          <button class="btn btn-sm btn-success" (click)="downloadSampling(data)">
+                            <span *ngIf="genLoad[data.masterId] && genLoad[data.masterId].load"
+                              class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span *ngIf="!genLoad[data.masterId]">
+                              Download
+                            </span>
+                          </button>
+                          <a *ngIf="genLoad[data.masterId] && genLoad[data.masterId].url != ''"
+                            class="btn btn-sm btn-success"
+                            [href]="genLoad[data.masterId] && this.genLoad[data.masterId].url" target="_blank">View</a>
+                          <span *ngIf="genLoad[data.masterId] && genLoad[data.masterId].error"
+                            class="badge badge-danger">Failed</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                            <div class="form-group col-md-12">
-                              <label><b>Matser Id:</b></label>
-                              <select class="form-control col-md-3">
-                                <option [value]="currentMasterId">{{currentMasterId}}</option>
-                              </select>
-                            </div>
+        </div>
+      </div>
 
-                            <div class="form-group col-md-3">
-                              <label>Client Name</label>
-                              <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
-                                class="form-control" readonly>
-                            </div>
+      <div *ngIf="masterDataLoad then thenUserDetails else elseUserDetails"></div>
+      <ng-template #thenUserDetails>
+        <div class="userdeailsload">
+          <div class="spinner-border text-warning" role="status">
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #elseUserDetails>
+        <div>
+          <!-- EQUIPMENT MAINTENANCE FORMAt -->
+          <div class="row pb-2 border-bottom mt-5 border-secondary">
+            <h5 class="col-md-12">Equipment Maintenance Format
+              <span class="badge badge-warning" *ngIf="formStatus.equipmentdata==false">Pending</span>
+              <span class="badge badge-success" *ngIf="formStatus.equipmentdata">Filled</span>
+            </h5>
+            <div class="row justify-content-between col-md-12">
+              <div class="col-md-8">
+                <a routerLink="/equipmentMaintenanceFrom" target="_blank"><button class="btn btn-success btn-sm mx-2"
+                    data-toggle="modal" data-target="#equipmentMaintenance-view">Fill the form</button></a>
 
-                            <div class="form-group col-md-3">
-                              <label>Projcet Name</label>
-                              <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
-                                class="form-control" readonly>
-                            </div>
+                <button *ngIf="formStatus.equipmentdata" class="btn btn-sm btn-primary"
+                  (click)="downloadEquipmentForm()">
+                  <i *ngIf="!myequipmentFormLoad.load && myequipmentFormLoad.url==''" class="fa fa-download"
+                    aria-hidden="true"></i>
+                  <span *ngIf="myequipmentFormLoad.load" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                  <a *ngIf="myequipmentFormLoad.url != ''" class="card-text" style="color: white; text-decoration: none;"
+                    [href]="myequipmentFormLoad.url" target="_blank">View</a>
+                </button>
+                <span *ngIf="myequipmentFormLoad.error" class="badge badge-danger">Failed</span>
+              </div>
 
-                            <div class="form-group col-md-3">
-                              <label>Cycle Of Inspection</label>
-                              <select class="form-control">
-                                <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
-                                  [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
-                                  {{cycle.cycle_name}}</option>
-                              </select>
-                            </div>
+              <div class="row col-md-4">
+                <input type="file" id="equipmentForm" class="form-control col-md-9">
+                <button class="btn btn-sm btn-primary col-md-3" (click)="uploadEuipmentForm()">Upload</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div *ngIf="isLeader">
+
+          <!-- SAMPLING  -->
+          <div class="row pb-2 border-bottom mt-5 border-secondary">
+            <h5 class="col-md-12">Download Team Composition</h5>
+            <div class="row justify-content-between col-md-12 mx-2">
+              <button *ngIf="isLeader && formStatus.inspectoronsitedata" class="btn btn-sm btn-primary"
+                (click)="downloadTeamInspectionForm()">
+                <i *ngIf="!teamInspectionForm.load && teamInspectionForm.url==''" class="fa fa-download"
+                  aria-hidden="true"></i>
+                <span *ngIf="teamInspectionForm.load" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
+                <a *ngIf="teamInspectionForm.url != ''" class="card-text" style="color: white; text-decoration: none;"
+                  [href]="teamInspectionForm.url" target="_blank">View</a>
+              </button>
+              <span *ngIf="teamInspectionForm.error" class="badge badge-danger">Failed</span>
+              <!-- <input type="file" class="form-control col-md-3"> -->
+            </div>
+          </div>
+
+          <!-- OPENING/CLOSING MEETING ATTENDANCE SHEET -->
+          <div class="row pb-2 border-bottom mt-5 border-secondary">
+            <h5 class="col-md-12">Opening/Closing meeting attendance sheet
+              <span class="badge badge-warning" *ngIf="formStatus.ocdata==false">Pending</span>
+              <span class="badge badge-success" *ngIf="formStatus.ocdata">Filled</span>
+            </h5>
+            <div class="row justify-content-between col-md-12">
+              <div class="col-md-8">
+                <button class="btn btn-sm btn-success mx-2" data-toggle="modal"
+                  data-target="#opening-closeing-meering-view" (click)="getopeningClosingForm()">Fill the
+                  form</button>
+
+                <button *ngIf="isLeader && formStatus.ocdata" class="btn btn-sm btn-primary mx-1"
+                  (click)="downloadOpeningClosingForm()">
+                  <i *ngIf="!openingClosingForm.load && openingClosingForm.url==''" class="fa fa-download"
+                    aria-hidden="true"></i>
+                  <span *ngIf="openingClosingForm.load" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                  <a *ngIf="openingClosingForm.url != ''" class="card-text" style="color: white; text-decoration: none;"
+                    [href]="openingClosingForm.url" target="_blank">View</a>
+                </button>
+                <span *ngIf="openingClosingForm.error" class="badge badge-danger">Failed</span>
+              </div>
+              <div class="row col-md-4">
+                <input type="file" id="openingClosingForm" class="form-control col-md-9">
+                <button class="btn btn-sm btn-primary col-md-3" (click)="uploadOpeningClosing()">Upload</button>
+              </div>
+            </div>
+
+            <div class="modal fade" id="opening-closeing-meering-view" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Opening/Closing meeting attendance sheet</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body modal-full-body">
+                    <div class="card">
+                      <div class="card-body bg-light">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item bg-light">
+                            <div class="row m-2">
+
+                              <div class="form-group col-md-12">
+                                <label><b>Matser Id:</b></label>
+                                <select class="form-control col-md-3">
+                                  <option [value]="currentMasterId">{{currentMasterId}}</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Client Name</label>
+                                <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
+                                  class="form-control" readonly>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Projcet Name</label>
+                                <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
+                                  class="form-control" readonly>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Cycle Of Inspection</label>
+                                <select class="form-control">
+                                  <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
+                                    [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
+                                    {{cycle.cycle_name}}</option>
+                                </select>
+                              </div>
 
 
-                            <div class="form-group col-md-3">
-                              <label>From date:</label>
-                              <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
-                            </div>
+                              <div class="form-group col-md-3">
+                                <label>From date:</label>
+                                <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
+                              </div>
 
-                            <div class="form-group col-md-3">
-                              <label>From date:</label>
-                              <input type="date" class="form-control" [value]="masterData.toDate" readonly>
-                            </div>
+                              <div class="form-group col-md-3">
+                                <label>From date:</label>
+                                <input type="date" class="form-control" [value]="masterData.toDate" readonly>
+                              </div>
 
-                            <div class="form-group col-md-4">
-                              <label>Meeting Location</label>
-                              <input id="meeting_location" type="text" class="form-control"
-                                [value]="isOpeningClosingData ? openingClosingPreData.data[0].location : ''">
-                            </div>
+                              <div class="form-group col-md-4">
+                                <label>Meeting Location</label>
+                                <input id="meeting_location" type="text" class="form-control"
+                                  [value]="isOpeningClosingData ? openingClosingPreData.data[0].location : ''">
+                              </div>
 
 
-                            <div class="form-group col-md-12">
-                              <label>Agenda</label>
-                              <textarea id="meeting_agenda" type="text" cols="10" class="form-control col-md-12">
+                              <div class="form-group col-md-12">
+                                <label>Agenda</label>
+                                <textarea id="meeting_agenda" type="text" cols="10" class="form-control col-md-12">
                               {{isOpeningClosingData ? 
                               openingClosingPreData.data[0].agenda : 
                               'Introduction of team members, Apprising inspection process, Information to auditee about impartiality, Independence and confidentiality and information to auditee about necessity of no interference in the audit process by auditees, information to auditee about no involvement of inspectors in RCA and Corrective action process for the NCs identified'}}
                             </textarea>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item bg-light">
-                          <div class="row d-flex col-md-12 mt-3">
-                            <div class="col-md-6">
-                              <h5>Opening Meeting</h5>
-                              <div class="col-md-12 d-flex g-1">
-                                <div class="form-group">
-                                  <label>Date</label>
-                                  <input id="opening_meeting_date" type="date" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].oDate : '' ">
-                                </div>
-
-                                <div class="form-group">
-                                  <label>Start Time</label>
-                                  <input id="opening_meeting_startTime" type="time" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].oStartTime : ''">
-                                </div>
-
-                                <div class="form-group">
-                                  <label>End Time</label>
-                                  <input id="opening_meeting_endTime" type="time" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].oEndTime : ''">
-                                </div>
-
-                              </div>
-                              <div class="form-group col-md-12">
-                                <label>Select Image</label>
-                                <input type="file" class="form-control" id="opening_image" accept="image/*">
                               </div>
                             </div>
-                            <div class="col-md-6">
-                              <h5>Closing Meeting</h5>
-                              <div class="col-md-12 d-flex g-1">
-                                <div class="form-group">
-                                  <label>Date</label>
-                                  <input id="closing_meeting_date" type="date" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].cDate : '' ">
-                                </div>
+                          </li>
+                          <li class="list-group-item bg-light">
+                            <div class="row d-flex col-md-12 mt-3">
+                              <div class="col-md-6">
+                                <h5>Opening Meeting</h5>
+                                <div class="col-md-12 d-flex g-1">
+                                  <div class="form-group">
+                                    <label>Date</label>
+                                    <input id="opening_meeting_date" type="date" class="form-control"
+                                      [value]="isOpeningClosingData ? openingClosingPreData.data[0].oDate : '' ">
+                                  </div>
 
-                                <div class="form-group">
-                                  <label>Start Time</label>
-                                  <input id="closing_meeting_startTime" type="time" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].cStartTime : ''">
-                                </div>
+                                  <div class="form-group">
+                                    <label>Start Time</label>
+                                    <input id="opening_meeting_startTime" type="time" class="form-control"
+                                      [value]="isOpeningClosingData ? openingClosingPreData.data[0].oStartTime : ''">
+                                  </div>
 
-                                <div class="form-group">
-                                  <label>End Time</label>
-                                  <input id="closing_meeting_endTime" type="time" class="form-control"
-                                    [value]="isOpeningClosingData ? openingClosingPreData.data[0].cEndTime : ''">
-                                </div>
+                                  <div class="form-group">
+                                    <label>End Time</label>
+                                    <input id="opening_meeting_endTime" type="time" class="form-control"
+                                      [value]="isOpeningClosingData ? openingClosingPreData.data[0].oEndTime : ''">
+                                  </div>
 
+                                </div>
+                                <div class="form-group col-md-12">
+                                  <label>Select Image</label>
+                                  <input type="file" class="form-control" id="opening_image" accept="image/*">
+                                </div>
                               </div>
-                              <div class="form-group col-md-12">
-                                <label>Select Image</label>
-                                <input type="file" class="form-control" id="closing_image" accept="image/*">
+                              <div class="col-md-6">
+                                <h5>Closing Meeting</h5>
+                                <div class="col-md-12 d-flex g-1">
+                                  <div class="form-group">
+                                    <label>Date</label>
+                                    <input id="closing_meeting_date" type="date" class="form-control"
+                                      [value]="isOpeningClosingData ? openingClosingPreData.data[0].cDate : '' ">
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label>Start Time</label>
+                                    <input id="closing_meeting_startTime" type="time" class="form-control"
+                                      [value]="isOpeningClosingData ? openingClosingPreData.data[0].cStartTime : ''">
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label>End Time</label>
+                                    <input id="closing_meeting_endTime" type="time" class="form-control"
+                                      [value]="isOpeningClosingData ? openingClosingPreData.data[0].cEndTime : ''">
+                                  </div>
+
+                                </div>
+                                <div class="form-group col-md-12">
+                                  <label>Select Image</label>
+                                  <input type="file" class="form-control" id="closing_image" accept="image/*">
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </li>
-                      </ul>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
 
-                  <table class="row-border hover inspector_list_table mt-5" style="width:100%">
-                    <thead>
-                      <tr>
-                        <th rowspan="2">Sr no</th>
-                        <th rowspan="2">Name</th>
-                        <th rowspan="2">Organization</th>
-                        <th rowspan="2">Designation</th>
-                        <!-- <th colspan="2">signature</th> -->
-                        <th rowspan="2">Action</th>
-                      </tr>
-                      <!-- <tr>
+                    <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th rowspan="2">Sr no</th>
+                          <th rowspan="2">Name</th>
+                          <th rowspan="2">Organization</th>
+                          <th rowspan="2">Designation</th>
+                          <!-- <th colspan="2">signature</th> -->
+                          <th rowspan="2">Action</th>
+                        </tr>
+                        <!-- <tr>
                         <th style="border-radius: 0px;">Opening Meet</th>
                         <th style="border-radius: 0px;">Closing Meet</th>
                       </tr> -->
-                    </thead>
-                    <tbody id="openingClosingFormTable" *ngIf="isOpeningClosingData==false">
-                      <tr id="removeOpeningRow1">
-                        <td>1</td>
-                        <td><input type="text" id="1" class="opening_username form-control"></td>
-                        <td><input type="text" id="opening_organization_1" class="form-control"></td>
-                        <td><input type="text" id="designation_1" class="form-control"></td>
-                        <!-- <td>
+                      </thead>
+                      <tbody id="openingClosingFormTable" *ngIf="isOpeningClosingData==false">
+                        <tr id="removeOpeningRow1">
+                          <td>1</td>
+                          <td><input type="text" id="1" class="opening_username form-control"></td>
+                          <td><input type="text" id="opening_organization_1" class="form-control"></td>
+                          <td><input type="text" id="designation_1" class="form-control"></td>
+                          <!-- <td>
                           <span class="badge badge-secondary" role="button">upload</span>
                         </td>
                         <td>
                           <span class="badge badge-secondary" role="button">upload</span>
                         </td> -->
-                        <td>
-                          <button class="btn btn-sm btn-danger" id="1" (click)="removeOpeningClosingRow($event)">Remove</button>
-                        </td>
-                      </tr>
-                    </tbody>
-
-                    <tbody id="openingClosingFormTable" *ngIf="isOpeningClosingData">
-                      <tr *ngFor="let user of openingClosingPreData.users" [id]="'removeOpeningRow'+user.srNo">
-
-                        <td>{{user.srNo}}</td>
-                        <td><input type="text" [id]="user.srNo" class="opening_username form-control"
-                            [value]="user.username_id"></td>
-                        <td><input type="text" [id]="'opening_organization_'+user.srNo" class="form-control"
-                            [value]="user.organization"></td>
-                        <td><input type="text" [id]="'designation_'+user.srNo" class="form-control"
-                            [value]="user.designation"></td>
-                        <!-- <td>
-                          <span class="badge badge-secondary" role="button">upload</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-secondary" role="button">upload</span>
-                        </td> -->
-                        <td>
-                          <button class="btn btn-sm btn-danger"  [id]="user.srNo" (click)="removeOpeningClosingRow($event)">Remove</button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="row d-flex mx-2">
-                    <button class="btn btn-sm btn-primary" (click)="addOpeningClosingRow()">Add row</button>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-sm btn-success" (click)="submitOpeningClosingMeetingFrom()">
-                    <span *ngIf="submitOpeningCloseLoad" class="spinner-border spinner-border-sm" role="status"
-                      aria-hidden="true"></span>
-                    <span *ngIf="!submitOpeningCloseLoad">Submit</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- SAMPLING  -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Inspection Sampling</h5>
-          <div class="row justify-content-between col-md-12">
-            <a routerLink="/testSampling" target="_blank"><button class="btn btn-success btn-sm mx-2">Fill the
-                form</button></a>
-            <!-- <input type="file" class="form-control col-md-3"> -->
-          </div>
-        </div>
-
-        <!-- Internal Review Meeting at Project Site -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Internal Review Meeting at Project Site
-            <span class="badge badge-warning" *ngIf="formStatus.intrevdata == false">Pending</span>
-            <span class="badge badge-success" *ngIf="formStatus.intrevdata">Filled</span>
-          </h5>
-          <div class="row justify-content-between col-md-12">
-            <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#internalReviewMeeting"
-              (click)="internalReviewMeeting()">Fill the
-              form</button>
-            <div class="row col-md-4">
-              <input type="file" id="internalReviewFrom" class="form-control col-md-9">
-              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadInternalReviewForm()">Upload</button>
-            </div>
-          </div>
-
-          <div class="modal fade" id="internalReviewMeeting" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Internal Review Meeting at Project Site</h5>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body modal-full-body">
-
-                  <div class="card bg-light mb-3" id="internalReviewMeeting" aria-hidden="true">
-                    <!-- <div class="card-header">Client Feedback Form</div> -->
-                    <!-- <form> -->
-                    <div class="row m-2">
-
-                      <div class="form-group col-md-12">
-                        <label><b>Matser Id:</b></label>
-                        <select class="form-control col-md-3">
-                          <option [value]="currentMasterId">{{currentMasterId}}</option>
-                        </select>
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label>Client Name</label>
-                        <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
-                          class="form-control" readonly>
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label>Projcet Name</label>
-                        <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
-                          class="form-control" readonly>
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label>Cycle Of Inspection</label>
-                        <select class="form-control">
-                          <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
-                            [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
-                            {{cycle.cycle_name}}</option>
-                        </select>
-                      </div>
-
-
-                      <div class="form-group col-md-3">
-                        <label>From date:</label>
-                        <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label>From date:</label>
-                        <input type="date" class="form-control" [value]="masterData.toDate" readonly>
-                      </div>
-
-                      <div class="form-group col-md-4">
-                        <label>Meeting Location</label>
-                        <input id="meetingLocation" type="text" class="form-control"
-                          [value]="isInternalReviewFormData ? internalReviewFacility[1].location : ''">
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label>Date :</label>
-                        <input type="date" id="internalreview_date" class="form-control"
-                          [value]="isInternalReviewFormData ? internalReviewFacility[1].meetng_date : ''">
-                      </div>
-                    </div>
-
-
-                    <!-- Attendees -->
-                    <div>
-                      <h5 class="modal-title">Attendees</h5>
-                      <table class="row-border hover inspector_list_table" style="width:100%">
-                        <thead>
-                          <tr>
-                            <th>Sr. No</th>
-                            <th>Name</th>
-                            <th>Level (L1,L2,L3)</th>
-                          </tr>
-                        </thead>
-                        <tbody id="attendeesFrom">
-                          <tr *ngFor="let team of inspectionTeam">
-                            <td>1</td>
-                            <td><input type="text" class="form-control" [value]="team.username" readonly></td>
-                            <td><span class="badge badge-secondary" *ngIf="team.l0">L0</span>
-                              <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
-                              <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
-                              <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div class="row d-flex mx-2">
-                        <!-- <button type="button" class="btn btn-sm btn-primary" (click)="addRowattendee()">Add
-                          row</button> -->
-                      </div>
-                    </div>
-
-
-                    <!-- Facilities provided by client -->
-                    <div>
-                      <table class="row-border hover inspector_list_table mt-5" style="width:100%">
-                        <thead>
-                          <tr>
-                            <th>Sr No</th>
-                            <th>Facilities provided by client</th>
-                            <th>Adequate</th>
-                            <th>In-adequate</th>
-                            <th>Remarks</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-
-                          <tr>
-                            <td>1</td>
-                            <td>PPE's:</td>
-                            <td>
-                              <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="1"
-                                  [checked]="isInternalReviewFormData && internalReviewFacility[1].adequate == 1 ? true : false ">
-                              </div>
-                            </td>
-                            <td>
-                              <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="0"
-                                  [checked]="isInternalReviewFormData && internalReviewFacility[1].adequate == 0 ? true : false ">
-                              </div>
-                            </td>
-                            <td><input type="text" id="ppe_remark" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewFacility[1].remark : ''"></td>
-                          </tr>
-
-                          <tr>
-                            <td>2</td>
-                            <td>Infrastructure(Ladder,Lift,etc.):</td>
-                            <td>
-                              <div class="radios"><input type="radio" class="radio infra_radio" name="infrastructure"
-                                  value="1"
-                                  [checked]="isInternalReviewFormData && internalReviewFacility[2].adequate == 1 ? true : false ">
-                              </div>
-                            </td>
-                            <td>
-                              <div class="radios"><input type="radio" class="radio infra_radio" name="infrastructure"
-                                  value="0"
-                                  [checked]="isInternalReviewFormData && internalReviewFacility[2].adequate == 0 ? true : false ">
-                              </div>
-                            </td>
-                            <td><input type="text" id="infrastructure_remark" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewFacility[2].remark : ''"></td>
-                          </tr>
-
-
-                          <tr>
-                            <td>3</td>
-                            <td>Man-Power:</td>
-                            <td>
-                              <div class="radios"><input type="radio" class="radio manpower_radio" name="manpower"
-                                  value="1"
-                                  [checked]="isInternalReviewFormData && internalReviewFacility[3].adequate == 1 ? true : false ">
-                              </div>
-                            </td>
-                            <td>
-                              <div class="radios"><input type="radio" class="radio manpower_radio" name="manpower"
-                                  value="0"
-                                  [checked]="isInternalReviewFormData && internalReviewFacility[3].adequate == 0 ? true : false ">
-                              </div>
-                            </td>
-                            <td><input type="text" id="manpower_remark" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewFacility[3].remark : ''"></td>
-                          </tr>
-
-                          <tr>
-                            <td>4</td>
-                            <td>Transport Facility:</td>
-                            <td>
-                              <div class="radios"><input type="radio" class="radio transport_radio" name="transport"
-                                  value="1"
-                                  [checked]="isInternalReviewFormData && internalReviewFacility[4].adequate == 1 ? true : false ">
-                              </div>
-                            </td>
-                            <td>
-                              <div class="radios"><input type="radio" class="radio transport_radio" name="transport"
-                                  value="0"
-                                  [checked]="isInternalReviewFormData && internalReviewFacility[4].adequate == 0 ? true : false ">
-                              </div>
-                            </td>
-                            <td><input type="text" id="transport_remark" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewFacility[4].remark : ''"></td>
-                          </tr>
-
-                          <!-- <tr>
-                            <td colspan="2">Tools and Instruments(Report if any issue(s) observed)e.g.</td>
-                            <td colspan="3"><input type="text" id="tools" class="form-control"></td>
-                          </tr> -->
-
-                        </tbody>
-                      </table>
-                    </div>
-
-
-
-                    <!-- i -->
-                    <div>
-                      <table class="row-border hover inspector_list_table mt-12" style="width:100%">
-                        <tbody>
-
-                          <tr>
-                            <td>Outdated calibration, non-working, damage, etc.</td>
-                            <td><input type="text" id="outdatedCalibration" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewMasterData.outdatedCalibration : ''">
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>Any Other difficulty faced during inspection</td>
-                            <td><input type="text" id="anyOtherDiffFaced" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewMasterData.anyOtherDiffFaced : ''">
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>Any good practices observed during inspection</td>
-                            <td><input type="text" id="anyGoodPracticesObserved" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewMasterData.anyGoodPracticesObserved : ''">
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>Intimidiation(Frighten/Threaten)/coercion(use of force to do unwilling things)</td>
-                            <td><label for="">Was there any intimidiation and or coercion -Yes/No(If yes-Please
-                                Specify)</label>
-                              <input type="text" id="intimidation" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewMasterData.intimidation : ''">
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>Observation on overall time spent in inspection for the day(In hours):</td>
-                            <td>
-                          <tr>
-                            <label for="">Inspection StartTime:</label>
-                            <input type="time" id="startTime" class=""
-                              [value]="isInternalReviewFormData ? internalReviewMasterData.startTime : ''">
-                          </tr>
-                          <tr>
-                            <label for="">Inspection EndTime:</label>
-                            <input type="time" id="endTime" class=""
-                              [value]="isInternalReviewFormData ? internalReviewMasterData.endTime : ''">
-                          </tr>
+                          <td>
+                            <button class="btn btn-sm btn-danger" id="1"
+                              (click)="removeOpeningClosingRow($event)">Remove</button>
                           </td>
-                          </tr>
+                        </tr>
+                      </tbody>
 
-                          <!-- <tr>
-                            <td>Observations:</td>
-                            <td><input type="text" id="infrastructure_remark" class="form-control"></td>
-                          </tr> -->
+                      <tbody id="openingClosingFormTable" *ngIf="isOpeningClosingData">
+                        <tr *ngFor="let user of openingClosingPreData.users" [id]="'removeOpeningRow'+user.srNo">
 
-                          <tr>
-                            <td>Suggestion(s) for improvement/corrective actions:</td>
-                            <td><input type="text" id="suggestionsForImprovement" class="form-control"
-                                [value]="isInternalReviewFormData ? internalReviewMasterData.suggestionsForImprovement : ''">
-                            </td>
-                          </tr>
-
-
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="modal-footer">
-                      <button class="btn btn-sm btn-success" (click)="submitInternalReviewMeeting()">
-                        <span *ngIf="interReviewMeetingLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span *ngIf="!interReviewMeetingLoad">Submit</span>
-                      </button>
-                    </div>
-
-                    <!-- </form> -->
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-
-        <!-- SUPERVISOR FORM FOR L1 AND L2 -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Supervisor form for L1 and L2
-            <span class="badge badge-warning" *ngIf="formStatus.supervisordata==false">Pending</span>
-            <span class="badge badge-success" *ngIf="formStatus.supervisordata">Filled</span>
-          </h5>
-          <div class="row justify-content-between col-md-12">
-
-            <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view"
-              (click)="supervisorFormGet()">Fill the
-              form</button>
-            <div class="row col-md-4">
-              <input type="file" id="supervisorForm" class="form-control col-md-9">
-              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadSupervisorFrom()">Upload</button>
-            </div>
-          </div>
-          <div class="modal fade" id="supervisorForm-view" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">SUpervisor form for L1 and L2</h5>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body modal-full-body">
-                  <div class="card">
-                    <div class="card-body bg-light">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-light">
-                          <div class="row m-2">
-                            <div class="form-group col-md-12">
-                              <label><b>Matser Id:</b></label>
-                              <select class="form-control col-md-3">
-                                <option [value]="currentMasterId">{{currentMasterId}}</option>
-                              </select>
-                            </div>
-
-                            <div class="form-group col-md-3">
-                              <label>Client Name</label>
-                              <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
-                                class="form-control" readonly>
-                            </div>
-
-                            <div class="form-group col-md-3">
-                              <label>Projcet Name</label>
-                              <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
-                                class="form-control" readonly>
-                            </div>
-
-                            <div class="form-group col-md-3">
-                              <label>Cycle Of Inspection</label>
-                              <select [(ngModel)]="selCycleId" class="form-control">
-                                <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
-                                  [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
-                                  {{cycle.cycle_name}}</option>
-                              </select>
-                            </div>
-
-
-                            <div class="form-group col-md-3">
-                              <label>From date:</label>
-                              <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
-                            </div>
-
-                            <div class="form-group col-md-3">
-                              <label>From date:</label>
-                              <input type="date" class="form-control" [value]="masterData.toDate" readonly>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
+                          <td>{{user.srNo}}</td>
+                          <td><input type="text" [id]="user.srNo" class="opening_username form-control"
+                              [value]="user.username_id"></td>
+                          <td><input type="text" [id]="'opening_organization_'+user.srNo" class="form-control"
+                              [value]="user.organization"></td>
+                          <td><input type="text" [id]="'designation_'+user.srNo" class="form-control"
+                              [value]="user.designation"></td>
+                          <!-- <td>
+                          <span class="badge badge-secondary" role="button">upload</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-secondary" role="button">upload</span>
+                        </td> -->
+                          <td>
+                            <button class="btn btn-sm btn-danger" [id]="user.srNo"
+                              (click)="removeOpeningClosingRow($event)">Remove</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="row d-flex mx-2">
+                      <button class="btn btn-sm btn-primary" (click)="addOpeningClosingRow()">Add row</button>
                     </div>
                   </div>
-
-                  <div *ngIf="inspectionTeamLoad" class="userdeailsload">
-                    <div class="spinner-border text-warning" role="status">
-                    </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" (click)="submitOpeningClosingMeetingFrom()">
+                      <span *ngIf="submitOpeningCloseLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                      <span *ngIf="!submitOpeningCloseLoad">Submit</span>
+                    </button>
                   </div>
-                  <table *ngIf="!inspectionTeamLoad" class="row-border hover inspector_list_table mt-5"
-                    style="width:100%">
-                    <thead>
-                      <tr>
-                        <th rowspan="2">Sr no</th>
-                        <th rowspan="2">Name</th>
-                        <th rowspan="2">Level</th>
-                        <th rowspan="2">Witnerss area/Location</th>
-                        <th rowspan="2">Witness activity</th>
-                        <th colspan="2">Remark</th>
-                        <th rowspan="2">Remark</th>
-                      </tr>
-                      <tr>
-                        <th style="border-radius: 0px;">Satisfactory</th>
-                        <th style="border-radius: 0px;">Not Satisfactory</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let team of inspectionTeam">
-                        <td>1</td>
-                        <td><input type="text" class="form-control" [value]="team.username" readonly></td>
-                        <td><span class="badge badge-secondary" *ngIf="team.l0">L0</span>
-                          <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
-                          <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
-                          <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
-                        </td>
-                        <td><input type="text" [id]="'witnessLocation_'+team.userId" class="form-control"
-                            [value]="supervisorPreData.hasOwnProperty(team.userId)? supervisorPreData[team.userId].witnessedArea : ''">
-                        </td>
-                        <td>
-                          <input type="text" [id]="'witnessActivity_'+team.userId" class="form-control"
-                            [value]="supervisorPreData.hasOwnProperty(team.userId) ? supervisorPreData[team.userId].witnessedActivities : ''">
-                        </td>
-                        <td>
-                          <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
-                            [name]="'satisfactory'+team.userId" [value]="1"
-                            [checked]="supervisorPreData.hasOwnProperty(team.userId) && supervisorPreData[team.userId].satisfactory == true">
-                        </td>
-                        <td>
-                          <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
-                            [name]="'satisfactory'+team.userId" [value]="0"
-                            [checked]="supervisorPreData.hasOwnProperty(team.userId) && supervisorPreData[team.userId].satisfactory == false">
-                        </td>
-
-                        <td>
-                          <input type="text" [id]="'remark_'+team.userId" class="form-control"
-                            [value]="supervisorPreData.hasOwnProperty(team.userId) ? supervisorPreData[team.userId].remark : ''">
-                        </td>
-                      </tr>
-
-                    </tbody>
-                  </table>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn btn-success ml-3" (click)="submitSupervisorForm()">
-                    <span *ngIf="supervisorFormSubmitLoad" class="spinner-border spinner-border-sm" role="status"
-                      aria-hidden="true"></span>
-                    <span *ngIf="!supervisorFormSubmitLoad">Save</span>
-                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- INSPECTOR ONSITE PERFORMANCE EVALUTION FORM -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Inspector Onsite performance evalution form
-            <span class="badge badge-warning" *ngIf="formStatus.inspectoronsitedata == false">Pending</span>
-            <span class="badge badge-success" *ngIf="formStatus.inspectoronsitedata">Filled</span>
-          </h5>
-          <div class="row justify-content-between col-md-12">
-
-            <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view"
-              (click)="onsitePerformance()">Fill the form</button>
-            <div class="row col-md-4">
-              <input type="file" id="performanceForm" class="form-control col-md-9">
-              <button class="btn btn-sm btn-primary col-md-3" (click)="uploadPerformanceForm()">Upload</button>
+          <!-- SAMPLING  -->
+          <div class="row pb-2 border-bottom mt-5 border-secondary">
+            <h5 class="col-md-12">Inspection Sampling</h5>
+            <div class="row justify-content-between col-md-12 mx-2">
+              <a routerLink="/testSampling" target="_blank"><button class="btn btn-success btn-sm">Fill the
+                  form</button></a>
+              <!-- <input type="file" class="form-control col-md-3"> -->
             </div>
           </div>
-          <div class="modal fade" id="onsiteEvalutionForm-view" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Inspector Onsite performance evalution form</h5>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body modal-full-body">
-                  <div class="card">
-                    <div class="card-body bg-light">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-light">
-                          <div class="row m-2">
-                            <div class="form-group col-md-12">
-                              <label><b>Matser Id:</b></label>
-                              <select class="form-control col-md-3">
-                                <option [value]="currentMasterId">{{currentMasterId}}</option>
-                              </select>
-                            </div>
 
-                            <div class="form-group col-md-3">
-                              <label>Client Name</label>
-                              <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
-                                class="form-control" readonly>
-                            </div>
-
-                            <div class="form-group col-md-3">
-                              <label>Projcet Name</label>
-                              <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
-                                class="form-control" readonly>
-                            </div>
-
-                            <div class="form-group col-md-3">
-                              <label>Cycle Of Inspection</label>
-                              <select class="form-control">
-                                <option [value]="cycle.cycle_id" [selected]="masterData.cycleId == cycle.cycle_id"
-                                  *ngFor="let cycle of cycles" disabled>
-                                  {{cycle.cycle_name}}</option>
-                              </select>
-                            </div>
-
-
-                            <div class="form-group col-md-3">
-                              <label>From date:</label>
-                              <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
-                            </div>
-
-                            <div class="form-group col-md-3">
-                              <label>From date:</label>
-                              <input type="date" class="form-control" [value]="masterData.toDate" readonly>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="card mt-3">
-                    <div class="card-body bg-light">
-                      <span class="card-title text-danger col-md-12 m-0 p-0">
-                        *Team leader to rate the following categories as mentioned in table 0-10, for rating 0-4 & above
-                        out of 10 needs to be specified in deatils in remark
-                      </span>
-                      <table class="row-border hover inspector_list_table" style="width: 30%;">
-                        <tbody>
-                          <tr>
-                            <td>Not Satisfactory</td>
-                            <td>0 - 4</td>
-                          </tr>
-                          <tr>
-                            <td>Good</td>
-                            <td> > 4 & < 8</td>
-                          </tr>
-                          <tr>
-                            <td>Not Satisfactory</td>
-                            <td> > 8</td>
-                          </tr>
-                        </tbody>
-                      </table>
-
-                    </div>
-                  </div>
-
-                  <div *ngIf="inspectionTeamLoad" class="userdeailsload">
-                    <div class="spinner-border text-warning" role="status">
-                    </div>
-                  </div>
-                  <table *ngIf="!inspectionTeamLoad" class="row-border hover inspector_list_table mt-5"
-                    style="width:100%">
-                    <thead>
-                      <tr>
-                        <th>Sr no</th>
-                        <th>Name of Inspector</th>
-                        <th>Level</th>
-                        <th>Activities Monitored</th>
-                        <th>Quality Obeservation</th>
-                        <th>Timely completion of Inspection</th>
-                        <th>Behavior & Discipline during Inspection including use of PPEs</th>
-                        <th>Interaction with client during inspection</th>
-                        <th>Technical Knowledge/Skill</th>
-                        <th>Requirements of NABCB clauses during inspection fulfilled</th>
-                        <th>Remark</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let team of inspectionTeam">
-                        <td>1</td>
-                        <td>{{team.username}}</td>
-                        <td>
-                          <span class="badge badge-secondary" *ngIf="team.l0">L0</span>
-                          <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
-                          <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
-                          <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
-                        </td>
-                        <td>
-                          <input type="text" class="form-control" [id]="'activity_monitored_'+team.userId"
-                            [value]=" onsitePreFormData.hasOwnProperty(team.userId) &&  onsitePreFormData[team.userId].activitiesMon ? onsitePreFormData[team.userId].activitiesMon : ''">
-                        </td>
-                        <td>
-                          <select class="form-control col-md-12" [id]="'qualityObservation_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].qualityOfObservation == rate ? 1 : ''">
-                              {{rate}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control col-md-12" [id]="'timelyComplition_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].timelyCompletion == rate ? 1 : ''">
-                              {{rate}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control col-md-12" [id]="'behavior_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].behaviourDiscipline == rate ? 1 : ''">
-                              {{rate}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control col-md-12" [id]="'interaction_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].interactionWithClients == rate ? 1 : ''">
-                              {{rate}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control col-md-12" [id]="'techKnowledge'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].technicalKnowledge == rate ? 1 : ''">
-                              {{rate}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control col-md-12" [id]="'nabc_'+team.userId">
-                            <option *ngFor="let rate of rating" [value]="rate"
-                              [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].reqOfNabcb == rate ? 1 : ''">
-                              {{rate}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <textarea class="form-control" [id]="'ratingRemark_'+team.userId"
-                            [value]="onsitePreFormData.hasOwnProperty(team.userId) &&  onsitePreFormData[team.userId].remark ?  onsitePreFormData[team.userId].remark : ''"></textarea>
-                        </td>
-
-                      </tr>
-
-                    </tbody>
-                  </table>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-sm btn-success" (click)="submitOnsitePerformanceForm()">
-                    <span *ngIf="onsiteFormLoad" class="spinner-border spinner-border-sm" role="status"
-                      aria-hidden="true"></span>
-                    <span *ngIf="!onsiteFormLoad">Save</span>
-
-                  </button>
-                </div>
+          <!-- Internal Review Meeting at Project Site -->
+          <div class="row pb-2 border-bottom mt-5 border-secondary">
+            <h5 class="col-md-12">Internal Review Meeting at Project Site
+              <span class="badge badge-warning" *ngIf="formStatus.intrevdata == false">Pending</span>
+              <span class="badge badge-success" *ngIf="formStatus.intrevdata">Filled</span>
+            </h5>
+            <div class="row justify-content-between col-md-12">
+              <div class="col-md-8">
+                <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#internalReviewMeeting"
+                  (click)="internalReviewMeeting()">Fill the
+                  form</button>
+                <button *ngIf="isLeader && formStatus.inspectoronsitedata" class="btn btn-sm btn-primary mx-1"
+                  (click)="downloadInternalReviewMeeting()">
+                  <i *ngIf="!internalReviewMeetingForm.load && internalReviewMeetingForm.url==''" class="fa fa-download"
+                    aria-hidden="true"></i>
+                  <span *ngIf="internalReviewMeetingForm.load" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                  <a *ngIf="internalReviewMeetingForm.url != ''" class="card-text"
+                    style="color: white; text-decoration: none;" [href]="internalReviewMeetingForm.url"
+                    target="_blank">View</a>
+                </button>
+                <span *ngIf="internalReviewMeetingForm.error" class="badge badge-danger">Failed</span>
+              </div>
+              <div class="row col-md-4">
+                <input type="file" id="internalReviewFrom" class="form-control col-md-9">
+                <button class="btn btn-sm btn-primary col-md-3" (click)="uploadInternalReviewForm()">Upload</button>
               </div>
             </div>
-          </div>
-        </div>
 
+            <div class="modal fade" id="internalReviewMeeting" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Internal Review Meeting at Project Site</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body modal-full-body">
 
-        <!-- Client feedback Form -->
-        <div class="row pb-2 border-bottom mt-5 border-secondary">
-          <h5 class="col-md-12">Client Feedback Form</h5>
-          <div class="row justify-content-between col-md-12">
+                    <div class="card bg-light mb-3" id="internalReviewMeeting" aria-hidden="true">
+                      <!-- <div class="card-header">Client Feedback Form</div> -->
+                      <!-- <form> -->
+                      <div class="row m-2">
 
-            <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill the
-              form</button>
-            <input type="file" class="col-md-3 form-control">
-          </div>
-          <div class="modal fade" id="client_feedback_form" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Client Feedback Form</h5>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body modal-full-body">
-
-                  <div class="card bg-light" id="client_feedback_form" aria-hidden="true">
-                    <!-- <form [formGroup]="feedbackForm" (ngSubmit)="submitfeedback()"> -->
-
-                    <div class="card-body">
-                      <p class="card-text">&emsp;CQRA Management would be greateful if you could spare some of your
-                        valuable
-                        time to
-                        fill in the following Assessment Form and forword it to us at <a
-                          href="tdcat@cqra.acts-int.com">tdcat@cqra.acts-int.com</a>,<a
-                          href="maratha.f@cqra.acts-int.com">maratha.f@cqra.acts-int.com</a>.
-                      </p>
-
-                      <div class="form-group d-flex">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-12">
                           <label><b>Matser Id:</b></label>
-                          <select class="form-control col-md-12">
+                          <select class="form-control col-md-3">
                             <option [value]="currentMasterId">{{currentMasterId}}</option>
                           </select>
                         </div>
@@ -1128,94 +611,784 @@
                         </div>
 
                         <div class="form-group col-md-3">
-                          <label>Location (City) :</label>
-                          <input type="text" class="form-control" id="meeting_Location">
+                          <label>Cycle Of Inspection</label>
+                          <select class="form-control">
+                            <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
+                              [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
+                              {{cycle.cycle_name}}</option>
+                          </select>
+                        </div>
+
+
+                        <div class="form-group col-md-3">
+                          <label>From date:</label>
+                          <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                          <label>From date:</label>
+                          <input type="date" class="form-control" [value]="masterData.toDate" readonly>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Meeting Location</label>
+                          <input id="meetingLocation" type="text" class="form-control"
+                            [value]="isInternalReviewFormData ? internalReviewFacility[1].location : ''">
+                        </div>
+
+                        <div class="form-group col-md-3">
+                          <label>Date :</label>
+                          <input type="date" id="internalreview_date" class="form-control"
+                            [value]="isInternalReviewFormData ? internalReviewFacility[1].meetng_date : ''">
                         </div>
                       </div>
+
+
+                      <!-- Attendees -->
+                      <div>
+                        <h5 class="modal-title">Attendees</h5>
+                        <table class="row-border hover inspector_list_table" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th>Sr. No</th>
+                              <th>Name</th>
+                              <th>Level (L1,L2,L3)</th>
+                            </tr>
+                          </thead>
+                          <tbody id="attendeesFrom">
+                            <tr *ngFor="let team of inspectionTeam">
+                              <td>1</td>
+                              <td><input type="text" class="form-control" [value]="team.username" readonly></td>
+                              <td><span class="badge badge-secondary" *ngIf="team.l0">L0</span>
+                                <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
+                                <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
+                                <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="row d-flex mx-2">
+                          <!-- <button type="button" class="btn btn-sm btn-primary" (click)="addRowattendee()">Add
+                          row</button> -->
+                        </div>
+                      </div>
+
+
+                      <!-- Facilities provided by client -->
+                      <div>
+                        <table class="row-border hover inspector_list_table mt-5" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th>Sr No</th>
+                              <th>Facilities provided by client</th>
+                              <th>Adequate</th>
+                              <th>In-adequate</th>
+                              <th>Remarks</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            <tr>
+                              <td>1</td>
+                              <td>PPE's:</td>
+                              <td>
+                                <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="1"
+                                    [checked]="isInternalReviewFormData && internalReviewFacility[1].adequate == 1 ? true : false ">
+                                </div>
+                              </td>
+                              <td>
+                                <div class="radios"><input type="radio" class="radio ppe_radio" name="ppe" value="0"
+                                    [checked]="isInternalReviewFormData && internalReviewFacility[1].adequate == 0 ? true : false ">
+                                </div>
+                              </td>
+                              <td><input type="text" id="ppe_remark" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewFacility[1].remark : ''"></td>
+                            </tr>
+
+                            <tr>
+                              <td>2</td>
+                              <td>Infrastructure(Ladder,Lift,etc.):</td>
+                              <td>
+                                <div class="radios"><input type="radio" class="radio infra_radio" name="infrastructure"
+                                    value="1"
+                                    [checked]="isInternalReviewFormData && internalReviewFacility[2].adequate == 1 ? true : false ">
+                                </div>
+                              </td>
+                              <td>
+                                <div class="radios"><input type="radio" class="radio infra_radio" name="infrastructure"
+                                    value="0"
+                                    [checked]="isInternalReviewFormData && internalReviewFacility[2].adequate == 0 ? true : false ">
+                                </div>
+                              </td>
+                              <td><input type="text" id="infrastructure_remark" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewFacility[2].remark : ''"></td>
+                            </tr>
+
+
+                            <tr>
+                              <td>3</td>
+                              <td>Man-Power:</td>
+                              <td>
+                                <div class="radios"><input type="radio" class="radio manpower_radio" name="manpower"
+                                    value="1"
+                                    [checked]="isInternalReviewFormData && internalReviewFacility[3].adequate == 1 ? true : false ">
+                                </div>
+                              </td>
+                              <td>
+                                <div class="radios"><input type="radio" class="radio manpower_radio" name="manpower"
+                                    value="0"
+                                    [checked]="isInternalReviewFormData && internalReviewFacility[3].adequate == 0 ? true : false ">
+                                </div>
+                              </td>
+                              <td><input type="text" id="manpower_remark" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewFacility[3].remark : ''"></td>
+                            </tr>
+
+                            <tr>
+                              <td>4</td>
+                              <td>Transport Facility:</td>
+                              <td>
+                                <div class="radios"><input type="radio" class="radio transport_radio" name="transport"
+                                    value="1"
+                                    [checked]="isInternalReviewFormData && internalReviewFacility[4].adequate == 1 ? true : false ">
+                                </div>
+                              </td>
+                              <td>
+                                <div class="radios"><input type="radio" class="radio transport_radio" name="transport"
+                                    value="0"
+                                    [checked]="isInternalReviewFormData && internalReviewFacility[4].adequate == 0 ? true : false ">
+                                </div>
+                              </td>
+                              <td><input type="text" id="transport_remark" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewFacility[4].remark : ''"></td>
+                            </tr>
+
+                            <!-- <tr>
+                            <td colspan="2">Tools and Instruments(Report if any issue(s) observed)e.g.</td>
+                            <td colspan="3"><input type="text" id="tools" class="form-control"></td>
+                          </tr> -->
+
+                          </tbody>
+                        </table>
+                      </div>
+
+
+
+                      <!-- i -->
+                      <div>
+                        <table class="row-border hover inspector_list_table mt-12" style="width:100%">
+                          <tbody>
+
+                            <tr>
+                              <td>Outdated calibration, non-working, damage, etc.</td>
+                              <td><input type="text" id="outdatedCalibration" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewMasterData.outdatedCalibration : ''">
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Any Other difficulty faced during inspection</td>
+                              <td><input type="text" id="anyOtherDiffFaced" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewMasterData.anyOtherDiffFaced : ''">
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Any good practices observed during inspection</td>
+                              <td><input type="text" id="anyGoodPracticesObserved" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewMasterData.anyGoodPracticesObserved : ''">
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Intimidiation(Frighten/Threaten)/coercion(use of force to do unwilling things)</td>
+                              <td><label for="">Was there any intimidiation and or coercion -Yes/No(If yes-Please
+                                  Specify)</label>
+                                <input type="text" id="intimidation" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewMasterData.intimidation : ''">
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Observation on overall time spent in inspection for the day(In hours):</td>
+                              <td>
+                            <tr>
+                              <label for="">Inspection StartTime:</label>
+                              <input type="time" id="startTime" class=""
+                                [value]="isInternalReviewFormData ? internalReviewMasterData.startTime : ''">
+                            </tr>
+                            <tr>
+                              <label for="">Inspection EndTime:</label>
+                              <input type="time" id="endTime" class=""
+                                [value]="isInternalReviewFormData ? internalReviewMasterData.endTime : ''">
+                            </tr>
+                            </td>
+                            </tr>
+
+                            <!-- <tr>
+                            <td>Observations:</td>
+                            <td><input type="text" id="infrastructure_remark" class="form-control"></td>
+                          </tr> -->
+
+                            <tr>
+                              <td>Suggestion(s) for improvement/corrective actions:</td>
+                              <td><input type="text" id="suggestionsForImprovement" class="form-control"
+                                  [value]="isInternalReviewFormData ? internalReviewMasterData.suggestionsForImprovement : ''">
+                              </td>
+                            </tr>
+
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-sm btn-success" (click)="submitInternalReviewMeeting()">
+                          <span *ngIf="interReviewMeetingLoad" class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"></span>
+                          <span *ngIf="!interReviewMeetingLoad">Submit</span>
+                        </button>
+                      </div>
+
+                      <!-- </form> -->
                     </div>
 
-                    <div>
-                      <ol type="A">
-                        <li>Kindly rate our services on the scale of 1-5, 1 being the lowest and 5 being the
-                          highest.
-                          <ol type="1">
-
-                            <li>Opening and closing meeting conducted professionally<br> <input type="number" min="1"
-                                max="5" class="form-control" id="openingcloprofessionally"></li>
-                            <li>Non-conformities discussed to your satisfaction at the end of inspection
-                              process<br><input type="number" min="1" max="5" class="form-control"
-                                id="nonconfirmitiesdiscussed"></li>
-                            <li>Quality of non-conformities given in the inspection report<br><input type="number"
-                                min="1" max="5" class="form-control" id="qualityofnonconfirmative"></li>
-
-                          </ol>
-                        </li>
-                        <li>Mark against Your Feedback
-                          <ol type="1">
-                            <li>How correctly in your opinion did our inspection report assess the quality of work?
-                              <ol type="a">
-                                <li><input type="radio" class="work_quality" name="quality" value="1">Over
-                                  representative</li>
-                                <li><input type="radio" class="work_quality" name="quality" value="2">Under
-                                  representative
-                                </li>
-                                <li><input type="radio" class="work_quality" name="quality" value="3">Correctly
-                                  Presented
-                                </li>
-                                <li><input type="radio" class="work_quality" name="quality" value="4">It's a mix
-                                </li>
-                              </ol>
-                            </li>
-                          </ol>
-                        </li>
-                        <li>What would you suggest that we do differently?<textarea class="form-control"
-                            id="suggestdifferently"></textarea>
-                        </li>
-                        <li>Feedback on assessment team:<textarea class="form-control" id="feedback"></textarea>
-                        </li>
-                        <li>Other comments if any to improve our services:<textarea class="form-control"
-                            id="othercomments"></textarea>
-                        </li>
-                      </ol>
-                    </div>
-
-                    <div class="fle">
-                      <div class="form-group col-md-4">
-                        <label> Feedback Given BY :</label>
-                        <input type="text" class="form-control">
-                      </div>
-
-                      <div class="form-group col-md-4">
-                        <label>Name and Signature :</label>
-                        <input type="text" class="form-control">
-                        <input type="text" class="form-control" placeholder="Signature">
-                      </div>
-
-                      <div class="form-group col-md-4">
-                        <label>Designation :</label>
-                        <input type="text" class="form-control">
-                      </div>
-
-                      <div class="form-group col-md-4">
-                        <label>Date :</label>
-                        <input type="date" class="form-control">
-                      </div>
-                    </div>
                   </div>
 
-                  <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" (click)="SubmitClientFeedback()">Submit</button>
-                  </div>
-                  <!-- </form> -->
                 </div>
-
               </div>
 
             </div>
           </div>
 
+
+          <!-- SUPERVISOR FORM FOR L1 AND L2 -->
+          <div class="row pb-2 border-bottom mt-5 border-secondary">
+            <h5 class="col-md-12">Supervisor form for L1 and L2
+              <span class="badge badge-warning" *ngIf="formStatus.supervisordata==false">Pending</span>
+              <span class="badge badge-success" *ngIf="formStatus.supervisordata">Filled</span>
+            </h5>
+            <div class="row justify-content-between col-md-12">
+              <div class="col-md-8">
+                <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#supervisorForm-view"
+                  (click)="supervisorFormGet()">Fill the
+                  form</button>
+                <button *ngIf="isLeader && formStatus.inspectoronsitedata" class="btn btn-sm btn-primary mx-1"
+                  (click)="downloadUpervisionL1L2()">
+                  <i *ngIf="!supervisionForm.load && supervisionForm.url==''" class="fa fa-download"
+                    aria-hidden="true"></i>
+                  <span *ngIf="supervisionForm.load" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                  <a *ngIf="supervisionForm.url != ''" class="card-text" style="color: white; text-decoration: none;"
+                    [href]="supervisionForm.url" target="_blank">View</a>
+                </button>
+                <span *ngIf="supervisionForm.error" class="badge badge-danger">Failed</span>
+              </div>
+
+              <div class="row col-md-4">
+                <input type="file" id="supervisorForm" class="form-control col-md-9">
+                <button class="btn btn-sm btn-primary col-md-3" (click)="uploadSupervisorFrom()">Upload</button>
+              </div>
+            </div>
+            <div class="modal fade" id="supervisorForm-view" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">SUpervisor form for L1 and L2</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body modal-full-body">
+                    <div class="card">
+                      <div class="card-body bg-light">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item bg-light">
+                            <div class="row m-2">
+                              <div class="form-group col-md-12">
+                                <label><b>Matser Id:</b></label>
+                                <select class="form-control col-md-3">
+                                  <option [value]="currentMasterId">{{currentMasterId}}</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Client Name</label>
+                                <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
+                                  class="form-control" readonly>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Projcet Name</label>
+                                <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
+                                  class="form-control" readonly>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Cycle Of Inspection</label>
+                                <select [(ngModel)]="selCycleId" class="form-control">
+                                  <option [value]="cycle.cycle_id" *ngFor="let cycle of cycles"
+                                    [selected]="masterData.cycleId == cycle.cycle_id ? 1 : 0" readonly>
+                                    {{cycle.cycle_name}}</option>
+                                </select>
+                              </div>
+
+
+                              <div class="form-group col-md-3">
+                                <label>From date:</label>
+                                <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>From date:</label>
+                                <input type="date" class="form-control" [value]="masterData.toDate" readonly>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div *ngIf="inspectionTeamLoad" class="userdeailsload">
+                      <div class="spinner-border text-warning" role="status">
+                      </div>
+                    </div>
+                    <table *ngIf="!inspectionTeamLoad" class="row-border hover inspector_list_table mt-5"
+                      style="width:100%">
+                      <thead>
+                        <tr>
+                          <th rowspan="2">Sr no</th>
+                          <th rowspan="2">Name</th>
+                          <th rowspan="2">Level</th>
+                          <th rowspan="2">Witnerss area/Location</th>
+                          <th rowspan="2">Witness activity</th>
+                          <th colspan="2">Remark</th>
+                          <th rowspan="2">Remark</th>
+                        </tr>
+                        <tr>
+                          <th style="border-radius: 0px;">Satisfactory</th>
+                          <th style="border-radius: 0px;">Not Satisfactory</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let team of inspectionTeam">
+                          <td>1</td>
+                          <td><input type="text" class="form-control" [value]="team.username" readonly></td>
+                          <td><span class="badge badge-secondary" *ngIf="team.l0">L0</span>
+                            <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
+                            <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
+                            <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
+                          </td>
+                          <td><input type="text" [id]="'witnessLocation_'+team.userId" class="form-control"
+                              [value]="supervisorPreData.hasOwnProperty(team.userId)? supervisorPreData[team.userId].witnessedArea : ''">
+                          </td>
+                          <td>
+                            <input type="text" [id]="'witnessActivity_'+team.userId" class="form-control"
+                              [value]="supervisorPreData.hasOwnProperty(team.userId) ? supervisorPreData[team.userId].witnessedActivities : ''">
+                          </td>
+                          <td>
+                            <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
+                              [name]="'satisfactory'+team.userId" [value]="1"
+                              [checked]="supervisorPreData.hasOwnProperty(team.userId) && supervisorPreData[team.userId].satisfactory == true">
+                          </td>
+                          <td>
+                            <input type="radio" [class]="'form-check-input supervisorSatisfactoryCheck_'+team.userId"
+                              [name]="'satisfactory'+team.userId" [value]="0"
+                              [checked]="supervisorPreData.hasOwnProperty(team.userId) && supervisorPreData[team.userId].satisfactory == false">
+                          </td>
+
+                          <td>
+                            <input type="text" [id]="'remark_'+team.userId" class="form-control"
+                              [value]="supervisorPreData.hasOwnProperty(team.userId) ? supervisorPreData[team.userId].remark : ''">
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn btn-success ml-3" (click)="submitSupervisorForm()">
+                      <span *ngIf="supervisorFormSubmitLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                      <span *ngIf="!supervisorFormSubmitLoad">Save</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INSPECTOR ONSITE PERFORMANCE EVALUTION FORM -->
+          <div class="row pb-2 border-bottom mt-5 border-secondary">
+            <h5 class="col-md-12">Inspector Onsite performance evalution form
+              <span class="badge badge-warning" *ngIf="formStatus.inspectoronsitedata == false">Pending</span>
+              <span class="badge badge-success" *ngIf="formStatus.inspectoronsitedata">Filled</span>
+            </h5>
+            <div class="row justify-content-between col-md-12">
+
+              <div class="col-md-8">
+                <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#onsiteEvalutionForm-view"
+                  (click)="onsitePerformance()">Fill the form</button>
+                <button *ngIf="isLeader && formStatus.inspectoronsitedata" class="btn btn-sm btn-primary mx-1"
+                  (click)="downloadPerformanceForm()">
+                  <i *ngIf="!performanceFormload.load && performanceFormload.url==''" class="fa fa-download"
+                    aria-hidden="true"></i>
+                  <span *ngIf="performanceFormload.load" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                  <a *ngIf="performanceFormload.url != ''" class="card-text"
+                    style="color: white; text-decoration: none;" [href]="performanceFormload.url"
+                    target="_blank">View</a>
+                </button>
+                <span *ngIf="performanceFormload.error" class="badge badge-danger">Failed</span>
+              </div>
+
+              <div class="row col-md-4">
+                <input type="file" id="performanceForm" class="form-control col-md-9">
+                <button class="btn btn-sm btn-primary col-md-3" (click)="uploadPerformanceForm()">Upload</button>
+              </div>
+            </div>
+            <div class="modal fade" id="onsiteEvalutionForm-view" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Inspector Onsite performance evalution form</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body modal-full-body">
+                    <div class="card">
+                      <div class="card-body bg-light">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item bg-light">
+                            <div class="row m-2">
+                              <div class="form-group col-md-12">
+                                <label><b>Matser Id:</b></label>
+                                <select class="form-control col-md-3">
+                                  <option [value]="currentMasterId">{{currentMasterId}}</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Client Name</label>
+                                <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
+                                  class="form-control" readonly>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Projcet Name</label>
+                                <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
+                                  class="form-control" readonly>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>Cycle Of Inspection</label>
+                                <select class="form-control">
+                                  <option [value]="cycle.cycle_id" [selected]="masterData.cycleId == cycle.cycle_id"
+                                    *ngFor="let cycle of cycles" disabled>
+                                    {{cycle.cycle_name}}</option>
+                                </select>
+                              </div>
+
+
+                              <div class="form-group col-md-3">
+                                <label>From date:</label>
+                                <input type="date" class="form-control" [value]="masterData.fromDate" readonly>
+                              </div>
+
+                              <div class="form-group col-md-3">
+                                <label>From date:</label>
+                                <input type="date" class="form-control" [value]="masterData.toDate" readonly>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="card mt-3">
+                      <div class="card-body bg-light">
+                        <span class="card-title text-danger col-md-12 m-0 p-0">
+                          *Team leader to rate the following categories as mentioned in table 0-10, for rating 0-4 &
+                          above
+                          out of 10 needs to be specified in deatils in remark
+                        </span>
+                        <table class="row-border hover inspector_list_table" style="width: 30%;">
+                          <tbody>
+                            <tr>
+                              <td>Not Satisfactory</td>
+                              <td>0 - 4</td>
+                            </tr>
+                            <tr>
+                              <td>Good</td>
+                              <td> > 4 & < 8</td>
+                            </tr>
+                            <tr>
+                              <td>Not Satisfactory</td>
+                              <td> > 8</td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+                    </div>
+
+                    <div *ngIf="inspectionTeamLoad" class="userdeailsload">
+                      <div class="spinner-border text-warning" role="status">
+                      </div>
+                    </div>
+                    <table *ngIf="!inspectionTeamLoad" class="row-border hover inspector_list_table mt-5"
+                      style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Sr no</th>
+                          <th>Name of Inspector</th>
+                          <th>Level</th>
+                          <th>Activities Monitored</th>
+                          <th>Quality Obeservation</th>
+                          <th>Timely completion of Inspection</th>
+                          <th>Behavior & Discipline during Inspection including use of PPEs</th>
+                          <th>Interaction with client during inspection</th>
+                          <th>Technical Knowledge/Skill</th>
+                          <th>Requirements of NABCB clauses during inspection fulfilled</th>
+                          <th>Remark</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let team of inspectionTeam">
+                          <td>1</td>
+                          <td>{{team.username}}</td>
+                          <td>
+                            <span class="badge badge-secondary" *ngIf="team.l0">L0</span>
+                            <span class="badge badge-secondary" *ngIf="team.l1">L1</span>
+                            <span class="badge badge-secondary" *ngIf="team.l2">L2</span>
+                            <span class="badge badge-secondary" *ngIf="team.l3">L3</span>
+                          </td>
+                          <td>
+                            <input type="text" class="form-control" [id]="'activity_monitored_'+team.userId"
+                              [value]=" onsitePreFormData.hasOwnProperty(team.userId) &&  onsitePreFormData[team.userId].activitiesMon ? onsitePreFormData[team.userId].activitiesMon : ''">
+                          </td>
+                          <td>
+                            <select class="form-control col-md-12" [id]="'qualityObservation_'+team.userId">
+                              <option *ngFor="let rate of rating" [value]="rate"
+                                [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].qualityOfObservation == rate ? 1 : ''">
+                                {{rate}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select class="form-control col-md-12" [id]="'timelyComplition_'+team.userId">
+                              <option *ngFor="let rate of rating" [value]="rate"
+                                [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].timelyCompletion == rate ? 1 : ''">
+                                {{rate}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select class="form-control col-md-12" [id]="'behavior_'+team.userId">
+                              <option *ngFor="let rate of rating" [value]="rate"
+                                [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].behaviourDiscipline == rate ? 1 : ''">
+                                {{rate}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select class="form-control col-md-12" [id]="'interaction_'+team.userId">
+                              <option *ngFor="let rate of rating" [value]="rate"
+                                [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].interactionWithClients == rate ? 1 : ''">
+                                {{rate}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select class="form-control col-md-12" [id]="'techKnowledge'+team.userId">
+                              <option *ngFor="let rate of rating" [value]="rate"
+                                [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].technicalKnowledge == rate ? 1 : ''">
+                                {{rate}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select class="form-control col-md-12" [id]="'nabc_'+team.userId">
+                              <option *ngFor="let rate of rating" [value]="rate"
+                                [selected]="onsitePreFormData.hasOwnProperty(team.userId) && onsitePreFormData[team.userId].reqOfNabcb == rate ? 1 : ''">
+                                {{rate}}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <textarea class="form-control" [id]="'ratingRemark_'+team.userId"
+                              [value]="onsitePreFormData.hasOwnProperty(team.userId) &&  onsitePreFormData[team.userId].remark ?  onsitePreFormData[team.userId].remark : ''"></textarea>
+                          </td>
+
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success" (click)="submitOnsitePerformanceForm()">
+                      <span *ngIf="onsiteFormLoad" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                      <span *ngIf="!onsiteFormLoad">Save</span>
+
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Client feedback Form -->
+          <div class="row pb-2 border-bottom mt-5 border-secondary">
+            <h5 class="col-md-12">Client Feedback Form</h5>
+            <div class="row justify-content-between col-md-12">
+
+              <div class="col-md-8">
+                <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill
+                  the
+                  form</button>
+                <span *ngIf="isLeader" class="btn btn-sm btn-primary mx-1">
+                  <i class="fa fa-download" aria-hidden="true"></i></span>
+              </div>
+
+              <div class="row col-md-4">
+                <input type="file" id="performanceForm" class="form-control col-md-9">
+                <button class="btn btn-sm btn-primary col-md-3">Upload</button>
+              </div>
+
+
+            </div>
+            <div class="modal fade" id="client_feedback_form" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Client Feedback Form</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body modal-full-body">
+
+                    <div class="card bg-light" id="client_feedback_form" aria-hidden="true">
+                      <!-- <form [formGroup]="feedbackForm" (ngSubmit)="submitfeedback()"> -->
+
+                      <div class="card-body">
+                        <p class="card-text">&emsp;CQRA Management would be greateful if you could spare some of your
+                          valuable
+                          time to
+                          fill in the following Assessment Form and forword it to us at <a
+                            href="tdcat@cqra.acts-int.com">tdcat@cqra.acts-int.com</a>,<a
+                            href="maratha.f@cqra.acts-int.com">maratha.f@cqra.acts-int.com</a>.
+                        </p>
+
+                        <div class="form-group d-flex">
+                          <div class="form-group col-md-3">
+                            <label><b>Matser Id:</b></label>
+                            <select class="form-control col-md-12">
+                              <option [value]="currentMasterId">{{currentMasterId}}</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-md-3">
+                            <label>Client Name</label>
+                            <input type="text" [value]="masterData.clientName" [title]="masterData.clientId"
+                              class="form-control" readonly>
+                          </div>
+
+                          <div class="form-group col-md-3">
+                            <label>Projcet Name</label>
+                            <input type="text" [value]="masterData.projectName" [title]="masterData.projectId"
+                              class="form-control" readonly>
+                          </div>
+
+                          <div class="form-group col-md-3">
+                            <label>Location (City) :</label>
+                            <input type="text" class="form-control" id="meeting_Location">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <ol type="A">
+                          <li>Kindly rate our services on the scale of 1-5, 1 being the lowest and 5 being the
+                            highest.
+                            <ol type="1">
+
+                              <li>Opening and closing meeting conducted professionally<br> <input type="number" min="1"
+                                  max="5" class="form-control" id="openingcloprofessionally"></li>
+                              <li>Non-conformities discussed to your satisfaction at the end of inspection
+                                process<br><input type="number" min="1" max="5" class="form-control"
+                                  id="nonconfirmitiesdiscussed"></li>
+                              <li>Quality of non-conformities given in the inspection report<br><input type="number"
+                                  min="1" max="5" class="form-control" id="qualityofnonconfirmative"></li>
+
+                            </ol>
+                          </li>
+                          <li>Mark against Your Feedback
+                            <ol type="1">
+                              <li>How correctly in your opinion did our inspection report assess the quality of work?
+                                <ol type="a">
+                                  <li><input type="radio" class="work_quality" name="quality" value="1">Over
+                                    representative</li>
+                                  <li><input type="radio" class="work_quality" name="quality" value="2">Under
+                                    representative
+                                  </li>
+                                  <li><input type="radio" class="work_quality" name="quality" value="3">Correctly
+                                    Presented
+                                  </li>
+                                  <li><input type="radio" class="work_quality" name="quality" value="4">It's a mix
+                                  </li>
+                                </ol>
+                              </li>
+                            </ol>
+                          </li>
+                          <li>What would you suggest that we do differently?<textarea class="form-control"
+                              id="suggestdifferently"></textarea>
+                          </li>
+                          <li>Feedback on assessment team:<textarea class="form-control" id="feedback"></textarea>
+                          </li>
+                          <li>Other comments if any to improve our services:<textarea class="form-control"
+                              id="othercomments"></textarea>
+                          </li>
+                        </ol>
+                      </div>
+
+                      <div class="fle">
+                        <div class="form-group col-md-4">
+                          <label> Feedback Given BY :</label>
+                          <input type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Name and Signature :</label>
+                          <input type="text" class="form-control">
+                          <input type="text" class="form-control" placeholder="Signature">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Designation :</label>
+                          <input type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label>Date :</label>
+                          <input type="date" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button class="btn btn-sm btn-success" (click)="SubmitClientFeedback()">Submit</button>
+                    </div>
+                    <!-- </form> -->
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
+      </ng-template>
     </div>
 
     <div>

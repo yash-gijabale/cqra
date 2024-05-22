@@ -213,7 +213,7 @@ export class CommonService {
   }
 
   getAllocatedQuestion(id) {
-    return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/checklist/questionbychecklistid/${id}`)
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/checklist/questionbychecklistid/${id}`)
   }
 
 

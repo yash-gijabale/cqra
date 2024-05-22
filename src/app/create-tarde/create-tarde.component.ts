@@ -4,7 +4,8 @@ import { ClientServiceService } from "../service/client-service.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TradeMaintanceService } from "../trade-maintance.service";
 import { TradeGroup } from "../trade-group/trade-group.component";
-import { first } from 'rxjs/operators'
+import { first } from 'rxjs/operators';
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 
 export class TradeData {
@@ -42,7 +43,8 @@ export class CreateTardeComponent implements OnInit {
     private router: Router,
     private clientServiceService: ClientServiceService,
     private formBuilder: FormBuilder,
-    private tradeService: TradeMaintanceService
+    private tradeService: TradeMaintanceService,
+    private snackbar:SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -85,7 +87,7 @@ export class CreateTardeComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       tradeName: ["", Validators.required],
-      discription: ["", Validators.nullValidator],
+      // discription: ["", Validators.nullValidator],
       keyResultArea: [[], Validators.nullValidator],
       tradegroupId: ["", Validators.nullValidator],
       tradeSequence: ['', Validators.required],
@@ -124,7 +126,7 @@ export class CreateTardeComponent implements OnInit {
     let formData = {
       trade: {
         tradeName: this.registerForm.value.tradeName,
-        discription: this.registerForm.value.discription,
+        // discription: this.registerForm.value.discription,
         tradeSequence: this.registerForm.value.tradeSequence,
         tradeNumber: this.registerForm.value.tradeNumber,
         status: true
@@ -144,8 +146,13 @@ export class CreateTardeComponent implements OnInit {
         .subscribe(data => {
           console.log('data updated')
           this.isLoad = false
+          this.snackbar.showSuccess('Trade Updated!')
+        }, err => {
+          this.isLoad = false
+          this.snackbar.showSnackError()
+        })
 
-        }, (err) => console.log(err))
+        // }, (err) => console.log(err))
       // console.log(formData)
 
     } else {
@@ -153,8 +160,13 @@ export class CreateTardeComponent implements OnInit {
         .subscribe(data => {
           console.log(data)
           this.isLoad = false
-
+          this.snackbar.showSuccess('Trade Added!')
+        }, err => {
+          this.isLoad = false
+          this.snackbar.showSnackError()
         })
+
+        
     }
 
   }

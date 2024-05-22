@@ -6,6 +6,7 @@ import { TradeMaintanceService } from "../trade-maintance.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { SubgroupView } from "../subgroup/subgroup.component";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 export class QuestionGroupData {
   constructor(
@@ -33,7 +34,8 @@ export class CreateQuestionGroupComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private tradeMaintanceService: TradeMaintanceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackbar:SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -96,7 +98,12 @@ export class CreateQuestionGroupComponent implements OnInit {
         .subscribe(data => {
           console.log('updated-->', data)
           this.isload = false
-        }, err => console.log(err))
+          this.snackbar.showSuccess('Question Group Updated!')
+        }, err => {
+          this.isload = false
+          this.snackbar.showSnackError()
+        });
+        // }, err => console.log(err))
 
     } else {
       this.tradeMaintanceService
@@ -105,10 +112,15 @@ export class CreateQuestionGroupComponent implements OnInit {
           (data) => {
             console.log(data)
             this.isload = false
+            this.snackbar.showSuccess('Question Group Added!')
+          }, err => {
+            this.isload = false
+            this.snackbar.showSnackError()
+          });
 
-          },
-          (err) => console.log(err)
-        );
+        //   },
+        //   (err) => console.log(err)
+        // );
     }
   }
 

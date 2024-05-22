@@ -44,7 +44,7 @@
                   <span *ngIf="user.dtmStatus == 1" class="badge badge-success">Accepted</span>
                   <span *ngIf="user.dtmStatus == 2" class="badge badge-danger">Declined</span>
                 </td>
-                <td>{{user.trainingDate ? user.trainingDate : ''}}</td>
+                <td>{{user.trainingDate ? user.trainingDate : '-'}}</td>
                 <td>
                   <button class="btn btn-sm btn-dark m-0" data-toggle="modal" data-target="#declaration-view"
                     (click)="getUserDetails(user.userId, user.projectId)">View</button>
@@ -126,7 +126,8 @@
                       <th scope="col">Sr no</th>
                       <th scope="col">Client Name</th>
                       <th scope="col">Project Name</th>
-                      <th scope="col">Approve </th>
+                      <th scope="col">Loaction</th>
+                      <th scope="col">Action</th>
                       <th scope="col">Signature</th>
                     </tr>
                   </thead>
@@ -135,19 +136,24 @@
                       <th scope="row">1</th>
                       <td>{{userDetail.clientName}}</td>
                       <td>{{userDetail.projectName}}</td>
+                      <td>{{userDetail.projectCity}}</td>
                       <td>
                         <div>
 
                           <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" [title]="1"
                               id="inlineRadio1" value="option1"
-                              (change)="toggleComment(userDetail.projectId,'show', $event)">
+                              (change)="toggleComment(userDetail.projectId,'show', $event)"
+                              [checked]="userDetail.userStatus == 1"
+                              [disabled]="userDetail.userStatus != 0 || userDetail.userStatus == null">
                             <label class="form-check-label" for="inlineRadio1">Accept</label>
                           </div>
                           <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" [title]="2"
                               id="inlineRadio2" value="option2"
-                              (change)="toggleComment(userDetail.projectId,'show', $event)">
+                              [checked]="userDetail.userStatus == 2"
+                              (change)="toggleComment(userDetail.projectId,'show', $event)"
+                              [disabled]="userDetail.userStatus != 0 || userDetail.userStatus == null">
                             <label class="form-check-label" for="inlineRadio2">Decline</label>
                           </div>
 
@@ -162,10 +168,14 @@
                             <button class="badge badge-secondary" role="button"
                               (click)="toggleComment(userDetail.projectId, 'hide', $event)">Close</button>
                           </div>
+
+                          <div *ngIf="userDetail.userStatus != 0 || userDetail.userStatus == null">
+                            <b>Comment:</b><span>{{userDetail.comment}}</span>
+                          </div>
                         </div>
                       </td>
                       <td>
-                        <img [src]="userData.sign" height="100px" width="100px" alt="Signature">
+                        <img [src]="'https://kia-1.s3.us-east-2.amazonaws.com/UserSign/'+userData.sign" height="100px" width="100px" alt="Signature">
                       </td>
                     </tr>
 

@@ -13,10 +13,10 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#sendPolicy">Send policy</button>
-            <button type="button"> <a [routerLink]="'/addEquipment/-1'">Assign Eupiment</a> </button>
+            <!-- <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#sendPolicy">Send policy</button> -->
+            <button type="button"> <a [routerLink]="'/addEquipment/-1'" style="text-decoration: none; color: white;">Assign Eupiment</a> </button>
 
-            <div class="modal fade" [id]="'sendPolicy'" tabindex="-1" role="dialog"
+            <!-- <div class="modal fade" [id]="'sendPolicy'" tabindex="-1" role="dialog"
               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
@@ -62,7 +62,7 @@
 
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@
                   class="row-border hover inspector_list_table" style="width:100%">
                   <thead>
                     <tr>
-
+                      <th>Sr no</th>
                       <th>Asset Type</th>
                       <th>Asset Name</th>
                       <th>CQRA Id</th>
@@ -104,13 +104,14 @@
                       <th>Current User</th>
                       <th>Assign</th>
                       <th>Assign Date</th>
-                      <th>Actions</th>
+                      <th [width]="'13%'">Actions</th>
                       <th>Return</th>
                       <th>Remark</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let equipment of (activateEquipment)">
+                    <tr *ngFor="let equipment of (activateEquipment); index as i">
+                      <td  [class]="equipment.assignTo ? 'assign_bg' : ''">{{i+1}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assetnameme}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assettname}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.cqraAssetId}}</td>
@@ -120,19 +121,19 @@
                         ''}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">
                         <span *ngIf="!equipment.assignTo" class="badge badge-primary" role="button" data-toggle="modal"
-                          [attr.data-target]="'#trade-user-list-'+equipment.equipmentId">Assign</span>
+                          [attr.data-target]="'#trade-user-list-'+equipment.equipmentId">New assign</span>
                         <span *ngIf="equipment.assignTo" class="badge badge-success">Assigned</span>
                       </td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.dateOfAssign}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">
-                        <div class="action-commonview">
-                          <button type="text" class="edit-modal add-modal" data-toggle="modal"
+                        <div class="row" style="display: flex; justify-content: left; padding-left: 15%;">
+                          <button type="text" class="edit-modal add-modal btn btn-sm btn-primary" data-toggle="modal"
                             data-target="#exampleModalCenter" (click)="editEquipment(equipment.equipmentId)">
                             <span class="edit-tessst">
                               <i class="las la-pencil-alt"></i>
                             </span>
                           </button>
-                          <button type="text" data-toggle="modal"
+                          <button type="text" data-toggle="modal" class="btn btn-sm btn-danger"
                             [attr.data-target]="'#deactivate'+equipment.equipmentId">
                             <span class="edit-tessst">
                               <i class="lar la-trash-alt"></i>
@@ -166,6 +167,12 @@
                               </div>
                             </div>
                           </div>
+
+                          <span *ngIf="equipment.assignTo" class="badge badge-secondary" role="button" (click)="downloadPolicy(equipment.equipmentId, equipment.assignTo)">
+                            <span *ngIf="!policyLoad[equipment.equipmentId]">Policy</span>
+                            <span *ngIf="policyLoad[equipment.equipmentId] && policyLoad[equipment.equipmentId].load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <a *ngIf="policyLoad[equipment.equipmentId] && policyLoad[equipment.equipmentId].url !='' "[href]="policyLoad[equipment.equipmentId].url" target="_blank" style="text-decoration: none; color: white;">view</a>
+                          </span>
                         </div>
                       </td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">
@@ -304,7 +311,7 @@
 
 
       <!-- Example DataTables Card-->
-      <app-snack-bar *ngIf="showSnack" [title]="snackTitle"></app-snack-bar>
+      <app-snack-bar></app-snack-bar>
     </div>
   </div>
   <app-footer></app-footer>

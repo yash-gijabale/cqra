@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { SubgroupView } from "../subgroup/subgroup.component";
 import { QuestionGroupView } from "../question-group/question-group.component";
 import { first } from "rxjs/operators";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 export class QuesHeadingData {
   constructor(
@@ -37,7 +38,8 @@ export class CreateQuestionHeadingComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private tradeMaintanceService: TradeMaintanceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackbar:SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -112,9 +114,14 @@ export class CreateQuestionHeadingComponent implements OnInit {
           data => {
             console.log('updated', data)
             this.isLoad = false
-          },
-          err => console.log(err)
-        )
+            this.snackbar.showSuccess('Question Heading Updated!')
+          }, err => {
+            this.isLoad = false
+            this.snackbar.showSnackError()
+          });
+        //   },
+        //   err => console.log(err)
+        // )
 
     } else {
       this.tradeMaintanceService
@@ -123,9 +130,15 @@ export class CreateQuestionHeadingComponent implements OnInit {
           (data) => {
             console.log("heading created-->", data)
             this.isLoad = false
-          },
-          (err) => console.log(err)
-        );
+            this.snackbar.showSuccess('Question Heading Added!')
+          }, err => {
+            this.isLoad = false
+            this.snackbar.showSnackError()
+          });
+
+        //   },
+        //   (err) => console.log(err)
+        // );
     }
   }
 

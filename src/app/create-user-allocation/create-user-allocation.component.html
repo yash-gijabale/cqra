@@ -28,8 +28,10 @@
         <form [formGroup]="userAllocationForm" (ngSubmit)="onSubmit()" class="row">
           <div class="form-group col-md-6">
             <label>User</label>
-            <select [(ngModel)]="SelUser" formControlName="userId" class="form-control" (change)="getProjectByuser($event)">
-              <option [value]="o.id" *ngFor="let o of userList">
+            <!-- <select [(ngModel)]="SelUser" formControlName="userId" class="form-control" (change)="getProjectByuser($event)"> AUTHO -->
+            <select [(ngModel)]="SelUser" formControlName="userId" class="form-control">
+              <!-- <option [value]="o.id" *ngFor="let o of users"> -->
+              <option [value]="o.userId" *ngFor="let o of users">
                 {{o.userFullName}}
               </option>
             </select>
@@ -66,7 +68,7 @@
           <div class="form-group col-md-6">
             <label>Trade Name</label>
             <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getChecklist()">
-              <option [value]="o.tradeId"*ngFor="let o of approvedTrades">
+              <option [value]="o.fkTradeId" *ngFor="let o of trades">
                 {{o.tradeName}}
               </option>
             </select>
@@ -91,14 +93,17 @@
               <div class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
                   <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox">
-                  <label class="form-check-label" for="flexCheckDefault">Select All</label>
+                  <label class="form-check-label" for="flexCheckDefault" (change)="addAllStage($event)">Select
+                    All</label>
                 </div>
                 <div class="form-check" *ngFor="let o of stages">
                   <input class="form-check-input stagesCheckbox" type="checkbox" [value]="o.stageId"
-                    [id]="'stage'+o.stageId" (change)="addStages($event)" [checked]="this.selectedData.hasOwnProperty(o.stageId)">
+                    [id]="'stage'+o.stageId" (change)="addStages($event)"
+                    [checked]="this.selectedData.hasOwnProperty(o.stageId)">
                   <!-- <input class="form-check-input" type="checkbox" id="moveStage"> -->
 
-                  <label [class]="currentStage == o.stageId ? 'form-check-label t-bold':'form-check-label'" role="button" (click)="showunits(o.stageId)">{{o.stageName}}</label>
+                  <label [class]="currentStage == o.stageId ? 'form-check-label t-bold':'form-check-label'"
+                    role="button" (click)="showunits(o.stageId)">{{o.stageName}}</label>
                 </div>
               </div>
             </div>
@@ -109,7 +114,8 @@
                 <div class="spinner-border text-warning" role="status">
                 </div>
               </div>
-              <div  class="ckechbox-select">
+
+              <div class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
                   <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
                     (change)="selectAllUnitCheckbox($event)">
@@ -117,7 +123,8 @@
                 </div>
                 <div class="form-check" *ngFor="let o of units">
                   <input class="form-check-input unitsCheckbox" type="checkbox" [value]="o.unitId"
-                    [id]="'unit'+o.unitId" (change)="addUnitToStage($event)" [checked]="this.selectedData[currentStage] && this.selectedData[currentStage].hasOwnProperty(o.unitId)">
+                    [id]="'unit'+o.unitId" (change)="addUnitToStage($event)"
+                    [checked]="this.selectedData[currentStage] && this.selectedData[currentStage].hasOwnProperty(o.unitId)">
                   <!-- <input class="form-check-input" type="checkbox" id="moveUnit"> -->
                   <label [class]="currentUnit == o.unitId ? 'form-check-label t-bold':'form-check-label'"
                     (click)="showSubunits(o.unitId)" role="button">{{o.unitName}}</label>
@@ -138,8 +145,7 @@
               <div class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
                   <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
-                    (change)="selectAllSubUnitCheckbox($event)"
-                    >
+                    (change)="selectAllSubUnitCheckbox($event)">
                   <!-- <input class="form-check-input" type="checkbox" id="move"> -->
                   <label class="form-check-label" for="flexCheckDefault">Select All</label>
                 </div>
@@ -147,7 +153,8 @@
                 <div>
                   <div class="form-check" *ngFor="let o of subunits">
                     <input class="form-check-input subUnitsCheckbox" type="checkbox" [value]="o.subunitId"
-                          [id]="'subunit'+o.subunitId" (change)="addSubunit($event)" [checked]="this.selectedData[currentStage] && this.selectedData[currentStage][[currentUnit]] && this.selectedData[currentStage][currentUnit].includes(o.subunitId)">
+                      [id]="'subunit'+o.subunitId" (change)="addSubunit($event)"
+                      [checked]="this.selectedData[currentStage] && this.selectedData[currentStage][[currentUnit]] && this.selectedData[currentStage][currentUnit].includes(o.subunitId)">
                     <label class="form-check-label">{{o.subunitName}}</label>
                   </div>
                 </div>
@@ -170,12 +177,14 @@
                     <!-- <input class="form-check-input" type="checkbox" id="move"> -->
                     <label class="form-check-label" for="flexCheckDefault">Select All</label>
                   </div>
-    
+
                   <div class="col-md-12">
                     <div class="form-check col-md-12" *ngFor="let o of checklists">
-                      <input class="form-check-input subUnitsCheckbox" 
-                      [id]="'checklist'+o.checkistIdChecklist" type="checkbox" [value]="o.checkistIdChecklist" (change)="addChecklist($event)" [checked]="checkListMap[o.checkistIdChecklist]">
-                      <label class="form-check-label" [for]="'checklist'+o.checkistIdChecklist">{{o.checklistNameChecklist}}</label>
+                      <input class="form-check-input subUnitsCheckbox" [id]="'checklist'+o.checkistIdChecklist"
+                        type="checkbox" [value]="o.checkistIdChecklist" (change)="addChecklist($event)"
+                        [checked]="checkListMap[o.checkistIdChecklist]">
+                      <label class="form-check-label"
+                        [for]="'checklist'+o.checkistIdChecklist">{{o.checklistNameChecklist}}</label>
                     </div>
                   </div>
                 </div>
@@ -202,4 +211,6 @@
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>
