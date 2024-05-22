@@ -310,7 +310,7 @@
                   data-target="#opening-closeing-meering-view" (click)="getopeningClosingForm()">Fill the
                   form</button>
 
-                <button *ngIf="isLeader && formStatus.inspectoronsitedata" class="btn btn-sm btn-primary mx-1"
+                <button *ngIf="isLeader && formStatus.ocdata" class="btn btn-sm btn-primary mx-1"
                   (click)="downloadOpeningClosingForm()">
                   <i *ngIf="!openingClosingForm.load && openingClosingForm.url==''" class="fa fa-download"
                     aria-hidden="true"></i>

@@ -359,7 +359,7 @@ export class AssignConstructorSupervisorComponent implements OnInit {
       })
 
       if (this.updatePmcAllocation) {
-        this.clientService.updatePmcAllocation(this.SelProject, this.Selpmc, this.SelclientStaff, this.SelStructure, pmcAllocation)
+        this.clientService.updatePmcAllocation(this.SelProject, this.Selpmc, this.SelclientStaff, this.SelStructure)
           .subscribe(data => {
             console.log('pmc allocation updated', data)
             this.isbtnLoading = false
