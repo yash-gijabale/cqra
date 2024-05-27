@@ -74,104 +74,113 @@
           </div>
         </div>
 
-        <div class="inspector-list mt-5">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
-            class="row-border hover inspector_list_table" style="width:100%">
-            <thead>
-              <tr>
-                <th>Sr No</th>
-                <th>User Name</th>
-                <th style="width: 9%;">Assign Trades</th>
-                <th style="width: 20%;">Authorised Trades</th>
-                <!-- <th>Traning Attchment</th> -->
-                <!-- <th>Date</th> -->
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-             
-              <tr *ngFor="let data of userTradeTrainingData | keyvalue; index as i">
-                <td>{{i + 1}}</td>
-                <td [title]="data.value.userId">
-                  <div style="display: flex;flex-direction: column; text-align: left;">
-                    <b>{{data.value.userName}}</b>
-                    <span class="text-secondary">{{data.value.mobile}}</span>
-                    <span class="text-secondary">{{data.value.email}}</span>
-                  </div>
-                </td>
-                <td>
-                  <button class="btn btn-sm btn-warning" data-toggle="modal"
-                    [attr.data-target]="'#new-trade-'+data.key">+</button>
+        <div *ngIf="loadData then thenUserDetails else elseUserDetails"></div>
+        <ng-template #thenUserDetails>
+          <div class="userdeailsload">
+            <div class="spinner-border text-warning" role="status">
+            </div>
+          </div>
+        </ng-template>
 
-                  <div class="modal fade" [id]="'new-trade-'+data.key" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">New Trades</h5>
-                          <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="form-group col-md-6 mb-6">
-                            <input type="search" class="form-control col-md-12" (input)="searchTrade($event)"
-                              placeholder="Search trades">
-                          </div>
+        <ng-template #elseUserDetails>
+          <div class="inspector-list mt-5">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
+              class="row-border hover inspector_list_table" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Sr No</th>
+                  <th>User Name</th>
+                  <th style="width: 9%;">Assign Trades</th>
+                  <th style="width: 20%;">Authorised Trades</th>
+                  <!-- <th>Traning Attchment</th> -->
+                  <!-- <th>Date</th> -->
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
 
-                          <div class="form-check col-md-12 newTrade" *ngFor="let trade of searchTradeData">
-                            <input class="form-check-input" type="checkbox" [value]="trade.tardeId"
-                              id="flexCheckDefault" (change)="addToNewUserTraining($event)"
-                              [checked]="newUserTrainingTrde.includes(trade.tardeId)"
-                              [disabled]="allocatedtrade[data.value.userId].includes(trade.tardeId)">
-                            <label class="form-check-label" for="flexCheckDefault" [title]="trade.tardeId">
-                              {{trade.tradeName}}
-                            </label>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining(data.key)">
-                            <span *ngIf="newTradeLoad" class="spinner-border spinner-border-sm" role="status"
-                              aria-hidden="true"></span>
-                            <span *ngIf="!newTradeLoad">Save</span>
-                          </button>
-                        </div>
-
-                      </div>
+                <tr *ngFor="let data of userTradeTrainingData | keyvalue; index as i">
+                  <td>{{i + 1}}</td>
+                  <td [title]="data.value.userId">
+                    <div style="display: flex;flex-direction: column; text-align: left;">
+                      <b>{{data.value.userName}}</b>
+                      <span class="text-secondary">{{data.value.mobile}}</span>
+                      <span class="text-secondary">{{data.value.email}}</span>
                     </div>
-                  </div>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-warning" data-toggle="modal"
+                      [attr.data-target]="'#new-trade-'+data.key">+</button>
 
-                </td>
-                <td>
-                  <button class="btn btn-sm btn-warning p-1" data-toggle="modal"
-                    [attr.data-target]="'#traning-trade-'+data.key">View
-                    Trade</button>
-
-                  <div class="modal fade" [id]="'traning-trade-'+data.key" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Authorised Trades</h5>
-                          <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <ng-container *ngFor="let trade of data.value.trades">
-                            <div class="row ml-2 pb-2 border-bottom" *ngIf="trade.status == 1">
-                              <span>{{trade.tradeName}}</span>
+                    <div class="modal fade" [id]="'new-trade-'+data.key" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">New Trades</h5>
+                            <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-group col-md-6 mb-6">
+                              <input type="search" class="form-control col-md-12" (input)="searchTrade($event)"
+                                placeholder="Search trades">
                             </div>
-                          </ng-container>
-                        </div>
 
+                            <div class="form-check col-md-12 newTrade" *ngFor="let trade of searchTradeData">
+                              <input class="form-check-input" type="checkbox" [value]="trade.tardeId"
+                                id="flexCheckDefault" (change)="addToNewUserTraining($event)"
+                                [checked]="newUserTrainingTrde.includes(trade.tardeId)"
+                                [disabled]="allocatedtrade[data.value.userId].includes(trade.tardeId)">
+                              <label class="form-check-label" for="flexCheckDefault" [title]="trade.tardeId">
+                                {{trade.tradeName}}
+                              </label>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining(data.key)">
+                              <span *ngIf="newTradeLoad" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                              <span *ngIf="!newTradeLoad">Save</span>
+                            </button>
+                          </div>
+
+                        </div>
                       </div>
                     </div>
-                  </div>
+
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-warning p-1" data-toggle="modal"
+                      [attr.data-target]="'#traning-trade-'+data.key">View
+                      Trade</button>
+
+                    <div class="modal fade" [id]="'traning-trade-'+data.key" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Authorised Trades</h5>
+                            <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <ng-container *ngFor="let trade of data.value.trades">
+                              <div class="row ml-2 pb-2 border-bottom" *ngIf="trade.status == 1">
+                                <span>{{trade.tradeName}}</span>
+                              </div>
+                            </ng-container>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
 
 
-                </td>
-                <!-- <td>
+                  </td>
+                  <!-- <td>
                   <div *ngIf="data.value.trainingAttachment; then thenTraining else elseTraining"></div>
                   <ng-template #thenTraining>
                     <span class="badge bg-success text-light">Available</span>
@@ -182,357 +191,343 @@
                     <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
                   </ng-template>
                 </td> -->
-                <!-- <td>{{data.value.trainingData}}</td> -->
-                <td>
-                  <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#user-details-1"
-                    (click)="getUserTradeDetails(data.key)">Deatils</button>
+                  <!-- <td>{{data.value.trainingData}}</td> -->
+                  <td>
+                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#user-details-1"
+                      (click)="getUserTradeDetails(data.key)">Deatils</button>
 
-                </td>
-              </tr>
+                  </td>
+                </tr>
 
-            </tbody>
-          </table>
+              </tbody>
+            </table>
 
 
-          <div class="modal fade" id="user-details-1" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">{{usertradeDetailsData.userName}}</h5>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body modal-full-body">
-                  <div *ngIf="userDetailsLoad then thenUserDetails else elseUserDetails"></div>
-                  <ng-template #thenUserDetails>
-                    <div class="userdeailsload">
-                      <div class="spinner-border text-warning" role="status">
+            <div class="modal fade" id="user-details-1" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-fullscreen w-100 h-100 modal-full" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{usertradeDetailsData.userName}}</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body modal-full-body">
+                    <div *ngIf="userDetailsLoad then thenUserDetails else elseUserDetails"></div>
+                    <ng-template #thenUserDetails>
+                      <div class="userdeailsload">
+                        <div class="spinner-border text-warning" role="status">
+                        </div>
                       </div>
-                    </div>
-                  </ng-template>
-                  <ng-template #elseUserDetails>
-                    <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2"
-                      class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
-                      <thead>
-                        <tr>
-                          <th>Sr no</th>
-                          <th style="width: 25%;">Trade</th>
-                          <th style="width: 9%;">Traning Attendence</th>
-                          <th>Date</th>
-                          <th>Question Paper</th>
-                          <th style="width: 9%;">Marks</th>
-                          <th>Under Training Report1</th>
-                          <th>Under Training Report2</th>
-                          <th>Under Training Report3</th>
-                          <th>Status</th>
-                          <th>Approve</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <!-- {{let count = 0}} -->
-                        <tr *ngFor="let data of usertradeDetailsData.trades | keyvalue; index as i">
-                          <td>{{i+1}}</td>
-                          <td style="width: 25%;" class="pl-2">
-                            <span class="row mb-2 ml-2">{{data.value.tradeName}}</span>
-                          </td>
-                          <td>
-                            <div class="traning_upload row d-flex p-2" style="display: flex;flex-direction: column;">
-                              <!-- <label for="inputField" class="badge bg-secondary text-light m-0">Choosed file</label>
+                    </ng-template>
+                    <ng-template #elseUserDetails>
+                      <table datatable [dtOptions]="dtOptions2" [dtTrigger]="dtTrigger2"
+                        class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>Sr no</th>
+                            <th style="width: 25%;">Trade</th>
+                            <th style="width: 9%;">Traning Attendence</th>
+                            <th>Date</th>
+                            <th>Question Paper</th>
+                            <th style="width: 9%;">Marks</th>
+                            <th>Under Training Report1</th>
+                            <th>Under Training Report2</th>
+                            <th>Under Training Report3</th>
+                            <th>Status</th>
+                            <th>Approve</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- {{let count = 0}} -->
+                          <tr *ngFor="let data of usertradeDetailsData.trades | keyvalue; index as i">
+                            <td>{{i+1}}</td>
+                            <td style="width: 25%;" class="pl-2">
+                              <span class="row mb-2 ml-2">{{data.value.tradeName}}</span>
+                            </td>
+                            <td>
+                              <div class="traning_upload row d-flex p-2" style="display: flex;flex-direction: column;">
+                                <!-- <label for="inputField" class="badge bg-secondary text-light m-0">Choosed file</label>
                               <input type="file" id="inputField" (change)="getFile($event)" style="display: none;"> -->
-                              <input type="file" id="inputField" style="width: 100%;" (change)="getFile($event)">
-                              <span class="badge bg-success text-light" role="button">Upload</span>
-                            </div>
-                            <span *ngIf="data.value.trainingAttachment"
-                              class="badge bg-light text-dark mx-2 border border-dark" role="button" data-toggle="modal"
-                              [attr.data-target]="'#training-attach-'+data.value.tradeId">view</span>
-                            <!-- Training Modal -->
-                            <div class="modal fade" [id]="'training-attach-'+data.value.tradeId" tabindex="-1"
-                              role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                              <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Training Attachment</h5>
-                                    <button type="button" class="close" #closebutton data-dismiss="modal"
-                                      aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <img
-                                      src="https://m.media-amazon.com/images/G/31/img21/shoes/2023/SS23/Kids/SBCs/Sneakerb._CB603477575_.png" />
-                                  </div>
-                                </div>
+                                <input type="file" [id]="'inputField'+data.value.tradeId" style="width: 100%;">
+                                <span class="badge bg-success text-light" role="button" (click)="getFile(data.value.tradeId)">
+                                  <span *ngIf="uploadTraingLoad[data.value.tradeId] && uploadTraingLoad[data.value.tradeId].load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                  <span *ngIf="!uploadTraingLoad[data.value.tradeId] || uploadTraingLoad[data.value.tradeId] && !uploadTraingLoad[data.value.tradeId].load ">Upload</span>
+                                </span>
                               </div>
-                            </div>
-                          </td>
-                          <td>
-                            {{usertradeDetailsData.trainingData}}
-                          </td>
-                          <td>
-                            <div
-                              *ngIf="data.value.qStatus!==0 && data.value.passorfail === null || data.value.passorfail == -1"
-                              class="traning_q row d-flex p-2">
+                              <a *ngIf="data.value.trainingAttachment" class="badge bg-light text-dark mx-2 border border-dark" [href]="'https://kia-1.s3.us-east-2.amazonaws.com/TrainingAttachment/'+data.value.trainingAttachment" target="_blank">view</a>
+                            </td>
+                            <td>
+                              {{usertradeDetailsData.trainingData}}
+                            </td>
+                            <td>
+                              <div
+                                *ngIf="data.value.qStatus!==0 && data.value.passorfail === null || data.value.passorfail == -1"
+                                class="traning_q row d-flex p-2">
 
-                              <span *ngIf="data.value.qStatus===2" class="badge bg-secondary text-light" role="button"
-                                data-toggle="modal" data-target="#question-answer-modal"
-                                (click)="getUserSubmittedAns(usertradeDetailsData.userId, data.value.tradeId)">
-                                Ready to check
+                                <span *ngIf="data.value.qStatus===2" class="badge bg-secondary text-light" role="button"
+                                  data-toggle="modal" data-target="#question-answer-modal"
+                                  (click)="getUserSubmittedAns(usertradeDetailsData.userId, data.value.tradeId)">
+                                  Ready to check
+                                </span>
+
+                                <span *ngIf="data.value.qStatus===1" class="badge bg-warning text-light">
+                                  Not Submited
+                                </span>
+
+                              </div>
+
+                              <div *ngIf="data.value.passorfail != null" class="traning_q row d-flex p-2">
+
+                                <span *ngIf="data.value.passorfail===0" class="badge bg-danger text-light">
+                                  Fail
+                                </span>
+
+                                <span *ngIf="data.value.passorfail===1" class="badge bg-success text-light">
+                                  Pass
+                                </span>
+
+                                <span class="badge bg-secondary text-light" role="button" data-toggle="modal"
+                                  data-target="#question-answer-modal"
+                                  (click)="getUserSubmittedAns(usertradeDetailsData.userId, data.value.tradeId)">
+                                  Recheck
+                                </span>
+
+                              </div>
+
+                              <span class="badge bg-light text-dark mx-2 border border-dark" data-toggle="modal"
+                                data-target="#add-view" role="button" (click)="getQuestionByTrade(data.value.tradeId)">
+                                Set Questions
                               </span>
+                            </td>
 
-                              <span *ngIf="data.value.qStatus===1" class="badge bg-warning text-light">
-                                Not Submited
-                              </span>
-
-                            </div>
-
-                            <div *ngIf="data.value.passorfail != null" class="traning_q row d-flex p-2">
-
-                              <span *ngIf="data.value.passorfail===0" class="badge bg-danger text-light">
-                                Fail
-                              </span>
-
-                              <span *ngIf="data.value.passorfail===1" class="badge bg-success text-light">
-                                Pass
-                              </span>
-
-                              <span class="badge bg-secondary text-light" role="button" data-toggle="modal"
-                                data-target="#question-answer-modal"
-                                (click)="getUserSubmittedAns(usertradeDetailsData.userId, data.value.tradeId)">
-                                Recheck
-                              </span>
-
-                            </div>
-
-                            <span class="badge bg-light text-dark mx-2 border border-dark" data-toggle="modal"
-                              data-target="#add-view" role="button" (click)="getQuestionByTrade(data.value.tradeId)">
-                              Set Questions
-                            </span>
-                          </td>
-
-                          <td>
-                            <input type="text" style="width: 50%;" (input)="getMark($event)" [value]="data.value.marks">
-                            <!-- <span class="badge bg-warning text-dark mx-2 border border-dark" role="button"
+                            <td>
+                              <input type="text" style="width: 50%;" (input)="getMark($event)"
+                                [value]="data.value.marks">
+                              <!-- <span class="badge bg-warning text-dark mx-2 border border-dark" role="button"
                               (click)="updateMark(usertradeDetailsData.userId, data.value.tradeId)">
                               <div *ngIf="markLoader" class="spinner-border badge-spinner text-dark" role="status">
                               </div>
                               <span *ngIf="!markLoader">Save</span>
                             </span> -->
 
-                          </td>
+                            </td>
 
-                          <td>
-                            <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                            <span class="badge bg-success text-light">Approve</span>
-                          </td>
+                            <td>
+                              <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                              <span class="badge bg-success text-light">Approve</span>
+                            </td>
 
-                          <td>
-                            <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                            <span class="badge bg-success text-light">Approve</span>
-                          </td>
+                            <td>
+                              <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                              <span class="badge bg-success text-light">Approve</span>
+                            </td>
 
-                          <td>
-                            <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
-                            <span class="badge bg-success text-light">Approve</span>
-                          </td>
+                            <td>
+                              <span class="badge bg-light text-dark mx-2 border border-dark">view</span>
+                              <span class="badge bg-success text-light">Approve</span>
+                            </td>
 
-                          <td>
-                            <span *ngIf="data.value.status == 0 || data.value.status==null"
-                              class="badge bg-danger text-light">Not Approved</span>
-                            <span *ngIf="data.value.status == 1" class="badge bg-success text-light">Approved</span>
-                          </td>
-                          <td>
-                            <button *ngIf="data.value.status != 1 || data.value.status==null || data.value.status==0"
-                              (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 1)"
-                              class="badge bg-primary text-light border-none">
-                              <i *ngIf="!statusLoad[data.value.tradeId]" class="las la-check"></i>
-                              <span *ngIf="statusLoad[data.value.tradeId] && statusLoad[data.value.tradeId].load"
-                                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            </button>
-                            <button *ngIf="data.value.status == 1"
-                              (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 0)"
-                              class="badge bg-danger text-light border-none mx-2">
-                              <i *ngIf="!statusLoad[data.value.tradeId]" class="las la-times"></i>
-                              <span *ngIf="statusLoad[data.value.tradeId] && statusLoad[data.value.tradeId].load"
-                                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            </button>
-                          </td>
-                        </tr>
-
-
-                      </tbody>
-                    </table>
-                  </ng-template>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-sm btn-success">Save</button>
-                </div>
-              </div>
-            </div>
-          </div>
+                            <td>
+                              <span *ngIf="data.value.status == 0 || data.value.status==null"
+                                class="badge bg-danger text-light">Not Approved</span>
+                              <span *ngIf="data.value.status == 1" class="badge bg-success text-light">Approved</span>
+                            </td>
+                            <td>
+                              <button *ngIf="data.value.status != 1 || data.value.status==null || data.value.status==0"
+                                (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 1)"
+                                class="badge bg-primary text-light border-none">
+                                <i *ngIf="!statusLoad[data.value.tradeId]" class="las la-check"></i>
+                                <span *ngIf="statusLoad[data.value.tradeId] && statusLoad[data.value.tradeId].load"
+                                  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              </button>
+                              <button *ngIf="data.value.status == 1"
+                                (click)="updateTradeStatus(usertradeDetailsData.userId, data.value.tradeId, 0)"
+                                class="badge bg-danger text-light border-none mx-2">
+                                <i *ngIf="!statusLoad[data.value.tradeId]" class="las la-times"></i>
+                                <span *ngIf="statusLoad[data.value.tradeId] && statusLoad[data.value.tradeId].load"
+                                  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              </button>
+                            </td>
+                          </tr>
 
 
-
-          <!-- question Paper modal -->
-          <div class="modal fade" id="add-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Generate Random Questions</h5>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-
-                  <div *ngIf="questionLoad; then thenUestions else elseQuestion"></div>
-                  <ng-template #thenUestions>
-                    <div class="w-100 text-center">
-                      <div class="spinner-border text-warning" role="status">
-                      </div>
-                    </div>
-                  </ng-template>
-
-                  <ng-template #elseQuestion>
-                    <div class="row mb-3">
-                      <h6 class="mx-2">Total Questions: {{questionData.length}}</h6>
-                      <input type="number" placeholder="Selecte Question" class="form-select" style="width: 10%;"
-                        (input)="randomCount($event)">
-                      <button class="btn btn-sm btn-secondary p-0" (click)="pickRandomQuestion()">Random</button>
-                    </div>
-
-                    <div class="col-md-12 newTrade" *ngFor="let subgroup of subgroupWiseData | keyvalue">
-                      <span><b>subgroup: {{subgroup.key}}</b></span>
-                      <div class="ml-1" *ngFor="let queGroup of subgroup.value | keyvalue">
-                        <span class="text-secondary"><b>Question group:{{queGroup.key}}</b></span>
-                        <div class="ml-1" *ngFor="let heading of queGroup.value | keyvalue">
-                          <span class="text-secondary"><b>Heading:{{heading.key}}</b></span>
-                          <div class="form-check ml-1" *ngFor="let question of heading.value">
-                            <input class="form-check-input" type="checkbox" [value]="question.questionId"
-                              id="flexCheckDefault" (change)="pickQuestion($event)"
-                              [checked]="pickedQuestion.includes(question.questionId)">
-                            <label class="form-check-label" for="flexCheckDefault" [title]="question.questionId">
-                              {{question.questionText}}
-                            </label>
-                          </div>
-                        </div>
-
-                      </div>
-
-                    </div>
-                  </ng-template>
-                </div>
-                <div class="modal-footer bg-secondary">
-                  <button class="btn btn-sm btn-success" (click)="submitRandomQuestion()">Save</button>
+                        </tbody>
+                      </table>
+                    </ng-template>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-sm btn-success">Save</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
 
-          <!-- Question Anwser Modal -->
-          <div class="modal fade" id="question-answer-modal" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Question Evaluation
-                    ({{usertradeDetailsData.userName}})
-                  </h5>
-                  <span class="badge badge-secondary modal-title">Questions: {{totalQuestionsAns}}</span>
-                  <span class="badge badge-secondary modal-title mx-1">Rigth: {{rigthAns}}</span>
-                  <span class="badge badge-secondary modal-title">Wrong: {{wrongAns}}</span>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
 
-                  <div *ngIf="questionAnsLoad; then thenQuestionAns else elseQuestionAns"></div>
-                  <ng-template #thenQuestionAns>
-                    <div class="w-100 text-center">
-                      <div class="spinner-border text-warning" role="status">
-                      </div>
-                    </div>
-                  </ng-template>
+            <!-- question Paper modal -->
+            <div class="modal fade" id="add-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+              aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Generate Random Questions</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
 
-                  <ng-template #elseQuestionAns>
-                    <div class="question-box" *ngFor="let ansData of questionAnsData">
-                      <span style="font-weight: bold;">{{ansData.questionText}}</span>
-                      <div>
-                        <span class="text-secondary">Work Instruction</span>
-                        <textarea class="question-ans answes" [id]="ansData.instradeAnswerId" type="text"
-                          readonly>{{ansData.answer}}</textarea>
-                        <div class="form-check form-check-inline row ml-2">
-                          <div class="mx-1">
-                            <input class="form-check-input" type="radio" [name]="'ansData1-'+ansData.instradeAnswerId"
-                              [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 1)">
-                            <label class="form-check-label" for="inlineRadio1">Rigth</label>
-                          </div>
-
-                          <div class="mx-1">
-                            <input class="form-check-input" type="radio" [name]="'ansData1-'+ansData.instradeAnswerId"
-                              [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 1)">
-                            <label class="form-check-label text-danger">Wrong</label>
-                          </div>
+                    <div *ngIf="questionLoad; then thenUestions else elseQuestion"></div>
+                    <ng-template #thenUestions>
+                      <div class="w-100 text-center">
+                        <div class="spinner-border text-warning" role="status">
                         </div>
                       </div>
+                    </ng-template>
 
-                      <div>
-                        <span class="text-secondary">Impack Of NC</span>
-                        <textarea class="question-ans answes" [id]="ansData.answerImpact" type="text"
-                          readonly>{{ansData.answer}}</textarea>
-                        <div class="form-check form-check-inline row ml-2">
-                          <div class="mx-1">
-                            <input class="form-check-input" type="radio" [name]="'ansData2-'+ansData.instradeAnswerId"
-                              [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 2)">
-                            <label class="form-check-label" for="inlineRadio1">Rigth</label>
-                          </div>
-
-                          <div class="mx-1">
-                            <input class="form-check-input" type="radio" [name]="'ansData2-'+ansData.instradeAnswerId"
-                              [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 2)">
-                            <label class="form-check-label text-danger">Wrong</label>
-                          </div>
-                        </div>
+                    <ng-template #elseQuestion>
+                      <div class="row mb-3">
+                        <h6 class="mx-2">Total Questions: {{questionData.length}}</h6>
+                        <input type="number" placeholder="Selecte Question" class="form-select" style="width: 10%;"
+                          (input)="randomCount($event)">
+                        <button class="btn btn-sm btn-secondary p-0" (click)="pickRandomQuestion()">Random</button>
                       </div>
 
-                      <div>
-                        <span class="text-secondary">NC Rectification</span>
-                        <textarea class="question-ans answes" [id]="ansData.answerRectification" type="text"
-                          readonly>{{ansData.answer}}</textarea>
-                        <div class="form-check form-check-inline row ml-2">
-                          <div class="mx-1">
-                            <input class="form-check-input" type="radio" [name]="'ansData3-'+ansData.instradeAnswerId"
-                              [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 3)">
-                            <label class="form-check-label" for="inlineRadio1">Rigth</label>
+                      <div class="col-md-12 newTrade" *ngFor="let subgroup of subgroupWiseData | keyvalue">
+                        <span><b>subgroup: {{ subgroupName[subgroup.key]}}</b></span>
+                        <div class="ml-1" *ngFor="let queGroup of subgroup.value | keyvalue">
+                          <span class="text-secondary"><b>Question group:{{questiongroupName[queGroup.key]}}</b></span>
+                          <div class="ml-1" *ngFor="let heading of queGroup.value | keyvalue">
+                            <span class="text-secondary"><b>Heading:{{ headingName[heading.key]}}</b></span>
+                            <div class="form-check ml-1" *ngFor="let question of heading.value">
+                              <input class="form-check-input" type="checkbox" [value]="question.questionId"
+                                id="flexCheckDefault" (change)="pickQuestion($event)"
+                                [checked]="pickedQuestion.includes(question.questionId)">
+                              <label class="form-check-label" for="flexCheckDefault" [title]="question.questionId">
+                                {{question.questionText}}
+                              </label>
+                            </div>
                           </div>
 
-                          <div class="mx-1">
-                            <input class="form-check-input" type="radio" [name]="'ansData3-'+ansData.instradeAnswerId"
-                              [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 3)">
-                            <label class="form-check-label text-danger">Wrong</label>
-                          </div>
                         </div>
-                      </div>
 
-                    </div>
-                  </ng-template>
-                </div>
-                <div class="modal-footer bg-secondary">
-                  <button class="btn btn-sm btn-success"
-                    (click)="submitQuestionPaperResult(usertradeDetailsData.userId, usertradeDetailsData.tradeId)">Save</button>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div class="modal-footer bg-secondary">
+                    <button class="btn btn-sm btn-success" (click)="submitRandomQuestion()">Save</button>
+                  </div>
                 </div>
               </div>
             </div>
+
+
+            <!-- Question Anwser Modal -->
+            <div class="modal fade" id="question-answer-modal" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Question Evaluation
+                      ({{usertradeDetailsData.userName}})
+                    </h5>
+                    <span class="badge badge-secondary modal-title">Questions: {{totalQuestionsAns}}</span>
+                    <span class="badge badge-secondary modal-title mx-1">Rigth: {{rigthAns}}</span>
+                    <span class="badge badge-secondary modal-title">Wrong: {{wrongAns}}</span>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <div *ngIf="questionAnsLoad; then thenQuestionAns else elseQuestionAns"></div>
+                    <ng-template #thenQuestionAns>
+                      <div class="w-100 text-center">
+                        <div class="spinner-border text-warning" role="status">
+                        </div>
+                      </div>
+                    </ng-template>
+
+                    <ng-template #elseQuestionAns>
+                      <div class="question-box" *ngFor="let ansData of questionAnsData">
+                        <span style="font-weight: bold;">{{ansData.questionText}}</span>
+                        <div>
+                          <span class="text-secondary">Work Instruction</span>
+                          <textarea class="question-ans answes" [id]="ansData.instradeAnswerId" type="text"
+                            readonly>{{ansData.answer}}</textarea>
+                          <div class="form-check form-check-inline row ml-2">
+                            <div class="mx-1">
+                              <input class="form-check-input" type="radio" [name]="'ansData1-'+ansData.instradeAnswerId"
+                                [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 1)">
+                              <label class="form-check-label" for="inlineRadio1">Rigth</label>
+                            </div>
+
+                            <div class="mx-1">
+                              <input class="form-check-input" type="radio" [name]="'ansData1-'+ansData.instradeAnswerId"
+                                [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 1)">
+                              <label class="form-check-label text-danger">Wrong</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <span class="text-secondary">Impack Of NC</span>
+                          <textarea class="question-ans answes" [id]="ansData.answerImpact" type="text"
+                            readonly>{{ansData.answer}}</textarea>
+                          <div class="form-check form-check-inline row ml-2">
+                            <div class="mx-1">
+                              <input class="form-check-input" type="radio" [name]="'ansData2-'+ansData.instradeAnswerId"
+                                [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 2)">
+                              <label class="form-check-label" for="inlineRadio1">Rigth</label>
+                            </div>
+
+                            <div class="mx-1">
+                              <input class="form-check-input" type="radio" [name]="'ansData2-'+ansData.instradeAnswerId"
+                                [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 2)">
+                              <label class="form-check-label text-danger">Wrong</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <span class="text-secondary">NC Rectification</span>
+                          <textarea class="question-ans answes" [id]="ansData.answerRectification" type="text"
+                            readonly>{{ansData.answer}}</textarea>
+                          <div class="form-check form-check-inline row ml-2">
+                            <div class="mx-1">
+                              <input class="form-check-input" type="radio" [name]="'ansData3-'+ansData.instradeAnswerId"
+                                [value]="1" (change)="addAnswer(ansData.instradeAnswerId,$event, 3)">
+                              <label class="form-check-label" for="inlineRadio1">Rigth</label>
+                            </div>
+
+                            <div class="mx-1">
+                              <input class="form-check-input" type="radio" [name]="'ansData3-'+ansData.instradeAnswerId"
+                                [value]="0" (change)="addAnswer(ansData.instradeAnswerId,$event, 3)">
+                              <label class="form-check-label text-danger">Wrong</label>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div class="modal-footer bg-secondary">
+                    <button class="btn btn-sm btn-success"
+                      (click)="submitQuestionPaperResult(usertradeDetailsData.userId, usertradeDetailsData.tradeId)">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
           </div>
-
-
-
-        </div>
+        </ng-template>
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

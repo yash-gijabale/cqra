@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ClientServiceService } from 'src/app/service/client-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from "rxjs/operators";
+import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
 
 
 export class AssessorNameData {
@@ -27,7 +28,8 @@ export class CreateAccessorNameComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private cleintService: ClientServiceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -71,7 +73,10 @@ export class CreateAccessorNameComponent implements OnInit {
         .subscribe(data => {
           console.log('updates')
           this.isLoad = false
-
+          this.snackBar.showSuccess('Assessor updated')
+        }, err => {
+          this.isLoad = false
+          this.snackBar.showSnackError()
         })
     } else {
       this.cleintService.createAssessor(formData)
@@ -79,10 +84,13 @@ export class CreateAccessorNameComponent implements OnInit {
           data => {
             console.log('creared--->', data)
             this.isLoad = false
+            this.snackBar.showSuccess('Assessor created')
           },
           err => {
             console.log(err)
             this.isLoad = false
+            this.snackBar.showSnackError()
+
           }
         )
     }

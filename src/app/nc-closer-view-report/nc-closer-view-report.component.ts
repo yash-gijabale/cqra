@@ -95,8 +95,9 @@ export class NcCloserViewReportComponent implements OnInit {
   ncReportForm: FormGroup;
   trades: Trade[];
   submitted: boolean
+  reasons: Array<any>
 
-  nscReport: NcReportDetails[];
+  nscReport: NcReportDetails;
   constructor(
     private route: ActivatedRoute,
     private tradeService: TradeMaintanceService,
@@ -112,8 +113,8 @@ export class NcCloserViewReportComponent implements OnInit {
       .pipe(first())
       .subscribe((data) => {
         console.log(data);
-        this.ncReportId = data[0].id
-        this.ncReportForm.patchValue(data[0]);
+        this.ncReportId = data.id
+        this.ncReportForm.patchValue(data);
       });
 
     this.tradeService.getAllTrades().subscribe(
@@ -126,7 +127,7 @@ export class NcCloserViewReportComponent implements OnInit {
 
     this.ncReportForm = this.formBuilder.group({
       ncOpenDate: ["", Validators.required],
-      ncNumber: ["", Validators.required],
+      nc_number: ["", Validators.required],
       tradeId: ["", Validators.required],
       ncClosureComment: ["", Validators.required],
       severity: ["", Validators.required],
@@ -151,6 +152,43 @@ export class NcCloserViewReportComponent implements OnInit {
       ncClosureDate: ["", Validators.required],
       ncId: ["", Validators.required],
     });
+
+
+    this.reasons = [
+      {
+        id: 1,
+        reason: 'Can the quality issue be prevented by change in design or detailing in drawing'
+      },
+      {
+        id: 2,
+        reason: 'Has the problem occurred due to incorrect construction methodology '
+      },
+      {
+        id: 3,
+        reason: 'Has the problem occurred due to improper selection  of material   or poor  quality of materials ?'
+      },
+      {
+        id: 4,
+        reason: 'Has the problem occurred  due to poor workmanship of workmen ?'
+      },
+      {
+        id: 5,
+        reason: 'Could the problem have been prevented by better supervision ?'
+      },
+      {
+        id: 6,
+        reason: 'Has the problem occurred due to lack of knowledge about materials / process ?'
+      },
+      {
+        id: 7,
+        reason: 'The problem occurred due to lack of accountability of the contractor or his team ?'
+      }, {
+        id: 8,
+        reason: 'Any Other Reason'
+      },
+
+    ]
+
   }
 
   get f() {
@@ -205,5 +243,16 @@ export class NcCloserViewReportComponent implements OnInit {
         this.snackBar.showSnackError()
       }
     );
+  }
+
+  reportLoad: boolean = false
+  reportUrl = ''
+  downloadReport() {
+    this.reportLoad = true
+    this.tradeService.downloadNcClosure(this.ncReportId)
+      .subscribe(data => {
+        console.log('report don=>', data)
+        this.reportUrl = data.url
+      })
   }
 }

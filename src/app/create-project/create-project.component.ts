@@ -119,7 +119,7 @@ export class CreateProjectComponent implements OnInit {
       TradeId: ['', Validators.nullValidator],
       // noOfStructure: ['', Validators.required],
       projectType: ['', Validators.required],
-      showOnReport: [1, Validators.nullValidator]
+      showonreport: [1, Validators.nullValidator]
     });
 
     this.clientServiceService.getAllClients().subscribe((data) => {
@@ -186,7 +186,8 @@ export class CreateProjectComponent implements OnInit {
       protocolFinalized: this.projectForm.value.protocolFinalized ? 1 : 0,
       training: this.projectForm.value.training ? 1 : 0,
       projectStatus: true,
-      projectType: this.projectForm.value.projectType
+      projectType: this.projectForm.value.projectType,
+      showonreport: Number(this.projectForm.value.showonreport)
 
     }
     console.log(projectFormData)

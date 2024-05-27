@@ -263,8 +263,9 @@
                     aria-hidden="true"></i>
                   <span *ngIf="myequipmentFormLoad.load" class="spinner-border spinner-border-sm" role="status"
                     aria-hidden="true"></span>
-                  <a *ngIf="myequipmentFormLoad.url != ''" class="card-text" style="color: white; text-decoration: none;"
-                    [href]="myequipmentFormLoad.url" target="_blank">View</a>
+                  <a *ngIf="myequipmentFormLoad.url != ''" class="card-text"
+                    style="color: white; text-decoration: none;" [href]="myequipmentFormLoad.url"
+                    target="_blank">View</a>
                 </button>
                 <span *ngIf="myequipmentFormLoad.error" class="badge badge-danger">Failed</span>
               </div>
@@ -1244,8 +1245,18 @@
                 <button class="btn btn-success btn-sm mx-2" data-toggle="modal" data-target="#client_feedback_form">Fill
                   the
                   form</button>
-                <span *ngIf="isLeader" class="btn btn-sm btn-primary mx-1">
-                  <i class="fa fa-download" aria-hidden="true"></i></span>
+
+                <button *ngIf="isLeader" class="btn btn-sm btn-primary mx-1"
+                  (click)="downloadClientFeedback()">
+                  <i *ngIf="!clientFeedBackLoad.load && clientFeedBackLoad.url==''" class="fa fa-download"
+                    aria-hidden="true"></i>
+                  <span *ngIf="clientFeedBackLoad.load" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                  <a *ngIf="clientFeedBackLoad.url != ''" class="card-text"
+                    style="color: white; text-decoration: none;" [href]="clientFeedBackLoad.url"
+                    target="_blank">View</a>
+                </button>
+                <span *ngIf="clientFeedBackLoad.error" class="badge badge-danger">Failed</span>
               </div>
 
               <div class="row col-md-4">

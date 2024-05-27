@@ -35,6 +35,10 @@ export class InspectorDeclarationComponent implements OnInit {
 
   clientProjectObject = {}
 
+  logUser = Number(localStorage.getItem('id'))
+
+  dtmuserLoad: boolean = false
+
   constructor(
     private inspectionTraining: InspectorTraning,
     private cleintService: ClientServiceService,
@@ -74,9 +78,9 @@ export class InspectorDeclarationComponent implements OnInit {
         this.generateClientProjectObject(data)
       })
 
+    this.dtmuserLoad = true
     this.inspectionTraining.getDeclarationUserList()
       .subscribe(data => {
-        // this.declarationUserList = data
         let useobjcheck = {}
         let list = data.filter(item => {
           if (item != null) {
@@ -86,17 +90,13 @@ export class InspectorDeclarationComponent implements OnInit {
             }
           }
         })
-        // let srNo = 0
-        // list = list.map(user => {
-        //   srNo += 1
-        //   return {
-        //     srNo: srNo,
-        //     ...user
-        //   }
-        // })
+     
         this.declarationUserList = list
         console.log(this.declarationUserList)
+        this.dtmuserLoad = false
         this.dtTrigger.next()
+      }, err =>{
+        console.log(err)
       })
   }
 
@@ -145,6 +145,7 @@ export class InspectorDeclarationComponent implements OnInit {
         clientId: this.clientProjectObject[projectId],
         projectId: projectId,
         userId: Number(this.SelUserId),
+        dtmId: this.logUser
         // trainingDate: date
       }
       assignProjectData.push(data)
@@ -154,7 +155,7 @@ export class InspectorDeclarationComponent implements OnInit {
     console.log(Number(this.SelUserId))
     // return
 
-    this.inspectionTraining.assignMultipleProject(assignProjectData)
+    this.inspectionTraining.assignMultipleProject(assignProjectData,this.logUser)
       .subscribe(data => {
         console.log('project asigbed', data)
         this.inspectionTraining.sendMailDeclaration(Number(this.SelUserId))
@@ -164,7 +165,7 @@ export class InspectorDeclarationComponent implements OnInit {
 
         this.snackBar.showSuccess('Project Assign Successfuly !')
         this.assignLoad = false
-      }, err =>{
+      }, err => {
         console.log(err)
         this.snackBar.showSnackError()
       })
@@ -213,6 +214,10 @@ export class InspectorDeclarationComponent implements OnInit {
         this.userDetailsLoad = false
         this.dtTrigger2.next()
       })
+
+
+    this.formLoad = {} //To remove load data
+
   }
 
   approvedProjectData = {}
@@ -226,7 +231,7 @@ export class InspectorDeclarationComponent implements OnInit {
       if (isComfirm) {
         this.approveLoad = true
         this.approveBtnLoad[projectId] = {
-          load:true
+          load: true
         }
       }
     } else if (status === 2) {
@@ -234,7 +239,7 @@ export class InspectorDeclarationComponent implements OnInit {
       if (isComfirm) {
         this.declineLoad = true
         this.approveBtnLoad[projectId] = {
-          load:true
+          load: true
         }
       }
 
@@ -246,13 +251,13 @@ export class InspectorDeclarationComponent implements OnInit {
         dtmStatus: Number(status)
       }
 
-      this.inspectionTraining.updateDtmStatus(projectId, userId, data)
+      this.inspectionTraining.updateDtmStatus(projectId, userId, this.logUser, data)
         .subscribe(data => {
           console.log('updated status', data)
           this.declineLoad = false
           this.approveLoad = false
           this.approveBtnLoad[projectId] = {
-            load:false
+            load: false
           }
           this.getUserDetails(userId)
 
@@ -286,7 +291,7 @@ export class InspectorDeclarationComponent implements OnInit {
     })
     console.log(newData)
 
-    this.inspectionTraining.submitDeclarationForm(newData)
+    this.inspectionTraining.submitDeclarationForm(newData, this.logUser)
       .subscribe(data => {
         console.log('declaration updated', data)
       })
@@ -305,5 +310,24 @@ export class InspectorDeclarationComponent implements OnInit {
 
   }
 
+
+  formLoad = {}
+  downloadDeclarationForm(userId, projectId) {
+    console.log(this.formLoad)
+    this.formLoad[projectId] = {
+      load: true,
+      url: '',
+      error: false
+    }
+    this.inspectionTraining.downloadDeclarationFrom(userId, projectId)
+      .subscribe(data => {
+        console.log('report gen', data)
+        this.formLoad[projectId].load = false
+        this.formLoad[projectId].url = data.url
+      }, err => {
+        this.formLoad[projectId].error = true
+
+      })
+  }
 
 }

@@ -7,7 +7,7 @@
         <div class="add-breadcrames">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Home homrr</a>
+              <a href="#">Home</a>
             </li>
             <li class="breadcrumb-item active">Inspector Declaration</li>
           </ol>
@@ -85,52 +85,62 @@
           </div>
         </div>
 
-        <div class="inspector-list mt-5">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
-            class="row-border hover inspector_list_table" style="width:100%">
-            <thead>
-              <tr>
-                <th>Sr no</th>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Declaration</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of declarationUserList; index as i">
-                <td style="text-align: left;">{{i+1}}</td>
-                <td style="text-align: left;">
-                  <div style="display: flex; flex-direction: column;">
-                    <span>
-                      <b>{{user.userFullName ? user.userFullName : ''}}</b>
-                    </span>
-                    <span class="text-secondary">
-                      <b>Level:</b> <span
-                        *ngIf="user.l1 || user.l2 || user.l3 || user.infra || user.hep || user.fireSafety || user.constructionSafety">
-                        ({{ user.l1 ? 'L1' : '' }} {{ user.l2 ? 'L2' : '' }} {{ user.l3 ? 'L3' : '' }} {{ user.infra ?
-                        'Infra' : '' }}
-                        {{ user.hep ? 'HEP' : '' }} {{ user.fireSafety ? 'Fire_Safety' : '' }} {{
-                        user.constructionSafety
-                        ?
-                        'Construction_Safety' : '' }})</span>
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <span>{{user.email}}</span>
-                </td>
-                <td>
-                  <span>{{user.mobile}}</span>
-                </td>
-                <td>
-                  <button class="btn btn-sm btn-dark m-0" data-toggle="modal" data-target="#declaration-view"
-                    (click)="getUserDetails(user.userId)">Details</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div *ngIf="dtmuserLoad then thenUserDtm else elseUserDTM"></div>
+        <ng-template #thenUserDtm>
+          <div class="userdeailsload">
+            <div class="spinner-border text-warning" role="status">
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #elseUserDTM>
+          <div class="inspector-list mt-5">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
+              class="row-border hover inspector_list_table" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Sr no</th>
+                  <th>User Name</th>
+                  <th>Email</th>
+                  <th>Contact</th>
+                  <th>Declaration</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of declarationUserList; index as i">
+                  <td style="text-align: left;">{{i+1}}</td>
+                  <td style="text-align: left;">
+                    <div style="display: flex; flex-direction: column;">
+                      <span>
+                        <b>{{user.userFullName ? user.userFullName : ''}}</b>
+                      </span>
+                      <span class="text-secondary">
+                        <b>Level:</b> <span
+                          *ngIf="user.l1 || user.l2 || user.l3 || user.infra || user.hep || user.fireSafety || user.constructionSafety">
+                          ({{ user.l1 ? 'L1' : '' }} {{ user.l2 ? 'L2' : '' }} {{ user.l3 ? 'L3' : '' }} {{ user.infra ?
+                          'Infra' : '' }}
+                          {{ user.hep ? 'HEP' : '' }} {{ user.fireSafety ? 'Fire_Safety' : '' }} {{
+                          user.constructionSafety
+                          ?
+                          'Construction_Safety' : '' }})</span>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <span>{{user.email}}</span>
+                  </td>
+                  <td>
+                    <span>{{user.mobile}}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-dark m-0" data-toggle="modal" data-target="#declaration-view"
+                      (click)="getUserDetails(user.userId)">Details</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
@@ -235,9 +245,19 @@
                   </td>
 
                   <td>
-                    <button title="Donwload and view" class="btn btn-sm btn-secondary">
-                      <i class="fa fa-download" aria-hidden="true"></i>
+                    <button *ngIf="!formLoad[user.projectId]" title="Donwload and view" class="btn btn-sm btn-secondary"
+                      (click)="downloadDeclarationForm( user.userId, user.projectId)">
+                      <i *ngIf="!formLoad[user.projectId]" class="fa fa-download" aria-hidden="true"></i>
                     </button>
+
+                    <button *ngIf="formLoad[user.projectId] && formLoad[user.projectId].load" title="Donwload and view"
+                      class="btn btn-sm btn-secondary">
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+
+                    <a *ngIf="formLoad[user.projectId] && formLoad[user.projectId].url!=''"
+                      [href]="formLoad[user.projectId] && formLoad[user.projectId].url" title="Donwload and view"
+                      class="btn btn-sm btn-success" target="_blank">View</a>
                   </td>
 
                 </tr>

@@ -3,12 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClientServiceService } from 'src/app/service/client-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from "rxjs/operators";
+import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
 
 
 export class offerdAreaData {
   constructor(
     public snapAuditId: number,
     public offeredAreaName: string
+
   ) { }
 }
 
@@ -27,7 +29,8 @@ export class CreateOffredAreaComponent implements OnInit {
     private clientService: ClientServiceService,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -54,11 +57,13 @@ export class CreateOffredAreaComponent implements OnInit {
     return this.offerdForm.controls;
   }
 
+  load: boolean = false
   onSubmit() {
     this.submitted = true
     if (this.offerdForm.invalid) {
       return
     }
+    this.load = true
     let formData = {
       snapAuditId: this.snapAuditId,
       offeredAreaName: this.offerdForm.value.offeredAreaName
@@ -69,13 +74,26 @@ export class CreateOffredAreaComponent implements OnInit {
       this.clientService.updateOfferedArea(formData, this.offredId)
         .subscribe(data => {
           console.log('updated')
+          this.load = false
+          this.snackBar.showSuccess('Offered area updated')
+        }, err => {
+          this.load = false
+          this.snackBar.showSnackError()
         })
-    }else{
-      this,this.clientService.createOffredArea(formData)
-      .subscribe(
-        data => console.log('created--->', data),
-        err =>  console.log(err)
-      )
+    } else {
+      this, this.clientService.createOffredArea(formData)
+        .subscribe(
+          data => {
+            console.log('created--->', data)
+            this.load = false
+            this.snackBar.showSuccess('Offered area created')
+          },
+          err => {
+            console.log(err)
+            this.load = false
+            this.snackBar.showSnackError()
+          }
+        )
     }
   }
 }

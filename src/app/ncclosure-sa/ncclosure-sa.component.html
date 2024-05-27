@@ -58,7 +58,7 @@
 
         <div class="form-group col-md-4">
           <label for="fname" class="col-form-label">Status</label>
-          <select class="form-control col-md-12" [(ngModel)]="SelStatusId" #projectId>
+          <select class="form-control col-md-12" [(ngModel)]="SelstatusId" #projectId>
             <option [value]="0" selected >Please Select</option>
             <option [value]="o.statusId" *ngFor="let o of status">
               {{o.statusName}}
@@ -95,24 +95,24 @@
             </thead>
             <tbody>
               <tr *ngFor="let client of ncsReports">
-                <td>{{ client.idNcBeanSa }}</td>
-                <td>{{ client.nc_number_nc_bean_sa }}</td>
-                <td>{{ client.projectNameProjects }}</td>
-                <td>{{ client.tradeNameTrade }}</td>
-                <td>{{ client.nc_closure_comment_nc_bean_sa }}</td>
-                <td>{{ client.statusNcBeanSa }}</td>
-                <td>{{ client.locationNcBeanSa}}</td>
+                <td>{{ client.id }}</td>
+                <td>{{ client.nc_number }}</td>
+                <td>{{ client.projectId }}</td>
+                <td>{{ client.tradeId }}</td>
+                <td>{{ client.ncClosureComment }}</td>
+                <td>{{ client.status }}</td>
+                <td>{{ client.location}}</td>
                 <td>View</td>
-                <td>{{ client.ncClosureDateNcBeanSa }}</td>
+                <td>{{ client.ncClosureComment1 }}</td>
 
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click) = "editReport(client.idNcBeanSa)" class="edit-modal add-modal"data-toggle="modal" data-target="#exampleModalCenter"> 
+                    <button type="text" (click) = "editReport(client.id)"> 
                       <span class="edit-tessst"> 
                        <i class="las la-pencil-alt"></i>
                       </span> 
                     </button>
-                    <button type="text" (click) = "deActivateProject(client.projectId)" class="Delete-modal"> 
+                    <button type="text" (click) = "deActivateProject(client.id)" class="Delete-modal"> 
                       <span class="edit-tessst"> 
                         <i class="lar la-trash-alt"></i>
                       </span> 

@@ -80,8 +80,8 @@
                 routerLink="/assign-constructor-supervisor-foreman">Assign Contractor/ PMC/ Client</a>
             </li> -->
             <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
-              routerLink="/assign-contractor-pmc">Assign Contractor/ PMC/ Client</a>
-          </li>
+                routerLink="/assign-contractor-pmc">Assign Contractor/ PMC/ Client</a>
+            </li>
 
             <li *ngIf="userMenu.userAllocationMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/userAllocation">CQRA User Allocation</a></li>
@@ -191,7 +191,10 @@
             <li *ngIf="userMenu.aQualityIndex" class="dropdown-item"><a tabindex="-1"
                 routerLink="/qualityIndexReportList">Quality Index Report</a>
             </li>
-            <li *ngIf="userMenu.aorReport" class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
+            <!-- <li *ngIf="userMenu.aorReport" class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
+                Tracker Report</a></li> -->
+
+            <li  class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
                 Tracker Report</a></li>
 
 

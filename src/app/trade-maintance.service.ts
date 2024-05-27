@@ -213,16 +213,22 @@ export class TradeMaintanceService {
   //NC REPORT
   getNcsByReportId(project, trade, status, cycle, location) {
     return this.httpClient.get<NcBeanData[]>(`${this.REST_API_SERVER}/findbyidss/${project}/${trade}/${status}/${cycle}/${location}`)
+  }
 
+  getNcsById(project, trade, status, cycle) {
+    return this.httpClient.get<any[]>(`${this.REST_API_SERVER}/findncbeansabyids/${project}/${trade}/${status}/${cycle}/`)
   }
 
   getNcReportById(id) {
-    return this.httpClient.get<NcReportDetails[]>(`${this.REST_API_SERVER}/findbyidsss/${id}`)
+    return this.httpClient.get<NcReportDetails>(`${this.REST_API_SERVER}/findncbeansabyidss/${id}`)
   }
 
   updateNcReport(data: NcReportDetails, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/updatebyidss/${id}`, data)
+  }
 
+  downloadNcClosure(ncId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadnewncclosurepdf/${ncId}`)
   }
 
   //get checklist by trade id

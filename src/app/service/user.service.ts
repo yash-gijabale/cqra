@@ -116,8 +116,8 @@ export class UserService {
   }
 
 
-  assignNewUserToEquipment(equipmentId, userId, data){
-    return this.httpClient.put(`${this.REST_API_SERVER}/Equipmentbyidanduserid/${equipmentId}/${userId}`, data)
+  assignNewUserToEquipment(equipmentId, userId, loggedUser, data){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Equipmentbyidanduserid/${equipmentId}/${userId}/${loggedUser}`, data)
   }
 
   newAsset(data):Observable<UserService>{
@@ -135,6 +135,7 @@ export class UserService {
   getAssetById(id){
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/AssignEqu/getallbyid/${id}`)
   }
+  
   deleteAsset(id){
     return this.httpClient.delete(`${this.REST_API_SERVER}/AssignEqu/deletebyid/${id}`)
   }
@@ -155,12 +156,12 @@ export class UserService {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/sendemail/${userId}`)
   }
 
-  acceptPolisy(data){
-    return this.httpClient.put(`${this.REST_API_SERVER}/updatestatusandsignatyre`, data)
+  acceptPolisy(data, userId){
+    return this.httpClient.put(`${this.REST_API_SERVER}/updatestatusandsignatyre/${userId}`, data)
   }
 
-  returnEquipment(data):Observable<UserService>{
-    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/addequipmenthistory`, data)
+  returnEquipment(data, loggedUser):Observable<UserService>{
+    return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/addequipmenthistory/${loggedUser}`, data)
   }
 
   donloadToolkitPolicy(equipmentId, userId){

@@ -31,14 +31,14 @@ export class InspectorTraning {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallinspectradebyuserid/${id}`)
   }
 
-  uploadTrainingAttachment(id, file: File) {
+  uploadTrainingAttachment(id, tradeId, file: File) {
     let config = {
       headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
     };
 
     let formParams = new FormData();
     formParams.append('file', file)
-    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, formParams, config)
+    return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}/${tradeId}`, formParams, config)
     // return this.httpClient.put(`${this.REST_API_SERVER}/mulispecttradetraining/updatetrainingattach/${id}`, data, config);
   }
 
@@ -91,8 +91,8 @@ export class InspectorTraning {
     return this.httpClient.get<Array<Object>>(`${this.REST_API_SERVER}/mulispecttradetraining/getbyuserapprover`)
   }
 
-  assignMultipleProject(data): Observable<InspectorTraning> {
-    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/addmuluserproject`, data)
+  assignMultipleProject(data, logUser): Observable<InspectorTraning> {
+    return this.httpClient.post<InspectorTraning>(`${this.REST_API_SERVER}/addmuluserproject/${logUser}`, data)
   }
 
   sendMailDeclaration(id) {
@@ -109,17 +109,21 @@ export class InspectorTraning {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getallbyid/${id}`)
   }
 
-  submitDeclarationForm(data) {
-    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserproject`, data)
+  submitDeclarationForm(data, userId) {
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserproject/${userId}`, data)
   }
 
-  updateDtmStatus(projectId, UserId, data) {
-    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserprojectdtmstatus/${UserId}/${projectId}`, data)
+  updateDtmStatus(projectId, UserId, loguser, data) {
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updateuserprojectdtmstatus/${UserId}/${projectId}/${loguser}`, data)
   }
 
   getUserDeclarationByuserAndProject(userId, projectId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getallbyuserandpid/${userId}/${projectId}`)
 
+  }
+
+  downloadDeclarationFrom(userId, projectId){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloaddecelarationreport/${userId}/${projectId}`)
   }
 
 
@@ -328,4 +332,7 @@ export class InspectorTraning {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadequipmentmaintenanceformat/${masterId}/${userId}`)
   }
   
+  downloadClientFeedbackForm(masterId) {
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadclientfeedbackfeedbackform/${masterId}`)
+  }
 }

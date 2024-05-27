@@ -49,6 +49,11 @@ export class PreSnapauditFromsComponent implements OnInit {
 
   ngOnInit() {
     // this.snapAuditId = this.route.snapshot.params['id']
+    this.clientFeedBackLoad = this.myequipmentFormLoad = this.teamInspectionForm = this.internalReviewMeetingForm = this.openingClosingForm = this.supervisionForm = this.performanceFormload = {
+      load: false,
+      error: false,
+      url: ''
+    }
 
     this.inspectionTraining.getMasterIdsByUserId(this.userId)
       .subscribe(data => {
@@ -957,7 +962,6 @@ export class PreSnapauditFromsComponent implements OnInit {
 
       })
   }
-
   internalReviewMeetingForm = {
     load: false,
     error: false,
@@ -984,7 +988,7 @@ export class PreSnapauditFromsComponent implements OnInit {
     error: false,
     url: ''
   }
-  downloadTeamInspectionForm(){
+  downloadTeamInspectionForm() {
     this.teamInspectionForm.load = true
     this.inspectionTraining.downloadTeamInspectionForm(this.currentMasterId)
       .subscribe(data => {
@@ -1005,7 +1009,7 @@ export class PreSnapauditFromsComponent implements OnInit {
     error: false,
     url: ''
   }
-  downloadEquipmentForm(){
+  downloadEquipmentForm() {
     console.log('generating')
     this.myequipmentFormLoad.load = true
     this.inspectionTraining.downloadEquipmentForm(this.currentMasterId, this.userId)
@@ -1022,6 +1026,28 @@ export class PreSnapauditFromsComponent implements OnInit {
       })
   }
 
+
+  clientFeedBackLoad = {
+    load: false,
+    error: false,
+    url: ''
+  }
+  downloadClientFeedback() {
+    console.log('generating')
+    this.clientFeedBackLoad.load = true
+    this.inspectionTraining.downloadClientFeedbackForm(this.currentMasterId)
+      .subscribe(data => {
+        console.log(data)
+        this.clientFeedBackLoad.load = false
+        this.clientFeedBackLoad.url = data.url
+
+      }, err => {
+        console.log(err)
+        this.clientFeedBackLoad.load = false
+        this.clientFeedBackLoad.error = false
+
+      })
+  }
 
 }
 

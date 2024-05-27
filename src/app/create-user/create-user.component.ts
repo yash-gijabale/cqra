@@ -51,6 +51,9 @@ export class CreateUserComponent implements OnInit {
 
   assignProjectObject = {}
 
+  preUserData:any
+
+  logUser = Number(localStorage.getItem('id'))
 
   constructor(
     private formBuilder: FormBuilder,
@@ -64,7 +67,7 @@ export class CreateUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.preUserData = {}
     this.id = this.route.snapshot.params['id'];
 
     this.userService.getAllRegions().subscribe(data => this.regions = data)
@@ -85,6 +88,7 @@ export class CreateUserComponent implements OnInit {
           console.log(data)
           if (data[0]) {
 
+            this.preUserData = data[0]
             let userData: any = data[0]
             this.representingType = userData.representingTypeId
             this.getRepresentors()
@@ -384,7 +388,7 @@ export class CreateUserComponent implements OnInit {
         assignData.push(data)
       })
       console.log(assignData)
-      this.inspectionTraining.assignMultipleProject(assignData)
+      this.inspectionTraining.assignMultipleProject(assignData, this.logUser)
         .subscribe(data => {
           console.log('projexts assigned', data)
         })

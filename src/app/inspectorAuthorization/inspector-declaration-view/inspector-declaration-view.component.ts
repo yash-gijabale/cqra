@@ -114,7 +114,7 @@ export class InspectorDeclarationViewComponent implements OnInit {
 
     console.log(newData)
 
-    this.inspectorService.submitDeclarationForm(newData)
+    this.inspectorService.submitDeclarationForm(newData, this.userId)
       .subscribe(data => {
         console.log('declaration updated', data)
         this.declarationLoad = false

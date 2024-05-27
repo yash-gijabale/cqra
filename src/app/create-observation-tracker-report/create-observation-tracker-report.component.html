@@ -14,8 +14,10 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button  *ngIf="typeId == 1" type="button"> <a routerLink="/OTRList" style="color: white;">Manage OTR</a> </button>
-            <button  *ngIf="typeId == 0" type="button"> <a routerLink="/snaggingDocument" style="color: white;">Manage SignOff Document</a> </button>
+            <button *ngIf="typeId == 1" type="button"> <a routerLink="/OTRList" style="color: white;">Manage OTR</a>
+            </button>
+            <button *ngIf="typeId == 0" type="button"> <a routerLink="/snaggingDocument" style="color: white;">Manage
+                SignOff Document</a> </button>
           </div>
         </div>
       </div>
@@ -37,8 +39,8 @@
                 <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
               </select>
             </div>
-    
-            <div class="form-group col-md-4">
+
+            <div class="form-group col-md-6">
               <label>Select Client</label>
               <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
                 <option [value]="0">Please Select</option>
@@ -49,7 +51,7 @@
               <div class="invalid-feedback">
               </div>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>Project Name</label>
               <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control"
                 (change)="getStructure()">
@@ -61,20 +63,46 @@
               <div class="invalid-feedback">
               </div>
             </div>
-            <div class="form-group col-md-4">
-              <label>Structure Name</label>
-              <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control"
-                (change)="getStages()">
+            <div class="form-group col-md-6">
+              <label>Select Structure</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="structureAll" (change)="addStrucutureAll($event)"
+                    [checked]="structures.length && addStructures.length  === structures.length">
+                  <label class="form-check-label" for="structureAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check ml-1" *ngFor="let o of structures">
+                  <input class="form-check-input" type="checkbox" [value]="o.structureId"
+                    [id]="'structure'+o.structureId" class="strucuresCheckbox" (change)="addStrucuture($event)"
+                    [checked]="addStructures.includes(o.structureId)">
+                  <label class="form-check-label" [for]="'structure'+o.structureId">
+                    {{o.structureName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control"
+                (change)="getStages($event)" multiple>
                 <option [value]="0">Please Select</option>
                 <option [value]="o.structureId" *ngFor="let o of structures">
                   {{o.structureName}}
                 </option>
-              </select>
-              <div class="invalid-feedback">
-              </div>
+              </select> -->
             </div>
             <div class="form-group col-md-6">
               <label>Select Stages</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check" *ngFor="let o of stages">
+                  <input class="form-check-input" type="checkbox" [value]="o.stageId" [id]="'stage'+o.stageId"
+                    (change)="addstage($event)"
+                    [checked]="addStages.includes(o.stageId)">
+                  <label class="form-check-label" [for]="'stage'+o.stageId">
+                    {{o.stageName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <label>Select Stages</label>
               <select formControlName="obstraStage" class="form-control" multiple>
                 <option [value]="0">Please Select</option>
                 <option [value]="o.stageId" *ngFor="let o of stages">
@@ -82,18 +110,75 @@
                 </option>
               </select>
               <div class="invalid-feedback">
-              </div>
+              </div> -->
             </div>
 
             <div class="form-group col-md-6">
-              <label>Trade</label>
+              <label>Select Trade</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check" *ngFor="let trade of trades">
+                  <input class="form-check-input" type="checkbox" [value]="trade.fkTradeId"
+                    [id]="'trade'+trade.fkTradeId" (change)="addTrade($event)"
+                    [checked]="addTrades.includes(trade.fkTradeId)">
+                  <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
+                    {{trade.tradeName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <label>Trade</label>
               <select formControlName="obstraTrade" class="form-control" multiple>
                 <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
                   {{trade.tradeName}}
                 </option>
               </select>
               <div class="invalid-feedback">
+              </div> -->
+            </div>
+
+            <div class="form-group col-md-6">
+
+              <label>Select Contractor</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check" *ngFor="let contractor of contractors">
+                  <input class="form-check-input" type="checkbox" [value]="contractor.contractorId"
+                    [id]="'contractor'+contractor.contractorId" (change)="addContractor($event)"
+                    [checked]="addContractors.includes(contractor.contractorId)">
+                  <label class="form-check-label" [for]="'contractor'+contractor.contractorId">
+                    {{contractor.contractorName}}
+                  </label>
+                </div>
               </div>
+
+              <!-- <label>Select Contractors</label>
+              <select formControlName="obstraTrade" class="form-control" multiple>
+                <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
+                  {{contractor.contractorName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div> -->
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Select Users</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check" *ngFor="let user of users">
+                  <input class="form-check-input" type="checkbox" [value]="user.userId" [id]="'user'+user.userId"
+                    (change)="addUser($event)"
+                    [checked]="addUsers.includes(user.userId)">
+                  <label class="form-check-label" [for]="'user'+user.userId">
+                    {{user.userFullName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <label>Select Users</label>
+              <select formControlName="obstraTrade" class="form-control" multiple>
+                <option [value]="user.userId" *ngFor="let user of users">
+                  {{user.userFullName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div> -->
             </div>
 
 

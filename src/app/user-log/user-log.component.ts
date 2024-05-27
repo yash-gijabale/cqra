@@ -13,7 +13,7 @@ export class UserView {
     public userId: number,
     public userName: string,
     public userFullName: string,
-    public email: string
+    public email: string,
   ) { }
 }
 
