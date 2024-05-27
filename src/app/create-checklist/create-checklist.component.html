@@ -182,12 +182,13 @@
                     </ul> -->
 
                     <div *ngFor="let qgroup of assignQuestions | keyvalue">
-                      <span class="ml-2"><b>{{qgroup.key}}</b></span>
+                      <span class="ml-2"><b><input type="checkbox" (change)="deselectAll(qgroup.key, $event)">{{qgroup.key}}</b></span>
                       <ul *ngFor="let q of qgroup.value" class="card question-list-success ml-2" cdkDrag>
                         <li class="d-flex justify-content-between">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox"
-                              (change)="onRemoveCheck(qgroup.key, $event, q)" [id]="'question'+q.questionId">
+                              (change)="onRemoveCheck(qgroup.key, $event, q)" [id]="'question'+q.questionId"
+                              [checked]="deSelect[qgroup.key] && deSelect[qgroup.key].includes(q.questionId)">
                             <label class="form-check-label" for="flexCheckDefault">
                               {{q.questionText}}
                             </label>

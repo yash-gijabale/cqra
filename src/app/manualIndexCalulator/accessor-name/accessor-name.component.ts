@@ -4,12 +4,12 @@ import { DataTableDirective } from "angular-datatables";
 import { Subject } from "rxjs";
 import { ClientServiceService } from 'src/app/service/client-service.service';
 
-export class AssessorName{
+export class AssessorName {
   constructor(
     public assessorsId: number,
     public snapAuditId: number,
     public assessordName: string
-  ){}
+  ) { }
 }
 
 @Component({
@@ -25,7 +25,9 @@ export class AccessorNameComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<AssessorName> = new Subject();
 
-  snapAduditId:number
+
+
+  snapAduditId: number
   assessorNameList: AssessorName[]
   isLoading: boolean
   constructor(
@@ -43,30 +45,43 @@ export class AccessorNameComponent implements OnInit {
       pagingType: "full_numbers",
       pageLength: 10,
       lengthMenu: [10, 25, 50],
-      responsive:true,
-      scrollX:true
+      responsive: true,
+      scrollX: true,
+      // destroy:true
     };
 
-    this.clientService.getAllAssessorName(this.snapAduditId)
-    .subscribe(data => {
-      console.log(data)
-      this.assessorNameList = data;
-      this.dtTrigger.next();
-      this.isLoading = false
-    })
+
+    this.getAllAssessor()
   }
 
-  editAssessorName(id)
-  {
+  getAllAssessor() {
+    this.clientService.getAllAssessorName(this.snapAduditId)
+      .subscribe(data => {
+        console.log(data)
+        this.assessorNameList = data;
+        this.dtTrigger.next();
+        this.isLoading = false
+      })
+  }
+
+  editAssessorName(id) {
     this.router.navigate(['createAssessorName', this.snapAduditId, id])
   }
 
-  deActivate(id)
-  {
+  deActivate(id) {
     this.clientService.deleteAssessorName(id)
-    .subscribe(data => {
-      console.log('deleted')
-      location.reload();
-    })
+      .subscribe(data => {
+        console.log('deleted')
+        // location.reload();
+        // this.dtOptions.destroy
+        // this.router.navigate(['assessorName', this.snapAduditId])
+        this.dtElement.dtInstance.then(dtInstance => {
+          // Destroy the table first
+          dtInstance.destroy();
+          this.getAllAssessor()
+          // Call the dtTrigger to rerender again
+          // this.dtTrigger.next();
+        });
+      })
   }
 }

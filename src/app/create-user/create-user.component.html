@@ -390,7 +390,6 @@
             </div>
           </div>
 
-
           <div class="form-group col-md-4">
             <div *ngIf="isLoading; then thenBlock else elseBlock"></div>
             <ng-template #thenBlock>
@@ -405,6 +404,28 @@
 
           </div>
         </form>
+
+
+        <div class="row col-md-12">
+          <div class="form-group card col-md-4" *ngIf="preUserData && preUserData.sign">
+            <label><b>Signature:</b></label>
+            <a style="width: 100%;"
+              [href]="'https://kia-1.s3.us-east-2.amazonaws.com/UserSign/'+preUserData.sign" target="_blank">
+              <img class="col-md-12"
+                [src]="'https://kia-1.s3.us-east-2.amazonaws.com/UserSign/'+preUserData.sign">
+            </a>
+          </div>
+          <div class="form-group card col-md-4" *ngIf="preUserData && preUserData.profileimage">
+            <label><b>Profile:</b></label>
+            <a style="width: 100%;"
+              [href]="'https://kia-1.s3.us-east-2.amazonaws.com/UserProfile/'+preUserData.profileimage" target="_blank">
+              <img class="col-md-12" [src]="'https://kia-1.s3.us-east-2.amazonaws.com/UserProfile/'+preUserData.profileimage">
+            </a>
+
+          </div>
+
+        </div>
+
 
 
 

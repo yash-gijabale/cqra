@@ -141,7 +141,7 @@ export class CreateChecklistComponent implements OnInit {
 
             if (this.checkedQuestionObj[item.questionGroup]) {
               this.checkedQuestionObj[item.questionGroup][item.questionId] = true
-            }else{
+            } else {
               this.checkedQuestionObj[item.questionGroup] = {}
               this.checkedQuestionObj[item.questionGroup][item.questionId] = true
             }
@@ -239,7 +239,7 @@ export class CreateChecklistComponent implements OnInit {
 
       if (this.checkedQuestionObj[q.questionGroup]) {
         this.checkedQuestionObj[q.questionGroup][q.questionId] = true
-      }else{
+      } else {
         this.checkedQuestionObj[q.questionGroup] = {}
         this.checkedQuestionObj[q.questionGroup][q.questionId] = true
       }
@@ -282,7 +282,7 @@ export class CreateChecklistComponent implements OnInit {
         return qu != q.questionId
       })
 
-      if(this.deSelect[groupId].length === 0){
+      if (this.deSelect[groupId].length === 0) {
         delete this.deSelect[groupId]
       }
 
@@ -290,6 +290,27 @@ export class CreateChecklistComponent implements OnInit {
 
     console.log(this.deSelect)
   }
+
+
+  deselectAll(groupId, e) {
+    // console.log(this.assignQuestions, groupId)
+    if (e.target.checked) {
+      this.assignQuestions[groupId].forEach(q => {
+        if (this.deSelect[groupId]) {
+          this.deSelect[groupId].push(q.questionId)
+        } else {
+          this.deSelect[groupId] = []
+          this.deSelect[groupId].push(q.questionId)
+        }
+      })
+
+    } else {
+      delete this.deSelect[groupId]
+    }
+
+    console.log(this.deSelect)
+  }
+
   drop(event: CdkDragDrop<object[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -516,16 +537,16 @@ export class CreateChecklistComponent implements OnInit {
 
       for (const key in this.selectedQuestions) {
         let question = this.selectedQuestions[key]
-        question.forEach(q =>{
+        question.forEach(q => {
           if (this.checkedQuestionObj[key]) {
             this.checkedQuestionObj[key][q.questionId] = true
-          }else{
+          } else {
             this.checkedQuestionObj[key] = {}
             this.checkedQuestionObj[key][q.questionId] = true
           }
         })
       }
-      
+
     } else {
       delete this.selectedQuestions[groupId]
 

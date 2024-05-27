@@ -68,15 +68,15 @@ export class NCClosureSAComponent implements OnInit {
   projects: ProjectData[];
   cycles;
   status;
-  SelCycleId: any;
   trades: any;
-  SelStatusId: any;
-  selRegion:any
-
   reports: NcBeanSAView[];
-  SelProjectId: string = "0";
-  SelTradeId: string = "0";
-  SelstatusId: string = "0";
+  SelProjectId: Number = 0
+  SelTradeId: Number = 0
+  SelstatusId: String = ''
+  selRegion:Number = 0
+  SelCycleId: Number = 0;
+
+
   ncsReports: NcBeanData[];
   
   regions:RegionList[]
@@ -113,7 +113,7 @@ export class NCClosureSAComponent implements OnInit {
 
     this.commonService.getAllProject().subscribe(
       (data) => {
-        // console.log("Project Data==", data);
+        console.log("Project Data==", data);
         this.projects = data;
       },
       (err) => {
@@ -133,18 +133,18 @@ export class NCClosureSAComponent implements OnInit {
       this.cycleOfInspection = data
     })
 
-    this.tradeMaintanceService.getAllNCsforSA().subscribe(
-      (data) => {
-        console.log("----> office service : get all data", data);
-        this.reports = data;
+    // this.tradeMaintanceService.getAllNCsforSA().subscribe(
+    //   (data) => {
+    //     console.log("----> office service : get all data", data);
+    //     this.reports = data;
 
-        // ADD THIS
-        this.dtTrigger.next();
-      },
-      (err) => {
-        console.log("-----> err", err);
-      }
-    );
+    //     // ADD THIS
+    //     this.dtTrigger.next();
+    //   },
+    //   (err) => {
+    //     console.log("-----> err", err);
+    //   }
+    // );
   }
 
   getProjectTrades() {
@@ -158,14 +158,16 @@ export class NCClosureSAComponent implements OnInit {
   getNCs() {
     // alert("called=="+this.SelProjectId+"Cycle Id=="+this.SelCycleId);
     let formData = {
-      locationNcBeanSa:Number(this.selRegion),
-      projectIdNcBeanSa: Number(this.SelProjectId),
-      cycleINcBeanSa: Number(this.SelCycleId),
-      tradeIdNcBeanSa: Number(this.SelTradeId),
-      statusNcBeanSa: this.SelStatusId
+      projectId: this.SelProjectId ,
+      tradeId: this.SelTradeId,
+      status: this.SelstatusId === '' ? 'x' : this.SelstatusId,
+      cycleId: this.SelCycleId
     };
 
-    this.tradeMaintanceService.getNcsByReportId(this.SelProjectId, this.SelTradeId, this.SelStatusId , this.SelCycleId, this.selRegion)
+    console.log(formData)
+    // return
+
+    this.tradeMaintanceService.getNcsById(formData.projectId, formData.tradeId, formData.status , formData.cycleId)
     .subscribe(data => {
       console.log(data)
       this.ncsReports = data

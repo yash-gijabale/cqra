@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormsModule } from "@angular/forms"
 import { ActivatedRoute } from "@angular/router";
 import { ClientServiceService } from "src/app/service/client-service.service";
 import { first } from "rxjs/operators";
+import { SnackBarComponent } from "src/app/loader/snack-bar/snack-bar.component";
 
 export class FirstNoteData {
   constructor(public sanpAuditId: number, public firstNoteText: string) { }
@@ -22,7 +23,8 @@ export class CreateFirstNoteComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private cleintService: ClientServiceService
+    private cleintService: ClientServiceService,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -46,12 +48,14 @@ export class CreateFirstNoteComponent implements OnInit {
     return this.firstNoteForm.controls;
   }
 
+  btnLoad: boolean = false
   onSubmit() {
-    
+
     this.submitted = true
     if (this.firstNoteForm.invalid) {
       return
     }
+    this.btnLoad = true
     let formData = {
       sanpAuditId: this.snapAuditId,
       firstNoteText: this.firstNoteForm.value.firstNoteText,
@@ -63,14 +67,30 @@ export class CreateFirstNoteComponent implements OnInit {
         .updateFirstNote(formData, this.firstNoteId)
         .subscribe((data) => {
           console.log("updated");
+          this.btnLoad = false
+          this.snackBar.showSuccess('First note updated')
+
+        }, err => {
+          this.btnLoad = false
+          this.snackBar.showSnackError()
         });
-    }else{
+    } else {
       console.log('cki')
       this.cleintService.createFirstNote(formData)
-      .subscribe(
-        data => console.log('ctreated--->', data),
-        err => console.log(err)
-      )
+        .subscribe(
+          data => {
+            console.log('ctreated--->', data)
+            this.btnLoad = false
+            this.snackBar.showSuccess('First note created')
+
+          },
+          err => {
+            console.log(err)
+            this.btnLoad = false
+            this.snackBar.showSnackError()
+
+          }
+        )
     }
   }
 }

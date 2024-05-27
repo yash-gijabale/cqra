@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChecklistMasterComponent implements OnInit {
 
+  isLoading:any
+  dtOptions:any
+  dtTrigger:any
+  userDetails:any
   constructor() { }
 
   ngOnInit() {

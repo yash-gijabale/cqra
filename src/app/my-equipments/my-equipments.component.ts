@@ -69,6 +69,10 @@ export class MyEquipmentsComponent implements OnInit {
 
   accesptedEqs = []
   newEquipments = []
+  assignByData = {
+    userName: "",
+    sign: ""
+  }
   separateDataByRecivedStatus(data) {
     data.forEach(item => {
       if (item.receivedStatus == 1) {
@@ -83,6 +87,13 @@ export class MyEquipmentsComponent implements OnInit {
     if (data.length) {
       this.userData['userName'] = data[0].username
       this.userData['userId'] = data[0].assignTo
+      this.userService.retriveUser(data[0].assignedBy)
+        .subscribe(data => {
+          console.log('ass-->', data)
+          let userData: any = data
+          this.assignByData['userName'] = userData[0].userFullName
+          this.assignByData['sign'] = userData[0].sign
+        })
     }
 
   }
@@ -103,7 +114,7 @@ export class MyEquipmentsComponent implements OnInit {
     })
 
     console.log(policydata);
-    this.userService.acceptPolisy(policydata)
+    this.userService.acceptPolisy(policydata, this.userId)
       .subscribe(data => {
         console.log('accepted', data)
         this.submitPolicyLoad = false

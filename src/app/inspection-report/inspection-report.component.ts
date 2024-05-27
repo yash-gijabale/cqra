@@ -71,6 +71,8 @@ export class InspectionReportComponent implements OnInit {
       number: ["", Validators.required],
       revision: ["", Validators.required],
     });
+
+    this.loader = {} //download sampling loader
   }
 
   editReport(id) {
@@ -160,12 +162,14 @@ export class InspectionReportComponent implements OnInit {
   generateReport(id){
     this.loader[id] = {
       load:true,
-      error: false
+      error: false,
+      url:''
     }
     this.tradeMaintanceService.generateReport(id)
     .subscribe(data =>{
       console.log('repoer  gen', data)
       this.loader[id].load = false
+      this.loader[id].url = data.url
     }, err =>{
       console.log(err)
       this.loader[id].load = false

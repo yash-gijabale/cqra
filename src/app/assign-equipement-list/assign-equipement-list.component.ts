@@ -28,6 +28,8 @@ export class AssignEquipementListComponent implements OnInit {
 
   eqload: boolean = false
 
+  loggedUser = Number(localStorage.getItem('id'))
+
   constructor(
     private userService: UserService,
     private router: Router,
@@ -114,7 +116,7 @@ export class AssignEquipementListComponent implements OnInit {
       assignedBy: Number(localStorage.getItem('id'))
     }
     console.log(data)
-    this.userService.assignNewUserToEquipment(equipmentId, userId.value, data)
+    this.userService.assignNewUserToEquipment(equipmentId, userId.value, this.loggedUser,data)
       .subscribe(data => {
         console.log('added', data)
         this.assignEqLoad = false
@@ -200,7 +202,7 @@ export class AssignEquipementListComponent implements OnInit {
 
     console.log(data)
 
-    this.userService.returnEquipment(data)
+    this.userService.returnEquipment(data, this.loggedUser)
       .subscribe(data => {
         console.log('returned', data)
         this.returnLoad = false

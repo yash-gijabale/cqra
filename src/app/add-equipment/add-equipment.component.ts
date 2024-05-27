@@ -10,6 +10,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 
 import { InspectorTraning } from '../service/inspectionTraining.service';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 
 // import SignaturePad from 'signature_pad';
@@ -47,9 +48,9 @@ export class EquipmentView {
     public remark: string,
     public dateOfCalibration: string,
     public assignTo: number,
-    public assignedBy:number,
+    public assignedBy: number,
     public dateOfAssign: string,
-    public cqraAssetId:string,
+    public cqraAssetId: string,
     public status: boolean,
     public eImage: string,
     public ccImage: string
@@ -81,12 +82,15 @@ export class AddEquipmentComponent implements OnInit {
 
   isLoading: boolean = false
 
+  equipemtData: any
+
   constructor(
     private formBuilder: FormBuilder,
     private commanService: CommonService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private inspectionTraning: InspectorTraning
+    private inspectionTraning: InspectorTraning,
+    private snakBar: SnackBarComponent
 
 
   ) { }
@@ -108,7 +112,7 @@ export class AddEquipmentComponent implements OnInit {
       assetSerialNo: ['', Validators.nullValidator],
       dateOfCalibration: ['', Validators.required],
       assignTo: ['', Validators.required],
-      assignedBy:['',Validators.required],
+      assignedBy: ['', Validators.required],
       cqraAssetId: ['', Validators.required],
       cost: ['', Validators.required]
       // dateOfAssign: ['', Validators.required],
@@ -128,6 +132,7 @@ export class AddEquipmentComponent implements OnInit {
         .subscribe(data => {
           this.isLoading = false
           console.log(data)
+          this.equipemtData = data
           this.userService.getEquipmentByAssetType(data.id)
             .subscribe(x => {
               console.log(x)
@@ -189,6 +194,7 @@ export class AddEquipmentComponent implements OnInit {
       img2
     }
 
+    console.log(fileData)
     // return
 
     if (this.equipmentId != -1) {
@@ -197,10 +203,18 @@ export class AddEquipmentComponent implements OnInit {
           console.log('updated==>', data)
           this.submitLoad = false
           let equipment: any = data
-          this.inspectionTraning.uploadEquipment(equipment.equipmentId, fileData).subscribe(data => {
-            console.log('updaloa', data)
-          })
+          this.snakBar.showSuccess('Equipment updated')
+        }, err => {
+          this.submitLoad = false
+          this.snakBar.showSnackError()
         })
+
+      if (img1 && img2) {
+        this.inspectionTraning.uploadEquipment(this.equipmentId, fileData).subscribe(data => {
+          console.log('updaloa', data)
+          this.snakBar.showSuccess('Image uploaded')
+        })
+      }
 
     } else {
 
@@ -212,6 +226,10 @@ export class AddEquipmentComponent implements OnInit {
           this.inspectionTraning.uploadEquipment(equipment.equipmentId, fileData).subscribe(data => {
             console.log('updaloa', data)
           })
+          this.snakBar.showSuccess('Equipmwnt created')
+        }, err => {
+          this.submitLoad = false
+          this.snakBar.showSnackError()
         })
 
     }

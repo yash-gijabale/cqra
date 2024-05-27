@@ -81,6 +81,10 @@
             </div>
           </div>
 
+          <div *ngIf="url[client.id] && url[client.id] != ''" class="text-center">
+            <a [href]="url[client.id]" target="_blank" class="badge badge badge-success">view</a>
+          </div>
+
           <div *ngIf="errorInDownload[client.id]" class="text-center">
             <span class="badge badge-danger">Failed</span>
           </div>

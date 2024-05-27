@@ -10,6 +10,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 import { data } from 'jquery';
 import { Key } from 'protractor';
+import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-inspector-trade-training',
@@ -43,7 +44,8 @@ export class InspectorTradeTrainingComponent implements OnInit {
     private tradeService: TradeMaintanceService,
     private userService: UserService,
     private inspectionTraining: InspectorTraning,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -82,12 +84,15 @@ export class InspectorTradeTrainingComponent implements OnInit {
 
   }
 
+  loadData: boolean = false
   getUserTraningData() {
+    this.loadData = true
     this.inspectionTraining.getAllUserTradeTraining()
       .subscribe(data => {
         console.log(data)
         this.userTradeTrainingData = this.generateDataFromTradeUserList(data)
         this.dtTrigger.next()
+        this.loadData = false
       })
   }
 
@@ -107,7 +112,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
             marks: item.marks,
             qStatus: item.status ? item.status : 0,
             passorfail: item.passorfail,
-            trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false,
+            trainingAttachment: item.trainingAttachment,
             userApprover: item.userApprover,
             status: item.status
 
@@ -131,7 +136,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
             marks: item.marks,
             qStatus: item.status ? item.status : 0,
             passorfail: item.passorfail,
-            trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false
+            trainingAttachment: item.trainingAttachment
 
           })
 
@@ -173,7 +178,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
     console.log(this.newUserTrainingTrde)
   }
 
-  newTradeLoad:boolean = false
+  newTradeLoad: boolean = false
   saveNewTradeTraining(userId = false) {
     this.newTradeLoad = true
     let todayDate = new Date().toISOString().slice(0, 10);
@@ -190,7 +195,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
         console.log('trade traning added', data)
         this.getUserTraningData()
         this.newTradeLoad = false
-      }, err =>{
+      }, err => {
         this.newTradeLoad = false
       })
     console.log(formData)
@@ -226,14 +231,40 @@ export class InspectorTradeTrainingComponent implements OnInit {
       })
   }
 
-  getFile(e) {
-    console.log(e)
-    let file: File = e.target.files[0]
+  uploadTraingLoad = {}
+  getFile(tradeId) {
+    this.uploadTraingLoad = {}
+    this.uploadTraingLoad[tradeId] = {
+      load: true,
+      url: '',
+      error: false
+    }
+    let imageData = document.querySelector(`#inputField${tradeId}`) as HTMLInputElement
+    let file: File = imageData.files[0]
+    // console.log(e)
+    // let file: File = e.target.files[0]
     console.log(file)
 
-    this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, file)
-      .subscribe(data => console.log(data, 'uploaded'),
-        err => console.log('file error-->', err))
+    this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId,tradeId, file)
+      .subscribe(data => {
+        console.log(data, 'uploaded')
+        this.uploadTraingLoad[tradeId] = {
+          load: false,
+          url: data,
+          error: false
+        }
+        this.snackBar.showSuccess('Training File Updated')
+      },
+        err => {
+          console.log('file error-->', err)
+          this.uploadTraingLoad[tradeId] = {
+            load: false,
+            url: '',
+            error: true
+          }
+          this.snackBar.showSnackError()
+
+        })
     // console.log(data)
   }
 
@@ -259,11 +290,17 @@ export class InspectorTradeTrainingComponent implements OnInit {
   questionLoad: boolean = false
   currentSelectedTrade: Number
   subgroupWiseData = {}
+  subgroupName = {}
+  questiongroupName = {}
+  headingName = {}
+
   getQuestionByTrade(tradeId) {
     this.questionData = []
     this.pickedQuestion = [] //TO clear previewd selection
     this.questionLoad = true
     this.currentSelectedTrade = tradeId
+
+    this.subgroupName = this.questiongroupName = this.headingName = {}
     this.commonService.getQuestionByTradeId(tradeId)
       .subscribe(data => {
         console.log(data)
@@ -271,32 +308,37 @@ export class InspectorTradeTrainingComponent implements OnInit {
         let subgroupWise = {}
         data.forEach(question => {
           if (subgroupWise[question.subgroupId]) {
-            if (subgroupWise[question.subgroupId][question.questionGroupId]) {
+            if (subgroupWise[question.subgroupId][question.question_group_id]) {
               // subgroupWise[question.subgroupId][question.questionGroupId] = {}
-              if (subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId]) {
-                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+              if (subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id]) {
+                subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id].push(question)
               } else {
-                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId] = []
-                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+                subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id] = []
+                subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id].push(question)
               }
             } else {
-              subgroupWise[question.subgroupId][question.questionGroupId] = {}
-              if (subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId]) {
-                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+              subgroupWise[question.subgroupId][question.question_group_id] = {}
+              if (subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id]) {
+                subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id].push(question)
               } else {
-                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId] = []
-                subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+                subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id] = []
+                subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id].push(question)
               }
             }
             // subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
 
           } else {
             subgroupWise[question.subgroupId] = {}
-            subgroupWise[question.subgroupId][question.questionGroupId] = {}
-            subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId] = []
-            subgroupWise[question.subgroupId][question.questionGroupId][question.questionHeadingId].push(question)
+            subgroupWise[question.subgroupId][question.question_group_id] = {}
+            subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id] = []
+            subgroupWise[question.subgroupId][question.question_group_id][question.question_heading_id].push(question)
 
           }
+
+
+          this.subgroupName[question.subgroupId] = question.subgroupName
+          this.questiongroupName[question.question_group_id] = question.questionGroupText
+          this.headingName[question.question_heading_id] = question.questionHeadingText
         })
         console.log(subgroupWise)
         this.subgroupWiseData = subgroupWise
@@ -504,8 +546,8 @@ export class InspectorTradeTrainingComponent implements OnInit {
   statusLoad = {}
   updateTradeStatus(userId, tradeId, status) {
     this.statusLoad[tradeId] = {
-      load:true,
-      error:false
+      load: true,
+      error: false
     }
     let isConfirm;
     if (status == 0) {
@@ -520,7 +562,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
       .subscribe(data => {
         this.statusLoad[tradeId].load = false
         console.log('status updated', data)
-      }, err =>{
+      }, err => {
         this.statusLoad[tradeId].error = true
       })
   }

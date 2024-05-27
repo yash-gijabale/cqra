@@ -182,8 +182,8 @@
                 </div>
 
                 <div>
-                  <img [src]="newEquipments[0] ? 'https://kia-1.s3.us-east-2.amazonaws.com/UserSign/'+newEquipments[0].AssignedBySignature : ''" height="200px">
-                  <p class="card-title mx-2">{{newEquipments[0] ? newEquipments[0].AssignedByName : ''}}</p>
+                  <img [src]="newEquipments[0] ? 'https://kia-1.s3.us-east-2.amazonaws.com/UserSign/'+assignByData.sign : ''" height="200px">
+                  <p class="card-title mx-2">{{newEquipments[0] ? assignByData.userName : ''}}</p>
                 </div>
               </div>
 

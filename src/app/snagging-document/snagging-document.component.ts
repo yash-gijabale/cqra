@@ -59,13 +59,17 @@ export class SnaggingDocumentComponent implements OnInit {
   }
 
   loader = {}
+  url = {}
   errorInDownload = {}
   donwloadReport(id) {
     delete this.errorInDownload[id]
     this.loader[id] = true
+    this.url = {}
+    this.url[id] = ''
     this.commonService.downloadSignOffReport(id)
       .subscribe(data => {
-        console.log('report donloed')
+        console.log(data)
+        this.url[id] = data.url
         delete this.loader[id]
 
       },
