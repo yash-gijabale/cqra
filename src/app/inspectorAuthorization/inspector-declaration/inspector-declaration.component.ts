@@ -6,6 +6,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from "rxjs";
 import { forEach } from '@angular/router/src/utils/collection';
 import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-inspector-declaration',
@@ -42,7 +43,8 @@ export class InspectorDeclarationComponent implements OnInit {
   constructor(
     private inspectionTraining: InspectorTraning,
     private cleintService: ClientServiceService,
-    private snackBar: SnackBarComponent
+    private snackBar: SnackBarComponent,
+    private userService:  UserService
   ) { }
 
   ngOnInit() {
@@ -61,11 +63,17 @@ export class InspectorDeclarationComponent implements OnInit {
       responsive: true,
     };
 
-    this.inspectionTraining.getTrainingApprovedUser()
-      .subscribe(data => {
-        console.log(data)
-        this.userList = data
-      })
+    // this.inspectionTraining.getTrainingApprovedUser()
+    //   .subscribe(data => {
+    //     console.log(data)
+    //     this.userList = data
+    //   })
+
+    this.userService.getUserDataByRepresentative(1)
+    .subscribe(data =>{
+      console.log('cqra user', data)
+      this.userList = data
+    })
 
     this.isProjectLoad = true
     this.cleintService.getAllProject()

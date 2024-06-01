@@ -76,7 +76,10 @@ export class InspectorTradeTrainingComponent implements OnInit {
         this.isTradeLoad = false
       })
 
-    this.userService.getAllUsers()
+    // this.userService.getAllUsers()
+    //   .subscribe(data => { this.users = data })
+
+    this.userService.getUserDataByRepresentative(1)
       .subscribe(data => { this.users = data })
 
 

@@ -93,10 +93,16 @@
             <div class="form-group col-md-6">
               <label>Select Stages</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
-                <div class="form-check" *ngFor="let o of stages">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="stageAll" (change)="addSatgeAll($event)"
+                    [checked]="stages.length && addStages.length  === stages.length">
+                  <label class="form-check-label" for="stageAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check ml-1" *ngFor="let o of stages">
                   <input class="form-check-input" type="checkbox" [value]="o.stageId" [id]="'stage'+o.stageId"
-                    (change)="addstage($event)"
-                    [checked]="addStages.includes(o.stageId)">
+                    (change)="addstage($event)" class="stageCheckbox" [checked]="addStages.includes(o.stageId)">
                   <label class="form-check-label" [for]="'stage'+o.stageId">
                     {{o.stageName}}
                   </label>
@@ -116,9 +122,16 @@
             <div class="form-group col-md-6">
               <label>Select Trade</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="tradeAll" (change)="addTradeAll($event)"
+                    [checked]="trades.length && addTrades.length  === trades.length">
+                  <label class="form-check-label" for="tradeAll">
+                    Select All
+                  </label>
+                </div>
                 <div class="form-check" *ngFor="let trade of trades">
                   <input class="form-check-input" type="checkbox" [value]="trade.fkTradeId"
-                    [id]="'trade'+trade.fkTradeId" (change)="addTrade($event)"
+                    [id]="'trade'+trade.fkTradeId" (change)="addTrade($event)" class="tradeCheckbox"
                     [checked]="addTrades.includes(trade.fkTradeId)">
                   <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
                     {{trade.tradeName}}
@@ -139,10 +152,17 @@
 
               <label>Select Contractor</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="contractorAll" (change)="addContractorAll($event)"
+                    [checked]="contractors.length && addContractors.length  === contractors.length">
+                  <label class="form-check-label" for="contractorAll">
+                    Select All
+                  </label>
+                </div>
                 <div class="form-check" *ngFor="let contractor of contractors">
                   <input class="form-check-input" type="checkbox" [value]="contractor.contractorId"
                     [id]="'contractor'+contractor.contractorId" (change)="addContractor($event)"
-                    [checked]="addContractors.includes(contractor.contractorId)">
+                    class="contractorCheckBox" [checked]="addContractors.includes(contractor.contractorId)">
                   <label class="form-check-label" [for]="'contractor'+contractor.contractorId">
                     {{contractor.contractorName}}
                   </label>
@@ -162,10 +182,16 @@
             <div class="form-group col-md-6">
               <label>Select Users</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="usersAll" (change)="addUserAll($event)"
+                    [checked]="users.length && addUsers.length  === users.length">
+                  <label class="form-check-label" for="usersAll">
+                    Select All
+                  </label>
+                </div>
                 <div class="form-check" *ngFor="let user of users">
                   <input class="form-check-input" type="checkbox" [value]="user.userId" [id]="'user'+user.userId"
-                    (change)="addUser($event)"
-                    [checked]="addUsers.includes(user.userId)">
+                    (change)="addUser($event)" class="userCheckbox" [checked]="addUsers.includes(user.userId)">
                   <label class="form-check-label" [for]="'user'+user.userId">
                     {{user.userFullName}}
                   </label>
@@ -236,18 +262,29 @@
 
             <div class="form-group col-md-4">
               <label>Report Name:</label>
-              <input type="text" formControlName="reportName" class="form-control">
+              <input type="text" formControlName="reportName" class="form-control" readonly>
               <div class="invalid-feedback">
               </div>
             </div>
           </div>
 
-          <div class="form-group">
-
-            <button class="btn btn-primary">
-              <div *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status"></div>
-              <span *ngIf="!submitLoad">Save</span>
-            </button>
+          <div class="form-group col-md-12 row">
+            <div class="col-md-4">
+              <button class="btn btn-primary">
+                <div *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status"></div>
+                <span *ngIf="!submitLoad">Save</span>
+              </button>
+            </div>
+            <div class="col-8">
+              <div *ngIf="showClipboard" class="alert alert-success col-md-5 row" role="alert">
+                <div class="col-md-10" id="clipArea">
+                  {{reportName}}
+                </div>
+                <div class="col-md-2">
+                  <i class="fa fa-clipboard" title="Click to copy" style="cursor: pointer;" (click)="copyToClipboard()" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>

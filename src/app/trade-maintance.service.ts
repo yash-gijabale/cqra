@@ -306,4 +306,9 @@ export class TradeMaintanceService {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadinspectionreportsampledformat/${id}`)
   }
 
+
+  getAllUnitOfMeasurement(){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/unitofmeasurement/getall`)
+  }
+
 }

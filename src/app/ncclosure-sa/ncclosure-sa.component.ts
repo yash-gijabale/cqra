@@ -7,6 +7,7 @@ import { ProjectData } from "../project/project.component";
 import { TradeMaintanceService } from "../trade-maintance.service";
 import { Trade } from "../trade/trade.component";
 import { data } from "jquery";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 
 
@@ -18,40 +19,40 @@ export class NcBeanSAView {
     public tradeName: string,
     public ncDescription: string,
     public status: string
-  ) {}
+  ) { }
 }
 
-export class NcBeanData{
+export class NcBeanData {
   constructor(
-      public  id_nc_bean_sa:  number,
-      public  projectIdNcBeanSa: number,
-      public  tradeIdNcBeanSa: number,
-      public  statusNcBeanSa: string,
-      public  cycleINcBeanSa: number,
-      public  locationNcBeanSa: string,
-      public  nc_number_nc_bean_sa: string,
-      public  projectNameProjects: string,
-      public  tradeNameTrade:String,
-      public  remarkNcBeanSa: string,
-      public  ncClosureDateNcBeanSa: string,
-      public  nc_closure_comment_nc_bean_sa: string
-  ){}
+    public id_nc_bean_sa: number,
+    public projectIdNcBeanSa: number,
+    public tradeIdNcBeanSa: number,
+    public statusNcBeanSa: string,
+    public cycleINcBeanSa: number,
+    public locationNcBeanSa: string,
+    public nc_number_nc_bean_sa: string,
+    public projectNameProjects: string,
+    public tradeNameTrade: String,
+    public remarkNcBeanSa: string,
+    public ncClosureDateNcBeanSa: string,
+    public nc_closure_comment_nc_bean_sa: string
+  ) { }
 }
 
-export class RegionList{
+export class RegionList {
   constructor(
     public regionId: number,
     public regionName: string,
     public displayName: string
-  ) {}
+  ) { }
 }
 
-export class CycleOfInspection{
+export class CycleOfInspection {
   constructor(
-    public cycle_id : number,
+    public cycle_id: number,
     public cycle_name: string,
     public cycle_type: string
-  ){}
+  ) { }
 }
 
 @Component({
@@ -73,19 +74,20 @@ export class NCClosureSAComponent implements OnInit {
   SelProjectId: Number = 0
   SelTradeId: Number = 0
   SelstatusId: String = ''
-  selRegion:Number = 0
+  selRegion: Number = 0
   SelCycleId: Number = 0;
 
 
   ncsReports: NcBeanData[];
-  
-  regions:RegionList[]
+
+  regions: RegionList[]
   cycleOfInspection: CycleOfInspection[]
   constructor(
     private router: Router,
     private tradeMaintanceService: TradeMaintanceService,
-    private commonService: CommonService
-  ) {}
+    private commonService: CommonService,
+    private snackBar: SnackBarComponent
+  ) { }
 
   ngOnInit() {
     this.cycles = [
@@ -96,17 +98,17 @@ export class NCClosureSAComponent implements OnInit {
     ];
 
     this.status = [
-      {statusId:'o', statusName:'Open'},
-      {statusId:'IR', statusName:'Send For Review'},
-      {statusId:'RS', statusName:'Sent Back by Reviewer'},
-      {statusId:'AS', statusName:'Sent Back by Approver'},
-      {statusId:'RA', statusName:'Sent for Approval'},
-      {statusId:'c', statusName:'Closed'},
+      { statusId: 'o', statusName: 'Open' },
+      { statusId: 'IR', statusName: 'Send For Review' },
+      { statusId: 'RS', statusName: 'Sent Back by Reviewer' },
+      { statusId: 'AS', statusName: 'Sent Back by Approver' },
+      { statusId: 'RA', statusName: 'Sent for Approval' },
+      { statusId: 'c', statusName: 'Closed' },
     ];
 
     this.dtOptions = {
       pagingType: "full_numbers",
-      pageLength: 5,
+      pageLength: 10,
       lengthMenu: [5, 10, 25],
       scrollX: true,
     };
@@ -122,16 +124,16 @@ export class NCClosureSAComponent implements OnInit {
     );
 
     this.commonService.getAllRegions()
-    .subscribe(data => {
-      console.log('region--->', data)
-      this.regions = data;
-    })
+      .subscribe(data => {
+        console.log('region--->', data)
+        this.regions = data;
+      })
 
     this.commonService.getAllCycleOfInspection()
-    .subscribe(data =>{
-      console.log('cycle of inspection',data)
-      this.cycleOfInspection = data
-    })
+      .subscribe(data => {
+        console.log('cycle of inspection', data)
+        this.cycleOfInspection = data
+      })
 
     // this.tradeMaintanceService.getAllNCsforSA().subscribe(
     //   (data) => {
@@ -149,16 +151,19 @@ export class NCClosureSAComponent implements OnInit {
 
   getProjectTrades() {
     this.tradeMaintanceService.getProjectTrades(this.SelProjectId)
-    .subscribe(data => {
-      console.log(data)
-      this.trades = data
-    })
+      .subscribe(data => {
+        console.log(data)
+        this.trades = data
+      })
   }
+
+  isLoad: boolean = false
 
   getNCs() {
     // alert("called=="+this.SelProjectId+"Cycle Id=="+this.SelCycleId);
+    this.isLoad = true
     let formData = {
-      projectId: this.SelProjectId ,
+      projectId: this.SelProjectId,
       tradeId: this.SelTradeId,
       status: this.SelstatusId === '' ? 'x' : this.SelstatusId,
       cycleId: this.SelCycleId
@@ -167,17 +172,21 @@ export class NCClosureSAComponent implements OnInit {
     console.log(formData)
     // return
 
-    this.tradeMaintanceService.getNcsById(formData.projectId, formData.tradeId, formData.status , formData.cycleId)
-    .subscribe(data => {
-      console.log(data)
-      this.ncsReports = data
-    })
+    this.tradeMaintanceService.getNcsById(formData.projectId, formData.tradeId, formData.status, formData.cycleId)
+      .subscribe(data => {
+        console.log(data)
+        this.ncsReports = data
+        this.isLoad = false
+        this.dtTrigger.next()
+      }, err =>{
+        this.isLoad = false
+        this.snackBar.showSnackError()
+      })
     console.log(formData);
   }
-  editReport(id)
-  {
+  editReport(id) {
     console.log(id)
-    this.router.navigate(['editNcCloserReport',id])
-    
+    this.router.navigate(['editNcCloserReport', id])
+
   }
 }

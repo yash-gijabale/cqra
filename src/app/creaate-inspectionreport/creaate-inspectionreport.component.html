@@ -56,34 +56,62 @@
             </div>
             <div class="form-group col-md-4">
               <label>Structure Name</label>
-              <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control" multiple>
+              <div class="card col-md-12" style="height: 150px; overflow-y: auto;">
+                <div class="form-check" *ngFor="let s of structures">
+                  <input class="form-check-input" (change)="addStrucure($event)" type="checkbox" [value]="s.structureId"
+                    [id]="'structure'+s.structureId"
+                    [checked]="structureList.includes(s.structureId)">
+                  <label class="form-check-label" [for]="'structure'+s.structureId">
+                    {{s.structureName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control" multiple>
                 <option [value]="0">Please Select</option>
                 <option [value]="o.structureId" *ngFor="let o of structures">
                   {{o.structureName}}
                 </option>
               </select>
               <div class="invalid-feedback">
-              </div>
+              </div> -->
             </div>
             <div class="form-group col-md-4">
               <label>Trade</label>
-              <select formControlName="tradeId" class="form-control" multiple>
+              <div class="card col-md-12" style="height: 150px; overflow-y: auto;">
+                <div class="form-check" *ngFor="let trade of trades">
+                  <input class="form-check-input" (change)="addTrade($event)" type="checkbox" [value]="trade.fkTradeId"
+                    [id]="'trade'+trade.fkTradeId"
+                    [checked]="tradeList.includes(trade.fkTradeId)">
+                  <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
+                    {{trade.tradeName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <select formControlName="tradeId" class="form-control" multiple>
                 <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
                   {{trade.tradeName}}
                 </option>
               </select>
               <div class="invalid-feedback">
-              </div>
+              </div> -->
             </div>
             <div class="form-group col-md-4">
               <label>Contractor</label>
-              <select [(ngModel)]="SelContractor" formControlName="clientRep" class="form-control" multiple>
+              <div class="card col-md-12" style="height: 150px; overflow-y: auto;">
+                <div class="form-check" *ngFor="let contractor of contractors">
+                  <input class="form-check-input" (change)="addContractor($event)" type="checkbox" [value]="contractor.contractorId"
+                    [id]="'contractor'+contractor.contractorId"
+                    [checked]="contractorList.includes(contractor.contractorId)">
+                  <label class="form-check-label" [for]="'contractor'+contractor.contractorId">
+                    {{contractor.contractorName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <select [(ngModel)]="SelContractor" formControlName="clientRep" class="form-control" multiple>
                 <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
                   {{contractor.contractorName}}
                 </option>
-              </select>
-              <div class="invalid-feedback">
-              </div>
+              </select> -->
             </div>
 
             <div class="form-group col-md-4">
@@ -245,7 +273,7 @@
           <div class="form-group">
             <button class="btn btn-primary">
               <span *ngIf="loadBtn" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              <span *ngIf="!loadBtn" >Save</span>
+              <span *ngIf="!loadBtn">Save</span>
             </button>
           </div>
         </form>

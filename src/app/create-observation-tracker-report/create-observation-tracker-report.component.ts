@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InspectionReport } from '../creaate-inspectionreport/creaate-inspectionreport.component';
 import { InspectorTraning } from '../service/inspectionTraining.service';
 import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
+import { debounce } from 'rxjs/operators';
 
 
 
@@ -40,9 +41,9 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   projects: ProjectData[];
   submitted: boolean
   structures: StructureData[] = []
-  stages: StageData[]
-  clients: ClientData[]
-  trades: Trade
+  stages: StageData[] = []
+  clients: ClientData[] = []
+  trades: Trade[] = []
   // contractors: ContractorData[]
   // supervisors: SupervisorData
   otrId: Number
@@ -51,8 +52,8 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   userId: number = Number(localStorage.getItem('id'))
   cycle: any
 
-  contractors: any
-  users: any
+  contractors: any = []
+  users: any = []
 
   constructor(
     private commonServices: CommonService,
@@ -98,10 +99,10 @@ export class CreateObservationTrackerReportComponent implements OnInit {
           this.commonServices.getClientProject(data.observationtracker.clientId).subscribe(data => this.projects = data)
           this.commonServices.getStructures(data.observationtracker.clientId, data.observationtracker.projectId).subscribe(data => this.structures = data)
           this.tradeService.getProjectTrades(data.observationtracker.projectId).subscribe(data => this.trades = data)
-          
+
           let structures = String(data.observationtracker.structures).split(',').map(Number)
-          if(structures.length === 1){
-            this.commonServices.getStages(data.observationtracker.clientId, data.observationtracker.projectId, structures[0] ).subscribe(data => this.stages = data)
+          if (structures.length === 1) {
+            this.commonServices.getStages(data.observationtracker.clientId, data.observationtracker.projectId, structures[0]).subscribe(data => this.stages = data)
           }
 
           this.addStructures = structures
@@ -110,7 +111,7 @@ export class CreateObservationTrackerReportComponent implements OnInit {
           this.addUsers = String(data.observationtracker.users).split(',').map(Number)
           this.addContractors = String(data.observationtracker.contractors).split(',').map(Number)
 
-          console.log(structures,this.addUsers )
+          console.log(structures, this.addUsers)
 
           this.registerForm.patchValue(data.observationtracker)
           // this.registerForm.patchValue({ obstraTrade: data.trade })
@@ -118,7 +119,7 @@ export class CreateObservationTrackerReportComponent implements OnInit {
           this.registerForm.patchValue({ fromDate: new Date(data.observationtracker.fromDate).toISOString().substring(0, 10) })
           this.registerForm.patchValue({ toDate: new Date(data.observationtracker.toDate).toISOString().substring(0, 10) })
 
-          this.clientService.getContractorByProjectId(data.observationtracker.projectId).subscribe(data => {this.contractors = data})
+          this.clientService.getContractorByProjectId(data.observationtracker.projectId).subscribe(data => { this.contractors = data })
         })
 
     }
@@ -137,7 +138,7 @@ export class CreateObservationTrackerReportComponent implements OnInit {
       cqraRep: ['', Validators.required],
       reportHeader: ['', Validators.required],
       otherPerson: ['', Validators.required],
-      reportName: ['', Validators.required],
+      reportName: ['', Validators.nullValidator],
       masterId: ['', Validators.required],
       cycleOfInspection: ['', Validators.required]
     })
@@ -158,6 +159,9 @@ export class CreateObservationTrackerReportComponent implements OnInit {
         console.log('master data', data)
         this.commonServices.getClientProject(data[0].clientId).subscribe(data => this.projects = data)
         this.commonServices.getStructures(data[0].clientId, data[0].projectId).subscribe(data => { this.structures = data })
+        this.tradeService.getProjectTrades(data[0].projectId).subscribe(data => { this.trades = data })
+        this.clientService.getContractorByProjectId(data[0].projectId).subscribe(data => { this.contractors = data })
+
         this.registerForm.patchValue({ clientId: data[0].clientId })
         this.registerForm.patchValue({ cycleOfInspection: data[0].cycleId })
         this.registerForm.patchValue({ projectId: data[0].projectId })
@@ -203,6 +207,8 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   get f() { return this.registerForm.controls }
 
   submitLoad: boolean = false
+  showClipboard: boolean = false
+  reportName: String = ''
   onSubmit() {
     this.submitLoad = true
     let formData = {
@@ -228,6 +234,7 @@ export class CreateObservationTrackerReportComponent implements OnInit {
           console.log('updated', data)
           this.submitLoad = false
           this.snackBar.showSuccess('Report Updated')
+          this.showClipboard = true
         }, err => {
           this.submitLoad = false
           this.snackBar.showSnackError()
@@ -242,6 +249,8 @@ export class CreateObservationTrackerReportComponent implements OnInit {
             console.log(data)
             this.submitLoad = false
             this.snackBar.showSuccess('Report Created')
+            this.showClipboard = true
+            this.reportName = data[0].reportName
           },
           err => {
             this.submitLoad = false
@@ -297,10 +306,10 @@ export class CreateObservationTrackerReportComponent implements OnInit {
   addCheckboxData(arry, e) {
     let id = Number(e.target.value)
     if (e.target.checked) {
-      let isExist = this[arry].find(item =>{
+      let isExist = this[arry].find(item => {
         return id == item
       })
-      if(!isExist){
+      if (!isExist) {
         this[arry].push(id)
       }
     } else {
@@ -317,6 +326,27 @@ export class CreateObservationTrackerReportComponent implements OnInit {
     this.handelAllSelectCheckbox('strucuresCheckbox', 'addStructures', e)
     console.log(this.addStructures)
   }
+
+  addSatgeAll(e) {
+    this.handelAllSelectCheckbox('stageCheckbox', 'addStages', e)
+    console.log(this.addStages)
+  }
+
+  addTradeAll(e) {
+    this.handelAllSelectCheckbox('tradeCheckbox', 'addTrades', e)
+    console.log(this.addTrades)
+  }
+
+  addContractorAll(e) {
+    this.handelAllSelectCheckbox('contractorCheckBox', 'addContractors', e)
+    console.log(this.addContractors)
+  }
+
+  addUserAll(e) {
+    this.handelAllSelectCheckbox('userCheckbox', 'addUsers', e)
+    console.log(this.addUsers)
+  }
+
 
   handelAllSelectCheckbox(className, arry, e) {
     if (e.target.checked) {
@@ -335,5 +365,10 @@ export class CreateObservationTrackerReportComponent implements OnInit {
       $(`.${className}`).prop('checked', false)
     }
 
+  }
+
+  copyToClipboard() {
+    let clipArea = document.getElementById('clipArea') as HTMLDivElement
+    window.navigator['clipboard'].writeText(clipArea.innerText)
   }
 }

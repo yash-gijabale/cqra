@@ -253,6 +253,10 @@ export class NcCloserViewReportComponent implements OnInit {
       .subscribe(data => {
         console.log('report don=>', data)
         this.reportUrl = data.url
+        this.reportLoad = false
+      }, err =>{
+        this.reportLoad = false
+        this.snackBar.showSnackError()
       })
   }
 }

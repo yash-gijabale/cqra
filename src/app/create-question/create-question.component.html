@@ -243,12 +243,7 @@
             <div class="form-group col-md-4">
               <label>Unit of Measurement</label>
               <select class="form-control" formControlName="unitOfMeasurement">
-                <option value="Number">Number</option>
-                <option value="Square feet">Square feet</option>
-                <option value="Meeer">Meter</option>
-                <option value="Running meter">Running meter</option>
-                <option value="Lamb sum">Lamb sum</option>
-                <option value="Square meter">Square meter</option>
+                <option [value]="unit.unit_measuremnt_id" *ngFor="let unit of unitsOfmeadure">{{unit.unitText}}</option>
               </select>
             </div>
           </div>

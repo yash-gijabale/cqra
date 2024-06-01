@@ -452,25 +452,35 @@ export class AssignContractorPmcComponent implements OnInit {
   // supervisorAllocation = []
   isSupervisroAllocationPresent: boolean = false
   getSuprevisorData() {
+    this.isChangeTrade = true
+
     this.clientService.getAssignDataFromSupervisorByTrade(this.SelProject, this.SelStructure, this.SelContractor, this.SelTrade)
       .subscribe(data => {
         console.log(data)
         // this.supervisorAllocation = data
         if (data.length) {
+
           this.isSupervisroAllocationPresent = true
           this.genarateAllocationData(data, 'supervisor')
+          setTimeout(() => {
+            this.isChangeTrade = false
+          }, 2000)
         } else {
           this.isSupervisroAllocationPresent = false
           this.supervisorData = []
           this.selectedTrade = {}
-
+          setTimeout(() => {
+            this.isChangeTrade = false
+          }, 2000)
         }
         // this.selectedStates = this.supervisorAllocation['stages']
       })
   }
 
   isForemanAllocationUpdate: boolean = false
+  isChangeTrade: boolean = false
   getForemanData() {
+    this.isChangeTrade = true
     // let structure = Number(structureId)
     this.clientService.getAssignDataFromForemanByTrade(this.SelProject, this.SelStructure, this.SelContractor, this.SelTrade)
       .subscribe(data => {
@@ -479,12 +489,18 @@ export class AssignContractorPmcComponent implements OnInit {
         if (data.length) {
           this.isForemanAllocationUpdate = true
           this.genarateAllocationData(data, 'forman')
+          setTimeout(() => {
+            this.isChangeTrade = false
+          }, 2000)
 
         } else {
           this.isForemanAllocationUpdate = false
 
           this.formanData = []
           this.selectedTrade = {}
+          setTimeout(() => {
+            this.isChangeTrade = false
+          }, 2000)
 
         }
         // this.selectedStates = this.supervisorAllocation['stages']

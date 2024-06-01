@@ -17,7 +17,7 @@
           <label for="fname" class="col-form-label">Region</label>
           <select class="form-control col-md-12" [(ngModel)]="selRegion">
             <option [value]="0">Please Select</option>
-            <option [value]="o.regionName" *ngFor="let o of regions">
+            <option [value]="o.regionId" *ngFor="let o of regions">
               {{o.regionName}}
             </option>
           </select>
@@ -57,15 +57,18 @@
 
         <div class="form-group col-md-4">
           <label for="fname" class="col-form-label">Status</label>
-          <select class="form-control col-md-12" [(ngModel)]="SelStatusId" #projectId>
-            <option [value]="0" selected>Please Select</option>
+          <select class="form-control col-md-12" [(ngModel)]="SelstatusId" #projectId>
+            <option [value]="0" selected >Please Select</option>
             <option [value]="o.statusId" *ngFor="let o of status">
               {{o.statusName}}
             </option>
           </select>
         </div>
         <div class="form-group mt-4 pt-3">
-          <button class="btn btn-primary" (click)="getNCs()">Get Report</button>
+          <button class="btn btn-primary" (click)="getNCs()">
+            <span *ngIf="isLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span *ngIf="!isLoad">Get Report</span>
+          </button>
         </div>
       </div>
 
@@ -85,7 +88,7 @@
                 <th> NC Description </th>
                 <th> Status</th>
                 <th>Remark/Location </th>
-                <th>View Report</th>
+                <!-- <th>View Report</th> -->
                 <th>NC Closure </th>
                 <th>Action</th>
 
@@ -93,24 +96,28 @@
             </thead>
             <tbody>
               <tr *ngFor="let client of ncsReports">
-                <td>{{ client.idNcBeanSa }}</td>
-                <td>{{ client.nc_number_nc_bean_sa }}</td>
-                <td>{{ client.projectNameProjects }}</td>
-                <td>{{ client.tradeNameTrade }}</td>
-                <td>{{ client.nc_closure_comment_nc_bean_sa }}</td>
-                <td>{{ client.statusNcBeanSa }}</td>
-                <td>{{ client.locationNcBeanSa}}</td>
-                <td>View</td>
-                <td>{{ client.ncClosureDateNcBeanSa }}</td>
+                <td>{{ client.id }}</td>
+                <td>{{ client.nc_number }}</td>
+                <td>{{ client.projectId }}</td>
+                <td>{{ client.tradeId }}</td>
+                <td>{{ client.ncClosureComment }}</td>
+                <td>{{ client.status }}</td>
+                <td>{{ client.location}}</td>
+                <!-- <td>View</td> -->
+                <td>{{ client.ncClosureComment1 }}</td>
 
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editReport(client.idNcBeanSa)" class="edit-modal add-modal"
-                      data-toggle="modal" data-target="#exampleModalCenter">
-                      <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
-                      </span>
+                    <button type="text" (click) = "editReport(client.id)"> 
+                      <span class="edit-tessst"> 
+                       <i class="las la-pencil-alt"></i>
+                      </span> 
                     </button>
+                    <!-- <button type="text" (click) = "deActivateProject(client.id)" class="Delete-modal"> 
+                      <span class="edit-tessst"> 
+                        <i class="lar la-trash-alt"></i>
+                      </span> 
+                    </button> -->
                   </div>
                 </td>
               </tr>

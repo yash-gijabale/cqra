@@ -163,6 +163,9 @@
                   </div>
                 </div>
                 <div class="modal-footer">
+                  <div class="alert alert-success" role="alert">
+                    Master ID: <b>{{newCreatedMasterId}}</b>
+                  </div>
                   <button class="btn btn-sm btn-success" (click)="submitInspectionTeamComposition()">
                     <span *ngIf="!submitFormLoad">Save</span>
                     <div *ngIf="submitFormLoad" class="spinner-border text-light" role="status">

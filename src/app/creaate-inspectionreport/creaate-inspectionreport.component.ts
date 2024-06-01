@@ -135,28 +135,30 @@ export class CreaateInspectionreportComponent implements OnInit {
             this.contractors = data
           })
           this.inspectionReporotForm.patchValue(retrivedData.snapAudit)
-          let tradeIds = retrivedData.inspectTradeList.map((items) => {
-            return items.tradeId
+          this.tradeList = retrivedData.inspectTradeList.map((items) => {
+            return Number(items.tradeId)
           })
-          let structureIds = retrivedData.inspectStructureList.map((item) => {
-            return item.structureId
+          this.structureList = retrivedData.inspectStructureList.map((item) => {
+            return Number(item.structureId)
           })
-          let clientReps = retrivedData.inspectClientList.map((item) => {
-            return item.clientId
+          this.contractorList = retrivedData.inspectClientList.map((item) => {
+            return Number(item.clientId)
           })
-          console.log(structureIds)
-          this.inspectionReporotForm.patchValue({ tradeId: tradeIds })
-          this.inspectionReporotForm.patchValue({ structureId: structureIds })
-          this.inspectionReporotForm.patchValue({ clientRep: clientReps })
+          // console.log(structureIds)
+          // this.inspectionReporotForm.patchValue({ tradeId: tradeIds })
+          // this.inspectionReporotForm.patchValue({ structureId: structureIds })
+          // this.inspectionReporotForm.patchValue({ clientRep: clientReps })
+          this.inspectionReporotForm.patchValue({ fromDate: new Date(retrivedData.snapAudit.fromDate).toISOString().substring(0, 10) })
+          this.inspectionReporotForm.patchValue({ toDate: new Date(retrivedData.snapAudit.toDate).toISOString().substring(0, 10) })
         }, err => console.log(err))
     }
 
     this.inspectionReporotForm = this.formBuilder.group({
       clientId: ['', Validators.required],
       schemeId: ['', Validators.required],
-      structureId: ['', Validators.required],
-      tradeId: ['', Validators.required],
-      clientRep: ['', Validators.required],
+      // structureId: ['', Validators.required],
+      // tradeId: ['', Validators.required],
+      // clientRep: ['', Validators.required],
       assessmentDate: ['', Validators.required],
       nabc: ['', Validators.required],
       nabcNote: ['', Validators.required],
@@ -256,9 +258,9 @@ export class CreaateInspectionreportComponent implements OnInit {
     delete this.inspectionReporotForm.value.clientRep
     let data = {
       snapAudit: { ...this.inspectionReporotForm.value, type: 0 },
-      inspectTrade: tradeIds,
-      inspectClient: contractors,
-      inspectStructure: structureIds
+      inspectTrade: this.tradeList,
+      inspectClient: this.contractorList,
+      inspectStructure: this.structureList
     }
     console.log(data)
     // return
@@ -269,7 +271,7 @@ export class CreaateInspectionreportComponent implements OnInit {
           this.loadBtn = false
           this.snackBar.showSuccess('Inspection updated')
 
-        }, err =>{
+        }, err => {
           this.loadBtn = false
           this.snackBar.showSnackError()
         })
@@ -282,10 +284,41 @@ export class CreaateInspectionreportComponent implements OnInit {
           this.loadBtn = false
           this.snackBar.showSuccess('Inspection created')
 
-        }, err =>{
+        }, err => {
           this.loadBtn = false
           this.snackBar.showSnackError()
         })
+    }
+  }
+
+  structureList = []
+  addStrucure(e) {
+    this.handelCheckboxAdd(e, 'structureList')
+    console.log(this.structureList)
+  }
+
+
+  tradeList = []
+  addTrade(e) {
+    this.handelCheckboxAdd(e, 'tradeList')
+    console.log(this.tradeList)
+  }
+
+  contractorList = []
+  addContractor(e) {
+    this.handelCheckboxAdd(e, 'contractorList')
+    console.log(this.contractorList)
+  }
+
+
+  handelCheckboxAdd(e, array) {
+    const id = Number(e.target.value)
+    if (e.target.checked) {
+      this[array].push(id)
+    } else {
+      this[array] = this[array].filter(item => {
+        return item != id
+      })
     }
   }
 

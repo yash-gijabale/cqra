@@ -116,14 +116,14 @@ export class AssignEquipementListComponent implements OnInit {
       assignedBy: Number(localStorage.getItem('id'))
     }
     console.log(data)
-    this.userService.assignNewUserToEquipment(equipmentId, userId.value, this.loggedUser,data)
+    this.userService.assignNewUserToEquipment(equipmentId, userId.value, this.loggedUser, data)
       .subscribe(data => {
         console.log('added', data)
         this.assignEqLoad = false
         this.snackBar.showSuccess('Equipment Assigned')
         this.dtTrigger;
         this.getAllEquipment()
-      }, err =>{
+      }, err => {
         this.assignEqLoad = false
         this.snackBar.showSnackError()
       })
@@ -154,10 +154,10 @@ export class AssignEquipementListComponent implements OnInit {
     let cc_mail = document.querySelector('#cc_mail') as HTMLInputElement
     let email_body = document.querySelector('#email_body') as HTMLInputElement
     console.log(userId)
-    let data ={
-      Email :email.value,
-      CC_mail:cc_mail.value,
-      Email_body:email_body.value
+    let data = {
+      Email: email.value,
+      CC_mail: cc_mail.value,
+      Email_body: email_body.value
     }
     console.log(data)
     this.userService.sendPolicyMain(userId.value)
@@ -223,24 +223,24 @@ export class AssignEquipementListComponent implements OnInit {
 
   }
 
-  restore(equipmentId){
+  restore(equipmentId) {
     const confirmed = confirm("Are You sure to Restore this equipment?");
     this.deActivateEquipment
-    if(confirmed){
+    if (confirmed) {
       const equipmentToRestore = this.deActivateEquipment.find(eq => eq.equipmentId === equipmentId);
-    if (equipmentToRestore) {
-      equipmentToRestore.status = true;
-    //   console.log(`Equipment with ID ${equipmentId} restored.`);
-    // } else {
-    //   console.log(`Equipment with ID ${equipmentId} not found in deActivateEquipment.`);
-    // }
-    // let remark = document.querySelector(`#deactivateRemark${equipmentId}`) as HTMLInputElement
-      this.userService.deleteAssignEqiopment(equipmentId, true, { remark: '' })
-        .subscribe(data => {
-          console.log('Equipment Restored', data)
-          // location.reload()
-          this.getAllEquipment()
-        })
+      if (equipmentToRestore) {
+        equipmentToRestore.status = true;
+        //   console.log(`Equipment with ID ${equipmentId} restored.`);
+        // } else {
+        //   console.log(`Equipment with ID ${equipmentId} not found in deActivateEquipment.`);
+        // }
+        // let remark = document.querySelector(`#deactivateRemark${equipmentId}`) as HTMLInputElement
+        this.userService.deleteAssignEqiopment(equipmentId, true, { remark: '' })
+          .subscribe(data => {
+            console.log('Equipment Restored', data)
+            // location.reload()
+            this.getAllEquipment()
+          })
       }
     }
   }
@@ -248,20 +248,20 @@ export class AssignEquipementListComponent implements OnInit {
   policyLoad = {
 
   }
-  downloadPolicy(eqId, userId){
+  downloadPolicy(eqId, userId) {
     this.policyLoad[eqId] = {
-      load:true,
-      url:'',
-      error:false
+      load: true,
+      url: '',
+      error: false
     }
     this.userService.donloadToolkitPolicy(eqId, userId)
-    .subscribe(data =>{
-      this.policyLoad[eqId].load = false
-      this.policyLoad[eqId].url = data.url
-    },err =>{
-      this.policyLoad[eqId].error = true
+      .subscribe(data => {
+        this.policyLoad[eqId].load = false
+        this.policyLoad[eqId].url = data.url
+      }, err => {
+        this.policyLoad[eqId].error = true
 
-    })
+      })
   }
 }
 

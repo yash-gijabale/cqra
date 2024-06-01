@@ -31,9 +31,13 @@ export class TradeComponent implements OnInit {
 
   trades: Trade[];
 
-  isLoading:boolean
+  isLoading: boolean
 
-  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
+
+  constructor(
+    private router: Router,
+    private tradeMaintanceService: TradeMaintanceService
+  ) { }
 
   ngOnInit() {
 
@@ -69,6 +73,8 @@ export class TradeComponent implements OnInit {
           location.reload()
         }, (err) => console.log(err))
     }
+    
   }
+
 
 }

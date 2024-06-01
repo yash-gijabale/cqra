@@ -249,6 +249,8 @@ export class PreSnapauditFromsComponent implements OnInit {
   }
 
   submitFormLoad: boolean = false
+  isShowMasterText: boolean = false
+  newCreatedMasterId: String = ''
   submitInspectionTeamComposition() {
     this.submitFormLoad = true
     let userListRow = document.querySelectorAll('.inspectorTeamUser')
@@ -291,6 +293,9 @@ export class PreSnapauditFromsComponent implements OnInit {
       this.inspectionTraining.addInspectionTeamComposition(formData)
         .subscribe(data => {
           console.log('team added', data)
+          this.isShowMasterText = true
+          let newData:any = data
+          this.newCreatedMasterId = newData.masterId
           this.submitFormLoad = false
         })
     }

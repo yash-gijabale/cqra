@@ -12,6 +12,7 @@ import { TradeMaintanceService } from '../trade-maintance.service';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { InspectorTraning } from '../service/inspectionTraining.service';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 
 export class SnaggingReportView {
@@ -55,7 +56,7 @@ export class CreateSnaggingDocumentComponent implements OnInit {
   snaggingReportId: Number
 
   userId = Number(localStorage.getItem('id'))
-  masterIds:any
+  masterIds: any
 
   constructor(
     private clientServiceService: ClientServiceService,
@@ -65,7 +66,8 @@ export class CreateSnaggingDocumentComponent implements OnInit {
     private userService: UserService,
     private tradeService: TradeMaintanceService,
     private route: ActivatedRoute,
-    private inspectionTraining: InspectorTraning
+    private inspectionTraining: InspectorTraning,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -95,7 +97,8 @@ export class CreateSnaggingDocumentComponent implements OnInit {
       cycleId: ['', Validators.required],
       typeOfReport: ['', Validators.required],
       uicNo: ['', Validators.required],
-      saIndex: ['', Validators.required]
+      saIndex: ['', Validators.required],
+      masterId: ['', Validators.required]
     })
 
     this.clientServiceService.getAllClients().subscribe((data) => {
@@ -126,20 +129,22 @@ export class CreateSnaggingDocumentComponent implements OnInit {
 
           this.tradeService.getProjectTrades(retrivedData.snapAudit.schemeId).subscribe(data => this.trades = data)
 
-          this.clientServiceService.getContractorByProjectId(retrivedData.snapAudit.schemeId).subscribe(data =>{this.contractors = data})
+          this.clientServiceService.getContractorByProjectId(retrivedData.snapAudit.schemeId).subscribe(data => { this.contractors = data })
 
-          let tradeIds = retrivedData.snaggTradeList.map((items) => {
-            return items.tradeIds
+          this.tradeList = retrivedData.snaggTradeList.map((items) => {
+            return Number(items.tradeIds)
           })
-          let structureIds = retrivedData.snaggStruList.map((item) => {
-            return item.structureIds
+          this.structureList = retrivedData.snaggStruList.map((item) => {
+            return Number(item.structureIds)
           })
-          let clientReps = retrivedData.snaggclientList.map((item) => {
-            return item.clientId
+          this.contractorList = retrivedData.snaggclientList.map((item) => {
+            return Number(item.clientId)
           })
-          this.snaggingReportFrom.patchValue({ tradeId: tradeIds })
-          this.snaggingReportFrom.patchValue({ structureId: structureIds })
-          this.snaggingReportFrom.patchValue({ clientRep: clientReps })
+          // this.snaggingReportFrom.patchValue({ tradeId: tradeIds })
+          // this.snaggingReportFrom.patchValue({ structureId: structureIds })
+          // this.snaggingReportFrom.patchValue({ clientRep: clientReps })
+          this.snaggingReportFrom.patchValue({ fromDate: new Date(retrivedData.snapAudit.fromDate).toISOString().substring(0, 10) })
+          this.snaggingReportFrom.patchValue({ toDate: new Date(retrivedData.snapAudit.toDate).toISOString().substring(0, 10) })
         })
     }
 
@@ -204,8 +209,8 @@ export class CreateSnaggingDocumentComponent implements OnInit {
         this.trades = data
       })
 
-      this.clientServiceService.getContractorByProjectId(this.SelProjectId)
-      .subscribe(data =>{
+    this.clientServiceService.getContractorByProjectId(this.SelProjectId)
+      .subscribe(data => {
         this.contractors = data
       })
   }
@@ -227,6 +232,7 @@ export class CreateSnaggingDocumentComponent implements OnInit {
 
   get f() { return this.snaggingReportFrom.controls }
 
+  loadBtn: boolean = false
   onSubmit() {
     let tradeIds = this.snaggingReportFrom.value.tradeId
     let structureIds = this.snaggingReportFrom.value.structureId
@@ -236,20 +242,67 @@ export class CreateSnaggingDocumentComponent implements OnInit {
     delete this.snaggingReportFrom.value.structureId
     delete this.snaggingReportFrom.value.clientRep
     let data = {
-      snapAudit: {...this.snaggingReportFrom.value, type: 1},
-      snaggTrade: tradeIds,
-      snaggclient: contractors,
-      snaggStru: structureIds
+      snapAudit: { ...this.snaggingReportFrom.value, type: 1 },
+      snaggTrade: this.tradeList,
+      snaggclient: this.contractorList,
+      snaggStru: this.structureList
     }
     console.log(data)
-
+    this.loadBtn = true
     if (this.snaggingReportId != -1) {
       this.commonService.updateSnaggingReport(data, this.snaggingReportId)
-        .subscribe(data => console.log('snagging upadated-->', data))
+        .subscribe(data => {
+          console.log('snagging upadated-->', data)
+          this.loadBtn = false
+          this.snackBar.showSuccess('Snagging Report Upadted')
+
+        }, err => {
+          this.loadBtn = false
+          this.snackBar.showSnackError()
+        })
     } else {
       this.commonService.createSnaggingReport(data)
-        .subscribe(data => console.log('snagging added-->', data))
+        .subscribe(data => {
+          console.log('snagging added-->', data)
+          this.loadBtn = false
+          this.snackBar.showSuccess('Snagging Report Created')
+        },err =>{
+          this.loadBtn = false
+          this.snackBar.showSnackError()
+        })
     }
   }
 
+
+
+  structureList = []
+  addStrucure(e) {
+    this.handelCheckboxAdd(e, 'structureList')
+    console.log(this.structureList)
+  }
+
+
+  tradeList = []
+  addTrade(e) {
+    this.handelCheckboxAdd(e, 'tradeList')
+    console.log(this.tradeList)
+  }
+
+  contractorList = []
+  addContractor(e) {
+    this.handelCheckboxAdd(e, 'contractorList')
+    console.log(this.contractorList)
+  }
+
+
+  handelCheckboxAdd(e, array) {
+    const id = Number(e.target.value)
+    if (e.target.checked) {
+      this[array].push(id)
+    } else {
+      this[array] = this[array].filter(item => {
+        return item != id
+      })
+    }
+  }
 }

@@ -71,6 +71,9 @@ export class CreateQuestionComponent implements OnInit {
   isOptionShow = false;
   questionHeadingId: number;
   questionId: number
+
+  unitsOfmeadure:any = []
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -119,6 +122,12 @@ export class CreateQuestionComponent implements OnInit {
       }
     );
 
+    this.tradeMaintanceService.getAllUnitOfMeasurement()
+      .subscribe(data => {
+        console.log(data)
+        this.unitsOfmeadure = data
+      })
+
 
     this.questionFrom = this.formBuilder.group({
       tradeId: ['', Validators.required],
@@ -133,17 +142,17 @@ export class CreateQuestionComponent implements OnInit {
       workInstruction: ['', Validators.nullValidator],
       sampleSize: ['', Validators.nullValidator],
       sampleUnit: ['', Validators.nullValidator],
-      tolerance: ['', Validators.required],
-      minimumobservation: ['', Validators.required],
-      impactOnQuality: ['', Validators.required],
-      ncRectification: ['', Validators.required],
-      subSection: ['', Validators.required],
-      category: ['', Validators.required],
+      tolerance: ['', Validators.nullValidator],
+      minimumobservation: ['', Validators.nullValidator],
+      impactOnQuality: ['', Validators.nullValidator],
+      ncRectification: ['', Validators.nullValidator],
+      subSection: ['', Validators.nullValidator],
+      category: ['', Validators.nullValidator],
       goodImage1: ['', Validators.nullValidator],
       goodImage2: ['', Validators.nullValidator],
       ncImage1: ['', Validators.nullValidator],
       ncImage2: ['', Validators.nullValidator],
-      dataToBeCaptured: ['', Validators.required],
+      dataToBeCaptured: ['', Validators.nullValidator],
       // option1: ['', Validators.nullValidator],
       // option2: ['', Validators.nullValidator],
       // option3: ['', Validators.nullValidator],
