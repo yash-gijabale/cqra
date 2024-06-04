@@ -133,6 +133,7 @@ import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-samp
 import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-group-master/checklist-group-master.component';
 import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master/checklist-master.component';
 import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
@@ -271,6 +272,7 @@ const routes: Routes = [
   { path: 'checklist-master',component:ChecklistMasterComponent},
   { path: 'create-rfi',component:CreateRfiComponent},
   { path: 'assign-contractor-pmc', component: AssignContractorPmcComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
 
 
 

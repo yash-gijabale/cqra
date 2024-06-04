@@ -88,10 +88,55 @@
                         <a routerLink="/createUserAccess/{{user.id}}">
                           <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
                         </a>
+                        <button class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
+                          (click)="setResetUser(user)">Reset
+                          Password</button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
+              </div>
+
+              <div class="modal fade" id="add-view" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Reset Password: {{resetPassUser.userName}}</h5>
+                      <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="resetForm">
+                        <div class="row">
+                          <div class="form-group col-md-6">
+                            <label>New Password</label>
+                            <input type="text" id="newPassword" class="form-control" />
+
+                          </div>
+
+                          <div class="form-group col-md-6">
+                            <label>Confirm Password</label>
+                            <input type="text" id="confirmPassword" class=" form-control" />
+                          </div>
+
+                        </div>
+                        <div class="form-group col-md-12">
+                          <span *ngIf="passEror" class="badge badge-danger">Password must be same</span>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="row d-flex justify-content-end mx-3 modal-footer">
+                      <button class="btn btn-sm btn-success" (click)="resetPassword()">
+                        <span *ngIf="isLoad" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
+                        <span *ngIf="!isLoad">Submit</span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
               </div>
 
               <!-- client Table -->
@@ -236,4 +281,5 @@
 
       </div>
     </div>
+    <app-snack-bar></app-snack-bar>
     <app-footer></app-footer>

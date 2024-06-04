@@ -158,11 +158,12 @@
                 </td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editProject(client.projectId)" class="edit-modal add-modal"
+                    <button type="text" (click)="saveReport(client.id)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
-                      <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
-                      </span>
+                      <div *ngIf="loader[client.id] && loader[client.id].load" class="spinner-border text-warning" role="status"></div>
+                      <img *ngIf="!loader[client.id] || !loader[client.id].load" src="assets/images/edit.png" height="20px" width="20px">
+                      <a *ngIf="loader[client.id] && loader[client.id].url != ''" [href]="loader[client.id].url" class="badge badge-success" target="_blank">view</a>
+                      <span *ngIf="loader[client.id] && loader[client.id].err" class="badge badge-danger">Failed</span>
                     </button>
                   </div>
                 </td>

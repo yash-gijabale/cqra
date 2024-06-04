@@ -243,4 +243,10 @@ export class UserService {
     return this.httpClient.get<Array<UserView>>(`${this.REST_API_SERVER}/UserDatabyrepresentingtypeid/${id}`)
   }
 
+
+
+  resetPassword(id, data){
+    return this.httpClient.put<any>(`${this.REST_API_SERVER}/updatepassword/${id}`, data)
+  }
+
 }

@@ -153,6 +153,7 @@ import { TestNewSamplingComponent } from './test/test-new-sampling/test-new-samp
 import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master/checklist-master.component';
 import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-group-master/checklist-group-master.component';
 import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -294,6 +295,7 @@ import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-con
     ChecklistMasterComponent,
     ChecklistGroupMasterComponent,
     AssignContractorPmcComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

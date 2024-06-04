@@ -194,7 +194,7 @@
             <!-- <li *ngIf="userMenu.aorReport" class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
                 Tracker Report</a></li> -->
 
-            <li  class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
                 Tracker Report</a></li>
 
 
@@ -267,6 +267,7 @@
                 routerLink="/declarationView">Inspector Declarations</a></li>
             <li *ngIf="userMenu.underInsTraining" class="dropdown-item"><a tabindex="-1"
                 routerLink="/inspectorView">Inspector Traning</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/reset-password">Reset Password</a></li>
           </ul>
         </li>
 
@@ -349,18 +350,43 @@
             </a>
             <div class="dropdown-menu add-custom-view" aria-labelledby="alertsDropdown">
               <h6 class="dropdown-header">
-                <a class="nav-link text-danger" href="profile.php"> <i class="fa fa-user" aria-hidden="true"></i>
-                  Profile</a>
                 <a class="nav-link" (click)="logout()"> <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                 <a class="nav-link" target="_blank"
                   href="https://docs.google.com/spreadsheets/d/1gwcWXlQwrLPZvF9VBW_x-rQcLMqHPTwCU1R2bpi4oOM/edit#gid=0"><i
                     class="fa fa-fw fa-sign-out text-danger"></i>Report Issue</a>
+
+                <!-- <span class="nav-link text-danger" data-toggle="modal" data-target="#add-view"> <i class="fa fa-user"
+                    aria-hidden="true"></i>Reset Password</span> -->
+
               </h6>
             </div>
 
           </li>
 
         </ul>
+
+        <!-- <div class="modal fade" id="add-view" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Return Equipment:</h5>
+                <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+              </div>
+              <div class="row d-flex justify-content-end mx-3 modal-footer">
+                <button class="btn btn-sm btn-success">
+                  <span>submit</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div> -->
       </div>
     </div>
   </nav>

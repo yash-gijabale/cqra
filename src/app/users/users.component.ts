@@ -4,6 +4,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { UserService } from '../service/user.service';
 import { TradeMaintanceService } from '../trade-maintance.service';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 export class UserData {
   constructor(
@@ -70,7 +71,8 @@ export class UsersComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private tradeService: TradeMaintanceService
+    private tradeService: TradeMaintanceService,
+    private snackBar: SnackBarComponent
   ) { }
 
   ngOnInit() {
@@ -177,6 +179,49 @@ export class UsersComponent implements OnInit {
         console.log("Accsess To", data)
         this.userMenu = data
       })
+  }
+
+  resetPassUser: any = {
+    userId: 0,
+    userName: ''
+  }
+  setResetUser(user){
+    this.resetPassUser.userId = user.id
+    this.resetPassUser.userName = user.userFullName
+  }
+  passEror: boolean = false
+  isLoad: boolean = false
+  resetPassword() {
+    if (this.resetPassUser.userId) {
+      let newPassword = document.getElementById('newPassword') as HTMLInputElement
+      let confirmPassword = document.getElementById('confirmPassword') as HTMLInputElement
+      let form =  document.getElementById('resetForm') as HTMLFormElement
+      if (newPassword.value !== confirmPassword.value) {
+        this.passEror = true
+        setTimeout(() => {
+          this.passEror = false
+        }, 3000)
+        return
+      }
+
+      if (confirmPassword.value == '') {
+        return
+      }
+      this.isLoad = true
+      this.userService.resetPassword(this.resetPassUser.userId, { password: newPassword.value })
+        .subscribe(data => {
+          console.log(data)
+          this.isLoad = false
+          this.snackBar.showSuccess('Password updated')
+          form.reset()
+
+        }, err => {
+          this.isLoad = false
+
+          this.snackBar.showSnackError()
+        })
+    }
+
   }
 
 }

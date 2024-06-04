@@ -89,6 +89,28 @@ export class SnaggingReportComponent implements OnInit {
     this.router.navigate(['equipUsedByContractor', id])
 
   }
+
+  loader = {
+
+  }
+  saveReport(id){
+    this.loader[id] = {
+      load:true,
+      error: false,
+      url:''
+    }
+    this.tradeMaintanceService.generateSnaggingReport(id)
+    .subscribe(data =>{
+      console.log('repoer  gen', data)
+      this.loader[id].load = false
+      this.loader[id].url = data.url
+    }, err =>{
+      console.log(err)
+      this.loader[id].load = false
+      this.loader[id].error = true
+
+    })
+  }
 }
 
 
