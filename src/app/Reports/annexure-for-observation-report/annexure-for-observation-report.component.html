@@ -1,0 +1,206 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Annexure for Observation</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/trade">Manage Annexure for Observation</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Annexure for Observation Report</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="annexureForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+
+            <div class="form-group col-md-4">
+              <label>Client</label>
+              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProject()">
+                <option [value]="0">Please Select</option>
+                <option [value]="client.clientId" *ngFor="let client of clients">
+                  {{client.clientName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+                <div *ngIf="f.selClient.errors.required">Client is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-4">
+              <label>Project</label>
+              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control"
+                (change)="getStructure()">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
+            </div>
+            <!-- </div> -->
+
+
+            <div class="form-group col-md-4">
+              <label>Structure</label>
+              <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control"
+                (change)="getStages()">
+                <option [value]="0">Please Select</option>
+                <option [value]="structure.structureId" *ngFor="let structure of structures">
+                  {{structure.structureName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.SelStructure.errors" class="invalid-feedback">
+                <div *ngIf="f.SelStructure.errors.required">Project is required</div>
+              </div>
+            </div>
+            <!-- </div> -->
+
+
+
+            <!-- <div class="row"> -->
+            <!-- <div class="form-group col-md-6">
+              <label>Select Structure</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="structureAll" (change)="addStrucutureAll($event)"
+                    [checked]="structures.length && addStructures.length  === structures.length">
+                  <label class="form-check-label" for="structureAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check ml-1" *ngFor="let o of structures">
+                  <input class="form-check-input" type="checkbox" [value]="o.structureId"
+                    [id]="'structure'+o.structureId" class="strucuresCheckbox" (change)="addStructure($event)">
+                  [checked]="addStructures.includes(o.structureId)"
+                  <label class="form-check-label" [for]="'structure'+o.structureId">
+                    {{o.structureName}}
+                  </label>
+                </div>
+              </div>
+            </div> -->
+
+
+            <div class="form-group col-md-6">
+              <label>Select Stage</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <!-- <input class="form-check-input" type="checkbox" id="tradeAll" (change)="addTradeAll($event)"
+                    [checked]="stages.length && addStages.length  === stages.length"> -->
+                  <label class="form-check-label" for="tradeAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check" *ngFor="let stage of stages">
+                  <input class="form-check-input" type="checkbox" [value]="stage.stageId" [id]="'stage'+stage.stageId"
+                    (change)="addStage($event)" class="tradeCheckbox" [checked]="addStages.includes(stage.stageId)">
+                  <label class="form-check-label" [for]="'trade'+stage.stageId">
+                    {{stage.stageName}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Select Trade</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <!-- <input class="form-check-input" type="checkbox" id="tradeAll" (change)="addTradeAll($event)"
+                    [checked]="trades.length && addTrades.length  === trades.length"> -->
+                  <label class="form-check-label" for="tradeAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check" *ngFor="let trade of trades">
+                  <input class="form-check-input" type="checkbox" [value]="trade.fkTradeId"
+                    [id]="'trade'+trade.fkTradeId" (change)="addTrade($event)" class="tradeCheckbox"
+                    [checked]="addTrades.includes(trade.fkTradeId)">
+                  <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
+                    {{trade.tradeName}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!-- <div class="form-group">
+            <label>Trade</label>
+            <select [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="1">Both</option>
+              <option [value]="2">Device</option>
+              <option [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+              <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+            </div>
+          </div> -->
+
+
+
+
+            <div class="form-group col-md-6">
+              <label>Date From</label>
+              <input type="date" formControlName="dateFrom" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Date TO</label>
+              <input type="date" formControlName="dateTo" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Authroized Person</label>
+              <input type="text" formControlName="authPerson" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Designation</label>
+              <input type="text" formControlName="designation" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Note</label>
+              <textarea name="note" class="form-control" formControlName="note"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
+            </div>
+
+          </div>
+          <br>
+          <div class="form-group">
+            <button class="btn btn-primary">View PDF Report</button>&nbsp;
+            <button class="btn btn-primary">Chronological View PDF Report</button>&nbsp;
+            <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp;
+            <button class="btn btn-primary">Reset</button>&nbsp;
+          </div>
+          <button type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
