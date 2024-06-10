@@ -148,6 +148,12 @@ import { CreateSchemeMomReportComponent } from './Reports/create-scheme-mom-repo
 import { CreateRedGreenCardTokenSummaryComponent } from './Reports/create-red-green-card-token-summary/create-red-green-card-token-summary.component';
 import { CreateRedGreenCardComponent } from './Reports/create-red-green-card/create-red-green-card.component';
 
+import { MockupNotApprovedComponent } from './Alerts/Ext/mockup-not-approved/mockup-not-approved.component';
+import { NcNotClosedComponent } from './Alerts/Ext/nc-not-closed/nc-not-closed.component';
+import { NcRedAlertComponent } from './Alerts/Ext/nc-red-alert/nc-red-alert.component';
+import { CreateNcCountObservationComponent } from './Reports/NcCountAndObservation/create-nc-count-observation/create-nc-count-observation.component';
+
+
 
 
 const routes: Routes = [
@@ -177,7 +183,7 @@ const routes: Routes = [
   { path: 'createChecklist/:id', component: CreateChecklistComponent },
   { path: 'createKickoff/:id', component: CreateKickoffComponent },
   { path: 'createTraining/:id', component: CreateTrainingComponent },
-  { path: 'createNcObservationCount/:id', component: CreateNcObservationCountReportComponent },
+  { path: 'createNcObservationCount', component: CreateNcCountObservationComponent },
   { path: 'createQualityIndexReport/:id', component: CreateQualityIndexReportComponent },
   { path: 'createNcsStatusReport/:id', component: CreateNcsStatusReportComponent },
   { path: 'createNCClosureHistoryReport/:id', component: CreateNCClosureHistoryComponent },
@@ -299,6 +305,13 @@ const routes: Routes = [
   { path: 'scheme-mom-reports', component: SchemeMomReportsComponent },
   { path: 'create-redGreen-card-token', component: CreateRedGreenCardTokenSummaryComponent },
   { path: 'create-red-green-card', component: CreateRedGreenCardComponent },
+
+
+  //Reports
+  { path: 'mockup-not-approved', component: MockupNotApprovedComponent },
+  { path: 'nc-not-closed', component: NcNotClosedComponent },
+  { path: 'nc-red-alert', component: NcRedAlertComponent },
+
 
 
 

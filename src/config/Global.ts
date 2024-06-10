@@ -12,6 +12,7 @@ export class Global {
     // public SERVER = 'http://18.190.219.203:8080'//New Docker Ip
 
     public SERVER = 'http://18.118.24.192:9090'//New Docker Ip
+    // 
 
 
 

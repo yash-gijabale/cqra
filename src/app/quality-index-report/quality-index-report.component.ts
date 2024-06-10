@@ -42,10 +42,14 @@ export class QualityIndexReportComponent implements OnInit {
   structures: StructureData[]
   qualityIndexForm: FormGroup
   clients: ClientData[]
-  trades: Trade
+  trades: Trade[] = []
   // clientStaff: clientStaffData[]
-  contractors: ContractorData
+  contractors:any = []
   qualityIndexId: number
+  stages: Array<any> = []
+
+  currentDate = new Date().toISOString().substring(0,10)
+
   constructor(
     private formBuilder: FormBuilder,
     private clientService: ClientServiceService,
@@ -85,8 +89,8 @@ export class QualityIndexReportComponent implements OnInit {
       clientId: ['', Validators.required],
       projectId: ['', Validators.required],
       structureId: ['', Validators.required],
-      tradeId: ['', Validators.required],
-      reviewBy: ['', Validators.required],
+      // tradeId: ['', Validators.required],
+      // reviewBy: ['', Validators.required],
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required],
       approveDesign: ['', Validators.required],
@@ -121,21 +125,109 @@ export class QualityIndexReportComponent implements OnInit {
     // this.clientService.getClientStaffByProjectId(this.SelProject).subscribe(data => this.clientStaff = data)
   }
 
+  getStages(e) {
+    let id = Number(e.target.value)
+    this.commonService.getStages(this.SelClient, this.SelProject, id)
+      .subscribe(data => {
+        this.stages = data
+
+      })
+  }
+
   onSubmit() {
     console.log(this.qualityIndexForm.value)
+    let formData = {
+      ...this.qualityIndexForm.value,
+      tradeId: this.addTrades.toString(),
+      reviewBy: this.addPersons.toString(),
+      // stages: this.addStages.toString()
+    }
+    console.log(formData)
+    // return
+    // tradeId: ['', Validators.required],
+      // reviewBy: ['', Validators.required],
     if (this.qualityIndexId != -1) {
-      this.commonService.updateQualityINdexReport(this.qualityIndexForm.value, this.qualityIndexId)
+      this.commonService.updateQualityINdexReport(formData, this.qualityIndexId)
         .subscribe(data => {
           console.log('report updated-->', data)
         },
           err => console.log(err))
     } else {
-      this.commonService.createQualityIndexReport(this.qualityIndexForm.value)
+      this.commonService.createQualityIndexReport(formData)
         .subscribe(data => {
           console.log('report created', data)
         },
           err => console.log(err)
         )
     }
+  }
+
+  addStages = []
+  addStage(e) {
+    this.handleCheckboxAdd('addStages', e)
+    console.log(this.addStages)
+  }
+
+  addTrades = []
+  addTrade(e) {
+    this.handleCheckboxAdd('addTrades', e)
+    console.log(this.addTrades)
+  }
+
+  addPersons = []
+  addPerson(e) {
+    this.handleCheckboxAdd('addPersons', e)
+    console.log(this.addPersons)
+  }
+
+
+  handleCheckboxAdd(arry, e) {
+    let id = Number(e.target.value)
+    if (e.target.checked) {
+      let isExist = this[arry].find(item => {
+        return id == item
+      })
+      if (!isExist) {
+        this[arry].push(id)
+      }
+    } else {
+      this[arry] = this[arry].filter(item => {
+        return id != item
+      })
+    }
+  }
+
+
+  selectAllStages(e) {
+    this.handelAllSelectCheckbox('stageCheckbox', 'addStages', e)
+    console.log(this.addStages)
+  }
+
+  selectAllTrade(e) {
+    this.handelAllSelectCheckbox('tradeCheckbox', 'addTrades', e)
+    console.log(this.addTrades)
+  }
+
+  selectAllPerson(e){
+    this.handelAllSelectCheckbox('personCheckbox', 'addPersons', e)
+    console.log(this.addPersons)
+  }
+  handelAllSelectCheckbox(className, arry, e) {
+    if (e.target.checked) {
+      let inputArray = Array.from(document.getElementsByClassName(`${className}`))
+      console.log(inputArray)
+      this[arry] = []
+      inputArray.forEach(item => {
+        let a = item as HTMLInputElement
+        this[arry].push(Number(a.value))
+
+      });
+
+      $(`.${className}`).prop('checked', true)
+    } else {
+      this[arry] = []
+      $(`.${className}`).prop('checked', false)
+    }
+
   }
 }

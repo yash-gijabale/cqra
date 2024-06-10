@@ -154,6 +154,7 @@ import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master
 import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-group-master/checklist-group-master.component';
 import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 import { QualityInspectionParametersReportComponent } from './Reports/quality-inspection-parameters-report/quality-inspection-parameters-report.component';
 import { CreateQualityProcedureAmendmentReportComponent } from './Reports/create-quality-procedure-amendment-report/create-quality-procedure-amendment-report.component';
 import { AnnexureForObservationReportComponent } from './Reports/annexure-for-observation-report/annexure-for-observation-report.component';
@@ -167,6 +168,14 @@ import { SchemeMomReportsComponent } from './Reports/scheme-mom-reports/scheme-m
 import { CreateSchemeMomReportComponent } from './Reports/create-scheme-mom-report/create-scheme-mom-report.component';
 import { CreateRedGreenCardTokenSummaryComponent } from './Reports/create-red-green-card-token-summary/create-red-green-card-token-summary.component';
 import { CreateRedGreenCardComponent } from './Reports/create-red-green-card/create-red-green-card.component';
+
+import { MockupNotApprovedComponent } from './Alerts/Ext/mockup-not-approved/mockup-not-approved.component';
+import { NcNotClosedComponent } from './Alerts/Ext/nc-not-closed/nc-not-closed.component';
+import { NcRedAlertComponent } from './Alerts/Ext/nc-red-alert/nc-red-alert.component';
+import { CreateNcCountObservationComponent } from './Reports/NcCountAndObservation/create-nc-count-observation/create-nc-count-observation.component';
+import { NcCountAndObservationQuestionWiseComponent } from './Reports/NcCountAndObservation/nc-count-and-observation-question-wise/nc-count-and-observation-question-wise.component';
+import { NcCountAndObservationStructureWiseComponent } from './Reports/NcCountAndObservation/nc-count-and-observation-structure-wise/nc-count-and-observation-structure-wise.component';
+
 
 
 @NgModule({
@@ -309,6 +318,7 @@ import { CreateRedGreenCardComponent } from './Reports/create-red-green-card/cre
     ChecklistGroupMasterComponent,
     AssignContractorPmcComponent,
     ResetPasswordComponent,
+
     QualityInspectionParametersReportComponent,
     CreateQualityProcedureAmendmentReportComponent,
     AnnexureForObservationReportComponent,
@@ -322,6 +332,14 @@ import { CreateRedGreenCardComponent } from './Reports/create-red-green-card/cre
     CreateSchemeMomReportComponent,
     CreateRedGreenCardTokenSummaryComponent,
     CreateRedGreenCardComponent,
+
+    MockupNotApprovedComponent,
+    NcNotClosedComponent,
+    NcRedAlertComponent,
+    CreateNcCountObservationComponent,
+    NcCountAndObservationQuestionWiseComponent,
+    NcCountAndObservationStructureWiseComponent,
+
   ],
   imports: [
     BrowserModule,

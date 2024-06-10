@@ -1,0 +1,144 @@
+<!-- <div class="main-header_createview">
+  <div class="left-side-header">
+    <div class="create-content-header">
+      <h1>Create NC and observation count</h1>
+    </div>
+  </div>
+</div> -->
+<form [formGroup]="ncCountAndObservatiobForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label>Select Client</label>
+      <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
+        <option [value]="0">Please Select</option>
+        <option [value]="o.clientId" *ngFor="let o of clients">
+          {{o.clientName}}
+        </option>
+      </select>
+      <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+        <div *ngIf="f.selClient.errors.required">Client Name is required</div>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Project</label>
+      <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()">
+        <option [value]="0">Please Select</option>
+        <option *ngFor="let project of projects" [value]="project.projectId">{{project.projectName}}</option>
+      </select>
+      <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+        <div *ngIf="f.selProject.errors.required">Project is required</div>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Select Structure</label>
+      <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="usersAll">
+          <label class="form-check-label" for="usersAll">
+            Select All
+          </label>
+        </div>
+        <div class="form-check" *ngFor="let s of structures">
+          <input class="form-check-input stageCheckbox" type="checkbox" [value]="s.structureId"
+            [id]="'stage'+s.structureId">
+          <label class="form-check-label" [for]="'stage'+s.structureId">
+            {{s.structureName}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label>Select Trade</label>
+      <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="usersAll" >
+          <label class="form-check-label" for="usersAll">
+            Select All
+          </label>
+        </div>
+        <div class="form-check" *ngFor="let trade of trades">
+          <input class="form-check-input tradeCheckbox" type="checkbox" [value]="trade.fkTradeId"
+            [id]="'trade'+trade.fkTradeId" (change)="addStage($event)">
+          <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
+            {{trade.tradeName}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label>Responsible Person</label>
+      <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="usersAll">
+          <label class="form-check-label" for="usersAll">
+            Select All
+          </label>
+        </div>
+        <div class="form-check" *ngFor="let c of contractors">
+          <input class="form-check-input stageCheckbox" type="checkbox" [value]="c.contractorId" [id]="'contractor'+c.contractorId"
+            (change)="addStage($event)">
+          <label class="form-check-label" [for]="'contractor'+c.contractorId">
+            {{c.contractorName}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label>Client Staff</label>
+      <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="usersAll">
+          <label class="form-check-label" for="usersAll">
+            Select All
+          </label>
+        </div>
+        <div class="form-check" *ngFor="let staff of clientStaffs">
+          <input class="form-check-input stageCheckbox" type="checkbox" [value]="staff.clientStaffId" [id]="'staff'+staff.clientStaffId"
+              (change)="addStage($event)">
+          <label class="form-check-label" [for]="'staff'+staff.clientStaffId">
+            {{staff.clientName}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-md-4">
+      <label>Report From </label>
+      <input type="date" formControlName="fromDate" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+    </div>
+    <div class="form-group col-md-4">
+      <label>Report To </label>
+      <input type="date" formControlName="toDate" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+    </div>
+    <div class="form-group col-md-4">
+      <label>Approved By </label>
+      <input type="text" formControlName="approvedBy" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+    </div>
+    <div class="form-group col-md-4">
+      <label>Approver Designation</label>
+      <input type="text" formControlName="designation" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+      <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+        <div *ngIf="f.clientName.errors.required">Training Date is required</div>
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Remark</label>
+      <input type="text" formControlName="remark" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+    </div>
+  </div>
+
+  <br>
+  <div class="form-group">
+    <button class="btn btn-primary">View PDF Report</button>&nbsp;
+    <button class="btn btn-primary">Save PDF</button>&nbsp;
+    <button class="btn btn-primary">Reset</button>&nbsp;
+  </div>
+</form>

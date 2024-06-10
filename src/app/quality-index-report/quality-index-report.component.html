@@ -8,19 +8,19 @@
             <li class="breadcrumb-item">
               <a href="#">Home </a>
             </li>
-            <li class="breadcrumb-item active">Quality Index Report</li>
+            <li class="breadcrumb-item active">Quality Index Report (Question Wise)</li>
           </ol>
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/qualityIndexReportList">Manage quality index report</a> </button>
+            <button type="button"> <a routerLink="/qualityIndexReportList" style="text-decoration: none; color: white;">Manage quality index report</a> </button>
           </div>
         </div>
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1> Quality Index Report</h1>
+            <h1> Quality Index Report (Question Wise)</h1>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="form-group col-md-4">
               <label>Structure Name</label>
-              <select formControlName="structureId" class="form-control">
+              <select formControlName="structureId" class="form-control" (change)="getStages($event)">
                 <option [value]="0">Please Select</option>
                 <option [value]="o.structureId" *ngFor="let o of structures">
                   {{o.structureName}}
@@ -61,7 +61,68 @@
               <div class="invalid-feedback">
               </div>
             </div>
+
             <div class="form-group col-md-4">
+              <label>Select Stages</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="usersAll" (change)="selectAllStages($event)"
+                  [checked]="stages.length > 0 && stages.length === addStages.length">
+                  <label class="form-check-label" for="usersAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check" *ngFor="let stage of stages">
+                  <input class="form-check-input stageCheckbox" type="checkbox" [value]="stage.stageId" [id]="'stage'+stage.stageId"
+                    (change)="addStage($event)" [checked]="this.addStages.includes(stage.stageId)">
+                  <label class="form-check-label" [for]="'stage'+stage.stageId">
+                    {{stage.stageName}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Select Trade</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="tradeAll" (change)="selectAllTrade($event)"
+                  [checked]="trades.length > 0 && trades.length === addTrades.length">
+                  <label class="form-check-label" for="tradeAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check" *ngFor="let trade of trades">
+                  <input class="form-check-input tradeCheckbox" type="checkbox" [value]="trade.fkTradeId" [id]="'trade'+trade.fkTradeId"
+                    (change)="addTrade($event)" [checked]="this.addTrades.includes(trade.fkTradeId)">
+                  <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
+                    {{trade.tradeName}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Responsible Person</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="personAll" (change)="selectAllPerson($event)"
+                  [checked]="contractors.length > 0 && contractors.length === addPersons.length">
+                  <label class="form-check-label" for="personAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check" *ngFor="let c of contractors">
+                  <input class="form-check-input personCheckbox" type="checkbox" [value]="c.contractorId" [id]="'contractor'+c.contractorId"
+                    (change)="addPerson($event)" [checked]="this.addPersons.includes(c.contractorId)">
+                  <label class="form-check-label" [for]="'contractor'+c.contractorId">
+                    {{c.contractorName}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="form-group col-md-4">
               <label>Trade</label>
               <select formControlName="tradeId" class="form-control">
                 <option [value]="trade.tardeId" *ngFor="let trade of trades">
@@ -70,8 +131,8 @@
               </select>
               <div class="invalid-feedback">
               </div>
-            </div>
-            <div class="form-group col-md-4">
+            </div> -->
+            <!-- <div class="form-group col-md-4">
               <label>Responsible Person</label>
               <select formControlName="reviewBy" class="form-control">
                 <option [value]="o.contractorId" *ngFor="let o of contractors">
@@ -80,7 +141,7 @@
               </select>
               <div class="invalid-feedback">
               </div>
-            </div>
+            </div> -->
 
 
             <div class="form-group col-md-4">
@@ -92,7 +153,7 @@
 
             <div class="form-group col-md-4">
               <label>Report To:</label>
-              <input type="date" class="form-control" formControlName="dateTo">
+            <input type="date" class="form-control" formControlName="dateTo" [max]="currentDate">
               <div class="invalid-feedback">
               </div>
             </div>
