@@ -1,45 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ClientData } from '../client/client.component';
-import { ProjectData } from '../project/project.component';
-import { StructureData } from '../wbs/wbs.component';
-import { StageData } from '../wbs/wbs.component';
-import { TradeData } from '../create-tarde/create-tarde.component';
-import { ClientServiceService } from '../service/client-service.service';
-import { CommonService } from '../common.service';
-import { TradeMaintanceService } from '../trade-maintance.service';
+import { ClientData } from 'src/app/client/client.component';
+import { ProjectData } from 'src/app/project/project.component';
+import { StructureData } from 'src/app/wbs/wbs.component';
+import { StageData } from 'src/app/wbs/wbs.component';
+import { TradeData } from 'src/app/create-tarde/create-tarde.component';
+import { ClientServiceService } from 'src/app/service/client-service.service';
+import { CommonService } from 'src/app/common.service';
+import { TradeMaintanceService } from 'src/app/trade-maintance.service';
 
 @Component({
-  selector: 'app-quality-update-report',
-  templateUrl: './quality-update-report.component.html',
-  styleUrls: ['./quality-update-report.component.css']
+  selector: 'app-activity-progress-report',
+  templateUrl: './activity-progress-report.component.html',
+  styleUrls: ['./activity-progress-report.component.css']
 })
-export class QualityUpdateReportComponent implements OnInit {
-  qualityUpdateForm: FormGroup;
+export class ActivityProgressReportComponent implements OnInit {
 
-  clients: ClientData[];
-  projects: ProjectData[];
-  structures: StructureData[];
-  stages: StageData[];
-  trades: TradeData[];
-
+  activityProgressForm: FormGroup
 
   SelClient: any
   SelProject: any
   SelStructure: any
 
-  // SelClient: string = "0";
-  // SelProject: string = "0";
-  // SelStructure: string = "0";
-  // SelStage: string = "0";
-  // submitted = false;
-  // SelUser: string = "0";
+
+  clients: ClientData[] = [];
+  projects: ProjectData[] = [];
+  structures: StructureData[] = [];
+  stages: StageData[] = [];
+  trades: TradeData[] = [];
+
+
+  addStages: number[] = [];
+  addTrades: number[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
     private clientService: ClientServiceService,
     private commonService: CommonService,
     private tradeService: TradeMaintanceService,
@@ -47,14 +42,13 @@ export class QualityUpdateReportComponent implements OnInit {
 
   ngOnInit() {
 
+
     this.clientService.getAllClients().subscribe(data => {
       console.log('All clients', data)
       this.clients = data
     })
 
-
-
-    this.qualityUpdateForm = this.formBuilder.group({
+    this.activityProgressForm = this.formBuilder.group({
       clientId: ['', Validators.required],
       projectId: ['', Validators.required],
       structureId: ['', Validators.required],
@@ -62,11 +56,10 @@ export class QualityUpdateReportComponent implements OnInit {
       reportTo: ['', Validators.required],
       approvedBy: ['', Validators.required],
       designation: ['', Validators.required],
-      note: ['', Validators.required],
       reportHeader: ['', Validators.required],
+      note: ['', Validators.required],
     })
   }
-
 
   getProject() {
     this.commonService.getClientProject(this.SelClient).subscribe(data => {
@@ -93,6 +86,7 @@ export class QualityUpdateReportComponent implements OnInit {
       this.stages = data
     })
 
+
   }
 
   addCheckboxData(arry, e) {
@@ -111,40 +105,55 @@ export class QualityUpdateReportComponent implements OnInit {
     }
   }
 
-  addStages = []
+
   addStage(e) {
     this.addCheckboxData('addStages', e)
     console.log('stages', this.addStages)
   }
 
-  addTrades = []
+
   addTrade(e) {
     this.addCheckboxData('addTrades', e)
     console.log('trades', this.addTrades)
   }
 
+  //slectall checkbox
+  addAllCheckboxData(arry: number[], e: Event, checkboxSelector: string) {
+    const isChecked = (e.target as HTMLInputElement).checked;
+    if (isChecked) {
+      $(checkboxSelector).prop('checked', true);
+      const elements = document.querySelectorAll(checkboxSelector);
+      arry.length = 0;
+      elements.forEach(item => {
+        const id = Number((item as HTMLInputElement).value);
+        arry.push(id);
+      });
+    } else {
+      $(checkboxSelector).prop('checked', false);
+      arry.length = 0;
+    }
+  }
 
-  //select all
   addStageAll(e) {
-
+    this.addAllCheckboxData(this.addStages, e, '.stageCheckbox');
+    console.log('stages..', this.addStages);
   }
 
   addTradeAll(e) {
-
+    this.addAllCheckboxData(this.addTrades, e, '.tradeCheckbox');
+    console.log('trades..', this.addTrades);
   }
-
-
-  get f() { return this.qualityUpdateForm.controls; }
 
   onSubmit() {
     let formData = {
-      qualityUpdateReport: {
-        ...this.qualityUpdateForm.value,
+      activityProgressReport: {
+        ...this.activityProgressForm.value,
         stages: this.addStages,
         trades: this.addTrades
       }
     }
     console.log(formData)
+
   }
 
 }

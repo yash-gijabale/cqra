@@ -280,7 +280,6 @@ export class AssignContractorPmcComponent implements OnInit {
       $('.stagesCheckbox').prop('checked', true);
     } else {
       $('.stagesCheckbox').prop('checked', false);
-
     }
   }
 

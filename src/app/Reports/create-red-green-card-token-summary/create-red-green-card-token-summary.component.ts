@@ -3,42 +3,32 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ClientData } from 'src/app/client/client.component';
 import { ProjectData } from 'src/app/project/project.component';
 import { StructureData } from 'src/app/wbs/wbs.component';
-import { StageData } from 'src/app/wbs/wbs.component';
-import { TradeData } from 'src/app/create-tarde/create-tarde.component';
-import { ClientServiceService } from 'src/app/service/client-service.service';
 import { CommonService } from 'src/app/common.service';
-import { TradeMaintanceService } from 'src/app/trade-maintance.service';
+import { ClientServiceService } from 'src/app/service/client-service.service';
 
 @Component({
-  selector: 'app-annexure-for-observation-report',
-  templateUrl: './annexure-for-observation-report.component.html',
-  styleUrls: ['./annexure-for-observation-report.component.css']
+  selector: 'app-create-red-green-card-token-summary',
+  templateUrl: './create-red-green-card-token-summary.component.html',
+  styleUrls: ['./create-red-green-card-token-summary.component.css']
 })
-export class AnnexureForObservationReportComponent implements OnInit {
-  annexureForm: FormGroup
+export class CreateRedGreenCardTokenSummaryComponent implements OnInit {
+  redGreenCardForm: FormGroup
+
+  clients: ClientData[] = []
+  projects: ProjectData[] = []
+  structures: StructureData[] = []
 
   SelClient: any
   SelProject: any
-  SelStructure: any
 
 
-  clients: ClientData[] = [];
-  projects: ProjectData[] = [];
-  structures: StructureData[] = [];
-  stages: StageData[] = [];
-  trades: TradeData[] = [];
-
-
-  addStages: number[] = [];
-  addTrades: number[] = [];
-
+  addStructures: number[] = [];
 
 
   constructor(
     private formBuilder: FormBuilder,
-    private clientService: ClientServiceService,
     private commonService: CommonService,
-    private tradeService: TradeMaintanceService,
+    private clientService: ClientServiceService,
   ) { }
 
   ngOnInit() {
@@ -48,21 +38,12 @@ export class AnnexureForObservationReportComponent implements OnInit {
       this.clients = data
     })
 
-
-
-
-    this.annexureForm = this.formBuilder.group({
+    this.redGreenCardForm = this.formBuilder.group({
       clientId: ['', Validators.required],
       projectId: ['', Validators.required],
-      structureId: ['', Validators.required],
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required],
-      authPerson: ['', Validators.required],
-      designation: ['', Validators.required],
-      note: ['', Validators.required],
-
     })
-
   }
 
   getProject() {
@@ -77,20 +58,6 @@ export class AnnexureForObservationReportComponent implements OnInit {
       console.log(data);
       this.structures = data
     })
-
-    this.tradeService.getProjectTrades(this.SelProject).subscribe((data) => {
-      console.log(data);
-      this.trades = data
-    })
-  }
-
-  getStages() {
-    this.commonService.getStagesByStructureId(this.SelStructure).subscribe((data) => {
-      console.log(data);
-      this.stages = data
-    })
-
-
   }
 
   addCheckboxData(arry, e) {
@@ -109,15 +76,11 @@ export class AnnexureForObservationReportComponent implements OnInit {
     }
   }
 
-  addStage(e) {
-    this.addCheckboxData('addStages', e)
-    console.log('stages', this.addStages)
+  addStructure(e) {
+    this.addCheckboxData('addStructures', e)
+    console.log('structures', this.addStructures)
   }
 
-  addTrade(e) {
-    this.addCheckboxData('addTrades', e)
-    console.log('trades', this.addTrades)
-  }
 
   //slectall checkbox
   addAllCheckboxData(arry: number[], e: Event, checkboxSelector: string) {
@@ -136,25 +99,20 @@ export class AnnexureForObservationReportComponent implements OnInit {
     }
   }
 
-  addStageAll(e) {
-    this.addAllCheckboxData(this.addStages, e, '.stageCheckbox');
-    console.log('stages..', this.addStages);
-  }
-
-  addTradeAll(e) {
-    this.addAllCheckboxData(this.addTrades, e, '.tradeCheckbox');
-    console.log('trades..', this.addTrades);
+  addStrucutureAll(e) {
+    this.addAllCheckboxData(this.addStructures, e, '.strucuresCheckbox');
+    console.log('structures..', this.addStructures);
   }
 
   onSubmit() {
     let formData = {
-      AnnexureReport: {
-        ...this.annexureForm.value,
-        stages: this.addStages,
-        trades: this.addTrades
+      redGreenCardData: {
+        ...this.redGreenCardForm.value,
+        Structures: this.addStructures
       }
     }
     console.log(formData)
-
   }
+
+
 }

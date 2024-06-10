@@ -1,5 +1,5 @@
 export class Global {
-    constructor(){
+    constructor() {
 
     }
 
@@ -15,6 +15,6 @@ export class Global {
     // 
 
 
-    
+
 }
 

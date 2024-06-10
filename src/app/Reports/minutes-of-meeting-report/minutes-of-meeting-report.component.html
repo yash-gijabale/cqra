@@ -6,15 +6,16 @@
         <div class="main-header_createview">
           <div class="left-side-header">
             <div class="create-content-header">
-              <h1> Manage Quality Review Report</h1>
+              <h1> Manage Minute Of Meeting</h1>
+
             </div>
           </div>
 
           <div class="right-side-create-view ">
             <div class="create-content-operations">
               <!-- <a routerLink="/create-quality-procedure-amendment/-1"> -->
-              <a routerLink="/create-quality-review-report">
-                <button type="button"> Create Quality Review Report </button>
+              <a routerLink="/create-minutes-of-meeting">
+                <button type="button"> Create Minute Of Meeting Report </button>
               </a>
             </div>
           </div>
@@ -31,14 +32,15 @@
             style="width:100%">
             <thead>
               <tr>
+                <th>MOM Number</th>
                 <th>Client</th>
                 <th>Project</th>
-                <th>Structure</th>
-                <th>From Date</th>
-                <th>To Date</th>
-                <th>Report No</th>
+                <th>Type Of Meeting</th>
+                <th>Meeting Loaction</th>
+                <th>Actions</th>
+                <th>Add Point</th>
                 <th>View Report</th>
-                <th>Send Report</th>
+                <th>Mail Report</th>
               </tr>
             </thead>
             <tbody>
@@ -48,9 +50,14 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><a routerLink=""><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                <td>
+                  <a routerLink="/scheme-mom-reports"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                </td>
+                <td><a routerLink=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                </td>
+                <td><a href=""><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                </td>
               </tr>
             </tbody>
           </table>

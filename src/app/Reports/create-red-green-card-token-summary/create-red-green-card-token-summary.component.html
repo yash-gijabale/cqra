@@ -1,0 +1,112 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Red Green Card Token Summary</li>
+          </ol>
+        </div>
+        <!-- <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a style="color: white; text-decoration: none;" routerLink="/trade">Manage Annexure for Observation</a></button>
+          </div>
+        </div> -->
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Red Green Card Token Summary</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="redGreenCardForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+
+            <div class="form-group col-md-6">
+              <label>Client</label>
+              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProject()">
+                <option [value]="0">Please Select</option>
+                <option [value]="client.clientId" *ngFor="let client of clients">
+                  {{client.clientName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+                <div *ngIf="f.selClient.errors.required">Client is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Project</label>
+              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control"
+                (change)="getStructure()">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
+            </div>
+            <!-- </div> -->
+
+            <!-- <div class="row"> -->
+            <div class="form-group col-md-6">
+              <label>Select Structure</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="structureAll" (change)="addStrucutureAll($event)"
+                    [checked]="structures.length && addStructures.length  === structures.length">
+                  <label class="form-check-label" for="structureAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check ml-1" *ngFor="let o of structures">
+                  <input class="form-check-input" type="checkbox" [value]="o.structureId"
+                    [id]="'structure'+o.structureId" class="strucuresCheckbox" (change)="addStructure($event)"
+                    [checked]="addStructures.includes(o.structureId)">
+                  <label class="form-check-label" [for]="'structure'+o.structureId">
+                    {{o.structureName}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <div class="grid">
+                <div class="form-group col-md-12">
+                  <label>Date From</label>
+                  <input type="date" formControlName="dateFrom" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                </div>
+
+
+                <div class="form-group col-md-12">
+                  <label>Date TO</label>
+                  <input type="date" formControlName="dateTo" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">View PDF Report</button>&nbsp;
+            <button type="button" class="btn btn-primary">Save PDF</button>&nbsp;
+            <!-- <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp; -->
+            <button type="reset" class="btn btn-primary">Reset</button>&nbsp;
+          </div>
+          <!-- <button type="submit">Save</button> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,106 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Minute Of Meeting Log</li>
+          </ol>
+        </div>
+        <!-- <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a style="color: white; text-decoration: none;"
+                routerLink="/qualityReviewReport">Manage Quality
+                R
+                Report</a></button>
+          </div>
+        </div> -->
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Minute Of Meeting Log Report</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="momlogForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+
+            <div class="form-group col-md-4">
+              <label>Client</label>
+              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProject()">
+                <option [value]="0">Please Select</option>
+                <option [value]="client.clientId" *ngFor="let client of clients">
+                  {{client.clientName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+                <div *ngIf="f.selClient.errors.required">Client is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-4">
+              <label>Project</label>
+              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
+            </div>
+            <!-- </div> -->
+
+
+            <div class="form-group col-md-4">
+              <label>Type Of Meeting</label>
+              <select [(ngModel)]="SelMeeting" formControlName="meetingType" class="form-control" required>
+                <option [value]="0">Please Select</option>
+                <option [value]="'QC'">Circle</option>
+                <option [value]="'M'">MIS</option>
+                <option [value]="'QR'">Review</option>
+              </select>
+              <div *ngIf="submitted && f.SelMeeting.errors" class="invalid-feedback">
+                <div *ngIf="f.SelMeeting.errors.required">Meeting is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Date From</label>
+              <input type="date" formControlName="dateFrom" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Date TO</label>
+              <input type="date" formControlName="dateTo" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+
+
+          </div>
+          <br>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">View PDF Report</button>&nbsp;
+            <button type="button" class="btn btn-primary">Mail PDF Report</button>&nbsp;
+            <!-- <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp; -->
+            <button type="reset" class="btn btn-primary">Reset</button>&nbsp;
+          </div>
+          <!-- <button type="submit">Save</button> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

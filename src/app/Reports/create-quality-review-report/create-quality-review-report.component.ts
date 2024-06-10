@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ClientData } from 'src/app/client/client.component';
-import { ProjectData } from 'src/app/project/project.component';
-import { StructureData } from 'src/app/wbs/wbs.component';
-import { StageData } from 'src/app/wbs/wbs.component';
-import { TradeData } from 'src/app/create-tarde/create-tarde.component';
-import { ClientServiceService } from 'src/app/service/client-service.service';
 import { CommonService } from 'src/app/common.service';
 import { TradeMaintanceService } from 'src/app/trade-maintance.service';
+import { ClientServiceService } from 'src/app/service/client-service.service';
+import { ClientData } from 'src/app/client/client.component';
+import { ProjectData } from 'src/app/project/project.component';
+import { TradeData } from 'src/app/create-tarde/create-tarde.component';
+import { StageData } from 'src/app/wbs/wbs.component';
+import { StructureData } from 'src/app/wbs/wbs.component';
 
 @Component({
-  selector: 'app-annexure-for-observation-report',
-  templateUrl: './annexure-for-observation-report.component.html',
-  styleUrls: ['./annexure-for-observation-report.component.css']
+  selector: 'app-create-quality-review-report',
+  templateUrl: './create-quality-review-report.component.html',
+  styleUrls: ['./create-quality-review-report.component.css']
 })
-export class AnnexureForObservationReportComponent implements OnInit {
-  annexureForm: FormGroup
+export class CreateQualityReviewReportComponent implements OnInit {
+  qualityReviewForm: FormGroup
 
   SelClient: any
   SelProject: any
@@ -32,13 +32,13 @@ export class AnnexureForObservationReportComponent implements OnInit {
   addStages: number[] = [];
   addTrades: number[] = [];
 
-
-
   constructor(
-    private formBuilder: FormBuilder,
-    private clientService: ClientServiceService,
+    private formbuilder: FormBuilder,
     private commonService: CommonService,
     private tradeService: TradeMaintanceService,
+    private clientService: ClientServiceService,
+
+
   ) { }
 
   ngOnInit() {
@@ -48,10 +48,7 @@ export class AnnexureForObservationReportComponent implements OnInit {
       this.clients = data
     })
 
-
-
-
-    this.annexureForm = this.formBuilder.group({
+    this.qualityReviewForm = this.formbuilder.group({
       clientId: ['', Validators.required],
       projectId: ['', Validators.required],
       structureId: ['', Validators.required],
@@ -60,9 +57,7 @@ export class AnnexureForObservationReportComponent implements OnInit {
       authPerson: ['', Validators.required],
       designation: ['', Validators.required],
       note: ['', Validators.required],
-
     })
-
   }
 
   getProject() {
@@ -146,10 +141,12 @@ export class AnnexureForObservationReportComponent implements OnInit {
     console.log('trades..', this.addTrades);
   }
 
+
+
   onSubmit() {
     let formData = {
-      AnnexureReport: {
-        ...this.annexureForm.value,
+      qualityReviewReport: {
+        ...this.qualityReviewForm.value,
         stages: this.addStages,
         trades: this.addTrades
       }
@@ -157,4 +154,5 @@ export class AnnexureForObservationReportComponent implements OnInit {
     console.log(formData)
 
   }
+
 }

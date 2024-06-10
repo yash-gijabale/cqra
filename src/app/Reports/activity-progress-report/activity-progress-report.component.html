@@ -8,24 +8,24 @@
             <li class="breadcrumb-item">
               <a href="#">Home</a>
             </li>
-            <li class="breadcrumb-item active">Quality Update Report</li>
+            <li class="breadcrumb-item active">Activity Progress Report</li>
           </ol>
         </div>
         <!-- <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a style="color: white; text-decoration: none;" routerLink="/trade">Manage Quality Update Report</a></button>
+            <button type="button"> <a style="color: white; text-decoration: none;" routerLink="/trade">Manage Annexure for Observation</a></button>
           </div>
         </div> -->
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1>Quality Update Report</h1>
+            <h1>Activity Progress Report</h1>
           </div>
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="qualityUpdateForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="activityProgressForm" (ngSubmit)="onSubmit()">
           <div class="row">
 
             <div class="form-group col-md-4">
@@ -74,6 +74,30 @@
             <!-- </div> -->
 
 
+
+            <!-- <div class="row"> -->
+            <!-- <div class="form-group col-md-6">
+              <label>Select Structure</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="structureAll" (change)="addStrucutureAll($event)"
+                    [checked]="structures.length && addStructures.length  === structures.length">
+                  <label class="form-check-label" for="structureAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check ml-1" *ngFor="let o of structures">
+                  <input class="form-check-input" type="checkbox" [value]="o.structureId"
+                    [id]="'structure'+o.structureId" class="strucuresCheckbox" (change)="addStructure($event)">
+                  [checked]="addStructures.includes(o.structureId)"
+                  <label class="form-check-label" [for]="'structure'+o.structureId">
+                    {{o.structureName}}
+                  </label>
+                </div>
+              </div>
+            </div> -->
+
+
             <div class="form-group col-md-6">
               <label>Select Stage</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
@@ -86,7 +110,7 @@
                 </div>
                 <div class="form-check" *ngFor="let stage of stages">
                   <input class="form-check-input" type="checkbox" [value]="stage.stageId" [id]="'stage'+stage.stageId"
-                    (change)="addStage($event)" class="tradeCheckbox" [checked]="addStages.includes(stage.stageId)">
+                    (change)="addStage($event)" class="stageCheckbox" [checked]="addStages.includes(stage.stageId)">
                   <label class="form-check-label" [for]="'trade'+stage.stageId">
                     {{stage.stageName}}
                   </label>
@@ -117,6 +141,23 @@
             </div>
 
 
+
+            <!-- <div class="form-group">
+            <label>Trade</label>
+            <select [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="1">Both</option>
+              <option [value]="2">Device</option>
+              <option [value]="3">Web</option>
+            </select>
+            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+              <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+            </div>
+          </div> -->
+
+
+
+
             <div class="form-group col-md-6">
               <label>Report From</label>
               <input type="date" formControlName="reportFrom" class="form-control"
@@ -125,7 +166,7 @@
 
 
             <div class="form-group col-md-6">
-              <label>Report To</label>
+              <label>Report TO</label>
               <input type="date" formControlName="reportTo" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
@@ -154,18 +195,15 @@
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
             </div>
 
-
-
-
           </div>
           <br>
           <div class="form-group">
-            <button class="btn btn-primary">View QUR Report</button>&nbsp;
-            <button class="btn btn-primary">Save QUR Report</button>&nbsp;
+            <button type="submit" class="btn btn-primary">Save APR Report</button>&nbsp;
+            <button class="btn btn-primary">View APR Report</button>&nbsp;
             <!-- <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp; -->
             <button class="btn btn-primary">Reset</button>&nbsp;
           </div>
-          <button type="submit">Save</button>
+          <!-- <button type="submit">Save</button> -->
         </form>
       </div>
     </div>
