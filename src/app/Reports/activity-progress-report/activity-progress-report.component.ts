@@ -10,12 +10,13 @@ import { CommonService } from 'src/app/common.service';
 import { TradeMaintanceService } from 'src/app/trade-maintance.service';
 
 @Component({
-  selector: 'app-annexure-for-observation-report',
-  templateUrl: './annexure-for-observation-report.component.html',
-  styleUrls: ['./annexure-for-observation-report.component.css']
+  selector: 'app-activity-progress-report',
+  templateUrl: './activity-progress-report.component.html',
+  styleUrls: ['./activity-progress-report.component.css']
 })
-export class AnnexureForObservationReportComponent implements OnInit {
-  annexureForm: FormGroup
+export class ActivityProgressReportComponent implements OnInit {
+
+  activityProgressForm: FormGroup
 
   SelClient: any
   SelProject: any
@@ -32,8 +33,6 @@ export class AnnexureForObservationReportComponent implements OnInit {
   addStages: number[] = [];
   addTrades: number[] = [];
 
-
-
   constructor(
     private formBuilder: FormBuilder,
     private clientService: ClientServiceService,
@@ -43,26 +42,23 @@ export class AnnexureForObservationReportComponent implements OnInit {
 
   ngOnInit() {
 
+
     this.clientService.getAllClients().subscribe(data => {
       console.log('All clients', data)
       this.clients = data
     })
 
-
-
-
-    this.annexureForm = this.formBuilder.group({
+    this.activityProgressForm = this.formBuilder.group({
       clientId: ['', Validators.required],
       projectId: ['', Validators.required],
       structureId: ['', Validators.required],
-      dateFrom: ['', Validators.required],
-      dateTo: ['', Validators.required],
-      authPerson: ['', Validators.required],
+      reportFrom: ['', Validators.required],
+      reportTo: ['', Validators.required],
+      approvedBy: ['', Validators.required],
       designation: ['', Validators.required],
+      reportHeader: ['', Validators.required],
       note: ['', Validators.required],
-
     })
-
   }
 
   getProject() {
@@ -109,10 +105,12 @@ export class AnnexureForObservationReportComponent implements OnInit {
     }
   }
 
+
   addStage(e) {
     this.addCheckboxData('addStages', e)
     console.log('stages', this.addStages)
   }
+
 
   addTrade(e) {
     this.addCheckboxData('addTrades', e)
@@ -148,8 +146,8 @@ export class AnnexureForObservationReportComponent implements OnInit {
 
   onSubmit() {
     let formData = {
-      AnnexureReport: {
-        ...this.annexureForm.value,
+      activityProgressReport: {
+        ...this.activityProgressForm.value,
         stages: this.addStages,
         trades: this.addTrades
       }
@@ -157,4 +155,5 @@ export class AnnexureForObservationReportComponent implements OnInit {
     console.log(formData)
 
   }
+
 }

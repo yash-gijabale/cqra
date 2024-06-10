@@ -1,0 +1,76 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">MOM (Scheme) Report
+            </li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a style="color: white; text-decoration: none;"
+                routerLink="/scheme-mom-reports">Manage MOM (Scheme) Reports
+              </a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Create MOM (Scheme) Reports
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="momschemeForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+
+            <div class="form-group col-md-6">
+              <label>Reference</label>
+              <textarea formControlName="reference" class="form-control" rows="3"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Discussion Point</label>
+              <textarea formControlName="dissPoint" class="form-control" rows="3"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Plan Action</label>
+              <textarea formControlName="planAction" class="form-control" rows="3"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Responsible Person</label>
+              <textarea formControlName="resPerson" class="form-control" rows="3"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Target Date</label>
+              <input type="date" formControlName="tergetDate" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+          </div>
+          <br>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Add and Next</button>&nbsp;
+            <button class="btn btn-primary">Add and Close</button>&nbsp;
+          </div>
+          <!-- <button type="submit">Save</button> -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

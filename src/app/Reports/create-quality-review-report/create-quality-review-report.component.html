@@ -8,24 +8,27 @@
             <li class="breadcrumb-item">
               <a href="#">Home</a>
             </li>
-            <li class="breadcrumb-item active">Annexure for Observation</li>
+            <li class="breadcrumb-item active">Quality Review Report</li>
           </ol>
         </div>
-        <!-- <div class="right-side-create-view">
+        <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a style="color: white; text-decoration: none;" routerLink="/trade">Manage Annexure for Observation</a></button>
+            <button type="button"> <a style="color: white; text-decoration: none;"
+                routerLink="/qualityReviewReport">Manage Quality
+                Review
+                Report</a></button>
           </div>
-        </div> -->
+        </div>
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1>Annexure for Observation Report</h1>
+            <h1>Quality Review Report</h1>
           </div>
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="annexureForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="qualityReviewForm" (ngSubmit)="onSubmit()">
           <div class="row">
 
             <div class="form-group col-md-4">
@@ -102,7 +105,7 @@
               <label>Select Stage</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="stageAll" (change)="addStageAll($event)"
+                  <input class="form-check-input" type="checkbox" id="tradeAll" (change)="addStageAll($event)"
                     [checked]="stages.length && addStages.length  === stages.length">
                   <label class="form-check-label" for="tradeAll">
                     Select All
@@ -111,7 +114,7 @@
                 <div class="form-check" *ngFor="let stage of stages">
                   <input class="form-check-input" type="checkbox" [value]="stage.stageId" [id]="'stage'+stage.stageId"
                     (change)="addStage($event)" class="stageCheckbox" [checked]="addStages.includes(stage.stageId)">
-                  <label class="form-check-label" [for]="'stage'+stage.stageId">
+                  <label class="form-check-label" [for]="'trade'+stage.stageId">
                     {{stage.stageName}}
                   </label>
                 </div>
@@ -183,6 +186,8 @@
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
 
+
+
             <div class="form-group col-md-6">
               <label>Note</label>
               <textarea name="note" class="form-control" formControlName="note"
@@ -192,12 +197,12 @@
           </div>
           <br>
           <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save PDF Report</button>&nbsp;
             <button class="btn btn-primary">View PDF Report</button>&nbsp;
-            <button class="btn btn-primary">Chronological View PDF Report</button>&nbsp;
-            <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp;
+            <!-- <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp; -->
             <button class="btn btn-primary">Reset</button>&nbsp;
           </div>
-          <button type="submit">Save</button>
+          <!-- <button type="submit">Save</button> -->
         </form>
       </div>
     </div>

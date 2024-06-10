@@ -8,7 +8,7 @@
             <li class="breadcrumb-item">
               <a href="#">Home</a>
             </li>
-            <li class="breadcrumb-item active">Annexure for Observation</li>
+            <li class="breadcrumb-item active">Red Green Card</li>
           </ol>
         </div>
         <!-- <div class="right-side-create-view">
@@ -20,12 +20,12 @@
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1>Annexure for Observation Report</h1>
+            <h1>Red Green Card</h1>
           </div>
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="annexureForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="redGreenCardForm" (ngSubmit)="onSubmit()">
           <div class="row">
 
             <div class="form-group col-md-4">
@@ -45,7 +45,7 @@
             <div class="form-group col-md-4">
               <label>Project</label>
               <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control"
-                (change)="getStructure()">
+                (change)="getStructures()">
                 <option [value]="0">Please Select</option>
                 <option [value]="project.projectId" *ngFor="let project of projects">
                   {{project.projectName}}
@@ -55,7 +55,7 @@
                 <div *ngIf="f.selProject.errors.required">Project is required</div>
               </div>
             </div>
-            <!-- </div> -->
+
 
 
             <div class="form-group col-md-4">
@@ -71,11 +71,7 @@
                 <div *ngIf="f.SelStructure.errors.required">Project is required</div>
               </div>
             </div>
-            <!-- </div> -->
 
-
-
-            <!-- <div class="row"> -->
             <!-- <div class="form-group col-md-6">
               <label>Select Structure</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
@@ -97,8 +93,21 @@
               </div>
             </div> -->
 
+            <div class="form-group col-md-4">
+              <label>stages</label>
+              <select [(ngModel)]="SelStage" formControlName="stageId" class="form-control" (change)="getTrades()">
+                <option [value]="0">Please Select</option>
+                <option [value]="stage.stageId" *ngFor="let stage of stages">
+                  {{stage.stageName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.SelStage.errors" class="invalid-feedback">
+                <div *ngIf="f.SelStage.errors.required">Stage is required</div>
+              </div>
+            </div>
 
-            <div class="form-group col-md-6">
+
+            <!-- <div class="form-group col-md-6">
               <label>Select Stage</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
                 <div class="form-check">
@@ -116,9 +125,23 @@
                   </label>
                 </div>
               </div>
+            </div> -->
+
+
+            <div class="form-group col-md-4">
+              <label>Trade</label>
+              <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control" (change)="getSubgroups()">
+                <option [value]="0">Please Select</option>
+                <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
+                  {{trade.tradeName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.SelTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.SelTrade.errors.required">Trade is required</div>
+              </div>
             </div>
 
-
+            <!-- 
             <div class="form-group col-md-6">
               <label>Select Trade</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
@@ -138,66 +161,87 @@
                   </label>
                 </div>
               </div>
+            </div> -->
+
+
+            <div class="form-group col-md-4">
+              <label>SubGroup</label>
+              <select [(ngModel)]="SelSubgroup" formControlName="subgroupId" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="subgroup.subgroupId" *ngFor="let subgroup of subgroups">
+                  {{subgroup.subgroupName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+                <div *ngIf="f.selClient.errors.required">Client is required</div>
+              </div>
             </div>
 
 
-
-            <!-- <div class="form-group">
-            <label>Trade</label>
-            <select [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control">
-              <option [value]="0">Please Select</option>
-              <option [value]="1">Both</option>
-              <option [value]="2">Device</option>
-              <option [value]="3">Web</option>
-            </select>
-            <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
-              <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+            <div class="form-group col-md-4">
+              <label>For Type</label>
+              <select [(ngModel)]="SelForType" formControlName="forType" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="'c'">Client</option>
+                <option [value]="'s'">Supervisor Contractor</option>
+                <option [value]="'f'">Forman Contractor</option>
+              </select>
+              <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+              </div>
             </div>
-          </div> -->
+
+            <div class="form-group col-md-4">
+              <label>To User</label>
+              <select [(ngModel)]="SelToUser" formControlName="ToUser" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="1"></option>
+              </select>
+              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+                <div *ngIf="f.selClient.errors.required">Client is required</div>
+              </div>
+            </div>
 
 
+            <div class="form-group col-md-4">
+              <label>Card Type</label>
+              <select [(ngModel)]="SelCardType" formControlName="cardType" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="'r'">Red</option>
+                <option [value]="'g'">Green</option>
+              </select>
+              <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Trade is required</div>
+              </div>
+            </div>
 
 
-            <div class="form-group col-md-6">
-              <label>Date From</label>
-              <input type="date" formControlName="dateFrom" class="form-control"
+            <div class="form-group col-md-4">
+              <label>Image 1</label>
+              <input type="file" formControlName="img1" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Image 2</label>
+              <input type="file" formControlName="img2" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
 
 
-            <div class="form-group col-md-6">
-              <label>Date TO</label>
-              <input type="date" formControlName="dateTo" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            </div>
 
             <div class="form-group col-md-6">
-              <label>Authroized Person</label>
-              <input type="text" formControlName="authPerson" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            </div>
-
-            <div class="form-group col-md-6">
-              <label>Designation</label>
-              <input type="text" formControlName="designation" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-            </div>
-
-            <div class="form-group col-md-6">
-              <label>Note</label>
-              <textarea name="note" class="form-control" formControlName="note"
+              <label>Reason</label>
+              <textarea name="reason" class="form-control" formControlName="reason"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
             </div>
 
           </div>
           <br>
           <div class="form-group">
-            <button class="btn btn-primary">View PDF Report</button>&nbsp;
-            <button class="btn btn-primary">Chronological View PDF Report</button>&nbsp;
-            <button class="btn btn-primary">Contractor Wise PDF Report</button>&nbsp;
-            <button class="btn btn-primary">Reset</button>&nbsp;
+            <button type="submit" class="btn btn-primary">Assign Card</button>&nbsp;
+            <button type="reset" class="btn btn-primary">Reset</button>&nbsp;
           </div>
-          <button type="submit">Save</button>
         </form>
       </div>
     </div>
