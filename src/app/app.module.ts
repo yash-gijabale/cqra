@@ -154,6 +154,19 @@ import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master
 import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-group-master/checklist-group-master.component';
 import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { QualityInspectionParametersReportComponent } from './Reports/quality-inspection-parameters-report/quality-inspection-parameters-report.component';
+import { CreateQualityProcedureAmendmentReportComponent } from './Reports/create-quality-procedure-amendment-report/create-quality-procedure-amendment-report.component';
+import { AnnexureForObservationReportComponent } from './Reports/annexure-for-observation-report/annexure-for-observation-report.component';
+import { QualityProcedureAmmendmentComponent } from './Reports/quality-procedure-ammendment/quality-procedure-ammendment.component';
+import { ActivityProgressReportComponent } from './Reports/activity-progress-report/activity-progress-report.component';
+import { CreateQualityReviewReportComponent } from './Reports/create-quality-review-report/create-quality-review-report.component';
+import { CreateMinutesOfMeetingReportComponent } from './Reports/create-minutes-of-meeting-report/create-minutes-of-meeting-report.component';
+import { MinutesOfMeetingReportComponent } from './Reports/minutes-of-meeting-report/minutes-of-meeting-report.component';
+import { MinutesOfMeetingLogComponent } from './Reports/minutes-of-meeting-log/minutes-of-meeting-log.component';
+import { SchemeMomReportsComponent } from './Reports/scheme-mom-reports/scheme-mom-reports.component';
+import { CreateSchemeMomReportComponent } from './Reports/create-scheme-mom-report/create-scheme-mom-report.component';
+import { CreateRedGreenCardTokenSummaryComponent } from './Reports/create-red-green-card-token-summary/create-red-green-card-token-summary.component';
+import { CreateRedGreenCardComponent } from './Reports/create-red-green-card/create-red-green-card.component';
 
 
 @NgModule({
@@ -296,6 +309,19 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ChecklistGroupMasterComponent,
     AssignContractorPmcComponent,
     ResetPasswordComponent,
+    QualityInspectionParametersReportComponent,
+    CreateQualityProcedureAmendmentReportComponent,
+    AnnexureForObservationReportComponent,
+    QualityProcedureAmmendmentComponent,
+    ActivityProgressReportComponent,
+    CreateQualityReviewReportComponent,
+    CreateMinutesOfMeetingReportComponent,
+    MinutesOfMeetingReportComponent,
+    MinutesOfMeetingLogComponent,
+    SchemeMomReportsComponent,
+    CreateSchemeMomReportComponent,
+    CreateRedGreenCardTokenSummaryComponent,
+    CreateRedGreenCardComponent,
   ],
   imports: [
     BrowserModule,

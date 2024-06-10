@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -134,6 +134,19 @@ import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-g
 import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master/checklist-master.component';
 import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { QualityInspectionParametersReportComponent } from './Reports/quality-inspection-parameters-report/quality-inspection-parameters-report.component';
+import { CreateQualityProcedureAmendmentReportComponent } from './Reports/create-quality-procedure-amendment-report/create-quality-procedure-amendment-report.component';
+import { AnnexureForObservationReportComponent } from './Reports/annexure-for-observation-report/annexure-for-observation-report.component';
+import { QualityProcedureAmmendmentComponent } from './Reports/quality-procedure-ammendment/quality-procedure-ammendment.component';
+import { ActivityProgressReportComponent } from './Reports/activity-progress-report/activity-progress-report.component';
+import { CreateQualityReviewReportComponent } from './Reports/create-quality-review-report/create-quality-review-report.component';
+import { CreateMinutesOfMeetingReportComponent } from './Reports/create-minutes-of-meeting-report/create-minutes-of-meeting-report.component';
+import { MinutesOfMeetingReportComponent } from './Reports/minutes-of-meeting-report/minutes-of-meeting-report.component';
+import { MinutesOfMeetingLogComponent } from './Reports/minutes-of-meeting-log/minutes-of-meeting-log.component';
+import { SchemeMomReportsComponent } from './Reports/scheme-mom-reports/scheme-mom-reports.component';
+import { CreateSchemeMomReportComponent } from './Reports/create-scheme-mom-report/create-scheme-mom-report.component';
+import { CreateRedGreenCardTokenSummaryComponent } from './Reports/create-red-green-card-token-summary/create-red-green-card-token-summary.component';
+import { CreateRedGreenCardComponent } from './Reports/create-red-green-card/create-red-green-card.component';
 
 
 
@@ -186,7 +199,6 @@ const routes: Routes = [
   { path: 'create/:id', component: CreateUserEquipmentComponent },
 
   { path: 'qualityUpdateReport', component: QualityUpdateReportComponent },
-  { path: 'qualityReviewReport', component: QualityReviewReportComponent },
   { path: 'misReport', component: MisReportComponent },
   { path: 'assignProject/:userId', component: AssignProjectComponent },
   { path: 'createMisReport/:id', component: CreateMisReportComponent },
@@ -268,11 +280,25 @@ const routes: Routes = [
   { path: 'equipmentMaintenanceFrom', component: EquipmentMaintenanceFormComponent },
   { path: 'myEquipments', component: MyEquipmentsComponent },
   { path: 'testSampling', component: TestNewSamplingComponent },
-  { path: 'checklist-group-master',component:ChecklistGroupMasterComponent},
-  { path: 'checklist-master',component:ChecklistMasterComponent},
-  { path: 'create-rfi',component:CreateRfiComponent},
+  { path: 'checklist-group-master', component: ChecklistGroupMasterComponent },
+  { path: 'checklist-master', component: ChecklistMasterComponent },
+  { path: 'create-rfi', component: CreateRfiComponent },
   { path: 'assign-contractor-pmc', component: AssignContractorPmcComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'qality-inspection-parameters/:id', component: QualityInspectionParametersReportComponent },
+  { path: 'create-quality-procedure-amendment', component: CreateQualityProcedureAmendmentReportComponent },
+  { path: 'quality-procedure-amendment', component: QualityProcedureAmmendmentComponent },
+  { path: 'annexure-for-observation', component: AnnexureForObservationReportComponent },
+  { path: 'activity-progress-report', component: ActivityProgressReportComponent },
+  { path: 'qualityReviewReport', component: QualityReviewReportComponent },
+  { path: 'create-quality-review-report', component: CreateQualityReviewReportComponent },
+  { path: 'create-minutes-of-meeting', component: CreateMinutesOfMeetingReportComponent },
+  { path: 'minutes-of-meeting', component: MinutesOfMeetingReportComponent },
+  { path: 'minutes-of-meeting-log', component: MinutesOfMeetingLogComponent },
+  { path: 'create-scheme-mom-report', component: CreateSchemeMomReportComponent },
+  { path: 'scheme-mom-reports', component: SchemeMomReportsComponent },
+  { path: 'create-redGreen-card-token', component: CreateRedGreenCardTokenSummaryComponent },
+  { path: 'create-red-green-card', component: CreateRedGreenCardComponent },
 
 
 

@@ -1,124 +1,62 @@
 <app-header></app-header>
 <div class="content-wrapper">
-  <div class="container-fluid ">
+  <div class="container-fluid">
     <div class="add-bg-here">
       <div class="add-container-viewcommon">
-        <div class="add-breadcrames">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="#">Home </a>
-            </li>
-            <li class="breadcrumb-item active">Quality Review Report</li>
-          </ol>
-        </div>
         <div class="main-header_createview">
           <div class="left-side-header">
             <div class="create-content-header">
-              <h1>Quality Review Report</h1>
+              <h1> Manage Quality Review Report</h1>
+            </div>
+          </div>
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <!-- <a routerLink="/create-quality-procedure-amendment/-1"> -->
+              <a routerLink="/create-quality-review-report">
+                <button type="button"> Create Quality Review Report </button>
+              </a>
             </div>
           </div>
         </div>
-        <div class="create-viewform">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-              <div class="form-group col-md-4">
-                <label>Client Name</label>
-                <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
-                  <option [value]="0">Please Select</option>
-                  <option [value]="1">CQRA</option>
-                </select>
-                <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientId.errors.required">Trade Group is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Project Name</label>
-                <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
-                  <option [value]="0">Please Select</option>
-                  <option [value]="1">CQRA</option>
-                </select>
-                <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientId.errors.required">Trade Group is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Structure Name</label>
-                <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control">
-                  <option [value]="0">Please Select</option>
-                  <option [value]="1">CQRA</option>
-                </select>
-                <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientId.errors.required">Trade Group is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Stage Name</label>
-                <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" multiple>
-                  <option [value]="0">Please Select</option>
-                  <option [value]="1">CQRA</option>
-                </select>
-                <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientId.errors.required">Trade Group is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Trade Name</label>
-                <select [(ngModel)]="SelClientId" formControlName="clientId" class="form-control" multiple>
-                  <option [value]="0">Please Select</option>
-                  <option [value]="1">CQRA</option>
-                </select>
-                <div *ngIf="submitted && f.clientId.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientId.errors.required">Trade Group is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Date From</label>
-                <input type="date" formControlName="clientName" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Date To</label>
-                <input type="date" formControlName="clientName" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Authroized Person</label>
-                <input type="text" formControlName="clientName" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Designation</label>
-                <input type="text" formControlName="clientName" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Note</label>
-                <input type="text" formControlName="clientName" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-                <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                  <div *ngIf="f.clientName.errors.required">Trade Name is required</div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary">View PDF Report</button>&nbsp;
-              <button class="btn btn-success">Save PDF Report</button>&nbsp;
-              <button class="btn btn-danger">Reset</button>
-            </div>
-          </form>
+      </div>
+
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Project</th>
+                <th>Structure</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Report No</th>
+                <th>View Report</th>
+                <th>Send Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+      <!-- Example DataTables Card-->
     </div>
-    <app-footer></app-footer>
+  </div>
+  <app-footer></app-footer>

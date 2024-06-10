@@ -1,5 +1,5 @@
 export class Global {
-    constructor(){
+    constructor() {
 
     }
 
@@ -14,6 +14,6 @@ export class Global {
     public SERVER = 'http://18.118.24.192:9090'//New Docker Ip
 
 
-    
+
 }
 
