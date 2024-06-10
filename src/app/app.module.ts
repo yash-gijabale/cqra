@@ -154,6 +154,12 @@ import { ChecklistMasterComponent } from './RFI/Pages/Checklist/checklist-master
 import { ChecklistGroupMasterComponent } from './RFI/Pages/Checklist/checklist-group-master/checklist-group-master.component';
 import { AssignContractorPmcComponent } from './assign-contractor-pmc/assign-contractor-pmc.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MockupNotApprovedComponent } from './Alerts/Ext/mockup-not-approved/mockup-not-approved.component';
+import { NcNotClosedComponent } from './Alerts/Ext/nc-not-closed/nc-not-closed.component';
+import { NcRedAlertComponent } from './Alerts/Ext/nc-red-alert/nc-red-alert.component';
+import { CreateNcCountObservationComponent } from './Reports/NcCountAndObservation/create-nc-count-observation/create-nc-count-observation.component';
+import { NcCountAndObservationQuestionWiseComponent } from './Reports/NcCountAndObservation/nc-count-and-observation-question-wise/nc-count-and-observation-question-wise.component';
+import { NcCountAndObservationStructureWiseComponent } from './Reports/NcCountAndObservation/nc-count-and-observation-structure-wise/nc-count-and-observation-structure-wise.component';
 
 
 @NgModule({
@@ -296,6 +302,12 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ChecklistGroupMasterComponent,
     AssignContractorPmcComponent,
     ResetPasswordComponent,
+    MockupNotApprovedComponent,
+    NcNotClosedComponent,
+    NcRedAlertComponent,
+    CreateNcCountObservationComponent,
+    NcCountAndObservationQuestionWiseComponent,
+    NcCountAndObservationStructureWiseComponent,
   ],
   imports: [
     BrowserModule,

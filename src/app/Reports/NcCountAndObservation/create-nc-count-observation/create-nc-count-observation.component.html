@@ -1,0 +1,57 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Create NC and observation count</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a routerLink="/trade" style="text-decoration: none; color: white;">Manage NC and
+                observation count</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="row">
+          <h5>Create NC and observation count</h5>
+        </div>
+        <div class="row">
+          <div class="card col-md-4 mr-1" style="height: 40px; justify-content: center;">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" [value]="1"
+                (change)="changeForm($event)" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                NC and observation count (Question Wise)
+              </label>
+            </div>
+          </div>
+          <div class="card col-md-4" style="height: 40px; justify-content: center;">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" [value]="2"
+                (change)="changeForm($event)">
+              <label class="form-check-label" for="exampleRadios2">
+                NC and observation count (Structure Wise)
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform mt-4">
+        <div *ngIf="currentForm === 1">
+          <app-nc-count-and-observation-question-wise></app-nc-count-and-observation-question-wise>
+        </div>
+
+        <div *ngIf="currentForm === 2">
+          <app-nc-count-and-observation-structure-wise></app-nc-count-and-observation-structure-wise>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>

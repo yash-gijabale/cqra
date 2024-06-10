@@ -1,0 +1,94 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active">
+              Reports
+            </li>
+            <li class="breadcrumb-item active">Nc Red Alert</li>
+          </ol>
+        </div>
+      </div>
+      <div class="main-header_createview">
+
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Nc Red Alert</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-md-12">
+        <div class="form-group col-md-6">
+          <label>Project Name</label>
+          <select [(ngModel)]="selProject" class="form-control">
+            <option [value]="0" [selected]="true">Please Select</option>
+            <option [value]="project.projectId" *ngFor="let project of projects">
+              {{project.projectName}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Status</label>
+          <select [(ngModel)]="selStatus" class="form-control">
+            <option [value]="" [selected]="true">Please Select</option>
+            <option [value]="s.id" *ngFor="let s of status">
+              {{s.value}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-12">
+          <button class="btn btn-primary" (click)="search()">
+            <span *ngIf="load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span *ngIf="!load">Search</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+
+                <th>Project</th>
+                <th>Structure</th>
+                <th>Stage</th>
+                <th>Trade</th>
+                <th style="width: 30%;">Nc Description</th>
+                <th>Date</th>
+                <th>Nc Number</th>
+                <th>Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>33 keshwkunj</td>
+                <td>Tower 2</td>
+                <td>Stage 1</td>
+                <td>Electrical Work</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo accusamus impedit nesciunt sequi facere sed nam, alias consectetur repellat veniam nemo officia sint at architecto, maiores, ipsam expedita neque error.</td>
+                <td>22-05-2024</td>
+                <td>6523</td>
+                <td>
+                  <button class="badge badge-primary mr-1" style="border: none;">Active</button>
+                  <button class="badge badge-danger mr-1" style="border: none;">Deactive</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+
+      </div>
+      <!-- Example DataTables Card-->
+
+    </div>
+  </div>
+  <app-footer></app-footer>
