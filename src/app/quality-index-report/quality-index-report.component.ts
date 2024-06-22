@@ -44,11 +44,13 @@ export class QualityIndexReportComponent implements OnInit {
   clients: ClientData[]
   trades: Trade[] = []
   // clientStaff: clientStaffData[]
-  contractors:any = []
+  contractors: any = []
   qualityIndexId: number
   stages: Array<any> = []
 
-  currentDate = new Date().toISOString().substring(0,10)
+  currentDate = new Date().toISOString().substring(0, 10)
+
+  currentForm: Number = 1
 
   constructor(
     private formBuilder: FormBuilder,
@@ -102,6 +104,10 @@ export class QualityIndexReportComponent implements OnInit {
   }
 
 
+  changeForm(e) {
+    this.currentForm = Number(e.target.value)
+  }
+
 
   getProjects() {
     console.log(this.SelClient)
@@ -136,16 +142,25 @@ export class QualityIndexReportComponent implements OnInit {
 
   onSubmit() {
     console.log(this.qualityIndexForm.value)
-    let formData = {
-      ...this.qualityIndexForm.value,
-      tradeId: this.addTrades.toString(),
-      reviewBy: this.addPersons.toString(),
-      // stages: this.addStages.toString()
+    let formData = {}
+    if(this.currentForm === 1){
+      formData = {
+        ...this.qualityIndexForm.value,
+        tradeId: this.addTrades.toString(),
+        reviewBy: this.addPersons.toString(),
+        stages: this.addStages.toString()
+      }
+    }else{
+      formData = {
+        ...this.qualityIndexForm.value,
+        tradeId: this.addTrades.toString(),
+        stages: this.addStages.toString()
+      }
     }
     console.log(formData)
     // return
     // tradeId: ['', Validators.required],
-      // reviewBy: ['', Validators.required],
+    // reviewBy: ['', Validators.required],
     if (this.qualityIndexId != -1) {
       this.commonService.updateQualityINdexReport(formData, this.qualityIndexId)
         .subscribe(data => {
@@ -208,7 +223,7 @@ export class QualityIndexReportComponent implements OnInit {
     console.log(this.addTrades)
   }
 
-  selectAllPerson(e){
+  selectAllPerson(e) {
     this.handelAllSelectCheckbox('personCheckbox', 'addPersons', e)
     console.log(this.addPersons)
   }

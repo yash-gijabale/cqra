@@ -40,8 +40,8 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
-                <form [formGroup]="newAssetForm" (ngSubmit)="addNewAsset()">
+              <form [formGroup]="newAssetForm" (ngSubmit)="addNewAsset()">
+                <div class="modal-body" style="height: 80vh; overflow-y: auto;">
                   <div class="form-group">
                     <label>Asset Type: </label>
                     <select class="form-control" formControlName="assetTypeId">
@@ -59,6 +59,16 @@
                   <div class="form-group">
                     <label>Asset Cost (₹): </label>
                     <input type="number" class="form-control" formControlName="cost" placeholder="₹ 100">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Description: </label>
+                    <input type="text" class="form-control" formControlName="description">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Remark: </label>
+                    <input type="text" class="form-control" formControlName="remark">
                   </div>
 
                   <div class="form-group">
@@ -112,15 +122,16 @@
                   <!--  <canvas id="signature" height="100px" width="200px" style="border: 1px solid black;"></canvas>
                   <div id="show">
                   </div> -->
-                  <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" type="submit">
-                      <span *ngIf="newAssetLoad" class="spinner-border spinner-border-sm" role="status"
-                        aria-hidden="true"></span>
-                      <span *ngIf="!newAssetLoad">Save</span>
-                    </button>
-                  </div>
-                </form>
-              </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-sm btn-success" type="submit">
+                    <span *ngIf="newAssetLoad" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+                    <span *ngIf="!newAssetLoad">Save</span>
+                  </button>
+                </div>
+              </form>
 
             </div>
           </div>
@@ -180,10 +191,6 @@
                       </tr>
                     </tbody>
                   </table>
-                </div>
-
-                <div class="modal-footer">
-                  <button class="btn btn-sm btn-success" type="submit">Save</button>
                 </div>
               </div>
 
@@ -273,9 +280,11 @@
           <div class="row col-md-12">
             <div class="form-group card col-md-6" *ngIf="equipemtData && equipemtData.eImage">
               <label><b>Equipment Image:</b></label>
-              <a style="width: 100%;" [href]="'https://kia-1.s3.us-east-2.amazonaws.com/EquipmentEImage/'+equipemtData.eImage"
+              <a style="width: 100%;"
+                [href]="'https://kia-1.s3.us-east-2.amazonaws.com/EquipmentEImage/'+equipemtData.eImage"
                 target="_blank">
-                <img class="col-md-12" [src]="'https://kia-1.s3.us-east-2.amazonaws.com/EquipmentEImage/'+equipemtData.eImage">
+                <img class="col-md-12"
+                  [src]="'https://kia-1.s3.us-east-2.amazonaws.com/EquipmentEImage/'+equipemtData.eImage">
               </a>
             </div>
             <div class="form-group card col-md-6" *ngIf="equipemtData && equipemtData.ccImage">
@@ -291,6 +300,8 @@
       </div>
     </div>
   </div>
+
+
 
   <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

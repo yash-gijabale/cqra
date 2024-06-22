@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from 'src/config/Global';
 import { ApprovedTrade } from '../create-user-allocation/create-user-allocation.component';
+import { DeclarationUsers } from '../inspectorAuthorization/inspector-declaration/inspector-declaration.component';
 
 @Injectable({
   providedIn: 'root'
@@ -102,7 +103,7 @@ export class InspectorTraning {
 
   // DTM
   getDeclarationUserList() {
-    return this.httpClient.get<any>(`${this.REST_API_SERVER}/userprojectvieww/getall`)
+    return this.httpClient.get<Array<DeclarationUsers>>(`${this.REST_API_SERVER}/userprojectvieww/getall`)
   }
 
   getUserDeclarationDetails(id) {

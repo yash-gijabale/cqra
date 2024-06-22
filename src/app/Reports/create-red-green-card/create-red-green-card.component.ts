@@ -9,6 +9,7 @@ import { ClientServiceService } from 'src/app/service/client-service.service';
 import { CommonService } from 'src/app/common.service';
 import { TradeMaintanceService } from 'src/app/trade-maintance.service';
 import { clientStaffData } from 'src/app/create-client-staff/create-client-staff.component';
+import { SubgroupView } from 'src/app/subgroup/subgroup.component';
 
 @Component({
   selector: 'app-create-red-green-card',
@@ -23,7 +24,7 @@ export class CreateRedGreenCardComponent implements OnInit {
   structures: StructureData[] = []
   stages: StageData[] = []
   trades: TradeData[] = []
-  subgroups: SubgroupData[] = []
+  subgroups: any= []
 
   SelClient: any
   SelProject: any

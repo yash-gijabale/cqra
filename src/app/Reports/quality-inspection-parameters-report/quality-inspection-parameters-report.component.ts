@@ -6,6 +6,7 @@ import { TradeMaintanceService } from 'src/app/trade-maintance.service';
 import { ClientData } from 'src/app/client/client.component';
 import { ProjectData } from 'src/app/project/project.component';
 import { TradeData } from 'src/app/create-tarde/create-tarde.component';
+import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-quality-inspection-parameters-report',
@@ -31,6 +32,7 @@ export class QualityInspectionParametersReportComponent implements OnInit {
     private clientService: ClientServiceService,
     private commonService: CommonService,
     private tradeService: TradeMaintanceService,
+    private snackBar: SnackBarComponent
 
   ) { }
 
@@ -68,11 +70,21 @@ export class QualityInspectionParametersReportComponent implements OnInit {
 
   }
 
+  load: boolean = false
+  url: String = ''
   onSubmit() {
-    let formdata = {
-      qualityInspectForm: { ...this.qualityInspectionForm.value }
-    }
+    this.load = true
+    let formdata = this.qualityInspectionForm.value
     console.log(formdata)
+    this.commonService.downloadQualityInspectionParameter(this.SelProject, this.SelClient, formdata.tradeId, formdata.clientRepre, formdata.cqraRepre)
+      .subscribe(data => {
+        console.log(data)
+        this.load = false
+        this.url = data.url
+      },err =>{
+        this.load = false
+        this.snackBar.showSnackError()
+      })
   }
 
 }

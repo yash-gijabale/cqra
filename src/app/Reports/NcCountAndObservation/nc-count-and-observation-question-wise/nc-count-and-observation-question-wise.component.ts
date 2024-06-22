@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientData } from 'src/app/client/client.component';
 import { CommonService } from 'src/app/common.service';
-import { ContractorData } from 'src/app/contractor-forman/contractor-forman.component';
-import { clientStaffData } from 'src/app/create-client-staff/create-client-staff.component';
 import { ProjectData } from 'src/app/project/project.component';
 import { ClientServiceService } from 'src/app/service/client-service.service';
 import { TradeMaintanceService } from 'src/app/trade-maintance.service';
@@ -56,6 +54,16 @@ export class NcCountAndObservationQuestionWiseComponent implements OnInit {
 
   onSubmit() {
 
+    let formData = {
+      ...this.ncCountAndObservatiobForm.value,
+      structures:this.structureList,
+      trades: this.tradeList,
+      contractors: this.personList,
+      clientStaff: this.staffList
+    }
+
+    console.log(formData)
+
   }
 
   getProjects() {
@@ -84,6 +92,87 @@ export class NcCountAndObservationQuestionWiseComponent implements OnInit {
         console.log(data)
         this.clientStaffs = data
       })
+  }
+
+  structureList = []
+  addStructure(e) {
+    this.handleCheckboxAdd('structureList', e)
+    console.log(this.structureList)
+  }
+
+  tradeList = []
+  addTrade(e) {
+    this.handleCheckboxAdd('tradeList', e)
+    console.log(this.tradeList)
+  }
+
+  personList = []
+  addPerson(e) {
+    this.handleCheckboxAdd('personList', e)
+    console.log(this.personList)
+  }
+
+  staffList = []
+  addStaff(e){
+    this.handleCheckboxAdd('staffList', e)
+    console.log(this.staffList)
+  }
+
+
+  handleCheckboxAdd(arry, e) {
+    let id = Number(e.target.value)
+    if (e.target.checked) {
+      let isExist = this[arry].find(item => {
+        return id == item
+      })
+      if (!isExist) {
+        this[arry].push(id)
+      }
+    } else {
+      this[arry] = this[arry].filter(item => {
+        return id != item
+      })
+    }
+  }
+
+  
+  selectAllStrucutre(e) {
+    this.handelAllSelectCheckbox('structureCheckbox', 'structureList', e)
+    console.log(this.structureList)
+  }
+
+  selectAllTrade(e) {
+    this.handelAllSelectCheckbox('tradeCheckbox', 'tradeList', e)
+    console.log(this.tradeList)
+  }
+
+  selectAllPerson(e){
+    this.handelAllSelectCheckbox('personCheckbox', 'personList', e)
+    console.log(this.personList)
+  }
+
+  selectAllStaff(e){
+    this.handelAllSelectCheckbox('staffCheckbox', 'staffList', e)
+    console.log(this.staffList)
+  }
+
+  handelAllSelectCheckbox(className, arry, e) {
+    if (e.target.checked) {
+      let inputArray = Array.from(document.getElementsByClassName(`${className}`))
+      console.log(inputArray)
+      this[arry] = []
+      inputArray.forEach(item => {
+        let a = item as HTMLInputElement
+        this[arry].push(Number(a.value))
+
+      });
+
+      $(`.${className}`).prop('checked', true)
+    } else {
+      this[arry] = []
+      $(`.${className}`).prop('checked', false)
+    }
+
   }
 
 }

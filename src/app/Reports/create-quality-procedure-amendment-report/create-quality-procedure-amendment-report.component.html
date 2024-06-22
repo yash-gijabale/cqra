@@ -128,15 +128,17 @@
                   <th>SR NO</th>
                   <th>Standard Procedure</th>
                   <th>Amendment</th>
+                  <th>Action</th>
                 </tr>
 
               </thead>
               <tbody id="tableBody">
-                <tr id="myrow">
+                <tr id="myrow1" class="tableRows">
                   <td>1</td>
                   <td><input type="text" formControlName="standard_procedure" class="standard_procedure form-control"
-                      id="standard_procedure"></td>
+                      id="standard_procedure1" title="1"></td>
                   <td><input type="text" formControlName="amendment" class="form-control" id="amendment1"></td>
+                  <td><span class="badge badge-danger" role="button" id="remove1" title="1" (click)="removeRow($event)">X</span></td>
                 </tr>
               </tbody>
             </table>
@@ -152,12 +154,11 @@
           <!-- </div> -->
           <br>
           <div class="form-group">
-            <button class="btn btn-primary">View PDF Report</button>&nbsp;
-            <button class="btn btn-primary">PDF Report</button>&nbsp;
-            <button class="btn btn-primary">View Excel Report</button>&nbsp;
-            <button type="reset" class="btn btn-primary">Reset</button>&nbsp;
+            <button class="btn btn-primary mr-1">View PDF Report</button>
+            <button class="btn btn-primary mr-1">PDF Report</button>
+            <button class="btn btn-primary mr-1">View Excel Report</button>
+            <button type="reset" class="btn btn-primary">Reset</button>
           </div>
-          <button type="submit">Save</button>
         </form>
       </div>
     </div>

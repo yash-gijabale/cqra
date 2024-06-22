@@ -1,0 +1,92 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1>Manage Training Report</h1>
+
+            </div>
+          </div>
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <!-- <a routerLink="/create-quality-procedure-amendment/-1"> -->
+              <a routerLink="/createTraining/-1">
+                <button type="button">Create Training Report</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+                <th>Report Number</th>
+                <th>Client</th>
+                <th>Project</th>
+                <th>Trade</th>
+                <th>Report Date</th>
+                <th>Download</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of trainingData">
+                <td>{{t.report}}</td>
+                <td>{{t.clientName}}</td>
+                <td>{{t.projectName}}</td>
+                <td>{{t.tradeName}}</td>
+                <td>{{t.trainingDate}}</td>
+                <td>
+                  <Button class="badge badge-warning badge-btn" (click)="download(t.trainingId)">
+                    <span *ngIf="loadData[t.trainingId] && loadData[t.trainingId].load"
+                      class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span *ngIf="!loadData[t.trainingId]">Download</span>
+                  </Button>
+                  <a *ngIf="loadData[t.trainingId] && loadData[t.trainingId].url !== '' " [href]="loadData[t.trainingId].url" class="badge badge-warning badge-btn" target="_blank">View</a>
+                </td>
+                <td><Button class="badge badge-primary badge-btn">Edit</Button></td>
+              </tr>
+
+              <!-- <tr *ngFor="let mis of (misReports)">
+                <td>{{mis.clientId}}</td>
+                <td>{{mis.schemeId}}</td>
+                <td>{{mis.month}}</td>
+                <td>{{mis.reportNo}}</td>
+                <td>{{mis.value}}</td>
+                <td><a [routerLink]="'/createMisReport/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
+                <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-edit-unit">+</button>
+                </td>
+                <td>{{mis.qualityOfWork}}</td>
+                <td><a [routerLink]="'/misAppriciation/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
+                <td><a [routerLink]="'/misDecisionManegament/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
+                <td><a [routerLink]="'/misInitiative/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
+                <td><a [routerLink]="'/misTopPerformance/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
+                <td><a [routerLink]="'/misBelowPerformance/'+mis.misId"><button class="btn btn-primary btn-sm">+</button></a></td>
+                <td><button class="btn btn-primary btn-sm">Save</button></td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Example DataTables Card-->
+
+
+
+
+
+
+    </div>
+  </div>
+  <app-footer></app-footer>

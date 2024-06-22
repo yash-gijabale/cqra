@@ -99,20 +99,20 @@
               </thead>
               <tbody>
 
-                <tr *ngFor="let data of userTradeTrainingData | keyvalue; index as i">
+                <tr *ngFor="let data of userTradeTrainingData; index as i">
                   <td>{{i + 1}}</td>
-                  <td [title]="data.value.userId">
+                  <td [title]="data.userId">
                     <div style="display: flex;flex-direction: column; text-align: left;">
-                      <b>{{data.value.userName}}</b>
-                      <span class="text-secondary">{{data.value.mobile}}</span>
-                      <span class="text-secondary">{{data.value.email}}</span>
+                      <b>{{data.userName}}</b>
+                      <span class="text-secondary">{{data.mobile}}</span>
+                      <span class="text-secondary">{{data.email}}</span>
                     </div>
                   </td>
                   <td>
                     <button class="btn btn-sm btn-warning" data-toggle="modal"
-                      [attr.data-target]="'#new-trade-'+data.key">+</button>
+                      [attr.data-target]="'#new-trade-'+data.userId">+</button>
 
-                    <div class="modal fade" [id]="'new-trade-'+data.key" tabindex="-1" role="dialog"
+                    <div class="modal fade" [id]="'new-trade-'+data.userId" tabindex="-1" role="dialog"
                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
@@ -132,14 +132,14 @@
                               <input class="form-check-input" type="checkbox" [value]="trade.tardeId"
                                 id="flexCheckDefault" (change)="addToNewUserTraining($event)"
                                 [checked]="newUserTrainingTrde.includes(trade.tardeId)"
-                                [disabled]="allocatedtrade[data.value.userId].includes(trade.tardeId)">
+                                [disabled]="allocatedtrade[data.userId].includes(trade.tardeId)">
                               <label class="form-check-label" for="flexCheckDefault" [title]="trade.tardeId">
                                 {{trade.tradeName}}
                               </label>
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining(data.key)">
+                            <button class="btn btn-sm btn-success" (click)="saveNewTradeTraining(data.userId)">
                               <span *ngIf="newTradeLoad" class="spinner-border spinner-border-sm" role="status"
                                 aria-hidden="true"></span>
                               <span *ngIf="!newTradeLoad">Save</span>
@@ -153,10 +153,10 @@
                   </td>
                   <td>
                     <button class="btn btn-sm btn-warning p-1" data-toggle="modal"
-                      [attr.data-target]="'#traning-trade-'+data.key">View
+                      [attr.data-target]="'#traning-trade-'+data.userId">View
                       Trade</button>
 
-                    <div class="modal fade" [id]="'traning-trade-'+data.key" tabindex="-1" role="dialog"
+                    <div class="modal fade" [id]="'traning-trade-'+data.userId" tabindex="-1" role="dialog"
                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
@@ -167,7 +167,7 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                            <ng-container *ngFor="let trade of data.value.trades">
+                            <ng-container *ngFor="let trade of data.trades">
                               <div class="row ml-2 pb-2 border-bottom" *ngIf="trade.status == 1">
                                 <span>{{trade.tradeName}}</span>
                               </div>
@@ -194,7 +194,7 @@
                   <!-- <td>{{data.value.trainingData}}</td> -->
                   <td>
                     <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#user-details-1"
-                      (click)="getUserTradeDetails(data.key)">Deatils</button>
+                      (click)="getUserTradeDetails(data.userId)">Deatils</button>
 
                   </td>
                 </tr>

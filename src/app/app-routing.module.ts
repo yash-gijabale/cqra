@@ -152,6 +152,8 @@ import { MockupNotApprovedComponent } from './Alerts/Ext/mockup-not-approved/moc
 import { NcNotClosedComponent } from './Alerts/Ext/nc-not-closed/nc-not-closed.component';
 import { NcRedAlertComponent } from './Alerts/Ext/nc-red-alert/nc-red-alert.component';
 import { CreateNcCountObservationComponent } from './Reports/NcCountAndObservation/create-nc-count-observation/create-nc-count-observation.component';
+import { TrainingReportListComponent } from './Reports/traningReport/training-report-list/training-report-list.component';
+import { OpportunityImprovmentReportComponent } from './Reports/opportunity/opportunity-improvment-report/opportunity-improvment-report.component';
 
 
 
@@ -291,6 +293,8 @@ const routes: Routes = [
   { path: 'create-rfi', component: CreateRfiComponent },
   { path: 'assign-contractor-pmc', component: AssignContractorPmcComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+
+  //Report Yash Sawant
   { path: 'qality-inspection-parameters/:id', component: QualityInspectionParametersReportComponent },
   { path: 'create-quality-procedure-amendment', component: CreateQualityProcedureAmendmentReportComponent },
   { path: 'quality-procedure-amendment', component: QualityProcedureAmmendmentComponent },
@@ -307,10 +311,12 @@ const routes: Routes = [
   { path: 'create-red-green-card', component: CreateRedGreenCardComponent },
 
 
-  //Reports
+  //Reports Yash Gijabale
   { path: 'mockup-not-approved', component: MockupNotApprovedComponent },
   { path: 'nc-not-closed', component: NcNotClosedComponent },
   { path: 'nc-red-alert', component: NcRedAlertComponent },
+  { path: 'traning-report-list', component: TrainingReportListComponent },
+  { path: 'opportunities-for-improvement', component: OpportunityImprovmentReportComponent },
 
 
 

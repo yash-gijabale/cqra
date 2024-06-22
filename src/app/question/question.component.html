@@ -23,6 +23,74 @@
       </div>
 
 
+      <div class="card form-group m-2">
+        <label class="col-md-12"><b>Filters</b></label>
+        <div class="row col-md-12">
+
+          <div class="form-group col-md-4" *ngIf="!showCadre">
+            <label>Trade</label>
+            <select class="form-control" [(ngModel)]="SelTrade" (change)="getSubgroups()">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="o.tardeId" *ngFor="let o of trades">
+                {{o.tradeName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4" *ngIf="!showCadre">
+            <label>Subgroup</label>
+            <select class="form-control" [(ngModel)]="SelSubgroup" (change)="getQuestionGroup()">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="o.subgroupId" *ngFor="let o of subgroups">
+                {{o.subgroupName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4" *ngIf="!showCadre">
+            <label>Question Group</label>
+            <select class="form-control" [(ngModel)]="SelQuestionGroup" (change)="getQuestionHeading()">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="o.questionGroupId" *ngFor="let o of questionGroups">
+                {{o.questionGroupText}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4" *ngIf="!showCadre">
+            <label>Question Heading</label>
+            <select class="form-control" [(ngModel)]="SelQuestionHeading">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="o.questionHeadingId" *ngFor="let o of questionHeading">
+                {{o.questionHeadingText}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4" *ngIf="!showCadre">
+            <label>Question Type</label>
+            <select class="form-control" [(ngModel)]="SelQuestionType">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="1">Non-comformity/conformity</option>
+              <option [value]="2">MCQ</option>
+              <option [value]="3">n/m</option>
+              <option [value]="4">n</option>
+              <option [value]="5">nm ></option>
+              <option [value]="6">nm < </option>
+              <option [value]="7">External NC</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-warning" (click)="filterQuestions()">
+            <span *ngIf="!filterLoad">Display</span>
+            <span *ngIf="filterLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
+        </div>
+
+      </div>
+
+
       <div *ngIf="isLoading; then thenBlock"></div>
       <ng-template #thenBlock>
         <app-loader></app-loader>

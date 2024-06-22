@@ -8,18 +8,42 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
 import { UserService } from 'src/app/service/user.service';
 
+export class DeclarationUsers {
+  constructor(
+    public username: String,
+    public clientName: String,
+    public projectCity: String,
+    public userFullName: String,
+    public mobile: String,
+    public email: String,
+    public l0: Boolean,
+    public l1: Boolean,
+    public l2: Boolean,
+    public l3: Boolean,
+    public mep: Boolean,
+    public infra: Boolean,
+    public fireSafety: Boolean,
+    public constructionSafety: Boolean,
+    public sign: String,
+    public dtmId: Number,
+
+  ) { }
+}
+
 @Component({
   selector: 'app-inspector-declaration',
   templateUrl: './inspector-declaration.component.html',
   styleUrls: ['./inspector-declaration.component.css']
+
 })
+
 export class InspectorDeclarationComponent implements OnInit {
 
   title = "Datatables";
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
+  dtTrigger: Subject<DeclarationUsers> = new Subject();
 
   dtElement2: DataTableDirective;
   dtOptions2: DataTables.Settings = {};
@@ -32,7 +56,7 @@ export class InspectorDeclarationComponent implements OnInit {
 
   projectSearchData: ProjectView[]
 
-  declarationUserList = []
+  declarationUserList: DeclarationUsers[] = []
 
   clientProjectObject = {}
 
@@ -40,20 +64,24 @@ export class InspectorDeclarationComponent implements OnInit {
 
   dtmuserLoad: boolean = false
 
+
+
   constructor(
     private inspectionTraining: InspectorTraning,
     private cleintService: ClientServiceService,
     private snackBar: SnackBarComponent,
-    private userService:  UserService
+    private userService: UserService
   ) { }
 
   ngOnInit() {
 
     this.dtOptions = {
-      pagingType: "full_numbers",
+      pagingType: 'full_numbers',
       pageLength: 10,
-      lengthMenu: [10, 25, 50],
-      responsive: true,
+      scrollX: true,
+      processing: true,
+      deferRender: true,
+      destroy: true
     };
 
     this.dtOptions2 = {
@@ -70,10 +98,10 @@ export class InspectorDeclarationComponent implements OnInit {
     //   })
 
     this.userService.getUserDataByRepresentative(1)
-    .subscribe(data =>{
-      console.log('cqra user', data)
-      this.userList = data
-    })
+      .subscribe(data => {
+        console.log('cqra user', data)
+        this.userList = data
+      })
 
     this.isProjectLoad = true
     this.cleintService.getAllProject()
@@ -89,8 +117,11 @@ export class InspectorDeclarationComponent implements OnInit {
     this.dtmuserLoad = true
     this.inspectionTraining.getDeclarationUserList()
       .subscribe(data => {
+        console.log(data)
+        this.dtTrigger.next()
+
         let useobjcheck = {}
-        let list = data.filter(item => {
+        let list = data.filter((item:any) => {
           if (item != null) {
             if (!useobjcheck[item.userId]) {
               useobjcheck[item.userId] = true
@@ -98,12 +129,11 @@ export class InspectorDeclarationComponent implements OnInit {
             }
           }
         })
-     
+
         this.declarationUserList = list
         console.log(this.declarationUserList)
         this.dtmuserLoad = false
-        this.dtTrigger.next()
-      }, err =>{
+      }, err => {
         console.log(err)
       })
   }
@@ -163,7 +193,7 @@ export class InspectorDeclarationComponent implements OnInit {
     console.log(Number(this.SelUserId))
     // return
 
-    this.inspectionTraining.assignMultipleProject(assignProjectData,this.logUser)
+    this.inspectionTraining.assignMultipleProject(assignProjectData, this.logUser)
       .subscribe(data => {
         console.log('project asigbed', data)
         this.inspectionTraining.sendMailDeclaration(Number(this.SelUserId))

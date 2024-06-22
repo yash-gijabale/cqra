@@ -122,6 +122,8 @@ export class AddEquipmentComponent implements OnInit {
       assetTypeId: ['', Validators.required],
       assetName: ['', Validators.required],
       cost: ['', Validators.required],
+      description:['', Validators.required],
+      remark:['', Validators.required],
 
     })
 
@@ -257,13 +259,18 @@ export class AddEquipmentComponent implements OnInit {
         .subscribe(data => {
           console.log('data updated', data)
           this.newAssetLoad = false
-
+          this.snakBar.showSuccess('Asset updated successfully')
+        }, err =>{
+          this.snakBar.showSnackError()
         })
     } else {
       this.userService.newAsset(formData)
         .subscribe(data => {
           console.log('aded', data)
           this.newAssetLoad = false
+          this.snakBar.showSuccess('Asset added successfully')
+        }, err =>{
+          this.snakBar.showSnackError()
         })
     }
   }
