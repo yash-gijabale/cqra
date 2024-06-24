@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { TradeMaintanceService } from '../trade-maintance.service';
+import { Trade } from '../trade/trade.component';
+import { SubgroupView } from '../subgroup/subgroup.component';
+import { QuestionGroupView } from '../question-group/question-group.component';
 
 
 export class Question {
@@ -72,10 +75,32 @@ export class QuestionComponent implements OnInit {
   questions: Question[];
   isLoading: boolean
 
-  constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
+  trades: Trade[] = []
+  subgroups: SubgroupView
+  questionGroups: QuestionGroupView
+  questionHeading: any
+
+  SelTrade: Number = 0
+  SelSubgroup: Number = 0
+  SelQuestionGroup: Number = 0
+  SelQuestionHeading: Number = 0
+  SelQuestionType: Number = 0
+
+  constructor(
+    private router: Router, 
+    private tradeMaintanceService: TradeMaintanceService,
+  ) { }
 
   ngOnInit() {
     this.isLoading = true
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      scrollX: true,
+      processing: true,
+      deferRender: true,
+      destroy: true
+    };
     this.tradeMaintanceService.getAllQuestions().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.questions = data;
@@ -85,6 +110,12 @@ export class QuestionComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     })
+
+    this.tradeMaintanceService.getAllTrades()
+      .subscribe(data => {
+        this.trades = data
+
+      })
   }
 
 
@@ -92,20 +123,59 @@ export class QuestionComponent implements OnInit {
     this.router.navigate(['createQuestion', id])
   }
 
+  getSubgroups() {
+    this.tradeMaintanceService.getSubgroupsByTrades(this.SelTrade)
+      .subscribe(
+        data => {
+          this.subgroups = data
+        }
+
+      )
+  }
+
+  getQuestionGroup() {
+    this.tradeMaintanceService.getQuestiongroupBySubgroup(this.SelSubgroup)
+      .subscribe(data => this.questionGroups = data)
+  }
+
+  getQuestionHeading() {
+    this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(this.SelQuestionGroup)
+      .subscribe(data => {
+        console.log(data)
+        this.questionHeading = data
+      })
+  }
+
+  filterLoad:boolean = false
+  filterQuestions() {
+    this.filterLoad = true
+    this.tradeMaintanceService.getQuestionByFilter(this.SelTrade, this.SelSubgroup, this.SelQuestionGroup, this.SelQuestionHeading, this.SelQuestionType)
+      .subscribe(data => {
+        this.questions = data
+        this.filterLoad = false
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          dtInstance.destroy()
+          this.dtTrigger.next()
+        });
+
+      })
+  }
+
+
   // editforQuestion(id,){
   //   this.router.navigate(['createQuestion',id])
   // }
 
 
 
-  deActivateQuestion(id){
+  deActivateQuestion(id) {
     let isDeactivate = confirm('Are you sure want to deactivate?')
-    if(isDeactivate){
+    if (isDeactivate) {
       this.tradeMaintanceService.deActivateQuestion(id)
-      .subscribe(data => {
-        console.log('Deactivated')
-        location.reload()
-      })
+        .subscribe(data => {
+          console.log('Deactivated')
+          location.reload()
+        })
     }
   }
 

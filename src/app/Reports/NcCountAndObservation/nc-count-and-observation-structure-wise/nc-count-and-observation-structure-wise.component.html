@@ -1,4 +1,3 @@
-
 <!-- <div class="main-header_createview">
   <div class="left-side-header">
     <div class="create-content-header">
@@ -6,13 +5,13 @@
     </div>
   </div>
 </div> -->
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="ncCountAndObservatiobForm" (ngSubmit)="onSubmit()">
   <div class="row">
-    <div class="form-group col-md-4">
-      <label>Structure wise Client</label>
-      <select [(ngModel)]="SelClient" formControlName="selClient" class="form-control">
+    <div class="form-group col-md-6">
+      <label>Select Client</label>
+      <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
         <option [value]="0">Please Select</option>
-        <option [value]="o.selClient" *ngFor="let o of clients">
+        <option [value]="o.clientId" *ngFor="let o of clients">
           {{o.clientName}}
         </option>
       </select>
@@ -20,81 +19,121 @@
         <div *ngIf="f.selClient.errors.required">Client Name is required</div>
       </div>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-6">
       <label>Project</label>
-      <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+      <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" (change)="getStructure()">
         <option [value]="0">Please Select</option>
-        <option [value]="1">Both</option>
-        <option [value]="2">Device</option>
-        <option [value]="3">Web</option>
+        <option *ngFor="let project of projects" [value]="project.projectId">{{project.projectName}}</option>
       </select>
       <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
         <div *ngIf="f.selProject.errors.required">Project is required</div>
       </div>
     </div>
-    <div class="form-group col-md-4">
-      <label>Structure</label>
-      <select [(ngModel)]="SelStructure" formControlName="selStructure" class="form-control">
-        <option [value]="0">Please Select</option>
-        <option [value]="1">Both</option>
-        <option [value]="2">Device</option>
-        <option [value]="3">Web</option>
-      </select>
-      <div *ngIf="submitted && f.selStructure.errors" class="invalid-feedback">
-        <div *ngIf="f.selStructure.errors.required">Structure is required</div>
+    <div class="form-group col-md-6">
+      <label>Select Structure</label>
+      <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="strucutreAll" (change)="selectAllStrucutre($event)"
+          [checked]="structures.length>0 && structures.length === structureList.length">
+          <label class="form-check-label" for="strucutreAll">
+            Select All
+          </label>
+        </div>
+        <div class="form-check" *ngFor="let s of structures">
+          <input class="form-check-input structureCheckbox" type="checkbox" [value]="s.structureId"
+            [id]="'stage'+s.structureId" (change)="addStructure($event)">
+          <label class="form-check-label" [for]="'stage'+s.structureId">
+            {{s.structureName}}
+          </label>
+        </div>
       </div>
     </div>
-    <div class="form-group col-md-4">
-      <label>Trade</label>
-      <select [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control">
-        <option [value]="0">Please Select</option>
-        <option [value]="1">Both</option>
-        <option [value]="2">Device</option>
-        <option [value]="3">Web</option>
-      </select>
-      <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
-        <div *ngIf="f.selTrade.errors.required">Project is required</div>
+
+    <div class="form-group col-md-6">
+      <label>Select Trade</label>
+      <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="tradeAll" (change)="selectAllTrade($event)"
+          [checked]="trades.length>0 && trades.length === tradeList.length">
+          <label class="form-check-label" for="tradeAll">
+            Select All
+          </label>
+        </div>
+        <div class="form-check" *ngFor="let trade of trades">
+          <input class="form-check-input tradeCheckbox" type="checkbox" [value]="trade.fkTradeId"
+            [id]="'trade'+trade.fkTradeId" (change)="addTrade($event)">
+          <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
+            {{trade.tradeName}}
+          </label>
+        </div>
       </div>
     </div>
-    <div class="form-group col-md-4">
-      <label>Responsible person</label>
-      <select [(ngModel)]="SelTrade" formControlName="selTrade" class="form-control">
-        <option [value]="0">Please Select</option>
-        <option [value]="1">Both</option>
-        <option [value]="2">Device</option>
-        <option [value]="3">Web</option>
-      </select>
-      <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
-        <div *ngIf="f.selTrade.errors.required">Project is required</div>
+
+    <div class="form-group col-md-12">
+      <label>Responsible Person</label>
+      <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="usersAll" (change)="selectAllPerson($event)"
+          [checked]="contractors.length>0 && contractors.length === personList.length">
+          <label class="form-check-label" for="usersAll">
+            Select All
+          </label>
+        </div>
+        <div class="form-check" *ngFor="let c of contractors">
+          <input class="form-check-input personCheckbox" type="checkbox" [value]="c.contractorId"
+            [id]="'contractor'+c.contractorId" (change)="addPerson($event)">
+          <label class="form-check-label" [for]="'contractor'+c.contractorId">
+            {{c.contractorName}}
+          </label>
+        </div>
       </div>
     </div>
 
     <div class="form-group col-md-4">
       <label>Report From </label>
-      <input type="date" formControlName="clientName" class="form-control"
+      <input type="date" formControlName="fromDate" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
     </div>
     <div class="form-group col-md-4">
       <label>Report To </label>
-      <input type="date" formControlName="clientName" class="form-control"
+      <input type="date" formControlName="toDate" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
     </div>
     <div class="form-group col-md-4">
       <label>Approved By </label>
-      <input type="text" formControlName="clientName" class="form-control"
+      <input type="text" formControlName="approvedBy" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
     </div>
     <div class="form-group col-md-4">
       <label>Approver Designation</label>
-      <input type="text" formControlName="clientName" class="form-control"
+      <input type="text" formControlName="designation" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
       <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
         <div *ngIf="f.clientName.errors.required">Training Date is required</div>
       </div>
     </div>
     <div class="form-group col-md-4">
+      <label>Reviewed By </label>
+      <input type="text" formControlName="reviewedBy" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+    </div>
+    <div class="form-group col-md-4">
+      <label>Reviewer Designation</label>
+      <input type="text" formControlName="reviewerDesignation" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+      <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+        <div *ngIf="f.clientName.errors.required">Training Date is required</div>
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Report Header</label>
+      <input type="text" formControlName="reportHeader" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+    </div>
+
+    <div class="form-group col-md-4">
       <label>Remark</label>
-      <input type="text" formControlName="clientName" class="form-control"
+      <input type="text" formControlName="remark" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
     </div>
   </div>

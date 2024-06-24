@@ -50,7 +50,7 @@
 
             <div class="form-group col-md-4">
               <label>Project</label>
-              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control" required>
+              <select [(ngModel)]="SelProject" formControlName="schemeId" class="form-control" required>
                 <option [value]="0">Please Select</option>
                 <option [value]="project.projectId" *ngFor="let project of projects">
                   {{project.projectName}}
@@ -65,7 +65,7 @@
 
             <div class="form-group col-md-4">
               <label>Type Of Meeting</label>
-              <select [(ngModel)]="SelMeeting" formControlName="meetingType" class="form-control" required>
+              <select [(ngModel)]="SelMeeting" formControlName="typeOfMeeting" class="form-control" required>
                 <option [value]="0">Please Select</option>
                 <option [value]="'QC'">Circle</option>
                 <option [value]="'M'">MIS</option>
@@ -79,14 +79,14 @@
 
             <div class="form-group col-md-4">
               <label>Date Of Meeting</label>
-              <input type="date" formControlName="meetingDate" class="form-control"
+              <input type="date" formControlName="dateOfMom" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
 
 
             <div class="form-group col-md-4">
               <label>Meeting Loaction</label>
-              <input type="text" formControlName="location" class="form-control"
+              <input type="text" formControlName="meetingLocation" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
 
@@ -94,14 +94,14 @@
 
             <div class="form-group col-md-4">
               <label>Client Person</label>
-              <input type="text" formControlName="clientPerson" class="form-control"
+              <input type="text" formControlName="clientStaff" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
 
 
             <div class="form-group col-md-4">
               <label>Contractor</label>
-              <input type="text" formControlName="contractor" class="form-control"
+              <input type="text" formControlName="contractorName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
 
@@ -115,7 +115,7 @@
 
             <div class="form-group col-md-4">
               <label>Other Person</label>
-              <input type="text" formControlName="otherPerson" class="form-control"
+              <input type="text" formControlName="otherText" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
 
@@ -147,4 +147,6 @@
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

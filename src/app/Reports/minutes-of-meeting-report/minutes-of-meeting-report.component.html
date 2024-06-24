@@ -14,7 +14,7 @@
           <div class="right-side-create-view ">
             <div class="create-content-operations">
               <!-- <a routerLink="/create-quality-procedure-amendment/-1"> -->
-              <a routerLink="/create-minutes-of-meeting">
+              <a routerLink="/create-minutes-of-meeting/-1">
                 <button type="button"> Create Minute Of Meeting Report </button>
               </a>
             </div>
@@ -44,17 +44,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><a routerLink=""><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+              <tr *ngFor="let report of momReports">
+                <td>{{report.momNo}}</td>
+                <td>{{report.clientName}}</td>
+                <td>{{report.projectName}}</td>
+                <td>{{report.typeOfMeeting}}</td>
+                <td>{{report.meetingLocation}}</td>
+                <td><a [routerLink]="'/create-minutes-of-meeting/'+report.schemeMomId"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
                 <td>
-                  <a routerLink="/scheme-mom-reports"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                  <a [routerLink]="'/scheme-mom-reports/'+report.chemeMomId"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
                 </td>
-                <td><a routerLink=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                <td>
+                  <span *ngIf="!reportLoad[report.schemeMomId]" role="button" (click)="generateReport(report.schemeMomId)"><i class="fa fa-search" aria-hidden="true"></i></span>
+                  <span *ngIf="reportLoad[report.schemeMomId] && reportLoad[report.schemeMomId].load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span *ngIf="reportLoad[report.schemeMomId] && reportLoad[report.schemeMomId].url != ''">View</span>
+                  <span *ngIf="reportLoad[report.schemeMomId] && reportLoad[report.schemeMomId].error" class="badge badge-damger">Fail</span>
                 </td>
                 <td><a href=""><i class="fa fa-envelope" aria-hidden="true"></i></a>
                 </td>

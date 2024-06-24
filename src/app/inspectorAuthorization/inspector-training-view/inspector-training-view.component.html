@@ -25,7 +25,7 @@
 
         <ng-template #elseLoadTemplate>
           <div class="inspector-list mt-5">
-            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
+            <!-- <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
               class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
               <thead>
                 <tr>
@@ -94,9 +94,24 @@
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </table> -->
 
-
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers"
+            class="row-border hover inspector_list_table inspector_list_details_table" style="width:100%">
+            <thead>
+              <tr>
+                <th>Sr no</th>
+                <th style="width: 25%;">Trade</th>
+               
+              </tr>
+            </thead>
+            <tbody>
+             <tr *ngFor="let u of userTradeDataRow">
+              <td>{{u.email}}</td>
+              <td>{{u.mobile}}</td>
+             </tr>
+            </tbody>
+          </table>
 
 
 

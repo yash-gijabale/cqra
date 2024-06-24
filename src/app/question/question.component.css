@@ -20,3 +20,9 @@
     background-color: #2d5a91;
     color: white;
   }
+
+  table.dataTable thead{
+    background-color: #2d5a91 !important;
+    color: white;
+    
+  }

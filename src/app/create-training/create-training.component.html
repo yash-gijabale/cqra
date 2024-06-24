@@ -11,11 +11,11 @@
             <li class="breadcrumb-item active">Create Training</li>
           </ol>
         </div>
-        <!-- <div class="right-side-create-view">
+        <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a routerLink="/trade">Manage Training</a></button>
+            <button type="button"> <a routerLink="/traning-report-list" style="text-decoration: none; color: white;">Manage Training</a></button>
           </div>
-        </div> -->
+        </div>
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
@@ -92,12 +92,12 @@
             </div>
             <div class="form-group col-md-4">
               <label>Image 1 </label>
-              <input type="file" formControlName="image1" class="form-control"
+              <input type="file" id="img1" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
             <div class="form-group col-md-4">
               <label>Image 2</label>
-              <input type="file" formControlName="image2" class="form-control"
+              <input type="file" id="img2" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
             </div>
             <div class="form-group col-md-4">

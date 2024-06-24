@@ -11,11 +11,7 @@
             <li class="breadcrumb-item active">Create Kickoff</li>
           </ol>
         </div>
-        <div class="right-side-create-view">
-          <div class="create-content-operations">
-            <button type="button"> <a routerLink="/trade">Manage Kickoff</a></button>
-          </div>
-        </div>
+
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
@@ -25,339 +21,234 @@
         </div>
       </div>
       <div class="create-viewform">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="kickOfMeetingForm" (ngSubmit)="onSubmit()">
           <div class="row">
             <div class="form-group col-md-4">
               <label>Client Name</label>
-              <select [(ngModel)]="SelClient" formControlName="selClient" class="form-control">
+              <select class="form-control" (change)="getProject($event)">
                 <option [value]="0">Please Select</option>
-                <option [value]="o.selClient" *ngFor="let o of clients">
+                <option [value]="o.clientId" *ngFor="let o of clients">
                   {{o.clientName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
-                <div *ngIf="f.selClient.errors.required">Client Name is required</div>
-              </div>
+
             </div>
             <div class="form-group col-md-4">
               <label>Project Name</label>
-              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
+              <select class="form-control" (change)="setProject($event)">
                 <option [value]="0">Please Select</option>
-                <option [value]="1">Both</option>
-                <option [value]="2">Device</option>
-                <option [value]="3">Web</option>
+                <option [value]="p.projectId" *ngFor="let p of projects">
+                  {{p.projectName}}
+                </option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Project is required</div>
-              </div>
             </div>
             <div class="form-group col-md-4">
               <label>Authorized Management Representative </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Authorized Management Representative is required</div>
-              </div>
+              <input type="text" formControlName="authorizedManagementRepresentative" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>Authorized Project Representative </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Authorized Project Representative is required</div>
-              </div>
+              <input type="text" formControlName="authorizedProjectRepresentative" class="form-control" />
+
             </div>
             <div class="form-group col-md-4">
               <label>Kickoff Meeting Date</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Authorized Project Representative is required</div>
-              </div>
+              <input type="date" formControlName="kickoffMeetingDate" class="form-control" />
+
             </div>
             <hr>
             <div class="form-group col-md-4">
               <label>Client Code</label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Client Code is required</div>
-              </div>
+              <input type="text" formControlName="clientCode" class="form-control" />
+
             </div>
             <div class="form-group col-md-4">
               <label>Project Code</label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Project Code is required</div>
-              </div>
+              <input type="text" formControlName="projectCode" class="form-control" />
+
             </div>
             <hr>
             <div class="form-group col-md-4">
               <label>Date of 1st Review Meeting with the top management</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Date of 1st Review Meeting with the top management is required
-                </div>
-              </div>
+              <input type="date" formControlName="dateof1stReviewmeetingeiththetopManagement" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>Targeted Date for Finalization of Quality Manual</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Targeted Date for Finalization of Quality Manual is required
-                </div>
-              </div>
+              <input type="date" formControlName="tragetDateforfinalization" class="form-control" />
             </div>
           </div>
 
 
           <hr>
           <div class="form-group">
-            <label>Schedule of site meetings</label>
+            <h4><span class="badge badge-primary ">Schedule of site meetings</span></h4>
+
           </div>
           <div class="form-group">
-            <label>Management Review Meeting</label>
+            <label class="badge badge-warning">Management Review Meeting</label>
           </div>
           <div class="row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>1st Phase Frequency </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">1st Phase Frequency is required</div>
-              </div>
+              <input type="text" formControlName="Sscheduleofsite1stphasefrequency" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>1st Phase Attended By </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">1st Phase Attended By is required</div>
-              </div>
+              <input type="text" formControlName="scheduleofsite1stphaseattendedby" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>2nd Phase Frequency </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">2nd Phase Frequency is required</div>
-              </div>
+              <input type="text" formControlName="scheduleofsite2ndphasefrequency" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>2nd Phase Attended By </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">2nd Phase Attended By is required</div>
-              </div>
+              <input type="text" formControlName="scheduleofsitephaseattendedby" class="form-control" />
             </div>
           </div>
 
           <hr>
           <div class="form-group">
-            <label>Quality Review Meeting</label>
+            <label class="badge badge-warning">Quality Review Meeting</label>
           </div>
           <div class="row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>1st Phase Frequency </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">1st Phase Frequency is required</div>
-              </div>
+              <input type="text" formControlName="qualityreviewmeetingastphasefrequency" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>1st Phase Attended By </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">1st Phase Attended By is required</div>
-              </div>
+              <input type="text" formControlName="qualityreviewmeeting1stphaseattendedby" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>2nd Phase Frequency </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">2nd Phase Frequency is required</div>
-              </div>
+              <input type="text" formControlName="qualityreviewmeeting2ndphasefrequency" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>2nd Phase Attended By </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">2nd Phase Attended By is required</div>
-              </div>
+              <input type="text" formControlName="qualityreviewmeeting2ndphaseAttendedby" class="form-control" />
             </div>
           </div>
 
           <hr>
           <div class="form-group">
-            <label>Quality Circle Meeting</label>
+            <label class="badge badge-warning">Quality Circle Meeting</label>
           </div>
           <div class="row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>1st Phase Frequency </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">1st Phase Frequency is required</div>
-              </div>
+              <input type="text" formControlName="qualitycirclemeeting1stphasefrequency" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>1st Phase Attended By </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">1st Phase Attended By is required</div>
-              </div>
+              <input type="text" formControlName="qualitycirclemeeting1stphaseattendedby" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>2nd Phase Frequency </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">2nd Phase Frequency is required</div>
-              </div>
+              <input type="text" formControlName="qualitycirclemeeting2ndphasefrequeny" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>2nd Phase Attended By </label>
-              <input type="text" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">2nd Phase Attended By is required</div>
-              </div>
+              <input type="text" formControlName="qualitycirclemeeting2ndphaseattendedby" class="form-control" />
             </div>
           </div>
 
           <hr>
           <div class="row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>Targeted date for 1st Training </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="date" formControlName="targetdatefor1sttraining" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>Targeted Date of Orientation Meeting for Site Staff </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="date" formControlName="targetdateoforientationmeetingforsitestaff" class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>Targeted Date for finalization of 1st Trade for Quality Inspection Parameters </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="date" formControlName="targetdateforfinalizationof1sttradeforqualityinspectionparameters"
+                class="form-control" />
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label>Targeted Date for approval of 1st Mock Up </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="date" formControlName="targetdateforapprovalof1stmockup" class="form-control" />
             </div>
           </div>
 
           <hr>
           <div class="form-group">
-            <label>Reports</label>
+            <h4><span class="badge badge-primary ">Reports</span></h4>
           </div>
           <div class="form-group">
-            <label>Quality Update Reports</label>
+            <label class="badge badge-warning">Quality Update Reports</label>
           </div>
           <div class="row">
             <div class="form-group col-md-4">
               <label>Frequency </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Frequency is required</div>
-              </div>
+              <input type="text" formControlName="qualityupdatereportfrequency" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>Addressed To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="qualityupdatereportaddressedto" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>cc To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="qualityupdatereportccto" class="form-control" />
             </div>
           </div>
 
           <hr>
           <div class="form-group">
-            <label>Quality Review Reports</label>
+            <label class="badge badge-warning">Quality Review Reports</label>
           </div>
           <div class="row">
             <div class="form-group col-md-4">
               <label>Frequency </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Frequency is required</div>
-              </div>
+              <input type="text" formControlName="qualityreviewreportsfrequency" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>Addressed To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="qualityreviewreportsaddreddedto" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>cc To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="qualityreviewreportsccto" class="form-control" />
             </div>
           </div>
 
           <hr>
           <div class="form-group">
-            <label>Quality Index Reports</label>
+            <label class="badge badge-warning">Quality Index Reports</label>
           </div>
           <div class="row">
             <div class="form-group col-md-4">
               <label>Frequency </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Frequency is required</div>
-              </div>
+              <input type="text" formControlName="qualityindexreportfrequency" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>Addressed To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="qualityindexreportaddressedto" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>cc To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="qualityindexreportccto" class="form-control" />
             </div>
           </div>
 
           <hr>
           <div class="form-group">
-            <label>MIS Reports</label>
+            <label class="badge badge-warning">MIS Reports</label>
           </div>
           <div class="row">
             <div class="form-group col-md-4">
               <label>Frequency </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-              <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-                <div *ngIf="f.clientName.errors.required">Frequency is required</div>
-              </div>
+              <input type="text" formControlName="misreportfrequency" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>Addressed To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="misreportaddressedto" class="form-control" />
             </div>
             <div class="form-group col-md-4">
               <label>cc To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="misreportccto" class="form-control" />
             </div>
           </div>
 
@@ -365,83 +256,69 @@
           <div class="row">
             <div class="form-group col-md-4">
               <label>Other CQRA Deliverable To Client</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <textarea formControlName="othercqradeliverabletoclient" class="form-control"></textarea>
             </div>
             <div class="form-group col-md-4">
               <label>Authority to take photographs of NCs</label>
-              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
-                <option [value]="0">Please Select</option>
-                <option [value]="2">Yes</option>
-                <option [value]="3">No</option>
+              <select formControlName="authorityToTakePhotographsofNCS" class="form-control">
+                <option [value]="">Please Select</option>
+                <option [value]="'Yes'">Yes</option>
+                <option [value]="'No'">No</option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Authority to take photographs of NCs is required</div>
-              </div>
+
             </div>
             <div class="form-group col-md-4">
               <label>Authority to stop work in case of serious nonconformities</label>
-              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
-                <option [value]="0">Please Select</option>
-                <option [value]="2">Yes</option>
-                <option [value]="3">No</option>
+              <select formControlName="authorityToStopWorkInCaseOfSeriousnonconformities" class="form-control">
+                <option [value]="">Please Select</option>
+                <option [value]="'Yes'">Yes</option>
+                <option [value]="'No'">No</option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is
-                  required</div>
-              </div>
+
             </div>
 
             <div class="form-group col-md-4">
               <label>Method of approval of CQRA Bill </label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="methodofapprovalofcqrabill" class="form-control" />
             </div>
 
             <div class="form-group col-md-4">
               <label>Red Alert Address To</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="redAlertAddressto" class="form-control" />
             </div>
 
             <div class="form-group col-md-4">
               <label>Green/Red Card Issue</label>
-              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
-                <option [value]="0">Please Select</option>
-                <option [value]="2">Yes</option>
-                <option [value]="3">No</option>
+              <select formControlName="greenRedcardissue" class="form-control">
+                <option [value]="''" [selected]="true">Please Select</option>
+                <option [value]="'Yes'">Yes</option>
+                <option [value]="'No'">No</option>
               </select>
             </div>
             <div class="form-group col-md-4">
               <label>Allocation of table space and shelf space</label>
-              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
-                <option [value]="0">Please Select</option>
-                <option [value]="2">Yes</option>
-                <option [value]="3">No</option>
+              <select formControlName="allocationOfTableSpaceandShelfSpace" class="form-control">
+                <option [value]="''" [selected]="true">Please Select</option>
+                <option [value]="'Yes'">Yes</option>
+                <option [value]="'No'">No</option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is
-                  required</div>
-              </div>
             </div>
+
             <div class="form-group col-md-4">
               <label>Telephone facility for daily reportinge</label>
-              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
-                <option [value]="0">Please Select</option>
-                <option [value]="2">Yes</option>
-                <option [value]="3">No</option>
+              <select formControlName="telephoneFacilityfordailyReporting" class="form-control">
+                <option [value]="''" [selected]="true">Please Select</option>
+                <option [value]="'Yes'">Yes</option>
+                <option [value]="'No'">No</option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Authority to stop work in case of serious nonconformities is
-                  required</div>
-              </div>
+
             </div>
             <div class="form-group col-md-4">
               <label>Permission of CQRA Dress Code</label>
-              <select [(ngModel)]="SelProject" formControlName="selProject" class="form-control">
-                <option [value]="0">Please Select</option>
-                <option [value]="2">Yes</option>
-                <option [value]="3">No</option>
+              <select formControlName="permissionOfCqraDressCode" class="form-control">
+                <option [value]="''" [selected]="true">Please Select</option>
+                <option [value]="'Yes'">Yes</option>
+                <option [value]="'No'">No</option>
               </select>
             </div>
           </div>
@@ -451,24 +328,28 @@
           <div class="row">
             <div class="form-group col-md-4">
               <label>Client Representative</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <textarea formControlName="clientRepresentative" class="form-control"></textarea>
             </div>
 
             <div class="form-group  col-md-4">
               <label>CQRA Representative</label>
-              <input type="date" formControlName="clientName" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <textarea formControlName="cqraRepresentative" class="form-control"></textarea>
+
             </div>
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary">View PDF</button>
-            <button class="btn btn-primary">Mail PDF</button>
+            <button class="btn btn-primary mr-1">
+              <span *ngIf="load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <a *ngIf="!load && url !== ''" [href]="url" target="_blank" style="text-decoration: none; color: white;">View</a>
+              <span *ngIf="!load && url===''">Generate PDF</span>
+            </button>
+            <button class="btn btn-primary mr-1">Mail PDF</button>
             <button class="btn btn-primary">Reset</button>
           </div>
         </form>
       </div>
     </div>
   </div>
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

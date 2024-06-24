@@ -152,6 +152,7 @@ import { MockupNotApprovedComponent } from './Alerts/Ext/mockup-not-approved/moc
 import { NcNotClosedComponent } from './Alerts/Ext/nc-not-closed/nc-not-closed.component';
 import { NcRedAlertComponent } from './Alerts/Ext/nc-red-alert/nc-red-alert.component';
 import { CreateNcCountObservationComponent } from './Reports/NcCountAndObservation/create-nc-count-observation/create-nc-count-observation.component';
+
 import { CreateQualityObservationComponent } from './Reports/create-quality-observation/create-quality-observation.component';
 import { QualityObservationComponent } from './Reports/quality-observation/quality-observation.component';
 import { CreateQualityObservationReportComponent } from './Reports/create-quality-observation-report/create-quality-observation-report.component';
@@ -171,6 +172,10 @@ import { ProtocolQipNotFinialiseComponent } from './Alerts/Ext/protocol-qip-not-
 import { ClientSupervisorEngineerChangedComponent } from './Alerts/Ext/client-supervisor-engineer-changed/client-supervisor-engineer-changed.component';
 import { CreateQualityAndQualityAssessmentReportComponent } from './Reports/Audit Report/create-quality-and-quality-assessment-report/create-quality-and-quality-assessment-report.component';
 import { QualityAndQualityAssessmentReportComponent } from './Reports/Audit Report/quality-and-quality-assessment-report/quality-and-quality-assessment-report.component';
+
+
+import { TrainingReportListComponent } from './Reports/traningReport/training-report-list/training-report-list.component';
+import { OpportunityImprovmentReportComponent } from './Reports/opportunity/opportunity-improvment-report/opportunity-improvment-report.component';
 
 
 
@@ -311,18 +316,20 @@ const routes: Routes = [
   { path: 'create-rfi', component: CreateRfiComponent },
   { path: 'assign-contractor-pmc', component: AssignContractorPmcComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+
+  //Report Yash Sawant
   { path: 'qality-inspection-parameters/:id', component: QualityInspectionParametersReportComponent },
-  { path: 'create-quality-procedure-amendment', component: CreateQualityProcedureAmendmentReportComponent },
+  { path: 'create-quality-procedure-amendment/:id', component: CreateQualityProcedureAmendmentReportComponent },
   { path: 'quality-procedure-amendment', component: QualityProcedureAmmendmentComponent },
   { path: 'annexure-for-observation', component: AnnexureForObservationReportComponent },
   { path: 'activity-progress-report', component: ActivityProgressReportComponent },
   { path: 'qualityReviewReport', component: QualityReviewReportComponent },
   { path: 'create-quality-review-report', component: CreateQualityReviewReportComponent },
-  { path: 'create-minutes-of-meeting', component: CreateMinutesOfMeetingReportComponent },
+  { path: 'create-minutes-of-meeting/:id', component: CreateMinutesOfMeetingReportComponent },
   { path: 'minutes-of-meeting', component: MinutesOfMeetingReportComponent },
   { path: 'minutes-of-meeting-log', component: MinutesOfMeetingLogComponent },
-  { path: 'create-scheme-mom-report', component: CreateSchemeMomReportComponent },
-  { path: 'scheme-mom-reports', component: SchemeMomReportsComponent },
+  { path: 'create-scheme-mom-report/:momId/:id', component: CreateSchemeMomReportComponent },
+  { path: 'scheme-mom-reports/:momId', component: SchemeMomReportsComponent },
   { path: 'create-redGreen-card-token', component: CreateRedGreenCardTokenSummaryComponent },
   { path: 'create-red-green-card', component: CreateRedGreenCardComponent },
   { path: 'create-quality-observation', component: CreateQualityObservationComponent },
@@ -347,12 +354,17 @@ const routes: Routes = [
   { path: 'manage-quality-and-quality-assessment-report', component: QualityAndQualityAssessmentReportComponent },
 
 
-  //Reports
+  //Reports Yash Gijabale
   { path: 'mockup-not-approved', component: MockupNotApprovedComponent },
   { path: 'nc-not-closed', component: NcNotClosedComponent },
   { path: 'nc-red-alert', component: NcRedAlertComponent },
+
   { path: 'protocol-QIP-not-finialise', component: ProtocolQipNotFinialiseComponent },
   { path: 'client-supervisor-engineer-changed', component: ClientSupervisorEngineerChangedComponent },
+
+  { path: 'traning-report-list', component: TrainingReportListComponent },
+  { path: 'opportunities-for-improvement', component: OpportunityImprovmentReportComponent },
+
 
 
 

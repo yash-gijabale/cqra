@@ -126,14 +126,19 @@
           <!-- </div> -->
           <br>
           <div class="form-group">
-            <button class="btn btn-primary">View PDF Report</button>&nbsp;
-            <button class="btn btn-primary">PDF Report</button>&nbsp;
-            <button class="btn btn-primary">View Excel Report</button>&nbsp;
-            <button type="reset" class="btn btn-primary">Reset</button>&nbsp;
+            <button class="btn btn-primary mr-1">
+              <span *ngIf="load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <a *ngIf="!load && url !== ''" [href]="url" target="_blank" style="text-decoration: none; color: white;">View</a>
+              <span *ngIf="!load && url===''">Generate PDF</span>
+            </button>
+            <button class="btn btn-primary mr-1">PDF Report</button>
+            <button class="btn btn-primary mr-1">View Excel Report</button>
+            <button type="reset" class="btn btn-primary mr-1">Reset</button>
           </div>
-          <button type="submit">Save</button>
         </form>
       </div>
     </div>
   </div>
+
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

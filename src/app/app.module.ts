@@ -175,6 +175,7 @@ import { NcRedAlertComponent } from './Alerts/Ext/nc-red-alert/nc-red-alert.comp
 import { CreateNcCountObservationComponent } from './Reports/NcCountAndObservation/create-nc-count-observation/create-nc-count-observation.component';
 import { NcCountAndObservationQuestionWiseComponent } from './Reports/NcCountAndObservation/nc-count-and-observation-question-wise/nc-count-and-observation-question-wise.component';
 import { NcCountAndObservationStructureWiseComponent } from './Reports/NcCountAndObservation/nc-count-and-observation-structure-wise/nc-count-and-observation-structure-wise.component';
+
 import { CreateQualityObservationComponent } from './Reports/create-quality-observation/create-quality-observation.component';
 import { QualityObservationComponent } from './Reports/quality-observation/quality-observation.component';
 import { CreateQualityObservationReportComponent } from './Reports/create-quality-observation-report/create-quality-observation-report.component';
@@ -193,6 +194,10 @@ import { ProtocolQipNotFinialiseComponent } from './Alerts/Ext/protocol-qip-not-
 import { ClientSupervisorEngineerChangedComponent } from './Alerts/Ext/client-supervisor-engineer-changed/client-supervisor-engineer-changed.component';
 import { CreateQualityAndQualityAssessmentReportComponent } from './Reports/Audit Report/create-quality-and-quality-assessment-report/create-quality-and-quality-assessment-report.component';
 import { QualityAndQualityAssessmentReportComponent } from './Reports/Audit Report/quality-and-quality-assessment-report/quality-and-quality-assessment-report.component';
+
+import { TrainingReportListComponent } from './Reports/traningReport/training-report-list/training-report-list.component';
+import { OpportunityImprovmentReportComponent } from './Reports/opportunity/opportunity-improvment-report/opportunity-improvment-report.component';
+
 
 
 
@@ -357,6 +362,7 @@ import { QualityAndQualityAssessmentReportComponent } from './Reports/Audit Repo
     CreateNcCountObservationComponent,
     NcCountAndObservationQuestionWiseComponent,
     NcCountAndObservationStructureWiseComponent,
+
     CreateQualityObservationComponent,
     QualityObservationComponent,
     CreateQualityObservationReportComponent,
@@ -375,6 +381,10 @@ import { QualityAndQualityAssessmentReportComponent } from './Reports/Audit Repo
     ClientSupervisorEngineerChangedComponent,
     CreateQualityAndQualityAssessmentReportComponent,
     QualityAndQualityAssessmentReportComponent,
+
+    TrainingReportListComponent,
+    OpportunityImprovmentReportComponent,
+
 
   ],
   imports: [
