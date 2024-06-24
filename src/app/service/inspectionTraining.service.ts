@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Global } from 'src/config/Global';
 import { ApprovedTrade } from '../create-user-allocation/create-user-allocation.component';
 import { DeclarationUsers } from '../inspectorAuthorization/inspector-declaration/inspector-declaration.component';
+import { InspectorViewData } from '../inspectorAuthorization/inspector-training-view/inspector-training-view.component';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class InspectorTraning {
   }
 
   getUserTrainingData(id) {
-    return this.httpClient.get<any>(`${this.REST_API_SERVER}/mulispecttradetraining/getallinspectradebyuserid/${id}`)
+    return this.httpClient.get<InspectorViewData>(`${this.REST_API_SERVER}/mulispecttradetraining/getallinspectradebyuserid/${id}`)
   }
 
   uploadTrainingAttachment(id, tradeId, file: File) {

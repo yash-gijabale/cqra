@@ -41,13 +41,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+              <tr *ngFor="let report of reportList">
+                <td>{{report.reportNumber}}</td>
+                <td>{{report.schemeId}}</td>
+                <td>{{report.tradeId}}</td>
+                <td>{{report.clientId}}</td>
+                <td>{{report.updatedDate}}</td>
+                <td>
+                  <a [href]="'create-quality-procedure-amendment/'+report.qualityProcedureAmendmentId"><button class="btn btn-sm btn-primary" (click)="editReport(report.qualityProcedureAmendmentId)">Edit</button></a>
+                </td>
               </tr>
               <!-- <tr *ngFor="let mis of (misReports)">
                 <td>{{mis.clientId}}</td>

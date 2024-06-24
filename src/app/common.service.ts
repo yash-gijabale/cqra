@@ -714,4 +714,10 @@ export class CommonService {
     return this.httpClient.post(`${this.REST_API_SERVER}/report/downloadopportunitiesforimprovementreport/${projectId}/${clientId}/${clientRep}/${cqraRep}`, data)
   }
 
+
+  //SCHEME MOM
+  downloadSchemeMomReport(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadminutesofmeeting/${id}`)
+  }
+
 }

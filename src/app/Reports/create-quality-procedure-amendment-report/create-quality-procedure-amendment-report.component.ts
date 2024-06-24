@@ -6,6 +6,7 @@ import { TradeMaintanceService } from 'src/app/trade-maintance.service';
 import { ClientData } from 'src/app/client/client.component';
 import { ProjectData } from 'src/app/project/project.component';
 import { TradeData } from 'src/app/create-tarde/create-tarde.component';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -30,15 +31,20 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
   SelProject: any
   SelTrade: any
 
+  reportId: Number
+
   constructor(
     private formBuilder: FormBuilder,
     private clientService: ClientServiceService,
     private commonService: CommonService,
     private tradeService: TradeMaintanceService,
+    private route: ActivatedRoute
 
   ) { }
 
   ngOnInit() {
+
+    this.reportId = this.route.snapshot.params['id']
 
     this.clientService.getAllClients().subscribe(data => {
       console.log('All clients', data)
@@ -47,13 +53,10 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
 
     this.qualityProcedureForm = this.formBuilder.group({
       clientId: ['', Validators.required],
-      projectId: ['', Validators.required],
+      schemeId: ['', Validators.required],
       tradeId: ['', Validators.required],
-      clientRepre: ['', Validators.required],
+      siteRepresentative: ['', Validators.required],
       cqraRepre: ['', Validators.required],
-      standard_procedure: ['', Validators.required],
-      amendment: ['', Validators.required],
-
     })
 
 
@@ -102,22 +105,22 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
 
   }
 
-  giveSrNo(){
+  giveSrNo() {
     console.log('jjej')
-    let srNo  = 1
-    let rows =  document.querySelectorAll('.tableRows')
+    let srNo = 1
+    let rows = document.querySelectorAll('.tableRows')
     console.log(rows)
-    rows.forEach(row =>{
+    rows.forEach(row => {
       let r = row as HTMLTableRowElement
 
       let child = r.children[0] as any
-       child.innerHTML=  String(srNo)
+      child.innerHTML = String(srNo)
       srNo++
     })
   }
 
 
-  removeRow(e){
+  removeRow(e) {
     let row = document.querySelector(`#myrow${e.target.title}`) as HTMLTableElement
     row.remove()
     this.giveSrNo()
@@ -126,28 +129,29 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
 
 
   onSubmit() {
-   
+
     let procedureDataRow = document.querySelectorAll('.standard_procedure')
 
     let procedureData = []
 
-    procedureDataRow.forEach((procedureRow) =>{
+    procedureDataRow.forEach((procedureRow) => {
       let procedure = procedureRow as HTMLInputElement
       let id = procedure.title
       let amendment = document.querySelector(`#amendment${id}`) as HTMLInputElement
 
       let data = {
-        procedure: procedure.value,
-        amendment: amendment.value
+        standardProcedure: procedure.value,
+        amendmentProcedure: amendment.value,
+        updatedDate: new Date().toISOString().slice(0, 10)
       }
       procedureData.push(data)
     })
 
-    let formData = { 
-      procedureMaster : this.qualityProcedureForm.value,
-      procedureData
+    let formData = {
+      qualityProcedureAmendment: this.qualityProcedureForm.value,
+      qualityProcedure: procedureData
 
-     }
+    }
     console.log(formData)
 
   }

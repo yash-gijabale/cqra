@@ -296,17 +296,17 @@ const routes: Routes = [
 
   //Report Yash Sawant
   { path: 'qality-inspection-parameters/:id', component: QualityInspectionParametersReportComponent },
-  { path: 'create-quality-procedure-amendment', component: CreateQualityProcedureAmendmentReportComponent },
+  { path: 'create-quality-procedure-amendment/:id', component: CreateQualityProcedureAmendmentReportComponent },
   { path: 'quality-procedure-amendment', component: QualityProcedureAmmendmentComponent },
   { path: 'annexure-for-observation', component: AnnexureForObservationReportComponent },
   { path: 'activity-progress-report', component: ActivityProgressReportComponent },
   { path: 'qualityReviewReport', component: QualityReviewReportComponent },
   { path: 'create-quality-review-report', component: CreateQualityReviewReportComponent },
-  { path: 'create-minutes-of-meeting', component: CreateMinutesOfMeetingReportComponent },
+  { path: 'create-minutes-of-meeting/:id', component: CreateMinutesOfMeetingReportComponent },
   { path: 'minutes-of-meeting', component: MinutesOfMeetingReportComponent },
   { path: 'minutes-of-meeting-log', component: MinutesOfMeetingLogComponent },
-  { path: 'create-scheme-mom-report', component: CreateSchemeMomReportComponent },
-  { path: 'scheme-mom-reports', component: SchemeMomReportsComponent },
+  { path: 'create-scheme-mom-report/:momId/:id', component: CreateSchemeMomReportComponent },
+  { path: 'scheme-mom-reports/:momId', component: SchemeMomReportsComponent },
   { path: 'create-redGreen-card-token', component: CreateRedGreenCardTokenSummaryComponent },
   { path: 'create-red-green-card', component: CreateRedGreenCardComponent },
 
