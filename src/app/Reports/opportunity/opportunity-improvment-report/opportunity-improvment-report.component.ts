@@ -6,15 +6,13 @@ import { TradeMaintanceService } from 'src/app/trade-maintance.service';
 import { ClientData } from 'src/app/client/client.component';
 import { ProjectData } from 'src/app/project/project.component';
 import { TradeData } from 'src/app/create-tarde/create-tarde.component';
-import { ActivatedRoute } from '@angular/router';
-
 
 @Component({
-  selector: 'app-create-quality-procedure-amendment-report',
-  templateUrl: './create-quality-procedure-amendment-report.component.html',
-  styleUrls: ['./create-quality-procedure-amendment-report.component.css']
+  selector: 'app-opportunity-improvment-report',
+  templateUrl: './opportunity-improvment-report.component.html',
+  styleUrls: ['./opportunity-improvment-report.component.css']
 })
-export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
+export class OpportunityImprovmentReportComponent implements OnInit {
   qualityProcedureForm: FormGroup
 
 
@@ -31,20 +29,15 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
   SelProject: any
   SelTrade: any
 
-  reportId: Number
-
   constructor(
     private formBuilder: FormBuilder,
     private clientService: ClientServiceService,
     private commonService: CommonService,
     private tradeService: TradeMaintanceService,
-    private route: ActivatedRoute
 
   ) { }
 
   ngOnInit() {
-
-    this.reportId = this.route.snapshot.params['id']
 
     this.clientService.getAllClients().subscribe(data => {
       console.log('All clients', data)
@@ -53,10 +46,11 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
 
     this.qualityProcedureForm = this.formBuilder.group({
       clientId: ['', Validators.required],
-      schemeId: ['', Validators.required],
-      tradeId: ['', Validators.required],
-      siteRepresentative: ['', Validators.required],
+      projectId: ['', Validators.required],
+      date: ['', Validators.required],
+      clientRepre: ['', Validators.required],
       cqraRepre: ['', Validators.required],
+      contractor: ['', Validators.required],
     })
 
 
@@ -86,11 +80,12 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
     let filed = `<tr id="myrow${this.rowwCount}" class="tableRows">
     <td style="background-color:white; padding:10px; text-align:center; border: 1px solid #ddd;">${this.rowwCount}</td>
     <td style="background-color:white; padding:10px; text-align:center; border: 1px solid #ddd;">
-      <input type="text" class="standard_procedure form-control" title="${this.rowwCount}" id='standard_procedure${this.rowwCount}'>
+      <input type="text" class="issue form-control" title="${this.rowwCount}" id='issue${this.rowwCount}'>
     </td>
-    <td style="background-color:white; padding:10px; text-align:center; border: 1px solid #ddd;">
-      <input type="text" class="form-control" id='amendment${this.rowwCount}'>
-    </td>
+    <td style="background-color:white; padding:10px; text-align:center; border: 1px solid #ddd;"><input type="text" class="form-control" id="improvement${this.rowwCount}" title="${this.rowwCount}"></td>
+    <td style="background-color:white; padding:10px; text-align:center; border: 1px solid #ddd;"><input type="text" class="form-control" id="reason${this.rowwCount}" title="${this.rowwCount}"></td>
+    <td style="background-color:white; padding:10px; text-align:center; border: 1px solid #ddd;"><input type="text" class="form-control" id="clientReason${this.rowwCount}" title="${this.rowwCount}"></td>
+    <td style="background-color:white; padding:10px; text-align:center; border: 1px solid #ddd;"><input type="text" class="form-control" id="disReason${this.rowwCount}" title="${this.rowwCount}"></td>
     <td  style="background-color:white; padding:10px; text-align:center; border: 1px solid #ddd;"><span class="badge badge-danger" id='remove${this.rowwCount}' title="${this.rowwCount}" role="button">X</span></td>
   </tr>`
 
@@ -105,22 +100,22 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
 
   }
 
-  giveSrNo() {
+  giveSrNo(){
     console.log('jjej')
-    let srNo = 1
-    let rows = document.querySelectorAll('.tableRows')
+    let srNo  = 1
+    let rows =  document.querySelectorAll('.tableRows')
     console.log(rows)
-    rows.forEach(row => {
+    rows.forEach(row =>{
       let r = row as HTMLTableRowElement
 
       let child = r.children[0] as any
-      child.innerHTML = String(srNo)
+       child.innerHTML=  String(srNo)
       srNo++
     })
   }
 
 
-  removeRow(e) {
+  removeRow(e){
     let row = document.querySelector(`#myrow${e.target.title}`) as HTMLTableElement
     row.remove()
     this.giveSrNo()
@@ -129,30 +124,42 @@ export class CreateQualityProcedureAmendmentReportComponent implements OnInit {
 
 
   onSubmit() {
+   
+    let issueDataRow = document.querySelectorAll('.issue')
 
-    let procedureDataRow = document.querySelectorAll('.standard_procedure')
+    let opportunitiesData = []
 
-    let procedureData = []
-
-    procedureDataRow.forEach((procedureRow) => {
-      let procedure = procedureRow as HTMLInputElement
-      let id = procedure.title
-      let amendment = document.querySelector(`#amendment${id}`) as HTMLInputElement
+    let srNo = 1
+    issueDataRow.forEach((issueRow) =>{
+      let issue = issueRow as HTMLInputElement
+      let id = issue.title
+      let improvement = document.querySelector(`#improvement${id}`) as HTMLInputElement
+      let reason = document.querySelector(`#reason${id}`) as HTMLInputElement
+      let clientReason = document.querySelector(`#clientReason${id}`) as HTMLInputElement
+      let disReason = document.querySelector(`#disReason${id}`) as HTMLInputElement
 
       let data = {
-        standardProcedure: procedure.value,
-        amendmentProcedure: amendment.value,
-        updatedDate: new Date().toISOString().slice(0, 10)
+        srNo: srNo,
+        issue: issue.value,
+        opportunities_for_improvement: improvement.value,
+        reason: reason.value,
+        client_response: clientReason.value,
+        disagreementReason: disReason.value
       }
-      procedureData.push(data)
+      srNo++
+      opportunitiesData.push(data)
     })
 
-    let formData = {
-      qualityProcedureAmendment: this.qualityProcedureForm.value,
-      qualityProcedure: procedureData
+    let formData = { 
+      improvementMaster : this.qualityProcedureForm.value,
+      opportunitiesData
 
-    }
+     }
     console.log(formData)
+    this.commonService.downloadOpportunitiesForImprovement(this.SelProject, this.SelClient, this.qualityProcedureForm.value.clientRepre, this.qualityProcedureForm.value.cqraRepre, opportunitiesData)
+    .subscribe(data =>{
+      console.log(data)
+    })
 
   }
 

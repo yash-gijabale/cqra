@@ -8,22 +8,16 @@
             <li class="breadcrumb-item">
               <a href="#">Home</a>
             </li>
-            <li class="breadcrumb-item active">Quality Procedure Amendment
+            <li class="breadcrumb-item active">Opportunities for Improvement
             </li>
           </ol>
         </div>
-        <div class="right-side-create-view">
-          <div class="create-content-operations">
-            <button type="button"> <a style="color: white; text-decoration: none;"
-                routerLink="/quality-procedure-amendment">Manage Quality Procedure Amendment
-              </a></button>
-          </div>
-        </div>
+
       </div>
       <div class="main-header_createview">
         <div class="left-side-header">
           <div class="create-content-header">
-            <h1>Create Quality Procedure Amendment
+            <h1>Create Opportunities for Improvement
             </h1>
           </div>
         </div>
@@ -41,9 +35,7 @@
                   {{client.clientName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.SelClient.errors" class="invalid-feedback">
-                <div *ngIf="f.SelClient.errors.required">Client is required</div>
-              </div>
+              
             </div>
 
 
@@ -55,68 +47,29 @@
                   {{project.projectName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Project is required</div>
-              </div>
+          
             </div>
-
-
 
             <div class="form-group col-md-4">
-              <label>Trade</label>
-              <select [(ngModel)]="SelTrade" formControlName="tradeId" class="form-control">
-                <option [value]="0">Please Select</option>
-                <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
-                  {{trade.tradeName}}
-                </option>
-              </select>
-              <div *ngIf="submitted && f.SelTrade.errors" class="invalid-feedback">
-                <div *ngIf="f.SelTrade.errors.required">Trade is required</div>
-              </div>
+              <label>Date</label>
+              <input type="date" class="form-control" formControlName="date" >
             </div>
-
-
-
-
-            <!-- trade checkbox -->
-            <!-- <div class="form-group col-md-6">
-              <label>Select Trade</label>
-              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="tradeAll" (change)="addTradeAll($event)"
-                    [checked]="trades.length && addTrades.length  === trades.length">
-                  <label class="form-check-label" for="tradeAll">
-                    Select All
-                  </label>
-                </div>
-                <div class="form-check" *ngFor="let trade of trades">
-                  <input class="form-check-input" type="checkbox" [value]="trade.fkTradeId"
-                    [id]="'trade'+trade.fkTradeId" (change)="addTrade($event)" class="tradeCheckbox">
-                  [checked]="addTrades.includes(trade.fkTradeId)"
-                  <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
-                    {{trade.tradeName}}
-                  </label>
-                </div>
-              </div>
-            </div> -->
-
-
-
-
-
 
 
             <div class="form-group col-md-6">
               <label>Client Representative:</label>
-              <textarea name="" formControlName="clientRepre" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
+              <textarea name="" formControlName="clientRepre" class="form-control"></textarea>
             </div>
 
 
             <div class="form-group col-md-6">
               <label>CQRA Representative:</label>
-              <textarea name="" formControlName="cqraRepre" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
+              <textarea name="" formControlName="cqraRepre" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Contractor:</label>
+              <textarea name="" formControlName="contractor" class="form-control"></textarea>
             </div>
           </div>
 
@@ -126,8 +79,11 @@
               <thead>
                 <tr>
                   <th>SR NO</th>
-                  <th>Standard Procedure</th>
-                  <th>Amendment</th>
+                  <th>Issue</th>
+                  <th>Opportunities for Improvement </th>
+                  <th>Reason</th>
+                  <th>Client Response</th>
+                  <th>Disagreement Reason</th>
                   <th>Action</th>
                 </tr>
 
@@ -135,9 +91,12 @@
               <tbody id="tableBody">
                 <tr id="myrow1" class="tableRows">
                   <td>1</td>
-                  <td><input type="text" class="standard_procedure form-control"
-                      id="standard_procedure1" title="1"></td>
-                  <td><input type="text" class="form-control" id="amendment1"></td>
+                  <td><input type="text" class="issue form-control"
+                      id="issue1" title="1"></td>
+                  <td><input type="text" class="form-control" id="improvement1" title="1"></td>
+                  <td><input type="text" class="form-control" id="reason1" title="1"></td>
+                  <td><input type="text" class="form-control" id="clientReason1" title="1"></td>
+                  <td><input type="text" class="form-control" id="disReason1" title="1"></td>
                   <td><span class="badge badge-danger" role="button" id="remove1" title="1" (click)="removeRow($event)">X</span></td>
                 </tr>
               </tbody>

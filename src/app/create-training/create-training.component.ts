@@ -9,12 +9,12 @@ import { TradeMaintanceService } from '../trade-maintance.service';
 import { Trade } from '../trade/trade.component';
 
 
-export class traningReportData{
+export class traningReportData {
   constructor(
     public training: Object,
     public trainingClient: Array<Object>,
     public trainingContractor: Array<Object>
-  ){}
+  ) { }
 }
 @Component({
   selector: 'app-create-training',
@@ -57,8 +57,6 @@ export class CreateTrainingComponent implements OnInit {
       trainingSubject: ['', Validators.required],
       trainingDurationInHours: ['', Validators.required],
       trainingDate: ['', Validators.required],
-      image1: ['', Validators.nullValidator],
-      image2: ['', Validators.nullValidator],
       otherAttendies: ['', Validators.required],
       contractorName1: ['', Validators.required],
 
@@ -109,7 +107,7 @@ export class CreateTrainingComponent implements OnInit {
 
   onSubmit() {
     console.log("Id==");
-    console.log(this.registerForm.value)
+    // console.log(this.registerForm.value)
     let clientStaff = document.querySelectorAll('.clientStaff')
     let clientDesignation = document.querySelectorAll('.cleintStaffDesignation')
 
@@ -117,25 +115,25 @@ export class CreateTrainingComponent implements OnInit {
     let contractorDesignation = document.querySelectorAll('.contractorDesignation')
 
     let traningClientStaff = []
-    clientStaff.forEach((staff, ind) =>{
-        let staffName = (<HTMLInputElement>staff).value
-        let staffDesignation = (<HTMLInputElement>clientDesignation[ind]).value
-        let data = {
-          clientName: staffName,
-          description:staffDesignation
-        }
-        traningClientStaff.push(data)
+    clientStaff.forEach((staff, ind) => {
+      let staffName = (<HTMLInputElement>staff).value
+      let staffDesignation = (<HTMLInputElement>clientDesignation[ind]).value
+      let data = {
+        clientName: staffName,
+        description: staffDesignation
+      }
+      traningClientStaff.push(data)
     })
 
     let traningContractor = []
-    contractorName.forEach((staff, ind) =>{
-        let contractorName = (<HTMLInputElement>staff).value
-        let contractorDes = (<HTMLInputElement>contractorDesignation[ind]).value
-        let data = {
-          contractorName: contractorName,
-          contractorDescription:contractorDes
-        }
-        traningContractor.push(data)
+    contractorName.forEach((staff, ind) => {
+      let contractorName = (<HTMLInputElement>staff).value
+      let contractorDes = (<HTMLInputElement>contractorDesignation[ind]).value
+      let data = {
+        contractorName: contractorName,
+        contractorDescription: contractorDes
+      }
+      traningContractor.push(data)
     })
 
     this.registerForm.value.clientId = Number(this.registerForm.value.clientId)
@@ -143,20 +141,39 @@ export class CreateTrainingComponent implements OnInit {
     this.registerForm.value.tradeId = Number(this.registerForm.value.tradeId)
     this.registerForm.value.trainingDurationInHours = Number(this.registerForm.value.trainingDurationInHours)
 
+    // let config = {
+    //   headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    // };
+
+    let img1Data = document.getElementById('img1') as HTMLInputElement
+    let img2Data = document.getElementById('img2') as HTMLInputElement
+    let formParams = new FormData();
+    let file: File = img1Data.files[0]
+    let file1: File = img2Data.files[0]
+    // formParams.append('file', img1)
+    // formParams.append('file1', img2)
+
     let formData = {
-      training : this.registerForm.value,
-      trainingClient:traningClientStaff,
-      trainingContractor: traningContractor
+      training: this.registerForm.value,
+      trainingClient: traningClientStaff,
+      trainingContractor: traningContractor,
+      // file,
+      // file1
+
     }
+    console.log(file1)
+    console.log(formData)
+
+    // return
 
     console.log(formData)
     this.commonSercice.addTraningReport(formData)
-    .subscribe(data =>{
-      console.log(data)
-      this.commonSercice.downloadTrainingReport(data[0].trainingId)
-      .subscribe(data =>{
+      .subscribe(data => {
         console.log(data)
+        this.commonSercice.uploadTrainingReport(data[0].trainingId, file, file1)
+          .subscribe(Idata => {
+            console.log(Idata)
+          })
       })
-    })
   }
 } 

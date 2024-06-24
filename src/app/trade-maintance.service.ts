@@ -60,6 +60,10 @@ export class TradeMaintanceService {
     return this.httpClient.get<Question[]>(this.REST_API_SERVER + '/question/getAllQuestion');
   }
 
+  getQuestionByFilter(tradeId, subgroupId, questionGroupId, queationHeadingId, questionTypeId){
+    return this.httpClient.get<Question[]>(`${this.REST_API_SERVER}/question/getAllQuestion/${tradeId}/${subgroupId}/${questionGroupId}/${queationHeadingId}/${questionTypeId}`);
+  }
+
   getAllChecklist() {
     return this.httpClient.get<Checklist[]>(this.REST_API_SERVER + '/checklist/getAllChecklist');
   }

@@ -33,14 +33,15 @@
       <label>Select Structure</label>
       <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="usersAll">
-          <label class="form-check-label" for="usersAll">
+          <input class="form-check-input" type="checkbox" id="strucutreAll" (change)="selectAllStrucutre($event)"
+          [checked]="structures.length>0 && structures.length === structureList.length">
+          <label class="form-check-label" for="strucutreAll">
             Select All
           </label>
         </div>
         <div class="form-check" *ngFor="let s of structures">
-          <input class="form-check-input stageCheckbox" type="checkbox" [value]="s.structureId"
-            [id]="'stage'+s.structureId">
+          <input class="form-check-input structureCheckbox" type="checkbox" [value]="s.structureId"
+            [id]="'stage'+s.structureId" (change)="addStructure($event)">
           <label class="form-check-label" [for]="'stage'+s.structureId">
             {{s.structureName}}
           </label>
@@ -52,14 +53,15 @@
       <label>Select Trade</label>
       <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="usersAll" >
-          <label class="form-check-label" for="usersAll">
+          <input class="form-check-input" type="checkbox" id="tradeAll" (change)="selectAllTrade($event)"
+          [checked]="trades.length>0 && trades.length === tradeList.length">
+          <label class="form-check-label" for="tradeAll">
             Select All
           </label>
         </div>
         <div class="form-check" *ngFor="let trade of trades">
           <input class="form-check-input tradeCheckbox" type="checkbox" [value]="trade.fkTradeId"
-            [id]="'trade'+trade.fkTradeId" (change)="addStage($event)">
+            [id]="'trade'+trade.fkTradeId" (change)="addTrade($event)">
           <label class="form-check-label" [for]="'trade'+trade.fkTradeId">
             {{trade.tradeName}}
           </label>
@@ -71,14 +73,15 @@
       <label>Responsible Person</label>
       <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="usersAll">
+          <input class="form-check-input" type="checkbox" id="usersAll" (change)="selectAllPerson($event)"
+          [checked]="contractors.length>0 && contractors.length === personList.length">
           <label class="form-check-label" for="usersAll">
             Select All
           </label>
         </div>
         <div class="form-check" *ngFor="let c of contractors">
-          <input class="form-check-input stageCheckbox" type="checkbox" [value]="c.contractorId" [id]="'contractor'+c.contractorId"
-            (change)="addStage($event)">
+          <input class="form-check-input personCheckbox" type="checkbox" [value]="c.contractorId"
+            [id]="'contractor'+c.contractorId" (change)="addPerson($event)">
           <label class="form-check-label" [for]="'contractor'+c.contractorId">
             {{c.contractorName}}
           </label>
@@ -90,14 +93,15 @@
       <label>Client Staff</label>
       <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="usersAll">
-          <label class="form-check-label" for="usersAll">
+          <input class="form-check-input" type="checkbox" id="staffAll" (change)="selectAllStaff($event)"
+          [checked]="clientStaffs.length>0 && clientStaffs.length === staffList.length">
+          <label class="form-check-label" for="staffAll">
             Select All
           </label>
         </div>
         <div class="form-check" *ngFor="let staff of clientStaffs">
-          <input class="form-check-input stageCheckbox" type="checkbox" [value]="staff.clientStaffId" [id]="'staff'+staff.clientStaffId"
-              (change)="addStage($event)">
+          <input class="form-check-input staffCheckbox" type="checkbox" [value]="staff.clientStaffId"
+            [id]="'staff'+staff.clientStaffId" (change)="addStaff($event)">
           <label class="form-check-label" [for]="'staff'+staff.clientStaffId">
             {{staff.clientName}}
           </label>

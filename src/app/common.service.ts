@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Checklist } from './checklist/checklist.component';
 import { ProjectData, ProjectView } from './project/project.component';
@@ -648,12 +648,43 @@ export class CommonService {
 
 
   //TRAINING CONDUCTED REPORT API
-  addTraningReport(data:traningReportData): Observable<CommonService>{
-    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/report/addtrainingdata`, data)
+  addTraningReport(data): Observable<CommonService>{
+    //  let config = {
+    //   headers: new HttpHeaders({ }),
+    // };
+    // let formParams = new FormData();
+    // let file : File = data.file
+    // let file2 : File = data.file2
+    // formParams.append('file', file)
+    // formParams.append('file1', file2)
+   
+    // formParams.append('training', data.training)
+    // formParams.append('trainingClient', data.trainingClient)
+    // formParams.append('trainingContractor', data.trainingContractor)
+    // console.log(formParams)
+
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/training/addtrainingdata`, data)
+  }
+
+  uploadTrainingReport(id, file:File, file1:File){
+    let config = {
+        headers: new HttpHeaders({'Content-Type': 'multipart/form-data' }),
+      };
+      let formParams = new FormData();
+     
+      formParams.append('file', file)
+      formParams.append('file1', file1)
+    return this.httpClient.post<CommonService>(`${this.REST_API_SERVER}/training/uploadtrainingimages/${id}`, formParams, config)
+      
+  }
+
+
+  getAllTraningReport(){
+    return this.httpClient.get<Array<any>>(`${this.REST_API_SERVER}/training/getall`)
   }
 
   downloadTrainingReport(id){
-    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadTraining/${id}`)
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadTrainingg/${id}`)
   }
 
 
@@ -661,9 +692,32 @@ export class CommonService {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/question/getQuestionbytrade/${tradeId}`)
   }
 
+  //REPORT DWONLOAD
 
   //Signoff report download
   downloadSignOffReport(id){
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloaddSaallocation/${id}`)
   }
+
+  //KICKOFF REPORT
+  downloadKickoffReport(projectId, clientId, data){
+    return this.httpClient.post(`${this.REST_API_SERVER}/report/downloadkickoffreport/${projectId}/${clientId}`, data)
+  }
+
+  //QUALITY INSPECTION PARAMETER
+  downloadQualityInspectionParameter(projectId, clientId, trade, clientRep, cqraRep){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadqualityinspectionparameters/${projectId}/${clientId}/${trade}/${clientRep}/${cqraRep}`)
+  }
+
+  //QUALITY INSPECTION PARAMETER
+  downloadOpportunitiesForImprovement(projectId, clientId, clientRep, cqraRep, data){
+    return this.httpClient.post(`${this.REST_API_SERVER}/report/downloadopportunitiesforimprovementreport/${projectId}/${clientId}/${clientRep}/${cqraRep}`, data)
+  }
+
+
+  //SCHEME MOM
+  downloadSchemeMomReport(id){
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadminutesofmeeting/${id}`)
+  }
+
 }

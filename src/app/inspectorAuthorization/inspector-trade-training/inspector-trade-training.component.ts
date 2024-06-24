@@ -12,17 +12,28 @@ import { data } from 'jquery';
 import { Key } from 'protractor';
 import { SnackBarComponent } from 'src/app/loader/snack-bar/snack-bar.component';
 
+export class DeclarationUser {
+  constructor(
+    public userId: Number,
+    public userName: String,
+    public email: String,
+    public mobile: String,
+    public trainingAttachment: Boolean,
+    public trainingData: String
+  ) { }
+}
 @Component({
   selector: 'app-inspector-trade-training',
   templateUrl: './inspector-trade-training.component.html',
   styleUrls: ['./inspector-trade-training.component.css']
 })
+
 export class InspectorTradeTrainingComponent implements OnInit {
   title = "Datatables";
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
+  dtTrigger: Subject<DeclarationUser> = new Subject();
 
   dtElement2: DataTableDirective;
   dtOptions2: DataTables.Settings = {};
@@ -36,7 +47,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
 
   isTradeLoad: boolean = false
 
-  userTradeTrainingData = {}
+  userTradeTrainingData: DeclarationUser[] = []
 
   usertradeDetailsData: any = {} //this data is form full screen modal according to user
 
@@ -66,6 +77,8 @@ export class InspectorTradeTrainingComponent implements OnInit {
       scrollX: true
     };
 
+    this.dtTrigger.next()
+
     this.isTradeLoad = true
     this.tradeService.getAllTrades()
       .subscribe(data => {
@@ -93,13 +106,51 @@ export class InspectorTradeTrainingComponent implements OnInit {
     this.inspectionTraining.getAllUserTradeTraining()
       .subscribe(data => {
         console.log(data)
-        this.userTradeTrainingData = this.generateDataFromTradeUserList(data)
+        // this.userTradeTrainingData = this.generateDataFromTradeUserList(data)
+        this.userTradeTrainingData = this.generateDataForUserList(data)
         this.dtTrigger.next()
         this.loadData = false
       })
   }
 
   allocatedtrade = {}
+
+  generateDataForUserList(data) {
+    let ListArray = {}
+    let list = []
+    let srNo = 1
+    data.forEach(item => {
+      if (item.userId != 0) {
+        if (!ListArray[item.userId]) {
+          let userData = {
+            srNo: srNo,
+            userId: item.userId,
+            userName: item.username,
+            email: item.email,
+            mobile: item.mobile,
+            trainingAttachment: item.trainingAttachment ? item.trainingAttachment : false,
+            trainingData: new Date(item.trainingDate).toISOString().slice(0, 10),
+          }
+          list.push(userData)
+          ListArray[item.userId] = true
+
+        }
+
+
+      }
+
+      if (this.allocatedtrade[item.userId]) {
+        this.allocatedtrade[item.userId].push(item.tradeId)
+
+      } else {
+        this.allocatedtrade[item.userId] = []
+        this.allocatedtrade[item.userId].push(item.tradeId)
+      }
+    });
+
+    console.log(list)
+    return list
+  }
 
   generateDataFromTradeUserList(data) {
     let ListArray = {}
@@ -248,7 +299,7 @@ export class InspectorTradeTrainingComponent implements OnInit {
     // let file: File = e.target.files[0]
     console.log(file)
 
-    this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId,tradeId, file)
+    this.inspectionTraining.uploadTrainingAttachment(this.usertradeDetailsData.userId, tradeId, file)
       .subscribe(data => {
         console.log(data, 'uploaded')
         this.uploadTraingLoad[tradeId] = {
