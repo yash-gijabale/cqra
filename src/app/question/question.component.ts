@@ -71,6 +71,7 @@ export class QuestionComponent implements OnInit {
   dtTrigger: Subject<Question> = new Subject();
   questions: Question[];
   isLoading: boolean
+  selectedQuestion: Question;
 
   constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
@@ -81,7 +82,6 @@ export class QuestionComponent implements OnInit {
       this.questions = data;
       this.dtTrigger.next();
       this.isLoading = false
-
     }, (err) => {
       console.log('-----> err', err);
     })
@@ -92,20 +92,28 @@ export class QuestionComponent implements OnInit {
     this.router.navigate(['createQuestion', id])
   }
 
-  // editforQuestion(id,){
-  //   this.router.navigate(['createQuestion',id])
-  // }
+
+  editforQuestion(id) {
+    let queId = id
+    // console.log('queId', queId)
+    localStorage.setItem('queId', queId.toString());
+
+    let que = this.questions.find(question => question.questionId === queId);
+    console.log(que);
+    this.selectedQuestion = que;
+    this.router.navigate(['createQuestion', -1]);
+  }
 
 
 
-  deActivateQuestion(id){
+  deActivateQuestion(id) {
     let isDeactivate = confirm('Are you sure want to deactivate?')
-    if(isDeactivate){
+    if (isDeactivate) {
       this.tradeMaintanceService.deActivateQuestion(id)
-      .subscribe(data => {
-        console.log('Deactivated')
-        location.reload()
-      })
+        .subscribe(data => {
+          console.log('Deactivated')
+          location.reload()
+        })
     }
   }
 

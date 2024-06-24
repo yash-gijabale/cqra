@@ -12,6 +12,7 @@ import { QuestionHeadingView } from "../question-heading/question-heading.compon
 import { first } from "rxjs/operators";
 import { error } from "console";
 import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
+import { Question } from "../question/question.component";
 
 
 export class QuestionData {
@@ -72,7 +73,10 @@ export class CreateQuestionComponent implements OnInit {
   questionHeadingId: number;
   questionId: number
 
-  unitsOfmeadure:any = []
+  selectedQuestion: Question; ///
+  queId: any
+
+  unitsOfmeadure: any = []
 
   constructor(
     private route: ActivatedRoute,
@@ -84,6 +88,32 @@ export class CreateQuestionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // console.log('seleced Que', this.selectedQuestion)
+    this.queId = +localStorage.getItem('queId');
+    console.log('Stored queId:', this.queId);
+    let queData;
+    if (this.queId) {
+      this.tradeMaintanceService.retriveQuestion(this.queId)
+        .pipe(first())
+        .subscribe(data => {
+          console.log(data);
+          queData = data
+          this.tradeMaintanceService.getSubgroupsByTrades(queData.tradeId).subscribe(data => this.subgroups = data)
+          this.tradeMaintanceService.getQuestiongroupBySubgroup(queData.subgroupId).subscribe(data => this.questionGroups = data)
+          this.tradeMaintanceService.getQuestionHeadingByQuestionGroup(queData.questionGroupId).subscribe(data => this.questionHeading = data)
+          console.log(data)
+          this.questionFrom.patchValue({
+            tradeId: queData.tradeId,
+            subgroupId: queData.subgroupId,
+            questionGroupId: queData.questionGroupId,
+            questionHeadingId: queData.questionHeadingId,
+            questionType: queData.questionType
+          });
+        })
+    }
+
+
+
     this.questionId = this.route.snapshot.params['id']
     let questionData;
     if (this.questionId != -1) {
@@ -168,11 +198,15 @@ export class CreateQuestionComponent implements OnInit {
       verySevere: ['', Validators.nullValidator],
       critical: ['', Validators.nullValidator]
     })
+
+
   }
 
   get f() {
     return this.questionFrom.controls;
   }
+
+
 
 
   getSubgroups() {
@@ -256,4 +290,6 @@ export class CreateQuestionComponent implements OnInit {
 
     }
   }
+
+
 }
