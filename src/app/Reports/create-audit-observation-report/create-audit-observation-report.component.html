@@ -1,0 +1,311 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home </a>
+            </li>
+            <!-- <li class="breadcrumb-item active" *ngIf="typeId == 1">Observation Tracker Report</li>
+            <li class="breadcrumb-item active" *ngIf="typeId == 0">SignOff Report</li> -->
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <!-- <button *ngIf="typeId == 1" type="button"> <a routerLink="/OTRList" style="color: white;">Manage OTR</a>
+            </button>
+            <button *ngIf="typeId == 0" type="button"> <a routerLink="/snaggingDocument" style="color: white;">Manage
+                SignOff Document</a> </button> -->
+            <button>
+              <a routerLink="/manage-audit-observation-report" style="color: white;">Manage Audit Observation
+                Reports</a>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <!-- <h1 *ngIf="typeId == 1"> Create Observation Tracker Report </h1>
+            <h1 *ngIf="typeId == 0"> Create SignOff Report</h1> -->
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+
+            <!-- <div class="col-md-12 mb-3">
+             // <label><b>Select Matser Id:</b></label> <span *ngIf="isLeader" class="badge badge-primary mx-3">Leader</span>
+              <select class="form-control col-md-4" formControlName="masterId" (change)="getMasterData($event)">
+                <option [value]="''">Select Master ID</option>
+                <option [value]="id.masterId" *ngFor="let id of masterIds">{{id.masterId}}</option>
+              </select>
+            </div> -->
+
+            <div class="form-group col-md-6">
+              <label>Select Client</label>
+              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProjects()">
+                <option [value]="0">Please Select</option>
+                <option [value]="client.clientId" *ngFor="let client of clients">
+                  {{client.clientName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Project Name</label>
+              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control"
+                (change)="getStructure()">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Select Structure</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="structureAll" (change)="addStrucutureAll($event)"
+                    [checked]="structures.length && addStructures.length  === structures.length">
+                  <label class="form-check-label" for="structureAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check ml-1" *ngFor="let o of structures">
+                  <input class="form-check-input strucuresCheckbox" type="checkbox" [value]="o.structureId"
+                    [id]="'structure'+o.structureId" (change)="addStrucuture($event)"
+                    [checked]="addStructures.includes(o.structureId)">
+
+                  <label [class]="SelStructure == o.structureId ? 'form-check-label t-bold':'form-check-label'"
+                    role="button" (click)="showStages(o.structureId)">
+                    {{o.structureName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <select [(ngModel)]="SelStructure" formControlName="structureId" class="form-control"
+                (change)="getStages($event)" multiple>
+                <option [value]="0">Please Select</option>
+                <option [value]="o.structureId" *ngFor="let o of structures">
+                  {{o.structureName}}
+                </option>
+              </select> -->
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Select Stages</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="stageAll" (change)="addSatgeAll($event)"
+                    [checked]="stages.length && addStages.length  === stages.length">
+                  <label class="form-check-label" for="stageAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check ml-1" *ngFor="let o of stages">
+                  <input class="form-check-input stageCheckbox" type="checkbox" [value]="o.stageId"
+                    [id]="'stage'+o.stageId" (change)="addstage($event)" [checked]="addStages.includes(o.stageId)">
+
+                  <label [class]="SelStage == o.stageId? 'form-check-label t-bold':'form-check-label'" role="button"
+                    (click)="showTrades()">
+                    {{o.stageName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <label>Select Stages</label>
+              <select formControlName="obstraStage" class="form-control" multiple>
+                <option [value]="0">Please Select</option>
+                <option [value]="o.stageId" *ngFor="let o of stages">
+                  {{o.stageName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div> -->
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Select Trade</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="tradeAll" (change)="addTradeAll($event)"
+                    [checked]="trades.length && addTrades.length  === trades.length">
+                  <label class="form-check-label" for="tradeAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check" *ngFor="let trade of trades">
+                  <input class="form-check-input" type="checkbox" [value]="trade.tardeId" [id]="'trade'+trade.tardeId"
+                    (change)="addTrade($event)" class="tradeCheckbox" [checked]="addTrades.includes(trade.tardeId)">
+                  <label class="form-check-label" [for]="'trade'+trade.tardeId">
+                    {{trade.tradeName}}
+                  </label>
+                </div>
+              </div>
+              <!-- <label>Trade</label>
+              <select formControlName="obstraTrade" class="form-control" multiple>
+                <option [value]="trade.fkTradeId" *ngFor="let trade of trades">
+                  {{trade.tradeName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div> -->
+            </div>
+
+            <!-- 
+            <div class="form-group col-md-6">
+              <label>Select Contractor</label>
+              <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="contractorAll" (change)="addContractorAll($event)"
+                    [checked]="contractors.length && addContractors.length  === contractors.length">
+                  <label class="form-check-label" for="contractorAll">
+                    Select All
+                  </label>
+                </div>
+                <div class="form-check" *ngFor="let contractor of contractors">
+                  <input class="form-check-input" type="checkbox" [value]="contractor.contractorId"
+                    [id]="'contractor'+contractor.contractorId" (change)="addContractor($event)"
+                    class="contractorCheckBox" [checked]="addContractors.includes(contractor.contractorId)">
+                  <label class="form-check-label" [for]="'contractor'+contractor.contractorId">
+                    {{contractor.contractorName}}
+                  </label>
+                </div>
+              </div> 
+          </div>
+            -->
+
+            <!-- <div>
+              <label>Select Contractors</label>
+              <select formControlName="obstraTrade" class="form-control" multiple>
+                <option [value]="contractor.contractorId" *ngFor="let contractor of contractors">
+                  {{contractor.contractorName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div>
+            </div> -->
+
+            <!-- <div class="form-group col-md-6">
+            <label>Select Users</label>
+            <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="usersAll" (change)="addUserAll($event)"
+                  [checked]="users.length && addUsers.length  === users.length">
+                <label class="form-check-label" for="usersAll">
+                  Select All
+                </label>
+              </div>
+              <div class="form-check" *ngFor="let user of users">
+                <input class="form-check-input" type="checkbox" [value]="user.userId" [id]="'user'+user.userId"
+                  (change)="addUser($event)" class="userCheckbox" [checked]="addUsers.includes(user.userId)">
+                <label class="form-check-label" [for]="'user'+user.userId">
+                  {{user.userFullName}}
+                </label>
+              </div>
+            </div> </div>-->
+
+            <!--<div> <label>Select Users</label>
+              <select formControlName="obstraTrade" class="form-control" multiple>
+                <option [value]="user.userId" *ngFor="let user of users">
+                  {{user.userFullName}}
+                </option>
+              </select>
+              <div class="invalid-feedback">
+              </div> 
+          </div>-->
+
+
+            <div class="form-group col-md-4">
+              <label>From Date:</label>
+              <input type="date" formControlName="fromDate" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>To date:</label>
+              <input type="date" formControlName="toDate" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <!-- <div class="form-group col-md-4">
+        <label>Cycle of inspection</label>
+        <select formControlName="cycleOfInspection" class="form-control">
+          <option [value]="0">Please Select</option>
+          <option [value]="o.cycle_id" *ngFor="let o of cycle">
+            {{o.cycle_name}}
+          </option>
+        </select>
+      </div> -->
+
+            <div class="form-group col-md-4">
+              <label>Client Rep:</label>
+              <input type="text" formControlName="clientRep" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>CQRA Rep:</label>
+              <input type="text" formControlName="cqraRep" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Report Header:</label>
+              <input type="text" formControlName="reportHeader" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Oth Person:</label>
+              <input type="text" formControlName="otherPerson" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Remark:</label>
+              <input type="text" formControlName="remark" class="form-control">
+              <div class="invalid-feedback">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12 row">
+            <div class="col-md-4">
+              <button class="btn btn-primary">
+                <div *ngIf="submitLoad" class="spinner-border spinner-border-sm" role="status"></div>
+                <span *ngIf="!submitLoad">Save</span>
+              </button>
+            </div>
+            <div class="col-8">
+              <div *ngIf="showClipboard" class="alert alert-success col-md-5 row" role="alert">
+                <div class="col-md-10" id="clipArea">
+                  {{reportName}}
+                </div>
+                <div class="col-md-2">
+                  <i class="fa fa-clipboard" title="Click to copy" style="cursor: pointer;" (click)="copyToClipboard()"
+                    aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <app-snack-bar></app-snack-bar>
+  <app-footer></app-footer>

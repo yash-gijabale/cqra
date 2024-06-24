@@ -1,3 +1,102 @@
-<p>
-  nc-closure-procedure works!
-</p>
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> NC Closure</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="create-viewform">
+        <form [formGroup]="ncClosureProcedure" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="fname" class="col-form-label">Project</label>
+              <select class="form-control col-md-12" [(ngModel)]="SelProject" formControlName="projectId"
+                (change)="getStructure()">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="fname" class="col-form-label">Structure</label>
+              <select class="form-control col-md-12" [(ngModel)]="SelStructure" formControlName="structureId"
+                (change)="getTrade()">
+                <option [value]="0">Please Select</option>
+                <option [value]="structure.structureId" *ngFor="let structure of structures">
+                  {{structure.structureName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="fname" class=" col-form-label">Trade</label>
+              <select class="form-control col-md-12" [(ngModel)]="SelTrade" formControlName="tradeId">
+                <option [value]="">Please Select</option>
+                <option [value]="trade.tardeId" *ngFor="let trade of trades">
+                  {{trade.tradeName}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="form-group btn btn-primary">Find NCs</button>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" style="width:100%">
+            <thead>
+              <tr>
+                <th>Nc Number</th>
+                <th>Nc Description</th>
+                <th>Stadge</th>
+                <th>Nature Of NC</th>
+                <th>Contractor</th>
+                <th>Open Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="action-commonview">
+                    <button type="text" (click)="editReport(client.id)">
+                      <span class="edit-tessst">
+                        <i class="las la-pencil-alt"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+      <!-- Example DataTables Card-->
+
+    </div>
+  </div>
+  <app-footer></app-footer>

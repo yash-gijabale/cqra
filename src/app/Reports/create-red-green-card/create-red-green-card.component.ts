@@ -23,7 +23,8 @@ export class CreateRedGreenCardComponent implements OnInit {
   structures: StructureData[] = []
   stages: StageData[] = []
   trades: TradeData[] = []
-  subgroups: SubgroupData[] = []
+  subgroups: any
+
 
   SelClient: any
   SelProject: any

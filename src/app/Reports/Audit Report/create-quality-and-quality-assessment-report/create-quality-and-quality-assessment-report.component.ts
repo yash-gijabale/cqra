@@ -1,62 +1,56 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ClientData } from '../client/client.component';
-import { ClientServiceService } from '../service/client-service.service';
-import { CommonService } from '../common.service';
-import { ProjectData } from '../project/project.component';
-import { StructureData } from '../wbs/wbs.component';
-import { TradeMaintanceService } from '../trade-maintance.service';
+import { ClientData } from 'src/app/client/client.component';
+import { CommonService } from 'src/app/common.service';
+import { TradeData } from 'src/app/create-tarde/create-tarde.component';
+import { ProjectData } from 'src/app/project/project.component';
+import { ClientServiceService } from 'src/app/service/client-service.service';
+import { TradeMaintanceService } from 'src/app/trade-maintance.service';
+import { Trade } from 'src/app/trade/trade.component';
+import { StructureData } from 'src/app/wbs/wbs.component';
 
 @Component({
-  selector: 'app-create-nc-log-report',
-  templateUrl: './create-nc-log-report.component.html',
-  styleUrls: ['./create-nc-log-report.component.css']
+  selector: 'app-create-quality-and-quality-assessment-report',
+  templateUrl: './create-quality-and-quality-assessment-report.component.html',
+  styleUrls: ['./create-quality-and-quality-assessment-report.component.css']
 })
-export class CreateNcLogReportComponent implements OnInit {
-  ncLogForm: FormGroup;
+export class CreateQualityAndQualityAssessmentReportComponent implements OnInit {
+  qualityAssessmentForm: FormGroup
 
-  submitted = false;
-  SelProject: any
   SelClient: any
-  // SelTrade: any
-  // SelStructure: any
+  SelProject: any
+
   clients: ClientData[] = []
   projects: ProjectData[] = []
   structures: StructureData[] = []
-  trades: any
+  trades: TradeData[] = []
 
-  addTrades = []
   addStructures = []
-
-
+  addTrades = []
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private clientServiceService: ClientServiceService,
+    private clientService: ClientServiceService,
     private commonService: CommonService,
     private tradeService: TradeMaintanceService,
-
   ) { }
 
   ngOnInit() {
-
-    this.clientServiceService.getAllClients().subscribe((data) => {
-      console.log(data)
+    this.clientService.getAllClients().subscribe((data) => {
       this.clients = data
     })
 
-    this.ncLogForm = this.formBuilder.group({
+    this.qualityAssessmentForm = this.formBuilder.group({
       clientId: ['', Validators.required],
       projectId: ['', Validators.required],
-      reportFrom: ['', Validators.required],
-      reportTo: ['', Validators.required],
-      approvedBy: ['', Validators.required],
-      designation: ['', Validators.required],
+      coverage: ['', Validators.required],
+      inspectionDate: ['', Validators.required],
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
+      transPage: ['', Validators.required],
+      img1: ['', Validators.required],
+      img2: ['', Validators.required],
     })
-
   }
 
   getProject() {
@@ -67,23 +61,16 @@ export class CreateNcLogReportComponent implements OnInit {
 
   getStructure() {
     this.commonService.getStructureByProjectId(this.SelProject).subscribe((data) => {
-      console.log(data)
       this.structures = data
+      console.log(data)
     })
+
 
     this.tradeService.getProjectTrades(this.SelProject).subscribe((data) => {
-      console.log(data);
       this.trades = data
+      console.log(data)
     })
   }
-
-  // getTrade() {
-  //   this.tradeService.getProjectTrades(this.SelProject).subscribe((data) => {
-  //     console.log(data);
-  //     this.trades = data
-  //   })
-  // }
-
 
   addCheckboxData(arry, e) {
     let id = Number(e.target.value)
@@ -111,7 +98,7 @@ export class CreateNcLogReportComponent implements OnInit {
     console.log('trades', this.addTrades)
   }
 
-  //all checkbox
+  //addAll Checkbox
   addAllCheckboxData(arry: number[], e: Event, checkboxSelector: string) {
     const isChecked = (e.target as HTMLInputElement).checked;
     if (isChecked) {
@@ -128,29 +115,31 @@ export class CreateNcLogReportComponent implements OnInit {
     }
   }
 
-  addStrucutureAll(e) {
-    this.addAllCheckboxData(this.addStructures, e, '.strucuresCheckbox');
-    // console.log('structures..', this.addStructures);
+  addStructureAll(e) {
+    this.addAllCheckboxData(this.addStructures, e, '.StructureCheckbox');
+    console.log('structures..', this.addStructures);
 
   }
-
   addTradeAll(e) {
     this.addAllCheckboxData(this.addTrades, e, '.tradeCheckbox');
-    // console.log('trades..', this.addTrades);
+    console.log('trades..', this.addTrades);
 
   }
+
+
 
 
   onSubmit() {
     let formData = {
-      ncLogReport: {
-        ...this.ncLogForm.value,
+      qualityAssessmentData: {
+        ...this.qualityAssessmentForm.value,
         structures: this.addStructures,
         trades: this.addTrades
       }
     }
     console.log(formData)
-
   }
 
-}  
+
+
+}

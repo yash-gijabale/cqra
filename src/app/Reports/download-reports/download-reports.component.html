@@ -1,0 +1,124 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Download Reports</li>
+          </ol>
+        </div>
+        <!-- <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a style="color: white; text-decoration: none;"
+                routerLink="/manage-method-statement">Manage Method Statement</a></button>
+          </div>
+        </div> -->
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Download Reports</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="downloadReportForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+
+            <div class="form-group col-md-6">
+              <label>Report From</label>
+              <input type="date" class="form-control" formControlName="reportFrom"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Report To</label>
+              <input type="date" class="form-control" formControlName="reportTo"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }">
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Client Name</label>
+              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProject()">
+                <option [value]="0">Please Select</option>
+                <option [value]="client.clientId" *ngFor="let client of clients">
+                  {{client.clientName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+                <div *ngIf="f.selClient.errors.required">client is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Project Name</label>
+              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Report Type</label>
+              <select [(ngModel)]="SelReportType" formControlName="reportType" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Report Number</label>
+              <select [(ngModel)]="SelReportNo" formControlName="reportNumber" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
+            </div>
+
+            <!-- <div class="form-group col-md-4">
+              <label>Severity</label>
+              <select formControlName="severity" class="form-control">
+                <option [value]="">Please Select</option>
+                <option [value]="'severe'">Severe</option>
+                <option [value]="'very_severe'">Very Severe</option>
+                <option [value]="'extreme'">Extreme</option>
+              </select>
+              <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
+                <div *ngIf="f.selTrade.errors.required">Severity is required</div>
+              </div>
+            </div> -->
+
+          </div>
+          <br>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-1">Download Report</button>
+            <button type="reset" class="btn btn-primary mr-1">Reset</button>
+          </div>
+          <!-- <button type="submit">Save</button> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

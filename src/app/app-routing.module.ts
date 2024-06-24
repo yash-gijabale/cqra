@@ -152,6 +152,26 @@ import { MockupNotApprovedComponent } from './Alerts/Ext/mockup-not-approved/moc
 import { NcNotClosedComponent } from './Alerts/Ext/nc-not-closed/nc-not-closed.component';
 import { NcRedAlertComponent } from './Alerts/Ext/nc-red-alert/nc-red-alert.component';
 import { CreateNcCountObservationComponent } from './Reports/NcCountAndObservation/create-nc-count-observation/create-nc-count-observation.component';
+import { CreateQualityObservationComponent } from './Reports/create-quality-observation/create-quality-observation.component';
+import { QualityObservationComponent } from './Reports/quality-observation/quality-observation.component';
+import { CreateQualityObservationReportComponent } from './Reports/create-quality-observation-report/create-quality-observation-report.component';
+import { QualityObservationReportComponent } from './Reports/quality-observation-report/quality-observation-report.component';
+import { MethodStatementComponent } from './Reports/method-statement/method-statement.component';
+import { CreateMethodStatementComponent } from './Reports/create-method-statement/create-method-statement.component';
+import { AddNcComponent } from './Reports/add-nc/add-nc.component';
+import { DownloadReportsComponent } from './Reports/download-reports/download-reports.component';
+import { DeletedNcReportComponent } from './Reports/deleted-nc-report/deleted-nc-report.component';
+import { EditGoodworkPracticesComponent } from './Reports/edit-goodwork-practices/edit-goodwork-practices.component';
+import { NcClosureProcedureComponent } from './nc-closure-procedure/nc-closure-procedure.component';
+import { CreateInspectionSurveyReportComponent } from './Reports/Audit Report/create-inspection-survey-report/create-inspection-survey-report.component';
+import { InspectionSurveyReportComponent } from './Reports/Audit Report/inspection-survey-report/inspection-survey-report.component';
+import { CreateAuditObservationReportComponent } from './Reports/create-audit-observation-report/create-audit-observation-report.component';
+import { AuditObservationReportComponent } from './Reports/audit-observation-report/audit-observation-report.component';
+import { ProtocolQipNotFinialiseComponent } from './Alerts/Ext/protocol-qip-not-finialise/protocol-qip-not-finialise.component';
+import { ClientSupervisorEngineerChangedComponent } from './Alerts/Ext/client-supervisor-engineer-changed/client-supervisor-engineer-changed.component';
+import { CreateQualityAndQualityAssessmentReportComponent } from './Reports/Audit Report/create-quality-and-quality-assessment-report/create-quality-and-quality-assessment-report.component';
+import { QualityAndQualityAssessmentReportComponent } from './Reports/Audit Report/quality-and-quality-assessment-report/quality-and-quality-assessment-report.component';
+
 
 
 
@@ -187,7 +207,6 @@ const routes: Routes = [
   { path: 'createQualityIndexReport/:id', component: CreateQualityIndexReportComponent },
   { path: 'createNcsStatusReport/:id', component: CreateNcsStatusReportComponent },
   { path: 'createNCClosureHistoryReport/:id', component: CreateNCClosureHistoryComponent },
-  { path: 'createNcLogReport/:id', component: CreateNcLogReportComponent },
 
   { path: 'users', component: UsersComponent },
   { path: 'createUser/:id', component: CreateUserComponent },
@@ -210,7 +229,8 @@ const routes: Routes = [
   { path: 'createMisReport/:id', component: CreateMisReportComponent },
 
   { path: 'userLog', component: UserLogComponent },
-  { path: 'editGoodWork', component: EditConfComponent },
+  // { path: 'editGoodWork', component: EditConfComponent },
+  { path: 'edit-goodwork-practices', component: EditGoodworkPracticesComponent },
   { path: 'editNC', component: EditNonConfComponent },
   { path: 'snaggingDocument', component: SnaggingDocumentComponent },
   { path: 'snaggingReport', component: SnaggingReportComponent },
@@ -305,12 +325,34 @@ const routes: Routes = [
   { path: 'scheme-mom-reports', component: SchemeMomReportsComponent },
   { path: 'create-redGreen-card-token', component: CreateRedGreenCardTokenSummaryComponent },
   { path: 'create-red-green-card', component: CreateRedGreenCardComponent },
+  { path: 'create-quality-observation', component: CreateQualityObservationComponent },
+  { path: 'manage-quality-observation', component: QualityObservationComponent },
+  { path: 'create-quality-observation-report', component: CreateQualityObservationReportComponent },
+  { path: 'manage-quality-observation-report', component: QualityObservationReportComponent },
+  { path: 'create-method-statement', component: CreateMethodStatementComponent },
+  { path: 'manage-method-statement', component: MethodStatementComponent },
+  { path: 'add-nc', component: AddNcComponent },
+  { path: 'download-reports', component: DownloadReportsComponent },
+  { path: 'deleted-nc-report', component: DeletedNcReportComponent },
+  { path: 'nc-closure-procedure', component: NcClosureProcedureComponent },
+  { path: 'createNcLogReport', component: CreateNcLogReportComponent },
+  { path: 'create-audit-observation-report', component: CreateAuditObservationReportComponent },
+  { path: 'manage-audit-observation-report', component: AuditObservationReportComponent },
+
+
+  //audit report
+  { path: 'create-inspection-survey-report', component: CreateInspectionSurveyReportComponent },
+  { path: 'manage-inspection-survey-report', component: InspectionSurveyReportComponent },
+  { path: 'create-quality-and-quality-assessment-report', component: CreateQualityAndQualityAssessmentReportComponent },
+  { path: 'manage-quality-and-quality-assessment-report', component: QualityAndQualityAssessmentReportComponent },
 
 
   //Reports
   { path: 'mockup-not-approved', component: MockupNotApprovedComponent },
   { path: 'nc-not-closed', component: NcNotClosedComponent },
   { path: 'nc-red-alert', component: NcRedAlertComponent },
+  { path: 'protocol-QIP-not-finialise', component: ProtocolQipNotFinialiseComponent },
+  { path: 'client-supervisor-engineer-changed', component: ClientSupervisorEngineerChangedComponent },
 
 
 

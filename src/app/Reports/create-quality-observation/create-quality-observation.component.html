@@ -1,0 +1,100 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Quality Observation</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a style="color: white; text-decoration: none;"
+                routerLink="/manage-quality-observation">Manage Quality Observation</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Quality Observation</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="qualityObservationForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+
+            <div class="form-group col-md-6">
+              <label>Client</label>
+              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProject()">
+                <option [value]="0">Please Select</option>
+                <option [value]="client.clientId" *ngFor="let client of clients">
+                  {{client.clientName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+                <div *ngIf="f.selClient.errors.required">Client is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>Project</label>
+              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control">
+                <option [value]="0">Please Select</option>
+                <option [value]="project.projectId" *ngFor="let project of projects">
+                  {{project.projectName}}
+                </option>
+              </select>
+              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
+                <div *ngIf="f.selProject.errors.required">Project is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Client Representative</label>
+              <input type="text" formControlName="clientRepres" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Cqra Representative</label>
+              <input type="text" formControlName="cqraRepres" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Contractor</label>
+              <input type="text" formControlName="contractor" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Obaservation Date</label>
+              <input type="date" formControlName="obserDate" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Report Header</label>
+              <input type="text" formControlName="reportHeader" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+
+          </div>
+          <br>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
