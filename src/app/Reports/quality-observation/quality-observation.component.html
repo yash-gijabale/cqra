@@ -1,0 +1,88 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> Manage Quality Observations</h1>
+
+            </div>
+          </div>
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <!-- <a routerLink="/create-quality-procedure-amendment/-1"> -->
+              <a routerLink="/create-quality-observation">
+                <button type="button"> Create Quality Observation</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+
+      <div>
+        <div class="form-group col-md-6">
+          <label>Select Client</label>
+          <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProject()">
+            <option [value]="0">Please Select</option>
+            <option [value]="client.clientId" *ngFor="let client of clients">
+              {{client.clientName}}
+            </option>
+          </select>
+          <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
+            <div *ngIf="f.selClient.errors.required">Client is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Project Name</th>
+                <th>Observation Date</th>
+                <th>Client Representative</th>
+                <th>Cqra Representative</th>
+                <th>Report Name</th>
+                <th>Update</th>
+                <th>Add Observation</th>
+                <th>Save Report</th>
+                <th>Download Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><a routerLink=""><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                <td>
+                  <a routerLink="/manage-quality-observation-report"><i class="fa fa-plus-circle"
+                      aria-hidden="true"></i></a>
+                </td>
+                <td><a routerLink=""><i class="fa fa-search" aria-hidden="true"></i></a>
+                </td>
+                <td><a href=""><i class="fa fa-download" aria-hidden="true"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Example DataTables Card-->
+    </div>
+  </div>
+  <app-footer></app-footer>

@@ -15,7 +15,7 @@ import { DataTablesModule } from 'angular-datatables';
 
 // import {MatFormFieldModule} from '@angular/material/form-field';
 
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -175,8 +175,29 @@ import { NcRedAlertComponent } from './Alerts/Ext/nc-red-alert/nc-red-alert.comp
 import { CreateNcCountObservationComponent } from './Reports/NcCountAndObservation/create-nc-count-observation/create-nc-count-observation.component';
 import { NcCountAndObservationQuestionWiseComponent } from './Reports/NcCountAndObservation/nc-count-and-observation-question-wise/nc-count-and-observation-question-wise.component';
 import { NcCountAndObservationStructureWiseComponent } from './Reports/NcCountAndObservation/nc-count-and-observation-structure-wise/nc-count-and-observation-structure-wise.component';
+
+import { CreateQualityObservationComponent } from './Reports/create-quality-observation/create-quality-observation.component';
+import { QualityObservationComponent } from './Reports/quality-observation/quality-observation.component';
+import { CreateQualityObservationReportComponent } from './Reports/create-quality-observation-report/create-quality-observation-report.component';
+import { QualityObservationReportComponent } from './Reports/quality-observation-report/quality-observation-report.component';
+import { CreateMethodStatementComponent } from './Reports/create-method-statement/create-method-statement.component';
+import { MethodStatementComponent } from './Reports/method-statement/method-statement.component';
+import { AddNcComponent } from './Reports/add-nc/add-nc.component';
+import { DownloadReportsComponent } from './Reports/download-reports/download-reports.component';
+import { DeletedNcReportComponent } from './Reports/deleted-nc-report/deleted-nc-report.component';
+import { EditGoodworkPracticesComponent } from './Reports/edit-goodwork-practices/edit-goodwork-practices.component';
+import { CreateInspectionSurveyReportComponent } from './Reports/Audit Report/create-inspection-survey-report/create-inspection-survey-report.component';
+import { InspectionSurveyReportComponent } from './Reports/Audit Report/inspection-survey-report/inspection-survey-report.component';
+import { CreateAuditObservationReportComponent } from './Reports/create-audit-observation-report/create-audit-observation-report.component';
+import { AuditObservationReportComponent } from './Reports/audit-observation-report/audit-observation-report.component';
+import { ProtocolQipNotFinialiseComponent } from './Alerts/Ext/protocol-qip-not-finialise/protocol-qip-not-finialise.component';
+import { ClientSupervisorEngineerChangedComponent } from './Alerts/Ext/client-supervisor-engineer-changed/client-supervisor-engineer-changed.component';
+import { CreateQualityAndQualityAssessmentReportComponent } from './Reports/Audit Report/create-quality-and-quality-assessment-report/create-quality-and-quality-assessment-report.component';
+import { QualityAndQualityAssessmentReportComponent } from './Reports/Audit Report/quality-and-quality-assessment-report/quality-and-quality-assessment-report.component';
+
 import { TrainingReportListComponent } from './Reports/traningReport/training-report-list/training-report-list.component';
 import { OpportunityImprovmentReportComponent } from './Reports/opportunity/opportunity-improvment-report/opportunity-improvment-report.component';
+
 
 
 
@@ -341,8 +362,29 @@ import { OpportunityImprovmentReportComponent } from './Reports/opportunity/oppo
     CreateNcCountObservationComponent,
     NcCountAndObservationQuestionWiseComponent,
     NcCountAndObservationStructureWiseComponent,
+
+    CreateQualityObservationComponent,
+    QualityObservationComponent,
+    CreateQualityObservationReportComponent,
+    QualityObservationReportComponent,
+    CreateMethodStatementComponent,
+    MethodStatementComponent,
+    AddNcComponent,
+    DownloadReportsComponent,
+    DeletedNcReportComponent,
+    EditGoodworkPracticesComponent,
+    CreateInspectionSurveyReportComponent,
+    InspectionSurveyReportComponent,
+    CreateAuditObservationReportComponent,
+    AuditObservationReportComponent,
+    ProtocolQipNotFinialiseComponent,
+    ClientSupervisorEngineerChangedComponent,
+    CreateQualityAndQualityAssessmentReportComponent,
+    QualityAndQualityAssessmentReportComponent,
+
     TrainingReportListComponent,
     OpportunityImprovmentReportComponent,
+
 
   ],
   imports: [
@@ -360,7 +402,7 @@ import { OpportunityImprovmentReportComponent } from './Reports/opportunity/oppo
     // MatFormFieldModule,
     // MatInputModule,
   ],
- 
+
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }, Global],
   bootstrap: [AppComponent]
 })

@@ -10,23 +10,11 @@
 
 }
 
-.modal-btn {
-    border: none;
-    background: #2d5a91;
-    padding: 8px 10px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 400;
-    margin: 5px;
-    border-radius: 5px;
-    letter-spacing: 0.5px;
-}
 
 table.dataTable td,
 table.dataTable th {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: center;
 }
 
 

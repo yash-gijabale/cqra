@@ -1,0 +1,57 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="left-side-header">
+            <div class="create-content-header">
+              <h1> Manage Method Statements</h1>
+
+            </div>
+          </div>
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <!-- <a routerLink="/create-quality-procedure-amendment/-1"> -->
+              <a routerLink="/create-method-statement">
+                <button type="button"> Create Method Statements</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isLoading; then thenBlock"></div>
+      <ng-template #thenBlock>
+        <app-loader></app-loader>
+      </ng-template>
+      <div class="row m-0">
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Project Name</th>
+                <th>Stage Name</th>
+                <th>Trade Name</th>
+                <th>Report No</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Example DataTables Card-->
+    </div>
+  </div>
+  <app-footer></app-footer>

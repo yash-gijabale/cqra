@@ -1,0 +1,70 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid ">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="add-breadcrames">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Quality Observation Report</li>
+          </ol>
+        </div>
+        <div class="right-side-create-view">
+          <div class="create-content-operations">
+            <button type="button"> <a style="color: white; text-decoration: none;"
+                routerLink="/manage-quality-observation-report">Manage Quality Observation Report</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-header_createview">
+        <div class="left-side-header">
+          <div class="create-content-header">
+            <h1>Quality Observation Report</h1>
+          </div>
+        </div>
+      </div>
+      <div class="create-viewform">
+        <form [formGroup]="qualityObservationReportForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+
+            <div class="form-group col-md-4">
+              <label>Observation</label>
+              <textarea class="form-control" formControlName="observation"></textarea>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Remark</label>
+              <textarea class="form-control" formControlName="remark"></textarea>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Location</label>
+              <textarea class="form-control" formControlName="location"></textarea>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Image 1</label>
+              <input type="file" formControlName="img1" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Image 2</label>
+              <input type="file" formControlName="img2" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+            </div>
+
+          </div>
+          <br>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-1">Add And Send</button>
+            <button class="btn btn-primary mr-1">Add And Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
