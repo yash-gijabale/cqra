@@ -74,6 +74,7 @@ export class QuestionComponent implements OnInit {
   dtTrigger: Subject<Question> = new Subject();
   questions: Question[];
   isLoading: boolean
+  selectedQuestion: Question;
 
   trades: Trade[] = []
   subgroups: SubgroupView
@@ -106,7 +107,6 @@ export class QuestionComponent implements OnInit {
       this.questions = data;
       this.dtTrigger.next();
       this.isLoading = false
-
     }, (err) => {
       console.log('-----> err', err);
     })
@@ -121,6 +121,19 @@ export class QuestionComponent implements OnInit {
 
   editQuestion(id) {
     this.router.navigate(['createQuestion', id])
+  }
+
+
+
+  editforQuestion(id) {
+    let queId = id
+    // console.log('queId', queId)
+    localStorage.setItem('queId', queId.toString());
+
+    let que = this.questions.find(question => question.questionId === queId);
+    console.log(que);
+    this.selectedQuestion = que;
+    this.router.navigate(['createQuestion', -1]);
   }
 
   getSubgroups() {
@@ -165,6 +178,7 @@ export class QuestionComponent implements OnInit {
   // editforQuestion(id,){
   //   this.router.navigate(['createQuestion',id])
   // }
+
 
 
 
