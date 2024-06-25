@@ -11,6 +11,9 @@ export class ClientSupervisorEngineerChangedComponent implements OnInit {
 
   projects: ProjectData[] = []
 
+  dtOptions:any
+  dtTrigger:any
+
   constructor(
     private commonService: CommonService,
   ) { }

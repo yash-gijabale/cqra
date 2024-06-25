@@ -17,7 +17,7 @@ import { NcCountReportData } from './nc-count-report/nc-count-report.component';
 import { QualityIndexReport } from './quality-index-report/quality-index-report.component';
 import { InspectionReport, InspectionReportSnappAudit } from './creaate-inspectionreport/creaate-inspectionreport.component';
 import { SnaggingReportView } from './create-snagging-document/create-snagging-document.component';
-import { StepTrackerData } from './create-sampling-step-three/create-sampling-step-three.component';
+// import { StepTrackerData } from './create-sampling-step-three/create-sampling-step-three.component';
 import { ChecklistData } from './create-checklist/create-checklist.component';
 import { MisFromData } from './create-mis-report/create-mis-report.component';
 import { MisReport } from './mis-report/mis-report.component';
@@ -622,7 +622,7 @@ export class CommonService {
   private stepData = new BehaviorSubject(this.test)
   getSamplingStepData = this.stepData.asObservable();
 
-  setSamplingStepData(stepData: StepTrackerData) {
+  setSamplingStepData(stepData: any) {
     this.stepData.next(stepData)
 
   }

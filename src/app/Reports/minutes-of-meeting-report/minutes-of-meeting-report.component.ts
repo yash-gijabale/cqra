@@ -39,6 +39,8 @@ export class MinutesOfMeetingReportComponent implements OnInit {
 
   momReports: SchemeMomReportView
 
+  isLoading:boolean = false
+
   constructor(
     private reportService: ReportService,
     private commonService: CommonService

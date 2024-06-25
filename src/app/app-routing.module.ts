@@ -49,7 +49,7 @@ import { CreateEquipUsedByContractorComponent } from './manualIndexCalulator/equ
 import { NcCloserViewReportComponent } from './nc-closer-view-report/nc-closer-view-report.component';
 import { UserlogReportViewComponent } from './userlog-report-view/userlog-report-view.component';
 import { SamplingComponent } from './sampling/sampling.component';
-import { CreateSamplingComponent } from './create-sampling/create-sampling.component';
+// import { CreateSamplingComponent } from './create-sampling/create-sampling.component';
 import { ProjectChecklistAllocationComponent } from './project-checklist-allocation/project-checklist-allocation.component';
 import { ProjectTradeDetailsComponent } from './project-trade-details/project-trade-details.component';
 import { ProjectTradeSequenceComponent } from './project-trade-sequence/project-trade-sequence.component';
@@ -114,7 +114,7 @@ import { AddRoleComponent } from './add-role/add-role.component';
 import { AddRegionComponent } from './add-region/add-region.component';
 import { CreatePmcComponent } from './create-pmc/create-pmc.component';
 import { PmcListComponent } from './pmc-list/pmc-list.component';
-import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
+// import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
 import { MisAppriciationComponent } from './MIS/mis-appriciation/mis-appriciation.component';
 import { MisDecisionComponent } from './MIS/misDecision/mis-decision/mis-decision.component';
 import { MisInitiativeComponent } from './MIS/mis-initiative/mis-initiative.component';
@@ -278,7 +278,7 @@ const routes: Routes = [
   { path: 'editNcCloserReport/:id', component: NcCloserViewReportComponent },
   { path: 'userlogReportView', component: UserlogReportViewComponent },
   { path: 'sampling', component: SamplingComponent },
-  { path: 'createSampling/:id', component: CreateSamplingComponent },
+  // { path: 'createSampling/:id', component: CreateSamplingComponent },
   { path: 'configureChecklist/:id', component: ProjectChecklistAllocationComponent },
   { path: 'projectTradeDetails/:id', component: ProjectTradeDetailsComponent },
   { path: 'projectTradeSequence/:id', component: ProjectTradeSequenceComponent },
@@ -295,7 +295,7 @@ const routes: Routes = [
   { path: 'regions', component: AddRegionComponent },
   { path: 'createpmc/:id', component: CreatePmcComponent },
   { path: 'pmcList', component: PmcListComponent },
-  { path: 'createSamplingStep3/:id/:id2', component: CreateSamplingStepThreeComponent },
+  // { path: 'createSamplingStep3/:id/:id2', component: CreateSamplingStepThreeComponent },
   { path: 'misAppriciation/:id', component: MisAppriciationComponent },
   { path: 'misDecisionManegament/:id', component: MisDecisionComponent },
   { path: 'misInitiative/:id', component: MisInitiativeComponent },

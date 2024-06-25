@@ -14,10 +14,16 @@ export class NcClosureProcedureComponent implements OnInit {
   ncClosureProcedure: FormGroup
 
   SelProject: any
+  SelStructure:any
+  
 
   projects: ProjectData[] = []
   structures: StructureData[] = []
   trades: any
+  SelTrade:any
+
+  dtOptions:any
+  dtTrigger:any
 
   constructor(
     private formBuilder: FormBuilder,

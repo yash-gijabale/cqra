@@ -15,6 +15,7 @@ export class DownloadReportsComponent implements OnInit {
   downloadReportForm: FormGroup
 
   SelClient: any
+  SelProject:any
 
   clients: ClientData[] = []
   projects: ProjectData[] = []

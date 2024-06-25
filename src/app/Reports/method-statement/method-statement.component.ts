@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./method-statement.component.css']
 })
 export class MethodStatementComponent implements OnInit {
+  isLoading:boolean = false
+  dtOptions:any
+  dtTrigger:any
 
   constructor() { }
 

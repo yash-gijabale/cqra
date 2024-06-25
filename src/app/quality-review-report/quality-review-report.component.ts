@@ -20,6 +20,7 @@ export class QualityReviewReportComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,private router: Router,private clientServiceService:ClientServiceService) { }
 
+  isLoading:boolean = false
   ngOnInit() {
 
   }

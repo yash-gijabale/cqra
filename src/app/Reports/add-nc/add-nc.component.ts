@@ -29,6 +29,8 @@ export class AddNcComponent implements OnInit {
   structures: StructureData[] = []
   trades: Trade[] = []
 
+  SelTrade:any
+  SelClient:any
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,

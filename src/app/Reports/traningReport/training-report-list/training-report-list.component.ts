@@ -24,6 +24,7 @@ export class TrainingReportListComponent implements OnInit {
 
   trainingData: TrainingReportData[]
 
+  isLoading:boolean = false
   constructor(
     private commonService: CommonService,
   ) { }

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportService } from 'src/app/service/report.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
@@ -35,6 +35,7 @@ export class QualityProcedureAmmendmentComponent implements OnInit {
     private reportService: ReportService
   ) { }
 
+  isLoading: boolean = false
   ngOnInit() {
 
     this.dtOptions = {

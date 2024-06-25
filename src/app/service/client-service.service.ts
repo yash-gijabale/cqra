@@ -25,7 +25,7 @@ import { StageOfWork, StageOfWorkData } from '../manualIndexCalulator/stage-of-w
 import { Remarks, RemarkData } from '../manualIndexCalulator/remark/remark/remark.component';
 import { EquipmentList, EquipmentData } from '../user-equipment/user-equipment.component';
 import { UserView } from '../user-log/user-log.component';
-import { ContractorDataForSamplingStep, SamplingData, SamplingView, TradeRowDataForSamplingStep } from '../create-sampling/create-sampling.component';
+// import { ContractorDataForSamplingStep, SamplingData, SamplingView, TradeRowDataForSamplingStep } from '../create-sampling/create-sampling.component';
 import { FirstNote } from '../manualIndexCalulator/firstNote/first-note/first-note.component';
 import { LastNoteData } from '../manualIndexCalulator/lastNote/last-note/last-note.component';
 import { AssignSupervisor } from '../assign-constructor-supervisor/assign-constructor-supervisor.component';
@@ -415,15 +415,15 @@ export class ClientServiceService {
 
 
   getTradesForSamplingStepFirst(projectId){
-    return this.httpClient.get<TradeRowDataForSamplingStep>(`${this.REST_API_SERVER}/gettradegrp/${projectId}`)
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/gettradegrp/${projectId}`)
   }
 
   getTradesForSamplingStepSecond(projectId){
-    return this.httpClient.get<TradeRowDataForSamplingStep>(`${this.REST_API_SERVER}/getstep2tradebypid/${projectId}`)
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getstep2tradebypid/${projectId}`)
   }
 
   getContractorsForSamplingStep(projectId){
-    return this.httpClient.get<ContractorDataForSamplingStep>(`${this.REST_API_SERVER}/getconbypid/${projectId}`)
+    return this.httpClient.get<any>(`${this.REST_API_SERVER}/getconbypid/${projectId}`)
   }
 
   getContratorAssignedStages(projectId, structureId, contractorId, tradeId){
@@ -669,20 +669,20 @@ export class ClientServiceService {
 
 
   //SAMPLING API CALL 
-  createSampling(samplingData: SamplingData): Observable<ClientServiceService> {
+  createSampling(samplingData: any): Observable<ClientServiceService> {
     return this.httpClient.post<ClientServiceService>(this.REST_API_SERVER + '/addSampling', samplingData);
   }
 
   retriveSampling(id) {
-    return this.httpClient.get<SamplingData[]>(`${this.REST_API_SERVER}/Sampling/${id}`)
+    return this.httpClient.get<any[]>(`${this.REST_API_SERVER}/Sampling/${id}`)
   }
 
-  updateSampling(samplingData: SamplingData, id) {
+  updateSampling(samplingData: any, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/Sampling/${id}`, samplingData)
   }
 
   getAllSamplingView() {
-    return this.httpClient.get<SamplingView[]>(`${this.REST_API_SERVER}/getSamplingViews`);
+    return this.httpClient.get<any[]>(`${this.REST_API_SERVER}/getSamplingViews`);
 
   }
 

@@ -17,6 +17,7 @@ export class ProtocolQipNotFinialiseComponent implements OnInit {
   dtTrigger: Subject<Array<any>> = new Subject();
 
   projects: ProjectData[] = []
+  selProject:any
 
   constructor(
     private commonServies: CommonService

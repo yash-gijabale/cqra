@@ -16,7 +16,7 @@ export class CreateQualityObservationComponent implements OnInit {
 
   clients: ClientData[] = []
   projects: ProjectData[] = []
-
+  SelProject:any
   SelClient: any
 
   constructor(

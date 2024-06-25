@@ -65,7 +65,7 @@ export class CreateNcsStatusReportComponent implements OnInit {
 
   }
 
-  get f() { return this.ncStatusForm.controls; }
+  // get f() { return this.ncStatusForm.controls; }
 
 
 

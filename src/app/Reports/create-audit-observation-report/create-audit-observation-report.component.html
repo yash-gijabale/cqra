@@ -74,7 +74,7 @@
               <label>Select Structure</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="structureAll" (change)="addStrucutureAll($event)"
+                  <input class="form-check-input" type="checkbox" id="structureAll"
                     [checked]="structures.length && addStructures.length  === structures.length">
                   <label class="form-check-label" for="structureAll">
                     Select All
@@ -104,7 +104,7 @@
               <label>Select Stages</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="stageAll" (change)="addSatgeAll($event)"
+                  <input class="form-check-input" type="checkbox" id="stageAll"
                     [checked]="stages.length && addStages.length  === stages.length">
                   <label class="form-check-label" for="stageAll">
                     Select All
@@ -135,7 +135,7 @@
               <label>Select Trade</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="tradeAll" (change)="addTradeAll($event)"
+                  <input class="form-check-input" type="checkbox" id="tradeAll" 
                     [checked]="trades.length && addTrades.length  === trades.length">
                   <label class="form-check-label" for="tradeAll">
                     Select All
@@ -290,17 +290,7 @@
                 <span *ngIf="!submitLoad">Save</span>
               </button>
             </div>
-            <div class="col-8">
-              <div *ngIf="showClipboard" class="alert alert-success col-md-5 row" role="alert">
-                <div class="col-md-10" id="clipArea">
-                  {{reportName}}
-                </div>
-                <div class="col-md-2">
-                  <i class="fa fa-clipboard" title="Click to copy" style="cursor: pointer;" (click)="copyToClipboard()"
-                    aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
+
           </div>
         </form>
       </div>

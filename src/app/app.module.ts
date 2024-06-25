@@ -113,7 +113,7 @@ import { NcCloserViewReportComponent } from './nc-closer-view-report/nc-closer-v
 import { EditNcTableFormComponent } from './edit-nc-table-form/edit-nc-table-form.component';
 import { UserlogReportViewComponent } from './userlog-report-view/userlog-report-view.component';
 import { SamplingComponent } from './sampling/sampling.component';
-import { CreateSamplingComponent } from './create-sampling/create-sampling.component';
+// import { CreateSamplingComponent } from './create-sampling/create-sampling.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ProjectChecklistAllocationComponent } from './project-checklist-allocation/project-checklist-allocation.component';
 import { ProjectTradeDetailsComponent } from './project-trade-details/project-trade-details.component';
@@ -132,7 +132,7 @@ import { AddRoleComponent } from './add-role/add-role.component';
 import { AddRegionComponent } from './add-region/add-region.component';
 import { PmcListComponent } from './pmc-list/pmc-list.component';
 import { CreatePmcComponent } from './create-pmc/create-pmc.component';
-import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
+// import { CreateSamplingStepThreeComponent } from './create-sampling-step-three/create-sampling-step-three.component';
 import { MisAppriciationComponent } from './MIS/mis-appriciation/mis-appriciation.component';
 import { MisDecisionComponent } from './MIS/misDecision/mis-decision/mis-decision.component';
 import { MisInitiativeComponent } from './MIS/mis-initiative/mis-initiative.component';
@@ -301,7 +301,7 @@ import { OpportunityImprovmentReportComponent } from './Reports/opportunity/oppo
     EditNcTableFormComponent,
     UserlogReportViewComponent,
     SamplingComponent,
-    CreateSamplingComponent,
+    // CreateSamplingComponent,
     LoaderComponent,
     ProjectChecklistAllocationComponent,
     ProjectTradeDetailsComponent,
@@ -320,7 +320,7 @@ import { OpportunityImprovmentReportComponent } from './Reports/opportunity/oppo
     AddRegionComponent,
     PmcListComponent,
     CreatePmcComponent,
-    CreateSamplingStepThreeComponent,
+    // CreateSamplingStepThreeComponent,
     MisAppriciationComponent,
     MisDecisionComponent,
     MisInitiativeComponent,

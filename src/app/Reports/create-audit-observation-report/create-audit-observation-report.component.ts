@@ -33,6 +33,8 @@ export class CreateAuditObservationReportComponent implements OnInit {
   stages: StageData[] = []
   trades: any
 
+  submitLoad: boolean = false
+
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,

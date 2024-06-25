@@ -15,9 +15,7 @@
           {{o.clientName}}
         </option>
       </select>
-      <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
-        <div *ngIf="f.selClient.errors.required">Client Name is required</div>
-      </div>
+     
     </div>
     <div class="form-group col-md-6">
       <label>Project</label>
@@ -25,16 +23,14 @@
         <option [value]="0">Please Select</option>
         <option *ngFor="let project of projects" [value]="project.projectId">{{project.projectName}}</option>
       </select>
-      <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-        <div *ngIf="f.selProject.errors.required">Project is required</div>
-      </div>
+
     </div>
     <div class="form-group col-md-6">
       <label>Select Structure</label>
       <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="strucutreAll" (change)="selectAllStrucutre($event)"
-          [checked]="structures.length>0 && structures.length === structureList.length">
+            [checked]="structures.length>0 && structures.length === structureList.length">
           <label class="form-check-label" for="strucutreAll">
             Select All
           </label>
@@ -54,7 +50,7 @@
       <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="tradeAll" (change)="selectAllTrade($event)"
-          [checked]="trades.length>0 && trades.length === tradeList.length">
+            [checked]="trades.length>0 && trades.length === tradeList.length">
           <label class="form-check-label" for="tradeAll">
             Select All
           </label>
@@ -74,7 +70,7 @@
       <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="usersAll" (change)="selectAllPerson($event)"
-          [checked]="contractors.length>0 && contractors.length === personList.length">
+            [checked]="contractors.length>0 && contractors.length === personList.length">
           <label class="form-check-label" for="usersAll">
             Select All
           </label>
@@ -91,50 +87,38 @@
 
     <div class="form-group col-md-4">
       <label>Report From </label>
-      <input type="date" formControlName="fromDate" class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+      <input type="date" formControlName="fromDate" class="form-control" />
     </div>
     <div class="form-group col-md-4">
       <label>Report To </label>
-      <input type="date" formControlName="toDate" class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+      <input type="date" formControlName="toDate" class="form-control" />
     </div>
     <div class="form-group col-md-4">
       <label>Approved By </label>
-      <input type="text" formControlName="approvedBy" class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+      <input type="text" formControlName="approvedBy" class="form-control" />
     </div>
     <div class="form-group col-md-4">
       <label>Approver Designation</label>
-      <input type="text" formControlName="designation" class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-      <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-        <div *ngIf="f.clientName.errors.required">Training Date is required</div>
-      </div>
+      <input type="text" formControlName="designation" class="form-control" />
+      
     </div>
     <div class="form-group col-md-4">
       <label>Reviewed By </label>
-      <input type="text" formControlName="reviewedBy" class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+      <input type="text" formControlName="reviewedBy" class="form-control" />
     </div>
     <div class="form-group col-md-4">
       <label>Reviewer Designation</label>
-      <input type="text" formControlName="reviewerDesignation" class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
-      <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
-        <div *ngIf="f.clientName.errors.required">Training Date is required</div>
-      </div>
+      <input type="text" formControlName="reviewerDesignation" class="form-control" />
+
     </div>
     <div class="form-group col-md-4">
       <label>Report Header</label>
-      <input type="text" formControlName="reportHeader" class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+      <input type="text" formControlName="reportHeader" class="form-control" />
     </div>
 
     <div class="form-group col-md-4">
       <label>Remark</label>
-      <input type="text" formControlName="remark" class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+      <input type="text" formControlName="remark" class="form-control" />
     </div>
   </div>
 

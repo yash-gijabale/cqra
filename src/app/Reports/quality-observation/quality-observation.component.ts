@@ -10,8 +10,12 @@ import { ClientServiceService } from 'src/app/service/client-service.service';
   styleUrls: ['./quality-observation.component.css']
 })
 export class QualityObservationComponent implements OnInit {
-  clients: ClientData[] = []
 
+  dtOptions: any
+  dtTrigger:any
+  clients: ClientData[] = []
+  isLoading: boolean = false
+  SelClient: any
   constructor(
     private clientService: ClientServiceService
   ) { }

@@ -36,9 +36,7 @@
                   {{project.projectName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Project is required</div>
-              </div>
+              
             </div>
           </div>
 
@@ -115,44 +113,38 @@
 
             <div class="form-group col-md-6">
               <label>Date From</label>
-              <input type="date" formControlName="dateFrom" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="date" formControlName="dateFrom" class="form-control" />
             </div>
 
 
             <div class="form-group col-md-6">
               <label>Date TO</label>
-              <input type="date" formControlName="dateTo" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="date" formControlName="dateTo" class="form-control" />
             </div>
 
             <div class="form-group col-md-6">
               <label>Type of Status</label>
               <!-- <select formControlName="stsType" class="form-control"> -->
-              <select [(ngModel)]="SelStatus" formControlName="stsType" class="form-control">
+              <select  formControlName="stsType" class="form-control">
                 <option [value]="0">Please Select</option>
                 <option [value]="1">Open NCs</option>
                 <option [value]="2">Close Ncs</option>
                 <option [value]="3">Force Close</option>
                 <option [value]="4">All</option>
               </select>
-              <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
-                <div *ngIf="f.selTrade.errors.required">Type of Status is required</div>
-              </div>
+              
             </div>
 
 
             <div class="form-group col-md-6">
               <label>NC Address To</label>
-              <select [(ngModel)]="SelAddress" formControlName="addressTo" class="form-control">
+              <select formControlName="addressTo" class="form-control">
                 <option [value]="0">Please Select</option>
                 <option [value]="1">Both</option>
                 <option [value]="2">Device</option>
                 <option [value]="3">Web</option>
               </select>
-              <div *ngIf="submitted && f.selTrade.errors" class="invalid-feedback">
-                <div *ngIf="f.selTrade.errors.required">NC Address To is required</div>
-              </div>
+             
             </div>
           </div>
           <br>

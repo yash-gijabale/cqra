@@ -36,9 +36,7 @@
                   {{client.clientName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selClient.errors" class="invalid-feedback">
-                <div *ngIf="f.selClient.errors.required">Client is required</div>
-              </div>
+             
             </div>
 
 
@@ -51,9 +49,7 @@
                   {{project.projectName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.selProject.errors" class="invalid-feedback">
-                <div *ngIf="f.selProject.errors.required">Project is required</div>
-              </div>
+              
             </div>
             <!-- </div> -->
 
@@ -67,9 +63,7 @@
                   {{structure.structureName}}
                 </option>
               </select>
-              <div *ngIf="submitted && f.SelStructure.errors" class="invalid-feedback">
-                <div *ngIf="f.SelStructure.errors.required">Project is required</div>
-              </div>
+              
             </div>
             <!-- </div> -->
 
@@ -119,39 +113,33 @@
 
             <div class="form-group col-md-6">
               <label>Report From</label>
-              <input type="date" formControlName="reportFrom" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="date" formControlName="reportFrom" class="form-control" />
             </div>
 
 
             <div class="form-group col-md-6">
               <label>Report To</label>
-              <input type="date" formControlName="reportTo" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="date" formControlName="reportTo" class="form-control" />
             </div>
 
             <div class="form-group col-md-6">
               <label>Approved By</label>
-              <input type="text" formControlName="approvedBy" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="approvedBy" class="form-control" />
             </div>
 
             <div class="form-group col-md-6">
               <label>Approver Designation</label>
-              <input type="text" formControlName="designation" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="designation" class="form-control" />
             </div>
 
             <div class="form-group col-md-6">
               <label>Report Header</label>
-              <input type="text" formControlName="reportHeader" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }" />
+              <input type="text" formControlName="reportHeader" class="form-control" />
             </div>
 
             <div class="form-group col-md-6">
               <label>Note</label>
-              <textarea name="note" class="form-control" formControlName="note"
-                [ngClass]="{ 'is-invalid': submitted && f.clientName.errors }"></textarea>
+              <textarea name="note" class="form-control" formControlName="note"></textarea>
             </div>
 
 

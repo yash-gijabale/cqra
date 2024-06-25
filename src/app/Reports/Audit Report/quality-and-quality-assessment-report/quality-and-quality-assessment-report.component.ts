@@ -10,6 +10,11 @@ import { ProjectData } from 'src/app/project/project.component';
 export class QualityAndQualityAssessmentReportComponent implements OnInit {
   projects: ProjectData[] = []
 
+  dtOptions:any
+  dtTrigger:any
+
+  isLoading: boolean = false
+  SelProject:any
   constructor(
     private commonservice: CommonService
   ) { }

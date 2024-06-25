@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClientServiceService } from '../service/client-service.service';
-import { SamplingView } from '../create-sampling/create-sampling.component';
+// import { SamplingView } from '../create-sampling/create-sampling.component';
 import { DataTableDirective } from "angular-datatables";
 import { Subject } from "rxjs";
 import { Router } from '@angular/router';
@@ -12,12 +12,12 @@ import { Router } from '@angular/router';
 export class SamplingComponent implements OnInit {
 
 
-  allSampling: SamplingView[]
+  allSampling: any
   title = "datatables";
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<SamplingView> = new Subject();
+  dtTrigger: Subject<any> = new Subject();
 
   isLoading: boolean;
   constructor(

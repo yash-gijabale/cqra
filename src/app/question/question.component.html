@@ -27,7 +27,7 @@
         <label class="col-md-12"><b>Filters</b></label>
         <div class="row col-md-12">
 
-          <div class="form-group col-md-4" *ngIf="!showCadre">
+          <div class="form-group col-md-4">
             <label>Trade</label>
             <select class="form-control" [(ngModel)]="SelTrade" (change)="getSubgroups()">
               <option [value]="0" [selected]="true">Please Select</option>
@@ -37,7 +37,7 @@
             </select>
           </div>
 
-          <div class="form-group col-md-4" *ngIf="!showCadre">
+          <div class="form-group col-md-4">
             <label>Subgroup</label>
             <select class="form-control" [(ngModel)]="SelSubgroup" (change)="getQuestionGroup()">
               <option [value]="0" [selected]="true">Please Select</option>
@@ -47,7 +47,7 @@
             </select>
           </div>
 
-          <div class="form-group col-md-4" *ngIf="!showCadre">
+          <div class="form-group col-md-4">
             <label>Question Group</label>
             <select class="form-control" [(ngModel)]="SelQuestionGroup" (change)="getQuestionHeading()">
               <option [value]="0" [selected]="true">Please Select</option>
@@ -57,7 +57,7 @@
             </select>
           </div>
 
-          <div class="form-group col-md-4" *ngIf="!showCadre">
+          <div class="form-group col-md-4">
             <label>Question Heading</label>
             <select class="form-control" [(ngModel)]="SelQuestionHeading">
               <option [value]="0" [selected]="true">Please Select</option>
@@ -67,7 +67,7 @@
             </select>
           </div>
 
-          <div class="form-group col-md-4" *ngIf="!showCadre">
+          <div class="form-group col-md-4">
             <label>Question Type</label>
             <select class="form-control" [(ngModel)]="SelQuestionType">
               <option [value]="0" [selected]="true">Please Select</option>

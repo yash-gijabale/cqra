@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QualityObservationReportComponent implements OnInit {
 
+  isLoading:boolean = false
+  dtOptions:any
+  dtTrigger:any
   constructor() { }
 
   ngOnInit() {
