@@ -75,13 +75,14 @@
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="structureAll"
-                    [checked]="structures.length && addStructures.length  === structures.length">
+                    [checked]="structures.length && addStructures.length  === structures.length"
+                    (change)="addStructureAll($event)">
                   <label class="form-check-label" for="structureAll">
                     Select All
                   </label>
                 </div>
                 <div class="form-check ml-1" *ngFor="let o of structures">
-                  <input class="form-check-input strucuresCheckbox" type="checkbox" [value]="o.structureId"
+                  <input class="form-check-input structureCheckbox" type="checkbox" [value]="o.structureId"
                     [id]="'structure'+o.structureId" (change)="addStrucuture($event)"
                     [checked]="addStructures.includes(o.structureId)">
 
@@ -105,7 +106,7 @@
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="stageAll"
-                    [checked]="stages.length && addStages.length  === stages.length">
+                    [checked]="stages.length && addStages.length  === stages.length" (change)="addStageAll($event)">
                   <label class="form-check-label" for="stageAll">
                     Select All
                   </label>
@@ -135,15 +136,16 @@
               <label>Select Trade</label>
               <div class="card col-md-12" style="overflow-y: auto; height: 150px;">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="tradeAll" 
-                    [checked]="trades.length && addTrades.length  === trades.length">
+                  <input class="form-check-input" type="checkbox" id="tradeAll"
+                    [checked]="trades.length && addTrades.length  === trades.length" (change)="addTradeAll($event)">
                   <label class="form-check-label" for="tradeAll">
                     Select All
                   </label>
                 </div>
                 <div class="form-check" *ngFor="let trade of trades">
-                  <input class="form-check-input" type="checkbox" [value]="trade.tardeId" [id]="'trade'+trade.tardeId"
-                    (change)="addTrade($event)" class="tradeCheckbox" [checked]="addTrades.includes(trade.tardeId)">
+                  <input class="form-check-input tradeCheckbox" type="checkbox" [value]="trade.tardeId"
+                    [id]="'trade'+trade.tardeId" (change)="addTrade($event)"
+                    [checked]="addTrades.includes(trade.tardeId)">
                   <label class="form-check-label" [for]="'trade'+trade.tardeId">
                     {{trade.tradeName}}
                   </label>

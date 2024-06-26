@@ -6,6 +6,7 @@ import { TradeData } from 'src/app/create-tarde/create-tarde.component';
 import { ProjectData } from 'src/app/project/project.component';
 import { ClientServiceService } from 'src/app/service/client-service.service';
 import { TradeMaintanceService } from 'src/app/trade-maintance.service';
+import { Trade } from 'src/app/trade/trade.component';
 import { StageData, StructureData } from 'src/app/wbs/wbs.component';
 
 @Component({
@@ -31,7 +32,7 @@ export class CreateAuditObservationReportComponent implements OnInit {
   projects: ProjectData[] = []
   structures: StructureData[] = []
   stages: StageData[] = []
-  trades: any
+  trades: Trade[] = []
 
   submitLoad: boolean = false
 
@@ -114,6 +115,39 @@ export class CreateAuditObservationReportComponent implements OnInit {
   addTrade(e) {
     this.addCheckboxData('addTrades', e)
     console.log('trades', this.addTrades)
+  }
+
+
+  //slectall checkbox
+  addAllCheckboxData(arry: number[], e: Event, checkboxSelector: string) {
+    const isChecked = (e.target as HTMLInputElement).checked;
+    if (isChecked) {
+      $(checkboxSelector).prop('checked', true);
+      const elements = document.querySelectorAll(checkboxSelector);
+      arry.length = 0;
+      elements.forEach(item => {
+        const id = Number((item as HTMLInputElement).value);
+        arry.push(id);
+      });
+    } else {
+      $(checkboxSelector).prop('checked', false);
+      arry.length = 0;
+    }
+  }
+
+  addStructureAll(e) {
+    this.addAllCheckboxData(this.addStructures, e, '.structureCheckbox');
+    console.log('structures..', this.addStructures);
+  }
+
+  addStageAll(e) {
+    this.addAllCheckboxData(this.addStages, e, '.stageCheckbox');
+    console.log('stages..', this.addStages);
+  }
+
+  addTradeAll(e) {
+    this.addAllCheckboxData(this.addTrades, e, '.tradeCheckbox');
+    console.log('trades..', this.addTrades);
   }
 
 

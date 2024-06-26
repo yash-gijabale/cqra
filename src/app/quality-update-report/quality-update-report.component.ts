@@ -138,11 +138,9 @@ export class QualityUpdateReportComponent implements OnInit {
 
   onSubmit() {
     let formData = {
-      qualityUpdateReport: {
-        ...this.qualityUpdateForm.value,
-        stages: this.addStages,
-        trades: this.addTrades
-      }
+      ...this.qualityUpdateForm.value,
+      stages: this.addStages,
+      trades: this.addTrades
     }
     console.log(formData)
   }
