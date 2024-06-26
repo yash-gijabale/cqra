@@ -43,6 +43,7 @@ export class AuthenticateionService {
           localStorage.setItem('username', userData.username);
           localStorage.setItem('id', userData.id);
           localStorage.setItem('email', userData.email);
+          localStorage.setItem('roleId', userData.roleId);
           localStorage.setItem('token', tokenStr);
           // localStorage.setItem('userMenu', JSON.stringify(this.user1));
           return userData;

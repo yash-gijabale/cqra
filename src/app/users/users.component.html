@@ -88,7 +88,7 @@
                         <a routerLink="/createUserAccess/{{user.id}}">
                           <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
                         </a>
-                        <button class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
+                        <button *ngIf="userRole === 3" class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
                           (click)="setResetUser(user)">Reset
                           Password</button>
                       </td>

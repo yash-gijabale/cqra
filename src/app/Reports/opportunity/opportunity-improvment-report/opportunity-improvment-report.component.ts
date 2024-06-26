@@ -15,14 +15,9 @@ import { TradeData } from 'src/app/create-tarde/create-tarde.component';
 export class OpportunityImprovmentReportComponent implements OnInit {
   qualityProcedureForm: FormGroup
 
-
   clients: ClientData[];
   projects: ProjectData[];
   trades: TradeData[];
-
-  SelClientId: string = '0'
-  SelProjectId: string = '0'
-  SelTradeId: string = '0'
 
 
   SelClient: any

@@ -22,28 +22,31 @@
         </div>
       </div>
 
-      <div *ngIf="isLoading; then thenBlock"></div>
-      <ng-template #thenBlock>
-        <app-loader></app-loader>
-      </ng-template>
 
-      <div>
-        <div class="form-group col-md-6">
-          <label>Select Client</label>
-          <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control">
-            <option [value]="0">Please Select</option>
-            <option [value]="client.clientId" *ngFor="let client of clients">
-              {{client.clientName}}
-            </option>
-          </select>
-         
+      <div class="card form-group m-2">
+        <label class="col-md-12"><b>Filters</b></label>
+        <div class="row col-md-12">
+          <div class="form-group col-md-6">
+            <label>Select Client</label>
+            <select [(ngModel)]="selClientId" class="form-control">
+              <option [value]="0">Please Select</option>
+              <option [value]="client.clientId" *ngFor="let client of clients">
+                {{client.clientName}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-warning" (click)="getReportsByClientId()">
+            <span *ngIf="filterLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span *ngIf="!filterLoad">Display</span>
+          </button>
         </div>
       </div>
 
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
-            style="width:100%">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover" style="width:100%">
             <thead>
               <tr>
                 <th>Client Name</th>
@@ -59,16 +62,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+              <tr *ngFor="let report of reports">
+                <td>{{report.qualityObservationClientId}}</td>
+                <td>{{report.qualityObservationSchemasId}}</td>
+                <td>{{report.qualityObservationDateObservation}}</td>
+                <td>{{report.qualityObservationResponsiblePerson}}</td>
+                <td>{{report.qualityObservationCqraRepresentative}}</td>
+                <td>{{report.qualityObservationReportNo}}</td>
                 <td><a routerLink=""><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
                 <td>
-                  <a routerLink="/manage-quality-observation-report"><i class="fa fa-plus-circle"
+                  <a [routerLink]="'/manage-quality-observation-report/'+report.qualityObservationId"><i class="fa fa-plus-circle"
                       aria-hidden="true"></i></a>
                 </td>
                 <td><a routerLink=""><i class="fa fa-search" aria-hidden="true"></i></a>
@@ -83,4 +86,5 @@
       <!-- Example DataTables Card-->
     </div>
   </div>
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

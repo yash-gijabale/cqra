@@ -65,7 +65,7 @@ export class UsersComponent implements OnInit {
 
   activeTab: String = 'cqra'
   userLoad: boolean = false
-
+  userRole: Number
   SelUser: string = "0";
   userMenu: any = {}
   constructor(
@@ -77,6 +77,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
 
+    this.userRole = Number(localStorage.getItem('roleId'))
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
@@ -185,7 +186,7 @@ export class UsersComponent implements OnInit {
     userId: 0,
     userName: ''
   }
-  setResetUser(user){
+  setResetUser(user) {
     this.resetPassUser.userId = user.id
     this.resetPassUser.userName = user.userFullName
   }
@@ -195,7 +196,7 @@ export class UsersComponent implements OnInit {
     if (this.resetPassUser.userId) {
       let newPassword = document.getElementById('newPassword') as HTMLInputElement
       let confirmPassword = document.getElementById('confirmPassword') as HTMLInputElement
-      let form =  document.getElementById('resetForm') as HTMLFormElement
+      let form = document.getElementById('resetForm') as HTMLFormElement
       if (newPassword.value !== confirmPassword.value) {
         this.passEror = true
         setTimeout(() => {

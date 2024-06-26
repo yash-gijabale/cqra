@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-quality-observation-report',
@@ -8,11 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class QualityObservationReportComponent implements OnInit {
 
   isLoading:boolean = false
-  dtOptions:any
-  dtTrigger:any
-  constructor() { }
+  reportId:Number
+
+  constructor(
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.reportId = this.route.snapshot.params['id']
   }
 
 }
