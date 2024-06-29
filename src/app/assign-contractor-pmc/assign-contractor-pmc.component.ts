@@ -50,15 +50,15 @@ export class AssignContractorPmcComponent implements OnInit {
   structures: StructureData[]
   stages: StageData[]
   clients: ClientData[]
-  trades: Trade
+  trades: any
   // clientStaffs: clientStaffData
   clientStaffs: any
   contractors: ContractorData
-  supervisors: SupervisorData
-  formans: FormanData
+  supervisors: any
+  formans: any
   isbtnLoading = false
   pmc: Array<PmcView>
-  pmcUser: Array<Object>
+  pmcUser: Array<any>
 
   SelTrade: any
 
@@ -107,6 +107,12 @@ export class AssignContractorPmcComponent implements OnInit {
     this.allocationType = Number(e.target.value)
     console.log(this.allocationType)
     this.selectedTrade = {}
+    this.registerForm.reset()
+    this.trades = []
+    this.stages = []
+    this.pmcUser = []
+    this.isFound = false
+    this.showStatus = false
   }
   getProjects() {
     console.log(this.SelClient)
@@ -116,6 +122,17 @@ export class AssignContractorPmcComponent implements OnInit {
 
     this.pmc = [];
     // this.contractors = [];
+    // this.registerForm.reset()
+    this.stages = []
+    this.units = []
+    this.supervisors = []
+    this.formans = []
+    this.subunits = []
+    this.trades = []
+    this.pmcUser = []
+    this.clientUser= []
+    this.selectedStages = {}
+    this.selectedTrade = {}
 
     this.commonServices.getStructures(this.SelClient, this.SelProject)
       .subscribe(data => {
@@ -168,7 +185,15 @@ export class AssignContractorPmcComponent implements OnInit {
 
   stageLoad: boolean = false
   getStages() {
+    //reset all variables
+    this.selectedStages = {}
+    this.selectedTrade = {}
+    this.stages = []
+    this.units = []
+    this.subunits = []
     this.stageLoad = true
+    this.supervisorData = []
+    this.formanData = []
     this.commonServices.getStages(this.SelClient, this.SelProject, this.SelStructure)
       .subscribe(data => {
         console.log(data)
@@ -254,63 +279,24 @@ export class AssignContractorPmcComponent implements OnInit {
       })
   }
 
-  selectAllTradeCheckbox(e) {
-    console.log(e)
-    if (e.target.checked) {
-      $('.tradeGroups').prop('checked', true);
-    } else {
-      $('.tradeGroups').prop('checked', false);
+  // selectAllTradeCheckbox(e) {
+  //   console.log(e)
+  //   if (e.target.checked) {
+  //     $('.tradeGroups').prop('checked', true);
+  //   } else {
+  //     $('.tradeGroups').prop('checked', false);
 
-    }
-  }
+  //   }
+  // }
 
-  selectAllTradesCheckbox(e) {
-    console.log(e)
-    if (e.target.checked) {
-      $('.tradesCheckbox').prop('checked', true);
-    } else {
-      $('.tradesCheckbox').prop('checked', false);
-    }
-  }
-
-
-  selectAllStageCheckbox(e) {
-    console.log(e)
-    if (e.target.checked) {
-      $('.stagesCheckbox').prop('checked', true);
-    } else {
-      $('.stagesCheckbox').prop('checked', false);
-    }
-  }
-
-
-  //new for all stages
-  selectAllStages(e) {
-    const checked = e.target.checked;
-    if (checked) {
-      this.stages.forEach(stage => {
-        if (!this.selectedStages[this.currentTrade]) {
-          this.selectedStages[this.currentTrade] = [];
-        }
-        if (!this.selectedStages[this.currentTrade].includes(stage.stageId)) {
-          this.selectedStages[this.currentTrade].push(stage.stageId);
-        }
-      });
-    } else {
-      if (this.selectedStages[this.currentTrade]) {
-        this.selectedStages[this.currentTrade] = [];
-      }
-    }
-    console.log(this.selectedStages);
-  }
-
-
-
-
-
-
-
-
+  // selectAllTradesCheckbox(e) {
+  //   console.log(e)
+  //   if (e.target.checked) {
+  //     $('.tradesCheckbox').prop('checked', true);
+  //   } else {
+  //     $('.tradesCheckbox').prop('checked', false);
+  //   }
+  // }
 
 
   //new for select all checkboxes
@@ -333,42 +319,25 @@ export class AssignContractorPmcComponent implements OnInit {
   // }
 
 
-  selectAllUnitCheckbox(e) {
-    console.log(e)
-    if (e.target.checked) {
-      $('.unitsCheckbox').prop('checked', true);
-      let unitsElement = document.querySelectorAll('.unitsCheckbox')
-      let unitsId = []
-      unitsElement.forEach(item => {
-        let id = Number((<HTMLInputElement>item).value)
-        unitsId.push(id)
-      })
+  // selectAllUnitCheckbox(e) {
+  //   console.log(e)
+  //   if (e.target.checked) {
+  //     $('.unitsCheckbox').prop('checked', true);
+  //     let unitsElement = document.querySelectorAll('.unitsCheckbox')
+  //     let unitsId = []
+  //     unitsElement.forEach(item => {
+  //       let id = Number((<HTMLInputElement>item).value)
+  //       unitsId.push(id)
+  //     })
 
-      this.allocationData[Number(this.currentStage)] = unitsId
-      console.log(this.allocationData)
-    } else {
-      $('.unitsCheckbox').prop('checked', false);
-      this.allocationData[Number(this.currentStage)] = []
-    }
-  }
+  //     this.allocationData[Number(this.currentStage)] = unitsId
+  //     console.log(this.allocationData)
+  //   } else {
+  //     $('.unitsCheckbox').prop('checked', false);
+  //     this.allocationData[Number(this.currentStage)] = []
+  //   }
+  // }
 
-  selectAllSubUnitCheckbox(e) {
-    console.log(e)
-    if (e.target.checked) {
-      $('.subUnitsCheckbox').prop('checked', true);
-      let subunitElement = document.querySelectorAll('.subUnitsCheckbox')
-      let subunitsId = []
-      subunitElement.forEach(item => {
-        let id = Number((<HTMLInputElement>item).value)
-        subunitsId.push(id)
-      })
-      this.unitAllocationData[Number(this.currentUnit)] = subunitsId
-      console.log(this.unitAllocationData)
-    } else {
-      $('.subUnitsCheckbox').prop('checked', false);
-      this.unitAllocationData[Number(this.currentUnit)] = []
-    }
-  }
 
 
   stageData = {}
@@ -377,7 +346,7 @@ export class AssignContractorPmcComponent implements OnInit {
   subUnitData = {}
   allocationData = {}
   unitAllocationData = {}
-  units: Array<Object> = []
+  units: Array<any> = []
   currentStage: Number
   currentTrade: any
   unitLoad: boolean = false
@@ -385,15 +354,6 @@ export class AssignContractorPmcComponent implements OnInit {
   disabledUnits: boolean = true
   activeStage = 0
 
-
-  unSelectRemaningStage(e) {
-    // let stageElements = document.querySelectorAll('.stagesCheckbox')
-    // stageElements.forEach(item =>{
-    //   if ((<HTMLInputElement>item).value != e.target.value) {
-    //     (<HTMLInputElement>item).checked = false
-    //   }
-    // })
-  }
   subunits: Array<any> = []
   subunitLoad: boolean = false
   currentUnit: Number
@@ -416,31 +376,27 @@ export class AssignContractorPmcComponent implements OnInit {
     }
   }
 
-  addSubunit(e) {
-    if (e.target.checked) {
-      this.selectedTrade[Number(this.currentStage)][Number(this.currentUnit)].push(Number(e.target.value))
-    } else {
-      this.selectedTrade[Number(this.currentStage)][Number(this.currentUnit)] = this.selectedTrade[Number(this.currentStage)][Number(this.currentUnit)].filter(id => {
-        return id != Number(e.target.value)
-      })
-    }
-    console.log(this.selectedTrade)
-  }
-
 
   getPreAllocation() {
+
     if (this.allocationType === 1) {
       console.log('foreman get')
+
+      this.formanData = []
+      this.supervisorData = []
+      this.selectedTrade = {}
       this.getForemanData()
       console.log('suoervisor get')
       this.getSuprevisorData()
 
     } else if (this.allocationType === 2) {
       console.log('pmc get')
+      this.selectedStages = {}
       this.getPmcAllocationData()
       console.log('pmc data')
 
     } else if (this.allocationType === 3) {
+      this.selectedStages = {}
       console.log('client get')
       this.getClientAllocationData()
     }
@@ -461,16 +417,14 @@ export class AssignContractorPmcComponent implements OnInit {
 
           this.isSupervisroAllocationPresent = true
           this.genarateAllocationData(data, 'supervisor')
-          setTimeout(() => {
-            this.isChangeTrade = false
-          }, 2000)
+          this.isFound = true
+          this.showStatus = true
         } else {
           this.isSupervisroAllocationPresent = false
-          this.supervisorData = []
-          this.selectedTrade = {}
-          setTimeout(() => {
-            this.isChangeTrade = false
-          }, 2000)
+          // this.supervisorData = []
+          // this.selectedTrade = {}
+          this.isFound = false
+          this.showStatus = true
         }
         // this.selectedStates = this.supervisorAllocation['stages']
       })
@@ -488,22 +442,15 @@ export class AssignContractorPmcComponent implements OnInit {
         if (data.length) {
           this.isForemanAllocationUpdate = true
           this.genarateAllocationData(data, 'forman')
-          setTimeout(() => {
-            this.isChangeTrade = false
-          }, 2000)
-
+          this.showStatus = true
+          this.isFound = true
         } else {
           this.isForemanAllocationUpdate = false
-
-          this.formanData = []
-          this.selectedTrade = {}
-          setTimeout(() => {
-            this.isChangeTrade = false
-          }, 2000)
-
+          // this.showStatus = false
+          this.isFound = false
+          this.showStatus = true
         }
-        // this.selectedStates = this.supervisorAllocation['stages']
-        // this.genarateAllocationData(data)
+
       })
   }
 
@@ -522,16 +469,6 @@ export class AssignContractorPmcComponent implements OnInit {
   //       this.genarateAllocationData(data, 'pmc')
   //     })
   // }
-
-
-
-
-
-
-
-
-
-
 
 
   //new pmc allocation
@@ -560,7 +497,6 @@ export class AssignContractorPmcComponent implements OnInit {
   }
 
 
-
   generateclientAllocation(data) {
     this.selectedStages = {};
     data.forEach(item => {
@@ -583,13 +519,6 @@ export class AssignContractorPmcComponent implements OnInit {
     });
     console.log('client user-->', this.clientUser);
   }
-
-
-
-
-
-
-
 
 
   allocatedTrade = {}
@@ -661,6 +590,8 @@ export class AssignContractorPmcComponent implements OnInit {
 
   showUnits(stageId) {
     this.currentStage = Number(stageId)
+    this.subunits = []
+    $('.unitsCheckbox').prop('checked', false);
     if (!this.unitData[String(stageId)] || this.unitData[String(stageId)].length == 0) {
       this.commonServices.getUnits(this.SelClient, this.SelProject, this.SelStructure, stageId)
         .subscribe(data => {
@@ -693,8 +624,10 @@ export class AssignContractorPmcComponent implements OnInit {
   }
 
 
+  //Allcation type 1
   addStagesTotrade(e) {
     this.currentStage = Number(e.target.value)
+    this.subunits = []
     if (e.target.checked) {
       this.showUnits(this.currentStage)
       this.selectedTrade[Number(this.currentStage)] = {}
@@ -704,47 +637,18 @@ export class AssignContractorPmcComponent implements OnInit {
     console.log(this.selectedTrade)
   }
 
-
-
-  //for allocationType 2 and 3
-  addStagesTotrade1(e) {
-    const stageId = Number(e.target.value);
+  selectAllStageCheckbox(e) {
     if (e.target.checked) {
-      if (!this.selectedStages[this.currentTrade]) {
-        this.selectedStages[this.currentTrade] = [];
-      }
-      this.selectedStages[this.currentTrade].push(stageId);
+      $('.stagesCheckbox').prop('checked', true);
+      this.stages.forEach(stage => {
+        this.selectedTrade[Number(stage.stageId)] = {}
+      })
     } else {
-      const index = this.selectedStages[this.currentTrade].indexOf(stageId);
-      if (index !== -1) {
-        this.selectedStages[this.currentTrade].splice(index, 1);
-      }
+      $('.stagesCheckbox').prop('checked', false);
+      this.selectedTrade = {}
     }
-    console.log(this.selectedStages);
+    console.log(this.selectedTrade)
   }
-
-
-
-
-  //new for trades
-  addtradesTostages(e) {
-    this.currentTrade = Number(e.target.value);
-    console.log("Current Trade ID: ", this.currentTrade);
-    // this.addStagesTotrade(e)
-    if (e.target.checked) {
-      this.showstage(this.currentTrade);
-      this.selectedStages[Number(this.currentTrade)] = []
-    } else {
-      delete this.selectedStages[Number(this.currentTrade)]
-    }
-    console.log(this.selectedStages)
-  }
-
-
-
-
-
-
 
   addUnitToStage(e) {
     this.currentUnit = Number(e.target.value)
@@ -757,20 +661,46 @@ export class AssignContractorPmcComponent implements OnInit {
     console.log(this.selectedTrade)
   }
 
-
-  // tradeData=[]
-  tradeselect(e) {
-    let id = Number(e.target.value)
+  selectAllUnitCheckbox(e) {
+    // console.log(e)
     if (e.target.checked) {
-      this.tradeData.push(id)
-    } else {
-      this.tradeData = this.tradeData.filter(item => {
-        return item != id
+      $('.unitsCheckbox').prop('checked', true);
+      this.units.forEach(unit => {
+        this.selectedTrade[Number(this.currentStage)][Number(unit.unitId)] = []
       })
+    } else {
+      $('.unitsCheckbox').prop('checked', false);
+      this.selectedTrade[Number(this.currentStage)] = {}
+
     }
-    console.log(this.tradeData)
+    console.log(this.selectedTrade)
   }
 
+
+  addSubunit(e) {
+    if (e.target.checked) {
+      this.selectedTrade[Number(this.currentStage)][Number(this.currentUnit)].push(Number(e.target.value))
+    } else {
+      this.selectedTrade[Number(this.currentStage)][Number(this.currentUnit)] = this.selectedTrade[Number(this.currentStage)][Number(this.currentUnit)].filter(id => {
+        return id != Number(e.target.value)
+      })
+    }
+    console.log(this.selectedTrade)
+  }
+
+  selectAllSubUnitCheckbox(e) {
+    if (e.target.checked) {
+      $('.subUnitsCheckbox').prop('checked', true);
+      this.subunits.forEach(subunit => {
+        this.selectedTrade[Number(this.currentStage)][Number(this.currentUnit)].push(Number(subunit.subunitId))
+      })
+    } else {
+      $('.subUnitsCheckbox').prop('checked', false);
+      this.selectedTrade[Number(this.currentStage)][Number(this.currentUnit)] = []
+    }
+    console.log(this.selectedTrade)
+
+  }
 
   supervisorData = []
   addSupervisor(e) {
@@ -782,6 +712,19 @@ export class AssignContractorPmcComponent implements OnInit {
       this.supervisorData = this.supervisorData.filter(item => {
         return item != id
       })
+    }
+    console.log(this.supervisorData)
+  }
+  selectAllSupervisor(e) {
+    if (e.target.checked) {
+      $('.supervisorCheckbox').prop('checked', true);
+      this.supervisorData = []
+      this.supervisors.forEach(sup => {
+        this.supervisorData.push(sup.supervisorId)
+      })
+    } else {
+      $('.supervisorCheckbox').prop('checked', false);
+      this.supervisorData = []
     }
     console.log(this.supervisorData)
   }
@@ -799,6 +742,76 @@ export class AssignContractorPmcComponent implements OnInit {
     console.log(this.formanData)
   }
 
+  selectAllForeman(e) {
+    if (e.target.checked) {
+      $('.foremanCheckbox').prop('checked', true);
+      this.formanData = []
+      this.formans.forEach(forman => {
+        this.formanData.push(forman.foremanId)
+      })
+    } else {
+      $('.foremanCheckbox').prop('checked', false);
+      this.formanData = []
+    }
+    console.log(this.formanData)
+  }
+
+
+
+  //for allocationType 2 and 3
+  //add trade in data
+  addtradesTostages(e) {
+    this.currentTrade = Number(e.target.value);
+    console.log("Current Trade ID: ", this.currentTrade);
+    // this.addStagesTotrade(e)
+    if (e.target.checked) {
+      this.showstage(this.currentTrade);
+      this.selectedStages[Number(this.currentTrade)] = []
+    } else {
+      delete this.selectedStages[Number(this.currentTrade)]
+    }
+    console.log(this.selectedStages)
+  }
+
+  //add stages inside trade
+  addStagesTotrade1(e) {
+    const stageId = Number(e.target.value);
+    if (e.target.checked) {
+      if (!this.selectedStages[this.currentTrade]) {
+        this.selectedStages[this.currentTrade] = [];
+      }
+      this.selectedStages[this.currentTrade].push(stageId);
+    } else {
+      const index = this.selectedStages[this.currentTrade].indexOf(stageId);
+      if (index !== -1) {
+        this.selectedStages[this.currentTrade].splice(index, 1);
+      }
+    }
+    console.log(this.selectedStages);
+  }
+
+  //new for all stages
+  selectAllStages(e) {
+    const checked = e.target.checked;
+    if (checked) {
+      this.stages.forEach(stage => {
+        if (!this.selectedStages[this.currentTrade]) {
+          this.selectedStages[this.currentTrade] = [];
+        }
+        if (!this.selectedStages[this.currentTrade].includes(stage.stageId)) {
+          this.selectedStages[this.currentTrade].push(stage.stageId);
+        }
+      });
+    } else {
+      if (this.selectedStages[this.currentTrade]) {
+        this.selectedStages[this.currentTrade] = [];
+      }
+    }
+    console.log(this.selectedStages);
+  }
+
+
+
   pmcUserData = []
   addPMCUser(e) {
     let id = Number(e.target.value)
@@ -812,20 +825,35 @@ export class AssignContractorPmcComponent implements OnInit {
     console.log(this.pmcUserData)
   }
 
+  selectAllPmcUser(e) {
+    if (e.target.checked) {
+      this.pmcUserData = []
+      $('.pmcUserCheckbox').prop('checked', true);
+      this.pmcUser.forEach(user => {
+        this.pmcUserData.push(user.id)
+      })
+    } else {
+      $('.pmcUserCheckbox').prop('checked', false);
+      this.pmcUserData = []
+    }
+    console.log(this.pmcUserData)
+  }
+
+
   clientUser = []
   addClientUser(e) {
     let id = Number(e.target.value)
     if (e.target.checked) {
+      this.clientUser = []
+      $('.clientCheckbox').prop('checked', true);
       this.clientUser.push(id)
     } else {
-      this.clientUser = this.clientUser.filter(item => {
-        return item != id
-      })
+      this.clientUser = []
+      $('.clientCheckbox').prop('checked', false);
     }
     console.log('client staff -->', this.clientUser)
   }
 
-  //new for select all clientstaffs
   selectAllClientStaff(e) {
     const checked = e.target.checked;
     if (checked) {
@@ -835,6 +863,21 @@ export class AssignContractorPmcComponent implements OnInit {
     }
     console.log('client -->', this.clientUser);
   }
+
+  // // tradeData=[]
+  // tradeselect(e) {
+  //   let id = Number(e.target.value)
+  //   if (e.target.checked) {
+  //     this.tradeData.push(id)
+  //   } else {
+  //     this.tradeData = this.tradeData.filter(item => {
+  //       return item != id
+  //     })
+  //   }
+  //   console.log(this.tradeData)
+  // }
+
+
 
   onSubmit() {
     let allocationData = []
@@ -869,6 +912,7 @@ export class AssignContractorPmcComponent implements OnInit {
     }
     console.log(allocationData)
     if (this.allocationType == 1) {
+      this.isbtnLoading = true
       if (this.supervisorData.length) {
         let supervisorArray = []
         allocationData.forEach(data => {
@@ -901,8 +945,10 @@ export class AssignContractorPmcComponent implements OnInit {
               this.isbtnLoading = false
               this.snackbar.showSuccess('Contractor Allocated!')
             },
-              err => console.log(err));
-          this.snackbar.showSnackError()
+              err => {
+                console.log(err)
+                this.snackbar.showSnackError()
+              });
         }
       }
 
@@ -943,8 +989,10 @@ export class AssignContractorPmcComponent implements OnInit {
               this.snackbar.showSuccess('Contractor Allocated!')
               this.isbtnLoading = false
             },
-              err => console.log(err))
-          this.snackbar.showSnackError()
+              err => {
+                console.log(err)
+                this.snackbar.showSnackError()
+              })
         }
       }
     } else if (this.allocationType == 2) {
@@ -1071,92 +1119,6 @@ export class AssignContractorPmcComponent implements OnInit {
 
     }
   }
-
-
-
-
-
-  // handlePmcAllocation(data) {
-  //   let pmcAllocation = []
-  //   data.forEach(data => {
-  //     this.pmcUserData.forEach(pmcuser => {
-  //       let supData = {
-  //         schemeId: this.registerForm.value.schemeId,
-  //         structureId: this.registerForm.value.structureId,
-  //         pmcId: this.registerForm.value.pmcId,
-  //         // clientStaffId: this.registerForm.value.clientStaffId,
-  //         stageId: data.stageId ? data.stageId : null,
-  //         tradeId: this.registerForm.value.tradeId,
-  //         subunits: data.suunits ? data.suunits : null,
-  //         units: data.units ? data.units : null,
-  //         userId: pmcuser,
-  //       }
-
-  //       pmcAllocation.push(supData)
-  //     })
-  //   })
-
-  //   console.log('pmc allo data', pmcAllocation)
-  //   if (this.updatePmcAllocation) {
-  //     this.clientService.updatePmcAllocation(this.SelProject, this.SelStructure, this.Selpmc, this.SelTrade, pmcAllocation)
-  //     .subscribe(data =>{
-  //       console.log('pmc updtaed', data)
-  //     }, err =>{
-  //       console.log(err)
-  //     })
-
-  //   } else {
-  //     this.clientService.addPmcAllocation(pmcAllocation)
-  //       .subscribe(data => {
-  //         console.log('pmc allocated-->', data)
-  //       }, err => {
-  //         console.log(err)
-  //       })
-  //   }
-  // }
-
-
-
-  // handleClientAllocation(data){
-  //   let clientAllocation = []
-  //   data.forEach(data => {
-  //     this.clientUser.forEach(user => {
-  //       let supData = {
-  //         schemeId: this.registerForm.value.schemeId,
-  //         structureId: this.registerForm.value.structureId,
-  //         clientId: this.registerForm.value.clientId,
-  //         stageId: data.stageId ? data.stageId : null,
-  //         tradeId: this.registerForm.value.tradeId,
-  //         subunits: data.suunits ? data.suunits : null,
-  //         units: data.units  ? data.units : null,
-  //         clientStaffId: user,
-  //       }
-
-  //       clientAllocation.push(supData)
-  //     })
-  //   })
-
-  //   console.log('client Alloca', clientAllocation)
-
-  //   if (this.updatePmcAllocation) {
-  //     this.clientService.updateClientAllocation(this.SelProject, this.SelStructure, this.SelClient, this.SelTrade, clientAllocation)
-  //     .subscribe(data =>{
-  //       console.log('client updtaed', data)
-  //     }, err =>{
-  //       console.log(err)
-  //     })
-
-  //   } else {
-  //     this.clientService.addClientAllocation(clientAllocation)
-  //       .subscribe(data => {
-  //         console.log('client allocated-->', data)
-  //       }, err => {
-  //         console.log(err)
-  //       })
-  //   }
-
-  // }
-
 
 
 }

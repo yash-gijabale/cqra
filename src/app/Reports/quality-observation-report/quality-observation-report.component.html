@@ -14,7 +14,7 @@
           <div class="right-side-create-view ">
             <div class="create-content-operations">
               <!-- <a routerLink="/create-quality-procedure-amendment/-1"> -->
-              <a routerLink="/create-quality-observation-report">
+              <a [routerLink]="'/create-quality-observation-report/'+reportId+'/-1'">
                 <button type="button"> Create Quality Observation Report</button>
               </a>
             </div>
@@ -38,7 +38,7 @@
       </ng-template>
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+          <table datatable  id="customers" class="row-border hover"
             style="width:100%">
             <thead>
               <tr>

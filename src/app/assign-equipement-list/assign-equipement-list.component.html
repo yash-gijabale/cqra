@@ -115,7 +115,7 @@
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assetnameme}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assettname}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.cqraAssetId}}</td>
-                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">₹ {{equipment.cost}}</td>
+                      <td [class]="equipment.assignTo ? 'assign_bg' : ''">₹ {{equipment.equ_cost}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assetSerialNo}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.assignTo ? equipment.username :
                         ''}}</td>
@@ -126,7 +126,7 @@
                       </td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">{{equipment.dateOfAssign}}</td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">
-                        <div class="row" style="display: flex; justify-content: left; padding-left: 15%;">
+                        <div class="row" style="display: flex; justify-content: left; padding-left: 15%; gap: 5px;">
                           <button type="text" class="edit-modal add-modal btn btn-sm btn-primary" data-toggle="modal"
                             data-target="#exampleModalCenter" (click)="editEquipment(equipment.equipmentId)">
                             <span class="edit-tessst">
@@ -168,11 +168,12 @@
                             </div>
                           </div>
 
-                          <span *ngIf="equipment.assignTo" class="badge badge-secondary" role="button" (click)="downloadPolicy(equipment.equipmentId, equipment.assignTo)">
+                          <span *ngIf="equipment.assignTo" class="badge badge-secondary" style="display: flex; align-items: center;" role="button" (click)="downloadPolicy(equipment.equipmentId, equipment.assignTo)">
                             <span *ngIf="!policyLoad[equipment.equipmentId]">Policy</span>
                             <span *ngIf="policyLoad[equipment.equipmentId] && policyLoad[equipment.equipmentId].load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <a *ngIf="policyLoad[equipment.equipmentId] && policyLoad[equipment.equipmentId].url !='' "[href]="policyLoad[equipment.equipmentId].url" target="_blank" style="text-decoration: none; color: white;">view</a>
+                            <!-- <a *ngIf="policyLoad[equipment.equipmentId] && policyLoad[equipment.equipmentId].url !='' "[href]="policyLoad[equipment.equipmentId].url" target="_blank" style="text-decoration: none; color: white;">view</a> -->
                           </span>
+                          <a *ngIf="policyLoad[equipment.equipmentId] && policyLoad[equipment.equipmentId].url !='' "[href]="policyLoad[equipment.equipmentId].url" target="_blank" style="text-decoration: none; color: white;" class="badge badge-secondary">View</a>
                         </div>
                       </td>
                       <td [class]="equipment.assignTo ? 'assign_bg' : ''">

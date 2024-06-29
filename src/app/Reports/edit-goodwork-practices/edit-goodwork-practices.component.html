@@ -60,7 +60,7 @@
 
               <div class="form-group col-md-4">
                 <label for="fname" class="col-md-12 col-form-label">Stage Name</label>
-                <select [(ngModel)]="SelStage" #stageId formControlName="stageId" class="col-md-12 form-control"
+                <select [(ngModel)]="SelStage" formControlName="stageId" class="col-md-12 form-control"
                   (change)="getTrade()">
                   <option [value]="0">Please Select</option>
                   <option [value]="o.stageId" *ngFor="let o of stages">

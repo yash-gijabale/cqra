@@ -31,7 +31,7 @@
 
             <div class="form-group col-md-6">
               <label>Client</label>
-              <select [(ngModel)]="SelClient" formControlName="clientId" class="form-control" (change)="getProject()">
+              <select [(ngModel)]="SelClient" formControlName="qualityObservationClientId" class="form-control" (change)="getProject()">
                 <option [value]="0">Please Select</option>
                 <option [value]="client.clientId" *ngFor="let client of clients">
                   {{client.clientName}}
@@ -43,7 +43,7 @@
 
             <div class="form-group col-md-6">
               <label>Project</label>
-              <select [(ngModel)]="SelProject" formControlName="projectId" class="form-control">
+              <select [(ngModel)]="SelProject" formControlName="qualityObservationSchemasId" class="form-control">
                 <option [value]="0">Please Select</option>
                 <option [value]="project.projectId" *ngFor="let project of projects">
                   {{project.projectName}}
@@ -54,31 +54,31 @@
 
             <div class="form-group col-md-6">
               <label>Client Representative</label>
-              <input type="text" formControlName="clientRepres" class="form-control"
+              <input type="text" formControlName="qualityObservationResponsiblePerson" class="form-control"
                  />
             </div>
 
             <div class="form-group col-md-6">
               <label>Cqra Representative</label>
-              <input type="text" formControlName="cqraRepres" class="form-control"
+              <input type="text" formControlName="qualityObservationCqraRepresentative" class="form-control"
                  />
             </div>
 
             <div class="form-group col-md-6">
               <label>Contractor</label>
-              <input type="text" formControlName="contractor" class="form-control"
+              <input type="text" formControlName="qualityObservationContractorReprentative" class="form-control"
                  />
             </div>
 
             <div class="form-group col-md-6">
               <label>Obaservation Date</label>
-              <input type="date" formControlName="obserDate" class="form-control"
+              <input type="date" formControlName="qualityObservationDateObservation" class="form-control"
                  />
             </div>
 
             <div class="form-group col-md-6">
               <label>Report Header</label>
-              <input type="text" formControlName="reportHeader" class="form-control"
+              <input type="text" formControlName="qualityObservationReportHeader" class="form-control"
                  />
             </div>
 

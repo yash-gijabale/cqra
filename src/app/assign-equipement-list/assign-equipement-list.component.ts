@@ -67,6 +67,7 @@ export class AssignEquipementListComponent implements OnInit {
         this.deActivateEquipment.push(eq)
       }
     })
+    
 
     console.log(this.activateEquipment)
     console.log(this.deActivateEquipment)
@@ -98,7 +99,12 @@ export class AssignEquipementListComponent implements OnInit {
         console.log('delerted', data)
         this.deActivateLoad = false
         // location.reload()
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          dtInstance.destroy()
+          this.dtTrigger.next()
+        });
         this.getAllEquipment()
+       
       })
   }
 
@@ -207,9 +213,11 @@ export class AssignEquipementListComponent implements OnInit {
         console.log('returned', data)
         this.returnLoad = false
         this.getAllEquipment()
+        this.snackBar.showSuccess('Equipment Returned Successfully')
       }, err => {
         console.log(err)
         this.returnLoad = false
+        this.snackBar.showSnackError()
       })
   }
 
