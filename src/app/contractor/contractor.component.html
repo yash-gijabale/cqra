@@ -33,6 +33,7 @@
             <thead>
               <tr>
                 <th>Contractor Name</th>
+                <th>Project Name</th>
                 <th>Address</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -45,9 +46,10 @@
               <tr *ngFor="let client of contractors">
 
                 <td>{{ client.contractorName }}</td>
-                <td>{{ client.contarctorAddress }}</td>
-                <td>{{ client.contarctorEmail }}</td>
-                <td>{{ client.contarctorPhone }}</td>
+                <td>{{ client.projectName}}</td>
+                <td>{{ client.contractorAddress }}</td>
+                <td>{{ client.contractorEmail }}</td>
+                <td>{{ client.contractorPhone }}</td>
                 <td>
                   <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-supervisor"
@@ -69,12 +71,12 @@
                     <button type="text" (click)="editContractor(client.contractorId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
+                        <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
                     <button type="text" (click)="deleteContractor(client.contractorId)" class="Delete-modal">
                       <span class="edit-tessst">
-                        <i class="lar la-trash-alt"></i>
+                        <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
                     </button>
                   </div>
@@ -108,8 +110,9 @@
                 </div>
                 <div class="form-group">
                   <button class="btn btn-primary">
-                    <span *ngIf="issupervisorLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    <span *ngIf="!issupervisorLoad" >Save</span>
+                    <span *ngIf="issupervisorLoad" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+                    <span *ngIf="!issupervisorLoad">Save</span>
                   </button>
 
                 </div>
@@ -153,12 +156,12 @@
                         <div class="action-commonview">
                           <button type="text" data-toggle="modal" data-target="#add-supervisor">
                             <span class="edit-tessst">
-                              <i class="las la-pencil-alt"></i>
+                              <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                             </span>
                           </button>
                           <button type="text" (click)="deActivateClient(client.supervisorId)" class="Delete-modal">
                             <span class="edit-tessst">
-                              <i class="lar la-trash-alt"></i>
+                              <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                             </span>
                           </button>
                         </div>
@@ -198,8 +201,9 @@
                 </div>
                 <div class="form-group">
                   <button class="btn btn-primary">
-                    <span *ngIf="issupervisorLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    <span *ngIf="!issupervisorLoad" >Save</span>
+                    <span *ngIf="issupervisorLoad" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+                    <span *ngIf="!issupervisorLoad">Save</span>
                   </button>
                 </div>
               </form>
@@ -241,12 +245,12 @@
                         <div class="action-commonview">
                           <button type="text" data-toggle="modal">
                             <span class="edit-tessst">
-                              <i class="las la-pencil-alt"></i>
+                              <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                             </span>
                           </button>
                           <button type="text" (click)="deActivateClient(client.foremanId)" class="Delete-modal">
                             <span class="edit-tessst">
-                              <i class="lar la-trash-alt"></i>
+                              <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                             </span>
                           </button>
                         </div>
@@ -266,5 +270,5 @@
 
     </div>
   </div>
-
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

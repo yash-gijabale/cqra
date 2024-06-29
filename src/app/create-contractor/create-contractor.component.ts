@@ -59,6 +59,7 @@ export class CreateContractorComponent implements OnInit {
     }, (err) => {
       console.log('-----> err', err);
     })
+
     this.registerForm = this.formBuilder.group({
       clientId: ['', Validators.required],
       contractorName: ['', Validators.required],
@@ -115,11 +116,19 @@ export class CreateContractorComponent implements OnInit {
           this.isBtnLoading = false
           this.registerForm.reset()
           this.snackBar.showSuccess('Contractor Created')
+          this.resetForm()
         }, err => {
           this.snackBar.showSnackError()
         })
     }
 
+  }
+
+  resetForm() {
+    this.registerForm.reset();
+    this.submitted = false;
+    this.SelClient = '';
+    this.projects = [];
   }
 
 }

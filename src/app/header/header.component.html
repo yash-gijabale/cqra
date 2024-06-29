@@ -69,10 +69,10 @@
             <li *ngIf="userMenu.clientStaffMenu" class="dropdown-item"><a tabindex="-1" routerLink="/clientStaff">Client
                 Engineer</a></li>
 
-            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/createpmc/-1">PMC</a></li>
+            <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/pmcList">PMC</a></li>
 
-            <li *ngIf="userMenu.contractorMenu" class="dropdown-item"><a tabindex="-1"
-                routerLink="/contractor">Contractor (Supervisor & Foreman)</a></li>
+            <li *ngIf="userMenu.contractorMenu" class="dropdown-item"><a tabindex="-1" routerLink="/contractor">Add
+                Contractor (Supervisor & Foreman)</a></li>
 
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/users">Users</a></li>
 
@@ -109,7 +109,8 @@
 
             <!-- <li class="dropdown-item"><a tabindex="-1" routerLink="/sampling">Sampling</a></li> -->
 
-            <li class="dropdown-item"><a tabindex="-1" routerLink="/assignEquipementList">Assign Equipment</a></li>
+            <li class="dropdown-item"><a tabindex="-1" routerLink="/assignEquipementList">Assign And Add Equipment</a>
+            </li>
 
           </ul>
         </li>

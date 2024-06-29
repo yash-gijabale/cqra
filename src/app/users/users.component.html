@@ -69,6 +69,7 @@
                   <thead>
                     <tr>
                       <th>Full Name</th>
+                      <th>Login Id</th>
                       <th>Email</th>
                       <th>Contact</th>
                       <th>Actions</th>
@@ -77,20 +78,44 @@
                   <tbody>
                     <tr *ngFor="let user of users ">
                       <td>{{user.userFullName}}</td>
+                      <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
-                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
-                        <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
-                          <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span>
-                          <span *ngIf="!deleteLoad">Delete</span>
-                        </span>&nbsp;
-                        <a routerLink="/createUserAccess/{{user.id}}">
-                          <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
-                        </a>
-                        <button class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
-                          (click)="setResetUser(user)">Reset
-                          Password</button>
+                      <td>
+                        <div class="action-commonview">
+
+                          <button type="text" (click)="editUser(user.id)" class="edit-modal add-modal"
+                            data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="edit-tessst">
+                              <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                          <!-- <button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp; -->
+
+                          <button type="text" (click)="deactivateUser(user.id)" class="Delete-modal">
+                            <span class="edit-tessst">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                          </button>
+
+                          <!-- <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                            <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                              aria-hidden="true"></span>
+                            <span *ngIf="!deleteLoad">Delete</span>
+                          </span>&nbsp; -->
+
+
+                          <a routerLink="/createUserAccess/{{user.id}}">
+                            <span role="button" class="btn btn-sm btn-info"
+                              (click)="getUserAccess(user.id)">Access</span>
+                          </a>
+                          <button class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
+                            (click)="setResetUser(user)">Reset
+                            Password</button>
+
+
+
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -146,6 +171,7 @@
                   <thead>
                     <tr>
                       <th>Full Name</th>
+                      <th>Login Id</th>
                       <th>Email</th>
                       <th>Contact</th>
                       <th>Actions</th>
@@ -154,16 +180,35 @@
                   <tbody>
                     <tr *ngFor="let user of clientUers ">
                       <td>{{user.userFullName}}</td>
+                      <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
-                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
-                        <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
-                          <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span>
-                          <span *ngIf="!deleteLoad">Delete</span></span>&nbsp;
-                        <a routerLink="/createUserAccess/{{user.id}}">
-                          <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
-                        </a>
+                      <td>
+                        <div class="action-commonview">
+
+                          <button type="text" (click)="editUser(user.id)" class="edit-modal add-modal"
+                            data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="edit-tessst">
+                              <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                          <!-- <button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp; -->
+
+                          <button type="text" (click)="deactivateUser(user.id)" class="Delete-modal">
+                            <span class="edit-tessst">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                          <!-- <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                            <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                              aria-hidden="true"></span>
+                            <span *ngIf="!deleteLoad">Delete</span></span>&nbsp; -->
+
+                          <a routerLink="/createUserAccess/{{user.id}}">
+                            <span role="button" class="btn btn-sm btn-info"
+                              (click)="getUserAccess(user.id)">Access</span>
+                          </a>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -177,6 +222,7 @@
                   <thead>
                     <tr>
                       <th>Full Name</th>
+                      <th>Login Id</th>
                       <th>Email</th>
                       <th>Contact</th>
                       <th>Actions</th>
@@ -186,17 +232,37 @@
                   <tbody>
                     <tr *ngFor="let user of contractorUsers ">
                       <td>{{user.userFullName}}</td>
+                      <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
-                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
-                        <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                      <td>
+                        <div class="action-commonview">
+
+                          <button type="text" (click)="editUser(user.id)" class="edit-modal add-modal"
+                            data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="edit-tessst">
+                              <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                          <!-- <button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp; -->
+
+                          <button type="text" (click)="deactivateUser(user.id)" class="Delete-modal">
+                            <span class="edit-tessst">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                          </button>
+
+                          <!-- <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
                           <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
                             aria-hidden="true"></span>
                           <span *ngIf="!deleteLoad">Delete</span>
-                        </span>&nbsp;
-                        <a routerLink="/createUserAccess/{{user.id}}">
-                          <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
-                        </a>
+                        </span>&nbsp;  -->
+                          <a routerLink="/createUserAccess/{{user.id}}">
+                            <span role="button" class="btn btn-sm btn-info"
+                              (click)="getUserAccess(user.id)">Access</span>
+                          </a>
+                        </div>
+
                       </td>
                     </tr>
                   </tbody>
@@ -210,6 +276,7 @@
                   <thead>
                     <tr>
                       <th>Full Name</th>
+                      <th>Login Id</th>
                       <th>Email</th>
                       <th>Contact</th>
                       <th>Actions</th>
@@ -218,18 +285,36 @@
                   <tbody>
                     <tr *ngFor="let user of pmcUsers ">
                       <td>{{user.userFullName}}</td>
+                      <td>{{user.username}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.mobile}}</td>
-                      <td><button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp;
-                        <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                      <td>
+                        <div class="action-commonview">
+
+                          <button type="text" (click)="editUser(user.id)" class="edit-modal add-modal"
+                            data-toggle="modal" data-target="#exampleModalCenter">
+                            <span class="edit-tessst">
+                              <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                          <!-- <button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp; -->
+
+                          <button type="text" (click)="deactivateUser(user.id)" class="Delete-modal">
+                            <span class="edit-tessst">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                          </button>
+
+                          <!-- <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
                           <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
                             aria-hidden="true"></span>
                           <span *ngIf="!deleteLoad">Delete</span>
-                        </span>&nbsp;
-                        <a routerLink="/createUserAccess/{{user.id}}">
-                          <span role="button" class="btn btn-sm btn-info" (click)="getUserAccess(user.id)">Access</span>
-                        </a>
-
+                        </span>&nbsp; -->
+                          <a routerLink="/createUserAccess/{{user.id}}">
+                            <span role="button" class="btn btn-sm btn-info"
+                              (click)="getUserAccess(user.id)">Access</span>
+                          </a>
+                        </div>
                       </td>
                     </tr>
                   </tbody>

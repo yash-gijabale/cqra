@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClientServiceService } from '../service/client-service.service';
 import { SupervisorData } from '../contractor-supervisor/contractor-supervisor.component';
 import { FormanData } from '../contractor-forman/contractor-forman.component';
+import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
 
 
 export class ContractorData {
@@ -51,7 +52,8 @@ export class ContractorComponent implements OnInit {
     private router: Router,
     private commonService: CommonService,
     private formBuilder: FormBuilder,
-    private clientService: ClientServiceService
+    private clientService: ClientServiceService,
+    private snackBar: SnackBarComponent,
   ) { }
 
 
@@ -123,10 +125,15 @@ export class ContractorComponent implements OnInit {
       .subscribe(data => {
         console.log('added--->', data)
         this.issupervisorLoad = false
-      }, err => {
-        this.issupervisorLoad = false
+        this.snackBar.showSuccess("Supervisor added")
+        this.resetForm()
 
-      })
+      },
+        err => {
+          this.issupervisorLoad = false
+          console.log(err)
+          this.snackBar.showSnackError()
+        })
 
     // console.log(data)
   }
@@ -164,8 +171,15 @@ export class ContractorComponent implements OnInit {
       .subscribe(data => {
         console.log('foreman added--->', data)
         this.issupervisorLoad = false
+        this.snackBar.showSuccess("Forman added")
+        this.resetForm()
 
-      })
+      },
+        err => {
+          this.issupervisorLoad = false
+          console.log(err)
+          this.snackBar.showSnackError()
+        })
   }
 
   getForemans(contractorId) {
@@ -181,6 +195,12 @@ export class ContractorComponent implements OnInit {
 
     this.router.navigate(['contractorForman', contractorId])
 
+  }
+
+  resetForm() {
+    this.supervisorForm.reset();
+    this.foremanForm.reset();
+    this.submitted = false;
   }
 
 

@@ -11,11 +11,11 @@
             <li class="breadcrumb-item active">Assign Equipment</li>
           </ol>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#new-trade-user">New
+            <button type="button" class="btn bttn" data-toggle="modal" data-target="#new-trade-user">New
               Asset </button>
-            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#trade-user-list"
+            <button type="button" class="btn bttn" data-toggle="modal" data-target="#trade-user-list"
               (click)="assetList()">List</button>
-            <a routerLink="/assignEquipementList" class="btn btn-dark" style="text-align: center;">Manage Asset</a>
+            <a routerLink="/assignEquipementList" class="btn bttn" style="text-align: center;">Manage Asset</a>
           </div>
         </div>
         <!-- <div class="right-side-create-view">
@@ -183,9 +183,25 @@
                           </div>
                         </td>
                         <td>
+
+                          <div class="action-commonview">
+                            <button type="text" (click)="getAssetData(asset.id)" class="edit-modal add-modal"
+                              data-toggle="modal" data-target="#new-trade-user">
+                              <span class="edit-tessst">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </span>
+                            </button>
+                            <button type="text" (click)="deleteAsset(asset.id)" class="Delete-modal">
+                              <span class="edit-tessst">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                              </span>
+                            </button>
+                          </div>
+
+                          <!-- 
                           <span class="badge badge-success" role="button" data-toggle="modal"
                             data-target="#new-trade-user" (click)="getAssetData(asset.id)">Edit</span>
-                          <span class="badge badge-danger" role="button" (click)="deleteAsset(asset.id)">Delete</span>
+                          <span class="badge badge-danger" role="button" (click)="deleteAsset(asset.id)">Delete</span> -->
                         </td>
                       </tr>
                     </tbody>

@@ -36,7 +36,7 @@
               <tr>
 
                 <th>Staff Name</th>
-                <th>Degignation</th>
+                <th>Project Name</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Level</th>
@@ -48,7 +48,7 @@
               <tr *ngFor="let staff of staffData">
 
                 <td>{{ staff.clientName }}</td>
-                <td>{{ staff.designation }}</td>
+                <td>{{ staff.projectName }}</td>
                 <td>{{ staff.email }}</td>
                 <td>{{ staff.phone }}</td>
                 <td>{{ staff.level }}</td>
@@ -57,12 +57,12 @@
                     <button type="text" (click)="editClientStaff(staff.clientStaffId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
+                        <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
                     <button type="text" (click)="deActivateClient(staff.clientStaffId)" class="Delete-modal">
                       <span class="edit-tessst">
-                        <i class="lar la-trash-alt"></i>
+                        <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
                     </button>
                   </div>

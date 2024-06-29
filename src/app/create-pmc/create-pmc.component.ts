@@ -88,7 +88,7 @@ export class CreatePmcComponent implements OnInit {
   onSubmit() {
     console.log(this.registerForm.value)
 
-    if(this.registerForm.invalid){
+    if (this.registerForm.invalid) {
       return
     }
 
@@ -111,11 +111,19 @@ export class CreatePmcComponent implements OnInit {
           console.log('pmc aded-->', data)
           this.isbtnLoading = false
           this.snackBar.showSuccess('PMC Added!')
-        }, err =>{
+          this.resetForm()
+        }, err => {
           this.isbtnLoading = false
           this.snackBar.showSnackError()
         })
     }
+  }
+
+  resetForm() {
+    this.registerForm.reset();
+    this.submitted = false;
+    this.SelClient = '';
+    this.projects = [];
   }
 
 

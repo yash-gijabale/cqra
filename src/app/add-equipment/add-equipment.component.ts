@@ -84,6 +84,8 @@ export class AddEquipmentComponent implements OnInit {
 
   equipemtData: any
 
+  usedBy: string[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private commanService: CommonService,
@@ -122,8 +124,8 @@ export class AddEquipmentComponent implements OnInit {
       assetTypeId: ['', Validators.required],
       assetName: ['', Validators.required],
       cost: ['', Validators.required],
-      description:['', Validators.required],
-      remark:['', Validators.required],
+      description: ['', Validators.required],
+      remark: ['', Validators.required],
 
     })
 
@@ -242,16 +244,16 @@ export class AddEquipmentComponent implements OnInit {
   newAssetLoad: boolean = false
   addNewAsset() {
     this.newAssetLoad = true
-    let usedBy = []
+    // let usedBy = []
     let check = document.querySelectorAll('.usedBy')
     check.forEach(c => {
       let checkbox = <HTMLInputElement>c
       if (checkbox.checked) {
-        usedBy.push(checkbox.value)
+        this.usedBy.push(checkbox.value)
       }
     })
 
-    let formData = { ...this.newAssetForm.value, userBy: usedBy.toString() }
+    let formData = { ...this.newAssetForm.value, userBy: this.usedBy.toString() }
     console.log(formData)
     // return
     if (this.isUpdate) {
@@ -260,7 +262,7 @@ export class AddEquipmentComponent implements OnInit {
           console.log('data updated', data)
           this.newAssetLoad = false
           this.snakBar.showSuccess('Asset updated successfully')
-        }, err =>{
+        }, err => {
           this.snakBar.showSnackError()
         })
     } else {
@@ -269,7 +271,8 @@ export class AddEquipmentComponent implements OnInit {
           console.log('aded', data)
           this.newAssetLoad = false
           this.snakBar.showSuccess('Asset added successfully')
-        }, err =>{
+          this.resetForm()
+        }, err => {
           this.snakBar.showSnackError()
         })
     }
@@ -334,6 +337,13 @@ export class AddEquipmentComponent implements OnInit {
         console.log(data)
         this.assetsData = data
       })
+  }
+
+  resetForm() {
+    this.newAssetForm.reset(),
+      this.usedBy = []
+
+
   }
 
 }

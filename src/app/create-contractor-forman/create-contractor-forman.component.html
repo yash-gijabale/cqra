@@ -13,7 +13,8 @@
         </div>
         <div class="right-side-create-view">
           <div class="create-content-operations">
-            <button type="button"> <a [routerLink]="'/contractorForman/'+contractorId">Manage Contractor Forman </a> </button>
+            <button type="button"> <a [routerLink]="'/contractorForman/'+contractorId">Manage Contractor Forman </a>
+            </button>
           </div>
         </div>
       </div>
@@ -28,7 +29,8 @@
         <form [formGroup]="foremanForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Contractor Name</label>
-            <select formControlName="contractorId" (value)="contractorId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contractorId.errors }">
+            <select formControlName="contractorId" (value)="contractorId" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.contractorId.errors }">
               <option [value]="0">Please Select</option>
               <option [value]="o.contractorId" *ngFor="let o of clients">
                 {{o.contractorName}}
@@ -40,12 +42,13 @@
           </div>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" formControlName="foremanName" (value)="foremanName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.foremanName.errors }" />
+            <input type="text" formControlName="foremanName" (value)="foremanName" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.foremanName.errors }" />
             <div *ngIf="submitted && f.foremanName.errors" class="invalid-feedback">
               <div *ngIf="f.foremanName.errors.required">Foreman Name is required</div>
             </div>
           </div>
-         
+
           <div class="form-group">
             <button class="btn btn-primary">Save</button>
           </div>
@@ -53,4 +56,5 @@
       </div>
     </div>
   </div>
+  <app-snack-bar></app-snack-bar>
   <app-footer></app-footer>

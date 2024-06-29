@@ -6,6 +6,7 @@ import { ClientServiceService } from "../service/client-service.service";
 import { CommonService } from "../common.service";
 import { first } from 'rxjs/operators';
 import { ContractorData } from '../contractor-forman/contractor-forman.component';
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
 
 
 @Component({
@@ -26,6 +27,7 @@ export class CreateContractorFormanComponent implements OnInit {
     private clientServiceService: ClientServiceService,
     private commanService: CommonService,
     private formBuilder: FormBuilder,
+    private snackBar: SnackBarComponent,
 
   ) { }
 
@@ -78,15 +80,25 @@ export class CreateContractorFormanComponent implements OnInit {
         .subscribe(data => {
           // this.router.navigate(['contractorForman']);
           console.log('foreman created!')
-        });
+          this.snackBar.showSuccess("foreman added")
+        },
+          err => {
+            console.log(err)
+            this.snackBar.showSnackError()
+          }
+        );
     } else {
-    this.foremanForm.value.active = true
+      this.foremanForm.value.active = true
       this.clientServiceService.updateForeman(this.foremanForm.value, this.id)
         .subscribe(
           data => {
             console.log(data)
             console.log('updated!')
-
+            this.snackBar.showSuccess("foreman updated")
+          },
+          err => {
+            console.log(err)
+            this.snackBar.showSnackError()
           }
         )
     }

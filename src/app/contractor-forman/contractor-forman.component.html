@@ -25,7 +25,7 @@
       <ng-template #thenBlock>
         <app-loader></app-loader>
       </ng-template>
-      
+
       <div class="row m-0">
         <div class="col-xl-12 col-sm-12 mb-3">
           <!-- Example DataTables Card-->
@@ -51,12 +51,12 @@
                     <button type="text" (click)="editClient(client.foremanId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
+                        <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
                     <button type="text" (click)="deActivateClient(client.foremanId)" class="Delete-modal">
                       <span class="edit-tessst">
-                        <i class="lar la-trash-alt"></i>
+                        <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
                     </button>
                   </div>
