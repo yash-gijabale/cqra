@@ -19,11 +19,6 @@ export class QualityInspectionParametersReportComponent implements OnInit {
   projects: ProjectData[];
   trades: TradeData[];
 
-  SelClientId: string = '0'
-  SelProjectId: string = '0'
-  SelTradeId: string = '0'
-
-
   SelClient: any
   SelProject: any
   SelTrade: any

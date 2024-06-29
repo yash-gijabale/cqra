@@ -1,8 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { UserService } from '../service/user.service';
+import { CommonService } from '../common.service';
+import { ClientServiceService } from '../service/client-service.service';
+import { ProjectView } from '../project/project.component';
+import { StructureData } from '../wbs/wbs.component';
+import { TradeMaintanceService } from '../trade-maintance.service';
+import { TradeData } from '../create-tarde/create-tarde.component';
 
 export class UserData {
   constructor(
@@ -70,10 +75,20 @@ export class UserAllocationComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<UserView> = new Subject();
 
-  projects: UserData[];
+  projects: ProjectView[];
   users: UserView[];
+  structures:StructureData[]
+  trades:TradeData
   userAllocation: UserAllocationView
-  constructor(private userService: UserService, private router: Router) { }
+  SelProject:Number = 0
+  SelTrade:Number = 0
+  SelStructure:number = 0
+  SelUser:Number = 0
+  constructor(
+    private commonService: CommonService,
+    private clientService:ClientServiceService,
+    private tradeMaintance : TradeMaintanceService
+  ) { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -82,17 +97,38 @@ export class UserAllocationComponent implements OnInit {
       lengthMenu: [10, 25, 50]
     };
 
-    this.userService.getUserAllocation().subscribe((data) => {
-      console.log('userAllocation', data);
-      //this.users= data;
-      this.userAllocation = data
+    this.commonService.getAllUsers()
+      .subscribe(data => {
+        this.users = data
+        console.log('users', data)
+      })
 
-      // ADD THIS
-      this.dtTrigger.next();
 
-    }, (err) => {
-      console.log('-----> err', err);
-    });
+    this.clientService.getAllProject()
+      .subscribe(data => {
+        console.log('projects ==>', data)
+        this.projects = data;
+      })
+
+  }
+
+  getStructure() {
+    console.log(this.SelProject)
+    this.commonService.getStructureByProjectId(this.SelProject)
+      .subscribe(
+        (data) => {
+          console.log('Structure Data==', data)
+          this.structures = data;
+
+        }, (err) => {
+          console.log('-----> err', err);
+        })
+
+    this.tradeMaintance.getProjectTrades(this.SelProject)
+      .subscribe(data => {
+        console.log(data)
+        this.trades = data
+      })
 
   }
 

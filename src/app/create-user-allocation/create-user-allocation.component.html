@@ -92,8 +92,8 @@
               </div>
               <div class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
-                  <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox">
-                  <label class="form-check-label" for="flexCheckDefault" (change)="addAllStage($event)">Select
+                  <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox" (change)="addAllStage($event)">
+                  <label class="form-check-label" for="flexCheckDefault" >Select
                     All</label>
                 </div>
                 <div class="form-check" *ngFor="let o of stages">
@@ -118,7 +118,7 @@
               <div class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
                   <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
-                    (change)="selectAllUnitCheckbox($event)">
+                    (change)="selectAllUnits($event)">
                   <label class="form-check-label" for="flexCheckDefault">Select All</label>
                 </div>
                 <div class="form-check" *ngFor="let o of units">
@@ -145,7 +145,7 @@
               <div class="ckechbox-select">
                 <div class="form-check" *ngIf="stages">
                   <input class="form-check-input" type="checkbox" id="selectAllTradeCheckbox"
-                    (change)="selectAllSubUnitCheckbox($event)">
+                    (change)="selectAllSubUnit($event)">
                   <!-- <input class="form-check-input" type="checkbox" id="move"> -->
                   <label class="form-check-label" for="flexCheckDefault">Select All</label>
                 </div>

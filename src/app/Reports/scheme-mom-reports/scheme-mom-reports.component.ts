@@ -54,8 +54,6 @@ export class SchemeMomReportsComponent implements OnInit {
 
   momReportCache = {}
 
-  isLoading: boolean = false
-
   modalLoad: boolean = false
   modalError: boolean = false
   getMomReportData(id) {
