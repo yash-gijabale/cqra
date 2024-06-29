@@ -93,9 +93,18 @@
                           </button>
                           <!-- <button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp; -->
 
-                          <button type="text" (click)="deactivateUser(user.id)" class="Delete-modal">
+                          <button *ngIf="user.status" type="text"
+                            style="width: 20px; display: flex; justify-content: center;"
+                            (click)="deactivateUser(user.id)" class="Delete-modal">
                             <span class="edit-tessst">
-                              <i class="fa fa-trash" aria-hidden="true"></i>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                          <button *ngIf="!user.status" type="text"
+                            style="width: 20px; display: flex; justify-content: center;" (click)="activateUser(user.id)"
+                            class="Delete-modal text-primary">
+                            <span class="edit-tessst">
+                              <i class="fa fa-check" aria-hidden="true"></i>
                             </span>
                           </button>
 
@@ -105,17 +114,11 @@
                             <span *ngIf="!deleteLoad">Delete</span>
                           </span>&nbsp; -->
 
-
-                          <a routerLink="/createUserAccess/{{user.id}}">
-                            <span role="button" class="btn btn-sm btn-info"
-                              (click)="getUserAccess(user.id)">Access</span>
-                          </a>
+                          <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#add-view"
+                            (click)="goToAccess(user.id)" [disabled]="!user.status">Access</button>
                           <button class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
-                            (click)="setResetUser(user)">Reset
+                            (click)="setResetUser(user)" [disabled]="!user.status">Reset
                             Password</button>
-
-
-
                         </div>
 
                       </td>
@@ -196,20 +199,32 @@
                           </button>
                           <!-- <button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp; -->
 
-                          <button type="text" (click)="deactivateUser(user.id)" class="Delete-modal">
+                          <button *ngIf="user.status" type="text"
+                            style="width: 20px; display: flex; justify-content: center;"
+                            (click)="deactivateUser(user.id)" class="Delete-modal">
                             <span class="edit-tessst">
-                              <i class="fa fa-trash" aria-hidden="true"></i>
+                              <i class="fa fa-times" aria-hidden="true"></i>
                             </span>
                           </button>
-                          <!-- <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
-                            <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
-                              aria-hidden="true"></span>
-                            <span *ngIf="!deleteLoad">Delete</span></span>&nbsp; -->
+                          <button *ngIf="!user.status" type="text"
+                            style="width: 20px; display: flex; justify-content: center;" (click)="activateUser(user.id)"
+                            class="Delete-modal text-primary">
+                            <span class="edit-tessst">
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </span>
+                          </button>
 
-                          <a routerLink="/createUserAccess/{{user.id}}">
-                            <span role="button" class="btn btn-sm btn-info"
-                              (click)="getUserAccess(user.id)">Access</span>
-                          </a>
+                          <!-- <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
+                              <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                              <span *ngIf="!deleteLoad">Delete</span>
+                            </span>&nbsp; -->
+
+                          <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#add-view"
+                            (click)="goToAccess(user.id)" [disabled]="!user.status">Access</button>
+                          <button class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
+                            (click)="setResetUser(user)" [disabled]="!user.status">Reset
+                            Password</button>
                         </div>
                       </td>
                     </tr>
@@ -248,21 +263,32 @@
                           </button>
                           <!-- <button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp; -->
 
-                          <button type="text" (click)="deactivateUser(user.id)" class="Delete-modal">
+                          <button *ngIf="user.status" type="text"
+                            style="width: 20px; display: flex; justify-content: center;"
+                            (click)="deactivateUser(user.id)" class="Delete-modal">
                             <span class="edit-tessst">
-                              <i class="fa fa-trash" aria-hidden="true"></i>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                          <button *ngIf="!user.status" type="text"
+                            style="width: 20px; display: flex; justify-content: center;" (click)="activateUser(user.id)"
+                            class="Delete-modal text-primary">
+                            <span class="edit-tessst">
+                              <i class="fa fa-check" aria-hidden="true"></i>
                             </span>
                           </button>
 
                           <!-- <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
-                          <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span>
-                          <span *ngIf="!deleteLoad">Delete</span>
-                        </span>&nbsp;  -->
-                          <a routerLink="/createUserAccess/{{user.id}}">
-                            <span role="button" class="btn btn-sm btn-info"
-                              (click)="getUserAccess(user.id)">Access</span>
-                          </a>
+                              <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                              <span *ngIf="!deleteLoad">Delete</span>
+                            </span>&nbsp; -->
+
+                          <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#add-view"
+                            (click)="goToAccess(user.id)" [disabled]="!user.status">Access</button>
+                          <button class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
+                            (click)="setResetUser(user)" [disabled]="!user.status">Reset
+                            Password</button>
                         </div>
 
                       </td>
@@ -301,21 +327,32 @@
                           </button>
                           <!-- <button class="btn btn-sm btn-warning mx-1" (click)="editUser(user.id)">Edit</button>&nbsp; -->
 
-                          <button type="text" (click)="deactivateUser(user.id)" class="Delete-modal">
+                          <button *ngIf="user.status" type="text"
+                            style="width: 20px; display: flex; justify-content: center;"
+                            (click)="deactivateUser(user.id)" class="Delete-modal">
                             <span class="edit-tessst">
-                              <i class="fa fa-trash" aria-hidden="true"></i>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </span>
+                          </button>
+                          <button *ngIf="!user.status" type="text"
+                            style="width: 20px; display: flex; justify-content: center;" (click)="activateUser(user.id)"
+                            class="Delete-modal text-primary">
+                            <span class="edit-tessst">
+                              <i class="fa fa-check" aria-hidden="true"></i>
                             </span>
                           </button>
 
                           <!-- <span role="button" class="btn btn-sm btn-danger" (click)="deactivateUser(user.id)">
-                          <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
-                            aria-hidden="true"></span>
-                          <span *ngIf="!deleteLoad">Delete</span>
-                        </span>&nbsp; -->
-                          <a routerLink="/createUserAccess/{{user.id}}">
-                            <span role="button" class="btn btn-sm btn-info"
-                              (click)="getUserAccess(user.id)">Access</span>
-                          </a>
+                              <span *ngIf="deleteLoad" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                              <span *ngIf="!deleteLoad">Delete</span>
+                            </span>&nbsp; -->
+
+                          <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#add-view"
+                            (click)="goToAccess(user.id)" [disabled]="!user.status">Access</button>
+                          <button class="btn btn-sm btn-secondary mx-1" data-toggle="modal" data-target="#add-view"
+                            (click)="setResetUser(user)" [disabled]="!user.status">Reset
+                            Password</button>
                         </div>
                       </td>
                     </tr>

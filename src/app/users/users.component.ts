@@ -140,7 +140,20 @@ export class UsersComponent implements OnInit {
     let idDeactivate = confirm('Are you sure want to deactivate ?')
     if (idDeactivate) {
       this.deleteLoad = true
-      this.userService.deactivateUser(id)
+      this.userService.deactivateUser(id, false)
+        .subscribe(data => {
+          console.log('deactivated...', data)
+          this.deleteLoad = false
+          location.reload()
+        })
+    }
+  }
+
+  activateUser(id){
+    let activate = confirm('Are you sure want to activate this user ?')
+    if (activate) {
+      this.deleteLoad = true
+      this.userService.deactivateUser(id, true)
         .subscribe(data => {
           console.log('deactivated...', data)
           this.deleteLoad = false
@@ -223,6 +236,10 @@ export class UsersComponent implements OnInit {
         })
     }
 
+  }
+
+  goToAccess(id){
+    this.router.navigate(['createUserAccess',id])
   }
 
 }

@@ -56,9 +56,18 @@
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deactivatePmc(pmc.pmcId)" class="Delete-modal">
+                    <button *ngIf="pmc.projectStatus" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="deactivatePmc(pmc.pmcId)" class="Delete-modal">
                       <span class="edit-tessst">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!pmc.projectStatus" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="activateUser(pmc.pmcId)" class="Delete-modal text-primary">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" aria-hidden="true"></i>
                       </span>
                     </button>
                   </div>

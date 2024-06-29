@@ -56,8 +56,8 @@ export class UserService {
     return this.httpClient.put(`${this.REST_API_SERVER}/UserData/${id}`, data)
   }
 
-  deactivateUser(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/UserData/${id}/${false}`, '')
+  deactivateUser(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/UserData/${id}/${status}`, '')
   }
 
   //USER ALLOCATION API CALL
@@ -73,6 +73,10 @@ export class UserService {
   }
   updateUserAllocation(data) :Observable<UserService> {
     return this.httpClient.post<UserService>(`${this.REST_API_SERVER}/updateData`, data)
+  }
+
+  getUserAllocationByFilter(userId, projectId, structureId, tradeId){
+    return this.httpClient.get<UserAllocationView>(`${this.REST_API_SERVER}/getalluserviewbyids/${userId}/${projectId}/${structureId}/${tradeId}`)
   }
 
 

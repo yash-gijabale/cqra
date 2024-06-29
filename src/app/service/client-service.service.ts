@@ -336,8 +336,8 @@ export class ClientServiceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/clientStaff/${id}`)
   }
 
-  deactivateClientStaff(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/Clientstaff/${id}/${0}`, '')
+  deactivateClientStaff(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Clientstaff/${id}/${status}`, '')
   }
 
   //CLIENT STAFF API CALL

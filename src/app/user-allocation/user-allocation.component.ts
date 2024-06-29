@@ -58,6 +58,7 @@ export class UserAllocationView {
     public userFullName: string,
     public userId: number,
     public username: string,
+
   ) { }
 }
 
@@ -77,17 +78,18 @@ export class UserAllocationComponent implements OnInit {
 
   projects: ProjectView[];
   users: UserView[];
-  structures:StructureData[]
-  trades:TradeData
+  structures: StructureData[]
+  trades: TradeData
   userAllocation: UserAllocationView
-  SelProject:Number = 0
-  SelTrade:Number = 0
-  SelStructure:number = 0
-  SelUser:Number = 0
+  SelProject: Number = 0
+  SelTrade: Number = 0
+  SelStructure: number = 0
+  SelUser: Number = 0
   constructor(
     private commonService: CommonService,
-    private clientService:ClientServiceService,
-    private tradeMaintance : TradeMaintanceService
+    private clientService: ClientServiceService,
+    private tradeMaintance: TradeMaintanceService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -130,6 +132,25 @@ export class UserAllocationComponent implements OnInit {
         this.trades = data
       })
 
+  }
+
+  filterLoad: boolean = false
+  getUserAllocationData() {
+    this.filterLoad = true
+    this.userService.getUserAllocationByFilter(this.SelUser, this.SelProject, this.SelStructure, this.SelTrade)
+      .subscribe(data => {
+        console.log(data)
+        this.userAllocation = data
+        this.filterLoad = false
+        if (this.dtElement.dtInstance) {
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.destroy()
+            this.dtTrigger.next()
+          });
+        } else {
+          this.dtTrigger.next()
+        }
+      })
   }
 
 

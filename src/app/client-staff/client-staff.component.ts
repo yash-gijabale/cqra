@@ -19,7 +19,7 @@ export class ClientStaffComponent implements OnInit {
 
   staffData: clientStaffData[];
 
-  isLoading:boolean
+  isLoading: boolean
 
   constructor(
     private clientServices: ClientServiceService,
@@ -51,14 +51,36 @@ export class ClientStaffComponent implements OnInit {
   deActivateClient(id) {
     const isDelete = confirm('Are you sure want to Deactivate ?')
     if (isDelete) {
-      this.clientServices.deactivateClientStaff(id)
-      .subscribe(
-        data => {
-          console.log('Deactivate !')
-          location.reload();
-        },
-        err => console.log(err)
-      )
+      this.clientServices.deactivateClientStaff(id, 0)
+        .subscribe(
+          data => {
+            console.log('Deactivate !')
+            location.reload();
+          },
+          err => console.log(err)
+        )
     }
+  }
+
+  deActivateUser(id) {
+    this.clientServices.deactivateClientStaff(id, 0)
+    .subscribe(
+      data => {
+        console.log('Deactivate !')
+        location.reload();
+      },
+      err => console.log(err)
+    )
+  }
+
+  activateUser(id){
+    this.clientServices.deactivateClientStaff(id, 1)
+    .subscribe(
+      data => {
+        console.log('Deactivate !')
+        location.reload();
+      },
+      err => console.log(err)
+    )
   }
 }

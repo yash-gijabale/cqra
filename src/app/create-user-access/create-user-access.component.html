@@ -40,21 +40,12 @@
             </select>
           </div> -->
           <hr>
-          <div class="row ml-4 my-3">
+          <!-- <div class="row ml-4 my-3">
             <input type="checkbox" class="btn-check mb-1" id="btn-check-outlined" autocomplete="off">
             <label class="label" for="btn-check-outlined">Select All </label><br>
-          </div>
+          </div> -->
           <h5>User Maintainance</h5>
           <div class="row">
-            <div class="col-md-3">
-              <div class="form-check">
-                <input class="form-check-input" formControlName="roleMenu" type="checkbox" [value]="1"
-                  id="roleMenu" [checked]="userMenu.roleMenu" (change)="addCheckMenu($event)">
-                <label class="form-check-label" for="roleMenu">
-                  Role
-                </label>
-              </div>
-            </div>
             <div class="col-md-3">
               <div class="form-check">
                 <input class="form-check-input" formControlName="userMenu" type="checkbox" [value]="1"
@@ -84,7 +75,7 @@
               </div>
             </div>
 
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" fromControlName="mockupMenu" [value]="1"
                   id="mockupMenu" [checked]="userMenu.mockupMenu">
@@ -92,7 +83,7 @@
                   CQRA Mockup Allocation
                 </label>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-md-3">
               <div class="form-check">
@@ -104,7 +95,7 @@
               </div>
             </div>
 
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" fromControlName="inductionMenu" [value]="1"
                   id="inductionMenu" [checked]="userMenu.inductionMenu">
@@ -112,7 +103,7 @@
                   Client Engeneer's induction
                 </label>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-md-3">
               <div class="form-check">
@@ -163,16 +154,6 @@
                 </label>
               </div>
             </div>
-
-            <div class="col-md-3">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" [value]="1" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  Sampling
-                </label>
-              </div>
-            </div>
-
           </div>
 
           <h5 class="mt-3">Master Maintainance</h5>
@@ -202,12 +183,12 @@
                 <input class="form-check-input" type="checkbox" fromControlName="buildingMenu" [value]="1"
                   id="buildingMenu" [checked]="userMenu.buildingMenu">
                 <label class="form-check-label" for="buildingMenu">
-                  Structure
+                  WBS
                 </label>
               </div>
             </div>
 
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" fromControlName="floorMenu" [value]="1"
                   id="floorMenu" [checked]="userMenu.floorMenu">
@@ -215,14 +196,33 @@
                   Stages
                 </label>
               </div>
-            </div>
+            </div> -->
 
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" fromControlName="cis" [value]="1" id="cis"
                   [checked]="userMenu.cis">
                 <label class="form-check-label" for="cis">
                   Change Image
+                </label>
+              </div>
+            </div> -->
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" formControlName="roleMenu" type="checkbox" [value]="1"
+                  id="roleMenu" [checked]="userMenu.roleMenu" (change)="addCheckMenu($event)">
+                <label class="form-check-label" for="roleMenu">
+                  Role
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [value]="1" id="cis"
+                  [checked]="userMenu.cis">
+                <label class="form-check-label" for="cis">
+                  Region
                 </label>
               </div>
             </div>

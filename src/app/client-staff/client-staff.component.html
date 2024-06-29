@@ -60,9 +60,18 @@
                         <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActivateClient(staff.clientStaffId)" class="Delete-modal">
+                    <button *ngIf="staff.isActive" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="deActivateUser(staff.clientStaffId)" class="Delete-modal">
                       <span class="edit-tessst">
-                        <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!staff.isActive" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="activateUser(staff.clientStaffId)" class="Delete-modal text-primary">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" aria-hidden="true"></i>
                       </span>
                     </button>
                   </div>
