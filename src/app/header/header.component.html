@@ -19,7 +19,7 @@
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
-  <nav class="navbar navbar-expand-lg navbar-dark  fixed-top myclassnav" id="mainNav">
+  <nav class="navbar navbar-expand-lg  fixed-top myclassnav" id="mainNav">
     <a class="navbar-brand" href="index.php">
       <div class="header-view-logo">
         <img src="assets/images/cqra-logo-s-1.png">
@@ -45,7 +45,10 @@
             <span class="nav-link-text">User Management</span>
           </a>
         </li> -->
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Dashboard">
+
+
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Dashboard"
+          routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <a class="dropdown-item" routerLink="/dashboard">
             <span class="all-font-icons">
               <i class="fa fa-tachometer"></i>
@@ -53,11 +56,14 @@
             <span class="nav-link-text"> Dashboard </span>
           </a>
         </li>
+
+
         <li *ngIf="(userMenu.userlog || userMenu.userMenu || userMenu.contractorMenu 
         || userMenu.supervisorMenu || userMenu.foremanMenu || userMenu.clientStaffMenu
         || userMenu.assignContractor || userMenu.manageUserAccessMenu || userMenu.userAllocationMenu)"
-          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Users">
-          <a class="dropdown-item" routerLink="/wbs">
+          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Users" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">
+          <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="fa fa-user"></i>
             </span>
@@ -88,21 +94,14 @@
 
             <!-- <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li> -->
 
-
             <li *ngIf="userMenu.manageUserAccessMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/userAccess">Manage User Access</a></li>
-
-
-
 
             <!-- <li *ngIf="userMenu.supervisorMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/contractorSupervisor">Contractor Supervisor</a></li>
 
             <li *ngIf="userMenu.foremanMenu" class="dropdown-item"><a tabindex="-1"
                 routerLink="/contractorForman">Contractor Forman</a></li> -->
-
-
-
 
             <!-- <li *ngIf="userMenu.assignContractor" class="dropdown-item"><a tabindex="-1"
                 routerLink="/assign-constructor-foreman">Assign Constructor's Foreman</a></li> -->
@@ -111,22 +110,22 @@
 
             <li class="dropdown-item"><a tabindex="-1" routerLink="/assignEquipementList">Assign And Add Equipment</a>
             </li>
-
           </ul>
         </li>
+
+
         <li *ngIf="(userMenu.clientMenu || userMenu.schemeMenu || userMenu.buildingMenu)" class="dropdown-submenu"
-          data-toggle="tooltip" data-placement="right" title="Masters">
-          <a class="dropdown-item" routerLink="/wbs">
+          data-toggle="tooltip" data-placement="right" title="Masters" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">
+          <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="fa fa-building"></i>
             </span>
-            <span class="nav-link-text"> Master Maintance </span>
+            <span class="nav-link-text"> Master Maintenance </span>
           </a>
           <ul class="dropdown-menu">
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/roles">Role</a></li>
             <li *ngIf="userMenu.userMenu" class="dropdown-item"><a tabindex="-1" routerLink="/regions">Regions</a></li>
-
-
             <li *ngIf="userMenu.clientMenu" class="dropdown-item"><a tabindex="-1" routerLink="/client">Client</a></li>
             <li *ngIf="userMenu.schemeMenu" class="dropdown-item"><a tabindex="-1" routerLink="/project">Project </a>
             </li>
@@ -134,14 +133,16 @@
           </ul>
         </li>
 
+
         <li *ngIf="(userMenu.tradeGroup || userMenu.tradeMenu || userMenu.subgroupMenu || userMenu.questionGroupMenu
         || userMenu.questionHeadingMenu || userMenu.questionMenu || userMenu.checklistGenerationMenu)"
-          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Trades">
-          <a class="dropdown-item" routerLink="/wbs">
+          class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Trades" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">
+          <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="fa fa-cubes"></i>
             </span>
-            <span class="nav-link-text"> Trade Maintance </span>
+            <span class="nav-link-text"> Trade Maintenance </span>
           </a>
           <ul class="dropdown-menu">
             <li *ngIf="userMenu.tradeMenu" class="dropdown-item"><a tabindex="-1" routerLink="/tradegroup">Trade
@@ -160,8 +161,11 @@
                 routerLink="/checklist">Checklist </a></li>
           </ul>
         </li>
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Snap Audit">
-          <a class="dropdown-item" routerLink="/wbs">
+
+
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Snap Audit"
+          routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="fa fa-book"></i>
             </span>
@@ -194,41 +198,49 @@
             </li>
             <!-- <li *ngIf="userMenu.aorReport" class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
                 Tracker Report</a></li> -->
-
             <li class="dropdown-item"><a tabindex="-1" routerLink="/OTRList">Observation
                 Tracker Report</a></li>
-
-
           </ul>
         </li>
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports">
-          <a class="dropdown-item" routerLink="/wbs">
+
+
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports"
+          routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="fa fa-file-text"></i>
             </span>
             <span class="nav-link-text">Reports </span>
           </a>
           <ul class="dropdown-menu">
-            <li *ngIf="userMenu.qur" class="dropdown-item"><a tabindex="-1" href="/qualityUpdateReport">Quality Update
+            <li *ngIf="userMenu.qur" class="dropdown-item"><a tabindex="-1" routerLink="/qualityUpdateReport">Quality
+                Update
                 Report </a></li>
-            <li *ngIf="userMenu.qrr" class="dropdown-item"><a tabindex="-1" href="/qualityReviewReport">Quality Review
+            <li *ngIf="userMenu.qrr" class="dropdown-item"><a tabindex="-1" routerLink="/qualityReviewReport">Quality
+                Review
                 Report </a></li>
-            <li *ngIf="userMenu.misLink" class="dropdown-item"><a tabindex="-1" href="/misReport">MIS Report</a></li>
-            <li *ngIf="userMenu.kickoffMenu" class="dropdown-item"><a tabindex="-1" href="/createKickoff/-1">Kickoff
+            <li *ngIf="userMenu.misLink" class="dropdown-item"><a tabindex="-1" routerLink="/misReport">MIS Report</a>
+            </li>
+            <li *ngIf="userMenu.kickoffMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/createKickoff/-1">Kickoff
                 Report</a></li>
-            <li *ngIf="userMenu.trainingMenu" class="dropdown-item"><a tabindex="-1" href="/createTraining/-1">Training
+            <li *ngIf="userMenu.trainingMenu" class="dropdown-item"><a tabindex="-1"
+                routerLink="/createTraining/-1">Training
                 Conducted Report</a></li>
-            <li *ngIf="userMenu.ncco1" class="dropdown-item"><a tabindex="-1" href="/createNcObservationCount">NC and
+            <li *ngIf="userMenu.ncco1" class="dropdown-item"><a tabindex="-1" routerLink="/createNcObservationCount">NC
+                and
                 observation Count</a>
             </li>
-            <li *ngIf="userMenu.qi" class="dropdown-item"><a tabindex="-1" href="/createQualityIndexReport/-1">Quality
+            <li *ngIf="userMenu.qi" class="dropdown-item"><a tabindex="-1"
+                routerLink="/createQualityIndexReport/-1">Quality
                 Index Report</a></li>
             <li *ngIf="userMenu.ncStatusMenu" class="dropdown-item"><a tabindex="-1"
-                href="/createNcsStatusReport/-1">NCs Status Report</a></li>
+                routerLink="/createNcsStatusReport/-1">NCs Status Report</a></li>
             <li *ngIf="userMenu.nccloseHistory" class="dropdown-item"><a tabindex="-1"
-                href="/createNCClosureHistoryReport/-1">NC Closure History</a>
+                routerLink="/createNCClosureHistoryReport/-1">NC Closure History</a>
             </li>
-            <li *ngIf="userMenu.nclogMenu" class="dropdown-item"><a tabindex="-1" href="/createNcLogReport/-1">NC Log
+            <li *ngIf="userMenu.nclogMenu" class="dropdown-item"><a tabindex="-1" routerLink="/createNcLogReport/-1">NC
+                Log
                 Report</a></li>
           </ul>
         </li>
@@ -236,7 +248,7 @@
 
         <li *ngIf="(userMenu.dtmDeclaration || userMenu.inspectorDeclaration || userMenu.newInsTraining || userMenu.underInsTraining
         || userMenu.preSnapAuditForm)" class="dropdown-submenu" data-toggle="tooltip" data-placement="right"
-          title="Reports">
+          title="Reports" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="fa fa-shield"></i>
@@ -255,7 +267,9 @@
           </ul>
         </li>
 
-        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports">
+
+        <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Reports"
+          routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <a class="dropdown-item">
             <span class="all-font-icons">
               <i class="fa fa-cog"></i>
@@ -286,13 +300,6 @@
             <li class="dropdown-item"><a tabindex="-1" routerLink="/checklist-master">Checklist Master</a></li>
           </ul>
         </li> -->
-
-
-
-
-
-
-
 
 
         <!-- <li class="dropdown-submenu" data-toggle="tooltip" data-placement="right" title="Tables">
