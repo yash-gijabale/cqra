@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-username=localStorage.getItem('username');
-userMenu = JSON.parse(localStorage.getItem('userMenu'))
+  username = localStorage.getItem('username');
+  userMenu = JSON.parse(localStorage.getItem('userMenu'))
   constructor(
     private router: Router
   ) { }
@@ -16,7 +16,7 @@ userMenu = JSON.parse(localStorage.getItem('userMenu'))
   ngOnInit() {
     console.log(this.userMenu)
 
-    $("#sidenavToggler").click(function(e) {
+    $("#sidenavToggler").click(function (e) {
       e.preventDefault();
       $("body").toggleClass("sidenav-toggled");
       $(".navbar-sidenav .nav-link-collapse").addClass("collapsed");
@@ -24,9 +24,10 @@ userMenu = JSON.parse(localStorage.getItem('userMenu'))
     });
   }
 
-  logout(){
+  logout() {
     sessionStorage.clear()
     localStorage.clear()
     this.router.navigate(['login'])
   }
+
 }
