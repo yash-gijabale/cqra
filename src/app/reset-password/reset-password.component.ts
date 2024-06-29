@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { SnackBarComponent } from '../loader/snack-bar/snack-bar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
@@ -12,7 +13,8 @@ export class ResetPasswordComponent implements OnInit {
   userId = Number(localStorage.getItem('id'))
   constructor(
     private userService: UserService,
-    private snackBar: SnackBarComponent
+    private snackBar: SnackBarComponent,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -20,19 +22,19 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   isLoad: boolean = false
-  passEror:boolean = false
+  passEror: boolean = false
   resetPassword() {
     let newPassword = document.getElementById('newPassword') as HTMLInputElement
     let confirmPassword = document.getElementById('confirmPassword') as HTMLInputElement
-    if(newPassword.value !== confirmPassword.value){
+    if (newPassword.value !== confirmPassword.value) {
       this.passEror = true
-      setTimeout(()=>{
+      setTimeout(() => {
         this.passEror = false
       }, 3000)
       return
     }
 
-    if(confirmPassword.value == ''){
+    if (confirmPassword.value == '') {
       return
     }
     this.isLoad = true
@@ -41,11 +43,18 @@ export class ResetPasswordComponent implements OnInit {
         console.log(data)
         this.isLoad = false
         this.snackBar.showSuccess('Password updated')
+        this.logout()
       }, err => {
         this.isLoad = false
 
         this.snackBar.showSnackError()
       })
+  }
+
+  logout() {
+    sessionStorage.clear()
+    localStorage.clear()
+    this.router.navigate(['login'])
   }
 
 }

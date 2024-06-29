@@ -7,12 +7,16 @@ import { CommonService } from "../common.service";
 import { first } from "rxjs/operators";
 import { ContractorData } from "../contractor-forman/contractor-forman.component";
 import { data } from "jquery";
+import { SnackBarComponent } from "../loader/snack-bar/snack-bar.component";
+
+
 export class ContractorSupervisor {
   constructor(
     public supervisorId: number,
     public contractorId: number,
     public supervisorName: string,
-    public isActive: boolean
+    public isActive: boolean,
+
   ) { }
 }
 
@@ -29,12 +33,15 @@ export class CreateContractorSupervisorComponent implements OnInit {
   id: number;
   contractorId: number
 
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientServiceService: ClientServiceService,
     private commanService: CommonService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: SnackBarComponent
+
   ) { }
 
   ngOnInit() {
@@ -87,14 +94,26 @@ export class CreateContractorSupervisorComponent implements OnInit {
         .createSupervisor(this.supervisorForm.value)
         .subscribe((data) => {
           console.log("supervisor added");
-        });
+          this.snackBar.showSuccess("supervisor added")
+        },
+          err => {
+            console.log(err)
+            this.snackBar.showSnackError()
+          }
+        );
     } else {
       this.supervisorForm.value.isActive = true
       this.clientServiceService
         .updateSupervisor(this.supervisorForm.value, this.id)
         .subscribe((data) => {
           console.log("updated successfully");
-        });
+          this.snackBar.showSuccess("supervisor Updated")
+        },
+          err => {
+            console.log(err)
+            this.snackBar.showSnackError()
+          }
+        );
     }
   }
 }

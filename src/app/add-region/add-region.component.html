@@ -29,7 +29,8 @@
       <form [formGroup]="regionForm" (ngSubmit)="onSubmit()">
         <div class="form-group col-md-4">
           <label>Region name</label>
-          <input type="text" formControlName="regionName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.regionName.errors }" />
+          <input type="text" formControlName="regionName" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.regionName.errors }" />
           <div *ngIf="submitted && f.regionName.errors" class="invalid-feedback">
             <div *ngIf="f.regionName.errors.required">Region is required</div>
           </div>
@@ -81,12 +82,12 @@
                     <button type="text" class="edit-modal add-modal" data-toggle="modal"
                       data-target="#exampleModalCenter" (click)="getRegion(region.regionId)">
                       <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
+                        <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
                     <button type="text" class="Delete-modal" (click)="deactiveRegion(region.regionId)">
                       <span class="edit-tessst">
-                        <i class="lar la-trash-alt"></i>
+                        <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
                     </button>
                   </div>

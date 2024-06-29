@@ -50,14 +50,14 @@ export class CreateClientStaffComponent implements OnInit {
     if (this.id != -1) {
       this.clientServiceService.retrieveClientStaff(this.id)
         .pipe(first())
-        .subscribe(x => { 
+        .subscribe(x => {
           console.log(x)
           this.commonService.getClientProject(x.clientId).subscribe(
             (data) => {
               this.projects = data;
             }
           );
-          this.clientStaffForm.patchValue(x) 
+          this.clientStaffForm.patchValue(x)
         });
     }
 
@@ -99,6 +99,7 @@ export class CreateClientStaffComponent implements OnInit {
           console.log('data added', data)
           this.isbtnLoading = false
           this.snackBar.showSuccess('Client Staff Added')
+          this.resetForm()
         },
           (err) => {
             console.log(err)
@@ -110,7 +111,6 @@ export class CreateClientStaffComponent implements OnInit {
           console.log('updated-->', data)
           this.isbtnLoading = false
           this.snackBar.showSuccess('Client Staff Updated')
-
         },
           (err) => {
             console.log('update err---->', err)
@@ -133,5 +133,12 @@ export class CreateClientStaffComponent implements OnInit {
         console.log("-----> err", err);
       }
     );
+  }
+
+  resetForm() {
+    this.clientStaffForm.reset();
+    this.submitted = false;
+    this.SelClientId = '';
+    this.projects = [];
   }
 }

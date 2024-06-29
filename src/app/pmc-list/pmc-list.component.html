@@ -33,6 +33,7 @@
             <thead>
               <tr>
                 <th>PMC Name</th>
+                <th>Project Name</th>
                 <th>Address</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -43,20 +44,21 @@
               <tr *ngFor="let pmc of pmcs">
 
                 <td>{{ pmc.pmcName }}</td>
+                <td>{{ pmc.projectName }}</td>
                 <td>{{ pmc.pmcAddress }}</td>
                 <td>{{ pmc.pmcEmail }}</td>
                 <td>{{ pmc.pmcPhone }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editPmc(pmc.pmcId)" class="edit-modal add-modal"
-                      data-toggle="modal" data-target="#exampleModalCenter">
+                    <button type="text" (click)="editPmc(pmc.pmcId)" class="edit-modal add-modal" data-toggle="modal"
+                      data-target="#exampleModalCenter">
                       <span class="edit-tessst">
-                        <i class="las la-pencil-alt"></i>
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
                       </span>
                     </button>
                     <button type="text" (click)="deactivatePmc(pmc.pmcId)" class="Delete-modal">
                       <span class="edit-tessst">
-                        <i class="lar la-trash-alt"></i>
+                        <i class="fa fa-trash" aria-hidden="true"></i>
                       </span>
                     </button>
                   </div>
