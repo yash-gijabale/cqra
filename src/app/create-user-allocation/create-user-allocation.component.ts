@@ -412,7 +412,7 @@ export class CreateUserAllocationComponent implements OnInit {
 
   currentStage: String
   unitData = {}
-  units: Array<Object> = []
+  units: Array<any> = []
   showunits(stageId) {
     this.currentStage = stageId
     // this.unitLoad = true
@@ -480,16 +480,15 @@ export class CreateUserAllocationComponent implements OnInit {
   }
 
   addAllStage(e) {
+    console.log('click')
     if (e.target.checked) {
       this.stages.forEach(stage => {
-        if (!this.selectedData[Number(stage)]) {
-          this.selectedData[Number(stage)] = {}
+        if (!this.selectedData[Number(stage.stageId)]) {
+          this.selectedData[Number(stage.stageId)] = {}
         }
       })
     } else {
-      this.stages.forEach(stage => {
-        delete this.selectedData[Number(stage)]
-      })
+      this.selectedData = {}
     }
     console.log(this.selectedData)
   }
@@ -501,6 +500,19 @@ export class CreateUserAllocationComponent implements OnInit {
       this.showSubunits(currentStage)
     } else {
       delete this.selectedData[String(this.currentStage)][e.target.value]
+    }
+    console.log(this.selectedData)
+  }
+
+  selectAllUnits(e) {
+    if (e.target.checked) {
+      this.units.forEach(unit => {
+        if (!this.selectedData[String(this.currentStage)][Number(unit.unitId)]) {
+          this.selectedData[String(this.currentStage)][Number(unit.unitId)] = []
+        }
+      })
+    } else {
+      this.selectedData[String(this.currentStage)] = {}
     }
     console.log(this.selectedData)
   }
@@ -519,6 +531,17 @@ export class CreateUserAllocationComponent implements OnInit {
 
   }
 
+  selectAllSubUnit(e) {
+    if (e.target.checked) {
+      this.subunits.forEach(subunit => {
+        this.selectedData[String(this.currentStage)][String(this.currentUnit)].push(Number(subunit.subunitId))
+      })
+    } else {
+      this.selectedData[String(this.currentStage)][String(this.currentUnit)] = []
+    }
+    console.log(this.selectedData)
+  }
+
 
   checkListData = []
   addChecklist(e) {
@@ -529,6 +552,17 @@ export class CreateUserAllocationComponent implements OnInit {
         return id != e.target.value
       })
     }
+  }
+
+  selectAllChecklist(e) {
+    if (e.target.checked) {
+      this.checklists.forEach(checklist => {
+        this.checkListData.push(Number(checklist.checkistIdChecklist))
+      })
+    } else {
+      this.checkListData = []
+    }
+    console.log(this.checkListData)
   }
 
 }
