@@ -62,11 +62,16 @@ export class ClientComponent implements OnInit {
   };
 
 
-  deActivateClient(id) {
-    const isDelete = confirm('Are you sure want to deaactivate !');
+  activateClient(id, status) {
+    let isDelete:boolean
+    if(status){
+       isDelete = confirm('Are you sure want to deactivate !');
+    }else{
+       isDelete = confirm('Are you sure want to deactivate !');
+    }
     this.isLoading = true
     if (isDelete) {
-      this.clientService.deactivateClient(id)
+      this.clientService.deactivateClient(id, status)
         .subscribe(
           data => {
             this.isLoading = false

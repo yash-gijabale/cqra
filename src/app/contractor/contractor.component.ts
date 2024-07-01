@@ -97,10 +97,16 @@ export class ContractorComponent implements OnInit {
 
   }
 
-  deleteContractor(id) {
-    const isdelete = confirm('Are sure want to deactivate ?')
+  activateUser(id, status) {
+    let isdelete : boolean
+    if(status){
+      isdelete = confirm('Are sure want to Activate ?')
+    }else{
+      isdelete = confirm('Are sure want to Deactivate ?')
+
+    }
     if (isdelete) {
-      this.clientService.deactiveContractor(id,0)
+      this.clientService.deactiveContractor(id,status)
         .subscribe(
           data => {
             console.log('deActivated !')
@@ -111,19 +117,6 @@ export class ContractorComponent implements OnInit {
     }
   }
 
-  activate(id){
-    const isdelete = confirm('Are sure want to Activate ?')
-    if (isdelete) {
-      this.clientService.deactiveContractor(id,1)
-        .subscribe(
-          data => {
-            // console.log('deActivated !')
-            location.reload()
-          },
-          err => console.log(err)
-        )
-    }
-  }
 
   changeContractorId(id) {
     this.contractorId = id

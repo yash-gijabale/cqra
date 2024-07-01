@@ -28,65 +28,85 @@
         <label class="col-md-12"><b>Filters</b></label>
         <!-- <form name="form"> -->
 
-          <div class="row col-md-12">
+        <div class="row col-md-12">
 
-            <div class="form-group col-md-4">
-              <label>Select Type</label>
-              <select class="form-control" [(ngModel)]="SelUser">
-                <option [value]="0" [selected]="true">Please Select</option>
-                <option [value]="1">Contractor</option>
-                <option [value]="2">PMC</option>
-                <option [value]="3">Client</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-4">
-              <label>Select User</label>
-              <select class="form-control" [(ngModel)]="SelUser">
-                <option [value]="0" [selected]="true">Please Select</option>
-                <option [value]="u.userId" *ngFor="let u of users">
-                  {{u.userFullName}}
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-4">
-              <label>Select Project</label>
-              <select class="form-control" [(ngModel)]="SelProject" (change)="getStructure()">
-                <option [value]="0" [selected]="true">Please Select</option>
-                <option [value]="o.projectId" *ngFor="let o of projects">
-                  {{o.projectName}}
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-4">
-              <label>Select Structure</label>
-              <select class="form-control" [(ngModel)]="SelStructure">
-                <option [value]="0" [selected]="true">Please Select</option>
-                <option [value]="o.structureId" *ngFor="let o of structures">
-                  {{o.structureName}}
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-4">
-              <label>Select Trade</label>
-              <select class="form-control" [(ngModel)]="SelTrade">
-                <option [value]="0" [selected]="true">Please Select</option>
-                <option [value]="o.fkTradeId" *ngFor="let o of trades">
-                  {{o.tradeName}}
-                </option>
-              </select>
-            </div>
+          <div class="form-group col-md-4">
+            <label>Select Type</label>
+            <select class="form-control" [(ngModel)]="SelType" (change)="getRepresntator()">
+              <!-- <option [value]="0" [selected]="true">Please Select</option> -->
+              <option [value]="1" [selected]="true">Contractor</option>
+              <option [value]="2">PMC</option>
+              <option [value]="3">Client</option>
+            </select>
           </div>
-          <div class="card-footer">
-            <button class="btn btn-sm btn-warning" (click)="getUserAllocationData()">
-              <span *ngIf="!filterLoad">Display</span>
-              <span *ngIf="filterLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            </button>
-            <button class="btn btn-sm btn-secondary" type="reset">Reset</button>
+
+          <div *ngIf="SelType == 1" class="form-group col-md-4">
+            <label>Select Contractor</label>
+            <select class="form-control" [(ngModel)]="SelUser">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="u.contractorId" *ngFor="let u of contractors">
+                {{u.contractorName}}
+              </option>
+            </select>
           </div>
+
+          <div *ngIf="SelType == 2" class="form-group col-md-4">
+            <label>Select PMC</label>
+            <select class="form-control" [(ngModel)]="SelUser">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="u.pmcId" *ngFor="let u of pmcs">
+                {{u.pmcName}}
+              </option>
+            </select>
+          </div>
+
+          <div *ngIf="SelType == 3" class="form-group col-md-4">
+            <label>Select Client</label>
+            <select class="form-control" [(ngModel)]="SelUser">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="u.clientId" *ngFor="let u of clients">
+                {{u.clientName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Select Project</label>
+            <select class="form-control" [(ngModel)]="SelProject" (change)="getStructure()">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="o.projectId" *ngFor="let o of projects">
+                {{o.projectName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Select Structure</label>
+            <select class="form-control" [(ngModel)]="SelStructure">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="o.structureId" *ngFor="let o of structures">
+                {{o.structureName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Select Trade</label>
+            <select class="form-control" [(ngModel)]="SelTrade">
+              <option [value]="0" [selected]="true">Please Select</option>
+              <option [value]="o.fkTradeId" *ngFor="let o of trades">
+                {{o.tradeName}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-warning" (click)="getUserAllocationData()">
+            <span *ngIf="!filterLoad">Display</span>
+            <span *ngIf="filterLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
+          <!-- <button class="btn btn-sm btn-secondary" type="reset">Reset</button> -->
+        </div>
         <!-- </form> -->
 
 

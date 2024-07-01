@@ -37,7 +37,7 @@ export class ClientStaffComponent implements OnInit {
       lengthMenu: [10, 25, 50],
     };
 
-    this.clientServices.getAllClientStaff().subscribe((data) => {
+    this.clientServices.getAllClientStaffView().subscribe((data) => {
       console.log("ALL Staff==", data);
       this.staffData = data;
       this.dtTrigger.next()
@@ -48,10 +48,17 @@ export class ClientStaffComponent implements OnInit {
   editClientStaff(id) {
     this.router.navigate(['createclientStaff', id])
   }
-  deActivateClient(id) {
-    const isDelete = confirm('Are you sure want to Deactivate ?')
-    if (isDelete) {
-      this.clientServices.deactivateClientStaff(id, 0)
+
+  activateUser(id, status) {
+    let isConfirm: boolean
+    if (status) {
+      isConfirm = confirm('Are you sure want to activate')
+    } else {
+      isConfirm = confirm('Are you sure want to deactivate')
+
+    }
+    if (isConfirm) {
+      this.clientServices.deactivateClientStaff(id, status)
         .subscribe(
           data => {
             console.log('Deactivate !')
@@ -60,27 +67,6 @@ export class ClientStaffComponent implements OnInit {
           err => console.log(err)
         )
     }
-  }
 
-  deActivateUser(id) {
-    this.clientServices.deactivateClientStaff(id, 0)
-    .subscribe(
-      data => {
-        console.log('Deactivate !')
-        location.reload();
-      },
-      err => console.log(err)
-    )
-  }
-
-  activateUser(id){
-    this.clientServices.deactivateClientStaff(id, 1)
-    .subscribe(
-      data => {
-        console.log('Deactivate !')
-        location.reload();
-      },
-      err => console.log(err)
-    )
   }
 }

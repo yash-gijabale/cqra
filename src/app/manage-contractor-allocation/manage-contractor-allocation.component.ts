@@ -31,6 +31,12 @@ export class ManageContractorAllocationComponent implements OnInit {
   SelTrade: Number = 0
   SelStructure: number = 0
   SelUser: Number = 0
+  SelType:Number = 1
+
+  contractors:any
+  pmcs:any
+  clients:any
+  // SelUserType:Number = 0
   constructor(
     private commonService: CommonService,
     private clientService: ClientServiceService,
@@ -45,10 +51,9 @@ export class ManageContractorAllocationComponent implements OnInit {
       lengthMenu: [10, 25, 50]
     };
 
-    this.commonService.getAllUsers()
-      .subscribe(data => {
-        this.users = data
-        console.log('users', data)
+    this.commonService.getAllContractors()
+      .subscribe(data =>{
+        this.contractors = data
       })
 
 
@@ -77,6 +82,27 @@ export class ManageContractorAllocationComponent implements OnInit {
         console.log(data)
         this.trades = data
       })
+
+  }
+
+  getRepresntator(){
+    
+    if(this.SelType == 1){
+      this.commonService.getAllContractors()
+      .subscribe(data =>{
+        this.contractors = data
+      })
+    }else if(this.SelType == 2){
+      this.clientService.getAllPmcs()
+      .subscribe(data =>{
+        this.pmcs = data
+      })
+    }else if(this.SelType == 3){
+      this.clientService.getAllClients()
+      .subscribe(data =>{
+        this.clients = data
+      })
+    }
 
   }
 

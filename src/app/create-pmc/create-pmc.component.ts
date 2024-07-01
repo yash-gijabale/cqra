@@ -106,7 +106,7 @@ export class CreatePmcComponent implements OnInit {
 
 
     } else {
-      this.clientServiceService.createPmc(this.registerForm.value)
+      this.clientServiceService.createPmc({...this.registerForm.value, isActive:1})
         .subscribe(data => {
           console.log('pmc aded-->', data)
           this.isbtnLoading = false

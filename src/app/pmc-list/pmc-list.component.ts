@@ -51,11 +51,22 @@ export class PmcListComponent implements OnInit {
     this.router.navigate(['createpmc', id])
   }
 
-  deactivatePmc(id) {
-    this.clientService.deletePmc(id)
-      .subscribe(data => {
-        console.log('deleted')
-        location.reload()
-      })
+  deactivatePmc(id, status) {
+    let data = {
+      isActive:status
+    }
+    let conform:boolean
+    if(status){
+      conform = confirm('Are you sure want to Activate ?')
+    }else{
+      conform = confirm('Are you sure want to Deactivate ?')
+    }
+    if(conform){
+      this.clientService.activatePmc(id, data)
+        .subscribe(data => {
+          console.log('deleted')
+          location.reload()
+        })
+    }
   }
 }

@@ -74,8 +74,8 @@ export class ClientServiceService {
   deleteClient(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/client/${id}`)
   }
-  deactivateClient(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/Client/${id}/${false}`, '')
+  deactivateClient(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Client/${id}/${status}`, '')
   }
 
   checkClientCode(code){
@@ -322,6 +322,10 @@ export class ClientServiceService {
 
   getAllClientStaff() {
     return this.httpClient.get<clientStaffData[]>(this.REST_API_SERVER + '/getClientStaffs');
+  }
+
+  getAllClientStaffView(){
+    return this.httpClient.get<clientStaffData[]>(this.REST_API_SERVER + '/getClientStaffviews');
   }
 
   retrieveClientStaff(id) {
@@ -772,6 +776,10 @@ export class ClientServiceService {
 
   deletePmc(id){
     return this.httpClient.delete<PmcView>(`${this.REST_API_SERVER}/Pmc/${id}`)
+  }
+
+  activatePmc(id, status){
+    return this.httpClient.put(`${this.REST_API_SERVER}/Pmcactdecstatuschange/${id}`, status)
   }
 
   getPmcByprojectId(projectId){
