@@ -36,22 +36,42 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of subgroupsView">
-                <td>{{ client.subgroupName }}</td>
-                <td>{{ client.tardeName }}</td>
+              <tr *ngFor="let subgroup of subgroupsView">
+                <td>{{ subgroup.subgroupName }}</td>
+                <td>{{ subgroup.tardeName }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editSubgroup(client.subgroupId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editSubgroup(subgroup.subgroupId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActive(client.subgroupId)" class="Delete-modal">
+
+
+
+                    <button *ngIf="subgroup.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="deactivateSubgroup(subgroup.subgroupId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="fa fa-times" title="Deactivate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!subgroup.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="activateSubgroup(subgroup.subgroupId)" class="Delete-modal text-primary">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" title="Activate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+
+                    <!-- <button type="text" (click)="deActive(client.subgroupId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
-                    </button>
+                    </button> -->
+
+
                   </div>
                 </td>
               </tr>

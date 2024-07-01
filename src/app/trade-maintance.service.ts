@@ -60,7 +60,7 @@ export class TradeMaintanceService {
     return this.httpClient.get<Question[]>(this.REST_API_SERVER + '/question/getAllQuestion');
   }
 
-  getQuestionByFilter(tradeId, subgroupId, questionGroupId, queationHeadingId, questionTypeId){
+  getQuestionByFilter(tradeId, subgroupId, questionGroupId, queationHeadingId, questionTypeId) {
     return this.httpClient.get<Question[]>(`${this.REST_API_SERVER}/question/getAllQuestion/${tradeId}/${subgroupId}/${questionGroupId}/${queationHeadingId}/${questionTypeId}`);
   }
 
@@ -107,8 +107,8 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/tradeGroup/trade/${id}`)
   }
 
-  deactivateTradeGroup(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/tradeGroup/TradeGroup/${id}/${false}`, '')
+  deactivateTradeGroup(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/tradeGroup/TradeGroup/${id}/${status}`, '')
   }
 
   // TRADE
@@ -127,8 +127,8 @@ export class TradeMaintanceService {
   deleteTrade(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/trade/trade/${id}`)
   }
-  deactivateTrade(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/trade/tradestatus/${id}/${false}`, '')
+  deactivateTrade(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/trade/tradestatus/${id}/${status}`, '')
   }
   // TRADE
 
@@ -147,8 +147,8 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/Subgroup/questionGroup/${id}`)
   }
 
-  deActivateSubgroup(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/Subgroup/Subgroup/${id}/${false}`, '')
+  deActivateSubgroup(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Subgroup/Subgroup/${id}/${status}`, '')
   }
   // SUBGROUP
 
@@ -170,8 +170,8 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}`)
   }
 
-  deactivateQuestionGroup(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}/${false}`, '')
+  deactivateQuestionGroup(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/questionGroup/questionGroup/${id}/${status}`, '')
   }
   //QUESTION GROUP
 
@@ -192,8 +192,8 @@ export class TradeMaintanceService {
     return this.httpClient.delete(`${this.REST_API_SERVER}/questionHeading/questionHeading/${id}`)
   }
 
-  deactivateQuestionHeding(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/questionHeading/Questionheading/${id}/${false}`, '')
+  deactivateQuestionHeding(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/questionHeading/Questionheading/${id}/${status}`, '')
   }
   //QUESTION HEADING
 
@@ -209,8 +209,8 @@ export class TradeMaintanceService {
   updateQuestion(data, id) {
     return this.httpClient.put(`${this.REST_API_SERVER}/question/question/${id}`, data)
   }
-  deActivateQuestion(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/question/Client/${id}/${0}`, '')
+  deActivateQuestion(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/question/Client/${id}/${status}`, '')
   }
   //QUESTIONS
 
@@ -231,7 +231,7 @@ export class TradeMaintanceService {
     return this.httpClient.put(`${this.REST_API_SERVER}/updatebyidss/${id}`, data)
   }
 
-  downloadNcClosure(ncId){
+  downloadNcClosure(ncId) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadnewncclosurepdf/${ncId}`)
   }
 
@@ -306,16 +306,16 @@ export class TradeMaintanceService {
 
 
   //INSPECTION
-  generateReport(id){
+  generateReport(id) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadinspectionreportsampledformat/${id}`)
   }
 
   //snagging
-  generateSnaggingReport(id){
+  generateSnaggingReport(id) {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/report/downloadsnagginghomeinspectionreport/${id}`)
   }
 
-  getAllUnitOfMeasurement(){
+  getAllUnitOfMeasurement() {
     return this.httpClient.get<any>(`${this.REST_API_SERVER}/unitofmeasurement/getall`)
   }
 

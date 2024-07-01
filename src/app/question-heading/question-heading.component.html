@@ -43,24 +43,42 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of questionHeaadingsView">
-                <td>{{ client.questionGroupText }}</td>
-                <td>{{ client.subgroupName }}</td>
-                <td>{{ client.tardeName }}</td>
-                <td>{{ client.questionHeadingText }}</td>
+              <tr *ngFor="let qheading of questionHeaadingsView">
+                <td>{{ qheading.questionGroupText }}</td>
+                <td>{{ qheading.subgroupName }}</td>
+                <td>{{ qheading.tardeName }}</td>
+                <td>{{ qheading.questionHeadingText }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editQuestionHeading(client.questionHeadingId)"
+                    <button type="text" (click)="editQuestionHeading(qheading.questionHeadingId)"
                       class="edit-modal add-modal" data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActive(client.questionHeadingId)" class="Delete-modal">
+
+
+                    <button *ngIf="qheading.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="deactivateQheading(qheading.questionHeadingId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="fa fa-times" title="Deactivate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!qheading.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="activateQheading(tradegroup.questionHeadingId)" class="Delete-modal text-primary">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" title="Activate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+
+
+                    <!-- <button type="text" (click)="deActive(client.questionHeadingId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
-                    </button>
+                    </button> -->
                   </div>
                 </td>
               </tr>

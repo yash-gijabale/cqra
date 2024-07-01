@@ -41,21 +41,38 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of trades">
-                <td>{{ client.tradeName }}</td>
+              <tr *ngFor="let trade of trades">
+                <td>{{ trade.tradeName }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editTrade(client.tardeId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editTrade(trade.tardeId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActivate(client.tardeId)" class="Delete-modal">
+
+                    <button *ngIf="trade.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="deactivateTrade(trade.tardeId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="fa fa-times" title="Deactivate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!trade.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="activateTrade(trade.tardeId)" class="Delete-modal text-primary">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" title="Activate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+
+
+                    <!-- <button type="text" (click)="deActivate(client.tardeId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
-                    </button>
+                    </button> -->
                   </div>
                 </td>
               </tr>

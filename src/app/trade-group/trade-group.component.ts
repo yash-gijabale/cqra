@@ -29,7 +29,7 @@ export class TradeGroupComponent implements OnInit {
 
   tradeGroups: TradeGroup[];
 
-  isLoading:boolean
+  isLoading: boolean
 
   constructor(private router: Router, private tradeMaintanceService: TradeMaintanceService) { }
 
@@ -60,11 +60,35 @@ export class TradeGroupComponent implements OnInit {
     console.log(id)
     this.router.navigate(['createTradegroup', id])
   }
-  deActivate(id) {
-    let isDelete = confirm('Are you sure want to deactive?')
-    if (isDelete) {
-      this.tradeMaintanceService.deactivateTradeGroup(id)
-        .subscribe(data => location.reload())
+  // deActivate(id) {
+  //   let isDelete = confirm('Are you sure want to deactive?')
+  //   if (isDelete) {
+  //     this.tradeMaintanceService.deactivateTradeGroup(id)
+  //       .subscribe(data => location.reload())
+  //   }
+  // }
+
+  deactivateTradegroup(id) {
+    let deactive = confirm('Are you sure want to deactive?')
+    if (deactive) {
+      this.tradeMaintanceService.deactivateTradeGroup(id, false)
+        // .subscribe(data => location.reload())
+        .subscribe((data) => {
+          console.log('deactivated..', data)
+          location.reload()
+        })
+    }
+  }
+
+  activateTradegroup(id) {
+    let active = confirm('Are you sure want to active?')
+    if (active) {
+      this.tradeMaintanceService.deactivateTradeGroup(id, true)
+        // .subscribe(data => location.reload())
+        .subscribe((data) => {
+          console.log('activated..', data)
+          location.reload()
+        })
     }
   }
 

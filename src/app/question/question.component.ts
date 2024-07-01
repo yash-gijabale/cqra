@@ -88,7 +88,7 @@ export class QuestionComponent implements OnInit {
   SelQuestionType: Number = 0
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private tradeMaintanceService: TradeMaintanceService,
   ) { }
 
@@ -159,7 +159,7 @@ export class QuestionComponent implements OnInit {
       })
   }
 
-  filterLoad:boolean = false
+  filterLoad: boolean = false
   filterQuestions() {
     this.filterLoad = true
     this.tradeMaintanceService.getQuestionByFilter(this.SelTrade, this.SelSubgroup, this.SelQuestionGroup, this.SelQuestionHeading, this.SelQuestionType)
@@ -175,19 +175,34 @@ export class QuestionComponent implements OnInit {
   }
 
 
-  // editforQuestion(id,){
-  //   this.router.navigate(['createQuestion',id])
+  // deActivateQuestion(id) {
+  //   let isDeactivate = confirm('Are you sure want to deactivate?')
+  //   if (isDeactivate) {
+  //     this.tradeMaintanceService.deActivateQuestion(id,false)
+  //       .subscribe(data => {
+  //         console.log('Deactivated')
+  //         location.reload()
+  //       })
+  //   }
   // }
 
-
-
-
-  deActivateQuestion(id) {
-    let isDeactivate = confirm('Are you sure want to deactivate?')
-    if (isDeactivate) {
-      this.tradeMaintanceService.deActivateQuestion(id)
+  deactivateQuestion(id) {
+    let deactive = confirm('Are you sure want to deactivate?')
+    if (deactive) {
+      this.tradeMaintanceService.deActivateQuestion(id, false)
         .subscribe(data => {
-          console.log('Deactivated')
+          console.log('Deactivated', data)
+          location.reload()
+        })
+    }
+  }
+
+  activateQuestion(id) {
+    let active = confirm('Are you sure want to activate?')
+    if (active) {
+      this.tradeMaintanceService.deActivateQuestion(id, true)
+        .subscribe(data => {
+          console.log('Activated', data)
           location.reload()
         })
     }

@@ -67,13 +67,41 @@ export class QuestionGroupComponent implements OnInit {
     this.router.navigate(['createQuestiongroup', id])
   }
 
-  deActivate(id) {
-    let isDelete = confirm('Are you sure want to delete ?')
-    if (isDelete) {
-      this.tradeMaintanceService.deactivateQuestionGroup(id)
+  // deActivate(id) {
+  //   let isDelete = confirm('Are you sure want to delete ?')
+  //   if (isDelete) {
+  //     this.tradeMaintanceService.deactivateQuestionGroup(id)
+  //       .subscribe(
+  //         (data) => {
+  //           console.log('Deactivated')
+  //           location.reload()
+  //         },
+  //         (err) => console.log(err)
+  //       )
+  //   }
+  // }
+
+  deactivateQgroup(id) {
+    let deactive = confirm('Are you sure want to deactive ?')
+    if (deactive) {
+      this.tradeMaintanceService.deactivateQuestionGroup(id, false)
         .subscribe(
           (data) => {
-            console.log('Deactivated')
+            console.log('Deactivated', data)
+            location.reload()
+          },
+          (err) => console.log(err)
+        )
+    }
+  }
+
+  activateQgroup(id) {
+    let active = confirm('Are you sure want to active ?')
+    if (active) {
+      this.tradeMaintanceService.deactivateQuestionGroup(id, true)
+        .subscribe(
+          (data) => {
+            console.log('activated', data)
             location.reload()
           },
           (err) => console.log(err)

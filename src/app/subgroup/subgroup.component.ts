@@ -65,14 +65,37 @@ export class SubgroupComponent implements OnInit {
     this.router.navigate(['createSubgroup', id])
   }
 
-  deActive(id) {
-    let isDelete = confirm('Are you sure want to delete ?')
-    if (isDelete) {
-      this.tradeMaintanceService.deActivateSubgroup(id)
+  // deActive(id) {
+  //   let isDelete = confirm('Are you sure want to delete ?')
+  //   if (isDelete) {
+  //     this.tradeMaintanceService.deActivateSubgroup(id)
+  //       .subscribe(data => {
+  //         console.log('Deactivated')
+  //         location.reload()
+  //       })
+  //   }
+  // }
+
+  deactivateSubgroup(id) {
+    let deactive = confirm('Are you sure want to deactivate ?')
+    if (deactive) {
+      this.tradeMaintanceService.deActivateSubgroup(id, false)
         .subscribe(data => {
-          console.log('Deactivated')
+          console.log('Deactivated', data)
           location.reload()
         })
     }
   }
+
+  activateSubgroup(id) {
+    let active = confirm('Are you sure want to activate ?')
+    if (active) {
+      this.tradeMaintanceService.deActivateSubgroup(id, true)
+        .subscribe(data => {
+          console.log('activated', data)
+          location.reload()
+        })
+    }
+  }
+
 }
