@@ -112,33 +112,49 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of questions">
-                <td>{{ client.tradeName }}</td>
-                <td>{{ client.subgroupName }}</td>
-                <td>{{ client.questionGroupText }}</td>
-                <td>{{ client.questionHeadingText }}</td>
-                <td>{{ client.questionText }}</td>
+              <tr *ngFor="let question of questions">
+                <td>{{ question.tradeName }}</td>
+                <td>{{ question.subgroupName }}</td>
+                <td>{{ question.questionGroupText }}</td>
+                <td>{{ question.questionHeadingText }}</td>
+                <td>{{ question.questionText }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editQuestion(client.questionId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editQuestion(question.questionId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
 
-                    <button type="text" (click)="editforQuestion(client.questionId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editforQuestion(question.questionId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="fa fa-plus-circle" title="Add Question" aria-hidden="true"></i>
                       </span>
                     </button>
 
-                    <button type="text" (click)="deActivateQuestion(client.questionId)" class="Delete-modal">
+
+                    <button *ngIf="question.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="deactivateQuestion(question.questionId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="fa fa-times" title="Deactivate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!question.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="activateQuestion(question.questionId)" class="Delete-modal text-primary">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" title="Activate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+
+                    <!-- <button type="text" (click)="deActivateQuestion(client.questionId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
-                    </button>
+                    </button> -->
                   </div>
                 </td>
               </tr>

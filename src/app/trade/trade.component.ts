@@ -64,16 +64,37 @@ export class TradeComponent implements OnInit {
     this.router.navigate(['createTrade', id])
   }
 
-  deActivate(id) {
-    let isDelete = confirm('Are you sure want to deactivate ?')
-    if (isDelete) {
-      this.tradeMaintanceService.deactivateTrade(id)
+  // deActivate(id) {
+  //   let isDelete = confirm('Are you sure want to deactivate ?')
+  //   if (isDelete) {
+  //     this.tradeMaintanceService.deactivateTrade(id,false)
+  //       .subscribe(data => {
+  //         console.log('deactivated')
+  //         location.reload()
+  //       }, (err) => console.log(err))
+  //   }
+  // }
+
+  deactivateTrade(id) {
+    let deactive = confirm('Are you sure want to deactivate ?')
+    if (deactive) {
+      this.tradeMaintanceService.deactivateTrade(id, false)
         .subscribe(data => {
-          console.log('deactivated')
+          console.log('deactivated', data)
           location.reload()
         }, (err) => console.log(err))
     }
-    
+  }
+
+  activateTrade(id) {
+    let active = confirm('Are you sure want to activate ?')
+    if (active) {
+      this.tradeMaintanceService.deactivateTrade(id, true)
+        .subscribe(data => {
+          console.log('activated', data)
+          location.reload()
+        }, (err) => console.log(err))
+    }
   }
 
 

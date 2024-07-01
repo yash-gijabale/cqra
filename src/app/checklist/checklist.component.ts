@@ -7,15 +7,10 @@ import { TradeMaintanceService } from '../trade-maintance.service';
 
 export class Checklist {
   constructor(
-
     public checklistId: number,
     public checklistName: string,
     public tradeName: string,
-
-
-  ) {
-
-  }
+  ) { }
 }
 
 @Component({
@@ -39,22 +34,31 @@ export class ChecklistComponent implements OnInit {
     this.tradeMaintanceService.getAllChecklist().subscribe((data) => {
       console.log('----> office service : get all data', data);
       this.checklists = data;
-
       // ADD THIS
       this.dtTrigger.next();
-
     }, (err) => {
       console.log('-----> err', err);
     })
-
   }
-
 
   editChecklist(id) {
     this.router.navigate(['createChecklist', id])
   }
 
-  deActivateCheckList(id) {
+  deactivateChecklist(id) {
+    let deactive = confirm('Are you sure to deactivate!');
+    if (deactive) {
+      console.log('Deactivated')
+    }
+
+  }
+
+  activateChecklist(id) {
+    let active = confirm('Are you sure to activate!');
+    if (active) {
+      console.log('Activated')
+
+    }
 
   }
 

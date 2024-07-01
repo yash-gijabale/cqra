@@ -40,24 +40,42 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of questionGroupsView">
+              <tr *ngFor="let qgroup of questionGroupsView">
 
-                <td>{{ client.subgroupName }}</td>
-                <td>{{ client.tardeName }}</td>
-                <td>{{ client.questionGroupText }}</td>
+                <td>{{ qgroup.subgroupName }}</td>
+                <td>{{ qgroup.tardeName }}</td>
+                <td>{{ qgroup.questionGroupText }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editQuestionGroup(client.questionGroupId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editQuestionGroup(qgroup.questionGroupId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActivate(client.questionGroupId)" class="Delete-modal">
+
+
+                    <button *ngIf="qgroup.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="deactivateQgroup(qgroup.questionGroupId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="fa fa-times" title="Deactivate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!qgroup.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="activateQgroup(qgroup.questionGroupId)" class="Delete-modal text-primary">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" title="Activate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+
+
+                    <!-- <button type="text" (click)="deActivate(client.questionGroupId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
-                    </button>
+                    </button> -->
                   </div>
                 </td>
               </tr>

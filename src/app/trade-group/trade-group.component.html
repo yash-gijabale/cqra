@@ -35,22 +35,44 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let client of tradeGroups">
+              <tr *ngFor="let tradegroup of tradeGroups">
 
-                <td>{{ client.tradeGroupName }}</td>
+                <td>{{ tradegroup.tradeGroupName }}</td>
                 <td>
                   <div class="action-commonview">
-                    <button type="text" (click)="editTrade(client.tradegroupId)" class="edit-modal add-modal"
+                    <button type="text" (click)="editTrade(tradegroup.tradegroupId)" class="edit-modal add-modal"
                       data-toggle="modal" data-target="#exampleModalCenter">
                       <span class="edit-tessst">
                         <i class="fa fa-pencil" title="Edit" aria-hidden="true"></i>
                       </span>
                     </button>
-                    <button type="text" (click)="deActivate(client.tradegroupId)" class="Delete-modal">
+
+
+
+                    <button *ngIf="tradegroup.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="deactivateTradegroup(tradegroup.tradegroupId)" class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="fa fa-times" title="Deactivate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!tradegroup.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;"
+                      (click)="activateTradegroup(tradegroup.tradegroupId)" class="Delete-modal text-primary">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" title="Activate" aria-hidden="true"></i>
+                      </span>
+                    </button>
+
+
+
+                    <!-- <button type="text" (click)="deActivate(client.tradegroupId)" class="Delete-modal">
                       <span class="edit-tessst">
                         <i class="fa fa-trash" title="Delete" aria-hidden="true"></i>
                       </span>
-                    </button>
+                    </button> -->
+
+
                   </div>
                 </td>
               </tr>
