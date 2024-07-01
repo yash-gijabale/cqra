@@ -176,6 +176,7 @@ import { QualityAndQualityAssessmentReportComponent } from './Reports/Audit Repo
 
 import { TrainingReportListComponent } from './Reports/traningReport/training-report-list/training-report-list.component';
 import { OpportunityImprovmentReportComponent } from './Reports/opportunity/opportunity-improvment-report/opportunity-improvment-report.component';
+import { ManageContractorAllocationComponent } from './manage-contractor-allocation/manage-contractor-allocation.component';
 
 
 
@@ -316,6 +317,7 @@ const routes: Routes = [
   { path: 'create-rfi', component: CreateRfiComponent },
   { path: 'assign-contractor-pmc', component: AssignContractorPmcComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'manage-contractor-allocation', component: ManageContractorAllocationComponent },
 
   //Report Yash Sawant
   { path: 'qality-inspection-parameters/:id', component: QualityInspectionParametersReportComponent },

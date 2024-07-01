@@ -1,0 +1,143 @@
+<app-header></app-header>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="add-bg-here">
+      <div class="add-container-viewcommon">
+        <div class="main-header_createview">
+          <div class="add-container-viewcommon">
+            <div class="add-breadcrames">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <span>Home</span>
+                </li>
+                <li class="breadcrumb-item active">Manage/PMC/Client allocation</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="right-side-create-view ">
+            <div class="create-content-operations">
+              <a routerLink="/assign-contractor-pmc/">
+                <button type="button"> Create Allocation</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card form-group m-2">
+        <label class="col-md-12"><b>Filters</b></label>
+        <!-- <form name="form"> -->
+
+          <div class="row col-md-12">
+
+            <div class="form-group col-md-4">
+              <label>Select Type</label>
+              <select class="form-control" [(ngModel)]="SelUser">
+                <option [value]="0" [selected]="true">Please Select</option>
+                <option [value]="1">Contractor</option>
+                <option [value]="2">PMC</option>
+                <option [value]="3">Client</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Select User</label>
+              <select class="form-control" [(ngModel)]="SelUser">
+                <option [value]="0" [selected]="true">Please Select</option>
+                <option [value]="u.userId" *ngFor="let u of users">
+                  {{u.userFullName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Select Project</label>
+              <select class="form-control" [(ngModel)]="SelProject" (change)="getStructure()">
+                <option [value]="0" [selected]="true">Please Select</option>
+                <option [value]="o.projectId" *ngFor="let o of projects">
+                  {{o.projectName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Select Structure</label>
+              <select class="form-control" [(ngModel)]="SelStructure">
+                <option [value]="0" [selected]="true">Please Select</option>
+                <option [value]="o.structureId" *ngFor="let o of structures">
+                  {{o.structureName}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Select Trade</label>
+              <select class="form-control" [(ngModel)]="SelTrade">
+                <option [value]="0" [selected]="true">Please Select</option>
+                <option [value]="o.fkTradeId" *ngFor="let o of trades">
+                  {{o.tradeName}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-sm btn-warning" (click)="getUserAllocationData()">
+              <span *ngIf="!filterLoad">Display</span>
+              <span *ngIf="filterLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-sm btn-secondary" type="reset">Reset</button>
+          </div>
+        <!-- </form> -->
+
+
+      </div>
+      <div class="row m-0">
+
+        <div class="col-xl-12 col-sm-12 mb-3">
+          <!-- Example DataTables Card-->
+
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="customers" class="row-border hover"
+            style="width:100%">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Project Name</th>
+                <th>Structure Name</th>
+                <th>Stages</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let allocation of userAllocation">
+                <td>{{allocation.userFullName}}</td>
+                <td>{{allocation.projectName}}</td>
+                <td>{{allocation.structureName}}</td>
+                <td>{{allocation.stageName}}</td>
+                <td>
+                  <div class="action-commonview">
+                    <button *ngIf="allocation.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;" (click)="deactivateUser(user.id)"
+                      class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                    <button *ngIf="!allocation.status" type="text"
+                      style="width: 20px; display: flex; justify-content: center;" (click)="deactivateUser(user.id)"
+                      class="Delete-modal">
+                      <span class="edit-tessst">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Example DataTables Card-->
+
+    </div>
+  </div>
+  <app-footer></app-footer>

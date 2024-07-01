@@ -197,6 +197,7 @@ import { QualityAndQualityAssessmentReportComponent } from './Reports/Audit Repo
 
 import { TrainingReportListComponent } from './Reports/traningReport/training-report-list/training-report-list.component';
 import { OpportunityImprovmentReportComponent } from './Reports/opportunity/opportunity-improvment-report/opportunity-improvment-report.component';
+import { ManageContractorAllocationComponent } from './manage-contractor-allocation/manage-contractor-allocation.component';
 
 
 
@@ -384,6 +385,7 @@ import { OpportunityImprovmentReportComponent } from './Reports/opportunity/oppo
 
     TrainingReportListComponent,
     OpportunityImprovmentReportComponent,
+    ManageContractorAllocationComponent,
 
 
   ],

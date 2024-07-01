@@ -277,8 +277,8 @@ export class ClientServiceService {
   deleteContractor(id) {
     return this.httpClient.delete(`${this.REST_API_SERVER}/contractor/${id}`)
   }
-  deactiveContractor(id) {
-    return this.httpClient.put(`${this.REST_API_SERVER}/Contractor/${id}/${0}`, '')
+  deactiveContractor(id, status) {
+    return this.httpClient.put(`${this.REST_API_SERVER}/Contractor/${id}/${status}`, '')
   }
 
   //CONTRACTOR API CALL
