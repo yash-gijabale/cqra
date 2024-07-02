@@ -1,0 +1,22 @@
+.info {
+    color: #545454;
+    font-size: 22px;
+    /* line-height: 27px; */
+    margin-top: 20px;
+}
+
+a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+h2 {
+    color: black;
+}
+
+.imgg {
+    height: 400px;
+    width: 460px;
+    margin-top: 30px;
+    box-shadow: 0px 2px 5px rgba(40, 38, 38, 0.8);
+}
